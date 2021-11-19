@@ -1,7 +1,7 @@
 
 # digital-engagement-platform-skin
 
-This is a placeholder README.md for a new repository
+THis micro-service is currently under construction.
 
 ### License
 

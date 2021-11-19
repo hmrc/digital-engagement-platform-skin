@@ -16,4 +16,6 @@ object AppDependencies {
     "org.jsoup"               %  "jsoup"                      % "1.13.1"            % Test,
     "com.vladsch.flexmark"    %  "flexmark-all"               % "0.36.8"            % "test, it"
   )
+
+  val all: Seq[ModuleID] = compile ++ test
 }
