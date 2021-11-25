@@ -37,3 +37,8 @@ target
 test-result
 tmp
 .vscode/
+node_modules
+package-lock.json
+app/assets/javascripts/bundle/
+app/assets/javascripts/ci_api_bundle/
+bundle.js
