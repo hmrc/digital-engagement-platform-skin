@@ -39,5 +39,5 @@ tmp
 .vscode/
 node_modules
 package-lock.json
-app/assets/javascripts/bundle/
-bundle.js
+app/assets/
+hmrcChatSkin.js

@@ -43,7 +43,7 @@ object JavaScriptBuild {
       baseDirectory in Compile
       }.value,
 
-    ciApiBundleJs := runOperation("CI API UI JS bundling", Gulp.gulpProcess(configDirectory.value, "bundle_ci_api").run().exitValue()),
+    ciApiBundleJs := runOperation("CI API UI JS bundling", Gulp.gulpProcess(configDirectory.value, "bundle").run().exitValue()),
 
     (compile in Compile) :=  {(compile in Compile) dependsOn ciApiBundleJs}.value
   )

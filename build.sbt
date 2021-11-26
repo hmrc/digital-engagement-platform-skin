@@ -31,8 +31,7 @@ lazy val microservice = Project(appName, file("."))
     javaScriptTestRunnerHook,
     defaultSettings(),
     Concat.groups := Seq(
-      "javascripts/bundle.js" -> group(Seq("javascripts/bundle/gtm_dl.js")),
-      "javascripts/ci_api.js" -> group(Seq("javascripts/ci_api_bundle/ci_api.js"))
+      "javascripts/hmrcChatSkin.js" -> group(Seq("javascripts/bundle/hmrcChatSkin.js"))
     ),
     pipelineStages in Assets := Seq(concat),
   )
