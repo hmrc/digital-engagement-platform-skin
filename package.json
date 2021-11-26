@@ -10,7 +10,7 @@
     "del": "^2.2.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
-    "gulp-jest": "^4.0.4",
+    "gulp-jest": "^4.0.3",
     "gulp-rollup": "^2.17.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-watch": "^4.3.5",
@@ -33,8 +33,7 @@
     ]
   },
   "dependencies": {
-    "jest": "^27.3.1",
-    "jquery": "^3.6.0",
+    "jquery": "^3.5.1",
     "lodash": "^4.17.0"
   },
   "jest": {
