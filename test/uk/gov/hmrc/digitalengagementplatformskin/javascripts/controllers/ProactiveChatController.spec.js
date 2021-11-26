@@ -1,5 +1,5 @@
-import CommonChatController from '../../../app/assets/javascripts/controllers/CommonChatController'
-import ProactiveChatController from '../../../app/assets/javascripts/controllers/ProactiveChatController'
+import CommonChatController from '../../../../../../../app/assets/javascripts/controllers/CommonChatController'
+import ProactiveChatController from '../../../../../../../app/assets/javascripts/controllers/ProactiveChatController'
 
 describe("ProactiveChatController", () => {
     it("launches a proactive chat", () => {

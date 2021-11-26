@@ -1,5 +1,5 @@
-import * as ChatStates from '.app/assets/javascripts/services/ChatStates'
-import * as MessageType from 'app/assets/javascripts/NuanceMessageType'
+import * as ChatStates from '../../../../../../app/assets/javascripts/services/ChatStates'
+import * as MessageType from '../../../../../../app/assets/javascripts/NuanceMessageType'
 
 function createEngagedStateDependencies() {
     const sdk = {

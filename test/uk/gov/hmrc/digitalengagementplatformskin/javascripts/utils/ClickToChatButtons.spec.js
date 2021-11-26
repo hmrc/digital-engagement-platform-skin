@@ -1,5 +1,5 @@
-import ClickToChatButtons from '.../../../app/assets/javascripts/utils/ClickToChatButtons'
-import * as DisplayState from '../../../../app/assets/javascripts/NuanceDisplayState'
+import ClickToChatButtons from '../../../../../../../app/assets/javascripts/utils/ClickToChatButtons'
+import * as DisplayState from '../../../../../../../app/assets/javascripts/NuanceDisplayState'
 
 const displayStateMessages = {
     [DisplayState.OutOfHours]: "OutOfHoursText",

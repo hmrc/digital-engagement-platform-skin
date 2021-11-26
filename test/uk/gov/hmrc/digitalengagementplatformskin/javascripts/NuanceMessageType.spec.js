@@ -1,4 +1,4 @@
-import * as MessageType from '../../../app/assets/javascripts/NuanceMessageType'
+import * as MessageType from '../../../../../../app/assets/javascripts/NuanceMessageType'
 
 describe("MessageType", () => {
     it("has correct values matching Nuance docs", () => {
