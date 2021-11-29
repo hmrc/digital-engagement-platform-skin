@@ -6,7 +6,6 @@ object JavaScriptBuild {
   val runAllTests = TaskKey[Int]("runAllTests")
   val npmInstall = TaskKey[Int]("npm-install")
   val bundleJs = TaskKey[Int]("bundleJs")
-  val ciApiBundleJs = TaskKey[Int]("ciApiBundleJs")
 
   private def runOperation(operation: String, result: Int): Int = {
     if (result != 0) {
@@ -36,16 +35,6 @@ object JavaScriptBuild {
     bundleJs := runOperation("JS bundling", Gulp.gulpProcess(configDirectory.value, "bundle").run().exitValue()),
 
     (compile in Compile) :=  {(compile in Compile) dependsOn bundleJs}.value
-  )
-
-  val ciApiJavaScriptBundler: Seq[sbt.Def.Setting[_]] = Seq(
-    configDirectory := {
-      baseDirectory in Compile
-      }.value,
-
-    ciApiBundleJs := runOperation("CI API UI JS bundling", Gulp.gulpProcess(configDirectory.value, "bundle").run().exitValue()),
-
-    (compile in Compile) :=  {(compile in Compile) dependsOn ciApiBundleJs}.value
   )
 
 }

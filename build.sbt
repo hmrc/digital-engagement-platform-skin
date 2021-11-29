@@ -1,4 +1,4 @@
-import JavaScriptBuild.{ciApiJavaScriptBundler, javaScriptBundler, javaScriptTestRunnerHook}
+import JavaScriptBuild.{javaScriptBundler, javaScriptTestRunnerHook}
 import uk.gov.hmrc.DefaultBuildSettings.integrationTestSettings
 import scoverage.ScoverageKeys
 import uk.gov.hmrc.DefaultBuildSettings._
@@ -27,7 +27,6 @@ lazy val microservice = Project(appName, file("."))
     SilencerSettings(),
     libraryDependencies ++= AppDependencies.all,
     javaScriptBundler,
-    ciApiJavaScriptBundler,
     javaScriptTestRunnerHook,
     defaultSettings(),
     Concat.groups := Seq(
