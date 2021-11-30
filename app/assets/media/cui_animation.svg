@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="250.2 402.4 582.3776 524.6" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" opacity="1" filter="none" style="white-space: pre;">
+    <style>
+        @keyframes uqi9jlhiopcwtjraz2fsosc0_o { 0% { opacity: 0; animation-timing-function: steps(1); } 8.0645% { opacity: 1; } 88.7097% { opacity: 1; animation-timing-function: cubic-bezier(0.165,0.84,0.44,1); } 100% { opacity: 0; } }
+        @keyframes kq9kyrjtek62vwqqlkg5svvk_t { 0% { transform: translate(0px,291px); } 8.0645% { transform: translate(0px,291px); animation-timing-function: cubic-bezier(0.895,0.03,0.685,0.22); } 32.258% { transform: translate(0px,139px); animation-timing-function: cubic-bezier(0.895,0.03,0.685,0.22); } 37.0967% { transform: translate(0px,139px); animation-timing-function: cubic-bezier(0.895,0.03,0.685,0.22); } 51.6129% { transform: translate(0px,51.9px); animation-timing-function: cubic-bezier(0.895,0.03,0.685,0.22); } 56.4516% { transform: translate(0px,51.9px); animation-timing-function: cubic-bezier(0.895,0.03,0.685,0.22); } 80.6451% { transform: translate(0px,-130px); } 88.7096% { transform: translate(0px,-130px); } 100% { transform: translate(0px,-130px); } }
+        @keyframes kt1869pwg55soeui68ctq9rw_t { 0% { transform: translate(0px,291px); } 8.0645% { transform: translate(0px,291px); animation-timing-function: cubic-bezier(0.895,0.03,0.685,0.22); } 32.258% { transform: translate(0px,148.699988px); animation-timing-function: cubic-bezier(0.895,0.03,0.685,0.22); } 37.0967% { transform: translate(0px,148.699988px); animation-timing-function: cubic-bezier(0.895,0.03,0.685,0.22); } 51.6129% { transform: translate(0px,43px); animation-timing-function: cubic-bezier(0.895,0.03,0.685,0.22); } 56.4516% { transform: translate(0px,43px); animation-timing-function: cubic-bezier(0.895,0.03,0.685,0.22); } 80.6451% { transform: translate(0px,-130px); } 88.7096% { transform: translate(0px,-130px); } 100% { transform: translate(0px,-130px); } }
+        @keyframes k7z9if1iulkz4sw8bon35oxe_t { 0% { transform: translate(0px,291px); } 8.0645% { transform: translate(0px,291px); animation-timing-function: cubic-bezier(0.895,0.03,0.685,0.22); } 32.258% { transform: translate(0px,139px); animation-timing-function: cubic-bezier(0.895,0.03,0.685,0.22); } 37.0967% { transform: translate(0px,139px); animation-timing-function: cubic-bezier(0.895,0.03,0.685,0.22); } 51.6129% { transform: translate(0px,43px); animation-timing-function: cubic-bezier(0.895,0.03,0.685,0.22); } 56.4516% { transform: translate(0px,43px); animation-timing-function: cubic-bezier(0.895,0.03,0.685,0.22); } 80.6451% { transform: translate(0px,-130px); } 88.7096% { transform: translate(0px,-130px); } 100% { transform: translate(0px,-130px); } }
+        @keyframes w0rlvcksmdsndlbl3nfl2kss_o { 0% { opacity: 0; animation-timing-function: cubic-bezier(0.895,0.03,0.685,0.22); } 8.0645% { opacity: 1; } 88.7097% { opacity: 1; animation-timing-function: cubic-bezier(0.165,0.84,0.44,1); } 100% { opacity: 0; } }
+    </style>
+    <g id="uqi9jlhiopcwtjraz2fsosc0" fill="none" stroke-dasharray="none" stroke="none" fill-opacity="1" stroke-opacity="1" opacity="0" transform="translate(545.383,757.7) translate(-545.383,-607.7)" style="animation: 6.2s linear infinite both uqi9jlhiopcwtjraz2fsosc0_o;">
+        <title>Canvas 1</title>
+        <title>tint</title>
+        <g id="kq9kyrjtek62vwqqlkg5svvk" opacity="1" transform="translate(490.5,1015.75) translate(-490.5,-724.75)" style="animation: 6.2s linear infinite both kq9kyrjtek62vwqqlkg5svvk_t;">
+            <title>Bubble step 3</title>
+            <path d="M285.6,784.6L285.6,806.4L305.6,784.6L699.5,784.6C708.337,784.6,715.5,777.436,715.5,768.6L715.5,659.1C715.5,650.263,708.337,643.1,699.5,643.1L281.5,643.1C272.663,643.1,265.5,650.263,265.5,659.1L265.5,768.6C265.5,777.436,272.663,784.6,281.5,784.6Z" stroke="#e7e6e6" stroke-linecap="square" stroke-linejoin="miter" stroke-width="7" transform="translate(490.5,724.75) translate(-490.5,-724.75)"/>
+        </g>
+        <g id="kt1869pwg55soeui68ctq9rw" opacity="1" transform="translate(673.217,881.2) translate(-673.217,-590.2)" style="animation: 6.2s linear infinite both kt1869pwg55soeui68ctq9rw_t;">
+            <title>Bubble step 2</title>
+            <path d="M797.792,611.3L797.792,633.1L777.792,611.3L535.667,611.3C526.83,611.3,519.667,604.137,519.667,595.3L519.667,563.3C519.667,554.463,526.83,547.3,535.667,547.3L810.767,547.3C819.603,547.3,826.767,554.463,826.767,563.3L826.767,595.3C826.767,604.137,819.603,611.3,810.767,611.3Z" stroke="#e7e6e6" stroke-linecap="square" stroke-linejoin="miter" stroke-width="7" transform="translate(673.217,590.2) translate(-673.217,-590.2)"/>
+        </g>
+        <g id="k7z9if1iulkz4sw8bon35oxe" opacity="1" transform="translate(489,764.15) translate(-489,-473.15)" style="animation: 6.2s linear infinite both k7z9if1iulkz4sw8bon35oxe_t;">
+            <title>Bubble step 1</title>
+            <path d="M284.1,515.5L284.1,537.3L304.1,515.5L698,515.5C706.837,515.5,714,508.337,714,499.5L714,425C714,416.163,706.837,409,698,409L280,409C271.163,409,264,416.163,264,425L264,499.5C264,508.337,271.163,515.5,280,515.5Z" stroke="#e7e6e6" stroke-linecap="square" stroke-linejoin="miter" stroke-width="7" transform="translate(489,473.15) translate(-489,-473.15)"/>
+        </g>
+    </g>
+    <metadata/>
+    <g id="w0rlvcksmdsndlbl3nfl2kss" fill="none" stroke-dasharray="none" stroke="none" fill-opacity="1" stroke-opacity="1" opacity="0" transform="translate(546.889,670) translate(-546.889,-670)" style="animation: 6.2s linear infinite both w0rlvcksmdsndlbl3nfl2kss_o;">
+        <title>Canvas 1</title>
+        <g id="m25o2zrw2pgd2lcprs1ej2kj" transform="translate(546.889,670) translate(-546.889,-670)">
+            <title>tint</title>
+            <g id="jmd783xuc6gg41djsb99bwf8" transform="translate(546.889,885.975) translate(-546.889,-885.975)">
+                <title>Bubble mask</title>
+                <rect width="580.178" height="90.05" fill="white" transform="translate(546.889,885.975) translate(-290.089,-45.025)"/>
+            </g>
+            <g id="xdfa2unx4fylmi4dagm4d888" transform="translate(507.2,893.1) translate(-507.2,-893.1)">
+                <title>Input</title>
+                <rect width="490.4" height="58.2" stroke="#e7e6e6" stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" transform="translate(507.2,893.1) translate(-245.2,-29.1)"/>
+            </g>
+            <g id="rp02mzj6og7hwkaplvdn9436" transform="translate(799.65,884.3) translate(-799.65,-884.3)">
+                <title>Submit button</title>
+                <rect width="66.3" height="40.6" fill="#e7e6e6" transform="translate(799.65,884.3) translate(-33.15,-20.3)"/>
+            </g>
+            <g id="xgo2klw0rovadbnebjitea9t" transform="translate(546.889,840.95) translate(-546.889,-840.95)">
+                <title>Bottom bar</title>
+                <path stroke="#e7e6e6" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2" d="M836.978,840.95L256.8,840.95" transform="translate(546.889,840.95) translate(-546.889,-840.95)"/>
+            </g>
+            <g id="he68pjg1nm4h92od43c87hlz" transform="translate(546.889,409) translate(-546.889,-409)">
+                <title>Top bar</title>
+                <path stroke="#e7e6e6" stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M836.978,409L256.8,409" transform="translate(546.889,409) translate(-546.889,-409)"/>
+            </g>
+        </g>
+    </g>
+    <metadata/>
+</svg>

@@ -2,7 +2,7 @@
 export const ContainerHtml = `
 <div id="ciapiSkinContainer">
     <div id="ciapiSkinHeader">
-        <div id="ciapiTitleBarLogo"><img src='/ask-hmrc/assets/media/logo.png' alt=""></div>
+        <div id="ciapiTitleBarLogo"><img src='/engagement-platform-skin/assets/media/logo.png' alt=""></div>
         <div id="ciapiSkinTitleBar" class="govuk-heading-s"><span>Ask HMRC</span></div>
         <div id="hideCloseContainer">
             <button id="ciapiSkinHideButton"  draggable="false" role="button" type="button" aria-label="Minimise chat window"></button>
@@ -24,7 +24,7 @@ export const ContainerHtml = `
     <div id="ciapiChatComponents">
         <div id="ciapiSkinChatTranscript" role="log" tabindex="0">
             <div id="skipToBottom"><a id="skipToBottomLink" href="#skipToTopLink" class="govuk-skip-link">Skip to bottom of conversation</a></div>
-            <p class="info"><img src="/ask-hmrc/assets/media/intro-warn.svg" alt="">You are currently chatting with a computer.</p>
+            <p class="info"><img src="/engagement-platform-skin/assets/media/intro-warn.svg" alt="">You are currently chatting with a computer.</p>
         </div>
         <div id="ciapiSkinFooter">
             <div id="ciapiInput"><textarea
@@ -43,7 +43,7 @@ export const ContainerHtml = `
 </div>
 <div id="ciapiSkinMinimised">
     <button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button">
-        <div id="logo-white"><img src="/ask-hmrc/assets/media/logo-white.png" alt="" aria-hidden="true"></div>
+        <div id="logo-white"><img src="/engagement-platform-skin/assets/media/logo-white.png" alt="" aria-hidden="true"></div>
         <h2 class="govuk-heading-s">Ask HMRC a Question</h2>
     </button>
 </div>
