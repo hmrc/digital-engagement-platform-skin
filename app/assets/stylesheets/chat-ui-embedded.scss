@@ -233,6 +233,13 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     background-color: #f3f2f1;
 }
 
+#introWarn {
+    background: url('/engagement-platform-skin/assets/media/intro-warn.svg') no-repeat;
+    background-size: 1em;
+    background-position: left;
+    background-position: 106px 22px;
+}
+
 #print .govuk-button--secondary:hover,
 #sound .govuk-button--secondary:hover {
     background-color: #dbdad9;
