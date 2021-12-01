@@ -189,9 +189,9 @@ export default class CommonChatController {
         console.log("### framework loaded");
         this.sdk = w.Inq.SDK;
         if (this.sdk.isChatInProgress()) {
-            console.log("************************************")
-            console.log("******* chat is in progress ********")
-            console.log("************************************")
+            console.log("************************")
+            console.log("* chat is in progress **")
+            console.log("************************")
             //            setTimeout(() => this._launchChat(), 2000);
         }
     }

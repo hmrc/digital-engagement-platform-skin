@@ -90,7 +90,7 @@ export default class PostChatSurveyService {
             automatonName: automaton.name,
             automatonOrigin: "richMedia"
         }
-        console.log("===== beginPostChatSurvey =====");
+        console.log("== beginPostChatSurvey ==");
 
         try {
             this.sdk.logEventToDW({ eventList: [startedEvent, contentSentToCustomerEvent] });
@@ -197,7 +197,7 @@ export default class PostChatSurveyService {
             clientTimestamp: timestamp,
             automatonOrigin: "richMedia"
         };
-        console.log("===== submitPostChatSurvey =====");
+        console.log("== submitPostChatSurvey ==");
 
         try {
             this.sdk.logEventToDW({ eventList: [customerRespondedEvent, endedEvent] });

@@ -28,9 +28,9 @@ lazy val microservice = Project(appName, file("."))
     javaScriptTestRunnerHook,
     defaultSettings(),
     Concat.groups := Seq(
-      "javascripts/hmrcChatSkin.js" -> group(Seq("javascripts/bundle/hmrcChatSkin.js"))
+      "javascripts/hmrcChatSkinBundle.js" -> group(Seq("javascripts/bundle/hmrcChatSkin.js"))
     ),
-    pipelineStages in Assets := Seq(concat),
+    pipelineStages in Assets := Seq(concat)
   )
   .settings(publishingSettings: _*)
   .configs(IntegrationTest)
