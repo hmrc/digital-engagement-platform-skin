@@ -1,0 +1,42 @@
+.c2cButton .fixed {
+  width: 200px;
+  padding: 10px;
+  color: #fff;
+  text-align: center;
+}
+
+.c2cButton .fixed.ready {
+  background-color: #00703c;
+}
+
+.c2cButton .fixed.ready:hover {
+  background-color: #005a30;
+  cursor: pointer;
+}
+
+.c2cButton .fixed.busy,
+.c2cButton .fixed.outofhours,
+.c2cButton .fixed.chatactive {
+  background-color: grey;
+}
+
+.c2cButton .anchored {
+  width: 200px;
+  padding: 10px;
+  color: #fff;
+  text-align: center;
+}
+
+.c2cButton .anchored.ready {
+  background-color: #008670;
+}
+.c2cButton .anchored.ready:hover {
+  background-color: #005A30;
+  cursor: pointer;
+}
+
+.c2cButton .anchored.busy,
+.c2cButton .anchored.outofhours,
+.c2cButton .anchored.chatactive {
+  background-color: grey;
+}

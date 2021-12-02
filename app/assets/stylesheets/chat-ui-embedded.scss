@@ -1,0 +1,269 @@
+@import 'transcript-agent';
+@import 'transcript-customer';
+@import 'system-message';
+@import 'c2cbutton';
+@import 'end-chat-popup';
+@import "lib/govuk-frontend/govuk/all";
+
+
+$container-height: 600px;
+$header-height: 30px;
+$header-border-bottom-height: 2px;
+$components-sub-height: $header-height + $header-border-bottom-height;
+
+$footer-height: 130px;
+$footer-padding: 5px;
+$footer-top-border-height: 3px;
+$transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-height + 50;
+
+#ciapiSkin {
+    font-family: "GDS Transport",arial,sans-serif;
+    font-size: 19px;
+    -webkit-font-smoothing: antialiased;
+    margin-bottom: 0px !important;
+}
+
+#ciapiSkinContainer {
+    background: #0000ff;
+    background: #0000ff;
+    height: $container-height;
+    width: 100%;
+    right: 10px;
+    bottom: 0px;
+    background-color: #fff;
+    margin-bottom: 0px !important;
+}
+
+#ciapiSkinHeader {
+    width: 100%;
+    height: $header-height;
+    background-color: #fff;
+    border-bottom-color: rgb(177, 180, 182);
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom-style: solid;
+    border-bottom-width: $header-border-bottom-height;
+    margin-bottom: 0px !important;
+    padding-bottom: 5px;
+}
+
+#ciapiChatComponents {
+    height: calc(100% - #{$components-sub-height});
+    margin-bottom: 0px !important;
+}
+
+#ciapiSkinChatTranscript:focus {
+    outline: 3px solid #fd0;
+    outline-offset: 0;
+    -webkit-box-shadow: inset 0 0 0 2px;
+    box-shadow: inset 0 0 0 2px;
+    border-top: none;
+    border-bottom: none;
+}
+
+#skipToTopLink:focus {
+    box-shadow : none !important;
+    text-decoration: underline !important;
+}
+
+ #skipToBottomLink:focus{
+     box-shadow : none !important;
+     text-decoration: underline !important;
+     }
+
+#ciapiSkinChatTranscript {
+  height: calc(100% - #{$transcript-sub-height});
+  background-color: #fff;
+  box-sizing: border-box;
+  overflow: auto;
+  padding: 0;
+  margin-bottom: 0px !important;
+  position: relative;
+  div {
+    margin-bottom: 0px;
+    @extend .govuk-body;
+  }
+
+  .skipToTopWithScroll{
+      position:relative;
+      bottom : 0;
+      margin-left:5px;
+      margin-right:5px;
+   }
+   .skipToTopWithOutScroll{
+    position:absolute;
+    bottom : 0;
+    margin-left:5px;
+    margin-right:5px;
+    width:96%;
+ }
+   #skipToBottom {
+      margin-left:5px;
+      margin-right:5px;
+   }
+}
+
+#ciapiSkinFooter {
+    border-top-color: rgb(11, 12, 12);
+    border-top-style: solid;
+    border-top-width: $footer-top-border-height;
+
+    height: $footer-height;
+    padding: $footer-padding;
+    margin-bottom: 0px !important;
+
+    #ciapiSend {
+        width: 18%;
+        float: left;
+        padding-left: 0.25em;
+    }
+
+    #ciapiInput {
+        width: 80%;
+        float: left;
+
+        textarea {
+            height: 80px;
+            resize: none;
+            margin-bottom: 0px;
+        }
+    }
+
+    #ciapiClose {
+        clear: both;
+    }
+}
+
+#HMRC_CIAPI_Anchored_1 {
+  position: fixed;
+  bottom: 0;
+  right: 50px;
+}
+
+@mixin IconButton {
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 0.9em 0.9em;
+    background-color: transparent;
+    border: none;
+    font-size: 19px;
+    padding-left: 1em;
+    vertical-align: middle;
+    color: #1d70b8;
+    text-decoration: underline;
+    width: auto;
+}
+
+#ciapiPrintButton {
+    @include IconButton
+    background-image: url('/engagement-platform-skin/assets/media/save-transcript.svg');
+}
+
+#ciapiSoundButton {
+    @include IconButton
+    background-image: url('/engagement-platform-skin/assets/media/hmrc-alert_on.svg');
+    float: right;
+}
+
+#ciapiClose {
+    padding-top: 10px;
+    width: 100px;
+}
+
+.info {
+     text-align: center;
+        color: #505a5f;
+        border: 0px solid green;
+        padding: 1em 0 1em 0;
+}
+
+.info img {
+    width: 1.25em;
+    vertical-align: bottom;
+    padding: 0 0.5em .2em 0;
+}
+
+#postChatSurveyWrapper {
+    height: calc(100% - 2em - 5px);
+    overflow-y: scroll;
+    padding: 1em;
+//     border-top: 2px solid #b1b4b6;   // fix this (consistency with popup)
+    border-bottom: 2px solid #000;
+
+//     fieldset.govuk-fieldset {            // fix this (consistency with popup)
+//         margin-top: 2em;
+//     }
+}
+
+
+#postPCSPageWrapper {
+    height: calc(100% - 2em - 5px);
+    border: 0px solid red;
+    border-top: 2px solid #b1b4b6;
+    border-bottom: 2px solid #000;
+    padding-right: 14px;
+    padding: 1em;
+    h1 {                                // fix this (why do we need overrides here but not popup?)
+        color: white !important;
+        font-size: 48px;
+    }
+}
+
+#print {
+    height: 5px;
+    margin-top: -0.2em;
+    float: left;
+    margin-bottom: 1.6em;
+}
+
+#sound {
+    height: 5px;
+    margin-top: -0.2em;
+    float: right;
+    margin-bottom: 1.6em;
+    text-align: right;
+}
+
+#print .govuk-button--secondary {
+    height: 31px;
+    background: url('/engagement-platform-skin/assets/media/save-transcript.svg') no-repeat;
+    background-size: 1em;
+    padding-left: 1.2em;
+    padding-top: 0.3em;
+    background-color: #f3f2f1;
+}
+
+#introWarn {
+    background: url('/engagement-platform-skin/assets/media/intro-warn.svg') no-repeat;
+    background-size: 1em;
+    background-position: left;
+    background-position: 106px 22px;
+}
+
+#print .govuk-button--secondary:hover,
+#sound .govuk-button--secondary:hover {
+    background-color: #dbdad9;
+}
+
+#print .govuk-button--secondary:focus,
+#sound .govuk-button--secondary:focus {
+    background-color: #ffdd00;
+}
+
+#sound .govuk-button--secondary {
+    height: 31px;
+    background: url('/engagement-platform-skin/assets/media/hmrc-alert_on.svg') no-repeat;
+    background-size: 1.2em;
+    padding-left: 1.3em;
+    padding-top: 0.3em;
+    background-color: #f3f2f1;
+}
+
+@media (max-width: 575.98px){
+    #cui-messaging-container {
+        height: 570px !important;
+    }
+}
+#heading_chat_ended:focus, #legend_give_feedback:focus, #heading_end_chat_popup:focus{
+    outline:0;
+}

@@ -1,0 +1,9 @@
+//Order of imports matters, do not change.
+$govuk-assets-path: "/engagement-platform-skin/assets/lib/govuk-frontend/govuk/assets/";
+$hmrc-assets-path: "/engagement-platform-skin/assets/lib/hmrc-frontend/hmrc/";
+
+@import 'custom';
+@import '_typography';
+
+@import "lib/govuk-frontend/govuk/all";
+@import "lib/hmrc-frontend/hmrc/all";

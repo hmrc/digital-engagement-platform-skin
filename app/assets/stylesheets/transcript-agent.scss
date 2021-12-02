@@ -1,0 +1,30 @@
+@import 'bubble';
+
+.ciapi-agent-container {
+  >div {
+    @include bubble
+  }
+  padding: 8px 15px;
+  clear: both;
+}
+
+.ciapi-agent-message::before, .ciapi-agent-message::after {
+    content: " ";
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+.ciapi-agent-message::before {
+    left: 9px;
+    bottom: -30px;
+    border: 13px solid;
+    border-color: #0b0c0c transparent transparent #0b0c0c;
+}
+
+.ciapi-agent-message::after {
+    left: 14px;
+    bottom: -18px;
+    border: 9px solid;
+    border-color: white transparent transparent white;
+}
+

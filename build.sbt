@@ -1,6 +1,8 @@
+import JavaScriptBuild.{javaScriptBundler, javaScriptTestRunnerHook}
 import uk.gov.hmrc.DefaultBuildSettings.integrationTestSettings
-import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin.publishingSettings
 import scoverage.ScoverageKeys
+import uk.gov.hmrc.DefaultBuildSettings._
+import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin.publishingSettings
 
 val appName = "digital-engagement-platform-skin"
 
@@ -19,11 +21,16 @@ lazy val microservice = Project(appName, file("."))
   .settings(
     majorVersion                     := 0,
     scalaVersion                     := "2.12.9",
-    libraryDependencies              ++= AppDependencies.compile ++ AppDependencies.test,
-    pipelineStages in Assets := Seq(gzip),
     PlayKeys.playDefaultPort := 9193,
     SilencerSettings(),
-    libraryDependencies ++= AppDependencies.all
+    libraryDependencies ++= AppDependencies.all,
+    javaScriptBundler,
+    javaScriptTestRunnerHook,
+    defaultSettings(),
+    Concat.groups := Seq(
+      "javascripts/hmrcChatSkinBundle.js" -> group(Seq("javascripts/bundle/hmrcChatSkin.js"))
+    ),
+    pipelineStages in Assets := Seq(concat)
   )
   .settings(publishingSettings: _*)
   .configs(IntegrationTest)

@@ -1,0 +1,408 @@
+@import "transcript-agent";
+@import "transcript-customer";
+@import "system-message";
+@import "c2cbutton";
+@import "end-chat-popup";
+@import "lib/govuk-frontend/govuk/all";
+
+$popup-width: 400px;
+$popup-min-width: 272px;
+$popup-max-height: 590px;
+$popup-container-border-width: 4px;
+$header-height: 57px;
+$header-bottom-border-height: 6px;
+$tools-height: 23px;
+$tools-padding-y: 5px;
+$components-sub-height: $header-height + $header-bottom-border-height + $tools-height + 2 * $tools-padding-y;
+$footer-height: 80px;
+$footer-padding: 5px;
+$textarea-height: $footer-height;
+$transcript-border-height: 2px;
+$transcript-sub-height: $footer-height + 2 * $footer-padding + 2 * ($transcript-border-height * 2) + 2px;
+$page-height: calc(100% - 5px);
+
+#ciapiSkin {
+    font-family: "GDS Transport", arial, sans-serif;
+    font-size: 19px;
+    -webkit-font-smoothing: antialiased;
+
+    #ciapiSkinContainer {
+        display: block;
+    }
+    #ciapiSkinMinimised {
+        display: none;
+    }
+}
+
+#ciapiSkin.minimised {
+    #ciapiSkinContainer {
+        display: none;
+    }
+    #ciapiSkinMinimised {
+        display: block;
+    }
+}
+
+#ciapiSkinContainer {
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: stretch;
+    border: $popup-container-border-width solid;
+    position: fixed;
+    max-height: $popup-max-height;
+    height: 100%;
+    min-width: $popup-min-width;
+    width: $popup-width;
+    bottom: 0px;
+    right: 0px;
+    background-color: white;
+}
+
+#ciapiSkinHeader {
+    width: 100%;
+    height: $header-height;
+    background-color: #fff;
+    border-bottom: $header-bottom-border-height solid #1d70b8;
+    font-family: Arial;
+}
+
+#ciapiSkinTitleBar {
+    float: left;
+    padding-top: 0.9em;
+    padding-left: 0.6em;
+}
+
+#print {
+    height: 5px;
+    margin-top: -0.2em;
+    margin-left: -5px;
+    float: left;
+    margin-bottom: 1.6em;
+}
+
+#sound {
+    height: 5px;
+    margin-top: -0.2em;
+    float: right;
+    margin-bottom: 1.6em;
+    text-align: right;
+}
+
+#print .govuk-button--secondary {
+    height: 31px;
+    background: url("/engagement-platform-skin/assets/media/save-transcript.svg") no-repeat;
+    background-size: 1em;
+    padding-left: 1.2em;
+    padding-top: 0.3em;
+    background-color: #f3f2f1;
+}
+
+#print .govuk-button--secondary:hover,
+#sound .govuk-button--secondary:hover {
+    background-color: #dbdad9;
+}
+
+#print .govuk-button--secondary:focus:not(:active):not(:hover),
+#sound .govuk-button--secondary:focus:not(:active):not(:hover) {
+    background-color: #ffdd00;
+}
+
+#sound .govuk-button--secondary {
+    height: 31px;
+    background: url("/engagement-platform-skin/assets/media/hmrc-alert_on.svg") no-repeat;
+    background-size: 1.2em;
+    padding-left: 1.3em;
+    padding-top: 0.3em;
+    background-color: #f3f2f1;
+}
+
+#tools {
+    height: $tools-height;
+    padding-top: $tools-padding-y;
+    padding-bottom: $tools-padding-y;
+    padding-left: 5px;
+}
+
+@mixin TopButton {
+    width: 40px;
+    height: 40px;
+    float: right;
+    box-sizing: border-box;
+    background-origin: border-box;
+    border: none;
+    background-color: transparent;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    &:hover {
+        background-color: #dbdad9 !important;
+    }
+}
+
+#hideCloseContainer {
+    float: right;
+}
+
+#ciapiSkinCloseButton {
+    background-image: url("/engagement-platform-skin/assets/media/close.svg");
+    margin: 8px 0px;
+    float: none !important;
+    z-index: 1000;
+    position: static;
+    box-shadow: none;
+    margin-top: -20px;
+    @include TopButton;
+}
+
+#ciapiSkinCloseButton:focus:not(:active):not(:hover) {
+    border-color: #ffdd00;
+    color: #0b0c0c;
+    background-color: #ffdd00;
+    box-shadow: 0 2px 0 #0b0c0c;
+}
+
+#ciapiSkinCloseButton:focus {
+    border-color: #ffdd00;
+    outline: 3px solid transparent;
+    box-shadow: inset 0 0 0 1px #ffdd00;
+}
+
+#ciapiSkinHideButton {
+    background-image: url("/engagement-platform-skin/assets/media/minimise.svg");
+    margin: 8px 0px;
+    float: none !important;
+    z-index: 1000;
+    position: static;
+    box-shadow: none;
+    @include TopButton;
+}
+
+#ciapiSkinHideButton:focus:not(:active):not(:hover) {
+    border-color: #ffdd00;
+    color: #0b0c0c;
+    background-color: #ffdd00;
+    box-shadow: 0 2px 0 #0b0c0c;
+}
+
+#ciapiSkinHideButton:focus {
+    border-color: #ffdd00;
+    outline: 3px solid transparent;
+    box-shadow: inset 0 0 0 1px #ffdd00;
+}
+
+#ciapiSkinCloseButton i {
+    color: #fff;
+}
+
+#ciapiTitleBarLogo {
+    float: left;
+    padding-left: 0.9em;
+    padding-top: 0.4em;
+    img {
+        height: 44px;
+        width: 44px;
+    }
+}
+
+#ciapiChatComponents {
+    height: calc(100% - #{$components-sub-height});
+    width: 100%;
+}
+
+#ciapiSkinChatTranscript:focus {
+    outline: 3px solid #fd0;
+    outline-offset: 0;
+    -webkit-box-shadow: inset 0 0 0 2px;
+    box-shadow: inset 0 0 0 2px;
+    border-top: none;
+    border-bottom: none;
+}
+
+#ciapiSkinChatTranscript {
+    height: calc(100% - #{$transcript-sub-height});
+    width: calc(100% - 33px);
+    border-top: $transcript-border-height solid #b1b4b6;
+    border-bottom: $transcript-border-height solid #000;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding-right: 14px;
+    padding-left: 1em;
+    position: relative;
+
+    div {
+        margin-bottom: 0px;
+        @extend .govuk-body;
+    }
+
+    .info {
+        text-align: center;
+        color: #505a5f;
+    }
+
+    .info img {
+        width: 1.25em;
+        vertical-align: bottom;
+        padding: 0 0.5em 0.2em 0;
+    }
+    .skipToTopWithScroll {
+        position: relative;
+        bottom: 0;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    .skipToTopWithOutScroll {
+        position: absolute;
+        bottom: 0;
+        margin-left: 5px;
+        margin-right: 5px;
+        width: 90%;
+    }
+    #skipToBottom {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+}
+
+#HMRC_CIAPI_Anchored_1 {
+    position: fixed;
+    bottom: 0;
+    right: 50px;
+}
+
+#ciapiInput {
+    width: 80%;
+    float: left;
+
+    textarea {
+        height: $textarea-height;
+        resize: none;
+        margin-bottom: 0px;
+    }
+}
+
+#ciapiSend {
+    width: 18%;
+    height: 40px;
+    float: left;
+    text-align: right;
+}
+
+#ciapiSkinFooter {
+    width: calc(100% - 12px);
+    height: $footer-height;
+    padding: $footer-padding;
+}
+
+#ciapiSkinMinimised {
+    width: 100%;
+    max-width: $popup-width;
+    height: $header-height;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    background-color: #00703c;
+    #ciapiSkinRestoreButton {
+        z-index: 1000;
+        width: 100%;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        #logo-white {
+            float: left;
+            padding-left: 0.7em;
+            padding-top: 0.4em;
+            img {
+                height: 44px;
+                width: 44px;
+            }
+        }
+        h2 {
+            color: white;
+            float: left;
+            padding-top: 0.8em;
+            padding-left: 0.6em;
+        }
+    }
+}
+
+#postChatSurveyWrapper {
+    height: $page-height;
+    width: calc(100% - 34px);
+    overflow: scroll;
+    overflow-x: hidden;
+    padding-right: 14px;
+    padding-left: 1em;
+    border-top: 2px solid #b1b4b6;
+    border-bottom: 2px solid #000;
+
+    fieldset.govuk-fieldset {
+        margin-top: 2em;
+    }
+}
+
+#postPCSPageWrapper {
+    height: $page-height;
+    border: 0px solid red;
+    border-top: 2px solid #b1b4b6;
+    border-bottom: 2px solid #000;
+    padding-right: 14px;
+    padding: 1em;
+}
+
+@media screen and (max-width: 767px) {
+    #ciapiSkinContainer {
+        width: 100%;
+        height: 100%;
+        border: none;
+        max-height: 100%;
+    }
+
+    #ciapiChatComponents p {
+        font-size: 16px;
+    }
+
+    #ciapiSkinSendButton {
+        width: 100%;
+        min-width: 60px;
+        margin-left: 5px;
+    }
+
+    #ciapiSkinMinimised {
+        max-width: 100% !important;
+    }
+}
+
+#ciapiSkinChatTranscript a:visited {
+  color: #4c2c92;
+}
+
+#ciapiSkinChatTranscript a:link {
+    color: #1d70b8;
+  }
+
+#ciapiSkinChatTranscript a:hover {
+    color: #003078;
+}
+
+#ciapiSkinChatTranscript a:focus {
+    outline: 3px solid transparent;
+    color: #0b0c0c;
+    background-color: #fd0;
+    box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
+    text-decoration: none;
+}
+#skipToTopLink:focus {
+    box-shadow : none !important;
+    text-decoration: underline !important;
+}
+
+ #skipToBottomLink:focus{
+     box-shadow : none !important;
+     text-decoration: underline !important;
+}
+
+#heading_chat_ended:focus, #legend_give_feedback:focus, #heading_end_chat_popup:focus{
+    outline:0;
+}
