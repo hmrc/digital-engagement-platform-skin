@@ -22,4 +22,25 @@ describe("ProactiveChatController", () => {
         expect(sdk.getOpenerScripts).toHaveBeenCalled();
         expect(sdk.chatDisplayed).toHaveBeenCalled();
     })
+
+    it("appends chat transcript div to page when no div id is found on page", () => {
+        const commonChatController = new CommonChatController();
+
+        commonChatController._showChat();
+
+        expect(document.getElementById("ciapiSkinChatTranscript").innerHTML).not.toBe(null);
+
+    });
+
+    it("appends chat transcript div to page when some div id is found on page", () => {
+        const commonChatController = new CommonChatController();
+        let chatContainer = document.createElement("div");
+        chatContainer.setAttribute("id", "HMRC_CIAPI_Fixed_1");
+        document.body.appendChild(chatContainer);
+
+        commonChatController._showChat();
+
+        expect(document.getElementById("ciapiSkinChatTranscript").innerHTML).not.toBe(null);
+
+    });
 });

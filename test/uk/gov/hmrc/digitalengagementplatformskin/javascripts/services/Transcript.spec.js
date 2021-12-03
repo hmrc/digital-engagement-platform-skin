@@ -127,8 +127,7 @@ describe("Transcript", () => {
         transcript.addSkipToBottomLink();
 
         expect(document.getElementById("ciapiSkinChatTranscript").innerHTML).toBe(
-            "<div id=\"skipToTop\" class=\"skipToTopWithOutScroll\"><a id=\"skipToTopLink\" href=\"#\" class=\"govuk-skip-link\">Skip to top of conversation</a></div>");
-
+            "<div id=\"skipToTop\" class=\"skipToTopWithOutScroll govuk-!-padding-top-2\"><a id=\"skipToTopLink\" href=\"#\" class=\"govuk-skip-link\">Skip to top of conversation</a></div>");
     });
 
 
