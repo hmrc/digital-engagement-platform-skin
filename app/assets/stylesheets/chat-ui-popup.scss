@@ -105,7 +105,7 @@ $page-height: calc(100% - 5px);
 
 #print .govuk-button--secondary {
     height: 31px;
-    background: url("/ask-hmrc/assets/media/save-transcript.svg") no-repeat;
+    background: url("/engagement-platform-skin/assets/media/save-transcript.svg") no-repeat;
     background-size: 1em;
     padding-left: 1.2em;
     padding-top: 0.3em;
@@ -124,7 +124,7 @@ $page-height: calc(100% - 5px);
 
 #sound .govuk-button--secondary {
     height: 31px;
-    background: url("/ask-hmrc/assets/media/hmrc-alert_on.svg") no-repeat;
+    background: url("/engagement-platform-skin/assets/media/hmrc-alert_on.svg") no-repeat;
     background-size: 1.2em;
     padding-left: 1.3em;
     padding-top: 0.3em;
@@ -159,7 +159,7 @@ $page-height: calc(100% - 5px);
 }
 
 #ciapiSkinCloseButton {
-    background-image: url("/ask-hmrc/assets/media/close.svg");
+    background-image: url("/engagement-platform-skin/assets/media/close.svg");
     margin: 8px 0px;
     float: none !important;
     z-index: 1000;
@@ -183,7 +183,7 @@ $page-height: calc(100% - 5px);
 }
 
 #ciapiSkinHideButton {
-    background-image: url("/ask-hmrc/assets/media/minimise.svg");
+    background-image: url("/engagement-platform-skin/assets/media/minimise.svg");
     margin: 8px 0px;
     float: none !important;
     z-index: 1000;

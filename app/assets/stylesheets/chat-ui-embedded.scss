@@ -158,12 +158,12 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
 
 #ciapiPrintButton {
     @include IconButton
-    background-image: url('/ask-hmrc/assets/media/save-transcript.svg');
+    background-image: url('/engagement-platform-skin/assets/media/save-transcript.svg');
 }
 
 #ciapiSoundButton {
     @include IconButton
-    background-image: url('/ask-hmrc/assets/media/hmrc-alert_on.svg');
+    background-image: url('/engagement-platform-skin/assets/media/hmrc-alert_on.svg');
     float: right;
 }
 
@@ -228,11 +228,18 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
 
 #print .govuk-button--secondary {
     height: 31px;
-    background: url('/ask-hmrc/assets/media/save-transcript.svg') no-repeat;
+    background: url('/engagement-platform-skin/assets/media/save-transcript.svg') no-repeat;
     background-size: 1em;
     padding-left: 1.2em;
     padding-top: 0.3em;
     background-color: #f3f2f1;
+}
+
+#introWarn {
+    background: url('/engagement-platform-skin/assets/media/intro-warn.svg') no-repeat;
+    background-size: 1em;
+    background-position: left;
+    background-position: 106px 22px;
 }
 
 #print .govuk-button--secondary:hover,
@@ -247,7 +254,7 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
 
 #sound .govuk-button--secondary {
     height: 31px;
-    background: url('/ask-hmrc/assets/media/hmrc-alert_on.svg') no-repeat;
+    background: url('/engagement-platform-skin/assets/media/hmrc-alert_on.svg') no-repeat;
     background-size: 1.2em;
     padding-left: 1.3em;
     padding-top: 0.3em;
