@@ -44,7 +44,7 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     border-bottom-style: solid;
     border-bottom-width: $header-border-bottom-height;
     margin-bottom: 0px !important;
-    padding-bottom: 5px;
+    padding-bottom: 8px;
 }
 
 #ciapiChatComponents {
@@ -53,12 +53,13 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
 }
 
 #ciapiSkinChatTranscript:focus {
-    outline: 3px solid #fd0;
-    outline-offset: 0;
-    -webkit-box-shadow: inset 0 0 0 2px;
-    box-shadow: inset 0 0 0 2px;
-    border-top: none;
-    border-bottom: none;
+    box-shadow: 0 0 0 3px #fd0;
+    border: solid #000 4px;
+    outline: none;
+    margin-top: -4px;
+    margin-bottom: 1.25em !important;
+    margin-left: -4px;
+    margin-right: -4px;
 }
 
 #skipToTopLink:focus {
@@ -79,6 +80,7 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
   padding: 0;
   margin-bottom: 0px !important;
   position: relative;
+  border-bottom: $footer-top-border-height solid rgb(11, 12, 12);
   div {
     margin-bottom: 0px;
     @extend .govuk-body;
@@ -106,12 +108,7 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
 }
 
 #ciapiSkinFooter {
-    border-top-color: rgb(11, 12, 12);
-    border-top-style: solid;
-    border-top-width: $footer-top-border-height;
-
     height: $footer-height;
-    padding: $footer-padding;
     margin-bottom: 0px !important;
 
     #ciapiSend {
@@ -264,6 +261,10 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
 @media (max-width: 575.98px){
     #cui-messaging-container {
         height: 570px !important;
+    }
+
+    #ciapiSkinChatTranscript:focus {
+        margin-bottom: 1.2em !important;
     }
 }
 #heading_chat_ended:focus, #legend_give_feedback:focus, #heading_end_chat_popup:focus{

@@ -190,8 +190,7 @@ export default class CommonChatController {
 
     onSkipToTopLink(e) {
         e.preventDefault();
-        document.getElementById("skipToTopLink").focus()
-
+        document.getElementById("skipToTopLink").focus();
     }
 
     closeNuanceChat() {
@@ -202,6 +201,7 @@ export default class CommonChatController {
 
     showEndChatPage(showThanks) {
         this.container.showPage(new PostPCSPage(showThanks));
+        document.getElementById("heading_chat_ended").focus();
         this.closeNuanceChat();
     }
 
