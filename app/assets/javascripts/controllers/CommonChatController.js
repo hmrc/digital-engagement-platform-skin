@@ -81,17 +81,33 @@ export default class CommonChatController {
 
     _showChat() {
         const embeddedDiv = this._getEmbeddedDiv();
-        if (embeddedDiv) {
-            this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml);
-            embeddedDiv.appendChild(this.container.element());
-        } else {
-            this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml);
-            document.getElementsByTagName("body")[0].appendChild(this.container.element());
+        const fixedPopupDiv = this._getFixedPopupDiv();
+        const anchoredPopupDiv = this._getAnchoredPopupDiv();
+        try {
+            if (embeddedDiv) {
+                this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml);
+                embeddedDiv.appendChild(this.container.element());
+            }
+            else if (fixedPopupDiv) {
+                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml);
+                fixedPopupDiv.appendChild(this.container.element());
+            }
+            else if (anchoredPopupDiv && !fixedPopupDiv) {
+                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml);
+                anchoredPopupDiv.appendChild(this.container.element());
+            }
+            else {
+                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml);
+                document.getElementsByTagName("body")[0].appendChild(this.container.element());
+            }
+
+            this.container.setEventHandler(this);
+
+            this._moveToChatShownState();
         }
-
-        this.container.setEventHandler(this);
-
-        this._moveToChatShownState();
+        catch (e) {
+            console.error("!!!! _showChat got exception: ", e);
+        }
     }
 
     _displayOpenerScripts(w) {
@@ -122,6 +138,14 @@ export default class CommonChatController {
 
     _getEmbeddedDiv() {
         return document.getElementById("HMRC_CIAPI_Embedded_1")
+    }
+
+    _getFixedPopupDiv() {
+        return document.getElementById("HMRC_CIAPI_Fixed_1")
+    }
+
+    _getAnchoredPopupDiv() {
+        return document.getElementById("HMRC_CIAPI_Anchored_1")
     }
 
     _moveToChatShownState() {
@@ -166,8 +190,7 @@ export default class CommonChatController {
 
     onSkipToTopLink(e) {
         e.preventDefault();
-        document.getElementById("skipToTopLink").focus()
-
+        document.getElementById("skipToTopLink").focus();
     }
 
     closeNuanceChat() {
@@ -178,6 +201,7 @@ export default class CommonChatController {
 
     showEndChatPage(showThanks) {
         this.container.showPage(new PostPCSPage(showThanks));
+        document.getElementById("heading_chat_ended").focus();
         this.closeNuanceChat();
     }
 
@@ -189,9 +213,9 @@ export default class CommonChatController {
         console.log("### framework loaded");
         this.sdk = w.Inq.SDK;
         if (this.sdk.isChatInProgress()) {
-            console.log("************************")
-            console.log("* chat is in progress **")
-            console.log("************************")
+            console.log("************************************")
+            console.log("******* chat is in progress ********")
+            console.log("************************************")
             //            setTimeout(() => this._launchChat(), 2000);
         }
     }

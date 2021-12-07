@@ -38,7 +38,7 @@ export default class Transcript {
 
         const chatContainer = document.getElementById("ciapiSkinChatTranscript")
 
-        chatContainer.insertAdjacentHTML("beforeend", '<div id="skipToTop" class="' + className + '"><a id="skipToTopLink" href="#" class="govuk-skip-link">Skip to top of conversation</a></div>');
+        chatContainer.insertAdjacentHTML("beforeend", '<div id="skipToTop" class="' + className + ' govuk-!-padding-top-2"><a id="skipToTopLink" href="#" class="govuk-skip-link">Skip to top of conversation</a></div>');
         document.getElementById("skipToTopLink").addEventListener("click",
             function (e) {
                 e.preventDefault();
@@ -101,7 +101,6 @@ export default class Transcript {
             this.addSkipToBottomLink();
 
         }
-
 
         this._showLatestContent(msg_class);
     }

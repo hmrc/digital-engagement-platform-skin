@@ -21,6 +21,18 @@ $transcript-border-height: 2px;
 $transcript-sub-height: $footer-height + 2 * $footer-padding + 2 * ($transcript-border-height * 2) + 2px;
 $page-height: calc(100% - 5px);
 
+
+
+#main-content div{
+    margin-bottom: 2px;
+}
+
+#tools{
+    position: relative;
+    bottom: 5px;
+}
+
+
 #ciapiSkin {
     font-family: "GDS Transport", arial, sans-serif;
     font-size: 19px;
@@ -70,8 +82,9 @@ $page-height: calc(100% - 5px);
 
 #ciapiSkinTitleBar {
     float: left;
-    padding-top: 0.9em;
+    padding-top: 0.9em !important;
     padding-left: 0.6em;
+    font-weight: 700;
 }
 
 #print {
@@ -198,6 +211,7 @@ $page-height: calc(100% - 5px);
 
 #ciapiTitleBarLogo {
     float: left;
+    background-image: url('/engagement-platform-skin/assets/media/logo.png') no-repeat;
     padding-left: 0.9em;
     padding-top: 0.4em;
     img {
@@ -212,12 +226,14 @@ $page-height: calc(100% - 5px);
 }
 
 #ciapiSkinChatTranscript:focus {
-    outline: 3px solid #fd0;
-    outline-offset: 0;
-    -webkit-box-shadow: inset 0 0 0 2px;
-    box-shadow: inset 0 0 0 2px;
-    border-top: none;
-    border-bottom: none;
+    box-shadow: 0 0 0 3px #fd0;
+    border: solid #000 4px;
+    padding-left: 15px;
+    padding-right: 10px;
+    margin-top: -2px;
+    margin-top: -2px;
+    margin-bottom: 0px;
+    outline: none;
 }
 
 #ciapiSkinChatTranscript {
@@ -239,6 +255,7 @@ $page-height: calc(100% - 5px);
     .info {
         text-align: center;
         color: #505a5f;
+        padding-top: 15px;
     }
 
     .info img {
@@ -246,19 +263,24 @@ $page-height: calc(100% - 5px);
         vertical-align: bottom;
         padding: 0 0.5em 0.2em 0;
     }
+
     .skipToTopWithScroll {
         position: relative;
         bottom: 0;
         margin-left: 5px;
         margin-right: 5px;
+        clear: both;
     }
+
     .skipToTopWithOutScroll {
         position: absolute;
         bottom: 0;
         margin-left: 5px;
         margin-right: 5px;
         width: 90%;
+        clear: both;
     }
+
     #skipToBottom {
         margin-left: 5px;
         margin-right: 5px;
@@ -311,8 +333,9 @@ $page-height: calc(100% - 5px);
         cursor: pointer;
         #logo-white {
             float: left;
-            padding-left: 0.7em;
-            padding-top: 0.4em;
+            background-image: url('/engagement-platform-skin/assets/media/logo-white.svg') no-repeat;
+            padding-left: 0.6em;
+            padding-top: 0.3em;
             img {
                 height: 44px;
                 width: 44px;
@@ -371,6 +394,16 @@ $page-height: calc(100% - 5px);
 
     #ciapiSkinMinimised {
         max-width: 100% !important;
+    }
+
+    #ciapiSkinChatTranscript:focus {
+        box-shadow: 0 0 0 3px #fd0;
+        border: solid #000 4px;
+        margin-top: -2px;
+        margin-bottom: 0px;
+        padding-left: 9px;
+        margin-left: 3px;
+        outline: none;
     }
 }
 
