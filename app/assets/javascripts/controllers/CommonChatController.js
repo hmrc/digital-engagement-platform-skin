@@ -137,7 +137,7 @@ export default class CommonChatController {
     }
 
     _getEmbeddedDiv() {
-        return document.getElementById("HMRC_CIAPI_Embedded_1")
+        return document.getElementById("nuanMessagingFrame")
     }
 
     _getFixedPopupDiv() {
