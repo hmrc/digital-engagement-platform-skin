@@ -14,7 +14,7 @@ export const ContainerHtml = `
         </div>
     </div>
     <div id="ciapiChatComponents">
-        <div id="ciapiSkinChatTranscript" role="log" tabindex="0">
+        <div id="ciapiSkinChatTranscript" tabindex="0">
             <div id="skipToBottom"><a id="skipToBottomLink" href="#" class="govuk-skip-link">Skip to bottom of conversation</a></div>
             <p class="info"><img src="/ask-hmrc/assets/media/intro-warn.svg" alt="Introduction warning">You are currently chatting with a computer.</p>
         </div>
