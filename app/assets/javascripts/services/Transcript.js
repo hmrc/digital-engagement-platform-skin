@@ -47,9 +47,18 @@ export default class Transcript {
 
     }
 
+    appendMessgeInLiveRegion(msg, id){
+        if(document.getElementById(id)){
+              document.getElementById(id).innerHTML = msg;
+              document.getElementById(id).style = "display:block;"
+        }
+    }
 
     addAutomatonMsg(msg) {
-        const msgDiv = `<div class='${this.classes.Agent.Inner}'>${msg}</div>`;
+
+        var id = "liveAutomatedMsgId" + ( Math.random() * 100);
+        const msgDiv = "<div class= "+ this.classes.Agent.Inner + " id="+ id +" aria-live='polite' style=display:none; ></div>";
+
         const skipToTop = document.getElementById("skipToTop");
         const chatContainer = document.getElementById("ciapiSkinChatTranscript")
 
@@ -60,6 +69,9 @@ export default class Transcript {
         this._fixUpVALinks(agentDiv);
 
         this.content.appendChild(agentDiv);
+
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id)
+
 
         if (chatContainer) {
 
@@ -86,11 +98,17 @@ export default class Transcript {
     }
 
     _appendMessage(msg, msg_class) {
-        const msgDiv = `<div class='${msg_class.Outer}'><div class='${msg_class.Inner}'>${msg}</div></div>`;
+
+        var id = "liveMsgId" + ( Math.random() * 100);
+
+        const msgDiv = "<div class=" + msg_class.Outer + "><div class= " + msg_class.Inner + " id=" + id + " aria-live='polite' style=display:none;></div></div>";
+
         const skipToTop = document.getElementById("skipToTop");
         const chatContainer = document.getElementById("ciapiSkinChatTranscript")
 
         this.content.insertAdjacentHTML("beforeend", msgDiv);
+
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id)
 
         if (chatContainer) {
 

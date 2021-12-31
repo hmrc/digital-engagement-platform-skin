@@ -19,6 +19,11 @@ const messageClasses = {
     }
 };
 
+const mockMath = Object.create(global.Math);
+        mockMath.random = () => 0.5;
+        global.Math = mockMath;
+
+
 describe("Transcript", () => {
     it("appends system messages", () => {
         const content = {
@@ -33,7 +38,7 @@ describe("Transcript", () => {
 
         expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
             "beforeend",
-            "<div class='system-outer'><div class='system-inner'>System Message</div></div>"
+            "<div class=system-outer><div class= system-inner id=liveMsgId50 aria-live='polite' style=display:none;></div></div>"
         );
         expect(content.scrollTo).toHaveBeenCalledWith(0, 42);
     });
@@ -51,7 +56,7 @@ describe("Transcript", () => {
 
         expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
             "beforeend",
-            "<div class='opener-outer'><div class='opener-inner'>An Opener Script</div></div>"
+            "<div class=opener-outer><div class= opener-inner id=liveMsgId50 aria-live='polite' style=display:none;></div></div>"
         );
         expect(content.scrollTo).toHaveBeenCalledWith(0, 50);
     });
@@ -69,7 +74,7 @@ describe("Transcript", () => {
 
         expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
             "beforeend",
-            "<div class='agent-outer'><div class='agent-inner'>Some agent message</div></div>"
+            "<div class=agent-outer><div class= agent-inner id=liveMsgId50 aria-live='polite' style=display:none;></div></div>"
         );
         expect(content.scrollTo).toHaveBeenCalledWith(0, 314);
     });
@@ -87,7 +92,7 @@ describe("Transcript", () => {
 
         expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
             "beforeend",
-            "<div class='customer-outer'><div class='customer-inner'>Some customer message</div></div>"
+            "<div class=customer-outer><div class= customer-inner id=liveMsgId50 aria-live='polite' style=display:none;></div></div>"
         );
         expect(content.scrollTo).toHaveBeenCalledWith(0, 666);
     });
@@ -129,6 +134,24 @@ describe("Transcript", () => {
         expect(document.getElementById("ciapiSkinChatTranscript").innerHTML).toBe(
             "<div id=\"skipToTop\" class=\"skipToTopWithOutScroll govuk-!-padding-top-2\"><a id=\"skipToTopLink\" href=\"#\" class=\"govuk-skip-link\">Skip to top of conversation</a></div>");
     });
+
+    it("appends agent messages after 3000ms", () => {
+            const content = {
+                insertAdjacentHTML: jest.fn(),
+                scrollTo: jest.fn(),
+                scrollHeight: 314
+            };
+            const vaLinkCallback = jest.fn();
+            const transcript = new Transcript(content, vaLinkCallback, messageClasses);
+
+            let div = document.createElement("div");
+             div.setAttribute("id", "test");
+             document.body.appendChild(div);
+
+            transcript.appendMessgeInLiveRegion("Some agent message", "test");
+
+            expect(document.getElementById("test").innerHTML).toBe("Some agent message");
+        });
 
 
     //TODO create a test for each of the above scenarios where the incoming message is higher than the parent div
