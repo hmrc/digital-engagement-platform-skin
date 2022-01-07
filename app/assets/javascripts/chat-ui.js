@@ -13,9 +13,9 @@ function safeHandler(f, helpful_name) {
 }
 
 const chatListener = {
-    //    onAnyEvent: function(evt) {
-    //        console.log("Chat any event:", evt);
-    //    },
+        onAnyEvent: function(evt) {
+            console.log("Chat any event:", evt);
+        },
     onC2CStateChanged: function (evt) {
         console.log("C2C state changed...")
         //        chatController.updateC2CButtonsToInProgress();
