@@ -141,11 +141,11 @@ export default class CommonChatController {
     }
 
     _getFixedPopupDiv() {
-        return document.getElementById("HMRC_CIAPI_Fixed_1")
+        return document.getElementById("tc-nuance-chat-container")
     }
 
     _getAnchoredPopupDiv() {
-        return document.getElementById("HMRC_CIAPI_Anchored_1")
+        return document.getElementById("tc-nuance-chat-container")
     }
 
     _moveToChatShownState() {
