@@ -1,28 +1,31 @@
 export default class Transcript {
-    constructor(content, vaLinkCallback, classes) {
+    constructor(content, vaLinkCallback, classes, msgPrefix) {
         this.content = content;
         this.vaLinkCallback = vaLinkCallback;
-        this.classes = classes
+        this.classes = classes;
+        this.AgentMsgPrefix  = "Agent said : ";
+        this.customerMsgPrefix = "You said : ";
+        this.systemMsgPrefix = "System message : ";
+        this.automatedMsgPrefix = "Automated message : ";
     }
 
     addAgentMsg(msg, agent) {
-        this._appendMessage(msg, this.classes.Agent);
+        this._appendMessage(msg, this.classes.Agent, this.agentMsgPrefix, false);
     }
 
     addCustomerMsg(msg, agent) {
-        this._appendMessage(msg, this.classes.Customer);
+        this._appendMessage(msg, this.classes.Customer, this.customerMsgPrefix, true);
     }
 
     addSystemMsg(msg) {
-        this._appendMessage(msg, this.classes.System);
+        this._appendMessage(msg, this.classes.System, this.systemMsgPrefix, false);
     }
 
     addOpenerScript(msg) {
-        this._appendMessage(msg, this.classes.Opener);
+        this._appendMessage(msg, this.classes.Opener, this.automatedMsgPrefix, false);
     }
 
     addSkipToBottomLink() {
-
         const chatContainer = document.getElementById("ciapiSkinChatTranscript")
 
         if (chatContainer.scrollHeight > chatContainer.clientHeight) {
@@ -47,9 +50,9 @@ export default class Transcript {
 
     }
 
-    appendMessgeInLiveRegion(msg, id){
+    appendMessgeInLiveRegion(msg, id, msg_type){
         if(document.getElementById(id)){
-              document.getElementById(id).innerHTML = msg;
+              document.getElementById(id).innerHTML = "<p class=govuk-visually-hidden>" + msg_type + "</p> " + msg;
               document.getElementById(id).style = "display:block;"
         }
     }
@@ -70,7 +73,7 @@ export default class Transcript {
 
         this.content.appendChild(agentDiv);
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id)
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix);
 
 
         if (chatContainer) {
@@ -97,18 +100,23 @@ export default class Transcript {
         }
     }
 
-    _appendMessage(msg, msg_class) {
+    _appendMessage(msg, msg_class, msg_type, isCustomerMsg) {
 
         var id = "liveMsgId" + ( Math.random() * 100);
 
-        const msgDiv = "<div class=" + msg_class.Outer + "><div class= " + msg_class.Inner + " id=" + id + " aria-live='polite' style=display:none;></div></div>";
+        if(isCustomerMsg == true){
+                var msgDiv = "<div class=" + msg_class.Outer + "><div class= " + msg_class.Inner + " id=" + id + " style=display:none;></div></div>";
+        }
+        else{
+                var msgDiv = "<div class=" + msg_class.Outer + "><div class= " + msg_class.Inner + " id=" + id + " aria-live='polite' style=display:none;></div></div>";
+        }
 
         const skipToTop = document.getElementById("skipToTop");
         const chatContainer = document.getElementById("ciapiSkinChatTranscript")
 
         this.content.insertAdjacentHTML("beforeend", msgDiv);
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id)
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type);
 
         if (chatContainer) {
 
@@ -122,9 +130,6 @@ export default class Transcript {
 
         this._showLatestContent(msg_class);
     }
-
-
-
 
     _showLatestContent(msg_class) {
         const agentInner = msg_class.Inner;
