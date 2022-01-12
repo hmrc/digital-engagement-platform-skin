@@ -1,7 +1,4 @@
 export default class Transcript {
-
-
-
     constructor(content, vaLinkCallback, classes, msgPrefix) {
         this.content = content;
         this.vaLinkCallback = vaLinkCallback;
@@ -10,7 +7,6 @@ export default class Transcript {
         this.customerMsgPrefix = "Customer said : ";
         this.systemMsgPrefix = "System message : ";
         this.automatedMsgPrefix = "Automated message : ";
-
     }
 
     addAgentMsg(msg, agent) {
@@ -110,11 +106,9 @@ export default class Transcript {
 
         if(isCustomerMsg == true){
                 var msgDiv = "<div class=" + msg_class.Outer + "><div class= " + msg_class.Inner + " id=" + id + " style=display:none;></div></div>";
-
         }
         else{
                 var msgDiv = "<div class=" + msg_class.Outer + "><div class= " + msg_class.Inner + " id=" + id + " aria-live='polite' style=display:none;></div></div>";
-
         }
 
         const skipToTop = document.getElementById("skipToTop");
@@ -136,9 +130,6 @@ export default class Transcript {
 
         this._showLatestContent(msg_class);
     }
-
-
-
 
     _showLatestContent(msg_class) {
         const agentInner = msg_class.Inner;
