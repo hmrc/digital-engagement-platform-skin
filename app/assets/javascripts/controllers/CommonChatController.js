@@ -84,17 +84,17 @@ export default class CommonChatController {
         const fixedPopupDiv = this._getFixedPopupDiv();
         const anchoredPopupDiv = this._getAnchoredPopupDiv();
         try {
-            if (embeddedDiv) {
-                this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml);
-                embeddedDiv.appendChild(this.container.element());
-            }
-            else if (fixedPopupDiv) {
+            if (fixedPopupDiv) {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml);
                 fixedPopupDiv.appendChild(this.container.element());
             }
             else if (anchoredPopupDiv && !fixedPopupDiv) {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml);
                 anchoredPopupDiv.appendChild(this.container.element());
+            }
+            else if (embeddedDiv) {
+                this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml);
+                embeddedDiv.appendChild(this.container.element());
             }
             else {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml);
@@ -141,11 +141,11 @@ export default class CommonChatController {
     }
 
     _getFixedPopupDiv() {
-        return document.getElementById("HMRC_CIAPI_Fixed_1")
+        return document.getElementById("tc-nuance-chat-container")
     }
 
     _getAnchoredPopupDiv() {
-        return document.getElementById("HMRC_CIAPI_Anchored_1")
+        return document.getElementById("tc-nuance-chat-container")
     }
 
     _moveToChatShownState() {

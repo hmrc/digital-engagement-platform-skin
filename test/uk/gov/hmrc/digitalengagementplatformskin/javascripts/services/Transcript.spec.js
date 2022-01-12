@@ -151,6 +151,7 @@ describe("Transcript", () => {
             transcript.appendMessgeInLiveRegion("Some agent message", "test", "testmsg");
 
             expect(document.getElementById("test").innerHTML).toBe("<p class=\"govuk-visually-hidden\">testmsg</p> Some agent message");
+
         });
 
 
