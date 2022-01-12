@@ -117,7 +117,6 @@ export default class Transcript {
 
         }
 
-
         const skipToTop = document.getElementById("skipToTop");
         const chatContainer = document.getElementById("ciapiSkinChatTranscript")
 
