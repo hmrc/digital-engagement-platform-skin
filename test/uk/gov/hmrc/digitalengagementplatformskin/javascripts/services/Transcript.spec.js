@@ -92,7 +92,7 @@ describe("Transcript", () => {
 
         expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
             "beforeend",
-            "<div class=customer-outer><div class= customer-inner id=liveMsgId50 aria-live='polite' style=display:none;></div></div>"
+            "<div class=customer-outer><div class= customer-inner id=liveMsgId50 style=display:none;></div></div>"
         );
         expect(content.scrollTo).toHaveBeenCalledWith(0, 666);
     });
@@ -148,9 +148,9 @@ describe("Transcript", () => {
              div.setAttribute("id", "test");
              document.body.appendChild(div);
 
-            transcript.appendMessgeInLiveRegion("Some agent message", "test");
+            transcript.appendMessgeInLiveRegion("Some agent message", "test", "testmsg");
 
-            expect(document.getElementById("test").innerHTML).toBe("Some agent message");
+            expect(document.getElementById("test").innerHTML).toBe("<p class=\"govuk-visually-hidden\">testmsg</p> Some agent message");
         });
 
 
