@@ -115,7 +115,7 @@ describe("Transcript", () => {
             expect(content.scrollTo).toHaveBeenCalledWith(0, 666);
         });
 
-        it("appends other messages with live region", () => {
+        it("appends other messages(automated, agent etc) with live region", () => {
                     const content = {
                         insertAdjacentHTML: jest.fn(),
                         scrollTo: jest.fn(),
