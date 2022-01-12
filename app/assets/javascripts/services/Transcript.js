@@ -4,7 +4,7 @@ export default class Transcript {
         this.vaLinkCallback = vaLinkCallback;
         this.classes = classes;
         this.AgentMsgPrefix  = "Agent said : ";
-        this.customerMsgPrefix = "Customer said : ";
+        this.customerMsgPrefix = "You said : ";
         this.systemMsgPrefix = "System message : ";
         this.automatedMsgPrefix = "Automated message : ";
     }

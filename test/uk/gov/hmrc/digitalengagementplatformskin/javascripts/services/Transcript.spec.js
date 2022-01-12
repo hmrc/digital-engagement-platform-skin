@@ -97,6 +97,42 @@ describe("Transcript", () => {
         expect(content.scrollTo).toHaveBeenCalledWith(0, 666);
     });
 
+     it("appends customer messages without live region", () => {
+            const content = {
+                insertAdjacentHTML: jest.fn(),
+                scrollTo: jest.fn(),
+                scrollHeight: 666
+            };
+            const vaLinkCallback = jest.fn();
+            const transcript = new Transcript(content, vaLinkCallback, messageClasses);
+
+            transcript._appendMessage("test1", messageClasses.Customer, "test3", true);
+
+            expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
+                "beforeend",
+                "<div class=customer-outer><div class= customer-inner id=liveMsgId50 style=display:none;></div></div>"
+            );
+            expect(content.scrollTo).toHaveBeenCalledWith(0, 666);
+        });
+
+        it("appends other messages with live region", () => {
+                    const content = {
+                        insertAdjacentHTML: jest.fn(),
+                        scrollTo: jest.fn(),
+                        scrollHeight: 666
+                    };
+                    const vaLinkCallback = jest.fn();
+                    const transcript = new Transcript(content, vaLinkCallback, messageClasses);
+
+                    transcript._appendMessage("test1", messageClasses.Agent, "test3", false);
+
+                    expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
+                        "beforeend",
+                        "<div class=agent-outer><div class= agent-inner id=liveMsgId50 aria-live='polite' style=display:none;></div></div>"
+                    );
+                    expect(content.scrollTo).toHaveBeenCalledWith(0, 666);
+                });
+
     it("appends automaton messages", () => {
         const content = {
             appendChild: jest.fn(),
