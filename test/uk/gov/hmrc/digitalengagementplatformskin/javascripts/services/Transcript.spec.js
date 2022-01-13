@@ -38,7 +38,7 @@ describe("Transcript", () => {
 
         expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
             "beforeend",
-            "<div class=system-outer><div class= system-inner id=liveMsgId50 aria-live='polite' style=display:none;></div></div>"
+            "<div class=system-outer><div class= \"govuk-visually-hidden system-inner\" id=liveMsgId50 aria-live=polite></div></div>"
         );
         expect(content.scrollTo).toHaveBeenCalledWith(0, 42);
     });
@@ -56,7 +56,7 @@ describe("Transcript", () => {
 
         expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
             "beforeend",
-            "<div class=opener-outer><div class= opener-inner id=liveMsgId50 aria-live='polite' style=display:none;></div></div>"
+            "<div class=opener-outer><div class= \"govuk-visually-hidden opener-inner\" id=liveMsgId50 aria-live=polite></div></div>"
         );
         expect(content.scrollTo).toHaveBeenCalledWith(0, 50);
     });
@@ -74,7 +74,7 @@ describe("Transcript", () => {
 
         expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
             "beforeend",
-            "<div class=agent-outer><div class= agent-inner id=liveMsgId50 aria-live='polite' style=display:none;></div></div>"
+            "<div class=agent-outer><div class= \"govuk-visually-hidden agent-inner\" id=liveMsgId50 aria-live=polite></div></div>"
         );
         expect(content.scrollTo).toHaveBeenCalledWith(0, 314);
     });
@@ -92,7 +92,7 @@ describe("Transcript", () => {
 
         expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
             "beforeend",
-            "<div class=customer-outer><div class= customer-inner id=liveMsgId50 style=display:none;></div></div>"
+            "<div class=customer-outer><div class= \"govuk-visually-hidden customer-inner\" id=liveMsgId50></div></div>"
         );
         expect(content.scrollTo).toHaveBeenCalledWith(0, 666);
     });
@@ -110,7 +110,7 @@ describe("Transcript", () => {
 
             expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
                 "beforeend",
-                "<div class=customer-outer><div class= customer-inner id=liveMsgId50 style=display:none;></div></div>"
+                "<div class=customer-outer><div class= \"govuk-visually-hidden customer-inner\" id=liveMsgId50></div></div>"
             );
             expect(content.scrollTo).toHaveBeenCalledWith(0, 666);
         });
@@ -128,7 +128,7 @@ describe("Transcript", () => {
 
                     expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
                         "beforeend",
-                        "<div class=agent-outer><div class= agent-inner id=liveMsgId50 aria-live='polite' style=display:none;></div></div>"
+                        "<div class=agent-outer><div class= \"govuk-visually-hidden agent-inner\" id=liveMsgId50 aria-live=polite></div></div>"
                     );
                     expect(content.scrollTo).toHaveBeenCalledWith(0, 666);
                 });
