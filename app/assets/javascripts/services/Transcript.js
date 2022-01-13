@@ -3,7 +3,7 @@ export default class Transcript {
         this.content = content;
         this.vaLinkCallback = vaLinkCallback;
         this.classes = classes;
-        this.AgentMsgPrefix  = "Agent said : ";
+        this.agentMsgPrefix  = "Adviser said : ";
         this.customerMsgPrefix = "You said : ";
         this.systemMsgPrefix = "System message : ";
         this.automatedMsgPrefix = "Automated message : ";
@@ -53,14 +53,14 @@ export default class Transcript {
     appendMessgeInLiveRegion(msg, id, msg_type){
         if(document.getElementById(id)){
               document.getElementById(id).innerHTML = "<p class=govuk-visually-hidden>" + msg_type + "</p> " + msg;
-              document.getElementById(id).style = "display:block;"
+              document.getElementById(id).classList.remove("govuk-visually-hidden");
         }
     }
 
     addAutomatonMsg(msg) {
 
         var id = "liveAutomatedMsgId" + ( Math.random() * 100);
-        const msgDiv = "<div class= "+ this.classes.Agent.Inner + " id="+ id +" aria-live='polite' style=display:none; ></div>";
+        const msgDiv = `<div class= "govuk-visually-hidden ${this.classes.Agent.Inner}" id=${id} aria-live=polite></div>`;
 
         const skipToTop = document.getElementById("skipToTop");
         const chatContainer = document.getElementById("ciapiSkinChatTranscript")
@@ -105,10 +105,10 @@ export default class Transcript {
         var id = "liveMsgId" + ( Math.random() * 100);
 
         if(isCustomerMsg == true){
-                var msgDiv = "<div class=" + msg_class.Outer + "><div class= " + msg_class.Inner + " id=" + id + " style=display:none;></div></div>";
+                var msgDiv = `<div class=${msg_class.Outer}><div class= "govuk-visually-hidden ${msg_class.Inner}" id=${id}></div></div>`;
         }
         else{
-                var msgDiv = "<div class=" + msg_class.Outer + "><div class= " + msg_class.Inner + " id=" + id + " aria-live='polite' style=display:none;></div></div>";
+                var msgDiv = `<div class=${msg_class.Outer}><div class= "govuk-visually-hidden ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
         }
 
         const skipToTop = document.getElementById("skipToTop");
