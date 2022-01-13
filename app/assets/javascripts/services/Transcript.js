@@ -57,7 +57,6 @@ export default class Transcript {
         }
         if(isVirtuaAssistance == true){
               document.getElementById(id).focus();
-
         }
     }
 
