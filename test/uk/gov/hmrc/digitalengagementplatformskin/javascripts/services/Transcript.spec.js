@@ -38,8 +38,7 @@ describe("Transcript", () => {
 
         expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
             "beforeend",
-
-            "<div role=log class=system-outer><div class= \"govuk-visually-hidden system-inner\" id=liveMsgId50 aria-live=polite></div></div>"
+            "<div class=system-outer><div class= \"govuk-visually-hidden system-inner\" id=liveMsgId50 aria-live=polite></div></div>"
         );
         expect(content.scrollTo).toHaveBeenCalledWith(0, 42);
     });
@@ -57,7 +56,7 @@ describe("Transcript", () => {
 
         expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
             "beforeend",
-            "<div role=log class=opener-outer><div class= \"govuk-visually-hidden opener-inner\" id=liveMsgId50 aria-live=polite></div></div>"
+            "<div class=opener-outer><div class= \"govuk-visually-hidden opener-inner\" id=liveMsgId50 aria-live=polite></div></div>"
         );
         expect(content.scrollTo).toHaveBeenCalledWith(0, 50);
     });
@@ -75,7 +74,7 @@ describe("Transcript", () => {
 
         expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
             "beforeend",
-            "<div role=log class=agent-outer><div class= \"govuk-visually-hidden agent-inner\" id=liveMsgId50 aria-live=polite></div></div>"
+            "<div class=agent-outer><div class= \"govuk-visually-hidden agent-inner\" id=liveMsgId50 aria-live=polite></div></div>"
         );
         expect(content.scrollTo).toHaveBeenCalledWith(0, 314);
     });
@@ -129,7 +128,7 @@ describe("Transcript", () => {
 
                     expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
                         "beforeend",
-                        "<div role=log class=agent-outer><div class= \"govuk-visually-hidden agent-inner\" id=liveMsgId50 aria-live=polite></div></div>"
+                        "<div class=agent-outer><div class= \"govuk-visually-hidden agent-inner\" id=liveMsgId50 aria-live=polite></div></div>"
                     );
                     expect(content.scrollTo).toHaveBeenCalledWith(0, 666);
                 });
