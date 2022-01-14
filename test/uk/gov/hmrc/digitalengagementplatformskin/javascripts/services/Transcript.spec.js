@@ -38,6 +38,7 @@ describe("Transcript", () => {
 
         expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
             "beforeend",
+
             "<div role=log class=system-outer><div class= \"govuk-visually-hidden system-inner\" id=liveMsgId50 aria-live=polite></div></div>"
         );
         expect(content.scrollTo).toHaveBeenCalledWith(0, 42);
