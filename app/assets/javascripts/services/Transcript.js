@@ -50,12 +50,37 @@ export default class Transcript {
 
     }
 
-    appendMessgeInLiveRegion(msg, id, msg_type, isVirtuaAssistance){
+    decodeHTMLEntities(text) {
+        var entities = [
+            ['amp', '&'],
+            ['apos', '\''],
+            ['#x27', '\''],
+            ['#x2F', '/'],
+            ['#39', '\''],
+            ['#47', '/'],
+            ['lt', '<'],
+            ['gt', '>'],
+            ['nbsp', ' '],
+            ['quot', '"']
+        ];
+
+        for (var i = 0, max = entities.length; i < max; ++i)
+            text = text.replace(new RegExp('&'+entities[i][0]+';', 'g'), entities[i][1]);
+
+        return text;
+    }
+
+
+    appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that){
         if(document.getElementById(id)){
+              if(that){
+                  var msg = that.decodeHTMLEntities(msg);
+              }
+
               document.getElementById(id).innerHTML = "<p class=govuk-visually-hidden>" + msg_type + "</p> " + msg;
               document.getElementById(id).classList.remove("govuk-visually-hidden");
         }
-        if(isVirtuaAssistance == true){
+        if(isVirtualAssistance == true){
               document.getElementById(id).focus();
         }
     }
@@ -76,7 +101,7 @@ export default class Transcript {
 
         this.content.appendChild(agentDiv);
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true);
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this);
 
 
         if (chatContainer) {
@@ -119,7 +144,7 @@ export default class Transcript {
 
         this.content.insertAdjacentHTML("beforeend", msgDiv);
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type, false);
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type, false, this);
 
         if (chatContainer) {
 
