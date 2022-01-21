@@ -22,6 +22,9 @@ export default class Transcript {
     }
 
     addOpenerScript(msg) {
+        if(document.getElementsByClassName("cui-technical-error")) {
+            document.getElementsByClassName("cui-technical-error").style.display = "none";
+        }
         this._appendMessage(msg, this.classes.Opener, this.automatedMsgPrefix, false);
     }
 
