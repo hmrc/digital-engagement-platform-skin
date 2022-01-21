@@ -1,10 +1,10 @@
-import PostChatSurvey from '../views/postChatSurvey/PostChatSurvey'
+import PostChatSurvey from '../views/postChatSurvey/PostChatSurveyWebchat'
 import ChatContainer from '../utils/ChatContainer'
 import * as MessageClasses from '../DefaultClasses'
 import * as EmbeddedContainerHtml from '../views/embedded/EmbeddedContainerHtml'
 import * as PopupContainerHtml from '../views/popup/PopupContainerHtml'
 import * as ChatStates from '../services/ChatStates'
-import PostChatSurveyService from '../services/PostChatSurveyService'
+import PostChatSurveyWebchatService from '../services/PostChatSurveyWebchatService'
 import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
 
 const automaton = {
@@ -14,14 +14,20 @@ const automaton = {
 
 const timestamp = Date.now();
 
-const survey = {
+const webchatSurvey = {
     id: "13000303",
     questions: [
-        { id: ["question1"], text: "Was the chatbot useful?", freeform: false },
-        { id: ["question2"], text: "Was the chatbot your first contact choice?", freeform: false },
-        { id: ["question3"], text: "If you had not used chatbot today, how else would you have contacted us?", freeform: false }
+        { id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false },
+        { id: ["question2"], text: "How easy was it to do what you needed to do today?", freeform: false },
+        { id: ["question3"], text: "Overall, how did you feel about the service you accessed today?", freeform: false },
+        { id: ["question4"], text: "Why did you give these scores?", freeform: true },
+        { id: ["question5"], text: "If you had not used webchat today, how else would you have contacted us?", freeform: false }
     ]
 };
+
+function getTextAreaValue(textArea) {
+    return document.getElementById(textArea).value;
+}
 
 function getRadioValue(radioGroup) {
     var elements = document.getElementsByName(radioGroup);
@@ -167,7 +173,7 @@ export default class CommonChatController {
     closeChat() {
 
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
-            this._sendPostChatSurvey(this.sdk).closePostChatSurvey(automaton, timestamp);
+            this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automaton, timestamp);
         }
 
         this.closeNuanceChat();
@@ -184,8 +190,8 @@ export default class CommonChatController {
     }
 
     // End event handler method
-    _sendPostChatSurvey(sdk) {
-        return new PostChatSurveyService(sdk);
+    _sendPostChatSurveyWebchat(sdk) {
+        return new PostChatSurveyWebchatService(sdk);
     }
 
     onSkipToTopLink(e) {
@@ -260,22 +266,24 @@ export default class CommonChatController {
 
     onConfirmEndChat() {
         this._moveToClosingState();
-        this._sendPostChatSurvey(this.sdk).beginPostChatSurvey(survey, automaton, timestamp);
-        this.container.showPage(new PostChatSurvey((page) => this.onPostChatSurveySubmitted(page)));
+        this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp);
+        this.container.showPage(new PostChatSurvey((page) => this.onPostChatSurveyWebchatSubmitted(page)));
     }
 
-    onPostChatSurveySubmitted(surveyPage) {
+    onPostChatSurveyWebchatSubmitted(surveyPage) {
         const answers = {
             answers: [
                 { id: getRadioId("q1-"), text: getRadioValue("q1-"), freeform: false },
                 { id: getRadioId("q2-"), text: getRadioValue("q2-"), freeform: false },
-                { id: getRadioId("q3-"), text: getRadioValue("q3-"), freeform: false }
+                { id: getRadioId("q3-"), text: getRadioValue("q3-"), freeform: false },
+                { id: "q4-", text: getTextAreaValue("q4-"), freeform: true },
+                { id: getRadioId("q5-"), text: getRadioValue("q5-"), freeform: false }
             ]
         };
 
-        var surveyWithAnswers = Object.assign(answers, survey);
+        var surveyWithAnswers = Object.assign(answers, webchatSurvey);
 
-        this._sendPostChatSurvey(this.sdk).submitPostChatSurvey(surveyWithAnswers, automaton, timestamp);
+        this._sendPostChatSurveyWebchat(this.sdk).submitPostChatSurvey(surveyWithAnswers, automaton, timestamp);
         surveyPage.detach();
         this.showEndChatPage(true);
     }
