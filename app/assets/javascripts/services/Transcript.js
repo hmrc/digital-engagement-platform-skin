@@ -22,9 +22,6 @@ export default class Transcript {
     }
 
     addOpenerScript(msg) {
-        if(document.getElementsByClassName("cui-technical-error")) {
-            document.getElementsByClassName("cui-technical-error").style.display = "none";
-        }
         this._appendMessage(msg, this.classes.Opener, this.automatedMsgPrefix, false);
     }
 
@@ -134,6 +131,11 @@ export default class Transcript {
     _appendMessage(msg, msg_class, msg_type, isCustomerMsg) {
 
         var id = "liveMsgId" + ( Math.random() * 100);
+
+        if(document && document.getElementById("errorDiv"))
+        {
+                document.getElementById("errorDiv").style.display = "none";
+        }
 
         if(isCustomerMsg == true){
                 var msgDiv = `<div class=${msg_class.Outer}><div class= "govuk-visually-hidden ${msg_class.Inner}" id=${id}></div></div>`;
