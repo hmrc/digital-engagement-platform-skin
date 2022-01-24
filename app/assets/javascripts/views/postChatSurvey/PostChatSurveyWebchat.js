@@ -128,7 +128,7 @@ const html = `
     </div>
 `
 
-export default class PostChatSurvey {
+export default class PostChatSurveyWebchat {
   constructor(onSubmitted) {
     this.onSubmitted = onSubmitted;
   }

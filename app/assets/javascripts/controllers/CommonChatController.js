@@ -1,4 +1,4 @@
-import PostChatSurvey from '../views/postChatSurvey/PostChatSurveyWebchat'
+import PostChatSurveyWebchat from '../views/postChatSurvey/PostChatSurveyWebchat'
 import ChatContainer from '../utils/ChatContainer'
 import * as MessageClasses from '../DefaultClasses'
 import * as EmbeddedContainerHtml from '../views/embedded/EmbeddedContainerHtml'
@@ -267,7 +267,7 @@ export default class CommonChatController {
     onConfirmEndChat() {
         this._moveToClosingState();
         this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp);
-        this.container.showPage(new PostChatSurvey((page) => this.onPostChatSurveyWebchatSubmitted(page)));
+        this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
     }
 
     onPostChatSurveyWebchatSubmitted(surveyPage) {
