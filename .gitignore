@@ -41,3 +41,4 @@ tmp
 node_modules
 package-lock.json
 app/assets/javascripts/bundle/
+coverage

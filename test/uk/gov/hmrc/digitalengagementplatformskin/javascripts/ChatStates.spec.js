@@ -239,7 +239,7 @@ describe("Chat States", () => {
                 data: {
                     "ltime": "1651712",
                     "state": "transfer",
-                    "reason": "Transfer from Virtual Assistant [HMRC] to agent JayNabonne",
+                    "reason": "Transfer from Virtual Assistant [HMRC] to agent JoeBloggs",
                     "status": "accepted",
                     "messageType": "chat.transfer_response",
                     "engagementID": "388260662637696059",
@@ -273,7 +273,7 @@ describe("Chat States", () => {
                     "messageTimestamp": "1627648283000",
                     "chatroom.member.id": "42391918",
                     "client.display.text": "You're now talking to Jay",
-                    "chatroom.member.name": "JayNabonne",
+                    "chatroom.member.name": "JoeBloggs",
                     "chatroom.member.type": "agent"
                 }
             };
@@ -344,7 +344,7 @@ describe("Chat States", () => {
                 data: {
                     "ltime": "1656350",
                     "messageType": "chatroom.member_lost",
-                    "display.text": "Agent 'JayNabonne' loses connection",
+                    "display.text": "Agent 'JoeBloggs' loses connection",
                     "engagementID": "388260663047034009",
                     "messageTimestamp": "1627654612000",
                     "chatroom.member.id": "42391918",

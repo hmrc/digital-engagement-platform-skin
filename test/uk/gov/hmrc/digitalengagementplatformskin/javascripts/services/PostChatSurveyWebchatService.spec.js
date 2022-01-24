@@ -1,4 +1,4 @@
-import PostChatSurveyService from '../../../../../../../app/assets/javascripts/services/PostChatSurveyWebchatService'
+import PostChatSurveyWebchatService from '../../../../../../../app/assets/javascripts/services/PostChatSurveyWebchatService'
 
 const chatParams = {
     agId: "AgId",
@@ -45,7 +45,7 @@ const automaton = {
     name: "AutomatonName"
 };
 
-describe("PostChatSurveyService", () => {
+describe("PostChatSurveyWebchatService", () => {
     it("sends event for beginning a post chat survey", () => {
         const sdk = {
             getChatParams: () => { return chatParams; },
@@ -53,7 +53,7 @@ describe("PostChatSurveyService", () => {
             logEventToDW: jest.fn()
         };
 
-        const service = new PostChatSurveyService(sdk);
+        const service = new PostChatSurveyWebchatService(sdk);
 
         const timestamp = Date.now();
 
@@ -159,7 +159,7 @@ describe("PostChatSurveyService", () => {
             logEventToDW: jest.fn()
         };
 
-        const service = new PostChatSurveyService(sdk);
+        const service = new PostChatSurveyWebchatService(sdk);
         const timestamp = Date.now();
 
         const expectedCustomerRespondedEvent = {
@@ -265,7 +265,7 @@ describe("PostChatSurveyService", () => {
             logEventToDW: jest.fn()
         };
 
-        const service = new PostChatSurveyService(sdk);
+        const service = new PostChatSurveyWebchatService(sdk);
         const timestamp = Date.now();
 
         const expectedEndedEvent = {
