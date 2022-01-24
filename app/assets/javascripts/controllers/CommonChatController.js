@@ -31,12 +31,19 @@ function getTextAreaValue(textArea) {
 
 function getRadioValue(radioGroup) {
     var elements = document.getElementsByName(radioGroup);
+    var returnedValue = null;
 
     for (var i = 0, l = elements.length; i < l; i++) {
         if (elements[i].checked) {
-            return elements[i].value;
+            returnedValue = elements[i].value;
         }
     }
+
+    if (!returnedValue) {
+        returnedValue = "";
+    }
+
+    return returnedValue;
 }
 
 function getRadioId(radioGroup) {
