@@ -1,10 +1,12 @@
 import PostChatSurveyWebchat from '../views/postChatSurvey/PostChatSurveyWebchat'
+import PostChatSurveyDigitalAssistant from '../views/postChatSurvey/PostChatSurveyDigitalAssistant'
 import ChatContainer from '../utils/ChatContainer'
 import * as MessageClasses from '../DefaultClasses'
 import * as EmbeddedContainerHtml from '../views/embedded/EmbeddedContainerHtml'
 import * as PopupContainerHtml from '../views/popup/PopupContainerHtml'
 import * as ChatStates from '../services/ChatStates'
 import PostChatSurveyWebchatService from '../services/PostChatSurveyWebchatService'
+import PostChatSurveyDigitalAssistantService from '../services/PostChatSurveyDigitalAssistantService'
 import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
 
 const automaton = {
@@ -24,6 +26,15 @@ const webchatSurvey = {
         { id: ["question5"], text: "If you had not used webchat today, how else would you have contacted us?", freeform: false }
     ]
 };
+
+const digitalAssistantSurvey = {
+    id: "13000303",
+    questions: [
+        { id: ["question1"], text: "Was the digital assistant useful?", freeform: false },
+        { id: ["question2"], text: "How could we improve it?", freeform: false },
+        { id: ["question2"], text: "If you had not used the chatbot today, how else would you have contacted us?", freeform: false }
+    ]
+}
 
 function getTextAreaValue(textArea) {
     return document.getElementById(textArea).value;
@@ -93,16 +104,13 @@ export default class CommonChatController {
             if (fixedPopupDiv) {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml);
                 fixedPopupDiv.appendChild(this.container.element());
-            }
-            else if (anchoredPopupDiv && !fixedPopupDiv) {
+            } else if (anchoredPopupDiv && !fixedPopupDiv) {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml);
                 anchoredPopupDiv.appendChild(this.container.element());
-            }
-            else if (embeddedDiv) {
+            } else if (embeddedDiv) {
                 this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml);
                 embeddedDiv.appendChild(this.container.element());
-            }
-            else {
+            } else {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml);
                 document.getElementsByTagName("body")[0].appendChild(this.container.element());
             }
@@ -110,8 +118,7 @@ export default class CommonChatController {
             this.container.setEventHandler(this);
 
             this._moveToChatShownState();
-        }
-        catch (e) {
+        } catch (e) {
             console.error("!!!! _showChat got exception: ", e);
         }
     }
@@ -173,7 +180,8 @@ export default class CommonChatController {
     closeChat() {
 
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
-            this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automaton, timestamp);
+            //this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automaton, timestamp) ||
+            this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automaton, timestamp);
         }
 
         this.closeNuanceChat();
@@ -192,6 +200,10 @@ export default class CommonChatController {
     // End event handler method
     _sendPostChatSurveyWebchat(sdk) {
         return new PostChatSurveyWebchatService(sdk);
+    }
+
+    _sendPostChatSurveyDigitalAssistant(sdk) {
+        return new PostChatSurveyDigitalAssistantService(sdk);
     }
 
     onSkipToTopLink(e) {
@@ -222,7 +234,7 @@ export default class CommonChatController {
             console.log("************************************")
             console.log("******* chat is in progress ********")
             console.log("************************************")
-            //            setTimeout(() => this._launchChat(), 2000);
+                //            setTimeout(() => this._launchChat(), 2000);
         }
     }
 
@@ -266,8 +278,10 @@ export default class CommonChatController {
 
     onConfirmEndChat() {
         this._moveToClosingState();
-        this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp);
-        this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
+        //this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp) ||
+        this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp);
+        //this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page))) ||
+        this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
     }
 
     onPostChatSurveyWebchatSubmitted(surveyPage) {
@@ -284,6 +298,22 @@ export default class CommonChatController {
         var surveyWithAnswers = Object.assign(answers, webchatSurvey);
 
         this._sendPostChatSurveyWebchat(this.sdk).submitPostChatSurvey(surveyWithAnswers, automaton, timestamp);
+        surveyPage.detach();
+        this.showEndChatPage(true);
+    }
+
+    onPostChatSurveyDigitalAssistantSubmitted(surveyPage) {
+        const answers = {
+            answers: [
+                { id: getRadioId("q1-"), text: getRadioValue("q1-"), freeform: false },
+                { id: "q2-", text: getTextAreaValue("q2-"), freeform: true },
+                { id: getRadioId("q3-"), text: getRadioValue("q3-"), freeform: false }
+            ]
+        };
+
+        var surveyWithAnswers = Object.assign(answers, digitalAssistantSurvey);
+
+        this._sendPostChatSurveyDigitalAssistant(this.sdk).submitPostChatSurvey(surveyWithAnswers, automaton, timestamp);
         surveyPage.detach();
         this.showEndChatPage(true);
     }
