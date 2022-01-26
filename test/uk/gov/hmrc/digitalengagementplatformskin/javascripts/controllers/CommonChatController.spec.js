@@ -1,34 +1,44 @@
 import CommonChatController from '../../../../../../../app/assets/javascripts/controllers/CommonChatController'
 import PostChatSurveyWebchatService from '../../../../../../../app/assets/javascripts/services/PostChatSurveyWebchatService'
+import ChatContainer from '../../../../../../../app/assets/javascripts/utils/ChatContainer'
 
-jest.mock('PostChatSurveyWebchatService');
+jest.enableAutomock();
+
+const mockBeginPostChatSurvey = jest.fn();
+const mockShowPage = jest.fn();
+
+const service = jest.genMockFromModule('../../../../../../../app/assets/javascripts/services/PostChatSurveyWebchatService');
+
+
+
+jest.mock( '../../../../../../../app/assets/javascripts/utils/ChatContainer', () => {
+	return jest.fn().mockImplementation(() => {
+		return {
+			showPage: mockShowPage
+		};
+	});
+});
+
 
 
 describe("CommonChatController", () => {
-    it("a webchat post chat survey is displayed when webchat chat is closed", () => {
-        const commonChatController = new CommonChatController();
-        const postChatSurveyWebchatService = new PostChatSurveyWebchatService();
-
-        commonChatController._moveToClosingState = jest.fn();
-        postChatSurveyWebchatService.beginPostChatSurvey = jest.fn();
-
-        const sdk = {
-            isChatInProgress: jest.fn().mockReturnValue(true),
-            //getChatParams: () => { return chatParams; }
-            //closeChat: jest.fn(),
-            isConnected: jest.fn()
-        };
-
-        window.Inq = {
-            SDK: sdk
-        };
+    it("appends chat transcript div to page when some div id is found on page", () => {
+            const postChatSurveyWebchatService = new PostChatSurveyWebchatService();
+            const commonChatController = new CommonChatController();
+            //const chatContainer = new ChatContainer();
 
 
 
-        commonChatController.nuanceFrameworkLoaded(window);
-        commonChatController.onConfirmEndChat();
+            //const test = service.beginPostChatSurvey;
 
-        expect(postChatSurveyWebchatService.beginPostChatSurvey).toHaveBeenCalled();
-    })
+            //chatContainer.showPage = jest.fn();
 
+            //commonChatController._launchChat();
+            commonChatController.onConfirmEndChat();
+
+            expect(postChatSurveyWebchatService.beginPostChatSurvey).toHaveBeenCalledTimes(1);
+            //expect(beginPostChatSurvey).toHaveBeenCalledTimes(1);
+            //expect(chatContainer.showPage).toHaveBeenCalledTimes(1);
+
+        });
 })
