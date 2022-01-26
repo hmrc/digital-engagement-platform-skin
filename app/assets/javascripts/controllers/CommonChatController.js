@@ -32,7 +32,8 @@ const digitalAssistantSurvey = {
     questions: [
         { id: ["question1"], text: "Was the digital assistant useful?", freeform: false },
         { id: ["question2"], text: "How could we improve it?", freeform: false },
-        { id: ["question3"], text: "If you had not used the chatbot today, how else would you have contacted us?", freeform: false }
+        { id: ["question3"], text: "If you had not used the chatbot today, how else would you have contacted us?", freeform: false },
+        { id: ["question4"], text: "Provide other contact options?", freeform: false }
     ]
 }
 
@@ -307,7 +308,8 @@ export default class CommonChatController {
             answers: [
                 { id: getRadioId("q1-"), text: getRadioValue("q1-"), freeform: false },
                 { id: "q2-", text: getTextAreaValue("q2-"), freeform: true },
-                { id: getRadioId("q3-"), text: getRadioValue("q3-"), freeform: false }
+                { id: getRadioId("q3-"), text: getRadioValue("q3-"), freeform: false },
+                { id: "q4-", text: getTextAreaValue("q4-"), freeform: true }
             ]
         };
 
