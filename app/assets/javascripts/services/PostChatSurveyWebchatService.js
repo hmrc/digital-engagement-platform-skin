@@ -160,10 +160,10 @@ export default class PostChatSurveyWebchatService {
                 escape(encodeURIComponent(survey.answers[4].text)),
             "custom.decisiontree.answers":
                 escape(encodeURIComponent(encodeURIComponent(survey.answers[0].text))) + encodeURIComponent(",") +
-                escape(encodeURIComponent(encodeURIComponent(survey.answers[1].text))) + encodeURIComponent(",") +
-                escape(encodeURIComponent(encodeURIComponent(survey.answers[2].text))) + encodeURIComponent(",") +
-                escape(encodeURIComponent(encodeURIComponent(survey.answers[3].text))) + encodeURIComponent(",") +
-                escape(encodeURIComponent(encodeURIComponent(survey.answers[4].text))),
+                escape(encodeURIComponent(survey.answers[1].text)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.answers[2].text)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.answers[3].text)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.answers[4].text)),
             "custom.decisiontree.answerTypes":
                 escape(encodeURIComponent("0")) + "," +
                 escape(encodeURIComponent("0")) + "," +
