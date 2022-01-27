@@ -63,14 +63,16 @@ const html = `
                         <input class="govuk-radios__input" id="q3--5" name="q3-" type="radio" value="Other">
                         <label class="govuk-label govuk-radios__label" for="q3--5">Other</label>
                       </div>
-
-                      <h2 class="govuk-label-wrapper">
-                      <label class="govuk-label govuk-label--m" for="q3--6">
-                          Provide other contact options?
-                      </label>
-                  </h2>
-                      <textarea class="govuk-textarea" id="q3--6" name="q3-" rows="5" aria-describedby="more-detail-hint"></textarea>
                     </div>
+                  </fieldset>
+
+                  <fieldset class="govuk-fieldset" id="question4">
+                    <h2 class="govuk-label-wrapper">
+                      <label class="govuk-label govuk-label--m" for="other-contact-details">
+                        Provide other contact options?
+                      </label>
+                    </h2>
+                    <textarea class="govuk-textarea" id="q4-" name="q4-" rows="5" aria-describedby="other-contact-details"></textarea>
                   </fieldset>
                 </div>
 
