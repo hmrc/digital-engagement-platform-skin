@@ -174,7 +174,7 @@ describe("PostChatSurveyWebchatService", () => {
                 "Overall%252C%2520how%2520did%2520you%2520feel%2520about%2520the%2520service%2520you%2520accessed%2520today%253F%2C" +
                 "Why%2520did%2520you%2520give%2520these%2520scores%253F%2C" +
                 "If%2520you%2520had%2520not%2520used%2520webchat%2520today%252C%2520how%2520else%2520would%2520you%2520have%2520contacted%2520us%253F" ,
-            "custom.decisiontree.answers": "Yes%2COK%2CGood%2Ctext%252520area%252520text%2CPhone",
+            "custom.decisiontree.answers": "Yes%2COK%2CGood%2Ctext%2520area%2520text%2CPhone",
             "custom.decisiontree.answerIDs": "Yes%2COK%2CGood%2Ctext%2520area%2520text%2CPhone",
             "custom.decisiontree.answerTypes": "0,0,0,1,0",
             clientTimestamp: timestamp,
