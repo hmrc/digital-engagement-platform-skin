@@ -184,10 +184,24 @@ describe("Transcript", () => {
              div.setAttribute("id", "test");
              document.body.appendChild(div);
 
-            transcript.appendMessgeInLiveRegion("Some agent message", "test", "testmsg");
+            transcript.appendMessgeInLiveRegion("Some agent message", "test", "testmsg", this);
 
             expect(document.getElementById("test").innerHTML).toBe("<p class=\"govuk-visually-hidden\">testmsg</p> Some agent message");
         });
+
+     it("replaces encoded string", () => {
+            const content = {
+                insertAdjacentHTML: jest.fn(),
+                scrollTo: jest.fn(),
+                scrollHeight: 314
+            };
+            const vaLinkCallback = jest.fn();
+            const transcript = new Transcript(content, vaLinkCallback, messageClasses);
+
+            var msg = transcript.decodeHTMLEntities("&lt;this is &apos; test&gt;");
+
+            expect(msg).toBe("<this is ' test>");
+            });
 
 
     //TODO create a test for each of the above scenarios where the incoming message is higher than the parent div
