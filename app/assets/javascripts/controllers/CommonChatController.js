@@ -276,6 +276,7 @@ export default class CommonChatController {
         this._moveToClosingState();
         this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp);
         this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
+        window.GOVUKFrontend.initAll();
     }
 
     onPostChatSurveyWebchatSubmitted(surveyPage) {
@@ -285,7 +286,8 @@ export default class CommonChatController {
                 { id: getRadioId("q2-"), text: getRadioValue("q2-"), freeform: false },
                 { id: getRadioId("q3-"), text: getRadioValue("q3-"), freeform: false },
                 { id: "q4-", text: getTextAreaValue("q4-"), freeform: true },
-                { id: getRadioId("q5-"), text: getRadioValue("q5-"), freeform: false }
+                { id: getRadioId("q5-"), text: getRadioValue("q5-"), freeform: false },
+                { id: "q6-", text: getTextAreaValue("q6-"), freeform: true }
             ]
         };
 

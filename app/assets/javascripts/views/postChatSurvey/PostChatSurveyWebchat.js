@@ -117,13 +117,13 @@ const html = `
                         </div>
                          <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-contact">
                             <div class="govuk-form-group">
-                                <label class="govuk-label" for="contact-by-email">Email address</label>
-                                <input class="govuk-input govuk-!-width-one-third" id="contact-by-email" name="q5-" type="email" spellcheck="false" autocomplete="email"></div>
+                                <label class="govuk-label" for="contact-by-other">Provide other contact option</label>
+                                <textarea class="govuk-textarea" id="q6-" name="q6-" rows="5" aria-describedby="more-detail-hint"></textarea>
                             </div>
                          </div>
                     </div>
-                  </fieldset>
 
+                  </fieldset>
 
                 </div>
 
