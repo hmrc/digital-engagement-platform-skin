@@ -21,7 +21,8 @@ const webchatSurvey = {
         { id: ["question2"], text: "How easy was it to do what you needed to do today?", freeform: false },
         { id: ["question3"], text: "Overall, how did you feel about the service you accessed today?", freeform: false },
         { id: ["question4"], text: "Why did you give these scores?", freeform: true },
-        { id: ["question5"], text: "If you had not used webchat today, how else would you have contacted us?", freeform: false }
+        { id: ["question5"], text: "If you had not used webchat today, how else would you have contacted us?", freeform: false },
+        { id: ["question6"], text: "Provide other contact option", freeform: true }
     ]
 };
 

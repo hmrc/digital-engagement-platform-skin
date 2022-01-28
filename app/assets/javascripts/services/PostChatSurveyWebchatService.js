@@ -55,13 +55,15 @@ export default class PostChatSurveyWebchatService {
                 escape(encodeURIComponent(survey.questions[1].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[2].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[3].text)) + encodeURIComponent(",") +
-                escape(encodeURIComponent(survey.questions[4].text)),
+                escape(encodeURIComponent(survey.questions[4].text)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.questions[5].text)),
             "custom.decisiontree.questionIDs":
                 escape(encodeURIComponent(survey.questions[0].id)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[1].id)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[2].id)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[3].id)) + encodeURIComponent(",") +
-                escape(encodeURIComponent(survey.questions[4].id)),
+                escape(encodeURIComponent(survey.questions[4].id)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.questions[5].id)),
             clientTimestamp: timestamp,
             automatonType: "satisfactionSurvey",
             chatID: chatParams.chatID,
