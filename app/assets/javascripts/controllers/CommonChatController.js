@@ -21,7 +21,8 @@ const webchatSurvey = {
         { id: ["question2"], text: "How easy was it to do what you needed to do today?", freeform: false },
         { id: ["question3"], text: "Overall, how did you feel about the service you accessed today?", freeform: false },
         { id: ["question4"], text: "Why did you give these scores?", freeform: true },
-        { id: ["question5"], text: "If you had not used webchat today, how else would you have contacted us?", freeform: false }
+        { id: ["question5"], text: "If you had not used webchat today, how else would you have contacted us?", freeform: false },
+        { id: ["question6"], text: "Provide other contact option", freeform: true }
     ]
 };
 
@@ -275,6 +276,7 @@ export default class CommonChatController {
         this._moveToClosingState();
         this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp);
         this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
+        window.GOVUKFrontend.initAll();
     }
 
     onPostChatSurveyWebchatSubmitted(surveyPage) {
@@ -284,7 +286,8 @@ export default class CommonChatController {
                 { id: getRadioId("q2-"), text: getRadioValue("q2-"), freeform: false },
                 { id: getRadioId("q3-"), text: getRadioValue("q3-"), freeform: false },
                 { id: "q4-", text: getTextAreaValue("q4-"), freeform: true },
-                { id: getRadioId("q5-"), text: getRadioValue("q5-"), freeform: false }
+                { id: getRadioId("q5-"), text: getRadioValue("q5-"), freeform: false },
+                { id: "q6-", text: getTextAreaValue("q6-"), freeform: true }
             ]
         };
 
