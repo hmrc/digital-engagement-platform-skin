@@ -51,8 +51,8 @@ const html = `
                         <label class="govuk-label govuk-radios__label" for="q2--4">2. Difficult</label>
                       </div>
                       <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="q2--5" name="q2-" type="radio" value="Very Difficult">
-                        <label class="govuk-label govuk-radios__label" for="q2--5">1. Very Difficult</label>
+                        <input class="govuk-radios__input" id="q2--5" name="q2-" type="radio" value="Very difficult">
+                        <label class="govuk-label govuk-radios__label" for="q2--5">1. Very difficult</label>
                       </div>
                     </div>
                   </fieldset>
@@ -154,6 +154,12 @@ export default class PostChatSurveyWebchat {
         this.onSubmitted(this);
       }
     );
+
+    $('input[name="q5-"]').on('click', function() {
+       if ($(this).val() != 'Other') {
+            document.getElementById("q6-").value = "";
+       }
+    });
   }
 
   detach() {
