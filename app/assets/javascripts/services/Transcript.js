@@ -50,13 +50,41 @@ export default class Transcript {
 
     }
 
-    appendMessgeInLiveRegion(msg, id, msg_type, isVirtuaAssistance){
+    decodeHTMLEntities(text) {
+        var entities = [
+            ['amp', '&'],
+            ['apos', '\''],
+            ['#x27', '\''],
+            ['#x2F', '/'],
+            ['#39', '\''],
+            ['#47', '/'],
+            ['lt', '<'],
+            ['gt', '>'],
+            ['nbsp', ' '],
+            ['quot', '"']
+        ];
+
+        for (var i = 0, max = entities.length; i < max; ++i)
+            text = text.replace(new RegExp('&'+entities[i][0]+';', 'g'), entities[i][1]);
+
+        return text;
+    }
+
+
+    appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class){
         if(document.getElementById(id)){
+              if(that){
+                  var msg = that.decodeHTMLEntities(msg);
+              }
+
               document.getElementById(id).innerHTML = "<p class=govuk-visually-hidden>" + msg_type + "</p> " + msg;
               document.getElementById(id).classList.remove("govuk-visually-hidden");
         }
-        if(isVirtuaAssistance == true){
+        if(isVirtualAssistance == true){
               document.getElementById(id).focus();
+        }
+        if(that){
+              that._showLatestContent(msg_class);
         }
     }
 
@@ -76,7 +104,7 @@ export default class Transcript {
 
         this.content.appendChild(agentDiv);
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true);
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent);
 
 
         if (chatContainer) {
@@ -88,7 +116,6 @@ export default class Transcript {
             this.addSkipToBottomLink();
 
         }
-        this._showLatestContent(this.classes.Agent);
     }
 
     _fixUpVALinks(div) {
@@ -119,7 +146,7 @@ export default class Transcript {
 
         this.content.insertAdjacentHTML("beforeend", msgDiv);
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type, false);
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type, false, this, msg_class);
 
         if (chatContainer) {
 
@@ -131,10 +158,11 @@ export default class Transcript {
 
         }
 
-        this._showLatestContent(msg_class);
+
     }
 
     _showLatestContent(msg_class) {
+        const chatContainer = document.getElementById("ciapiSkinChatTranscript")
         const agentInner = msg_class.Inner;
         const innerClassArray = document.getElementsByClassName(agentInner);
         const outerAgent = msg_class.Outer;
@@ -150,13 +178,13 @@ export default class Transcript {
                 if (heightOfLastMessage > heightOfSkinChat) {
                     innerClassArray[lengthOfAgentInnerArray].scrollIntoView({ block: 'nearest' });
                 } else {
-                    this.content.scrollTo(0, this.content.scrollHeight);
+                    chatContainer.scrollTo(0, chatContainer.scrollHeight, "smooth");
                 }
             } else {
-                this.content.scrollTo(0, this.content.scrollHeight);
+                chatContainer.scrollTo(0, chatContainer.scrollHeight, "smooth");
             }
         } else {
-            this.content.scrollTo(0, this.content.scrollHeight);
+            chatContainer.scrollTo(0, chatContainer.scrollHeight, "smooth");
         }
     }
 }
