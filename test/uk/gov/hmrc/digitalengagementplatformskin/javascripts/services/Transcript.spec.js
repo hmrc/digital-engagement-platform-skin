@@ -40,7 +40,6 @@ describe("Transcript", () => {
             "beforeend",
             "<div class=system-outer><div class= \"govuk-visually-hidden system-inner\" id=liveMsgId50 aria-live=polite></div></div>"
         );
-        expect(content.scrollTo).toHaveBeenCalledWith(0, 42);
     });
 
     it("appends opener scripts", () => {
@@ -58,7 +57,6 @@ describe("Transcript", () => {
             "beforeend",
             "<div class=opener-outer><div class= \"govuk-visually-hidden opener-inner\" id=liveMsgId50 aria-live=polite></div></div>"
         );
-        expect(content.scrollTo).toHaveBeenCalledWith(0, 50);
     });
 
     it("appends agent messages", () => {
@@ -76,7 +74,6 @@ describe("Transcript", () => {
             "beforeend",
             "<div class=agent-outer><div class= \"govuk-visually-hidden agent-inner\" id=liveMsgId50 aria-live=polite></div></div>"
         );
-        expect(content.scrollTo).toHaveBeenCalledWith(0, 314);
     });
 
     it("appends customer messages", () => {
@@ -94,7 +91,6 @@ describe("Transcript", () => {
             "beforeend",
             "<div class=customer-outer><div class= \"govuk-visually-hidden customer-inner\" id=liveMsgId50></div></div>"
         );
-        expect(content.scrollTo).toHaveBeenCalledWith(0, 666);
     });
 
      it("appends customer messages without live region", () => {
@@ -112,7 +108,6 @@ describe("Transcript", () => {
                 "beforeend",
                 "<div class=customer-outer><div class= \"govuk-visually-hidden customer-inner\" id=liveMsgId50></div></div>"
             );
-            expect(content.scrollTo).toHaveBeenCalledWith(0, 666);
         });
 
         it("appends other messages(automated, agent etc) with live region", () => {
@@ -130,7 +125,6 @@ describe("Transcript", () => {
                         "beforeend",
                         "<div class=agent-outer><div class= \"govuk-visually-hidden agent-inner\" id=liveMsgId50 aria-live=polite></div></div>"
                     );
-                    expect(content.scrollTo).toHaveBeenCalledWith(0, 666);
                 });
 
     it("appends automaton messages", () => {
@@ -145,7 +139,6 @@ describe("Transcript", () => {
         transcript.addAutomatonMsg("I'm not a real person");
 
         expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
-        expect(content.scrollTo).toHaveBeenCalledWith(0, 1024);
     });
 
 
@@ -177,10 +170,11 @@ describe("Transcript", () => {
                 scrollTo: jest.fn(),
                 scrollHeight: 314
             };
+
             const vaLinkCallback = jest.fn();
             const transcript = new Transcript(content, vaLinkCallback, messageClasses);
 
-            let div = document.createElement("div");
+             let div = document.createElement("div");
              div.setAttribute("id", "test");
              document.body.appendChild(div);
 
@@ -202,7 +196,6 @@ describe("Transcript", () => {
 
             expect(msg).toBe("<this is ' test>");
             });
-
 
     //TODO create a test for each of the above scenarios where the incoming message is higher than the parent div
 });
