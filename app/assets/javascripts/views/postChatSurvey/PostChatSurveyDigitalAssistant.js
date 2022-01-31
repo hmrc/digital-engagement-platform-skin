@@ -97,13 +97,13 @@ export default class PostChatSurveyDigitalAssistant {
                 this.onSubmitted(this);
             }
         );
-    }
 
-    $('input[name="q3-"]').on('click', function() {
-        if ($(this).val() != 'Other') {
-            document.getElementById("q4-").value = "";
-        }
-    });
+        $('input[name="q3-"]').on('click', function() {
+           if ($(this).val() != 'Other') {
+                document.getElementById("q4-").value = "";
+           }
+        });
+    }
 
     detach() {
         this.container.removeChild(this.wrapper)
