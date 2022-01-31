@@ -189,7 +189,7 @@ export default class CommonChatController {
     closeChat() {
 
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
-            //this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automaton, timestamp) ||
+            //this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automaton, timestamp)
             this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automaton, timestamp);
         }
 
