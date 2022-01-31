@@ -293,8 +293,8 @@ describe("PostChatSurveyDigitalAssistantService", () => {
                     "How%2520could%2520we%2520improve%2520it%253F%2C" +
                     "If%2520you%2520had%2520not%2520used%2520the%2520chatbot%2520today%252C%2520how%2520else%2520would%2520you%2520have%2520contacted%2520us%253F%2C" +
                     "Provide%2520other%2520contact%2520options%253F",
-                "custom.decisiontree.answers": "Yes%2Ctext%2520area%2520text%2CPhone%2C",
-                "custom.decisiontree.answerIDs": "Yes%2Ctext%2520area%2520text%2CPhone%2C",
+                "custom.decisiontree.answers": "Yes%2Ctext%2520area%2520text%2CPhone",
+                "custom.decisiontree.answerIDs": "Yes%2Ctext%2520area%2520text%2CPhone",
                 "custom.decisiontree.answerTypes": "0,1,0,1",
                 clientTimestamp: timestamp,
                 automatonType: "satisfactionSurvey",
