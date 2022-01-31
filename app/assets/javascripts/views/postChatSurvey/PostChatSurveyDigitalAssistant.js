@@ -60,24 +60,18 @@ const html = `
                         <label class="govuk-label govuk-radios__label" for="q3--4">I would not have used another contact method</label>
                       </div>
                       <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="q3--5" name="q3-" type="radio" value="Other">
+                        <input class="govuk-radios__input" id="q3-5" name="q3-" type="radio" value="Other" aria-controls="other-contact-details">
                         <label class="govuk-label govuk-radios__label" for="q3--5">Other</label>
+                      </div>
+                      <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="other-contact-details">
+                        <div class="govuk-form-group">
+                          <label class="govuk-label" for="contact-by-other">Provide other contact options?</label>
+                          <textarea class="govuk-textarea"  id="q4-" name="q4-" rows="5" aria-describedby="other-contact-details"></textarea>
+                        </div>
                       </div>
                     </div>
                   </fieldset>
-
-                  <fieldset class="govuk-fieldset" id="question4">
-                    <h2 class="govuk-label-wrapper">
-                      <label class="govuk-label govuk-label--m" for="other-contact-details">
-                        Provide other contact options?
-                      </label>
-                    </h2>
-                    <textarea class="govuk-textarea" id="q4-" name="q4-" rows="5" aria-describedby="other-contact-details"></textarea>
-                  </fieldset>
-                </div>
-
-                <button id="submitPostChatSurvey" class="govuk-button">Submit</button>
-
+                  <button id="submitPostChatSurvey" class="govuk-button">Submit</button>
               </form>
             </div>
         </div>

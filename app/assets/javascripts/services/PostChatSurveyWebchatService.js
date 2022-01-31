@@ -152,18 +152,28 @@ export default class PostChatSurveyWebchatService {
                 escape(encodeURIComponent(survey.questions[2].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[3].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[4].text)),
-            "custom.decisiontree.answerIDs":
+            "custom.decisiontree.answerIDs": (survey.answers[4].text.length > 0 ?
                 escape(encodeURIComponent(survey.answers[0].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.answers[1].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.answers[2].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.answers[3].text)) + encodeURIComponent(",") +
-                escape(encodeURIComponent(survey.answers[4].text)),
-            "custom.decisiontree.answers":
-                escape(encodeURIComponent(encodeURIComponent(survey.answers[0].text))) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.answers[4].text)) :
+                escape(encodeURIComponent(survey.answers[0].text)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.answers[1].text)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.answers[2].text)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.answers[3].text))
+            ),
+            "custom.decisiontree.answers": (survey.answers[4].text.length > 0 ?
+                escape(encodeURIComponent(survey.answers[0].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.answers[1].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.answers[2].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.answers[3].text)) + encodeURIComponent(",") +
-                escape(encodeURIComponent(survey.answers[4].text)),
+                escape(encodeURIComponent(survey.answers[4].text)) :
+                escape(encodeURIComponent(survey.answers[0].text)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.answers[1].text)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.answers[2].text)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.answers[3].text))
+                ),
             "custom.decisiontree.answerTypes":
                 escape(encodeURIComponent("0")) + "," +
                 escape(encodeURIComponent("0")) + "," +
