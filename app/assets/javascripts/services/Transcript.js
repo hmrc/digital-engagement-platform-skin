@@ -181,10 +181,10 @@ export default class Transcript {
                     chatContainer.scrollTo(0, chatContainer.scrollHeight, "smooth");
                 }
             } else {
-                chatContainer.scrollTo(0, chatContainer.scrollHeight);
+                chatContainer.scrollTo(0, chatContainer.scrollHeight, "smooth");
             }
         } else {
-            chatContainer.scrollTo(0, chatContainer.scrollHeight);
+            chatContainer.scrollTo(0, chatContainer.scrollHeight, "smooth");
         }
     }
 }
