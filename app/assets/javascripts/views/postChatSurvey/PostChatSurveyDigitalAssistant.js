@@ -99,6 +99,12 @@ export default class PostChatSurveyDigitalAssistant {
         );
     }
 
+    $('input[name="q3-"]').on('click', function() {
+        if ($(this).val() != 'Other') {
+            document.getElementById("q4-").value = "";
+        }
+    });
+
     detach() {
         this.container.removeChild(this.wrapper)
     }
