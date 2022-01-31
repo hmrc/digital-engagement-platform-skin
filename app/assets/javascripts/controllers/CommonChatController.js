@@ -289,7 +289,7 @@ export default class CommonChatController {
         this._moveToClosingState();
         //this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp) ||
         this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automaton, timestamp);
-        //this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page))) ||
+        //this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)))
         this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
         window.GOVUKFrontend.initAll();
     }
