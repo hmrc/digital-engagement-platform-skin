@@ -71,7 +71,7 @@ export default class Transcript {
     }
 
 
-    appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that){
+    appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class){
         if(document.getElementById(id)){
               if(that){
                   var msg = that.decodeHTMLEntities(msg);
@@ -82,6 +82,9 @@ export default class Transcript {
         }
         if(isVirtualAssistance == true){
               document.getElementById(id).focus();
+        }
+        if(that){
+              that._showLatestContent(msg_class);
         }
     }
 
@@ -101,7 +104,7 @@ export default class Transcript {
 
         this.content.appendChild(agentDiv);
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this);
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent);
 
 
         if (chatContainer) {
@@ -113,7 +116,6 @@ export default class Transcript {
             this.addSkipToBottomLink();
 
         }
-        this._showLatestContent(this.classes.Agent);
     }
 
     _fixUpVALinks(div) {
@@ -144,7 +146,7 @@ export default class Transcript {
 
         this.content.insertAdjacentHTML("beforeend", msgDiv);
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type, false, this);
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type, false, this, msg_class);
 
         if (chatContainer) {
 
@@ -156,10 +158,11 @@ export default class Transcript {
 
         }
 
-        this._showLatestContent(msg_class);
+
     }
 
     _showLatestContent(msg_class) {
+        const chatContainer = document.getElementById("ciapiSkinChatTranscript")
         const agentInner = msg_class.Inner;
         const innerClassArray = document.getElementsByClassName(agentInner);
         const outerAgent = msg_class.Outer;
@@ -175,13 +178,13 @@ export default class Transcript {
                 if (heightOfLastMessage > heightOfSkinChat) {
                     innerClassArray[lengthOfAgentInnerArray].scrollIntoView({ block: 'nearest' });
                 } else {
-                    this.content.scrollTo(0, this.content.scrollHeight);
+                    chatContainer.scrollTo(0, chatContainer.scrollHeight, "smooth");
                 }
             } else {
-                this.content.scrollTo(0, this.content.scrollHeight);
+                chatContainer.scrollTo(0, chatContainer.scrollHeight, "smooth");
             }
         } else {
-            this.content.scrollTo(0, this.content.scrollHeight);
+            chatContainer.scrollTo(0, chatContainer.scrollHeight, "smooth");
         }
     }
 }

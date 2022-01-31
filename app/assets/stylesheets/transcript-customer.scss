@@ -7,6 +7,7 @@
   }
   padding: 8px 15px;
   clear: both;
+  overflow-wrap: break-word
 }
 .ciapi-customer-message::before, .ciapi-customer-message::after {
     content: " ";

@@ -35,8 +35,8 @@ const html = `
                     </legend>
                     <div class="govuk-radios" data-module="govuk-radios">
                       <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="q2-" name="q2-" type="radio" value="Very Easy">
-                        <label class="govuk-label govuk-radios__label" for="formItem-">5. Very Easy</label>
+                        <input class="govuk-radios__input" id="q2-" name="q2-" type="radio" value="Very easy">
+                        <label class="govuk-label govuk-radios__label" for="formItem-">5. Very easy</label>
                       </div>
                       <div class="govuk-radios__item">
                         <input class="govuk-radios__input" id="q2--2" name="q2-" type="radio" value="Easy">
@@ -63,24 +63,24 @@ const html = `
                     </legend>
                     <div class="govuk-radios">
                       <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="q3-" name="q3-" type="radio" value="Very Satisfied">
-                        <label class="govuk-label govuk-radios__label" for="q3-">5. Very Satisfied</label>
+                        <input class="govuk-radios__input" id="q3-" name="q3-" type="radio" value="Very satisfied">
+                        <label class="govuk-label govuk-radios__label" for="q3-">5. Very satisfied</label>
                       </div>
                       <div class="govuk-radios__item">
                         <input class="govuk-radios__input" id="q3--2" name="q3-" type="radio" value="Satisfied">
                         <label class="govuk-label govuk-radios__label" for="q3--2">4. Satisfied</label>
                       </div>
                       <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="q3--3" name="q3-" type="radio" value="Neither Satisfied nor dissatisfied">
-                        <label class="govuk-label govuk-radios__label" for="q3--3">3. Neither Satisfied nor dissatisfied</label>
+                        <input class="govuk-radios__input" id="q3--3" name="q3-" type="radio" value="Neither satisfied nor dissatisfied">
+                        <label class="govuk-label govuk-radios__label" for="q3--3">3. Neither satisfied nor dissatisfied</label>
                       </div>
                       <div class="govuk-radios__item">
                         <input class="govuk-radios__input" id="q3--4" name="q3-" type="radio" value="Dissatisfied">
                         <label class="govuk-label govuk-radios__label" for="q3--4">2. Dissatisfied</label>
                       </div>
                       <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="q3--5" name="q3-" type="radio" value="Very Dissatisfied">
-                        <label class="govuk-label govuk-radios__label" for="q3--5">1. Very Dissatisfied</label>
+                        <input class="govuk-radios__input" id="q3--5" name="q3-" type="radio" value="Very dissatisfied">
+                        <label class="govuk-label govuk-radios__label" for="q3--5">1. Very dissatisfied</label>
                       </div>
                     </div>
                   </fieldset>
@@ -98,7 +98,7 @@ const html = `
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                         <h2 class="govuk-fieldset__heading">If you had not used webchat today, how else would you have contacted us?</h2>
                     </legend>
-                    <div class="govuk-radios">
+                    <div class="govuk-radios" data-module="govuk-radios">
                         <div class="govuk-radios__item">
                             <input class="govuk-radios__input" id="q5-" name="q5-" type="radio" value="Phone">
                             <label class="govuk-label govuk-radios__label" for="formItem-">Phone</label>
@@ -112,10 +112,17 @@ const html = `
                             <label class="govuk-label govuk-radios__label" for="q5--3">I would not have used another contact method</label>
                         </div>
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="q5--4" name="q5-" type="radio" value="Other">
+                            <input class="govuk-radios__input" id="q5--4" name="q5-" type="radio" value="Other" aria-controls="conditional-contact">
                             <label class="govuk-label govuk-radios__label" for="q5--4">Other</label>
                         </div>
+                         <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-contact">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label" for="contact-by-other">Provide other contact option</label>
+                                <textarea class="govuk-textarea" id="q6-" name="q6-" rows="5" aria-describedby="more-detail-hint"></textarea>
+                            </div>
+                         </div>
                     </div>
+
                   </fieldset>
 
                 </div>
