@@ -154,6 +154,12 @@ export default class PostChatSurveyWebchat {
         this.onSubmitted(this);
       }
     );
+
+    $('input[name="q5-"]').on('click', function() {
+       if ($(this).val() != 'Other') {
+            document.getElementById("q6-").value = "";
+       }
+    });
   }
 
   detach() {
