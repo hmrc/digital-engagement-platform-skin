@@ -29,7 +29,6 @@ const survey = {
         { id: "q2", text: "How could we improve it?", freeform: false },
         { id: "q3", text: "If you had not used the chatbot today, how else would you have contacted us?", freeform: false },
         { id: "q4", text: "Provide other contact options", freeform: false }
-
     ],
     answers: [
         { id: "a1", text: "Yes", freeform: false },
@@ -46,7 +45,6 @@ const surveyWithoutOption = {
         { id: "q2", text: "How could we improve it?", freeform: false },
         { id: "q3", text: "If you had not used the chatbot today, how else would you have contacted us?", freeform: false },
         { id: "q4", text: "Provide other contact options", freeform: false }
-
     ],
     answers: [
         { id: "a1", text: "Yes", freeform: false },
