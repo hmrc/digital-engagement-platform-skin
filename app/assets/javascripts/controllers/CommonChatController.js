@@ -34,7 +34,7 @@ const digitalAssistantSurvey = {
         { id: ["question1"], text: "Was the digital assistant useful?", freeform: false },
         { id: ["question2"], text: "How could we improve it?", freeform: false },
         { id: ["question3"], text: "If you had not used the chatbot today, how else would you have contacted us?", freeform: false },
-        { id: ["question4"], text: "Provide other contact options?", freeform: false }
+        { id: ["question4"], text: "Provide other contact options", freeform: false }
     ]
 }
 

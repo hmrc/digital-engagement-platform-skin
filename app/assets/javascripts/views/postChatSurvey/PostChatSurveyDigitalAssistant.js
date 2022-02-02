@@ -32,7 +32,7 @@ const html = `
                   <fieldset class="govuk-fieldset" id="question2">
                     <h2 class="govuk-label-wrapper">
                         <label class="govuk-label govuk-label--m" for="more-detail">
-                            How could you improve it?
+                            How could we improve it?
                         </label>
                     </h2>
                     <textarea class="govuk-textarea" id="q2-" name="q2-" rows="5" aria-describedby="more-detail-hint"></textarea>
@@ -65,7 +65,7 @@ const html = `
                       </div>
                       <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="other-contact-details">
                         <div class="govuk-form-group">
-                          <label class="govuk-label" for="contact-by-other">Provide other contact options?</label>
+                          <label class="govuk-label" for="contact-by-other">Provide other contact options</label>
                           <textarea class="govuk-textarea"  id="q4-" name="q4-" rows="5" aria-describedby="other-contact-details"></textarea>
                         </div>
                       </div>
@@ -108,4 +108,5 @@ export default class PostChatSurveyDigitalAssistant {
     detach() {
         this.container.removeChild(this.wrapper)
     }
+  
 }
