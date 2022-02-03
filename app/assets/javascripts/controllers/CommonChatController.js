@@ -6,6 +6,7 @@ import * as PopupContainerHtml from '../views/popup/PopupContainerHtml'
 import * as ChatStates from '../services/ChatStates'
 import PostChatSurveyWebchatService from '../services/PostChatSurveyWebchatService'
 import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
+import * as MessageType from '../NuanceMessageType'
 
 const automaton = {
     id: "survey-13000303",
@@ -272,10 +273,60 @@ export default class CommonChatController {
         this.state.onClickedVALink(e);
     }
 
+    hasEscalated(msg_in) {
+        const msg = msg_in.data;
+        return msg.messageType;
+        //var escalated = null;
+
+        //if(escalated === false && msg.messageType === MessageType.ChatRoom_MemberConnected) {
+         //   escalated = true;
+        //}
+
+        //return escalated;
+    }
+
+    _displayPCS(msg_in) {
+        const msg = msg_in.data;
+        return msg.messageType;
+    }
+
+    _hasEscalated() {
+
+    }
+
+    _getMessages() {
+        console.log(this.sdk.getMessages((msg_in) => msg_in.length));
+        //alert(escalated);
+    }
+
     onConfirmEndChat() {
         this._moveToClosingState();
-        this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp);
-        this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
+        this._getMessages();
+        //this.sdk.getMessages((msg_in) => {
+        //    const msg = msg_in.data;
+
+         //   alert("msg_in length : " + msg_in.data.length);
+         //   alert("msg length : " + msg.length);
+          //  if(msg.messageType === MessageType.ChatRoom_MemberConnected){
+                //alert("WEBCHAT!");
+         //       return;
+          //  }
+
+            //this.hasEscalated(msg_in));
+       // });
+
+        //alert("DA!");
+        //console.log(materials.map(material => material.length));
+        // expected output: Array [8, 6, 7, 9]
+
+
+        //this._moveToState(new ChatStates.ShownState((text) => this._engageChat(text), () => this.closeChat()));
+
+
+        //this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp);
+        //this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
+
+
         window.GOVUKFrontend.initAll();
     }
 
