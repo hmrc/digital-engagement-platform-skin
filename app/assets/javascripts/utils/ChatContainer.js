@@ -102,6 +102,12 @@ export default class ChatContainer {
                 e.preventDefault()
             }
         });
+
+       this._registerEventListener("#ciapiSkinChatTranscript", (e) => {
+            if ((e.target.tagName.toLowerCase() === 'a') && !!e.target.dataset && !!e.target.dataset.vtzJump) {
+                Inq.SDK.sendVALinkMessage(e, null, null, null);
+            }
+        });
     }
 
     confirmEndChat() {
