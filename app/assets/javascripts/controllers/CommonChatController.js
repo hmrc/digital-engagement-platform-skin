@@ -15,6 +15,8 @@ const automaton = {
 
 const timestamp = Date.now();
 
+var escalated = false;
+
 const webchatSurvey = {
     id: "13000303",
     questions: [
@@ -64,7 +66,6 @@ export default class CommonChatController {
         this.sdk = null;
         this.state = new ChatStates.NullState();
         this.minimised = false;
-        this.escalated = false;
     }
 
     _launchChat() {
@@ -274,48 +275,33 @@ export default class CommonChatController {
         this.state.onClickedVALink(e);
     }
 
+    _getMessages() {
+        this.sdk.getMessages((msg_in) => this._hasEscalated(msg_in));
+    }
+
     _hasEscalated(msg_in) {
         const msg = msg_in.data;
 
         if(msg.messageType === MessageType.ChatRoom_MemberConnected) {
-            alert("FOUND AN ESCALATED MESSAGE!")
-            this.escalated = true;
+            escalated = true;
         }
     }
 
     _showPostChatSurvey() {
-        alert("IT IS NOW : " + this.escalated);
+        if(escalated) {
+            this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp);
+            this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
+        } else {
+           alert("TONY'S PCS!!!!");
+        }
     }
 
     onConfirmEndChat() {
         this._moveToClosingState();
 
-        this.sdk.getMessages((msg_in) => this._hasEscalated(msg_in, () => this._showPostChatSurvey()));
+        this._getMessages();
 
-
-        //this.sdk.getMessages((msg_in) => {
-        //    const msg = msg_in.data;
-
-         //   alert("msg_in length : " + msg_in.data.length);
-         //   alert("msg length : " + msg.length);
-          //  if(msg.messageType === MessageType.ChatRoom_MemberConnected){
-                //alert("WEBCHAT!");
-         //       return;
-          //  }
-
-            //this.hasEscalated(msg_in));
-       // });
-
-        //alert("DA!");
-        //console.log(materials.map(material => material.length));
-        // expected output: Array [8, 6, 7, 9]
-
-
-        //this._moveToState(new ChatStates.ShownState((text) => this._engageChat(text), () => this.closeChat()));
-
-
-        //this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp);
-        //this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
+        setTimeout(this._showPostChatSurvey(), 300);
 
 
         window.GOVUKFrontend.initAll();
