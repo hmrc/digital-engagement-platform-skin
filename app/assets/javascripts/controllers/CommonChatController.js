@@ -64,6 +64,7 @@ export default class CommonChatController {
         this.sdk = null;
         this.state = new ChatStates.NullState();
         this.minimised = false;
+        this.escalated = false;
     }
 
     _launchChat() {
@@ -273,35 +274,25 @@ export default class CommonChatController {
         this.state.onClickedVALink(e);
     }
 
-    hasEscalated(msg_in) {
+    _hasEscalated(msg_in) {
         const msg = msg_in.data;
-        return msg.messageType;
-        //var escalated = null;
 
-        //if(escalated === false && msg.messageType === MessageType.ChatRoom_MemberConnected) {
-         //   escalated = true;
-        //}
-
-        //return escalated;
+        if(msg.messageType === MessageType.ChatRoom_MemberConnected) {
+            alert("FOUND AN ESCALATED MESSAGE!")
+            this.escalated = true;
+        }
     }
 
-    _displayPCS(msg_in) {
-        const msg = msg_in.data;
-        return msg.messageType;
-    }
-
-    _hasEscalated() {
-
-    }
-
-    _getMessages() {
-        console.log(this.sdk.getMessages((msg_in) => msg_in.length));
-        //alert(escalated);
+    _showPostChatSurvey() {
+        alert("IT IS NOW : " + this.escalated);
     }
 
     onConfirmEndChat() {
         this._moveToClosingState();
-        this._getMessages();
+
+        this.sdk.getMessages((msg_in) => this._hasEscalated(msg_in, () => this._showPostChatSurvey()));
+
+
         //this.sdk.getMessages((msg_in) => {
         //    const msg = msg_in.data;
 
