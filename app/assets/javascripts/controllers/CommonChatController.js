@@ -15,8 +15,6 @@ const automaton = {
 
 const timestamp = Date.now();
 
-var escalated = false;
-
 const webchatSurvey = {
     id: "13000303",
     questions: [
@@ -66,6 +64,8 @@ export default class CommonChatController {
         this.sdk = null;
         this.state = new ChatStates.NullState();
         this.minimised = false;
+        this.escalated = false;
+        //this._getMessages(window);
     }
 
     _launchChat() {
@@ -275,34 +275,17 @@ export default class CommonChatController {
         this.state.onClickedVALink(e);
     }
 
-    _getMessages() {
-        this.sdk.getMessages((msg_in) => this._hasEscalated(msg_in));
-    }
+    onConfirmEndChat() {
+        let escalated = this.state.isEscalated();
 
-    _hasEscalated(msg_in) {
-        const msg = msg_in.data;
+        this._moveToClosingState();
 
-        if(msg.messageType === MessageType.ChatRoom_MemberConnected) {
-            escalated = true;
-        }
-    }
-
-    _showPostChatSurvey() {
         if(escalated) {
             this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp);
             this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
         } else {
            alert("TONY'S PCS!!!!");
         }
-    }
-
-    onConfirmEndChat() {
-        this._moveToClosingState();
-
-        this._getMessages();
-
-        setTimeout(this._showPostChatSurvey(), 300);
-
 
         window.GOVUKFrontend.initAll();
     }
