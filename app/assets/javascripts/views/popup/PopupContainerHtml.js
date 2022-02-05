@@ -12,17 +12,17 @@ export const ContainerHtml = `
     <div id="tools">
         <div id="print">
             <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                Print or save
-            </button>
+                Print or save chat
+            </bu
+        </div>tton>
         </div>
         <div id="sound">
             <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                Turn sound on
+                Turn notification sound on
             </button>
-        </div>
     </div>
     <div id="ciapiChatComponents">
-        <div id="ciapiSkinChatTranscript" tabindex="0" aria-label="chat transcript">
+        <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript" tabindex="0" aria-label="chat transcript">
             <div id="skipToBottom"><a id="skipToBottomLink" href="#skipToTopLink" class="govuk-skip-link">Skip to bottom of conversation</a></div>
             <p class="info"><img role="img" src="/ask-hmrc/assets/media/intro-warn.svg" alt="Note">You are currently chatting with a computer.</p>
         </div>

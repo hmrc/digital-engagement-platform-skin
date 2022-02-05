@@ -3,18 +3,18 @@ export const ContainerHtml = `
 <div id="ciapiSkinContainer">
     <div id="ciapiSkinHeader">
         <div id="print">
-            <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                Print or save
+            <button id="printButton" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                Print or save chat
             </button>
         </div>
         <div id="sound">
             <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                Turn sound on
+                Turn notification sound on
             </button>
         </div>
     </div>
     <div id="ciapiChatComponents">
-        <div id="ciapiSkinChatTranscript" tabindex="0" aria-label="chat transcript">
+        <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript" tabindex="0" aria-label="chat transcript">
             <div id="skipToBottom"><a id="skipToBottomLink" href="#" class="govuk-skip-link">Skip to bottom of conversation</a></div>
             <p class="info"><img role="img" src="/ask-hmrc/assets/media/intro-warn.svg" alt="Note">You are currently chatting with a computer.</p>
         </div>

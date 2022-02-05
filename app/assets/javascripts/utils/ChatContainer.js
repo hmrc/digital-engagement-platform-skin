@@ -7,7 +7,7 @@ const nullEventHandler = {
     onHideChat: function () { },
     onRestoreChat: function () { },
     onClickedVALink: function (e) { },
-    onConfirmEndChat: function () { }
+    onConfirmEndChat: function () { },
 };
 
 export default class ChatContainer {
@@ -68,6 +68,7 @@ export default class ChatContainer {
     }
 
     _registerEventListeners() {
+
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
             this.eventHandler.onSend();
         });
@@ -108,6 +109,18 @@ export default class ChatContainer {
                 Inq.SDK.sendVALinkMessage(e, null, null, null);
             }
         });
+
+        this._registerEventListener("#printButton", (e) => {
+                    this.eventHandler.onPrint();
+                });
+                window.addEventListener('beforeprint', (event) => {
+                      this.eventHandler.beforePrintCall();
+
+                    });
+                    window.addEventListener('afterprint', (event) => {
+                           this.eventHandler.afterPrintCall();
+
+                        });
     }
 
     confirmEndChat() {
