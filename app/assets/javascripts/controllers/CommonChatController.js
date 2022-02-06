@@ -212,6 +212,17 @@ export default class CommonChatController {
         this._moveToChatNullState();
     }
 
+    getPrintDate() {
+
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    const d = new Date();
+    return d.getDate() + " " + monthNames[d.getMonth()] + " " + d.getUTCFullYear();
+
+    }
+
     onPrint() {
         window.print();
     }
@@ -219,6 +230,11 @@ export default class CommonChatController {
     beforePrintCall(){
         if(document.getElementById("ciapiSkinFooter"))
             document.getElementById("ciapiSkinFooter").style.display = "none";
+
+        if(document.getElementById("tools"))
+            document.getElementById("tools").style.display = "none";
+
+
         if(document.getElementById("ciapiSkinHeader"))
             document.getElementById("ciapiSkinHeader").style.display = "none";
         if(document.getElementById("info"))
@@ -233,10 +249,14 @@ export default class CommonChatController {
             document.getElementsByClassName("govuk-phase-banner")[0].style.display = "none";
 
         document.getElementsByClassName("hmrc-report-technical-issue")[0].style.display = "none";
+        document.getElementById("printDetails").style.display = "";
         document.getElementsByClassName("govuk-footer")[0].style.display = "none";
         document.getElementsByClassName("govuk-heading-xl")[0].style.display = "none";
+        document.getElementById("print-date").innerHTML = this.getPrintDate();
 
     }
+
+
 
     afterPrintCall(){
        if(document.getElementById("ciapiSkinFooter"))
@@ -253,10 +273,14 @@ export default class CommonChatController {
             document.getElementsByClassName("govuk-back-link")[0].style.display = "";
         if(document.getElementsByClassName("govuk-phase-banner")[0])
             document.getElementsByClassName("govuk-phase-banner")[0].style.display = "";
+        if(document.getElementById("tools"))
+            document.getElementById("tools").style.display = "";
 
         document.getElementsByClassName("govuk-heading-xl")[0].style.display = "";
         document.getElementsByClassName("hmrc-report-technical-issue")[0].style.display = "";
         document.getElementsByClassName("govuk-footer")[0].style.display = "";
+        document.getElementById("printDetails").style.display = "none";
+
 
     }
 

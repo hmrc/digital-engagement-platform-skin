@@ -112,12 +112,14 @@ export default class ChatContainer {
 
         this._registerEventListener("#printButton", (e) => {
                     this.eventHandler.onPrint();
+                     e.preventDefault()
                 });
-                window.addEventListener('beforeprint', (event) => {
+                window.addEventListener('beforeprint', (e) => {
                       this.eventHandler.beforePrintCall();
+                       e.preventDefault()
 
                     });
-                    window.addEventListener('afterprint', (event) => {
+                    window.addEventListener('afterprint', (e) => {
                            this.eventHandler.afterPrintCall();
 
                         });

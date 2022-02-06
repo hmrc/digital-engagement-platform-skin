@@ -100,7 +100,14 @@ export default class Transcript {
         agentDiv.classList.add(this.classes.Agent.Outer);
         agentDiv.insertAdjacentHTML("beforeend", msgDiv);
 
+
+        let printMessageSuffix = document.createElement("span");
+        printMessageSuffix.className = "float-left";
+        printMessageSuffix.innerHTML = "HMRC: "
+
         this._fixUpVALinks(agentDiv);
+
+        this.content.appendChild(printMessageSuffix);
 
         this.content.appendChild(agentDiv);
 
@@ -130,23 +137,58 @@ export default class Transcript {
         }
     }
 
-    _appendMessage(msg, msg_class, msg_type, isCustomerMsg) {
+    _appendMessage(msg, msgTimestamp, msg_class, msg_type, isCustomerMsg, isSystemMsg) {
 
         var id = "liveMsgId" + ( Math.random() * 100);
 
+        var printTimeStamp = document.createElement("p");
+
         if(isCustomerMsg == true){
                 var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" id=${id}></div></div>`;
+                var printMessageSuffix = document.createElement("span");
+                printMessageSuffix.className = "print-only print-float-right govuk-!-font-weight-bold";
+                printMessageSuffix.innerHTML = "You: ";
+
+                printTimeStamp.className = "print-only print-float-right print-timestamp-right";
         }
         else{
-                var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" tabindex=-1 id=${id} aria-live=polite></div></div>`;
+            if(isSystemMsg){
+                var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" id=${id} tabindex=-1 aria-live=polite></div></div>`;
+            }
+            else{
+                var msgDiv = `<div class=${msg_class.Outer}><div class= "govuk-visually-hidden ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
+                var printMessageSuffix = document.createElement("span");
+                printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold";
+                if(window.Agent_Name != null){
+                    printMessageSuffix.innerHTML = window.Agent_Name + ": ";
+                }
+                else{
+                    printMessageSuffix.innerHTML = "HMRC: ";
+                }
+
+                printTimeStamp.className = "print-only print-float-left";
+            }
         }
 
         const skipToTop = document.getElementById("skipToTop");
-        const chatContainer = document.getElementById("ciapiSkinChatTranscript")
+        const chatContainer = document.getElementById("ciapiSkinChatTranscript");
+
+        if(!isSystemMsg)
+        {
+            printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
+            this.content.appendChild(printMessageSuffix);
+        }
+
+        if(window.chatId){
+            document.getElementById("chat-id").innerHTML = window.chatId ;
+        }
+
 
         this.content.insertAdjacentHTML("beforeend", msgDiv);
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type, false, this, msg_class);
+        this.content.appendChild(printTimeStamp);
+
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type, false, this, msg_class, isSystemMsg);
 
         if (chatContainer) {
 
@@ -155,9 +197,7 @@ export default class Transcript {
             }
 
             this.addSkipToBottomLink();
-
         }
-
 
     }
 

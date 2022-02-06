@@ -263,3 +263,14 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
 #heading_chat_ended:focus, #legend_give_feedback:focus, #heading_end_chat_popup:focus{
     outline:0;
 }
+
+.float-right{
+    min-width: 8em;
+    float: right;
+    display: inline-block;
+}
+
+.float-left{
+    clear: both;
+    display: inline-block;
+}

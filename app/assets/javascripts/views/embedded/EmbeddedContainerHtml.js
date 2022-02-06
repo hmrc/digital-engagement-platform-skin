@@ -1,15 +1,19 @@
 'use strict';
 export const ContainerHtml = `
+<div id="printDetails" style="display:none" class="govuk-!-padding-top-8 govuk-!-padding-bottom-8">
+<p class="govuk-body">Chat id: <span id="chat-id"></span></p>
+<p id="print-date" class="govuk-body"></p>
+</div>
 <div id="ciapiSkinContainer">
     <div id="ciapiSkinHeader">
         <div id="print">
             <button id="printButton" class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                Print or save chat
+                Print
             </button>
         </div>
         <div id="sound">
             <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                Turn notification sound on
+                sound on
             </button>
         </div>
     </div>
