@@ -254,6 +254,11 @@ export default class CommonChatController {
         document.getElementsByClassName("govuk-heading-xl")[0].style.display = "none";
         document.getElementById("print-date").innerHTML = this.getPrintDate();
 
+        var printMessageSuffix = document.getElementsByClassName("print-only");
+        for(var i = 0; i < printMessageSuffix.length; i++){
+            printMessageSuffix[i].style.display = "block";
+        }
+
     }
 
 
@@ -280,6 +285,11 @@ export default class CommonChatController {
         document.getElementsByClassName("hmrc-report-technical-issue")[0].style.display = "";
         document.getElementsByClassName("govuk-footer")[0].style.display = "";
         document.getElementById("printDetails").style.display = "none";
+
+        var printMessageSuffix = document.getElementsByClassName("print-only");
+        for(var i = 0; i < printMessageSuffix.length; i++){
+            printMessageSuffix[i].style.display = "none";
+        }
 
 
     }

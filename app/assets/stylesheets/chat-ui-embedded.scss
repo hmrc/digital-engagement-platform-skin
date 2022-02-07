@@ -273,4 +273,13 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
 .float-left{
     clear: both;
     display: inline-block;
+    width: 30em;
+}
+
+.print-only{
+    display: none;
+}
+
+.print-timestamp-right{
+    clear:both;
 }

@@ -88,6 +88,17 @@ export default class Transcript {
         }
     }
 
+    getPrintTimeStamp(date) {
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      var ampm = hours >= 12 ? 'pm' : 'am';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      minutes = minutes < 10 ? '0'+minutes : minutes;
+      var strTime = hours + ':' + minutes + ' ' + ampm;
+      return strTime;
+    }
+
     addAutomatonMsg(msg) {
 
         var id = "liveAutomatedMsgId" + ( Math.random() * 100);
@@ -102,14 +113,21 @@ export default class Transcript {
 
 
         let printMessageSuffix = document.createElement("span");
-        printMessageSuffix.className = "float-left";
-        printMessageSuffix.innerHTML = "HMRC: "
+        printMessageSuffix.className = "print-only float-left govuk-!-font-weight-bold";
+        printMessageSuffix.innerHTML = "HMRC: ";
+
+        var printTimeStamp = document.createElement("p");
+        printTimeStamp.className = "print-only float-left";
+        printTimeStamp.innerHTML = this.getPrintTimeStamp(new Date);
 
         this._fixUpVALinks(agentDiv);
 
         this.content.appendChild(printMessageSuffix);
 
         this.content.appendChild(agentDiv);
+
+        this.content.appendChild(printTimeStamp);
+
 
         setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent);
 
@@ -150,6 +168,7 @@ export default class Transcript {
                 printMessageSuffix.innerHTML = "You: ";
 
                 printTimeStamp.className = "print-only print-float-right print-timestamp-right";
+
         }
         else{
             if(isSystemMsg){
@@ -182,7 +201,6 @@ export default class Transcript {
         if(window.chatId){
             document.getElementById("chat-id").innerHTML = window.chatId ;
         }
-
 
         this.content.insertAdjacentHTML("beforeend", msgDiv);
 
