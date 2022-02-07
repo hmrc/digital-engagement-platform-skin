@@ -43,9 +43,14 @@ export class EngagedState {
         this.sdk = sdk;
         this.container = container;
         this.closeChat = closeChat;
+        this.escalated = false;
 
         this._displayPreviousMessages(previousMessages);
         this._getMessages();
+    }
+
+    isEscalated() {
+        return this.escalated;
     }
 
     onSend(text) {
@@ -91,13 +96,15 @@ export class EngagedState {
             transcript.addSystemMsg("Agent Left Chat.");
         } else if (msg.messageType === MessageType.Chat_CommunicationQueue) {
             transcript.addSystemMsg(msg.messageText);
+        } else if (msg.messageType === MessageType.ChatRoom_MemberConnected) {
+            this.escalated = true;
+            transcript.addSystemMsg(msg["client.display.text"]);
         } else if (msg.messageType === MessageType.Chat_Denied) {
             //            this.isConnected = false;
             transcript.addSystemMsg("No agents are available.");
         } else if ([
             MessageType.Chat_System,
             MessageType.Chat_TransferResponse,
-            MessageType.ChatRoom_MemberConnected,
             MessageType.ChatRoom_MemberLost
         ].includes(msg.messageType)) {
             transcript.addSystemMsg(msg["client.display.text"]);

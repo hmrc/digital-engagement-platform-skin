@@ -189,8 +189,14 @@ export default class CommonChatController {
     closeChat() {
 
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
-            //this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automaton, timestamp)
-            this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automaton, timestamp);
+            let escalated = this.state.isEscalated();
+
+            if(escalated) {
+                this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automaton, timestamp);
+            } else {
+                this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automaton, timestamp);
+            }
+
         }
 
         this.closeNuanceChat();
@@ -286,11 +292,18 @@ export default class CommonChatController {
     }
 
     onConfirmEndChat() {
+        let escalated = this.state.isEscalated();
+
         this._moveToClosingState();
-        //this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp)
-        this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automaton, timestamp);
-        //this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)))
-        this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
+
+        if(escalated) {
+            this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp);
+            this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
+        } else {
+           this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automaton, timestamp);
+           this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
+        }
+
         window.GOVUKFrontend.initAll();
     }
 
