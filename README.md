@@ -23,13 +23,8 @@ nvm use 12
 
 ## Unit tests
 
-To run the unit tests execute
-
-```
-sbt test
-```
-
 This application has a considerable amount of javascript code, therefore, we have created a set of javascript tests to cover the behaviour the system intends. We use `gulp.js` to pipeline all of our javascript tests into the sbt test pipeline, mentioned above. To be able to run javascript tests in isolation you will need `gulp.js` and also `jest` (the test runner currently used).
+
 
 Let's install `gulp cli` then we can run gulp commands:
 
@@ -51,6 +46,18 @@ or, since you have `jest`globally
 ```
 jest
 ```
+
+To obtain code coverage run:
+
+For a single file
+```
+jest --findRelatedTests app/assets/javascripts/controllers/CommonChatController.js --coverage
+```
+
+For whole service coverage and coverage report of each file
+```
+jest --coverage
+``` 
 
 ## Custom gulp commands
 
