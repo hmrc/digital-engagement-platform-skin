@@ -264,22 +264,41 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     outline:0;
 }
 
-.float-right{
-    min-width: 8em;
-    float: right;
-    display: inline-block;
-}
-
-.float-left{
-    clear: both;
-    display: inline-block;
-    width: 30em;
-}
 
 .print-only{
     display: none;
 }
 
-.print-timestamp-right{
-    clear:both;
+
+@media print{
+
+
+
+    .print-overflow-visible{
+        overflow:visible;
+        border-bottom :0;
+    }
+
+    .print-timestamp-right{
+        clear:both;
+    }
+
+    .print-float-right{
+        min-width: 8em;
+        float: right;
+        display: inline-block;
+        margin-bottom: .2em;
+    }
+
+    .print-float-left{
+        clear: both;
+        display: inline-block;
+        width: 30em;
+        margin-bottom: .2em;
+    }
+
+    .print-only{
+        display: block;
+    }
+
 }

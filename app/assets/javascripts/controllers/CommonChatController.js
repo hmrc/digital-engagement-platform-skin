@@ -223,62 +223,30 @@ export default class CommonChatController {
 
     }
 
-    onPrint() {
-
-        window.frames.print();
-        return false;
-
+    onPrint(e) {
+        e.preventDefault();
+        window.print();
     }
 
     beforePrintCall(e){
 
-e.preventDefault();
-        if(document.getElementById("ciapiSkinChatTranscript"))
-            document.getElementById("ciapiSkinChatTranscript").classList.remove("ciapiSkinChatTranscript");
-
         if(document.getElementsByClassName("app-related-items")[0])
-            document.getElementsByClassName("app-related-items")[0].style.display = "none";
+            document.getElementsByClassName("app-related-items")[0].classList.add("govuk-!-display-none-print");
         if(document.getElementsByClassName("govuk-back-link")[0])
-            document.getElementsByClassName("govuk-back-link")[0].style.display = "none";
+            document.getElementsByClassName("govuk-back-link")[0].classList.add("govuk-!-display-none-print");
         if(document.getElementsByClassName("govuk-phase-banner")[0])
-            document.getElementsByClassName("govuk-phase-banner")[0].style.display = "none";
+            document.getElementsByClassName("govuk-phase-banner")[0].classList.add("govuk-!-display-none-print");
 
-        document.getElementsByClassName("hmrc-report-technical-issue")[0].style.display = "none";
-        document.getElementById("printDetails").style.display = "";
+        document.getElementsByClassName("hmrc-report-technical-issue")[0].classList.add("govuk-!-display-none-print");
+        document.getElementsByClassName("govuk-footer")[0].classList.add("govuk-!-display-none-print");
 
-        document.getElementsByClassName("govuk-footer")[0].style.display = "none";
-        document.getElementsByClassName("govuk-heading-xl")[0].style.display = "none";
+        document.getElementsByClassName("govuk-heading-xl")[0].classList.add("govuk-!-display-none-print");
+
         document.getElementById("print-date").innerHTML = this.getPrintDate();
-
-        var printMessageSuffix = document.getElementsByClassName("print-only");
-        for(var i = 0; i < printMessageSuffix.length; i++){
-            printMessageSuffix[i].style.display = "block";
-        }
-
 
     }
 
     afterPrintCall(e){
-
-        if(document.getElementById("ciapiSkinChatTranscript"))
-            document.getElementById("ciapiSkinChatTranscript").classList.add("ciapiSkinChatTranscript");
-        if(document.getElementsByClassName("app-related-items")[0])
-            document.getElementsByClassName("app-related-items")[0].style.display = "";
-        if(document.getElementsByClassName("govuk-back-link")[0])
-            document.getElementsByClassName("govuk-back-link")[0].style.display = "";
-        if(document.getElementsByClassName("govuk-phase-banner")[0])
-            document.getElementsByClassName("govuk-phase-banner")[0].style.display = "";
-
-        document.getElementsByClassName("govuk-heading-xl")[0].style.display = "";
-        document.getElementsByClassName("hmrc-report-technical-issue")[0].style.display = "";
-        document.getElementsByClassName("govuk-footer")[0].style.display = "";
-        document.getElementById("printDetails").style.display = "none";
-
-        var printMessageSuffix = document.getElementsByClassName("print-only");
-        for(var i = 0; i < printMessageSuffix.length; i++){
-            printMessageSuffix[i].style.display = "none";
-        }
-
 
     }
 

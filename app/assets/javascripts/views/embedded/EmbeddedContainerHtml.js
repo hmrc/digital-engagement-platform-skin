@@ -1,8 +1,8 @@
 'use strict';
 export const ContainerHtml = `
-<div id="printDetails" style="display:none" class="govuk-!-padding-top-8 govuk-!-padding-bottom-8">
-<p class="govuk-body">Chat id: <span id="chat-id"></span></p>
-<p id="print-date" class="govuk-body"></p>
+<div id="printDetails" class="print-only govuk-!-padding-top-8 govuk-!-padding-bottom-8">
+<p class="govuk-body print-only">Chat id: <span id="chat-id"></span></p>
+<p id="print-date" class="govuk-body print-only"></p>
 </div>
 <div id="ciapiSkinContainer">
     <div id="ciapiSkinHeader" class="govuk-!-display-none-print">
@@ -18,7 +18,7 @@ export const ContainerHtml = `
         </div>
     </div>
     <div id="ciapiChatComponents">
-        <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript" tabindex="0" aria-label="chat transcript">
+        <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript print-overflow-visible" tabindex="0" aria-label="chat transcript">
             <div id="skipToBottom"><a id="skipToBottomLink" href="#" class="govuk-skip-link">Skip to bottom of conversation</a></div>
             <p id="info" class="info govuk-!-display-none-print"><img role="img" src="/ask-hmrc/assets/media/intro-warn.svg" alt="Note">You are currently chatting with a computer.</p>
         </div>

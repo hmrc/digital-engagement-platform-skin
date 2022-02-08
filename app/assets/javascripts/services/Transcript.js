@@ -71,7 +71,7 @@ export default class Transcript {
     }
 
 
-    appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class){
+    appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class, isSystemMsg){
         if(document.getElementById(id)){
               if(that){
                   var msg = that.decodeHTMLEntities(msg);
@@ -80,7 +80,7 @@ export default class Transcript {
               document.getElementById(id).innerHTML = "<p class=govuk-visually-hidden>" + msg_type + "</p> " + msg;
               document.getElementById(id).classList.remove("msg-opacity");
         }
-        if(isVirtualAssistance == true){
+        if(isVirtualAssistance == true && !isSystemMsg){
               document.getElementById(id).focus();
         }
         if(that){
@@ -122,11 +122,11 @@ export default class Transcript {
 
 
         let printMessageSuffix = document.createElement("span");
-        printMessageSuffix.className = "print-only float-left govuk-!-font-weight-bold";
+        printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold";
         printMessageSuffix.innerHTML = "HMRC: ";
 
         var printTimeStamp = document.createElement("p");
-        printTimeStamp.className = "print-only float-left";
+        printTimeStamp.className = "print-only print-float-left";
         printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
 
         this._fixUpVALinks(agentDiv);
@@ -138,7 +138,7 @@ export default class Transcript {
         this.content.appendChild(printTimeStamp);
 
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent);
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false);
 
 
         if (chatContainer) {
@@ -177,8 +177,6 @@ export default class Transcript {
                 printMessageSuffix.innerHTML = "You: ";
 
                 printTimeStamp.className = "print-only print-float-right print-timestamp-right";
-
-
         }
         else{
             if(isSystemMsg){
