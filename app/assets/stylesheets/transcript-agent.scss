@@ -29,3 +29,13 @@
     border-color: white transparent transparent white;
 }
 
+.msg-opacity{
+  opacity : 0 ;
+}
+
+.ciapi-agent-message:focus{
+box-shadow: 0 0 0 3px #fd0;
+    border: solid #000 4px;
+    outline: none;
+}
+
