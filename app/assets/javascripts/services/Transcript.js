@@ -78,7 +78,7 @@ export default class Transcript {
               }
 
               document.getElementById(id).innerHTML = "<p class=govuk-visually-hidden>" + msg_type + "</p> " + msg;
-              document.getElementById(id).classList.remove("govuk-visually-hidden");
+              document.getElementById(id).classList.remove("msg-opacity");
         }
         if(isVirtualAssistance == true){
               document.getElementById(id).focus();
@@ -91,7 +91,7 @@ export default class Transcript {
     addAutomatonMsg(msg) {
 
         var id = "liveAutomatedMsgId" + ( Math.random() * 100);
-        const msgDiv = `<div class= "govuk-visually-hidden ${this.classes.Agent.Inner}" tabindex=-1 id=${id} aria-live=polite></div>`;
+        const msgDiv = `<div class= "msg-opacity ${this.classes.Agent.Inner}" tabindex=-1 id=${id} aria-live=polite></div>`;
 
         const skipToTop = document.getElementById("skipToTop");
         const chatContainer = document.getElementById("ciapiSkinChatTranscript")
@@ -135,10 +135,10 @@ export default class Transcript {
         var id = "liveMsgId" + ( Math.random() * 100);
 
         if(isCustomerMsg == true){
-                var msgDiv = `<div class=${msg_class.Outer}><div class= "govuk-visually-hidden ${msg_class.Inner}" id=${id}></div></div>`;
+                var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" id=${id}></div></div>`;
         }
         else{
-                var msgDiv = `<div class=${msg_class.Outer}><div class= "govuk-visually-hidden ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
+                var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
         }
 
         const skipToTop = document.getElementById("skipToTop");
