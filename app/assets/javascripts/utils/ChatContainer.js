@@ -7,7 +7,7 @@ const nullEventHandler = {
     onHideChat: function () { },
     onRestoreChat: function () { },
     onClickedVALink: function (e) { },
-    onConfirmEndChat: function () { },
+    onConfirmEndChat: function () { }
 };
 
 export default class ChatContainer {

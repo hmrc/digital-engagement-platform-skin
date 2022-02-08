@@ -8,12 +8,12 @@ export const ContainerHtml = `
     <div id="ciapiSkinHeader" class="govuk-!-display-none-print">
         <div id="print">
             <button id="printButton" class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                Print
+                Print or save
             </button>
         </div>
         <div id="sound">
             <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                sound on
+               Turn sound on
             </button>
         </div>
     </div>
