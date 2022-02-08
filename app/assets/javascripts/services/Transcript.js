@@ -138,7 +138,7 @@ export default class Transcript {
                 var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" id=${id}></div></div>`;
         }
         else{
-                var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
+                var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" tabindex=-1 id=${id} aria-live=polite></div></div>`;
         }
 
         const skipToTop = document.getElementById("skipToTop");
