@@ -214,33 +214,28 @@ export default class CommonChatController {
 
     getPrintDate() {
 
-    const monthNames = ["January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
-    ];
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"
+        ];
 
-    const d = new Date();
-    return d.getDate() + " " + monthNames[d.getMonth()] + " " + d.getUTCFullYear();
+        const d = new Date();
+        return d.getDate() + " " + monthNames[d.getMonth()] + " " + d.getUTCFullYear();
 
     }
 
     onPrint() {
-        window.print();
+
+        window.frames.print();
+        return false;
+
     }
 
-    beforePrintCall(){
-        if(document.getElementById("ciapiSkinFooter"))
-            document.getElementById("ciapiSkinFooter").style.display = "none";
+    beforePrintCall(e){
 
-        if(document.getElementById("tools"))
-            document.getElementById("tools").style.display = "none";
-
-
-        if(document.getElementById("ciapiSkinHeader"))
-            document.getElementById("ciapiSkinHeader").style.display = "none";
-        if(document.getElementById("info"))
-            document.getElementById("info").style.display = "none";
+e.preventDefault();
         if(document.getElementById("ciapiSkinChatTranscript"))
             document.getElementById("ciapiSkinChatTranscript").classList.remove("ciapiSkinChatTranscript");
+
         if(document.getElementsByClassName("app-related-items")[0])
             document.getElementsByClassName("app-related-items")[0].style.display = "none";
         if(document.getElementsByClassName("govuk-back-link")[0])
@@ -250,6 +245,7 @@ export default class CommonChatController {
 
         document.getElementsByClassName("hmrc-report-technical-issue")[0].style.display = "none";
         document.getElementById("printDetails").style.display = "";
+
         document.getElementsByClassName("govuk-footer")[0].style.display = "none";
         document.getElementsByClassName("govuk-heading-xl")[0].style.display = "none";
         document.getElementById("print-date").innerHTML = this.getPrintDate();
@@ -259,17 +255,11 @@ export default class CommonChatController {
             printMessageSuffix[i].style.display = "block";
         }
 
+
     }
 
+    afterPrintCall(e){
 
-
-    afterPrintCall(){
-       if(document.getElementById("ciapiSkinFooter"))
-           document.getElementById("ciapiSkinFooter").style.display = "";
-        if(document.getElementById("ciapiSkinHeader"))
-            document.getElementById("ciapiSkinHeader").style.display = "";
-        if(document.getElementById("info"))
-            document.getElementById("info").style.display = "";
         if(document.getElementById("ciapiSkinChatTranscript"))
             document.getElementById("ciapiSkinChatTranscript").classList.add("ciapiSkinChatTranscript");
         if(document.getElementsByClassName("app-related-items")[0])
@@ -278,8 +268,6 @@ export default class CommonChatController {
             document.getElementsByClassName("govuk-back-link")[0].style.display = "";
         if(document.getElementsByClassName("govuk-phase-banner")[0])
             document.getElementsByClassName("govuk-phase-banner")[0].style.display = "";
-        if(document.getElementById("tools"))
-            document.getElementById("tools").style.display = "";
 
         document.getElementsByClassName("govuk-heading-xl")[0].style.display = "";
         document.getElementsByClassName("hmrc-report-technical-issue")[0].style.display = "";

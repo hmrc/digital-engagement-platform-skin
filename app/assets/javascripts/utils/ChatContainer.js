@@ -111,20 +111,21 @@ export default class ChatContainer {
         });
 
         this._registerEventListener("#printButton", (e) => {
-                    this.eventHandler.onPrint();
-                     e.preventDefault()
-                });
-                window.addEventListener('beforeprint', (e) => {
-                      this.eventHandler.beforePrintCall();
-                       e.preventDefault()
+            this.eventHandler.onPrint(e);
+            e.preventDefault();
+        });
 
-                    });
-                    window.addEventListener('afterprint', (e) => {
-                           this.eventHandler.afterPrintCall();
-                            e.preventDefault();
+        window.addEventListener('beforeprint', (e) => {
+            this.eventHandler.beforePrintCall(e);
+            e.preventDefault();
+        });
 
-                        });
-    }
+        window.addEventListener('afterprint', (e) => {
+            this.eventHandler.afterPrintCall(e);
+            e.preventDefault();
+
+        });
+        }
 
     confirmEndChat() {
         this.endChatPopup.show();

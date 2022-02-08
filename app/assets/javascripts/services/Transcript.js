@@ -9,20 +9,20 @@ export default class Transcript {
         this.automatedMsgPrefix = "Automated message : ";
     }
 
-    addAgentMsg(msg, agent) {
-        this._appendMessage(msg, this.classes.Agent, this.agentMsgPrefix, false);
+    addAgentMsg(msg, msgTimestamp, agent) {
+        this._appendMessage(msg, msgTimestamp, this.classes.Agent, this.agentMsgPrefix, false, false);
     }
 
-    addCustomerMsg(msg, agent) {
-        this._appendMessage(msg, this.classes.Customer, this.customerMsgPrefix, true);
+    addCustomerMsg(msg, msgTimestamp, agent) {
+        this._appendMessage(msg, msgTimestamp, this.classes.Customer, this.customerMsgPrefix, true, false);
     }
 
     addSystemMsg(msg) {
-        this._appendMessage(msg, this.classes.System, this.systemMsgPrefix, false);
+        this._appendMessage(msg, "", this.classes.System, this.systemMsgPrefix, false, true);
     }
 
     addOpenerScript(msg) {
-        this._appendMessage(msg, this.classes.Opener, this.automatedMsgPrefix, false);
+        this._appendMessage(msg, "",  this.classes.Opener, this.automatedMsgPrefix, false, false);
     }
 
     addSkipToBottomLink() {
@@ -88,18 +88,27 @@ export default class Transcript {
         }
     }
 
-    getPrintTimeStamp(date) {
-      var hours = date.getHours();
-      var minutes = date.getMinutes();
-      var ampm = hours >= 12 ? 'pm' : 'am';
-      hours = hours % 12;
-      hours = hours ? hours : 12; // the hour '0' should be '12'
-      minutes = minutes < 10 ? '0'+minutes : minutes;
-      var strTime = hours + ':' + minutes + ' ' + ampm;
-      return strTime;
+    getPrintTimeStamp(msgTimestamp) {
+
+        var strTime = "";
+
+        if(msgTimestamp != ""){
+
+                var date = new Date(parseInt(msgTimestamp));
+
+                var hours = date.getHours();
+                var minutes = date.getMinutes();
+                var ampm = hours >= 12 ? 'pm' : 'am';
+                hours = hours % 12;
+                hours = hours ? hours : 12; // the hour '0' should be '12'
+                minutes = minutes < 10 ? '0'+minutes : minutes;
+                strTime = hours + ':' + minutes + ' ' + ampm;
+
+          }
+          return strTime;
     }
 
-    addAutomatonMsg(msg) {
+    addAutomatonMsg(msg, msgTimestamp) {
 
         var id = "liveAutomatedMsgId" + ( Math.random() * 100);
         const msgDiv = `<div class= "msg-opacity ${this.classes.Agent.Inner}" tabindex=-1 id=${id} aria-live=polite></div>`;
@@ -118,7 +127,7 @@ export default class Transcript {
 
         var printTimeStamp = document.createElement("p");
         printTimeStamp.className = "print-only float-left";
-        printTimeStamp.innerHTML = this.getPrintTimeStamp(new Date);
+        printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
 
         this._fixUpVALinks(agentDiv);
 
@@ -168,6 +177,7 @@ export default class Transcript {
                 printMessageSuffix.innerHTML = "You: ";
 
                 printTimeStamp.className = "print-only print-float-right print-timestamp-right";
+
 
         }
         else{

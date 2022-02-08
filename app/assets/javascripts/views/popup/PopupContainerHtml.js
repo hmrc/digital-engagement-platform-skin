@@ -5,7 +5,7 @@ export const ContainerHtml = `
 <p id="print-date" class="govuk-body"></p>
 </div>
 <div id="ciapiSkinContainer">
-    <div id="ciapiSkinHeader">
+    <div id="ciapiSkinHeader" >
         <div id="ciapiTitleBarLogo"></div>
         <div id="ciapiSkinTitleBar"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC</h2></div>
         <div id="hideCloseContainer">
@@ -13,7 +13,7 @@ export const ContainerHtml = `
             <button id="ciapiSkinCloseButton" draggable="false" role="button" type="button" aria-label="Close chat window"></button>
         </div>
     </div>
-    <div id="tools">
+    <div id="tools" class="govuk-!-display-none-print">
         <div id="print">
             <button id="printButton" class="govuk-button govuk-button--secondary" data-module="govuk-button">
                 Print
@@ -28,9 +28,9 @@ export const ContainerHtml = `
     <div id="ciapiChatComponents">
         <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript" tabindex="0" aria-label="chat transcript">
             <div id="skipToBottom"><a id="skipToBottomLink" href="#skipToTopLink" class="govuk-skip-link">Skip to bottom of conversation</a></div>
-            <p class="info"><img role="img" src="/ask-hmrc/assets/media/intro-warn.svg" alt="Note">You are currently chatting with a computer.</p>
+            <p id="info" class="info govuk-!-display-none-print"><img role="img" src="/ask-hmrc/assets/media/intro-warn.svg" alt="Note">You are currently chatting with a computer.</p>
         </div>
-        <div id="ciapiSkinFooter">
+        <div id="ciapiSkinFooter" class="govuk-!-display-none-print">
             <div id="ciapiInput"><textarea
                 id="custMsg"
                 class="govuk-textarea"
