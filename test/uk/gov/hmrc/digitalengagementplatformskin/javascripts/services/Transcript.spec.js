@@ -28,6 +28,7 @@ describe("Transcript", () => {
     it("appends system messages", () => {
         const content = {
             insertAdjacentHTML: jest.fn(),
+            appendChild: jest.fn(),
             scrollTo: jest.fn(),
             scrollHeight: 42
         };
@@ -38,13 +39,14 @@ describe("Transcript", () => {
 
         expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
             "beforeend",
-            "<div class=system-outer><div class= \"msg-opacity system-inner\" tabindex=-1 id=liveMsgId50 aria-live=polite></div></div>"
+            "<div class= govuk-!-display-none-print system-outer><div class= \"msg-opacity system-inner\" id=liveMsgId50 aria-live=polite></div></div>"
         );
     });
 
     it("appends opener scripts", () => {
         const content = {
             insertAdjacentHTML: jest.fn(),
+            appendChild: jest.fn(),
             scrollTo: jest.fn(),
             scrollHeight: 50
         };
@@ -62,6 +64,7 @@ describe("Transcript", () => {
     it("appends agent messages", () => {
         const content = {
             insertAdjacentHTML: jest.fn(),
+            appendChild: jest.fn(),
             scrollTo: jest.fn(),
             scrollHeight: 314
         };
@@ -79,6 +82,7 @@ describe("Transcript", () => {
     it("appends customer messages", () => {
         const content = {
             insertAdjacentHTML: jest.fn(),
+            appendChild: jest.fn(),
             scrollTo: jest.fn(),
             scrollHeight: 666
         };
@@ -96,13 +100,14 @@ describe("Transcript", () => {
      it("appends customer messages without live region", () => {
             const content = {
                 insertAdjacentHTML: jest.fn(),
+                appendChild: jest.fn(),
                 scrollTo: jest.fn(),
                 scrollHeight: 666
             };
             const vaLinkCallback = jest.fn();
             const transcript = new Transcript(content, vaLinkCallback, messageClasses);
 
-            transcript._appendMessage("test1", messageClasses.Customer, "test3", true);
+            transcript._appendMessage("test1","time", messageClasses.Customer, "test3", true);
 
             expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
                 "beforeend",
@@ -113,13 +118,14 @@ describe("Transcript", () => {
         it("appends other messages(automated, agent etc) with live region", () => {
                     const content = {
                         insertAdjacentHTML: jest.fn(),
+                        appendChild: jest.fn(),
                         scrollTo: jest.fn(),
                         scrollHeight: 666
                     };
                     const vaLinkCallback = jest.fn();
                     const transcript = new Transcript(content, vaLinkCallback, messageClasses);
 
-                    transcript._appendMessage("test1", messageClasses.Agent, "test3", false);
+                    transcript._appendMessage("test1","time", messageClasses.Agent, "test3", false);
 
                     expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
                         "beforeend",

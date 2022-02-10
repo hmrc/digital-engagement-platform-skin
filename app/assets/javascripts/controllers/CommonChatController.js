@@ -224,6 +224,7 @@ export default class CommonChatController {
     }
 
     onPrint(e) {
+    e.preventDefault;
         document.getElementById("print-date").innerHTML = this.getPrintDate();
         if(document.getElementsByClassName("app-related-items")[0])
             document.getElementsByClassName("app-related-items")[0].classList.add("govuk-!-display-none-print");
