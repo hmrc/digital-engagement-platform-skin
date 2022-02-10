@@ -17,10 +17,11 @@ export default class ClickToChatButtons {
             const c2cObj = {
                 c2cIdx: c2cId,
                 displayState: DisplayState.ChatActive,
+                displayState: DisplayState.ChatActive,
                 launchable: false
             };
             this._updateButton(c2cObj, this.buttons[c2cId]);
-        };
+        }
     }
 
     _getDisplayStateText(displayState) {
@@ -35,7 +36,7 @@ export default class ClickToChatButtons {
         const div = button.replaceChild(innerHTML);
 
         if (c2cObj.launchable) {
-            div.onclick = function () {
+            div.onclick = function() {
                 console.log(this);
                 this.onClicked(c2cObj.c2cIdx);
             }.bind(this);

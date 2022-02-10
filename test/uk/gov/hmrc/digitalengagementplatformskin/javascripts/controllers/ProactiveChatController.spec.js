@@ -21,7 +21,7 @@ describe("ProactiveChatController", () => {
 
         expect(sdk.getOpenerScripts).toHaveBeenCalled();
         expect(sdk.chatDisplayed).toHaveBeenCalled();
-    })
+    });
 
     it("appends chat transcript div to page when no div id is found on page", () => {
         const commonChatController = new CommonChatController();

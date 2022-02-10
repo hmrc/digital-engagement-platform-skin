@@ -17,11 +17,11 @@ describe("ReactiveChatController", () => {
         //     name: "chatactive"
         // };
 
-        // let c2cObj = {
-        //     c2cIdx: "c2cId",
-        //     displayState: "chatactive",
-        //     launchable: true
-        // };
+        let c2cObj = {
+            c2cIdx: "c2cId",
+            displayState: "chatactive",
+            launchable: true
+        };
         // const buttonText = getDisplayStateText;
         const button = "buttonClass";
         // const innerHTML = `<div class="${button.buttonClass} ${c2cObj.displayState}">${buttonText}</div>`;
@@ -32,10 +32,15 @@ describe("ReactiveChatController", () => {
         // const divID = {
         //     divID: "HMRC_CIAPI_Anchored_1"
         // };
+        // const displayStateMessages = {
+        //     displayStateMessages: jest.fn()
+        // };
+
         const sdk = {
             isChatInProgress: jest.fn().mockReturnValue(false),
             //     getOpenerScripts: jest.fn().mockReturnValue(null),
             //     button: jest.fn().mockReturnValue(null),
+            //displayStateMessages: jest.fn("chatactive"),
             chatDisplayed: jest.fn()
         };
 
@@ -43,14 +48,26 @@ describe("ReactiveChatController", () => {
             SDK: sdk
         };
 
+        // const displayStateMessages = {
+        //     displayStateMessages: jest.fn("chatactive")
+        // };
+
+        // window.DisplayState = {
+        //     displayStateMessages: displayStateMessages
+        // };
+
         commonChatController.nuanceFrameworkLoaded(window);
         clickToChatButtons.updateC2CButtonsToInProgress();
-        clickToChatButtons.addButton(button);
+        //clickToChatButtons.displayStateMessages(displayStateMessages);
+        //clickToChatButtons.onClicked;
+        clickToChatButtons.addButton(c2cObj, button);
+        //clickToChatButtons.displayStateMessages;
         // clickToChatButton.replaceChild(div);
         // reactiveChatController.addC2CButton(c2cObj, divID, buttonClass);
         reactiveChatController.addC2CButton();
 
         // expect(sdk.getOpenerScripts).toHaveBeenCalled();
         expect(sdk.chatDisplayed).toHaveBeenCalled();
+        // expect(displayStateMessages.displayStateMessages).toHaveBeenCalled();
     });
 });

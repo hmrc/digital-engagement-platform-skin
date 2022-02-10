@@ -81,7 +81,7 @@ export default class CommonChatController {
         // TODO: Do we need this any more, now that the above timeout is gone?
         if (this.container) {
             console.error("This should never happen. If it doesn't, then remove this 'if'")
-            return
+            return;
         }
         try {
             //            console.log("in launchChat: ", this);
@@ -191,7 +191,7 @@ export default class CommonChatController {
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
             let escalated = this.state.isEscalated();
 
-            if(escalated) {
+            if (escalated) {
                 this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automaton, timestamp);
             } else {
                 this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automaton, timestamp);
@@ -269,8 +269,6 @@ export default class CommonChatController {
         this.state.onClickedClose();
     }
 
-
-
     onHideChat() {
         if (!this.minimised) {
             this.container.minimise();
@@ -296,12 +294,12 @@ export default class CommonChatController {
 
         this._moveToClosingState();
 
-        if(escalated) {
+        if (escalated) {
             this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp);
             this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
         } else {
-           this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automaton, timestamp);
-           this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
+            this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automaton, timestamp);
+            this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
         }
 
         window.GOVUKFrontend.initAll();
