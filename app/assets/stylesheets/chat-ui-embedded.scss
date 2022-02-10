@@ -266,13 +266,10 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
 
 
 .print-only{
-    display: none;
-}
-
+        display: none;
+    }
 
 @media print{
-
-
 
     .print-overflow-visible{
         overflow:visible;
@@ -286,7 +283,7 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     .print-float-right{
         min-width: 8em;
         float: right;
-        display: inline-block;
+        display: block !important;
         margin-bottom: .2em;
     }
 
@@ -298,7 +295,7 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     }
 
     .print-only{
-        display: block;
+        display: block !important;
     }
 
 }
