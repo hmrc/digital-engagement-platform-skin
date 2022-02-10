@@ -224,23 +224,23 @@ export default class CommonChatController {
     }
 
     onPrint(e) {
-    e.preventDefault;
+        e.preventDefault;
         document.getElementById("print-date").innerHTML = this.getPrintDate();
+
         if(document.getElementsByClassName("app-related-items")[0])
-            document.getElementsByClassName("app-related-items")[0].classList.add("govuk-!-display-none-print");
+        document.getElementsByClassName("app-related-items")[0].classList.add("govuk-!-display-none-print");
         if(document.getElementsByClassName("govuk-back-link")[0])
-            document.getElementsByClassName("govuk-back-link")[0].classList.add("govuk-!-display-none-print");
+        document.getElementsByClassName("govuk-back-link")[0].classList.add("govuk-!-display-none-print");
         if(document.getElementsByClassName("govuk-phase-banner")[0])
-            document.getElementsByClassName("govuk-phase-banner")[0].classList.add("govuk-!-display-none-print");
+        document.getElementsByClassName("govuk-phase-banner")[0].classList.add("govuk-!-display-none-print");
 
         document.getElementsByClassName("hmrc-report-technical-issue")[0].classList.add("govuk-!-display-none-print");
         document.getElementsByClassName("govuk-footer")[0].classList.add("govuk-!-display-none-print");
 
         document.getElementsByClassName("govuk-heading-xl")[0].classList.add("govuk-!-display-none-print");
 
-
-
         window.print();
+        return false;
     }
 
 

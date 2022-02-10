@@ -264,10 +264,9 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     outline:0;
 }
 
-
 .print-only{
-        display: none;
-    }
+    display: none;
+}
 
 @media print{
 
@@ -283,7 +282,7 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     .print-float-right{
         min-width: 8em;
         float: right;
-        display: block !important;
+        display: inline-block;
         margin-bottom: .2em;
     }
 
@@ -295,7 +294,7 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     }
 
     .print-only{
-        display: block !important;
+        display: block;
     }
 
 }
