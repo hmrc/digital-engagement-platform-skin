@@ -122,7 +122,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addAgentMsg).toHaveBeenCalledWith("Hello world");
+            expect(container.transcript.addAgentMsg).toHaveBeenCalledWith("Hello world", undefined);
         });
 
         it("sends customer messages to the transcript", () => {
@@ -139,7 +139,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addCustomerMsg).toHaveBeenCalledWith("Hello to you");
+            expect(container.transcript.addCustomerMsg).toHaveBeenCalledWith("Hello to you", undefined);
         });
 
         it("sends automaton messages to the transcript", () => {
@@ -156,7 +156,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("Beep boop. I am a robot.");
+            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("Beep boop. I am a robot.", undefined);
         });
 
         it("sends customer messages to the transcript", () => {
@@ -225,8 +225,8 @@ describe("Chat States", () => {
 
             const state = new ChatStates.EngagedState(sdk, container, messages, jest.fn());
 
-            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("Beep boop. I am a robot.");
-            expect(container.transcript.addCustomerMsg).toHaveBeenCalledWith("Hello to you");
+            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("Beep boop. I am a robot.", undefined);
+            expect(container.transcript.addCustomerMsg).toHaveBeenCalledWith("Hello to you", undefined);
         });
 
         it("sends TransferResponse to the transcript", () => {

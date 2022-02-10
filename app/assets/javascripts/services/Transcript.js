@@ -131,11 +131,11 @@ export default class Transcript {
 
         this._fixUpVALinks(agentDiv);
 
-       chatContainer.appendChild(printMessageSuffix);
+        this.content.appendChild(printMessageSuffix);
 
-        chatContainer.appendChild(agentDiv);
+        this.content.appendChild(agentDiv);
 
-        chatContainer.appendChild(printTimeStamp);
+        this.content.appendChild(printTimeStamp);
 
 
         setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false);
@@ -203,7 +203,7 @@ export default class Transcript {
         if(!isSystemMsg)
         {
             printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
-            chatContainer.appendChild(printMessageSuffix);
+            this.content.appendChild(printMessageSuffix);
         }
 
         if(window.chatId){
@@ -212,7 +212,7 @@ export default class Transcript {
 
         this.content.insertAdjacentHTML("beforeend", msgDiv);
 
-        chatContainer.appendChild(printTimeStamp);
+        this.content.appendChild(printTimeStamp);
 
         setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type, false, this, msg_class, isSystemMsg);
 
