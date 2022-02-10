@@ -1,4 +1,3 @@
-
 import CommonChatController from './CommonChatController'
 
 export default class ProactiveChatController {
