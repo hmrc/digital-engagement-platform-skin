@@ -79,6 +79,9 @@ export class EngagedState {
     _displayMessage(msg_in) {
         const msg = msg_in.data
         console.log("---- Received message:", msg);
+        if(msg && msg.senderName){
+                window.Agent_Name = msg.senderName;
+        }
         const transcript = this.container.getTranscript();
         if (msg.messageType === MessageType.Chat_Communication) {
             if (msg.agentID) {

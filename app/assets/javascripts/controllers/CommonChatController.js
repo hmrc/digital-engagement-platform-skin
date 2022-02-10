@@ -224,12 +224,7 @@ export default class CommonChatController {
     }
 
     onPrint(e) {
-        e.preventDefault();
-        window.print();
-    }
-
-    beforePrintCall(e){
-
+        document.getElementById("print-date").innerHTML = this.getPrintDate();
         if(document.getElementsByClassName("app-related-items")[0])
             document.getElementsByClassName("app-related-items")[0].classList.add("govuk-!-display-none-print");
         if(document.getElementsByClassName("govuk-back-link")[0])
@@ -242,13 +237,11 @@ export default class CommonChatController {
 
         document.getElementsByClassName("govuk-heading-xl")[0].classList.add("govuk-!-display-none-print");
 
-        document.getElementById("print-date").innerHTML = this.getPrintDate();
 
+
+        window.print();
     }
 
-    afterPrintCall(e){
-
-    }
 
     // End event handler method
     _sendPostChatSurveyWebchat(sdk) {

@@ -115,16 +115,6 @@ export default class ChatContainer {
             e.preventDefault();
         });
 
-        window.addEventListener('beforeprint', (e) => {
-            this.eventHandler.beforePrintCall(e);
-            e.preventDefault();
-        });
-
-        window.addEventListener('afterprint', (e) => {
-            this.eventHandler.afterPrintCall(e);
-            e.preventDefault();
-
-        });
         }
 
     confirmEndChat() {

@@ -16,7 +16,6 @@ const chatListener = {
         onAnyEvent: function(evt) {
             console.log("Chat any event:", evt);
             window.chatId = evt.chatID;
-            window.Agent_Name = "Neha kannaujia";
         },
     onC2CStateChanged: function (evt) {
         console.log("C2C state changed...")
