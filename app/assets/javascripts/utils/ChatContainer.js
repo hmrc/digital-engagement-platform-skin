@@ -68,6 +68,7 @@ export default class ChatContainer {
     }
 
     _registerEventListeners() {
+
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
             this.eventHandler.onSend();
         });
@@ -108,7 +109,13 @@ export default class ChatContainer {
                 Inq.SDK.sendVALinkMessage(e, null, null, null);
             }
         });
-    }
+
+        this._registerEventListener("#printButton", (e) => {
+            this.eventHandler.onPrint(e);
+            e.preventDefault();
+        });
+
+        }
 
     confirmEndChat() {
         this.endChatPopup.show();

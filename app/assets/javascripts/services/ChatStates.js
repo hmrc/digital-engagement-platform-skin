@@ -79,15 +79,19 @@ export class EngagedState {
     _displayMessage(msg_in) {
         const msg = msg_in.data
         console.log("---- Received message:", msg);
+        if(msg && msg.senderName){
+                window.Agent_Name = msg.senderName;
+        }
         const transcript = this.container.getTranscript();
         if (msg.messageType === MessageType.Chat_Communication) {
             if (msg.agentID) {
-                transcript.addAgentMsg(msg.messageText)
+                transcript.addAgentMsg(msg.messageText, msg.messageTimestamp, )
             } else {
-                transcript.addCustomerMsg(msg.messageText)
+                transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp)
             }
         } else if (msg.messageType === MessageType.Chat_AutomationRequest) {
-            transcript.addAutomatonMsg(msg["automaton.data"]);
+        console.log("in automation msgs ++", msg.messageTimestamp)
+            transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
         } else if (msg.messageType === MessageType.Chat_Exit) {
             // This message may also have msg.state === "closed".
             // Not sure about transfer scenarios.

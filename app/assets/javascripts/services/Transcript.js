@@ -9,20 +9,20 @@ export default class Transcript {
         this.automatedMsgPrefix = "Automated message : ";
     }
 
-    addAgentMsg(msg, agent) {
-        this._appendMessage(msg, this.classes.Agent, this.agentMsgPrefix, false);
+    addAgentMsg(msg, msgTimestamp, agent) {
+        this._appendMessage(msg, msgTimestamp, this.classes.Agent, this.agentMsgPrefix, false, false);
     }
 
-    addCustomerMsg(msg, agent) {
-        this._appendMessage(msg, this.classes.Customer, this.customerMsgPrefix, true);
+    addCustomerMsg(msg, msgTimestamp, agent) {
+        this._appendMessage(msg, msgTimestamp, this.classes.Customer, this.customerMsgPrefix, true, false);
     }
 
     addSystemMsg(msg) {
-        this._appendMessage(msg, this.classes.System, this.systemMsgPrefix, false);
+        this._appendMessage(msg, "", this.classes.System, this.systemMsgPrefix, false, true);
     }
 
     addOpenerScript(msg) {
-        this._appendMessage(msg, this.classes.Opener, this.automatedMsgPrefix, false);
+        this._appendMessage(msg, "",  this.classes.Opener, this.automatedMsgPrefix, false, false);
     }
 
     addSkipToBottomLink() {
@@ -71,7 +71,7 @@ export default class Transcript {
     }
 
 
-    appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class){
+    appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class, isSystemMsg){
         if(document.getElementById(id)){
               if(that){
                   var msg = that.decodeHTMLEntities(msg);
@@ -80,7 +80,7 @@ export default class Transcript {
               document.getElementById(id).innerHTML = "<p class=govuk-visually-hidden>" + msg_type + "</p> " + msg;
               document.getElementById(id).classList.remove("msg-opacity");
         }
-        if(isVirtualAssistance == true){
+        if(isVirtualAssistance == true && !isSystemMsg){
               document.getElementById(id).focus();
         }
         if(that){
@@ -88,7 +88,27 @@ export default class Transcript {
         }
     }
 
-    addAutomatonMsg(msg) {
+    getPrintTimeStamp(msgTimestamp) {
+
+        var strTime = "";
+
+        if(msgTimestamp != ""){
+
+                var date = new Date(parseInt(msgTimestamp));
+
+                var hours = date.getHours();
+                var minutes = date.getMinutes();
+                var ampm = hours >= 12 ? 'pm' : 'am';
+                hours = hours % 12;
+                hours = hours ? hours : 12; // the hour '0' should be '12'
+                minutes = minutes < 10 ? '0'+minutes : minutes;
+                strTime = hours + ':' + minutes + ' ' + ampm;
+
+          }
+          return strTime;
+    }
+
+    addAutomatonMsg(msg, msgTimestamp) {
 
         var id = "liveAutomatedMsgId" + ( Math.random() * 100);
         const msgDiv = `<div class= "msg-opacity ${this.classes.Agent.Inner}" tabindex=-1 id=${id} aria-live=polite></div>`;
@@ -100,11 +120,25 @@ export default class Transcript {
         agentDiv.classList.add(this.classes.Agent.Outer);
         agentDiv.insertAdjacentHTML("beforeend", msgDiv);
 
+
+        let printMessageSuffix = document.createElement("span");
+        printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold";
+        printMessageSuffix.innerHTML = "HMRC: ";
+
+        var printTimeStamp = document.createElement("p");
+        printTimeStamp.className = "print-only print-float-left";
+        printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
+
         this._fixUpVALinks(agentDiv);
+
+        this.content.appendChild(printMessageSuffix);
 
         this.content.appendChild(agentDiv);
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent);
+        this.content.appendChild(printTimeStamp);
+
+
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false);
 
 
         if (chatContainer) {
@@ -130,23 +164,57 @@ export default class Transcript {
         }
     }
 
-    _appendMessage(msg, msg_class, msg_type, isCustomerMsg) {
+    _appendMessage(msg, msgTimestamp, msg_class, msg_type, isCustomerMsg, isSystemMsg) {
 
         var id = "liveMsgId" + ( Math.random() * 100);
 
+        var printTimeStamp = document.createElement("p");
+
         if(isCustomerMsg == true){
                 var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" id=${id}></div></div>`;
+                var printMessageSuffix = document.createElement("span");
+                printMessageSuffix.className = "print-only print-float-right govuk-!-font-weight-bold";
+                printMessageSuffix.innerHTML = "You: ";
+
+                printTimeStamp.className = "print-only print-float-right print-timestamp-right";
         }
         else{
+            if(isSystemMsg){
+                var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
+            }
+            else{
                 var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" tabindex=-1 id=${id} aria-live=polite></div></div>`;
+                var printMessageSuffix = document.createElement("span");
+                printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold";
+                if(window.Agent_Name != null){
+                    printMessageSuffix.innerHTML = window.Agent_Name + ": ";
+                }
+                else{
+                    printMessageSuffix.innerHTML = "HMRC: ";
+                }
+
+                printTimeStamp.className = "print-only print-float-left";
+            }
         }
 
         const skipToTop = document.getElementById("skipToTop");
-        const chatContainer = document.getElementById("ciapiSkinChatTranscript")
+        const chatContainer = document.getElementById("ciapiSkinChatTranscript");
+
+        if(!isSystemMsg)
+        {
+            printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
+            this.content.appendChild(printMessageSuffix);
+        }
+
+        if(window.chatId){
+            document.getElementById("chat-id").innerHTML = window.chatId ;
+        }
 
         this.content.insertAdjacentHTML("beforeend", msgDiv);
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type, false, this, msg_class);
+        this.content.appendChild(printTimeStamp);
+
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type, false, this, msg_class, isSystemMsg);
 
         if (chatContainer) {
 
@@ -155,9 +223,7 @@ export default class Transcript {
             }
 
             this.addSkipToBottomLink();
-
         }
-
 
     }
 

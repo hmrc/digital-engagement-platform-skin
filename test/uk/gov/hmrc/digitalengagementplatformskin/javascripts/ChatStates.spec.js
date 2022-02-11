@@ -117,12 +117,13 @@ describe("Chat States", () => {
                 data: {
                     messageType: MessageType.Chat_Communication,
                     messageText: "Hello world",
-                    agentID: "007"
+                    agentID: "007",
+                    messageTimestamp: "test"
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addAgentMsg).toHaveBeenCalledWith("Hello world");
+            expect(container.transcript.addAgentMsg).toHaveBeenCalledWith("Hello world", "test");
         });
 
         it("sends customer messages to the transcript", () => {
@@ -134,12 +135,13 @@ describe("Chat States", () => {
             const message = {
                 data: {
                     messageType: MessageType.Chat_Communication,
-                    messageText: "Hello to you"
+                    messageText: "Hello to you",
+                    messageTimestamp: "test"
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addCustomerMsg).toHaveBeenCalledWith("Hello to you");
+            expect(container.transcript.addCustomerMsg).toHaveBeenCalledWith("Hello to you", "test");
         });
 
         it("sends automaton messages to the transcript", () => {
@@ -151,12 +153,13 @@ describe("Chat States", () => {
             const message = {
                 data: {
                     messageType: MessageType.Chat_AutomationRequest,
+                    messageTimestamp: "test",
                     "automaton.data": "Beep boop. I am a robot."
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("Beep boop. I am a robot.");
+            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("Beep boop. I am a robot.", "test");
         });
 
         it("sends customer messages to the transcript", () => {
@@ -214,19 +217,21 @@ describe("Chat States", () => {
             const messages = [{
                 data: {
                     messageType: MessageType.Chat_AutomationRequest,
-                    "automaton.data": "Beep boop. I am a robot."
+                    "automaton.data": "Beep boop. I am a robot.",
+                    messageTimestamp: "test"
                 }
             }, {
                 data: {
                     messageType: MessageType.Chat_Communication,
-                    messageText: "Hello to you"
+                    messageText: "Hello to you",
+                    messageTimestamp: "test"
                 }
             }];
 
             const state = new ChatStates.EngagedState(sdk, container, messages, jest.fn());
 
-            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("Beep boop. I am a robot.");
-            expect(container.transcript.addCustomerMsg).toHaveBeenCalledWith("Hello to you");
+            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("Beep boop. I am a robot.", "test");
+            expect(container.transcript.addCustomerMsg).toHaveBeenCalledWith("Hello to you", "test");
         });
 
         it("sends TransferResponse to the transcript", () => {
