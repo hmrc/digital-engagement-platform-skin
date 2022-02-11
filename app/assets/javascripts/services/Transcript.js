@@ -180,10 +180,10 @@ export default class Transcript {
         }
         else{
             if(isSystemMsg){
-                var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" id=${id} tabindex=-1 aria-live=polite></div></div>`;
+                var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
             }
             else{
-                var msgDiv = `<div class=${msg_class.Outer}><div class= "govuk-visually-hidden ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
+                var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" tabindex=-1 id=${id} aria-live=polite></div></div>`;
                 var printMessageSuffix = document.createElement("span");
                 printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold";
                 if(window.Agent_Name != null){
