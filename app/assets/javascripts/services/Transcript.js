@@ -111,7 +111,7 @@ export default class Transcript {
     addAutomatonMsg(msg, msgTimestamp) {
 
         var id = "liveAutomatedMsgId" + ( Math.random() * 100);
-        const msgDiv = `<div class= "msg-opacity ${this.classes.Agent.Inner}" tabindex=-1 id=${id} aria-live=polite></div>`;
+        const msgDiv = `<div class= "msg-opacity ${this.classes.Agent.Inner}" tabindex=-1 id=${id}></div>`;
 
         const skipToTop = document.getElementById("skipToTop");
         const chatContainer = document.getElementById("ciapiSkinChatTranscript")
@@ -119,7 +119,7 @@ export default class Transcript {
         let agentDiv = document.createElement("div")
         agentDiv.classList.add(this.classes.Agent.Outer);
         agentDiv.insertAdjacentHTML("beforeend", msgDiv);
-
+        agentDiv.setAttribute('aria-live','polite');
 
         let printMessageSuffix = document.createElement("span");
         printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold";
