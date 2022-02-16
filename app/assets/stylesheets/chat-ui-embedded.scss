@@ -297,4 +297,8 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
         display: block;
     }
 
+    .govuk-header__container {
+        border-bottom: none;
+    }
+
 }
