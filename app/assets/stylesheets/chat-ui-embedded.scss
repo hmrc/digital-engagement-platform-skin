@@ -301,4 +301,12 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
         border-bottom: none;
     }
 
+    .govuk-header__logo {
+        display: inline-block;
+    }
+
+    .govuk-header__content {
+        display: inline-block;
+    }
+
 }
