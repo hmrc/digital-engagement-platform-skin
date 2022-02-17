@@ -244,11 +244,13 @@ export default class CommonChatController {
         "govuk-heading-xl",
         "hmrc-user-research-banner",
         "cbanner-govuk-cookie-banner"
-        ]
+        ];
 
         this.removeElementsForPrint(elementList);
 
-        window.print();
+        setTimeout(function() {
+            window.print();
+        }, 250);
         return false;
     }
 

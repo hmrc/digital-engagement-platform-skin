@@ -3,7 +3,6 @@
 @import 'system-message';
 @import 'c2cbutton';
 @import 'end-chat-popup';
-@import "lib/govuk-frontend/govuk/all";
 
 
 $container-height: 600px;
@@ -16,12 +15,6 @@ $footer-padding: 5px;
 $footer-top-border-height: 3px;
 $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-height + 50;
 
-#ciapiSkin {
-    font-family: "GDS Transport",arial,sans-serif;
-    font-size: 19px;
-    -webkit-font-smoothing: antialiased;
-    margin-bottom: 0px !important;
-}
 
 #ciapiSkinContainer {
     background: #0000ff;
@@ -83,7 +76,6 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
   border-bottom: $footer-top-border-height solid rgb(11, 12, 12);
   div {
     margin-bottom: 0px;
-    @extend .govuk-body;
   }
 
   .skipToTopWithScroll{
@@ -260,6 +252,7 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
         margin-bottom: 1.2em !important;
     }
 }
+
 #heading_chat_ended:focus, #legend_give_feedback:focus, #heading_end_chat_popup:focus{
     outline:0;
 }
@@ -268,7 +261,13 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     display: none;
 }
 
+
 @media print{
+
+
+    .print-only{
+        display: block;
+    }
 
     .print-overflow-visible{
         overflow:visible;
@@ -293,10 +292,6 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
         margin-bottom: .2em;
     }
 
-    .print-only{
-        display: block;
-    }
-
     .govuk-header__container {
         border-bottom: none;
     }
@@ -308,5 +303,6 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     .govuk-header__content {
         display: inline-block;
     }
-
 }
+
+
