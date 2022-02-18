@@ -272,6 +272,12 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
 
 @media print{
 
+    @supports (-moz-appearance:none) {
+        .govuk-grid-column-two-thirds {
+            width: 100%;
+        }
+    }
+
     .timestamp-outer {
         display: flow-root;
     }

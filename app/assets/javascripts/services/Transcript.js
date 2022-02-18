@@ -116,12 +116,12 @@ export default class Transcript {
         const skipToTop = document.getElementById("skipToTop");
         const chatContainer = document.getElementById("ciapiSkinChatTranscript")
 
-        let agentDiv = document.createElement("div")
+        var agentDiv = document.createElement("div")
         agentDiv.classList.add(this.classes.Agent.Outer);
         agentDiv.insertAdjacentHTML("beforeend", msgDiv);
         agentDiv.setAttribute('aria-live','polite');
 
-        let printMessageSuffix = document.createElement("span");
+        var printMessageSuffix = document.createElement("span");
         printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold";
         printMessageSuffix.innerHTML = "HMRC: ";
 
@@ -133,12 +133,8 @@ export default class Transcript {
 
         this._fixUpVALinks(agentDiv);
 
-        this.content.appendChild(printMessageSuffix);
-
-        this.content.appendChild(agentDiv);
-
         printOuterTimeStamp.className = "timestamp-outer"
-        printOuterTimeStamp.innerHTML = printTimeStamp.outerHTML;
+        printOuterTimeStamp.innerHTML = printMessageSuffix.outerHTML + agentDiv.outerHTML + printTimeStamp.outerHTML;
 
         this.content.appendChild(printOuterTimeStamp);
 
@@ -206,20 +202,19 @@ export default class Transcript {
         const skipToTop = document.getElementById("skipToTop");
         const chatContainer = document.getElementById("ciapiSkinChatTranscript");
 
+        printOuterTimeStamp.className = "timestamp-outer"
+
         if(!isSystemMsg)
         {
             printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
-            this.content.appendChild(printMessageSuffix);
+            printOuterTimeStamp.innerHTML = printMessageSuffix.outerHTML + msgDiv + printTimeStamp.outerHTML;
+        } else {
+            printOuterTimeStamp.innerHTML = msgDiv + printTimeStamp.outerHTML;
         }
 
         if(window.chatId){
             document.getElementById("chat-id").innerHTML = window.chatId ;
         }
-
-        this.content.insertAdjacentHTML("beforeend", msgDiv);
-
-        printOuterTimeStamp.className = "timestamp-outer"
-        printOuterTimeStamp.innerHTML = printTimeStamp.outerHTML;
 
         this.content.appendChild(printOuterTimeStamp);
 
