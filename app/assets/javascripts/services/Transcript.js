@@ -125,6 +125,8 @@ export default class Transcript {
         printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold";
         printMessageSuffix.innerHTML = "HMRC: ";
 
+        var printOuterTimeStamp = document.createElement("div");
+
         var printTimeStamp = document.createElement("p");
         printTimeStamp.className = "print-only print-float-left";
         printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
@@ -135,7 +137,10 @@ export default class Transcript {
 
         this.content.appendChild(agentDiv);
 
-        this.content.appendChild(printTimeStamp);
+        printOuterTimeStamp.className = "timestamp-outer"
+        printOuterTimeStamp.innerHTML = printTimeStamp.outerHTML;
+
+        this.content.appendChild(printOuterTimeStamp);
 
 
         setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false);
@@ -168,6 +173,7 @@ export default class Transcript {
 
         var id = "liveMsgId" + ( Math.random() * 100);
 
+        var printOuterTimeStamp = document.createElement("div");
         var printTimeStamp = document.createElement("p");
 
         if(isCustomerMsg == true){
@@ -212,7 +218,10 @@ export default class Transcript {
 
         this.content.insertAdjacentHTML("beforeend", msgDiv);
 
-        this.content.appendChild(printTimeStamp);
+        printOuterTimeStamp.className = "timestamp-outer"
+        printOuterTimeStamp.innerHTML = printTimeStamp.outerHTML;
+
+        this.content.appendChild(printOuterTimeStamp);
 
         setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type, false, this, msg_class, isSystemMsg);
 

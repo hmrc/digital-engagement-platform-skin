@@ -248,9 +248,9 @@ export default class CommonChatController {
 
         this.removeElementsForPrint(elementList);
 
-        setTimeout(function() {
-            window.print();
-        }, 250);
+
+        window.print();
+
         return false;
     }
 

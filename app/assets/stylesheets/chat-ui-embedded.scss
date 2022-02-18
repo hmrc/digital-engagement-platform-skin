@@ -16,6 +16,9 @@ $footer-top-border-height: 3px;
 $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-height + 50;
 
 
+
+
+
 #ciapiSkinContainer {
     background: #0000ff;
     background: #0000ff;
@@ -261,12 +264,32 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     display: none;
 }
 
+#cui-messaging-container {
+    width: 100%;
+    height: 600px;
+}
+
 
 @media print{
 
+    .timestamp-outer {
+        display: flow-root;
+    }
+
+    .ciapi-customer-container {
+        display: flow-root;
+    }
 
     .print-only{
         display: block;
+    }
+
+    .ciapi-agent-container {
+        padding-left: 0px;
+    }
+
+    .ciapi-customer-container {
+        padding-right: 0px;
     }
 
     .print-overflow-visible{
@@ -279,7 +302,6 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     }
 
     .print-float-right{
-        min-width: 8em;
         float: right;
         display: inline-block;
         margin-bottom: .2em;
