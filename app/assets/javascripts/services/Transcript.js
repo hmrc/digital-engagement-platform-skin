@@ -3,7 +3,7 @@ export default class Transcript {
         this.content = content;
         this.vaLinkCallback = vaLinkCallback;
         this.classes = classes;
-        this.agentMsgPrefix  = "Adviser said : ";
+        this.agentMsgPrefix = "Adviser said : ";
         this.customerMsgPrefix = "You said : ";
         this.systemMsgPrefix = "System message : ";
         this.automatedMsgPrefix = "Automated message : ";
@@ -22,7 +22,7 @@ export default class Transcript {
     }
 
     addOpenerScript(msg) {
-        this._appendMessage(msg, "",  this.classes.Opener, this.automatedMsgPrefix, false, false);
+        this._appendMessage(msg, "", this.classes.Opener, this.automatedMsgPrefix, false, false);
     }
 
     addSkipToBottomLink() {
@@ -30,8 +30,7 @@ export default class Transcript {
 
         if (chatContainer.scrollHeight > chatContainer.clientHeight) {
             this.createSkipLink("skipToTopWithScroll");
-        }
-        else {
+        } else {
             this.createSkipLink("skipToTopWithOutScroll");
         }
 
@@ -43,7 +42,7 @@ export default class Transcript {
 
         chatContainer.insertAdjacentHTML("beforeend", '<div id="skipToTop" class="' + className + ' govuk-!-padding-top-2"><a id="skipToTopLink" href="#" class="govuk-skip-link">Skip to top of conversation</a></div>');
         document.getElementById("skipToTopLink").addEventListener("click",
-            function (e) {
+            function(e) {
                 e.preventDefault();
                 document.getElementById("skipToBottomLink").focus();
             })
@@ -65,26 +64,26 @@ export default class Transcript {
         ];
 
         for (var i = 0, max = entities.length; i < max; ++i)
-            text = text.replace(new RegExp('&'+entities[i][0]+';', 'g'), entities[i][1]);
+            text = text.replace(new RegExp('&' + entities[i][0] + ';', 'g'), entities[i][1]);
 
         return text;
     }
 
 
-    appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class, isSystemMsg){
-        if(document.getElementById(id)){
-              if(that){
-                  var msg = that.decodeHTMLEntities(msg);
-              }
+    appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class, isSystemMsg) {
+        if (document.getElementById(id)) {
+            if (that) {
+                var msg = that.decodeHTMLEntities(msg);
+            }
 
-              document.getElementById(id).innerHTML = "<p class=govuk-visually-hidden>" + msg_type + "</p> " + msg;
-              document.getElementById(id).classList.remove("msg-opacity");
+            document.getElementById(id).innerHTML = "<p class=govuk-visually-hidden>" + msg_type + "</p> " + msg;
+            document.getElementById(id).classList.remove("msg-opacity");
         }
-        if(isVirtualAssistance == true && !isSystemMsg){
-              document.getElementById(id).focus();
+        if (isVirtualAssistance == true && !isSystemMsg) {
+            document.getElementById(id).focus();
         }
-        if(that){
-              that._showLatestContent(msg_class);
+        if (that) {
+            that._showLatestContent(msg_class);
         }
     }
 
@@ -92,25 +91,25 @@ export default class Transcript {
 
         var strTime = "";
 
-        if(msgTimestamp != ""){
+        if (msgTimestamp != "") {
 
-                var date = new Date(parseInt(msgTimestamp));
+            var date = new Date(parseInt(msgTimestamp));
 
-                var hours = date.getHours();
-                var minutes = date.getMinutes();
-                var ampm = hours >= 12 ? 'pm' : 'am';
-                hours = hours % 12;
-                hours = hours ? hours : 12; // the hour '0' should be '12'
-                minutes = minutes < 10 ? '0'+minutes : minutes;
-                strTime = hours + ':' + minutes + ' ' + ampm;
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var ampm = hours >= 12 ? 'pm' : 'am';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            strTime = hours + ':' + minutes + ' ' + ampm;
 
-          }
-          return strTime;
+        }
+        return strTime;
     }
 
     addAutomatonMsg(msg, msgTimestamp) {
 
-        var id = "liveAutomatedMsgId" + ( Math.random() * 100);
+        var id = "liveAutomatedMsgId" + (Math.random() * 100);
         const msgDiv = `<div class= "msg-opacity ${this.classes.Agent.Inner}" tabindex=-1 id=${id}></div>`;
 
         const skipToTop = document.getElementById("skipToTop");
@@ -119,7 +118,7 @@ export default class Transcript {
         var agentDiv = document.createElement("div")
         agentDiv.classList.add(this.classes.Agent.Outer);
         agentDiv.insertAdjacentHTML("beforeend", msgDiv);
-        agentDiv.setAttribute('aria-live','polite');
+        agentDiv.setAttribute('aria-live', 'polite');
 
         var printMessageSuffix = document.createElement("span");
         printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold";
@@ -133,7 +132,7 @@ export default class Transcript {
 
         this._fixUpVALinks(agentDiv);
 
-        printOuterTimeStamp.className = "timestamp-outer"
+        printOuterTimeStamp.className = "timestamp-outer";
         printOuterTimeStamp.innerHTML = printMessageSuffix.outerHTML + agentDiv.outerHTML + printTimeStamp.outerHTML;
 
         this.content.appendChild(printOuterTimeStamp);
@@ -167,31 +166,28 @@ export default class Transcript {
 
     _appendMessage(msg, msgTimestamp, msg_class, msg_type, isCustomerMsg, isSystemMsg) {
 
-        var id = "liveMsgId" + ( Math.random() * 100);
+        var id = "liveMsgId" + (Math.random() * 100);
 
         var printOuterTimeStamp = document.createElement("div");
         var printTimeStamp = document.createElement("p");
 
-        if(isCustomerMsg == true){
-                var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" id=${id}></div></div>`;
-                var printMessageSuffix = document.createElement("span");
-                printMessageSuffix.className = "print-only print-float-right govuk-!-font-weight-bold";
-                printMessageSuffix.innerHTML = "You: ";
+        if (isCustomerMsg == true) {
+            var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" id=${id}></div></div>`;
+            var printMessageSuffix = document.createElement("span");
+            printMessageSuffix.className = "print-only print-float-right govuk-!-font-weight-bold";
+            printMessageSuffix.innerHTML = "You: ";
 
-                printTimeStamp.className = "print-only print-float-right print-timestamp-right";
-        }
-        else{
-            if(isSystemMsg){
+            printTimeStamp.className = "print-only print-float-right print-timestamp-right";
+        } else {
+            if (isSystemMsg) {
                 var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
-            }
-            else{
+            } else {
                 var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" tabindex=-1 id=${id} aria-live=polite></div></div>`;
                 var printMessageSuffix = document.createElement("span");
                 printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold";
-                if(window.Agent_Name != null){
+                if (window.Agent_Name != null) {
                     printMessageSuffix.innerHTML = window.Agent_Name + ": ";
-                }
-                else{
+                } else {
                     printMessageSuffix.innerHTML = "HMRC: ";
                 }
 
@@ -204,16 +200,15 @@ export default class Transcript {
 
         printOuterTimeStamp.className = "timestamp-outer"
 
-        if(!isSystemMsg)
-        {
+        if (!isSystemMsg) {
             printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
             printOuterTimeStamp.innerHTML = printMessageSuffix.outerHTML + msgDiv + printTimeStamp.outerHTML;
         } else {
             printOuterTimeStamp.innerHTML = msgDiv + printTimeStamp.outerHTML;
         }
 
-        if(window.chatId){
-            document.getElementById("chat-id").innerHTML = window.chatId ;
+        if (window.chatId) {
+            document.getElementById("chat-id").innerHTML = window.chatId;
         }
 
         this.content.appendChild(printOuterTimeStamp);
