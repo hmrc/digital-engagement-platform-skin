@@ -16,12 +16,16 @@ const messageClasses = {
     Opener: {
         Outer: 'opener-outer',
         Inner: 'opener-inner'
+    },
+    Timestamp: {
+        Outer: 'timestamp-outer',
+        Inner: 'timestamp-inner'
     }
 };
 
 const mockMath = Object.create(global.Math);
-        mockMath.random = () => 0.5;
-        global.Math = mockMath;
+mockMath.random = () => 0.5;
+global.Math = mockMath;
 
 
 describe("Transcript", () => {
@@ -37,10 +41,15 @@ describe("Transcript", () => {
 
         transcript.addSystemMsg("System Message");
 
-        expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
-            "beforeend",
-            "<div class= govuk-!-display-none-print system-outer><div class= \"msg-opacity system-inner\" id=liveMsgId50 aria-live=polite></div></div>"
-        );
+        // expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
+        //     "beforeend",
+        //     "<div class= govuk-!-display-none-print system-outer><div class= \"msg-opacity system-inner\" id=liveMsgId50 aria-live=polite></div></div>"
+        // );
+
+        expect(content.appendChild).toBeCalledTimes(1);
+        expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
+        expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
+        //expect(content.appendChild).toHaveBeenCalledWith(Object("govuk-!-display-none-print"));
     });
 
     it("appends opener scripts", () => {
@@ -55,10 +64,14 @@ describe("Transcript", () => {
 
         transcript.addOpenerScript("An Opener Script");
 
-        expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
-            "beforeend",
-            "<div class=opener-outer><div class= \"msg-opacity opener-inner\" tabindex=-1 id=liveMsgId50 aria-live=polite></div></div>"
-        );
+        // expect(content.appendChild).toHaveBeenCalledWith(
+        // "beforeend",
+        // "<div class=opener-outer><div class= \"msg-opacity opener-inner\" tabindex=-1 id=liveMsgId50 aria-live=polite></div></div>"
+        // );
+
+        expect(content.appendChild).toBeCalledTimes(1);
+        expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
+        expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
     });
 
     it("appends agent messages", () => {
@@ -73,10 +86,14 @@ describe("Transcript", () => {
 
         transcript.addAgentMsg("Some agent message");
 
-        expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
-            "beforeend",
-            "<div class=agent-outer><div class= \"msg-opacity agent-inner\" tabindex=-1 id=liveMsgId50 aria-live=polite></div></div>"
-        );
+        // expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
+        //     "beforeend",
+        //     "<div class=agent-outer><div class= \"msg-opacity agent-inner\" tabindex=-1 id=liveMsgId50 aria-live=polite></div></div>"
+        // );
+
+        expect(content.appendChild).toBeCalledTimes(1);
+        expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
+        expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
     });
 
     it("appends customer messages", () => {
@@ -91,47 +108,59 @@ describe("Transcript", () => {
 
         transcript.addCustomerMsg("Some customer message");
 
-        expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
-            "beforeend",
-            "<div class=customer-outer><div class= \"msg-opacity customer-inner\" id=liveMsgId50></div></div>"
-        );
+        // expect(content.appendChild).toHaveBeenCalledWith(
+        //     "beforeend",
+        //     "<div class=customer-outer><div class= \"msg-opacity customer-inner\" id=liveMsgId50></div></div>"
+        // );
+
+        expect(content.appendChild).toBeCalledTimes(1);
+        expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
+        expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
     });
 
-     it("appends customer messages without live region", () => {
-            const content = {
-                insertAdjacentHTML: jest.fn(),
-                appendChild: jest.fn(),
-                scrollTo: jest.fn(),
-                scrollHeight: 666
-            };
-            const vaLinkCallback = jest.fn();
-            const transcript = new Transcript(content, vaLinkCallback, messageClasses);
+    it("appends customer messages without live region", () => {
+        const content = {
+            insertAdjacentHTML: jest.fn(),
+            appendChild: jest.fn(),
+            scrollTo: jest.fn(),
+            scrollHeight: 666
+        };
+        const vaLinkCallback = jest.fn();
+        const transcript = new Transcript(content, vaLinkCallback, messageClasses);
 
-            transcript._appendMessage("test1","time", messageClasses.Customer, "test3", true);
+        transcript._appendMessage("test1", "time", messageClasses.Customer, "test3", true);
 
-            expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
-                "beforeend",
-                "<div class=customer-outer><div class= \"msg-opacity customer-inner\" id=liveMsgId50></div></div>"
-            );
-        });
+        // expect(content.appendChild).toHaveBeenCalledWith(
+        //     "beforeend",
+        //     "<div class=customer-outer><div class= \"msg-opacity customer-inner\" id=liveMsgId50></div></div>"
+        // );
 
-        it("appends other messages(automated, agent etc) with live region", () => {
-                    const content = {
-                        insertAdjacentHTML: jest.fn(),
-                        appendChild: jest.fn(),
-                        scrollTo: jest.fn(),
-                        scrollHeight: 666
-                    };
-                    const vaLinkCallback = jest.fn();
-                    const transcript = new Transcript(content, vaLinkCallback, messageClasses);
+        expect(content.appendChild).toBeCalledTimes(1);
+        expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
+        expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
+    });
 
-                    transcript._appendMessage("test1","time", messageClasses.Agent, "test3", false);
+    it("appends other messages(automated, agent etc) with live region", () => {
+        const content = {
+            insertAdjacentHTML: jest.fn(),
+            appendChild: jest.fn(),
+            scrollTo: jest.fn(),
+            scrollHeight: 666
+        };
+        const vaLinkCallback = jest.fn();
+        const transcript = new Transcript(content, vaLinkCallback, messageClasses);
 
-                    expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
-                        "beforeend",
-                        "<div class=agent-outer><div class= \"msg-opacity agent-inner\" tabindex=-1 id=liveMsgId50 aria-live=polite></div></div>"
-                    );
-                });
+        transcript._appendMessage("test1", "time", messageClasses.Agent, "test3", false);
+
+        // expect(content.appendChild).toHaveBeenCalledWith(
+        //     "beforeend",
+        //     "<div class=agent-outer><div class= \"msg-opacity agent-inner\" tabindex=-1 id=liveMsgId50 aria-live=polite></div></div>"
+        // );
+
+        expect(content.appendChild).toBeCalledTimes(1);
+        expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
+        expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
+    });
 
     it("appends automaton messages", () => {
         const content = {
@@ -144,6 +173,8 @@ describe("Transcript", () => {
 
         transcript.addAutomatonMsg("I'm not a real person");
 
+        expect(content.appendChild).toBeCalledTimes(1);
+        expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
         expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
     });
 
@@ -171,37 +202,37 @@ describe("Transcript", () => {
     });
 
     it("appends agent messages after 3000ms", () => {
-            const content = {
-                insertAdjacentHTML: jest.fn(),
-                scrollTo: jest.fn(),
-                scrollHeight: 314
-            };
+        const content = {
+            insertAdjacentHTML: jest.fn(),
+            scrollTo: jest.fn(),
+            scrollHeight: 314
+        };
 
-            const vaLinkCallback = jest.fn();
-            const transcript = new Transcript(content, vaLinkCallback, messageClasses);
+        const vaLinkCallback = jest.fn();
+        const transcript = new Transcript(content, vaLinkCallback, messageClasses);
 
-             let div = document.createElement("div");
-             div.setAttribute("id", "test");
-             document.body.appendChild(div);
+        let div = document.createElement("div");
+        div.setAttribute("id", "test");
+        document.body.appendChild(div);
 
-            transcript.appendMessgeInLiveRegion("Some agent message", "test", "testmsg", this);
+        transcript.appendMessgeInLiveRegion("Some agent message", "test", "testmsg", this);
 
-            expect(document.getElementById("test").innerHTML).toBe("<p class=\"govuk-visually-hidden\">testmsg</p> Some agent message");
-        });
+        expect(document.getElementById("test").innerHTML).toBe("<p class=\"govuk-visually-hidden\">testmsg</p> Some agent message");
+    });
 
-     it("replaces encoded string", () => {
-            const content = {
-                insertAdjacentHTML: jest.fn(),
-                scrollTo: jest.fn(),
-                scrollHeight: 314
-            };
-            const vaLinkCallback = jest.fn();
-            const transcript = new Transcript(content, vaLinkCallback, messageClasses);
+    it("replaces encoded string", () => {
+        const content = {
+            insertAdjacentHTML: jest.fn(),
+            scrollTo: jest.fn(),
+            scrollHeight: 314
+        };
+        const vaLinkCallback = jest.fn();
+        const transcript = new Transcript(content, vaLinkCallback, messageClasses);
 
-            var msg = transcript.decodeHTMLEntities("&lt;this is &apos; test&gt;");
+        var msg = transcript.decodeHTMLEntities("&lt;this is &apos; test&gt;");
 
-            expect(msg).toBe("<this is ' test>");
-            });
+        expect(msg).toBe("<this is ' test>");
+    });
 
     //TODO create a test for each of the above scenarios where the incoming message is higher than the parent div
 });

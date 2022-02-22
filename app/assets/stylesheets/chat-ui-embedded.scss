@@ -3,7 +3,6 @@
 @import 'system-message';
 @import 'c2cbutton';
 @import 'end-chat-popup';
-@import "lib/govuk-frontend/govuk/all";
 
 
 $container-height: 600px;
@@ -16,12 +15,9 @@ $footer-padding: 5px;
 $footer-top-border-height: 3px;
 $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-height + 50;
 
-#ciapiSkin {
-    font-family: "GDS Transport",arial,sans-serif;
-    font-size: 19px;
-    -webkit-font-smoothing: antialiased;
-    margin-bottom: 0px !important;
-}
+
+
+
 
 #ciapiSkinContainer {
     background: #0000ff;
@@ -83,7 +79,6 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
   border-bottom: $footer-top-border-height solid rgb(11, 12, 12);
   div {
     margin-bottom: 0px;
-    @extend .govuk-body;
   }
 
   .skipToTopWithScroll{
@@ -260,6 +255,7 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
         margin-bottom: 1.2em !important;
     }
 }
+
 #heading_chat_ended:focus, #legend_give_feedback:focus, #heading_end_chat_popup:focus{
     outline:0;
 }
@@ -268,7 +264,39 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     display: none;
 }
 
+#cui-messaging-container {
+    width: 100%;
+    height: 600px;
+}
+
+
 @media print{
+
+    @supports (-moz-appearance:none) {
+        .govuk-grid-column-two-thirds {
+            width: 100%;
+        }
+    }
+
+    .timestamp-outer {
+        display: flow-root;
+    }
+
+    .ciapi-customer-container {
+        display: flow-root;
+    }
+
+    .print-only{
+        display: block;
+    }
+
+    .ciapi-agent-container {
+        padding-left: 0px;
+    }
+
+    .ciapi-customer-container {
+        padding-right: 0px;
+    }
 
     .print-overflow-visible{
         overflow:visible;
@@ -280,7 +308,6 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     }
 
     .print-float-right{
-        min-width: 8em;
         float: right;
         display: inline-block;
         margin-bottom: .2em;
@@ -293,8 +320,17 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
         margin-bottom: .2em;
     }
 
-    .print-only{
-        display: block;
+    .govuk-header__container {
+        border-bottom: none;
     }
 
+    .govuk-header__logo {
+        display: inline-block;
+    }
+
+    .govuk-header__content {
+        display: inline-block;
+    }
 }
+
+
