@@ -3,6 +3,7 @@
 @import 'system-message';
 @import 'c2cbutton';
 @import 'end-chat-popup';
+
 $container-height: 600px;
 $header-height: 30px;
 $header-border-bottom-height: 2px;
@@ -11,6 +12,7 @@ $footer-height: 130px;
 $footer-padding: 5px;
 $footer-top-border-height: 3px;
 $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-height+50;
+
 #ciapiSkinContainer {
     background: #0000ff;
     background: #0000ff;
@@ -239,10 +241,8 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
     }
 }
 
-#heading_chat_ended:focus,
-#legend_give_feedback:focus,
-#heading_end_chat_popup:focus {
-    outline: 0;
+#heading_chat_ended:focus, #legend_give_feedback:focus, #heading_end_chat_popup:focus{
+    outline:0;
 }
 
 .print-only {
@@ -262,10 +262,10 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
         width: 100%;
     }
     .timestamp-outer {
-        display: flow-root;
+      display: flow-root;
     }
-    .ciapi-customer-container {
-        display: flow-root;
+    .ciapi-agent-container {
+      padding-left: 0px;
     }
     .print-only {
         display: block;
