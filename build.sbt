@@ -8,7 +8,21 @@ val appName = "digital-engagement-platform-skin"
 
 lazy val scoverageSettings = {
   Seq(
-    ScoverageKeys.coverageExcludedPackages :="""uk\.gov\.hmrc\.BuildInfo;.*\.Routes;.*\.RoutesPrefix;.*\.ErrorTemplate;.*\.ErrorHandler;.*\.TestOnlyTemplate;.*\.TestOnlyView;.*\.Reverse[^.]*""",
+    //ScoverageKeys.coverageExcludedPackages :="""uk\.gov\.hmrc\.BuildInfo;.*\.Routes;.*\.RoutesPrefix;.*\.ErrorTemplate;.*\.ErrorHandler;.*\.TestOnlyTemplate;.*\.TestOnlyView;.*\.Reverse[^.]*""",
+    ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;.*(config|views.*);.*(AuthService|BuildInfo|Routes).*",
+    ScoverageKeys.coverageExcludedFiles := Seq(
+      "" +
+        "<empty>",
+      "Reverse.*",
+      ".*models.*",
+      ".*repositories.*",
+      ".*BuildInfo.*",
+      ".*javascript.*",
+      ".*Routes.*",
+      ".*GuiceInjector",
+      ".*DateTimeQueryStringBinder.*", // better covered via wiremock/E2E integration tests
+      ".*Test.*"
+    ).mkString(";"),
     ScoverageKeys.coverageMinimum := 88,
     ScoverageKeys.coverageFailOnMinimum := false,
     ScoverageKeys.coverageHighlighting := true
