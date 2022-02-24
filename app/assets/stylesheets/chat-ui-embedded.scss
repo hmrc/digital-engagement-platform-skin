@@ -7,12 +7,11 @@
 $container-height: 600px;
 $header-height: 30px;
 $header-border-bottom-height: 2px;
-$components-sub-height: $header-height + $header-border-bottom-height;
-
+$components-sub-height: $header-height+$header-border-bottom-height;
 $footer-height: 130px;
 $footer-padding: 5px;
 $footer-top-border-height: 3px;
-$transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-height + 50;
+$transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-height+50;
 
 #ciapiSkinContainer {
     background: #0000ff;
@@ -54,47 +53,46 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
 }
 
 #skipToTopLink:focus {
-    box-shadow : none !important;
+    box-shadow: none !important;
     text-decoration: underline !important;
 }
 
- #skipToBottomLink:focus {
-     box-shadow : none !important;
-     text-decoration: underline !important;
+#skipToBottomLink:focus {
+    box-shadow: none !important;
+    text-decoration: underline !important;
 }
 
 .ciapiSkinChatTranscript {
-      height: calc(100% - #{$transcript-sub-height});
-      background-color: #fff;
-      box-sizing: border-box;
-      overflow: auto;
-      padding: 0;
-      margin-bottom: 0px !important;
-      position: relative;
-      border-bottom: $footer-top-border-height solid rgb(11, 12, 12);
-  div {
-      margin-bottom: 0px;
-  }
-
-  .skipToTopWithScroll {
-      position:relative;
-      bottom : 0;
-      margin-left:5px;
-      margin-right:5px;
-      clear: both;
-   }
-   .skipToTopWithOutScroll {
-      position:absolute;
-      bottom : 0;
-      margin-left:5px;
-      margin-right:5px;
-      width:96%;
-      clear: both;
- }
-   #skipToBottom {
-      margin-left:5px;
-      margin-right:5px;
-   }
+    height: calc(100% - #{$transcript-sub-height});
+    background-color: #fff;
+    box-sizing: border-box;
+    overflow: auto;
+    padding: 0;
+    margin-bottom: 0px !important;
+    position: relative;
+    border-bottom: $footer-top-border-height solid rgb(11, 12, 12);
+    div {
+        margin-bottom: 0px;
+    }
+    .skipToTopWithScroll {
+        position: relative;
+        bottom: 0;
+        margin-left: 5px;
+        margin-right: 5px;
+        clear: both;
+    }
+    .skipToTopWithOutScroll {
+        position: absolute;
+        bottom: 0;
+        margin-left: 5px;
+        margin-right: 5px;
+        width: 96%;
+        clear: both;
+    }
+    #skipToBottom {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
 }
 
 #ciapiSkinFooter {
@@ -243,10 +241,8 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     }
 }
 
-#heading_chat_ended:focus,
-#legend_give_feedback:focus,
-#heading_end_chat_popup:focus {
-    outline: 0;
+#heading_chat_ended:focus, #legend_give_feedback:focus, #heading_end_chat_popup:focus{
+    outline:0;
 }
 
 .print-only {
@@ -259,16 +255,20 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
 }
 
 @media print {
-    @supports (-moz-appearance: none) {
-        .govuk-grid-column-two-thirds {
-            width: 100%;
-        }
+    // .govuk-template__body {
+    //     font-family: "GDS Transport", arial, sans-serif;
+    // }
+    .govuk-grid-column-two-thirds {
+        width: 100%;
     }
     .timestamp-outer {
-        display: flow-root;
+      display: flow-root;
     }
     .ciapi-customer-container {
         display: flow-root;
+    }
+    .ciapi-agent-container {
+      padding-left: 0px;
     }
     .print-only {
         display: block;
