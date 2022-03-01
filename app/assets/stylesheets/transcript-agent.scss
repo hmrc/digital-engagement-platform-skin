@@ -1,8 +1,8 @@
 @import 'bubble';
 
 .ciapi-agent-container {
-  >div {
-    @include bubble
+   >div {
+    @include bubble;
     >div{
     margin-bottom : 0 !important;
     }
@@ -10,7 +10,7 @@
 
   padding: 8px 15px;
   clear: both;
-  overflow-wrap: break-word
+  overflow-wrap: break-word;
 }
 
 .ciapi-agent-message::before, .ciapi-agent-message::after {

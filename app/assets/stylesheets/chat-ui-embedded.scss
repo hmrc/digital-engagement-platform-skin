@@ -138,11 +138,13 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
 }
 
 #ciapiPrintButton {
-    @include IconButton background-image: url('/engagement-platform-skin/assets/media/save-transcript.svg');
+    @include IconButton;
+    background-image: url('/engagement-platform-skin/assets/media/save-transcript.svg');
 }
 
 #ciapiSoundButton {
-    @include IconButton background-image: url('/engagement-platform-skin/assets/media/hmrc-alert_on.svg');
+    @include IconButton;
+    background-image: url('/engagement-platform-skin/assets/media/hmrc-alert_on.svg');
     float: right;
 }
 
