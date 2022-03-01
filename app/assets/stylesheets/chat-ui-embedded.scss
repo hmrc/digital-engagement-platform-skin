@@ -257,15 +257,10 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
 }
 
 @media print {
-    // .govuk-template__body {
-    //     font-family: "GDS Transport", arial, sans-serif;
-    // }
     .govuk-grid-column-two-thirds {
         width: 100%;
     }
-    .timestamp-outer {
-      display: flow-root;
-    }
+ 
     .ciapi-customer-container {
         display: flow-root;
     }
