@@ -21,7 +21,8 @@ export default class Transcript {
         this._appendMessage(msg, "", this.classes.System, this.systemMsgPrefix, false, true);
     }
 
-    addOpenerScript(msg, msgTimestamp) {
+    addOpenerScript(msg) {
+        let msgTimestamp = new Date().getTime();
         this._appendMessage(msg, msgTimestamp, this.classes.Opener, this.automatedMsgPrefix, false, false);
     }
 
