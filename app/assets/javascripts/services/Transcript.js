@@ -22,7 +22,8 @@ export default class Transcript {
     }
 
     addOpenerScript(msg) {
-        this._appendMessage(msg, "", this.classes.Opener, this.automatedMsgPrefix, false, false);
+        let msgTimestamp = new Date().getTime();
+        this._appendMessage(msg, msgTimestamp, this.classes.Opener, this.automatedMsgPrefix, false, false);
     }
 
     addSkipToBottomLink() {
@@ -110,7 +111,7 @@ export default class Transcript {
     addAutomatonMsg(msg, msgTimestamp) {
 
         var id = "liveAutomatedMsgId" + (Math.random() * 100);
-        const msgDiv = `<div class= "msg-opacity ${this.classes.Agent.Inner}" tabindex=-1 id=${id}></div>`;
+        const msgDiv = `<div class= "msg-opacity govuk-body ${this.classes.Agent.Inner}" tabindex=-1 id=${id}></div>`;
 
         const skipToTop = document.getElementById("skipToTop");
         const chatContainer = document.getElementById("ciapiSkinChatTranscript")
@@ -121,13 +122,13 @@ export default class Transcript {
         agentDiv.setAttribute('aria-live', 'polite');
 
         var printMessageSuffix = document.createElement("span");
-        printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold";
+        printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
         printMessageSuffix.innerHTML = "HMRC: ";
 
         var printOuterTimeStamp = document.createElement("div");
 
         var printTimeStamp = document.createElement("p");
-        printTimeStamp.className = "print-only print-float-left";
+        printTimeStamp.className = "print-only govuk-body print-float-left";
         printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
 
         this._fixUpVALinks(agentDiv);
@@ -172,26 +173,26 @@ export default class Transcript {
         var printTimeStamp = document.createElement("p");
 
         if (isCustomerMsg == true) {
-            var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" id=${id}></div></div>`;
+            var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id}></div></div>`;
             var printMessageSuffix = document.createElement("span");
-            printMessageSuffix.className = "print-only print-float-right govuk-!-font-weight-bold";
+            printMessageSuffix.className = "print-only print-float-right govuk-!-font-weight-bold govuk-body";
             printMessageSuffix.innerHTML = "You: ";
 
-            printTimeStamp.className = "print-only print-float-right print-timestamp-right";
+            printTimeStamp.className = "print-only govuk-body print-float-right print-timestamp-right";
         } else {
             if (isSystemMsg) {
-                var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
+                var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
             } else {
-                var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity ${msg_class.Inner}" tabindex=-1 id=${id} aria-live=polite></div></div>`;
+                var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" tabindex=-1 id=${id} aria-live=polite></div></div>`;
                 var printMessageSuffix = document.createElement("span");
-                printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold";
+                printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
                 if (window.Agent_Name != null) {
                     printMessageSuffix.innerHTML = window.Agent_Name + ": ";
                 } else {
                     printMessageSuffix.innerHTML = "HMRC: ";
                 }
 
-                printTimeStamp.className = "print-only print-float-left";
+                printTimeStamp.className = "print-only govuk-body print-float-left";
             }
         }
 
