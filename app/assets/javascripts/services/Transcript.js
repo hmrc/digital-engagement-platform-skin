@@ -22,8 +22,16 @@ export default class Transcript {
     }
 
     addOpenerScript(msg) {
-        let msgTimestamp = new Date().getTime();
-        this._appendMessage(msg, msgTimestamp, this.classes.Opener, this.automatedMsgPrefix, false, false);
+
+        let openerScriptTimestamp = new Date().getTime();
+
+        if (localStorage.getItem("openerScriptTimestamp") == null) {
+            localStorage.setItem("openerScriptTimestamp", openerScriptTimestamp);
+        }
+
+        openerScriptTimestamp = localStorage.getItem("openerScriptTimestamp");
+
+        this._appendMessage(msg, openerScriptTimestamp, this.classes.Opener, this.automatedMsgPrefix, false, false);
     }
 
     addSkipToBottomLink() {
