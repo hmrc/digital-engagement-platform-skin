@@ -96,6 +96,13 @@ export class EngagedState {
             }
         } else if (msg.messageType === MessageType.Chat_AutomationRequest) {
             console.log("in automation msgs ++", msg.messageTimestamp);
+            var messageRecievedSound = new Audio();
+            //var messageRecievedSound = new Audio(MessageRecievedSound);
+            messageRecievedSound.setAttribute("src", "http://localhost:9193/engagement-platform-skin/assets/media/message-received-soud.mp3")
+            messageRecievedSound.load()
+            messageRecievedSound.play();
+            //var sample = document.getElementById("soundFile");
+            //sample.play();
             transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
         } else if (msg.messageType === MessageType.Chat_Exit) {
             // This message may also have msg.state === "closed".
