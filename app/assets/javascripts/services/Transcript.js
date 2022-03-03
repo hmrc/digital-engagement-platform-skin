@@ -25,11 +25,11 @@ export default class Transcript {
 
         let openerScriptTimestamp = new Date().getTime();
 
-        if (localStorage.getItem("openerScriptTimestamp") == null) {
-            localStorage.setItem("openerScriptTimestamp", openerScriptTimestamp);
+        if (sessionStorage.getItem("openerScriptTimestamp") == null) {
+            sessionStorage.setItem("openerScriptTimestamp", openerScriptTimestamp);
         }
 
-        openerScriptTimestamp = localStorage.getItem("openerScriptTimestamp");
+        openerScriptTimestamp = sessionStorage.getItem("openerScriptTimestamp");
 
         this._appendMessage(msg, openerScriptTimestamp, this.classes.Opener, this.automatedMsgPrefix, false, false);
     }
