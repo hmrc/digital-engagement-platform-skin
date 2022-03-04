@@ -107,12 +107,16 @@ describe("Chat States", () => {
             expect(sdk.sendMessage).toHaveBeenCalledWith("Please help me.");
         });
 
-        it("sends agent messages to the transcript and plays sound when sound is active", () => {
+        it("plays sound on incoming agent message when user has sound turned on", () => {
             const [sdk, container] = createEngagedStateDependencies();
-            
             const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            let chatContainer = document.createElement("button");
+            chatContainer.setAttribute("id", "toggleSound");
+            chatContainer.setAttribute("class", "active");
+            document.body.appendChild(chatContainer);
+
             const isSoundActive = jest.spyOn(state, '_isSoundActive');
-            isSoundActive.mockReturnValue(true);
             const playMessageRecievedSound = jest.spyOn(state, '_playMessageRecievedSound');
 
             const handleMessage = sdk.getMessages.mock.calls[0][0];
@@ -126,8 +130,27 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addAgentMsg).toHaveBeenCalledWith("Hello world", "test");
+
             expect(playMessageRecievedSound).toBeCalledTimes(1);
+        });
+
+        it("sends agent messages to the transcript", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+            
+            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+            const message = {
+                data: {
+                    messageType: MessageType.Chat_Communication,
+                    messageText: "Hello world",
+                    agentID: "007",
+                    messageTimestamp: "test"
+                }
+            };
+
+            handleMessage(message);
+            expect(container.transcript.addAgentMsg).toHaveBeenCalledWith("Hello world", "test");
         });
 
         it("sends customer messages to the transcript", () => {

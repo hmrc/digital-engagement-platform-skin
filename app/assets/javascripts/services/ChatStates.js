@@ -78,6 +78,8 @@ export class EngagedState {
 
         if(soundElement != null) {
             isActive = soundElement.classList.contains("active");
+        } else {
+            isActive = false;
         }
 
         return isActive;
