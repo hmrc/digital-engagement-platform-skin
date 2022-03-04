@@ -91,6 +91,7 @@ export class EngagedState {
 
     _playMessageRecievedSound() {
         let messageReceivedSound = new Audio('../assets/media/message-received-sound.mp3'); 
+        messageReceivedSound.autoplay = true;
         messageReceivedSound.play();
     }
 
