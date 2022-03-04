@@ -107,10 +107,13 @@ describe("Chat States", () => {
             expect(sdk.sendMessage).toHaveBeenCalledWith("Please help me.");
         });
 
-        it("sends agent messages to the transcript", () => {
+        it("sends agent messages to the transcript and plays sound when sound is active", () => {
             const [sdk, container] = createEngagedStateDependencies();
-
+            
             const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+            const isSoundActive = jest.spyOn(state, '_isSoundActive');
+            isSoundActive.mockReturnValue(true);
+            const playMessageRecievedSound = jest.spyOn(state, '_playMessageRecievedSound');
 
             const handleMessage = sdk.getMessages.mock.calls[0][0];
             const message = {
@@ -124,6 +127,7 @@ describe("Chat States", () => {
 
             handleMessage(message);
             expect(container.transcript.addAgentMsg).toHaveBeenCalledWith("Hello world", "test");
+            expect(playMessageRecievedSound).toBeCalledTimes(1);
         });
 
         it("sends customer messages to the transcript", () => {

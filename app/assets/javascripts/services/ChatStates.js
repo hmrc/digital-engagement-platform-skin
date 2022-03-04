@@ -1,7 +1,5 @@
 import * as MessageType from '../NuanceMessageType';
 
-//import * as MessageRecievedSound from '../../media/message-received-soud.mp3';
-
 // State at start, before anything happens.
 export class NullState {
     onSend(text) {
@@ -74,8 +72,24 @@ export class EngagedState {
         }
     }
 
+    _isSoundActive() {
+        let soundElement = document.getElementById("toggleSound");
+        let isActive = null;
+
+        if(soundElement != null) {
+            isActive = soundElement.classList.contains("active");
+        }
+
+        return isActive;
+    }
+
     _getMessages() {
         this.sdk.getMessages((msg_in) => this._displayMessage(msg_in));
+    }
+
+    _playMessageRecievedSound() {
+        let messageReceivedSound = new Audio('../assets/media/message-received-sound.mp3'); 
+        messageReceivedSound.play();
     }
 
     _displayMessage(msg_in) {
@@ -87,22 +101,18 @@ export class EngagedState {
         const transcript = this.container.getTranscript();
         if (msg.messageType === MessageType.Chat_Communication) {
             if (msg.agentID) {
-                var messageRecievedSound = new Audio('http://localhost:9193/engagement-platform-skin/assets/media/message-received-soud.mp3');
-                //var messageRecievedSound = new Audio(MessageRecievedSound);
-                messageRecievedSound.play();
+  
+                if(this._isSoundActive) {
+                    this._playMessageRecievedSound();
+                }
+
                 transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
             } else {
                 transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
             }
         } else if (msg.messageType === MessageType.Chat_AutomationRequest) {
             console.log("in automation msgs ++", msg.messageTimestamp);
-            var messageRecievedSound = new Audio();
-            //var messageRecievedSound = new Audio(MessageRecievedSound);
-            messageRecievedSound.setAttribute("src", "http://localhost:9193/engagement-platform-skin/assets/media/message-received-soud.mp3")
-            messageRecievedSound.load()
-            messageRecievedSound.play();
-            //var sample = document.getElementById("soundFile");
-            //sample.play();
+            
             transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
         } else if (msg.messageType === MessageType.Chat_Exit) {
             // This message may also have msg.state === "closed".
