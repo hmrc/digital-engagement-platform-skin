@@ -252,13 +252,13 @@ export default class Transcript {
                 if (heightOfLastMessage > heightOfSkinChat) {
                     innerClassArray[lengthOfAgentInnerArray].scrollIntoView({ block: 'nearest' });
                 } else {
-                    chatContainer.scrollTo(0, chatContainer.scrollHeight, "smooth");
+                    chatContainer.scrollTo({top: chatContainer.scrollHeight, left: 0, behavior: "smooth"});
                 }
             } else {
-                chatContainer.scrollTo(0, chatContainer.scrollHeight, "smooth");
+                chatContainer.scrollTo({top: chatContainer.scrollHeight, left: 0, behavior: "smooth"});
             }
         } else {
-            chatContainer.scrollTo(0, chatContainer.scrollHeight, "smooth");
+            chatContainer.scrollTo({top: chatContainer.scrollHeight, left: 0, behavior: "smooth"});
         }
     }
 }

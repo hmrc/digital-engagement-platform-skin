@@ -1,17 +1,17 @@
-import * as MessageType from '../NuanceMessageType'
+import * as MessageType from '../NuanceMessageType';
 
 // State at start, before anything happens.
 export class NullState {
     onSend(text) {
-        console.error("State Error: Trying to send text with no state.")
+        console.error("State Error: Trying to send text with no state.");
     }
 
     onClickedVALink(text) {
-        console.error("State Error: Trying to handle VA link with no state.")
+        console.error("State Error: Trying to handle VA link with no state.");
     }
 
     onClickedClose() {
-        console.error("State Error: Trying to close chat with no state.")
+        console.error("State Error: Trying to close chat with no state.");
     }
 }
 
@@ -19,7 +19,7 @@ export class NullState {
 // First input from customer should engage chat.
 export class ShownState {
     constructor(engageRequest, closeChat) {
-        this.engageRequest = engageRequest
+        this.engageRequest = engageRequest;
         this.closeChat = closeChat;
     }
 
@@ -29,7 +29,7 @@ export class ShownState {
     }
 
     onClickedVALink(e) {
-        console.error("State Error: Trying to handle VA link before engaged.")
+        console.error("State Error: Trying to handle VA link before engaged.");
     }
 
     onClickedClose() {
@@ -54,8 +54,8 @@ export class EngagedState {
     }
 
     onSend(text) {
-        console.log(">>> connected: send message")
-        this.sdk.sendMessage(text)
+        console.log(">>> connected: send message");
+        this.sdk.sendMessage(text);
     }
 
     onClickedVALink(e) {
@@ -72,25 +72,49 @@ export class EngagedState {
         }
     }
 
+    _isSoundActive() {
+        let soundElement = document.getElementById("toggleSound");
+        let isActive = null;
+
+        if(soundElement != null) {
+            isActive = soundElement.classList.contains("active");
+        } else {
+            isActive = false;
+        }
+
+        return isActive;
+    }
+
     _getMessages() {
         this.sdk.getMessages((msg_in) => this._displayMessage(msg_in));
+    }
+
+    _playMessageRecievedSound() {
+        let messageReceivedSound = new Audio('../assets/media/message-received-sound.mp3'); 
+        messageReceivedSound.play();
     }
 
     _displayMessage(msg_in) {
         const msg = msg_in.data
         console.log("---- Received message:", msg);
-        if(msg && msg.senderName){
-                window.Agent_Name = msg.senderName;
+        if (msg && msg.senderName) {
+            window.Agent_Name = msg.senderName;
         }
         const transcript = this.container.getTranscript();
         if (msg.messageType === MessageType.Chat_Communication) {
             if (msg.agentID) {
-                transcript.addAgentMsg(msg.messageText, msg.messageTimestamp, )
+  
+                if(this._isSoundActive) {
+                    this._playMessageRecievedSound();
+                }
+
+                transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
             } else {
-                transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp)
+                transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
             }
         } else if (msg.messageType === MessageType.Chat_AutomationRequest) {
-        console.log("in automation msgs ++", msg.messageTimestamp)
+            console.log("in automation msgs ++", msg.messageTimestamp);
+            
             transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
         } else if (msg.messageType === MessageType.Chat_Exit) {
             // This message may also have msg.state === "closed".
@@ -107,10 +131,10 @@ export class EngagedState {
             //            this.isConnected = false;
             transcript.addSystemMsg("No agents are available.");
         } else if ([
-            MessageType.Chat_System,
-            MessageType.Chat_TransferResponse,
-            MessageType.ChatRoom_MemberLost
-        ].includes(msg.messageType)) {
+                MessageType.Chat_System,
+                MessageType.Chat_TransferResponse,
+                MessageType.ChatRoom_MemberLost
+            ].includes(msg.messageType)) {
             transcript.addSystemMsg(msg["client.display.text"]);
         } else {
             console.log("==== Unknown message:", msg);
@@ -130,15 +154,14 @@ export class ClosingState {
     }
 
     onSend(text) {
-        console.error("State Error: Trying to send text when closing.")
+        console.error("State Error: Trying to send text when closing.");
     }
 
     onClickedVALink(e) {
-        console.error("State Error: Trying to handle VA link when closing.")
+        console.error("State Error: Trying to handle VA link when closing.");
     }
 
     onClickedClose() {
         this.closeChat();
     }
 }
-

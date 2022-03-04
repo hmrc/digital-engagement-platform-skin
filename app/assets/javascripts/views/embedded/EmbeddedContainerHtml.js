@@ -1,7 +1,7 @@
 'use strict';
 export const ContainerHtml = `
 <div id="printDetails" class="print-only govuk-!-padding-top-8 govuk-!-padding-bottom-8">
-<p class="govuk-body print-only">Chat id: <span id="chat-id"></span></p>
+<p class="govuk-body print-only">Chat ID: <span id="chat-id"></span></p>
 <p id="print-date" class="govuk-body print-only"></p>
 </div>
 <div id="ciapiSkinContainer">
@@ -12,8 +12,8 @@ export const ContainerHtml = `
             </button>
         </div>
         <div id="sound">
-            <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
-               Turn sound on
+            <button id="toggleSound" class="govuk-button govuk-button--secondary active" data-module="govuk-button">
+                Turn notification sound off
             </button>
         </div>
     </div>

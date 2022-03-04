@@ -386,4 +386,23 @@ export default class CommonChatController {
         this.showEndChatPage(true);
     }
 
+    onSoundToggle(e) {
+
+        let soundElement = document.getElementById("toggleSound");  
+        let isActive = soundElement.classList.contains("active");
+
+        if (isActive) {
+            soundElement.classList.remove("active");
+            soundElement.classList.add("inactive");
+
+            soundElement.innerHTML = "Turn notification sound on";
+        } else {
+            soundElement.classList.remove("inactive");
+            soundElement.classList.add("active");
+
+            soundElement.innerHTML = "Turn notification sound off";
+        }
+        
+    }
+
 };
