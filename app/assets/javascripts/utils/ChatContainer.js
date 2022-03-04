@@ -8,7 +8,7 @@ const nullEventHandler = {
     onRestoreChat: function () { },
     onClickedVALink: function (e) { },
     onConfirmEndChat: function () { },
-    onSoundToggle: function () {}
+    onSoundToggle: function () { }
 };
 
 export default class ChatContainer {
@@ -147,7 +147,6 @@ export default class ChatContainer {
         this.endChatPopup.hide();
         this.eventHandler.onConfirmEndChat();
         document.getElementById("legend_give_feedback").focus();
-        //removeLocalStorageItems('openerScriptTimestamp');
     }
 
     showPage(page) {
