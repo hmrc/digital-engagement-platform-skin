@@ -143,10 +143,16 @@ export default class ChatContainer {
         document.getElementById("ciapiSkinCloseButton").focus();
     }
 
+    _removeSkinHeadingElements() {
+        document.getElementById("print").remove();
+        document.getElementById("sound").remove();
+    }
+
     onConfirmEndChat() {
         this.endChatPopup.hide();
         this.eventHandler.onConfirmEndChat();
         document.getElementById("legend_give_feedback").focus();
+        this._removeSkinHeadingElements();
     }
 
     showPage(page) {
