@@ -76,7 +76,7 @@ export class EngagedState {
         let soundElement = document.getElementById("toggleSound");
         let isActive = null;
 
-        if(soundElement != null) {
+        if (soundElement != null) {
             isActive = soundElement.classList.contains("active");
         } else {
             isActive = false;
@@ -90,8 +90,8 @@ export class EngagedState {
     }
 
     _playMessageRecievedSound() {
-        let messageReceivedSound = new Audio('../assets/media/message-received-sound.mp3'); 
-        messageReceivedSound.autoplay = true;
+        let messageReceivedSound = new Audio('../assets/media/message-received-sound.mp3');
+        messageReceivedSound.ype = "audio/mpeg";
         messageReceivedSound.play();
     }
 
@@ -104,7 +104,7 @@ export class EngagedState {
         const transcript = this.container.getTranscript();
         if (msg.messageType === MessageType.Chat_Communication) {
             if (msg.agentID) {
-                if(this._isSoundActive()) {
+                if (this._isSoundActive()) {
                     this._playMessageRecievedSound();
                 }
                 transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
