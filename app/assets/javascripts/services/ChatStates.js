@@ -91,7 +91,8 @@ export class EngagedState {
 
     _playMessageRecievedSound() {
         let messageReceivedSound = new Audio('../assets/media/message-received-sound.mp3');
-        messageReceivedSound.ype = "audio/mpeg";
+        messageReceivedSound.type = "audio/mpeg";
+        messageReceivedSound.muted = false;
         messageReceivedSound.play();
     }
 
