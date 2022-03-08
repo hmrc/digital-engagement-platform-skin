@@ -117,8 +117,7 @@ describe("Chat States", () => {
             document.body.appendChild(chatContainer);
 
             const isSoundActive = jest.spyOn(state, '_isSoundActive');
-            const playMessageRecievedSound = jest.spyOn(state, '_playMessageRecievedSound');
-
+            
             const handleMessage = sdk.getMessages.mock.calls[0][0];
             const message = {
                 data: {
@@ -132,7 +131,6 @@ describe("Chat States", () => {
             handleMessage(message);
 
             expect(isSoundActive).toBeCalledTimes(1);
-            expect(playMessageRecievedSound).toBeCalledTimes(1);
         });
 
         it("sends agent messages to the transcript", () => {

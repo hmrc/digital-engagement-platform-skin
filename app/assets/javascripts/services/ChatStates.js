@@ -89,12 +89,6 @@ export class EngagedState {
         this.sdk.getMessages((msg_in) => this._displayMessage(msg_in));
     }
 
-    _playMessageRecievedSound() {
-        let messageReceivedSound = new Audio('../assets/media/message-received-sound.mp3'); 
-        messageReceivedSound.autoplay = true;
-        messageReceivedSound.play();
-    }
-
     _displayMessage(msg_in) {
         const msg = msg_in.data
         console.log("---- Received message:", msg);
@@ -105,7 +99,7 @@ export class EngagedState {
         if (msg.messageType === MessageType.Chat_Communication) {
             if (msg.agentID) {
                 if(this._isSoundActive()) {
-                    this._playMessageRecievedSound();
+                    document.getElementById("playNotificationSound").click();
                 }
                 transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
             } else {
