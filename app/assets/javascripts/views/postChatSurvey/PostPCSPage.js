@@ -8,10 +8,6 @@ const html = `
 
     <p id="endpage-thanks" class="govuk-body">Thank you for your feedback.</p>
 
-    <div onclick="window.print();">
-        <p><a href="#" class="govuk-link">Print or save a copy of this chat</a></p>
-    </div>
-
 </div>
 `
 
