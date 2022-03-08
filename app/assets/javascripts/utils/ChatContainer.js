@@ -146,6 +146,12 @@ export default class ChatContainer {
     _removeSkinHeadingElements() {
         document.getElementById("print").remove();
         document.getElementById("sound").remove();
+
+        let transcriptHeading = document.getElementById("ciapiSkinHeader");
+
+        transcriptHeading.style.height = "auto";
+        transcriptHeading.style.width = "auto";
+
     }
 
     onConfirmEndChat() {
