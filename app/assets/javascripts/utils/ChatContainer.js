@@ -151,7 +151,6 @@ export default class ChatContainer {
 
         transcriptHeading.style.height = "auto";
         transcriptHeading.style.width = "auto";
-
     }
 
     onConfirmEndChat() {

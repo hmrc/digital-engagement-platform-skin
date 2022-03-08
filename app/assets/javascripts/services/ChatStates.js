@@ -91,6 +91,7 @@ export class EngagedState {
 
     _playMessageRecievedSound() {
         let messageReceivedSound = new Audio('../assets/media/message-received-sound.mp3'); 
+        messageReceivedSound.autoplay = true;
         messageReceivedSound.play();
     }
 
@@ -103,18 +104,15 @@ export class EngagedState {
         const transcript = this.container.getTranscript();
         if (msg.messageType === MessageType.Chat_Communication) {
             if (msg.agentID) {
-  
-                if(this._isSoundActive) {
+                if(this._isSoundActive()) {
                     this._playMessageRecievedSound();
                 }
-
                 transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
             } else {
                 transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
             }
         } else if (msg.messageType === MessageType.Chat_AutomationRequest) {
             console.log("in automation msgs ++", msg.messageTimestamp);
-            
             transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
         } else if (msg.messageType === MessageType.Chat_Exit) {
             // This message may also have msg.state === "closed".

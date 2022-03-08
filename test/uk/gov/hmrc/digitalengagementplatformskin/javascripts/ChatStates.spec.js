@@ -131,6 +131,7 @@ describe("Chat States", () => {
 
             handleMessage(message);
 
+            expect(isSoundActive).toBeCalledTimes(1);
             expect(playMessageRecievedSound).toBeCalledTimes(1);
         });
 
