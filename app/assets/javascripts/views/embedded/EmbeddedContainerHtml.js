@@ -5,7 +5,6 @@ export const ContainerHtml = `
 <p id="print-date" class="govuk-body print-only"></p>
 </div>
 <div id="ciapiSkinContainer">
-<button id="playNotificationSound" style="display:none"></button>
     <div id="ciapiSkinHeader" class="govuk-!-display-none-print">
         <div id="print">
             <button id="printButton" class="govuk-button govuk-button--secondary" data-module="govuk-button">
