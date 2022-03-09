@@ -301,12 +301,6 @@ export default class CommonChatController {
     }
 
     // Begin event handler methods
-    playNotificationSound() {
-        let messageReceivedSound = new Audio('../assets/media/message-received-sound.mp3'); 
-        messageReceivedSound.autoplay = true;
-        messageReceivedSound.play();
-    }
-    
     onSend() {
         const text = this.container.currentInputText().trim()
         this.container.clearCurrentInputText();

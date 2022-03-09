@@ -116,12 +116,9 @@ describe("Chat States", () => {
             chatContainer.setAttribute("class", "active");
             document.body.appendChild(chatContainer);
 
-            let hiddenSoundButton = document.createElement("button");
-            hiddenSoundButton.setAttribute("id", "playNotificationSound");
-            document.body.appendChild(hiddenSoundButton);
-
             const isSoundActive = jest.spyOn(state, '_isSoundActive');
-            
+            const playMessageRecievedSound = jest.spyOn(state, '_playMessageRecievedSound');
+
             const handleMessage = sdk.getMessages.mock.calls[0][0];
             const message = {
                 data: {
@@ -135,6 +132,7 @@ describe("Chat States", () => {
             handleMessage(message);
 
             expect(isSoundActive).toBeCalledTimes(1);
+            expect(playMessageRecievedSound).toBeCalledTimes(1);
         });
 
         it("sends agent messages to the transcript", () => {
