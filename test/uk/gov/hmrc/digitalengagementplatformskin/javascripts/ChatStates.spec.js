@@ -116,6 +116,10 @@ describe("Chat States", () => {
             chatContainer.setAttribute("class", "active");
             document.body.appendChild(chatContainer);
 
+            let hiddenSoundButton = document.createElement("button");
+            hiddenSoundButton.setAttribute("id", "playNotificationSound");
+            document.body.appendChild(hiddenSoundButton);
+
             const isSoundActive = jest.spyOn(state, '_isSoundActive');
             
             const handleMessage = sdk.getMessages.mock.calls[0][0];
