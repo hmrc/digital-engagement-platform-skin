@@ -2,6 +2,7 @@ import Transcript from '../services/Transcript'
 import EndChatPopup from '../views/EndChatPopup'
 
 const nullEventHandler = {
+    playNotificationSound: function () { },
     onSend: function () { },
     onCloseChat: function () { },
     onHideChat: function () { },
@@ -70,6 +71,10 @@ export default class ChatContainer {
     }
 
     _registerEventListeners() {
+
+        this._registerEventListener("#playNotificationSound", (e) => {
+            this.eventHandler.playNotificationSound();
+        });
 
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
             this.eventHandler.onSend();
