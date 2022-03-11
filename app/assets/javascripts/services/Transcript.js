@@ -88,9 +88,6 @@ export default class Transcript {
             document.getElementById(id).innerHTML = "<p class=govuk-visually-hidden>" + msg_type + "</p> " + msg;
             document.getElementById(id).classList.remove("msg-opacity");
         }
-        if (isVirtualAssistance == true && !isSystemMsg) {
-            document.getElementById(id).focus();
-        }
         if (that) {
             that._showLatestContent(msg_class);
         }
