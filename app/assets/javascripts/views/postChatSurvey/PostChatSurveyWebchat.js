@@ -34,7 +34,7 @@ const html = `
                     <div class="govuk-radios" data-module="govuk-radios">
                       <div class="govuk-radios__item">
                         <input class="govuk-radios__input" id="q2-" name="q2-" type="radio" value="Very easy">
-                        <label class="govuk-label govuk-radios__label" for="formItem-">5. Very easy</label>
+                        <label class="govuk-label govuk-radios__label" for="q2-">5. Very easy</label>
                       </div>
                       <div class="govuk-radios__item">
                         <input class="govuk-radios__input" id="q2--2" name="q2-" type="radio" value="Easy">
@@ -95,7 +95,7 @@ const html = `
                     <div class="govuk-radios" data-module="govuk-radios">
                         <div class="govuk-radios__item">
                             <input class="govuk-radios__input" id="q5-" name="q5-" type="radio" value="Phone">
-                            <label class="govuk-label govuk-radios__label" for="formItem-">Phone</label>
+                            <label class="govuk-label govuk-radios__label" for="q5-">Phone</label>
                         </div>
                         <div class="govuk-radios__item">
                             <input class="govuk-radios__input" id="q5--2" name="q5-" type="radio" value="Social media">
@@ -107,7 +107,7 @@ const html = `
                         </div>
                         <div class="govuk-radios__item">
                             <input class="govuk-radios__input" id="q5--4" name="q5-" type="radio" value="Other" aria-controls="conditional-contact">
-                            <label class="govuk-label govuk-radios__label" for="q1-">Other</label>
+                            <label class="govuk-label govuk-radios__label" for="q5--4">Other</label>
                         </div>
                          <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-contact">
                             <div class="govuk-form-group">
