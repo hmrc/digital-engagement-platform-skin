@@ -18,7 +18,7 @@ const html = `
                     <div class="govuk-radios govuk-radios--inline">
                       <div class="govuk-radios__item">
                         <input class="govuk-radios__input" id="q1-" name="q1-" type="radio" value="Yes">
-                        <label class="govuk-label govuk-radios__label" for="formItem-">Yes</label>
+                        <label class="govuk-label govuk-radios__label" for="q1-">Yes</label>
                       </div>
                       <div class="govuk-radios__item">
                         <input class="govuk-radios__input" id="q1--2" name="q1-" type="radio" value="No">
@@ -34,7 +34,7 @@ const html = `
                     <div class="govuk-radios" data-module="govuk-radios">
                       <div class="govuk-radios__item">
                         <input class="govuk-radios__input" id="q2-" name="q2-" type="radio" value="Very easy">
-                        <label class="govuk-label govuk-radios__label" for="formItem-">5. Very easy</label>
+                        <label class="govuk-label govuk-radios__label" for="q2-">5. Very easy</label>
                       </div>
                       <div class="govuk-radios__item">
                         <input class="govuk-radios__input" id="q2--2" name="q2-" type="radio" value="Easy">
@@ -95,7 +95,7 @@ const html = `
                     <div class="govuk-radios" data-module="govuk-radios">
                         <div class="govuk-radios__item">
                             <input class="govuk-radios__input" id="q5-" name="q5-" type="radio" value="Phone">
-                            <label class="govuk-label govuk-radios__label" for="formItem-">Phone</label>
+                            <label class="govuk-label govuk-radios__label" for="q5-">Phone</label>
                         </div>
                         <div class="govuk-radios__item">
                             <input class="govuk-radios__input" id="q5--2" name="q5-" type="radio" value="Social media">
