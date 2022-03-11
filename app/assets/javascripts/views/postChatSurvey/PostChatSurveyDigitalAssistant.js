@@ -1,6 +1,6 @@
 const html = `
     <div id="postChatSurvey">
-          <h2 class="govuk-fieldset__heading" id="legend_give_feedback" tabindex="-1">Give feedback</h2>
+          <h2 id="legend_give_feedback" tabindex="-1">Give feedback</h2>
 
         <p>We use your feedback to improve our services. The survey takes about one minute to complete. There are 3 questions and they are all optional.</p>
 
