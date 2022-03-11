@@ -18,7 +18,7 @@ const html = `
                     <div class="govuk-radios govuk-radios--inline">
                       <div class="govuk-radios__item">
                         <input class="govuk-radios__input" id="q1-" name="q1-" type="radio" value="Yes">
-                        <label class="govuk-label govuk-radios__label" for="formItem-">Yes</label>
+                        <label class="govuk-label govuk-radios__label" for="q1-">Yes</label>
                       </div>
                       <div class="govuk-radios__item">
                         <input class="govuk-radios__input" id="q1--2" name="q1-" type="radio" value="No">
@@ -107,7 +107,7 @@ const html = `
                         </div>
                         <div class="govuk-radios__item">
                             <input class="govuk-radios__input" id="q5--4" name="q5-" type="radio" value="Other" aria-controls="conditional-contact">
-                            <label class="govuk-label govuk-radios__label" for="q5--4">Other</label>
+                            <label class="govuk-label govuk-radios__label" for="q1-">Other</label>
                         </div>
                          <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-contact">
                             <div class="govuk-form-group">
