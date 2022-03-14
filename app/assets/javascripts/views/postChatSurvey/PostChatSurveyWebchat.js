@@ -1,8 +1,6 @@
 const html = `
     <div id="postChatSurvey">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l" id="legend_give_feedback" tabindex="-1">
-          <h1 class="govuk-fieldset__heading">Give feedback</h1>
-        </legend>
+          <h2 id="legend_give_feedback" tabindex="-1">Give feedback</h2>
 
         <p>We use your feedback to improve our services. The survey takes about one minute to complete. There are 5 questions and they are all optional.</p>
 
@@ -15,12 +13,12 @@ const html = `
 
                   <fieldset class="govuk-fieldset" id="question1">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                      <h2 class="govuk-fieldset__heading">Were you able to do what you needed to do today?</h2>
+                      Were you able to do what you needed to do today?
                     </legend>
                     <div class="govuk-radios govuk-radios--inline">
                       <div class="govuk-radios__item">
                         <input class="govuk-radios__input" id="q1-" name="q1-" type="radio" value="Yes">
-                        <label class="govuk-label govuk-radios__label" for="formItem-">Yes</label>
+                        <label class="govuk-label govuk-radios__label" for="q1-">Yes</label>
                       </div>
                       <div class="govuk-radios__item">
                         <input class="govuk-radios__input" id="q1--2" name="q1-" type="radio" value="No">
@@ -31,12 +29,12 @@ const html = `
 
                   <fieldset class="govuk-fieldset" id="question2">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                      <h2 class="govuk-fieldset__heading">How easy was it to do what you needed to do today?</h2>
+                      How easy was it to do what you needed to do today?
                     </legend>
                     <div class="govuk-radios" data-module="govuk-radios">
                       <div class="govuk-radios__item">
                         <input class="govuk-radios__input" id="q2-" name="q2-" type="radio" value="Very easy">
-                        <label class="govuk-label govuk-radios__label" for="formItem-">5. Very easy</label>
+                        <label class="govuk-label govuk-radios__label" for="q2-">5. Very easy</label>
                       </div>
                       <div class="govuk-radios__item">
                         <input class="govuk-radios__input" id="q2--2" name="q2-" type="radio" value="Easy">
@@ -59,7 +57,7 @@ const html = `
 
                   <fieldset class="govuk-fieldset" id="question3">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                      <h2 class="govuk-fieldset__heading">Overall, how did you feel about the service you accessed today?</h2>
+                      Overall, how did you feel about the service you accessed today?
                     </legend>
                     <div class="govuk-radios">
                       <div class="govuk-radios__item">
@@ -85,23 +83,19 @@ const html = `
                     </div>
                   </fieldset>
 
-                  <fieldset class="govuk-fieldset" id="question4">
-                    <h2 class="govuk-label-wrapper">
-                        <label class="govuk-label govuk-label--m" for="more-detail">
-                            Why did you give these scores?
-                        </label>
-                    </h2>
-                    <textarea class="govuk-textarea" id="q4-" name="q4-" rows="5" aria-describedby="more-detail-hint"></textarea>
-                  </fieldset>
+                  <label class="govuk-label govuk-label--m" for="q4-">
+                    Why did you give these scores?
+                  </label>
+                  <textarea class="govuk-textarea" id="q4-" name="q4-" rows="5"></textarea>
 
                   <fieldset class="govuk-fieldset" id="question5">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                        <h2 class="govuk-fieldset__heading">If you had not used webchat today, how else would you have contacted us?</h2>
+                        If you had not used webchat today, how else would you have contacted us?
                     </legend>
                     <div class="govuk-radios" data-module="govuk-radios">
                         <div class="govuk-radios__item">
                             <input class="govuk-radios__input" id="q5-" name="q5-" type="radio" value="Phone">
-                            <label class="govuk-label govuk-radios__label" for="formItem-">Phone</label>
+                            <label class="govuk-label govuk-radios__label" for="q5-">Phone</label>
                         </div>
                         <div class="govuk-radios__item">
                             <input class="govuk-radios__input" id="q5--2" name="q5-" type="radio" value="Social media">
@@ -117,8 +111,8 @@ const html = `
                         </div>
                          <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-contact">
                             <div class="govuk-form-group">
-                                <label class="govuk-label" for="contact-by-other">Provide other contact option</label>
-                                <textarea class="govuk-textarea" id="q6-" name="q6-" rows="5" aria-describedby="more-detail-hint"></textarea>
+                                <label class="govuk-label" for="q6-">Provide other contact option</label>
+                                <textarea class="govuk-textarea" id="q6-" name="q6-" rows="5"></textarea>
                             </div>
                          </div>
                     </div>

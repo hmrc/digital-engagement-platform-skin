@@ -3,10 +3,10 @@ export default class Transcript {
         this.content = content;
         this.vaLinkCallback = vaLinkCallback;
         this.classes = classes;
-        this.agentMsgPrefix = "Adviser said : ";
-        this.customerMsgPrefix = "You said : ";
-        this.systemMsgPrefix = "System message : ";
-        this.automatedMsgPrefix = "Automated message : ";
+        this.agentMsgPrefix = "<h3>Adviser said : </h3>";
+        this.customerMsgPrefix = "<h2>You said : </h2>";
+        this.systemMsgPrefix = "<h3>System message : </h3>";
+        this.automatedMsgPrefix = "<h3>Automated message : </h3>";
     }
 
     addAgentMsg(msg, msgTimestamp, agent) {
@@ -85,11 +85,8 @@ export default class Transcript {
                 var msg = that.decodeHTMLEntities(msg);
             }
 
-            document.getElementById(id).innerHTML = "<p class=govuk-visually-hidden>" + msg_type + "</p> " + msg;
+            document.getElementById(id).innerHTML = "<div class=govuk-visually-hidden>" + msg_type + "</div> " + msg;
             document.getElementById(id).classList.remove("msg-opacity");
-        }
-        if (isVirtualAssistance == true && !isSystemMsg) {
-            document.getElementById(id).focus();
         }
         if (that) {
             that._showLatestContent(msg_class);
