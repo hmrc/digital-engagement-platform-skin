@@ -217,7 +217,7 @@ describe("Transcript", () => {
 
         transcript.appendMessgeInLiveRegion("Some agent message", "test", "testmsg", this);
 
-        expect(document.getElementById("test").innerHTML).toBe("<p class=\"govuk-visually-hidden\">testmsg</p> Some agent message");
+        expect(document.getElementById("test").innerHTML).toBe("<div class=\"govuk-visually-hidden\">testmsg</div> Some agent message");
     });
 
     it("replaces encoded string", () => {
