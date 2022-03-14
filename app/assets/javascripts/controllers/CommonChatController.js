@@ -151,8 +151,6 @@ export default class CommonChatController {
                 this.container.getTranscript().addOpenerScript(openerScript);
             }
         });
-
-
     }
 
     _moveToChatEngagedState(previousMessages = []) {
