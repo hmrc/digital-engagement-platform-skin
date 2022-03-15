@@ -103,16 +103,19 @@ export class EngagedState {
         }
         const transcript = this.container.getTranscript();
         if (msg.messageType === MessageType.Chat_Communication) {
-            if (this._isSoundActive()) {
-                this._playMessageRecievedSound();
-            }
             if (msg.agentID) {
+                if (this._isSoundActive()) {
+                    this._playMessageRecievedSound();
+                }
                 transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
             } else {
                 transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
             }
         } else if (msg.messageType === MessageType.Chat_AutomationRequest) {
             console.log("in automation msgs ++", msg.messageTimestamp);
+            if (this._isSoundActive()) {
+                this._playMessageRecievedSound();
+            }
             transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
         } else if (msg.messageType === MessageType.Chat_Exit) {
             // This message may also have msg.state === "closed".
