@@ -24,7 +24,7 @@ export class ShownState {
     }
 
     onSend(text) {
-        console.log(">>> not connected: engage request")
+        console.log(">>> not connected: engage request");
         this.engageRequest(text);
     }
 
@@ -76,7 +76,7 @@ export class EngagedState {
         let soundElement = document.getElementById("toggleSound");
         let isActive = null;
 
-        if(soundElement != null) {
+        if (soundElement != null) {
             isActive = soundElement.classList.contains("active");
         } else {
             isActive = false;
@@ -104,7 +104,7 @@ export class EngagedState {
         const transcript = this.container.getTranscript();
         if (msg.messageType === MessageType.Chat_Communication) {
             if (msg.agentID) {
-                if(this._isSoundActive()) {
+                if (this._isSoundActive()) {
                     this._playMessageRecievedSound();
                 }
                 transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
@@ -113,6 +113,9 @@ export class EngagedState {
             }
         } else if (msg.messageType === MessageType.Chat_AutomationRequest) {
             console.log("in automation msgs ++", msg.messageTimestamp);
+            if (this._isSoundActive()) {
+                this._playMessageRecievedSound();
+            }
             transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
         } else if (msg.messageType === MessageType.Chat_Exit) {
             // This message may also have msg.state === "closed".

@@ -80,7 +80,7 @@ export default class CommonChatController {
     _launchChat() {
         // TODO: Do we need this any more, now that the above timeout is gone?
         if (this.container) {
-            console.error("This should never happen. If it doesn't, then remove this 'if'")
+            console.error("This should never happen. If it doesn't, then remove this 'if'");
             return
         }
         try {
@@ -103,7 +103,7 @@ export default class CommonChatController {
 
             this._removeAnimation();
 
-            
+
         } catch (e) {
             console.error("!!!! launchChat got exception: ", e);
         }
@@ -112,7 +112,7 @@ export default class CommonChatController {
     _removeAnimation() {
         let loadingAnimation = document.getElementById("cui-loading-animation");
         let cuiContainer = document.getElementById("cui-messaging-container");
-        
+
         if (loadingAnimation && cuiContainer) {
             loadingAnimation.style.display = 'none';
             cuiContainer.style.opacity = '1';
@@ -173,15 +173,15 @@ export default class CommonChatController {
     }
 
     _getEmbeddedDiv() {
-        return document.getElementById("nuanMessagingFrame")
+        return document.getElementById("nuanMessagingFrame");
     }
 
     _getFixedPopupDiv() {
-        return document.getElementById("tc-nuance-chat-container")
+        return document.getElementById("tc-nuance-chat-container");
     }
 
     _getAnchoredPopupDiv() {
-        return document.getElementById("tc-nuance-chat-container")
+        return document.getElementById("tc-nuance-chat-container");
     }
 
     _moveToChatShownState() {
@@ -205,7 +205,7 @@ export default class CommonChatController {
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
             let escalated = this.state.isEscalated();
 
-            if(escalated) {
+            if (escalated) {
                 this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automaton, timestamp);
             } else {
                 this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automaton, timestamp);
@@ -229,7 +229,7 @@ export default class CommonChatController {
     getPrintDate() {
 
         const monthNames = ["January", "February", "March", "April", "May", "June",
-          "July", "August", "September", "October", "November", "December"
+            "July", "August", "September", "October", "November", "December"
         ];
 
         const d = new Date();
@@ -238,9 +238,9 @@ export default class CommonChatController {
     }
 
     removeElementsForPrint(listOfElements) {
-        listOfElements.forEach(function (item) {
-          if(document.getElementsByClassName(item)[0]) {
-            document.getElementsByClassName(item)[0].classList.add("govuk-!-display-none-print")
+        listOfElements.forEach(function(item) {
+            if (document.getElementsByClassName(item)[0]) {
+                document.getElementsByClassName(item)[0].classList.add("govuk-!-display-none-print")
             }
         });
     }
@@ -250,14 +250,14 @@ export default class CommonChatController {
         document.getElementById("print-date").innerHTML = this.getPrintDate();
 
         const elementList = [
-        "app-related-items",
-        "govuk-back-link",
-        "govuk-phase-banner",
-        "hmrc-report-technical-issue",
-        "govuk-footer",
-        "govuk-heading-xl",
-        "hmrc-user-research-banner",
-        "cbanner-govuk-cookie-banner"
+            "app-related-items",
+            "govuk-back-link",
+            "govuk-phase-banner",
+            "hmrc-report-technical-issue",
+            "govuk-footer",
+            "govuk-heading-xl",
+            "hmrc-user-research-banner",
+            "cbanner-govuk-cookie-banner"
         ];
 
         this.removeElementsForPrint(elementList);
@@ -353,12 +353,12 @@ export default class CommonChatController {
 
         this._moveToClosingState();
 
-        if(escalated) {
+        if (escalated) {
             this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp);
             this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
         } else {
-           this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automaton, timestamp);
-           this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
+            this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automaton, timestamp);
+            this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
         }
 
         window.GOVUKFrontend.initAll();
@@ -402,7 +402,7 @@ export default class CommonChatController {
 
     onSoundToggle(e) {
 
-        let soundElement = document.getElementById("toggleSound");  
+        let soundElement = document.getElementById("toggleSound");
         let isActive = soundElement.classList.contains("active");
 
         if (isActive) {
@@ -416,7 +416,7 @@ export default class CommonChatController {
 
             soundElement.innerHTML = "Turn notification sound off";
         }
-        
+
     }
 
 };
