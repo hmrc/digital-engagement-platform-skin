@@ -50,15 +50,13 @@ export default class PostChatSurveyWebchatService {
             evt: "contentSentToCustomer",
             unique_node_id: "node_1",
             "custom.decisiontree.nodeID": encodeURIComponent("HMRC_PostChat_Guidance - Initial"),
-            "custom.decisiontree.questions":
-                escape(encodeURIComponent(survey.questions[0].text)) + encodeURIComponent(",") +
+            "custom.decisiontree.questions": escape(encodeURIComponent(survey.questions[0].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[1].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[2].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[3].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[4].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[5].text)),
-            "custom.decisiontree.questionIDs":
-                escape(encodeURIComponent(survey.questions[0].id)) + encodeURIComponent(",") +
+            "custom.decisiontree.questionIDs": escape(encodeURIComponent(survey.questions[0].id)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[1].id)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[2].id)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[3].id)) + encodeURIComponent(",") +
@@ -95,7 +93,7 @@ export default class PostChatSurveyWebchatService {
             automatonID: automaton.id,
             automatonName: automaton.name,
             automatonOrigin: "richMedia"
-        }
+        };
         console.log("== beginPostChatSurvey ==");
 
         try {
@@ -142,15 +140,13 @@ export default class PostChatSurveyWebchatService {
             browserType: chatParams.browserType,
             browserVersion: chatParams.browserVersion,
             surveyId: Number(survey.id),
-            "custom.decisiontree.questionIDs":
-                escape(encodeURIComponent(survey.questions[0].id)) + encodeURIComponent(",") +
+            "custom.decisiontree.questionIDs": escape(encodeURIComponent(survey.questions[0].id)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[1].id)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[2].id)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[3].id)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[4].id)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[5].id)),
-            "custom.decisiontree.questions":
-                escape(encodeURIComponent(survey.questions[0].text)) + encodeURIComponent(",") +
+            "custom.decisiontree.questions": escape(encodeURIComponent(survey.questions[0].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[1].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[2].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.questions[3].text)) + encodeURIComponent(",") +
@@ -182,8 +178,7 @@ export default class PostChatSurveyWebchatService {
                 escape(encodeURIComponent(survey.answers[3].text)) + encodeURIComponent(",") +
                 escape(encodeURIComponent(survey.answers[4].text))
             ),
-            "custom.decisiontree.answerTypes":
-                escape(encodeURIComponent("0")) + "," +
+            "custom.decisiontree.answerTypes": escape(encodeURIComponent("0")) + "," +
                 escape(encodeURIComponent("0")) + "," +
                 escape(encodeURIComponent("0")) + "," +
                 escape(encodeURIComponent("1")) + "," +
@@ -267,4 +262,3 @@ export default class PostChatSurveyWebchatService {
         }
     }
 }
-

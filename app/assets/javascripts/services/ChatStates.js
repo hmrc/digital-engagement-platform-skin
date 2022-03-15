@@ -24,7 +24,7 @@ export class ShownState {
     }
 
     onSend(text) {
-        console.log(">>> not connected: engage request")
+        console.log(">>> not connected: engage request");
         this.engageRequest(text);
     }
 
@@ -76,7 +76,7 @@ export class EngagedState {
         let soundElement = document.getElementById("toggleSound");
         let isActive = null;
 
-        if(soundElement != null) {
+        if (soundElement != null) {
             isActive = soundElement.classList.contains("active");
         } else {
             isActive = false;
@@ -103,10 +103,10 @@ export class EngagedState {
         }
         const transcript = this.container.getTranscript();
         if (msg.messageType === MessageType.Chat_Communication) {
+            if (this._isSoundActive()) {
+                this._playMessageRecievedSound();
+            }
             if (msg.agentID) {
-                if(this._isSoundActive()) {
-                    this._playMessageRecievedSound();
-                }
                 transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
             } else {
                 transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);

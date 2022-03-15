@@ -89,7 +89,7 @@ export default class PostChatSurveyDigitalAssistantService {
             automatonID: automaton.id,
             automatonName: automaton.name,
             automatonOrigin: "richMedia"
-        }
+        };
         console.log("== beginPostChatSurvey ==");
 
         try {
