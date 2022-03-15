@@ -243,5 +243,4 @@ export default class PostChatSurveyDigitalAssistantService {
             console.error("!!!! logEventToDW got exception: ", e);
         }
     }
-
 }
