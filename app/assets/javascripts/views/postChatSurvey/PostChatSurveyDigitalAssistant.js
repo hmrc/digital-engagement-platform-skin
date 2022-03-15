@@ -102,5 +102,4 @@ export default class PostChatSurveyDigitalAssistant {
     detach() {
         this.container.removeChild(this.wrapper)
     }
-  
 }

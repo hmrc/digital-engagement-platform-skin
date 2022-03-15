@@ -210,10 +210,7 @@ export default class CommonChatController {
             } else {
                 this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automaton, timestamp);
             }
-
         }
-
-        this.closeNuanceChat();
 
         if (this._getEmbeddedDiv()) {
             // Embedded view never dies.
@@ -349,6 +346,7 @@ export default class CommonChatController {
     }
 
     onConfirmEndChat() {
+        this.closeNuanceChat();
         let escalated = this.state.isEscalated();
 
         this._moveToClosingState();
