@@ -185,8 +185,6 @@ export default class Transcript {
 
     _appendMessage(msg, msgTimestamp, msg_class, msg_type, isCustomerMsg, isSystemMsg) {
 
-        console.log("Type of message : " + msg_type);
-
         var id = "liveMsgId" + (Math.random() * 100);
 
         var printOuterTimeStamp = document.createElement("div");
