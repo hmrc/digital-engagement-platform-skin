@@ -35,27 +35,25 @@ export default class Transcript {
     }
 
     addSkipToBottomLink() {
-        const chatContainer = document.getElementById("ciapiSkinChatTranscript")
+        const chatContainer = document.getElementById("ciapiSkinChatTranscript");
 
         if (chatContainer.scrollHeight > chatContainer.clientHeight) {
             this.createSkipLink("skipToTopWithScroll");
         } else {
             this.createSkipLink("skipToTopWithOutScroll");
         }
-
     }
 
     createSkipLink(className) {
 
-        const chatContainer = document.getElementById("ciapiSkinChatTranscript")
+        const chatContainer = document.getElementById("ciapiSkinChatTranscript");
 
         chatContainer.insertAdjacentHTML("beforeend", '<div id="skipToTop" class="' + className + ' govuk-!-padding-top-2"><a id="skipToTopLink" href="#" class="govuk-skip-link">Skip to top of conversation</a></div>');
         document.getElementById("skipToTopLink").addEventListener("click",
-            function(e) {
-                e.preventDefault();
-                document.getElementById("skipToBottomLink").focus();
-            })
-
+        function(e) {
+            e.preventDefault();
+            document.getElementById("skipToBottomLink").focus();
+        });
     }
 
     decodeHTMLEntities(text) {
@@ -78,8 +76,7 @@ export default class Transcript {
         return text;
     }
 
-
-    appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class, isSystemMsg) {
+    appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class, isSystemMsg, isCustomerMsg) {
         if (document.getElementById(id)) {
             if (that) {
                 var msg = that.decodeHTMLEntities(msg);
@@ -90,6 +87,25 @@ export default class Transcript {
         }
         if (that) {
             that._showLatestContent(msg_class);
+        }
+
+        if(isCustomerMsg){
+            if (that) {
+                that._addPaddingToCustomerMsg(id);
+            }
+        }
+    }
+
+    _addPaddingToCustomerMsg(id) {
+        var lastCustomerMessageHeight = document.getElementById(id).offsetHeight;
+
+        var customerContainer = document.getElementsByClassName("ciapi-customer-container");
+
+        var i;
+        for (i = 0; i < customerContainer.length; i++) {
+            if (i == (customerContainer.length - 1)) {
+                customerContainer[i].style.paddingBottom = (lastCustomerMessageHeight + 25) + 'px';
+            }
         }
     }
 
@@ -143,18 +159,15 @@ export default class Transcript {
 
         this.content.appendChild(printOuterTimeStamp);
 
-
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false);
-
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false, false);
 
         if (chatContainer) {
 
             if (skipToTop != null) {
-                chatContainer.removeChild(skipToTop)
+                chatContainer.removeChild(skipToTop);
             }
 
             this.addSkipToBottomLink();
-
         }
     }
 
@@ -184,6 +197,7 @@ export default class Transcript {
             printMessageSuffix.innerHTML = "You: ";
 
             printTimeStamp.className = "print-only govuk-body print-float-right print-timestamp-right";
+
         } else {
             if (isSystemMsg) {
                 var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
@@ -204,7 +218,7 @@ export default class Transcript {
         const skipToTop = document.getElementById("skipToTop");
         const chatContainer = document.getElementById("ciapiSkinChatTranscript");
 
-        printOuterTimeStamp.className = "timestamp-outer"
+        printOuterTimeStamp.className = "timestamp-outer";
 
         if (!isSystemMsg) {
             printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
@@ -219,17 +233,16 @@ export default class Transcript {
 
         this.content.appendChild(printOuterTimeStamp);
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type, false, this, msg_class, isSystemMsg);
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type, false, this, msg_class, isSystemMsg, isCustomerMsg);
 
         if (chatContainer) {
 
             if (skipToTop != null) {
-                chatContainer.removeChild(skipToTop)
+                chatContainer.removeChild(skipToTop);
             }
 
             this.addSkipToBottomLink();
         }
-
     }
 
     _showLatestContent(msg_class) {
@@ -249,13 +262,13 @@ export default class Transcript {
                 if (heightOfLastMessage > heightOfSkinChat) {
                     innerClassArray[lengthOfAgentInnerArray].scrollIntoView({ block: 'nearest' });
                 } else {
-                    chatContainer.scrollTo({top: chatContainer.scrollHeight, left: 0, behavior: "smooth"});
+                    chatContainer.scrollTo({ top: chatContainer.scrollHeight, left: 0, behavior: "smooth" });
                 }
             } else {
-                chatContainer.scrollTo({top: chatContainer.scrollHeight, left: 0, behavior: "smooth"});
+                chatContainer.scrollTo({ top: chatContainer.scrollHeight, left: 0, behavior: "smooth" });
             }
         } else {
-            chatContainer.scrollTo({top: chatContainer.scrollHeight, left: 0, behavior: "smooth"});
+            chatContainer.scrollTo({ top: chatContainer.scrollHeight, left: 0, behavior: "smooth" });
         }
     }
 }
