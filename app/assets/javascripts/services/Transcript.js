@@ -78,24 +78,6 @@ export default class Transcript {
         return text;
     }
 
-    _addPaddingToCustomerMessages(id) {
-        var lastCustomerMessageHeight = document.getElementById(id).offsetHeight; 
-
-        console.log("Height of last customer message div " + lastCustomerMessageHeight);
-        
-        var customerContainer = document.getElementsByClassName("ciapi-customer-container");
-
-        console.log("Number of Customer containers " + customerContainer.length);
-
-        var i;
-        for(i=0; i < customerContainer.length; i++)
-        {
-            if (i==(customerContainer.length-1)) {
-                customerContainer[i].style.paddingBottom = (lastCustomerMessageHeight + 25) + 'px';
-            }
-        }
-    }
-
     appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class, isSystemMsg, isCustomerMsg) {
         if (document.getElementById(id)) {
             if (that) {
@@ -110,25 +92,23 @@ export default class Transcript {
         }
 
         if(isCustomerMsg){
-            var lastCustomerMessageHeight = document.getElementById(id).offsetHeight; 
-
-            console.log("Height of last customer message div " + lastCustomerMessageHeight);
-            
-            var customerContainer = document.getElementsByClassName("ciapi-customer-container");
-    
-            console.log("Number of Customer containers " + customerContainer.length);
-    
-    
-            var i;
-            for(i=0; i < customerContainer.length; i++)
-            {
-                if (i==(customerContainer.length-1)) {
-                    customerContainer[i].style.paddingBottom = (lastCustomerMessageHeight + 25) + 'px';
-                }
+            if (that) {
+                that._addPaddingToCustomerMsg(id);
             }
         }
+    }
 
-        
+    _addPaddingToCustomerMsg(id) {
+        var lastCustomerMessageHeight = document.getElementById(id).offsetHeight;
+
+        var customerContainer = document.getElementsByClassName("ciapi-customer-container");
+
+        var i;
+        for (i = 0; i < customerContainer.length; i++) {
+            if (i == (customerContainer.length - 1)) {
+                customerContainer[i].style.paddingBottom = (lastCustomerMessageHeight + 25) + 'px';
+            }
+        }
     }
 
     getPrintTimeStamp(msgTimestamp) {
