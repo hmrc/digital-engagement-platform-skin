@@ -78,8 +78,25 @@ export default class Transcript {
         return text;
     }
 
+    _addPaddingToCustomerMessages(id) {
+        var lastCustomerMessageHeight = document.getElementById(id).offsetHeight; 
 
-    appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class, isSystemMsg) {
+        console.log("Height of last customer message div " + lastCustomerMessageHeight);
+        
+        var customerContainer = document.getElementsByClassName("ciapi-customer-container");
+
+        console.log("Number of Customer containers " + customerContainer.length);
+
+        var i;
+        for(i=0; i < customerContainer.length; i++)
+        {
+            if (i==(customerContainer.length-1)) {
+                customerContainer[i].style.paddingBottom = (lastCustomerMessageHeight + 25) + 'px';
+            }
+        }
+    }
+
+    appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class, isSystemMsg, isCustomerMsg) {
         if (document.getElementById(id)) {
             if (that) {
                 var msg = that.decodeHTMLEntities(msg);
@@ -91,6 +108,27 @@ export default class Transcript {
         if (that) {
             that._showLatestContent(msg_class);
         }
+
+        if(isCustomerMsg){
+            var lastCustomerMessageHeight = document.getElementById(id).offsetHeight; 
+
+            console.log("Height of last customer message div " + lastCustomerMessageHeight);
+            
+            var customerContainer = document.getElementsByClassName("ciapi-customer-container");
+    
+            console.log("Number of Customer containers " + customerContainer.length);
+    
+    
+            var i;
+            for(i=0; i < customerContainer.length; i++)
+            {
+                if (i==(customerContainer.length-1)) {
+                    customerContainer[i].style.paddingBottom = (lastCustomerMessageHeight + 25) + 'px';
+                }
+            }
+        }
+
+        
     }
 
     getPrintTimeStamp(msgTimestamp) {
@@ -144,7 +182,7 @@ export default class Transcript {
         this.content.appendChild(printOuterTimeStamp);
 
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false);
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false, false);
 
 
         if (chatContainer) {
@@ -170,7 +208,11 @@ export default class Transcript {
         }
     }
 
+    
+
     _appendMessage(msg, msgTimestamp, msg_class, msg_type, isCustomerMsg, isSystemMsg) {
+
+        console.log("Type of message : " + msg_type)
 
         var id = "liveMsgId" + (Math.random() * 100);
 
@@ -184,6 +226,7 @@ export default class Transcript {
             printMessageSuffix.innerHTML = "You: ";
 
             printTimeStamp.className = "print-only govuk-body print-float-right print-timestamp-right";
+ 
         } else {
             if (isSystemMsg) {
                 var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
@@ -219,7 +262,7 @@ export default class Transcript {
 
         this.content.appendChild(printOuterTimeStamp);
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type, false, this, msg_class, isSystemMsg);
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type, false, this, msg_class, isSystemMsg, isCustomerMsg);
 
         if (chatContainer) {
 

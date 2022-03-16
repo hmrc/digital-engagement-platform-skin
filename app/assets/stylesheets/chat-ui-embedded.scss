@@ -256,6 +256,10 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
     height: 600px;
 }
 
+.timestamp-outer {
+    clear: both;
+}
+
 @media print {
     .govuk-grid-column-two-thirds {
         width: 100%;
@@ -263,6 +267,7 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
  
     .ciapi-customer-container {
         display: flow-root;
+        padding-bottom: 0px !important;
     }
     .ciapi-agent-container {
       padding-left: 0px;
