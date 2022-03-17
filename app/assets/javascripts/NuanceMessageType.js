@@ -9,4 +9,4 @@ export const Chat_System = 'chat.system';
 export const Chat_TransferResponse = "chat.transfer_response";
 export const ChatRoom_MemberConnected = "chatroom.member_connected";
 export const ChatRoom_MemberLost = "chatroom.member_lost";
-export const Owner_TransferResponse = "owner.transfer_response"
+export const Owner_TransferResponse = "owner.transfer_response";
