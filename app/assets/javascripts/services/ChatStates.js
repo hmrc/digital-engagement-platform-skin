@@ -127,14 +127,26 @@ export class EngagedState {
             transcript.addSystemMsg(msg.messageText);
         } else if (msg.messageType === MessageType.ChatRoom_MemberConnected) {
             this.escalated = true;
-            transcript.addSystemMsg(msg["client.display.text"]);
+            transcript.addSystemMsg(msg["client.display.text"] || msg["display.text"]);
         } else if (msg.messageType === MessageType.Chat_Denied) {
             //            this.isConnected = false;
             transcript.addSystemMsg("No agents are available.");
+        } else if (msg.messageType === MessageType.ChatRoom_MemberLost) {
+            transcript.addSystemMsg(msg["display.text"]);
+        } else if (msg.messageType === MessageType.Owner_TransferResponse) {
+            console.log(msg);
+            var timestampArray = document.getElementsByClassName("timestamp-outer");
+            var i;
+            for (i = 0; i<timestampArray.length; i++) {
+                console.log("timestampArray = " + timestampArray.length);
+                if (i == (timestampArray.length - 2)) {
+                    console.log("timestampArray inside if statement = " + timestampArray.length);
+                    timestampArray[i].remove();
+                }
+            }
         } else if ([
                 MessageType.Chat_System,
                 MessageType.Chat_TransferResponse,
-                MessageType.ChatRoom_MemberLost
             ].includes(msg.messageType)) {
             transcript.addSystemMsg(msg["client.display.text"]);
         } else {
