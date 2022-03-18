@@ -381,13 +381,13 @@ describe("Chat States", () => {
                     "engagementID": "388260663047034009",
                     "messageTimestamp": "1627654612000",
                     "chatroom.member.id": "42391918",
-                    "client.display.text": "You were disconnected. Please wait while we attempt to reconnect you.",
+                    "client.display.text": "Agent 'JoeBloggs' loses connection",
                     "chatroom.member.type": "agent"
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("You were disconnected. Please wait while we attempt to reconnect you.");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("Agent 'JoeBloggs' loses connection");
         });
 
         it("reports chat system messages", () => {
