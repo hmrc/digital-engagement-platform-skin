@@ -132,7 +132,7 @@ export default class Transcript {
     addAutomatonMsg(msg, msgTimestamp) {
 
         var id = "liveAutomatedMsgId" + (Math.random() * 100);
-        const msgDiv = `<div class= "msg-opacity govuk-body ${this.classes.Agent.Inner}" tabindex=-1 id=${id}></div>`;
+        const msgDiv = `<div class= "msg-opacity govuk-body ${this.classes.Agent.Inner}" tabindex=-1 id=${id} aria-label="Agent is typing"></div>`;
 
         const skipToTop = document.getElementById("skipToTop");
         const chatContainer = document.getElementById("ciapiSkinChatTranscript")
