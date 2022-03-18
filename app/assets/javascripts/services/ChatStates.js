@@ -1,4 +1,5 @@
 import * as MessageType from '../NuanceMessageType';
+import * as MessageState from '../NuanceMessageState';
 
 // State at start, before anything happens.
 export class NullState {
@@ -95,6 +96,10 @@ export class EngagedState {
         messageReceivedSound.play();
     }
 
+    _removeAgentIsTyping() {
+        document.querySelectorAll('.agent-typing').forEach(e => e.remove());
+    }
+
     _displayMessage(msg_in) {
         const msg = msg_in.data
         console.log("---- Received message:", msg);
@@ -107,6 +112,7 @@ export class EngagedState {
                 if (this._isSoundActive()) {
                     this._playMessageRecievedSound();
                 }
+                this._removeAgentIsTyping();
                 transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
             } else {
                 transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
@@ -141,6 +147,12 @@ export class EngagedState {
                 if (i == (timestampArray.length - 2)) {
                     timestampArray[i].remove().fadeOut(2000, "linear");
                 }
+            }
+        } else if (msg.messageType === MessageType.Chat_Activity && msg.state == MessageState.Agent_IsTyping) {
+            if (msg["display.text"] == "Agent is typing...") {
+                transcript.addSystemMsg(msg["display.text"], MessageState.Agent_IsTyping);
+            } else {
+                this._removeAgentIsTyping();
             }
         } else if ([
                 MessageType.Chat_System,
