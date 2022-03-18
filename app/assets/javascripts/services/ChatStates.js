@@ -138,10 +138,8 @@ export class EngagedState {
             var timestampArray = document.getElementsByClassName("timestamp-outer");
             var i;
             for (i = 0; i<timestampArray.length; i++) {
-                console.log("timestampArray = " + timestampArray.length);
                 if (i == (timestampArray.length - 2)) {
-                    console.log("timestampArray inside if statement = " + timestampArray.length);
-                    timestampArray[i].remove();
+                    timestampArray[i].remove().fadeOut(2000, "linear");
                 }
             }
         } else if ([
