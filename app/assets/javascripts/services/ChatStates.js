@@ -148,8 +148,8 @@ export class EngagedState {
                     timestampArray[i].remove().fadeOut(2000, "linear");
                 }
             }
-        } else if (msg.messageType === MessageType.Chat_Activity && msg.state == "agentIsTyping") {
-            if (msg["display.text"] == MessageState.Agent_IsTyping) {
+        } else if (msg.messageType === MessageType.Chat_Activity && msg.state == MessageState.Agent_IsTyping) {
+            if (msg["display.text"] == "Agent is typing...") {
                 transcript.addSystemMsg(msg["display.text"], MessageState.Agent_IsTyping);
             } else {
                 this._removeAgentIsTyping();
