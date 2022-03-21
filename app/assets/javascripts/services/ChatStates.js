@@ -142,7 +142,6 @@ export class EngagedState {
                     joinTransfer: msg["aeapi.join_transfer"]
                 }
             );
-            //add stuff here
         } else if (msg.messageType === MessageType.Chat_Denied) {
             //            this.isConnected = false;
             transcript.addSystemMsg({msg: "No agents are available."});
