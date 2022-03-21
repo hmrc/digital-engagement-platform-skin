@@ -1,4 +1,5 @@
 import * as MessageState from '../NuanceMessageState';
+
 export default class Transcript {
     constructor(content, vaLinkCallback, classes, msgPrefix) {
         this.content = content;
@@ -207,12 +208,11 @@ export default class Transcript {
             if (isSystemMsg) {
                 if(state == MessageState.Agent_IsTyping) {
                     printOuterTimeStamp.classList.add("agent-typing");
-                    var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id} aria-live=polite aria-lable="Agent is typing"></div></div>`;               
+                    var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id} aria-live=polite aria-lable="Agent is typing"></div></div>`;
                 } else {
-                    console.log("msg.aeapi.join_transfer = " + joinTransfer);
                     if (joinTransfer == "true") {
                         printOuterTimeStamp.classList.add("agent-joins-conference");
-                    } 
+                    }
                     var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
                 }
             } else {
