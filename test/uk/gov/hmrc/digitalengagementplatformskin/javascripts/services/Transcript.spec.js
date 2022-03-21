@@ -39,7 +39,7 @@ describe("Transcript", () => {
         const vaLinkCallback = jest.fn();
         const transcript = new Transcript(content, vaLinkCallback, messageClasses);
 
-        transcript.addSystemMsg("System Message");
+        transcript.addSystemMsg({msg: "System Message"});
 
         // expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
         //     "beforeend",
