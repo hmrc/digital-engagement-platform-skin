@@ -150,8 +150,8 @@ export class EngagedState {
             transcript.addSystemMsg({msg: msg["display.text"]});
         } else if (msg.messageType === MessageType.Owner_TransferResponse) {
             this._removeAgentJoinsConference();
-        } else if (msg.messageType === MessageType.Chat_Activity && msg.state == "agentIsTyping") {
-            if (msg["display.text"] == MessageState.Agent_IsTyping) {
+        } else if (msg.messageType === MessageType.Chat_Activity && msg.state === MessageState.Agent_IsTyping) {
+            if (msg["display.text"] == "Agent is typing...") {
                 transcript.addSystemMsg({msg: msg["display.text"], state: MessageState.Agent_IsTyping});
             } else {
                 this._removeAgentIsTyping();
