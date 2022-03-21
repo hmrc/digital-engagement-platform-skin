@@ -203,7 +203,7 @@ export default class Transcript {
             if (isSystemMsg) {
                 if(state == MessageState.Agent_IsTyping) {
                     printOuterTimeStamp.classList.add("agent-typing");
-                    var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id} aria-live=polite aria-label="Agent is typing"></div></div>`;               
+                    var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
                 } else {
                     var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
                 }
