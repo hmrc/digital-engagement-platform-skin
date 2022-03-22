@@ -342,6 +342,7 @@ export default class CommonChatController {
     }
 
     onClickedVALink(e) {
+        console.log("commonChatController onClickedVALink");
         this.state.onClickedVALink(e);
     }
 

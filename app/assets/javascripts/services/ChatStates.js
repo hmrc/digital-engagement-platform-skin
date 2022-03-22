@@ -7,6 +7,7 @@ export class NullState {
     }
 
     onClickedVALink(text) {
+        console.log("Null: In onClickedVALink");
         console.error("State Error: Trying to handle VA link with no state.");
     }
 
@@ -29,6 +30,7 @@ export class ShownState {
     }
 
     onClickedVALink(e) {
+        console.log("Shown: In onClickedVALink");
         console.error("State Error: Trying to handle VA link before engaged.");
     }
 
@@ -59,6 +61,7 @@ export class EngagedState {
     }
 
     onClickedVALink(e) {
+        console.log(">>> engaged: clicked VA clicked");
         this.sdk.sendVALinkMessage(e, () => this._linkCallback);
     }
 
@@ -144,7 +147,7 @@ export class EngagedState {
 
     _linkCallback(data) {
         // data seems to be the text clicked on.
-        //        console.log("link callback: ", data);
+                console.log("link callback: ", data);
     }
 }
 

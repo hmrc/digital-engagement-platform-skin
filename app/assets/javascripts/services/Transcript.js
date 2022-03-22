@@ -1,7 +1,6 @@
 export default class Transcript {
-    constructor(content, vaLinkCallback, classes, msgPrefix) {
+    constructor(content, classes, msgPrefix) {
         this.content = content;
-        this.vaLinkCallback = vaLinkCallback;
         this.classes = classes;
         this.agentMsgPrefix = "<h3>Adviser said : </h3>";
         this.customerMsgPrefix = "<h2>You said : </h2>";
@@ -152,14 +151,14 @@ export default class Transcript {
         printTimeStamp.className = "print-only govuk-body print-float-left";
         printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
 
-        this._fixUpVALinks(agentDiv);
-
         printOuterTimeStamp.className = "timestamp-outer";
         printOuterTimeStamp.innerHTML = printMessageSuffix.outerHTML + agentDiv.outerHTML + printTimeStamp.outerHTML;
 
         this.content.appendChild(printOuterTimeStamp);
 
         setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false, false);
+
+        setTimeout(this._fixUpVALinks, 300, printOuterTimeStamp);
 
         if (chatContainer) {
 
@@ -171,12 +170,38 @@ export default class Transcript {
         }
     }
 
+    vaLinkCallback(e) {
+        Inq.SDK.sendVALinkMessage(e, () => {
+            console.log("Clicked the VA link callback");
+        });
+    }
+
     _fixUpVALinks(div) {
+        console.log("This is the div we're looking at :" + div.outerHTML);
         const links = div.getElementsByTagName('a');
 
+        //console.log("FixUpVALinks callback : " + this.vaLinkCallback);
+
+        //console.log("Fixup VA link on these links " + links);
+        //const element = div.querySelector('a[data-vtz-link-type="Dialog"]');
+        //console.log("Fixup VA link on elemnet " + element);
+        //if (element) {
+         //   element.addEventListener("click", (e) => {
+         //       Inq.SDK.sendVALinkMessage(e, () => {
+         //           console.log("Clicked the VA link");
+         //       });
+          //      e.preventDefault();
+          //  });
+        //}
+
+        console.log("111111111111111111111111111 There are " + links.length + " in the HTML colection");
+
         for (const link of links) {
+            console.log("222222222222222222222222222222");
             for (const attribute of link.attributes) {
+                console.log("33333333333333333333333333333333");
                 if (attribute.name === "data-vtz-link-type" && attribute.value === "Dialog") {
+                    console.log("Clicked on a VA Link");
                     link.onclick = this.vaLinkCallback;
                 }
             }

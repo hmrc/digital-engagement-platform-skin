@@ -21,8 +21,8 @@ export default class ChatContainer {
         this.content = this.container.querySelector("#ciapiSkinChatTranscript");
         this.custInput = this.container.querySelector("#custMsg");
         this.soundButton = this.container.querySelector(".sound-button");
-        this.transcript = new Transcript(this.content, (e) => this.eventHandler.onClickedVALink(e), messageClasses);
         this._registerEventListeners();
+        this.transcript = new Transcript(this.content, messageClasses);
         this.endChatPopup = new EndChatPopup(this.container.querySelector("#ciapiSkinContainer"), this);
     }
 
@@ -119,6 +119,11 @@ export default class ChatContainer {
 
         this._registerEventListener("#toggleSound", (e) => {
             this.eventHandler.onSoundToggle();
+            e.preventDefault();
+        })
+
+        this._registerEventListener('a[data-vtz-link-type="Dialog"]', (e) => {
+            this.eventHandler.onClickedVALink(e);
             e.preventDefault();
         })
     }
