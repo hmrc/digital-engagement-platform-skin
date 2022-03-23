@@ -341,11 +341,6 @@ export default class CommonChatController {
         }
     }
 
-    onClickedVALink(e) {
-        console.log("commonChatController onClickedVALink");
-        this.state.onClickedVALink(e);
-    }
-
     onConfirmEndChat() {
         this.closeNuanceChat();
         let escalated = this.state.isEscalated();

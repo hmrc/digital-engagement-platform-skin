@@ -6,11 +6,6 @@ export class NullState {
         console.error("State Error: Trying to send text with no state.");
     }
 
-    onClickedVALink(text) {
-        console.log("Null: In onClickedVALink");
-        console.error("State Error: Trying to handle VA link with no state.");
-    }
-
     onClickedClose() {
         console.error("State Error: Trying to close chat with no state.");
     }
@@ -27,11 +22,6 @@ export class ShownState {
     onSend(text) {
         console.log(">>> not connected: engage request");
         this.engageRequest(text);
-    }
-
-    onClickedVALink(e) {
-        console.log("Shown: In onClickedVALink");
-        console.error("State Error: Trying to handle VA link before engaged.");
     }
 
     onClickedClose() {
@@ -58,11 +48,6 @@ export class EngagedState {
     onSend(text) {
         console.log(">>> connected: send message");
         this.sdk.sendMessage(text);
-    }
-
-    onClickedVALink(e) {
-        console.log(">>> engaged: clicked VA clicked");
-        this.sdk.sendVALinkMessage(e, () => this._linkCallback);
     }
 
     onClickedClose() {
@@ -144,11 +129,6 @@ export class EngagedState {
             console.log("==== Unknown message:", msg);
         }
     }
-
-    _linkCallback(data) {
-        // data seems to be the text clicked on.
-                console.log("link callback: ", data);
-    }
 }
 
 // In the process of closing (post-chat survey, etc.)
@@ -159,10 +139,6 @@ export class ClosingState {
 
     onSend(text) {
         console.error("State Error: Trying to send text when closing.");
-    }
-
-    onClickedVALink(e) {
-        console.error("State Error: Trying to handle VA link when closing.");
     }
 
     onClickedClose() {
