@@ -1,9 +1,8 @@
 import * as MessageState from '../NuanceMessageState';
 
 export default class Transcript {
-    constructor(content, vaLinkCallback, classes, msgPrefix) {
+    constructor(content, classes, msgPrefix) {
         this.content = content;
-        this.vaLinkCallback = vaLinkCallback;
         this.classes = classes;
         this.agentMsgPrefix = "<h3>Adviser said : </h3>";
         this.customerMsgPrefix = "<h2>You said : </h2>";
@@ -158,8 +157,6 @@ export default class Transcript {
         printTimeStamp.className = "print-only govuk-body print-float-left";
         printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
 
-        this._fixUpVALinks(agentDiv);
-
         printOuterTimeStamp.className = "timestamp-outer";
         printOuterTimeStamp.innerHTML = printMessageSuffix.outerHTML + agentDiv.outerHTML + printTimeStamp.outerHTML;
 
@@ -174,18 +171,6 @@ export default class Transcript {
             }
 
             this.addSkipToBottomLink();
-        }
-    }
-
-    _fixUpVALinks(div) {
-        const links = div.getElementsByTagName('a');
-
-        for (const link of links) {
-            for (const attribute of link.attributes) {
-                if (attribute.name === "data-vtz-link-type" && attribute.value === "Dialog") {
-                    link.onclick = this.vaLinkCallback;
-                }
-            }
         }
     }
 
