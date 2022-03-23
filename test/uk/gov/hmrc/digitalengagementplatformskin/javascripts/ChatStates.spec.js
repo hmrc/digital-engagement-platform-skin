@@ -32,15 +32,6 @@ describe("Chat States", () => {
             expect(console.error).toHaveBeenCalledWith("State Error: Trying to send text with no state.");
         });
 
-        it("logs error for onClickedVALink", () => {
-            console.error = jest.fn();
-
-            const state = new ChatStates.NullState();
-
-            state.onClickedVALink("Some text that will be ignored");
-            expect(console.error).toHaveBeenCalledWith("State Error: Trying to handle VA link with no state.");
-        });
-
         it("logs error for onClickedClose", () => {
             console.error = jest.fn();
 
@@ -62,18 +53,6 @@ describe("Chat States", () => {
 
             state.onSend("Please help me.");
             expect(onEngage).toHaveBeenCalledWith("Please help me.");
-        });
-
-        it("logs error for onClickedVALink", () => {
-            console.error = jest.fn();
-
-            const onEngage = jest.fn();
-            const onCloseChat = jest.fn();
-
-            const state = new ChatStates.ShownState(onEngage, onCloseChat);
-
-            state.onClickedVALink("Some text that will be ignored");
-            expect(console.error).toHaveBeenCalledWith("State Error: Trying to handle VA link before engaged.");
         });
 
         it("closes the chat for onClickedClose", () => {
@@ -204,7 +183,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("Queue message");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Queue message"});
         });
 
         it("reports Chat Denied to the transcript", () => {
@@ -220,7 +199,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("No agents are available.");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "No agents are available."});
         });
 
         it("reports Closed to the transcript", () => {
@@ -236,7 +215,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("Agent Left Chat.");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent Left Chat."});
         });
 
         it("send previous messages to the transcript", () => {
@@ -283,7 +262,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("I'm connecting you to the next available webchat adviser.");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "I'm connecting you to the next available webchat adviser."});
         });
 
         it("sends MemberConnected to the transcript", () => {
@@ -312,7 +291,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("You're now talking to Jay");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "You're now talking to Jay"});
         });
 
         it("reports chat exit in transcript", () => {
@@ -345,7 +324,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("Agent 'Jay' exits chat");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent 'Jay' exits chat"});
         });
 
         it("reports chat exit in transcript when from digital assistant", () => {
@@ -364,7 +343,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("Adviser exited chat");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Adviser exited chat"});
         });
 
         it("reports agent has been lost", () => {
@@ -381,13 +360,13 @@ describe("Chat States", () => {
                     "engagementID": "388260663047034009",
                     "messageTimestamp": "1627654612000",
                     "chatroom.member.id": "42391918",
-                    "client.display.text": "You were disconnected. Please wait while we attempt to reconnect you.",
+                    "client.display.text": "Agent 'JoeBloggs' loses connection",
                     "chatroom.member.type": "agent"
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("You were disconnected. Please wait while we attempt to reconnect you.");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent 'JoeBloggs' loses connection"});
         });
 
         it("reports chat system messages", () => {
@@ -406,7 +385,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("Sorry for the delay. An adviser should be with you soon.");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Sorry for the delay. An adviser should be with you soon."});
         });
 
         it("closes the chat when clicked", () => {
@@ -428,15 +407,6 @@ describe("Chat States", () => {
 
             state.onSend("Some text that will be ignored");
             expect(console.error).toHaveBeenCalledWith("State Error: Trying to send text when closing.");
-        });
-
-        it("logs error for onClickedVALink", () => {
-            console.error = jest.fn();
-
-            const state = new ChatStates.ClosingState(jest.fn());
-
-            state.onClickedVALink("Some text that will be ignored");
-            expect(console.error).toHaveBeenCalledWith("State Error: Trying to handle VA link when closing.");
         });
 
         it("closes the window onClickedClose", () => {

@@ -1,3 +1,5 @@
+import * as MessageState from '../NuanceMessageState';
+
 export default class Transcript {
     constructor(content, classes, msgPrefix) {
         this.content = content;
@@ -16,8 +18,12 @@ export default class Transcript {
         this._appendMessage(msg, msgTimestamp, this.classes.Customer, this.customerMsgPrefix, true, false);
     }
 
-    addSystemMsg(msg) {
-        this._appendMessage(msg, "", this.classes.System, this.systemMsgPrefix, false, true);
+    addSystemMsg(msgObject) {
+        if (msgObject.msg === undefined) msgObject.msg = "";
+        if (msgObject.state === undefined) msgObject.state = "";
+        if (msgObject.joinTransfer === undefined) msgObject.joinTransfer = "";
+
+        this._appendMessage(msgObject.msg, "", this.classes.System, this.systemMsgPrefix, false, true, msgObject.state, msgObject.joinTransfer);
     }
 
     addOpenerScript(msg) {
@@ -168,7 +174,8 @@ export default class Transcript {
         }
     }
 
-    _appendMessage(msg, msgTimestamp, msg_class, msg_type, isCustomerMsg, isSystemMsg) {
+    _appendMessage(msg, msgTimestamp, msg_class, msg_type, isCustomerMsg, isSystemMsg, state, joinTransfer) {
+
 
         var id = "liveMsgId" + (Math.random() * 100);
 
@@ -185,7 +192,15 @@ export default class Transcript {
 
         } else {
             if (isSystemMsg) {
-                var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
+                if(state == MessageState.Agent_IsTyping) {
+                    printOuterTimeStamp.classList.add("agent-typing");
+                    var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
+                } else {
+                    if (joinTransfer == "true") {
+                        printOuterTimeStamp.classList.add("agent-joins-conference");
+                    }
+                    var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
+                }
             } else {
                 var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" tabindex=-1 id=${id} aria-live=polite></div></div>`;
                 var printMessageSuffix = document.createElement("span");
@@ -203,7 +218,7 @@ export default class Transcript {
         const skipToTop = document.getElementById("skipToTop");
         const chatContainer = document.getElementById("ciapiSkinChatTranscript");
 
-        printOuterTimeStamp.className = "timestamp-outer";
+        printOuterTimeStamp.classList.add("timestamp-outer");
 
         if (!isSystemMsg) {
             printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);

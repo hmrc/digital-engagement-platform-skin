@@ -36,10 +36,10 @@ describe("Transcript", () => {
             scrollTo: jest.fn(),
             scrollHeight: 42
         };
-        const vaLinkCallback = jest.fn();
-        const transcript = new Transcript(content, vaLinkCallback, messageClasses);
 
-        transcript.addSystemMsg("System Message");
+        const transcript = new Transcript(content, messageClasses);
+
+        transcript.addSystemMsg({msg: "System Message"});
 
         // expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
         //     "beforeend",
@@ -59,8 +59,8 @@ describe("Transcript", () => {
             scrollTo: jest.fn(),
             scrollHeight: 50
         };
-        const vaLinkCallback = jest.fn();
-        const transcript = new Transcript(content, vaLinkCallback, messageClasses);
+
+        const transcript = new Transcript(content, messageClasses);
 
         transcript.addOpenerScript("An Opener Script");
 
@@ -81,8 +81,8 @@ describe("Transcript", () => {
             scrollTo: jest.fn(),
             scrollHeight: 314
         };
-        const vaLinkCallback = jest.fn();
-        const transcript = new Transcript(content, vaLinkCallback, messageClasses);
+
+        const transcript = new Transcript(content, messageClasses);
 
         transcript.addAgentMsg("Some agent message");
 
@@ -103,8 +103,8 @@ describe("Transcript", () => {
             scrollTo: jest.fn(),
             scrollHeight: 666
         };
-        const vaLinkCallback = jest.fn();
-        const transcript = new Transcript(content, vaLinkCallback, messageClasses);
+
+        const transcript = new Transcript(content, messageClasses);
 
         transcript.addCustomerMsg("Some customer message");
 
@@ -125,8 +125,8 @@ describe("Transcript", () => {
             scrollTo: jest.fn(),
             scrollHeight: 666
         };
-        const vaLinkCallback = jest.fn();
-        const transcript = new Transcript(content, vaLinkCallback, messageClasses);
+  
+        const transcript = new Transcript(content, messageClasses);
 
         transcript._appendMessage("test1", "time", messageClasses.Customer, "test3", true);
 
@@ -147,8 +147,8 @@ describe("Transcript", () => {
             scrollTo: jest.fn(),
             scrollHeight: 666
         };
-        const vaLinkCallback = jest.fn();
-        const transcript = new Transcript(content, vaLinkCallback, messageClasses);
+      
+        const transcript = new Transcript(content, messageClasses);
 
         transcript._appendMessage("test1", "time", messageClasses.Agent, "test3", false);
 
@@ -168,8 +168,8 @@ describe("Transcript", () => {
             scrollTo: jest.fn(),
             scrollHeight: 1024
         };
-        const vaLinkCallback = jest.fn();
-        const transcript = new Transcript(content, vaLinkCallback, messageClasses);
+
+        const transcript = new Transcript(content, messageClasses);
 
         transcript.addAutomatonMsg("I'm not a real person");
 
@@ -185,7 +185,6 @@ describe("Transcript", () => {
             scrollTo: jest.fn(),
             scrollHeight: 4
         };
-        const vaLinkCallback = jest.fn();
 
         let chatContainer = document.createElement("div");
         chatContainer.setAttribute("id", "ciapiSkinChatTranscript");
@@ -193,7 +192,7 @@ describe("Transcript", () => {
         chatContainer.setAttribute("clientHeight", 5);
         document.body.appendChild(chatContainer);
 
-        const transcript = new Transcript(content, vaLinkCallback, messageClasses);
+        const transcript = new Transcript(content, messageClasses);
 
         transcript.addSkipToBottomLink();
 
@@ -208,8 +207,7 @@ describe("Transcript", () => {
             scrollHeight: 314
         };
 
-        const vaLinkCallback = jest.fn();
-        const transcript = new Transcript(content, vaLinkCallback, messageClasses);
+        const transcript = new Transcript(content, messageClasses);
 
         let div = document.createElement("div");
         div.setAttribute("id", "test");
@@ -226,8 +224,8 @@ describe("Transcript", () => {
             scrollTo: jest.fn(),
             scrollHeight: 314
         };
-        const vaLinkCallback = jest.fn();
-        const transcript = new Transcript(content, vaLinkCallback, messageClasses);
+
+        const transcript = new Transcript(content, messageClasses);
 
         var msg = transcript.decodeHTMLEntities("&lt;this is &apos; test&gt;");
 
