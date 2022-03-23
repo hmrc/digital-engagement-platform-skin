@@ -1,4 +1,5 @@
 import * as MessageType from '../NuanceMessageType';
+import * as MessageState from '../NuanceMessageState';
 
 // State at start, before anything happens.
 export class NullState {
@@ -83,6 +84,14 @@ export class EngagedState {
         messageReceivedSound.play();
     }
 
+    _removeAgentIsTyping() {
+        document.querySelectorAll('.agent-typing').forEach(e => e.remove());
+    }
+
+    _removeAgentJoinsConference() {
+        document.querySelectorAll('.agent-joins-conference').forEach(e => e.remove());
+    }
+
     _displayMessage(msg_in) {
         const msg = msg_in.data
         console.log("---- Received message:", msg);
@@ -95,12 +104,12 @@ export class EngagedState {
                 if (this._isSoundActive()) {
                     this._playMessageRecievedSound();
                 }
+                this._removeAgentIsTyping();
                 transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
             } else {
                 transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
             }
         } else if (msg.messageType === MessageType.Chat_AutomationRequest) {
-            console.log("in automation msgs ++", msg.messageTimestamp);
             if (this._isSoundActive()) {
                 this._playMessageRecievedSound();
             }
@@ -108,23 +117,37 @@ export class EngagedState {
         } else if (msg.messageType === MessageType.Chat_Exit) {
             // This message may also have msg.state === "closed".
             // Not sure about transfer scenarios.
-            transcript.addSystemMsg(msg["display.text"] || "Adviser exited chat");
-        } else if (msg.state === "closed") {
-            transcript.addSystemMsg("Agent Left Chat.");
+            transcript.addSystemMsg({msg: (msg["display.text"] || "Adviser exited chat")});
+        } else if (msg.state === MessageState.Closed) {
+            transcript.addSystemMsg({msg: "Agent Left Chat."});
         } else if (msg.messageType === MessageType.Chat_CommunicationQueue) {
-            transcript.addSystemMsg(msg.messageText);
+            transcript.addSystemMsg({msg: msg.messageText});
         } else if (msg.messageType === MessageType.ChatRoom_MemberConnected) {
             this.escalated = true;
-            transcript.addSystemMsg(msg["client.display.text"]);
+            transcript.addSystemMsg(
+                {
+                    msg: msg["client.display.text"] || msg["display.text"],
+                    joinTransfer: msg["aeapi.join_transfer"]
+                }
+            );
         } else if (msg.messageType === MessageType.Chat_Denied) {
             //            this.isConnected = false;
-            transcript.addSystemMsg("No agents are available.");
+            transcript.addSystemMsg({msg: "No agents are available."});
+        } else if (msg.messageType === MessageType.ChatRoom_MemberLost) {
+            transcript.addSystemMsg({msg: msg["display.text"]});
+        } else if (msg.messageType === MessageType.Owner_TransferResponse) {
+            this._removeAgentJoinsConference();
+        } else if (msg.messageType === MessageType.Chat_Activity && msg.state === MessageState.Agent_IsTyping) {
+            if (msg["display.text"] == "Agent is typing...") {
+                transcript.addSystemMsg({msg: msg["display.text"], state: MessageState.Agent_IsTyping});
+            } else {
+                this._removeAgentIsTyping();
+            }
         } else if ([
                 MessageType.Chat_System,
                 MessageType.Chat_TransferResponse,
-                MessageType.ChatRoom_MemberLost
             ].includes(msg.messageType)) {
-            transcript.addSystemMsg(msg["client.display.text"]);
+            transcript.addSystemMsg({msg: msg["client.display.text"]});
         } else {
             console.log("==== Unknown message:", msg);
         }

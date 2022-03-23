@@ -204,7 +204,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("Queue message");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Queue message"});
         });
 
         it("reports Chat Denied to the transcript", () => {
@@ -220,7 +220,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("No agents are available.");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "No agents are available."});
         });
 
         it("reports Closed to the transcript", () => {
@@ -236,7 +236,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("Agent Left Chat.");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent Left Chat."});
         });
 
         it("send previous messages to the transcript", () => {
@@ -283,7 +283,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("I'm connecting you to the next available webchat adviser.");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "I'm connecting you to the next available webchat adviser."});
         });
 
         it("sends MemberConnected to the transcript", () => {
@@ -312,7 +312,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("You're now talking to Jay");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "You're now talking to Jay"});
         });
 
         it("reports chat exit in transcript", () => {
@@ -345,7 +345,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("Agent 'Jay' exits chat");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent 'Jay' exits chat"});
         });
 
         it("reports chat exit in transcript when from digital assistant", () => {
@@ -364,7 +364,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("Adviser exited chat");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Adviser exited chat"});
         });
 
         it("reports agent has been lost", () => {
@@ -381,13 +381,13 @@ describe("Chat States", () => {
                     "engagementID": "388260663047034009",
                     "messageTimestamp": "1627654612000",
                     "chatroom.member.id": "42391918",
-                    "client.display.text": "You were disconnected. Please wait while we attempt to reconnect you.",
+                    "client.display.text": "Agent 'JoeBloggs' loses connection",
                     "chatroom.member.type": "agent"
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("You were disconnected. Please wait while we attempt to reconnect you.");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent 'JoeBloggs' loses connection"});
         });
 
         it("reports chat system messages", () => {
@@ -406,7 +406,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("Sorry for the delay. An adviser should be with you soon.");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Sorry for the delay. An adviser should be with you soon."});
         });
 
         it("closes the chat when clicked", () => {
