@@ -2,6 +2,11 @@ import CommonChatController from '../../../../../../../app/assets/javascripts/co
 import ProactiveChatController from '../../../../../../../app/assets/javascripts/controllers/ProactiveChatController'
 
 describe("ProactiveChatController", () => {
+    
+    afterEach(() => {
+        document.getElementsByTagName('html')[0].innerHTML = ''; 
+      });
+    
     it("launches a proactive chat", () => {
         const commonChatController = new CommonChatController();
         const proactiveChatController = new ProactiveChatController();
@@ -32,15 +37,15 @@ describe("ProactiveChatController", () => {
 
     });
 
-    it("appends chat transcript div to page when some div id is found on page", () => {
+    it("appends embedded chat transcript div to page when an embedded div id is found on page", () => {
         const commonChatController = new CommonChatController();
         let chatContainer = document.createElement("div");
-        chatContainer.setAttribute("id", "HMRC_CIAPI_Fixed_1");
+        chatContainer.setAttribute("id", "nuanMessagingFrame");
         document.body.appendChild(chatContainer);
 
         commonChatController._showChat();
 
-        expect(document.getElementById("ciapiSkinChatTranscript").innerHTML).not.toBe(null);
+        expect(document.getElementById("ciapiSkinMinimised")).toBe(null);
 
     });
 });
