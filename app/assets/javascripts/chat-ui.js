@@ -15,6 +15,7 @@ function safeHandler(f, helpful_name) {
 const chatListener = {
         onAnyEvent: function(evt) {
             console.log("Chat any event:", evt);
+            window.chatId = evt.chatID;
         },
     onC2CStateChanged: function (evt) {
         console.log("C2C state changed...")

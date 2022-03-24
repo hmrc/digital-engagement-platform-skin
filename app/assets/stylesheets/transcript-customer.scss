@@ -2,13 +2,16 @@
 
 .ciapi-customer-container {
   >div {
-    @include bubble
+    @include bubble;
     float: right;
   }
-  padding: 8px 15px;
+  padding-top: 8px;
+  padding-right: 15px;
+  padding-left: 15px;
   clear: both;
   overflow-wrap: break-word
 }
+
 .ciapi-customer-message::before, .ciapi-customer-message::after {
     content: " ";
     position: absolute;

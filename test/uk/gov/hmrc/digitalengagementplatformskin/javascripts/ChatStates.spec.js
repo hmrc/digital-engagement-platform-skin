@@ -32,15 +32,6 @@ describe("Chat States", () => {
             expect(console.error).toHaveBeenCalledWith("State Error: Trying to send text with no state.");
         });
 
-        it("logs error for onClickedVALink", () => {
-            console.error = jest.fn();
-
-            const state = new ChatStates.NullState();
-
-            state.onClickedVALink("Some text that will be ignored");
-            expect(console.error).toHaveBeenCalledWith("State Error: Trying to handle VA link with no state.");
-        });
-
         it("logs error for onClickedClose", () => {
             console.error = jest.fn();
 
@@ -62,18 +53,6 @@ describe("Chat States", () => {
 
             state.onSend("Please help me.");
             expect(onEngage).toHaveBeenCalledWith("Please help me.");
-        });
-
-        it("logs error for onClickedVALink", () => {
-            console.error = jest.fn();
-
-            const onEngage = jest.fn();
-            const onCloseChat = jest.fn();
-
-            const state = new ChatStates.ShownState(onEngage, onCloseChat);
-
-            state.onClickedVALink("Some text that will be ignored");
-            expect(console.error).toHaveBeenCalledWith("State Error: Trying to handle VA link before engaged.");
         });
 
         it("closes the chat for onClickedClose", () => {
@@ -107,9 +86,37 @@ describe("Chat States", () => {
             expect(sdk.sendMessage).toHaveBeenCalledWith("Please help me.");
         });
 
+        it("plays sound on incoming agent message when user has sound turned on", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            let chatContainer = document.createElement("button");
+            chatContainer.setAttribute("id", "toggleSound");
+            chatContainer.setAttribute("class", "active");
+            document.body.appendChild(chatContainer);
+
+            const isSoundActive = jest.spyOn(state, '_isSoundActive');
+            const playMessageRecievedSound = jest.spyOn(state, '_playMessageRecievedSound');
+            
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+            const message = {
+                data: {
+                    messageType: MessageType.Chat_Communication,
+                    messageText: "Hello world",
+                    agentID: "007",
+                    messageTimestamp: "test"
+                }
+            };
+
+            handleMessage(message);
+
+            expect(isSoundActive).toBeCalledTimes(1);
+            expect(playMessageRecievedSound).toBeCalledTimes(1);
+        });
+
         it("sends agent messages to the transcript", () => {
             const [sdk, container] = createEngagedStateDependencies();
-
+            
             const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
 
             const handleMessage = sdk.getMessages.mock.calls[0][0];
@@ -117,12 +124,13 @@ describe("Chat States", () => {
                 data: {
                     messageType: MessageType.Chat_Communication,
                     messageText: "Hello world",
-                    agentID: "007"
+                    agentID: "007",
+                    messageTimestamp: "test"
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addAgentMsg).toHaveBeenCalledWith("Hello world");
+            expect(container.transcript.addAgentMsg).toHaveBeenCalledWith("Hello world", "test");
         });
 
         it("sends customer messages to the transcript", () => {
@@ -134,12 +142,13 @@ describe("Chat States", () => {
             const message = {
                 data: {
                     messageType: MessageType.Chat_Communication,
-                    messageText: "Hello to you"
+                    messageText: "Hello to you",
+                    messageTimestamp: "test"
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addCustomerMsg).toHaveBeenCalledWith("Hello to you");
+            expect(container.transcript.addCustomerMsg).toHaveBeenCalledWith("Hello to you", "test");
         });
 
         it("sends automaton messages to the transcript", () => {
@@ -151,12 +160,13 @@ describe("Chat States", () => {
             const message = {
                 data: {
                     messageType: MessageType.Chat_AutomationRequest,
+                    messageTimestamp: "test",
                     "automaton.data": "Beep boop. I am a robot."
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("Beep boop. I am a robot.");
+            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("Beep boop. I am a robot.", "test");
         });
 
         it("sends customer messages to the transcript", () => {
@@ -173,7 +183,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("Queue message");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Queue message"});
         });
 
         it("reports Chat Denied to the transcript", () => {
@@ -189,7 +199,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("No agents are available.");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "No agents are available."});
         });
 
         it("reports Closed to the transcript", () => {
@@ -205,7 +215,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("Agent Left Chat.");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent Left Chat."});
         });
 
         it("send previous messages to the transcript", () => {
@@ -214,19 +224,21 @@ describe("Chat States", () => {
             const messages = [{
                 data: {
                     messageType: MessageType.Chat_AutomationRequest,
-                    "automaton.data": "Beep boop. I am a robot."
+                    "automaton.data": "Beep boop. I am a robot.",
+                    messageTimestamp: "test"
                 }
             }, {
                 data: {
                     messageType: MessageType.Chat_Communication,
-                    messageText: "Hello to you"
+                    messageText: "Hello to you",
+                    messageTimestamp: "test"
                 }
             }];
 
             const state = new ChatStates.EngagedState(sdk, container, messages, jest.fn());
 
-            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("Beep boop. I am a robot.");
-            expect(container.transcript.addCustomerMsg).toHaveBeenCalledWith("Hello to you");
+            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("Beep boop. I am a robot.", "test");
+            expect(container.transcript.addCustomerMsg).toHaveBeenCalledWith("Hello to you", "test");
         });
 
         it("sends TransferResponse to the transcript", () => {
@@ -250,7 +262,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("I'm connecting you to the next available webchat adviser.");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "I'm connecting you to the next available webchat adviser."});
         });
 
         it("sends MemberConnected to the transcript", () => {
@@ -279,7 +291,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("You're now talking to Jay");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "You're now talking to Jay"});
         });
 
         it("reports chat exit in transcript", () => {
@@ -312,7 +324,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("Agent 'Jay' exits chat");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent 'Jay' exits chat"});
         });
 
         it("reports chat exit in transcript when from digital assistant", () => {
@@ -331,7 +343,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("Adviser exited chat");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Adviser exited chat"});
         });
 
         it("reports agent has been lost", () => {
@@ -348,13 +360,13 @@ describe("Chat States", () => {
                     "engagementID": "388260663047034009",
                     "messageTimestamp": "1627654612000",
                     "chatroom.member.id": "42391918",
-                    "client.display.text": "You were disconnected. Please wait while we attempt to reconnect you.",
+                    "client.display.text": "Agent 'JoeBloggs' loses connection",
                     "chatroom.member.type": "agent"
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("You were disconnected. Please wait while we attempt to reconnect you.");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent 'JoeBloggs' loses connection"});
         });
 
         it("reports chat system messages", () => {
@@ -373,7 +385,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith("Sorry for the delay. An adviser should be with you soon.");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Sorry for the delay. An adviser should be with you soon."});
         });
 
         it("closes the chat when clicked", () => {
@@ -395,15 +407,6 @@ describe("Chat States", () => {
 
             state.onSend("Some text that will be ignored");
             expect(console.error).toHaveBeenCalledWith("State Error: Trying to send text when closing.");
-        });
-
-        it("logs error for onClickedVALink", () => {
-            console.error = jest.fn();
-
-            const state = new ChatStates.ClosingState(jest.fn());
-
-            state.onClickedVALink("Some text that will be ignored");
-            expect(console.error).toHaveBeenCalledWith("State Error: Trying to handle VA link when closing.");
         });
 
         it("closes the window onClickedClose", () => {

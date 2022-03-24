@@ -1,24 +1,28 @@
 'use strict';
 export const ContainerHtml = `
+<div id="printDetails" class="print-only govuk-!-padding-top-8 govuk-!-padding-bottom-8">
+<p class="govuk-body print-only">Chat ID: <span id="chat-id"></span></p>
+<p id="print-date" class="govuk-body print-only"></p>
+</div>
 <div id="ciapiSkinContainer">
-    <div id="ciapiSkinHeader">
+    <div id="ciapiSkinHeader" class="govuk-!-display-none-print">
         <div id="print">
-            <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
+            <button id="printButton" class="govuk-button govuk-button--secondary" data-module="govuk-button">
                 Print or save
             </button>
         </div>
         <div id="sound">
-            <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                Turn sound on
+            <button id="toggleSound" class="govuk-button govuk-button--secondary active" data-module="govuk-button">
+                Turn notification sound off
             </button>
         </div>
     </div>
     <div id="ciapiChatComponents">
-        <div id="ciapiSkinChatTranscript" tabindex="0" aria-label="chat region">
+        <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript print-overflow-visible" tabindex="0" aria-label="chat transcript">
             <div id="skipToBottom"><a id="skipToBottomLink" href="#" class="govuk-skip-link">Skip to bottom of conversation</a></div>
-            <p class="info"><img src="/ask-hmrc/assets/media/intro-warn.svg" alt="Introduction warning">You are currently chatting with a computer.</p>
+            <p id="info" class="info govuk-!-display-none-print"><img role="img" src="/ask-hmrc/assets/media/intro-warn.svg" alt="Note">You are currently chatting with a computer.</p>
         </div>
-        <div id="ciapiSkinFooter">
+        <div id="ciapiSkinFooter" class="govuk-!-display-none-print">
             <div>
                 <div id="ciapiInput"><textarea
                     id="custMsg"

@@ -80,8 +80,13 @@ export default class CommonChatController {
     _launchChat() {
         // TODO: Do we need this any more, now that the above timeout is gone?
         if (this.container) {
+<<<<<<< HEAD
             console.error("This should never happen. If it doesn't, then remove this 'if'")
             return;
+=======
+            console.error("This should never happen. If it doesn't, then remove this 'if'");
+            return
+>>>>>>> main
         }
         try {
             //            console.log("in launchChat: ", this);
@@ -100,8 +105,22 @@ export default class CommonChatController {
                 "openerScripts": null,
                 "defaultAgentAlias": "HMRC"
             });
+
+            this._removeAnimation();
+
+
         } catch (e) {
             console.error("!!!! launchChat got exception: ", e);
+        }
+    }
+
+    _removeAnimation() {
+        let loadingAnimation = document.getElementById("cui-loading-animation");
+        let cuiContainer = document.getElementById("cui-messaging-container");
+
+        if (loadingAnimation && cuiContainer) {
+            loadingAnimation.style.display = 'none';
+            cuiContainer.style.opacity = '1';
         }
     }
 
@@ -159,15 +178,15 @@ export default class CommonChatController {
     }
 
     _getEmbeddedDiv() {
-        return document.getElementById("nuanMessagingFrame")
+        return document.getElementById("nuanMessagingFrame");
     }
 
     _getFixedPopupDiv() {
-        return document.getElementById("tc-nuance-chat-container")
+        return document.getElementById("HMRC_CIAPI_Fixed_1");
     }
 
     _getAnchoredPopupDiv() {
-        return document.getElementById("tc-nuance-chat-container")
+        return document.getElementById("HMRC_CIAPI_Anchored_1");
     }
 
     _moveToChatShownState() {
@@ -196,10 +215,7 @@ export default class CommonChatController {
             } else {
                 this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automaton, timestamp);
             }
-
         }
-
-        this.closeNuanceChat();
 
         if (this._getEmbeddedDiv()) {
             // Embedded view never dies.
@@ -211,6 +227,49 @@ export default class CommonChatController {
 
         this._moveToChatNullState();
     }
+
+    getPrintDate() {
+
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        const d = new Date();
+        return d.getDate() + " " + monthNames[d.getMonth()] + " " + d.getUTCFullYear();
+
+    }
+
+    removeElementsForPrint(listOfElements) {
+        listOfElements.forEach(function(item) {
+            if (document.getElementsByClassName(item)[0]) {
+                document.getElementsByClassName(item)[0].classList.add("govuk-!-display-none-print")
+            }
+        });
+    }
+
+    onPrint(e) {
+        e.preventDefault;
+        document.getElementById("print-date").innerHTML = this.getPrintDate();
+
+        const elementList = [
+            "app-related-items",
+            "govuk-back-link",
+            "govuk-phase-banner",
+            "hmrc-report-technical-issue",
+            "govuk-footer",
+            "govuk-heading-xl",
+            "hmrc-user-research-banner",
+            "cbanner-govuk-cookie-banner"
+        ];
+
+        this.removeElementsForPrint(elementList);
+
+
+        window.print();
+
+        return false;
+    }
+
 
     // End event handler method
     _sendPostChatSurveyWebchat(sdk) {
@@ -285,11 +344,8 @@ export default class CommonChatController {
         }
     }
 
-    onClickedVALink(e) {
-        this.state.onClickedVALink(e);
-    }
-
     onConfirmEndChat() {
+        this.closeNuanceChat();
         let escalated = this.state.isEscalated();
 
         this._moveToClosingState();
@@ -341,4 +397,27 @@ export default class CommonChatController {
         this.showEndChatPage(true);
     }
 
+<<<<<<< HEAD
 };
+=======
+    onSoundToggle(e) {
+
+        let soundElement = document.getElementById("toggleSound");
+        let isActive = soundElement.classList.contains("active");
+
+        if (isActive) {
+            soundElement.classList.remove("active");
+            soundElement.classList.add("inactive");
+
+            soundElement.innerHTML = "Turn notification sound on";
+        } else {
+            soundElement.classList.remove("inactive");
+            soundElement.classList.add("active");
+
+            soundElement.innerHTML = "Turn notification sound off";
+        }
+
+    }
+
+};
+>>>>>>> main

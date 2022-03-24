@@ -1,17 +1,14 @@
-import * as MessageType from '../NuanceMessageType'
+import * as MessageType from '../NuanceMessageType';
+import * as MessageState from '../NuanceMessageState';
 
 // State at start, before anything happens.
 export class NullState {
     onSend(text) {
-        console.error("State Error: Trying to send text with no state.")
-    }
-
-    onClickedVALink(text) {
-        console.error("State Error: Trying to handle VA link with no state.")
+        console.error("State Error: Trying to send text with no state.");
     }
 
     onClickedClose() {
-        console.error("State Error: Trying to close chat with no state.")
+        console.error("State Error: Trying to close chat with no state.");
     }
 }
 
@@ -19,17 +16,13 @@ export class NullState {
 // First input from customer should engage chat.
 export class ShownState {
     constructor(engageRequest, closeChat) {
-        this.engageRequest = engageRequest
+        this.engageRequest = engageRequest;
         this.closeChat = closeChat;
     }
 
     onSend(text) {
-        console.log(">>> not connected: engage request")
+        console.log(">>> not connected: engage request");
         this.engageRequest(text);
-    }
-
-    onClickedVALink(e) {
-        console.error("State Error: Trying to handle VA link before engaged.")
     }
 
     onClickedClose() {
@@ -54,12 +47,8 @@ export class EngagedState {
     }
 
     onSend(text) {
-        console.log(">>> connected: send message")
-        this.sdk.sendMessage(text)
-    }
-
-    onClickedVALink(e) {
-        this.sdk.sendVALinkMessage(e, () => this._linkCallback);
+        console.log(">>> connected: send message");
+        this.sdk.sendMessage(text);
     }
 
     onClickedClose() {
@@ -72,50 +61,96 @@ export class EngagedState {
         }
     }
 
+    _isSoundActive() {
+        let soundElement = document.getElementById("toggleSound");
+        let isActive = null;
+
+        if (soundElement != null) {
+            isActive = soundElement.classList.contains("active");
+        } else {
+            isActive = false;
+        }
+
+        return isActive;
+    }
+
     _getMessages() {
         this.sdk.getMessages((msg_in) => this._displayMessage(msg_in));
+    }
+
+    _playMessageRecievedSound() {
+        let messageReceivedSound = new Audio('../assets/media/message-received-sound.mp3');
+        messageReceivedSound.autoplay = true;
+        messageReceivedSound.play();
+    }
+
+    _removeAgentIsTyping() {
+        document.querySelectorAll('.agent-typing').forEach(e => e.remove());
+    }
+
+    _removeAgentJoinsConference() {
+        document.querySelectorAll('.agent-joins-conference').forEach(e => e.remove());
     }
 
     _displayMessage(msg_in) {
         const msg = msg_in.data
         console.log("---- Received message:", msg);
+        if (msg && msg.senderName) {
+            window.Agent_Name = msg.senderName;
+        }
         const transcript = this.container.getTranscript();
         if (msg.messageType === MessageType.Chat_Communication) {
             if (msg.agentID) {
-                transcript.addAgentMsg(msg.messageText)
+                if (this._isSoundActive()) {
+                    this._playMessageRecievedSound();
+                }
+                this._removeAgentIsTyping();
+                transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
             } else {
-                transcript.addCustomerMsg(msg.messageText)
+                transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
             }
         } else if (msg.messageType === MessageType.Chat_AutomationRequest) {
-            transcript.addAutomatonMsg(msg["automaton.data"]);
+            if (this._isSoundActive()) {
+                this._playMessageRecievedSound();
+            }
+            transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
         } else if (msg.messageType === MessageType.Chat_Exit) {
             // This message may also have msg.state === "closed".
             // Not sure about transfer scenarios.
-            transcript.addSystemMsg(msg["display.text"] || "Adviser exited chat");
-        } else if (msg.state === "closed") {
-            transcript.addSystemMsg("Agent Left Chat.");
+            transcript.addSystemMsg({msg: (msg["display.text"] || "Adviser exited chat")});
+        } else if (msg.state === MessageState.Closed) {
+            transcript.addSystemMsg({msg: "Agent Left Chat."});
         } else if (msg.messageType === MessageType.Chat_CommunicationQueue) {
-            transcript.addSystemMsg(msg.messageText);
+            transcript.addSystemMsg({msg: msg.messageText});
         } else if (msg.messageType === MessageType.ChatRoom_MemberConnected) {
             this.escalated = true;
-            transcript.addSystemMsg(msg["client.display.text"]);
+            transcript.addSystemMsg(
+                {
+                    msg: msg["client.display.text"] || msg["display.text"],
+                    joinTransfer: msg["aeapi.join_transfer"]
+                }
+            );
         } else if (msg.messageType === MessageType.Chat_Denied) {
             //            this.isConnected = false;
-            transcript.addSystemMsg("No agents are available.");
+            transcript.addSystemMsg({msg: "No agents are available."});
+        } else if (msg.messageType === MessageType.ChatRoom_MemberLost) {
+            transcript.addSystemMsg({msg: msg["display.text"]});
+        } else if (msg.messageType === MessageType.Owner_TransferResponse) {
+            this._removeAgentJoinsConference();
+        } else if (msg.messageType === MessageType.Chat_Activity && msg.state === MessageState.Agent_IsTyping) {
+            if (msg["display.text"] == "Agent is typing...") {
+                transcript.addSystemMsg({msg: msg["display.text"], state: MessageState.Agent_IsTyping});
+            } else {
+                this._removeAgentIsTyping();
+            }
         } else if ([
-            MessageType.Chat_System,
-            MessageType.Chat_TransferResponse,
-            MessageType.ChatRoom_MemberLost
-        ].includes(msg.messageType)) {
-            transcript.addSystemMsg(msg["client.display.text"]);
+                MessageType.Chat_System,
+                MessageType.Chat_TransferResponse,
+            ].includes(msg.messageType)) {
+            transcript.addSystemMsg({msg: msg["client.display.text"]});
         } else {
             console.log("==== Unknown message:", msg);
         }
-    }
-
-    _linkCallback(data) {
-        // data seems to be the text clicked on.
-        //        console.log("link callback: ", data);
     }
 }
 
@@ -126,15 +161,10 @@ export class ClosingState {
     }
 
     onSend(text) {
-        console.error("State Error: Trying to send text when closing.")
-    }
-
-    onClickedVALink(e) {
-        console.error("State Error: Trying to handle VA link when closing.")
+        console.error("State Error: Trying to send text when closing.");
     }
 
     onClickedClose() {
         this.closeChat();
     }
 }
-

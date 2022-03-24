@@ -1,7 +1,11 @@
 'use strict';
 export const ContainerHtml = `
+<div id="printDetails" style="display:none" class="govuk-!-padding-top-8 govuk-!-padding-bottom-8">
+<p class="govuk-body">Chat id: <span id="chat-id"></span></p>
+<p id="print-date" class="govuk-body"></p>
+</div>
 <div id="ciapiSkinContainer">
-    <div id="ciapiSkinHeader">
+    <div id="ciapiSkinHeader" >
         <div id="ciapiTitleBarLogo"></div>
         <div id="ciapiSkinTitleBar"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC</h2></div>
         <div id="hideCloseContainer">
@@ -9,24 +13,24 @@ export const ContainerHtml = `
             <button id="ciapiSkinCloseButton" draggable="false" role="button" type="button" aria-label="Close chat window"></button>
         </div>
     </div>
-    <div id="tools">
+    <div id="tools" class="govuk-!-display-none-print">
         <div id="print">
-            <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
+            <button id="printButton" class="govuk-button govuk-button--secondary" data-module="govuk-button">
                 Print or save
             </button>
         </div>
         <div id="sound">
             <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                Turn sound on
+               Turn sound on
             </button>
         </div>
     </div>
     <div id="ciapiChatComponents">
-        <div id="ciapiSkinChatTranscript" tabindex="0" aria-label="chat region">
+        <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript" tabindex="0" aria-label="chat transcript">
             <div id="skipToBottom"><a id="skipToBottomLink" href="#skipToTopLink" class="govuk-skip-link">Skip to bottom of conversation</a></div>
-            <p class="info"><img src="/ask-hmrc/assets/media/intro-warn.svg" alt="Introduction warning">You are currently chatting with a computer.</p>
+            <p id="info" class="info govuk-!-display-none-print"><img role="img" src="/ask-hmrc/assets/media/intro-warn.svg" alt="Note">You are currently chatting with a computer.</p>
         </div>
-        <div id="ciapiSkinFooter">
+        <div id="ciapiSkinFooter" class="govuk-!-display-none-print">
             <div id="ciapiInput"><textarea
                 id="custMsg"
                 class="govuk-textarea"

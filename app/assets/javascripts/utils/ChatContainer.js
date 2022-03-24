@@ -6,8 +6,8 @@ const nullEventHandler = {
     onCloseChat: function () { },
     onHideChat: function () { },
     onRestoreChat: function () { },
-    onClickedVALink: function (e) { },
-    onConfirmEndChat: function () { }
+    onConfirmEndChat: function () { },
+    onSoundToggle: function () { }
 };
 
 export default class ChatContainer {
@@ -19,8 +19,9 @@ export default class ChatContainer {
         this.container.insertAdjacentHTML("beforeend", containerHtml);
         this.content = this.container.querySelector("#ciapiSkinChatTranscript");
         this.custInput = this.container.querySelector("#custMsg");
-        this.transcript = new Transcript(this.content, (e) => this.eventHandler.onClickedVALink(e), messageClasses);
+        this.soundButton = this.container.querySelector(".sound-button");
         this._registerEventListeners();
+        this.transcript = new Transcript(this.content, messageClasses);
         this.endChatPopup = new EndChatPopup(this.container.querySelector("#ciapiSkinContainer"), this);
     }
 
@@ -68,6 +69,7 @@ export default class ChatContainer {
     }
 
     _registerEventListeners() {
+
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
             this.eventHandler.onSend();
         });
@@ -103,10 +105,21 @@ export default class ChatContainer {
             }
         });
 
-       this._registerEventListener("#ciapiSkinChatTranscript", (e) => {
+        this._registerEventListener("#ciapiSkinChatTranscript", (e) => {
             if ((e.target.tagName.toLowerCase() === 'a') && !!e.target.dataset && !!e.target.dataset.vtzJump) {
                 Inq.SDK.sendVALinkMessage(e, null, null, null);
+                this._focusOnNextAutomatonMessage();
             }
+        });
+
+        this._registerEventListener("#printButton", (e) => {
+            this.eventHandler.onPrint(e);
+            e.preventDefault();
+        });
+
+        this._registerEventListener("#toggleSound", (e) => {
+            this.eventHandler.onSoundToggle();
+            e.preventDefault();
         });
     }
 
@@ -130,10 +143,31 @@ export default class ChatContainer {
         document.getElementById("ciapiSkinCloseButton").focus();
     }
 
+    _removeSkinHeadingElements() {
+        document.getElementById("print").remove();
+        document.getElementById("sound").remove();
+
+        let transcriptHeading = document.getElementById("ciapiSkinHeader");
+
+        transcriptHeading.style.height = "auto";
+        transcriptHeading.style.width = "auto";
+    }
+
+    _focusOnNextAutomatonMessage() {
+        setTimeout(function(e) {
+            var lastAgentMessage = Array.from(
+                document.querySelectorAll('.ciapi-agent-message')
+              ).pop();
+    
+            lastAgentMessage.focus();
+        }, 1000);
+    }
+
     onConfirmEndChat() {
         this.endChatPopup.hide();
         this.eventHandler.onConfirmEndChat();
         document.getElementById("legend_give_feedback").focus();
+        this._removeSkinHeadingElements();
     }
 
     showPage(page) {

@@ -3,25 +3,15 @@
 @import 'system-message';
 @import 'c2cbutton';
 @import 'end-chat-popup';
-@import "lib/govuk-frontend/govuk/all";
-
 
 $container-height: 600px;
 $header-height: 30px;
 $header-border-bottom-height: 2px;
-$components-sub-height: $header-height + $header-border-bottom-height;
-
+$components-sub-height: $header-height+$header-border-bottom-height;
 $footer-height: 130px;
 $footer-padding: 5px;
 $footer-top-border-height: 3px;
-$transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-height + 50;
-
-#ciapiSkin {
-    font-family: "GDS Transport",arial,sans-serif;
-    font-size: 19px;
-    -webkit-font-smoothing: antialiased;
-    margin-bottom: 0px !important;
-}
+$transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-height+50;
 
 #ciapiSkinContainer {
     background: #0000ff;
@@ -52,7 +42,7 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     margin-bottom: 0px !important;
 }
 
-#ciapiSkinChatTranscript:focus {
+.ciapiSkinChatTranscript:focus {
     box-shadow: 0 0 0 3px #fd0;
     border: solid #000 4px;
     outline: none;
@@ -63,80 +53,74 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
 }
 
 #skipToTopLink:focus {
-    box-shadow : none !important;
+    box-shadow: none !important;
     text-decoration: underline !important;
 }
 
- #skipToBottomLink:focus{
-     box-shadow : none !important;
-     text-decoration: underline !important;
-     }
+#skipToBottomLink:focus {
+    box-shadow: none !important;
+    text-decoration: underline !important;
+}
 
-#ciapiSkinChatTranscript {
-  height: calc(100% - #{$transcript-sub-height});
-  background-color: #fff;
-  box-sizing: border-box;
-  overflow: auto;
-  padding: 0;
-  margin-bottom: 0px !important;
-  position: relative;
-  border-bottom: $footer-top-border-height solid rgb(11, 12, 12);
-  div {
-    margin-bottom: 0px;
-    @extend .govuk-body;
-  }
-
-  .skipToTopWithScroll{
-      position:relative;
-      bottom : 0;
-      margin-left:5px;
-      margin-right:5px;
-      clear: both;
-   }
-   .skipToTopWithOutScroll{
-    position:absolute;
-    bottom : 0;
-    margin-left:5px;
-    margin-right:5px;
-    width:96%;
-    clear: both;
- }
-   #skipToBottom {
-      margin-left:5px;
-      margin-right:5px;
-   }
+.ciapiSkinChatTranscript {
+    height: calc(100% - #{$transcript-sub-height});
+    background-color: #fff;
+    box-sizing: border-box;
+    overflow: auto;
+    padding: 0;
+    margin-bottom: 0px !important;
+    position: relative;
+    border-bottom: $footer-top-border-height solid rgb(11, 12, 12);
+    div {
+        margin-bottom: 0px;
+    }
+    .skipToTopWithScroll {
+        position: relative;
+        bottom: 0;
+        margin-left: 5px;
+        margin-right: 5px;
+        clear: both;
+    }
+    .skipToTopWithOutScroll {
+        position: absolute;
+        bottom: 0;
+        margin-left: 5px;
+        margin-right: 5px;
+        width: 96%;
+        clear: both;
+    }
+    #skipToBottom {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
 }
 
 #ciapiSkinFooter {
     height: $footer-height;
     margin-bottom: 0px !important;
-
     #ciapiSend {
         width: 18%;
         float: left;
         padding-left: 0.25em;
     }
-
     #ciapiInput {
         width: 80%;
         float: left;
-
         textarea {
             height: 80px;
             resize: none;
             margin-bottom: 0px;
         }
     }
-
     #ciapiClose {
         clear: both;
     }
 }
 
 #HMRC_CIAPI_Anchored_1 {
-  position: fixed;
-  bottom: 0;
-  right: 50px;
+    position: fixed;
+    bottom: 0;
+    right: 50px;
 }
 
 @mixin IconButton {
@@ -154,12 +138,12 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
 }
 
 #ciapiPrintButton {
-    @include IconButton
+    @include IconButton;
     background-image: url('/engagement-platform-skin/assets/media/save-transcript.svg');
 }
 
 #ciapiSoundButton {
-    @include IconButton
+    @include IconButton;
     background-image: url('/engagement-platform-skin/assets/media/hmrc-alert_on.svg');
     float: right;
 }
@@ -170,10 +154,10 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
 }
 
 .info {
-     text-align: center;
-        color: #505a5f;
-        border: 0px solid green;
-        padding: 1em 0 1em 0;
+    text-align: center;
+    color: #505a5f;
+    border: 0px solid green;
+    padding: 1em 0 1em 0;
 }
 
 .info img {
@@ -186,14 +170,12 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     height: calc(100% - 2em - 5px);
     overflow-y: scroll;
     padding: 1em;
-//     border-top: 2px solid #b1b4b6;   // fix this (consistency with popup)
+    //     border-top: 2px solid #b1b4b6;   // fix this (consistency with popup)
     border-bottom: 2px solid #000;
-
-//     fieldset.govuk-fieldset {            // fix this (consistency with popup)
-//         margin-top: 2em;
-//     }
+    //     fieldset.govuk-fieldset {            // fix this (consistency with popup)
+    //         margin-top: 2em;
+    //     }
 }
-
 
 #postPCSPageWrapper {
     height: calc(100% - 2em - 5px);
@@ -202,7 +184,8 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     border-bottom: 2px solid #000;
     padding-right: 14px;
     padding: 1em;
-    h1 {                                // fix this (why do we need overrides here but not popup?)
+    h1 {
+        // fix this (why do we need overrides here but not popup?)
         color: white !important;
         font-size: 48px;
     }
@@ -251,15 +234,77 @@ $transcript-sub-height: $footer-height + 2*$footer-padding + $footer-top-border-
     background-color: #f3f2f1;
 }
 
-@media (max-width: 575.98px){
+@media (max-width: 575.98px) {
     #cui-messaging-container {
         height: 570px !important;
     }
-
-    #ciapiSkinChatTranscript:focus {
+    .ciapiSkinChatTranscript:focus {
         margin-bottom: 1.2em !important;
     }
 }
+
 #heading_chat_ended:focus, #legend_give_feedback:focus, #heading_end_chat_popup:focus{
     outline:0;
+}
+
+.print-only {
+    display: none;
+}
+
+#cui-messaging-container {
+    width: 100%;
+    height: 600px;
+}
+
+.timestamp-outer {
+    clear: both;
+}
+
+@media print {
+    .govuk-grid-column-two-thirds {
+        width: 100%;
+    }
+ 
+    .ciapi-customer-container {
+        display: flow-root;
+        padding-bottom: 10px !important;
+    }
+    .ciapi-agent-container {
+      padding-left: 0px;
+    }
+    .print-only {
+        display: block;
+    }
+    .ciapi-agent-container {
+        padding-left: 0px;
+    }
+    .ciapi-customer-container {
+        padding-right: 0px;
+    }
+    .print-overflow-visible {
+        overflow: visible;
+        border-bottom: 0;
+    }
+    .print-timestamp-right {
+        clear: both;
+    }
+    .print-float-right {
+        float: right;
+        margin-bottom: .2em;
+    }
+    .print-float-left {
+        clear: both;
+        display: inline-block;
+        width: 30em;
+        margin-bottom: .2em;
+    }
+    .govuk-header__container {
+        border-bottom: none;
+    }
+    .govuk-header__logo {
+        display: inline-block;
+    }
+    .govuk-header__content {
+        display: inline-block;
+    }
 }
