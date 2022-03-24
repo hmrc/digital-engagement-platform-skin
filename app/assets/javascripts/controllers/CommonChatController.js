@@ -80,13 +80,8 @@ export default class CommonChatController {
     _launchChat() {
         // TODO: Do we need this any more, now that the above timeout is gone?
         if (this.container) {
-<<<<<<< HEAD
-            console.error("This should never happen. If it doesn't, then remove this 'if'")
-            return;
-=======
             console.error("This should never happen. If it doesn't, then remove this 'if'");
             return
->>>>>>> main
         }
         try {
             //            console.log("in launchChat: ", this);
@@ -395,11 +390,8 @@ export default class CommonChatController {
         this._sendPostChatSurveyDigitalAssistant(this.sdk).submitPostChatSurvey(surveyWithAnswers, automaton, timestamp);
         surveyPage.detach();
         this.showEndChatPage(true);
-    }
+    };
 
-<<<<<<< HEAD
-};
-=======
     onSoundToggle(e) {
 
         let soundElement = document.getElementById("toggleSound");
@@ -420,4 +412,3 @@ export default class CommonChatController {
     }
 
 };
->>>>>>> main

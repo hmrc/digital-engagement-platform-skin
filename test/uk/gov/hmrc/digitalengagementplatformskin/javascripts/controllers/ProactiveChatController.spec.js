@@ -24,13 +24,8 @@ describe("ProactiveChatController", () => {
         commonChatController.nuanceFrameworkLoaded(window);
         proactiveChatController.launchProactiveChat();
 
-<<<<<<< HEAD
-        expect(sdk.getOpenerScripts).toHaveBeenCalled();
-        expect(sdk.chatDisplayed).toHaveBeenCalled();
-=======
         expect(sdk.getOpenerScripts).toHaveBeenCalledTimes(1);
         expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1);
->>>>>>> main
     });
 
     it("appends chat transcript div to page when no div id is found on page", () => {
