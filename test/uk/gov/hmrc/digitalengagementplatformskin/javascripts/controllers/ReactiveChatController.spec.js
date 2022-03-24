@@ -1,5 +1,5 @@
-import CommonChatController from '../../../../../../../app/assets/javascripts/controllers/CommonChatController';
-import ReactiveChatController from '../../../../../../../app/assets/javascripts/controllers/ReactiveChatController';
+// import CommonChatController from '../../../../../../../app/assets/javascripts/controllers/CommonChatController';
+// import ReactiveChatController from '../../../../../../../app/assets/javascripts/controllers/ReactiveChatController';
 
 // describe("ReactiveChatController", () => {
 //     it("launches a reactrive chat", () => {
@@ -92,4 +92,3 @@ import ReactiveChatController from '../../../../../../../app/assets/javascripts/
 
 //     return buttonDiv;
 // }
-

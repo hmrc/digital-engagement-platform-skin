@@ -1,9 +1,8 @@
 import * as MessageState from '../NuanceMessageState';
 
 export default class Transcript {
-    constructor(content, vaLinkCallback, classes, msgPrefix) {
+    constructor(content, classes, msgPrefix) {
         this.content = content;
-        this.vaLinkCallback = vaLinkCallback;
         this.classes = classes;
         this.agentMsgPrefix = "<h3>Adviser said : </h3>";
         this.customerMsgPrefix = "<h2>You said : </h2>";
@@ -158,8 +157,6 @@ export default class Transcript {
         printTimeStamp.className = "print-only govuk-body print-float-left";
         printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
 
-        this._fixUpVALinks(agentDiv);
-
         printOuterTimeStamp.className = "timestamp-outer";
         printOuterTimeStamp.innerHTML = printMessageSuffix.outerHTML + agentDiv.outerHTML + printTimeStamp.outerHTML;
 
@@ -177,19 +174,8 @@ export default class Transcript {
         }
     }
 
-    _fixUpVALinks(div) {
-        const links = div.getElementsByTagName('a');
-
-        for (const link of links) {
-            for (const attribute of link.attributes) {
-                if (attribute.name === "data-vtz-link-type" && attribute.value === "Dialog") {
-                    link.onclick = this.vaLinkCallback;
-                }
-            }
-        }
-    }
-
     _appendMessage(msg, msgTimestamp, msg_class, msg_type, isCustomerMsg, isSystemMsg, state, joinTransfer) {
+
 
         var id = "liveMsgId" + (Math.random() * 100);
 
@@ -208,11 +194,8 @@ export default class Transcript {
             if (isSystemMsg) {
                 if(state == MessageState.Agent_IsTyping) {
                     printOuterTimeStamp.classList.add("agent-typing");
-                    var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id} aria-live=polite aria-label="Agent is typing"></div></div>`;
+                    var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
                 } else {
-                    if (joinTransfer == "true") {
-                        printOuterTimeStamp.classList.add("agent-joins-conference");
-                    }
                     var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
                 }
             } else {

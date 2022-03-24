@@ -6,7 +6,6 @@ const nullEventHandler = {
     onCloseChat: function () { },
     onHideChat: function () { },
     onRestoreChat: function () { },
-    onClickedVALink: function (e) { },
     onConfirmEndChat: function () { },
     onSoundToggle: function () { }
 };
@@ -21,8 +20,8 @@ export default class ChatContainer {
         this.content = this.container.querySelector("#ciapiSkinChatTranscript");
         this.custInput = this.container.querySelector("#custMsg");
         this.soundButton = this.container.querySelector(".sound-button");
-        this.transcript = new Transcript(this.content, (e) => this.eventHandler.onClickedVALink(e), messageClasses);
         this._registerEventListeners();
+        this.transcript = new Transcript(this.content, messageClasses);
         this.endChatPopup = new EndChatPopup(this.container.querySelector("#ciapiSkinContainer"), this);
     }
 
@@ -109,6 +108,7 @@ export default class ChatContainer {
         this._registerEventListener("#ciapiSkinChatTranscript", (e) => {
             if ((e.target.tagName.toLowerCase() === 'a') && !!e.target.dataset && !!e.target.dataset.vtzJump) {
                 Inq.SDK.sendVALinkMessage(e, null, null, null);
+                this._focusOnNextAutomatonMessage();
             }
         });
 
@@ -120,7 +120,7 @@ export default class ChatContainer {
         this._registerEventListener("#toggleSound", (e) => {
             this.eventHandler.onSoundToggle();
             e.preventDefault();
-        })
+        });
     }
 
     confirmEndChat() {
@@ -151,6 +151,16 @@ export default class ChatContainer {
 
         transcriptHeading.style.height = "auto";
         transcriptHeading.style.width = "auto";
+    }
+
+    _focusOnNextAutomatonMessage() {
+        setTimeout(function(e) {
+            var lastAgentMessage = Array.from(
+                document.querySelectorAll('.ciapi-agent-message')
+              ).pop();
+    
+            lastAgentMessage.focus();
+        }, 1000);
     }
 
     onConfirmEndChat() {

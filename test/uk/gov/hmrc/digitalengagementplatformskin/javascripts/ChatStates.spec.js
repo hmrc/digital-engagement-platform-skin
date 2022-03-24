@@ -32,15 +32,6 @@ describe("Chat States", () => {
             expect(console.error).toHaveBeenCalledWith("State Error: Trying to send text with no state.");
         });
 
-        it("logs error for onClickedVALink", () => {
-            console.error = jest.fn();
-
-            const state = new ChatStates.NullState();
-
-            state.onClickedVALink("Some text that will be ignored");
-            expect(console.error).toHaveBeenCalledWith("State Error: Trying to handle VA link with no state.");
-        });
-
         it("logs error for onClickedClose", () => {
             console.error = jest.fn();
 
@@ -62,18 +53,6 @@ describe("Chat States", () => {
 
             state.onSend("Please help me.");
             expect(onEngage).toHaveBeenCalledWith("Please help me.");
-        });
-
-        it("logs error for onClickedVALink", () => {
-            console.error = jest.fn();
-
-            const onEngage = jest.fn();
-            const onCloseChat = jest.fn();
-
-            const state = new ChatStates.ShownState(onEngage, onCloseChat);
-
-            state.onClickedVALink("Some text that will be ignored");
-            expect(console.error).toHaveBeenCalledWith("State Error: Trying to handle VA link before engaged.");
         });
 
         it("closes the chat for onClickedClose", () => {
@@ -428,15 +407,6 @@ describe("Chat States", () => {
 
             state.onSend("Some text that will be ignored");
             expect(console.error).toHaveBeenCalledWith("State Error: Trying to send text when closing.");
-        });
-
-        it("logs error for onClickedVALink", () => {
-            console.error = jest.fn();
-
-            const state = new ChatStates.ClosingState(jest.fn());
-
-            state.onClickedVALink("Some text that will be ignored");
-            expect(console.error).toHaveBeenCalledWith("State Error: Trying to handle VA link when closing.");
         });
 
         it("closes the window onClickedClose", () => {
