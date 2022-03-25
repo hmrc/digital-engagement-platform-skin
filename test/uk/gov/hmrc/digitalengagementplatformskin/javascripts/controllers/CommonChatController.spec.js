@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import CommonChatController from '../../../../../../../app/assets/javascripts/controllers/CommonChatController'
 import ProactiveChatController from '../../../../../../../app/assets/javascripts/controllers/ProactiveChatController'
 
@@ -39,15 +40,14 @@ describe("ProactiveChatController", () => {
         chatContainerTwo.setAttribute("id", "cui-messaging-container");
         document.body.appendChild(chatContainerTwo);
 
-        commonChatController._removeAnimation();
-               
-        expect(document.body.innerHTML).toContain('display: none');
-        expect(document.body.innerHTML).toContain('opacity: 1');
-        //TODO can we get this to work
-        //expect(_removeAnimation.mock.calls.length).toBe(1);
+
+        commonChatController._removeAnimation();     
+        
+
+        expect(chatContainerOne).not.toBeVisible();
+        expect(chatContainerTwo).toBeVisible();
     });
     
-
     it("appends chat transcript div to page when no div id is found on page", () => {
         const commonChatController = new CommonChatController();
 
