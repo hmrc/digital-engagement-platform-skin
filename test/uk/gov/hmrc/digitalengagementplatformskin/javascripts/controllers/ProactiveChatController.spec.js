@@ -28,13 +28,6 @@ describe("ProactiveChatController", () => {
         expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1);
     });
 
-    let loadingAnimation = document.getElementById("cui-loading-animation");
-    let cuiContainer = document.getElementById("cui-messaging-container");
-    if (loadingAnimation && cuiContainer) {
-        loadingAnimation.style.display = 'none';
-        cuiContainer.style.opacity = '1';
-    }
-
     it("remove animation after nuance iframe loads", () => {
         const commonChatController = new CommonChatController();
         
