@@ -28,6 +28,33 @@ describe("ProactiveChatController", () => {
         expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1);
     });
 
+    let loadingAnimation = document.getElementById("cui-loading-animation");
+    let cuiContainer = document.getElementById("cui-messaging-container");
+    if (loadingAnimation && cuiContainer) {
+        loadingAnimation.style.display = 'none';
+        cuiContainer.style.opacity = '1';
+    }
+
+    it("remove animation after nuance iframe loads", () => {
+        const commonChatController = new CommonChatController();
+        
+        let chatContainerOne = document.createElement("div");
+        chatContainerOne.setAttribute("id", "cui-loading-animation");
+        document.body.appendChild(chatContainerOne);
+
+        let chatContainerTwo = document.createElement("div");
+        chatContainerTwo.setAttribute("id", "cui-messaging-container");
+        document.body.appendChild(chatContainerTwo);
+
+        commonChatController._removeAnimation();
+               
+        expect(document.body.innerHTML).toContain('display: none');
+        expect(document.body.innerHTML).toContain('opacity: 1');
+        //TODO can we get this to work
+        //expect(_removeAnimation.mock.calls.length).toBe(1);
+    });
+    
+
     it("appends chat transcript div to page when no div id is found on page", () => {
         const commonChatController = new CommonChatController();
 
