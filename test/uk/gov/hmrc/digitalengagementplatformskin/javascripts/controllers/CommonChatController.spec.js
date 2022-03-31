@@ -1,11 +1,51 @@
 import '@testing-library/jest-dom';
 import CommonChatController from '../../../../../../../app/assets/javascripts/controllers/CommonChatController';
+import MessageClasses from '../../../../../../../app/assets/javascripts/DefaultClasses'
+import PopupContainerHtml from '../../../../../../../app/assets/javascripts/views/popup/PopupContainerHtml'
+import ChatContainer from '../../../../../../../app/assets/javascripts/utils/ChatContainer'
+
+//jest.mock("../../../../../../../app/assets/javascripts/DefaultClasses");
+//jest.mock("../../../../../../../app/assets/javascripts/views/popup/PopupContainerHtml").ContainerHtml;
 
 describe("CommonChatController", () => {
     
     afterEach(() => {
         document.getElementsByTagName('html')[0].innerHTML = ''; 
       });
+
+      it("launches a reactive chat", () => {
+        const commonChatController = new CommonChatController();
+
+        const sdk = {
+            getOpenerScripts: jest.fn().mockReturnValue(null),
+            chatDisplayed: jest.fn()
+        }
+
+        window.Inq = {
+            SDK: sdk
+        };
+
+        
+        commonChatController._launchChat();
+
+        expect(sdk.getOpenerScripts).toHaveBeenCalledTimes(1);
+        expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1);
+
+    });
+
+    it("Does not launch chat if already launched", () => {
+        const commonChatController = new CommonChatController();
+        console.error = jest.fn();
+
+        //const container = document.createElement("div");
+
+        //const chatContainer = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml);
+
+        commonChatController._launchChat();
+
+        expect(console.error).toHaveBeenCalledWith("This should never happen. If it doesn't, then remove this 'if'");
+
+    });
 
     it("remove animation after nuance iframe loads", () => {
         const commonChatController = new CommonChatController();
