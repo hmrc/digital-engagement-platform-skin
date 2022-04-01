@@ -125,8 +125,7 @@ export default class ChatContainer {
 
     confirmEndChat() {
         this.endChatPopup.show();
-        document.getElementById("heading_end_chat_popup").focus();
-
+        document.getElementById("endChatPopup").focus();
     }
 
     onCancelEndChat() {
