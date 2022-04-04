@@ -28,7 +28,6 @@ describe('EndChatPopup', () => {
         expect(ecp.onCancelEndChat).toHaveBeenCalled();
 	});
 
-    
     test('Click on cancel end chat closes end chat dialogie', () => {
         jest.spyOn(ecp, 'onCancelEndChat').mockImplementation();
 
