@@ -1,12 +1,8 @@
-import CommonChatController from '../../../../../../../app/assets/javascripts/controllers/CommonChatController'
 import ReactiveChatController from '../../../../../../../app/assets/javascripts/controllers/ReactiveChatController' 
 import ClickToChatButtons from '../../../../../../../app/assets/javascripts/utils/ClickToChatButtons'
-
-jest.mock('../../../../../../../app/assets/javascripts/utils/ClickToChatButtons');
-
 import {_onC2CButtonClicked} from '../../../../../../../app/assets/javascripts/controllers/ReactiveChatController'
 
-
+jest.mock('../../../../../../../app/assets/javascripts/utils/ClickToChatButtons');
 
 describe("ReactiveChatController", () => {
 
