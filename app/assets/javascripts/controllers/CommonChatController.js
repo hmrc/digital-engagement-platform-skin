@@ -287,6 +287,7 @@ export default class CommonChatController {
     }
 
     showEndChatPage(showThanks) {
+        this.container._removeSkinHeadingElements();
         this.container.showPage(new PostPCSPage(showThanks));
         document.getElementById("heading_chat_ended").focus();
         this.closeNuanceChat();
