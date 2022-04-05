@@ -215,7 +215,6 @@ export default class CommonChatController {
         if (this._getEmbeddedDiv()) {
             // Embedded view never dies.
             this.showEndChatPage(false);
-
         } else {
             this.container.destroy();
             this.container = null;
