@@ -9,7 +9,12 @@ import PostChatSurveyWebchatService from '../services/PostChatSurveyWebchatServi
 import PostChatSurveyDigitalAssistantService from '../services/PostChatSurveyDigitalAssistantService'
 import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
 
-const automaton = {
+const automatonDA = {
+    id: "survey-13000304",
+    name: "HMRC_PostChat_Guidance-CUI"
+};
+
+const automatonWebchat = {
     id: "survey-13000303",
     name: "HMRC_PostChat_Transactional-CUI"
 };
@@ -29,7 +34,7 @@ const webchatSurvey = {
 };
 
 const digitalAssistantSurvey = {
-    id: "13000303",
+    id: "13000304",
     questions: [
         { id: ["question1"], text: "Was the digital assistant useful?", freeform: false },
         { id: ["question2"], text: "How could we improve it?", freeform: false },
@@ -206,9 +211,9 @@ export default class CommonChatController {
             let escalated = this.state.isEscalated();
 
             if (escalated) {
-                this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automaton, timestamp);
+                this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automatonWebchat, timestamp);
             } else {
-                this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automaton, timestamp);
+                this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automatonDA, timestamp);
             }
         }
 
@@ -349,10 +354,10 @@ export default class CommonChatController {
         this._moveToClosingState();
 
         if (escalated) {
-            this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp);
+            this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automatonWebchat, timestamp);
             this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
         } else {
-            this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automaton, timestamp);
+            this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automatonDA, timestamp);
             this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
         }
 
@@ -373,7 +378,7 @@ export default class CommonChatController {
 
         var surveyWithAnswers = Object.assign(answers, webchatSurvey);
 
-        this._sendPostChatSurveyWebchat(this.sdk).submitPostChatSurvey(surveyWithAnswers, automaton, timestamp);
+        this._sendPostChatSurveyWebchat(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonWebchat, timestamp);
         surveyPage.detach();
         this.showEndChatPage(true);
     }
@@ -390,7 +395,7 @@ export default class CommonChatController {
 
         var surveyWithAnswers = Object.assign(answers, digitalAssistantSurvey);
 
-        this._sendPostChatSurveyDigitalAssistant(this.sdk).submitPostChatSurvey(surveyWithAnswers, automaton, timestamp);
+        this._sendPostChatSurveyDigitalAssistant(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonDA, timestamp);
         surveyPage.detach();
         this.showEndChatPage(true);
     }
