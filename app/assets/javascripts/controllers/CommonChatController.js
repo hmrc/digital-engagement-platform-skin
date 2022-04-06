@@ -22,7 +22,7 @@ const automatonWebchat = {
 const timestamp = Date.now();
 
 const webchatSurvey = {
-    id: "13000304",
+    id: "13000303",
     questions: [
         { id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false },
         { id: ["question2"], text: "How easy was it to do what you needed to do today?", freeform: false },
