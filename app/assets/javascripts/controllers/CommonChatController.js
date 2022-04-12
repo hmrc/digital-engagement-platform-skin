@@ -38,10 +38,6 @@ const digitalAssistantSurvey = {
     ]
 }
 
-function getTextAreaValue(textArea) {
-    return document.getElementById(textArea).value;
-}
-
 function getRadioValue(radioGroup) {
     var elements = document.getElementsByName(radioGroup);
     var returnedValue = null;
@@ -75,6 +71,10 @@ export default class CommonChatController {
         this.sdk = null;
         this.state = new ChatStates.NullState();
         this.minimised = false;
+    }
+
+    getTextAreaValue(textArea) {
+        return document.getElementById(textArea).value;
     }
 
     _launchChat() {
