@@ -4,24 +4,29 @@
 @import 'c2cbutton';
 @import 'end-chat-popup';
 
-$container-height: 600px;
-$header-height: 30px;
 $header-border-bottom-height: 2px;
-$components-sub-height: $header-height+$header-border-bottom-height;
-$footer-height: 130px;
 $footer-padding: 5px;
 $footer-top-border-height: 3px;
-$transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-height+50;
+
+// overriding css set in frontend repo
+#cui-messaging-container {
+    width: 100%;
+    height: calc(max(600px, 50rem));
+}
+
+@media (max-width: 575.98px){
+    #cui-messaging-container {
+        height: 100vh !important;
+    }
+}
+// end
 
 #ciapiSkinContainer {
-    background: #0000ff;
-    background: #0000ff;
-    height: $container-height;
-    width: 100%;
-    right: 10px;
-    bottom: 0px;
+    height: calc(max(600px, 50rem)); // have to wrap the max in calc because using different units causes a compile error in sass (unless using dart-sass)
     background-color: #fff;
-    margin-bottom: 0px !important;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(50%, 90%) auto;
 }
 
 #ciapiSkinHeader {
@@ -41,25 +46,17 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
     gap: 1rem;
 }
 
-#ciapiSkinHeader .govuk-button, 
+#ciapiSkinHeader .govuk-button,
 #ciapiSkinHeader > div {
     margin-bottom: 0; /*we are handling margin with the gap in flexbox*/
 }
 
 #ciapiChatComponents {
-    height: calc(100% - #{$components-sub-height});
-    margin-bottom: 0px !important;
+    display: flex;
+    flex-direction: column;
 }
 
-.ciapiSkinChatTranscript:focus {
-    box-shadow: 0 0 0 3px #fd0;
-    border: solid #000 4px;
-    outline: none;
-    margin-top: -4px;
-    margin-bottom: 1.25em !important;
-    margin-left: -4px;
-    margin-right: -4px;
-}
+
 
 #skipToTopLink:focus {
     box-shadow: none !important;
@@ -72,12 +69,11 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
 }
 
 .ciapiSkinChatTranscript {
-    height: calc(100% - #{$transcript-sub-height});
+    flex-grow: 1;
     background-color: #fff;
     box-sizing: border-box;
     overflow: auto;
     padding: 0;
-    margin-bottom: 0px !important;
     position: relative;
     border-bottom: $footer-top-border-height solid rgb(11, 12, 12);
     div {
@@ -103,10 +99,19 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
         margin-right: 5px;
     }
 }
+.ciapiSkinChatTranscript:focus {
+    box-shadow: 0 0 0 3px #fd0;
+    border: solid #000 4px;
+    outline: none;
+    margin-top: -4px;
+    margin-bottom: 1.25em !important;
+    margin-left: -4px;
+    margin-right: -4px;
+}
 
 #ciapiSkinFooter {
-    height: $footer-height;
-    margin-bottom: 0px !important;
+    flex-grow: 0;
+
     #ciapiSend {
         width: 18%;
         float: left;
@@ -116,9 +121,9 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
         width: 80%;
         float: left;
         textarea {
-            height: 80px;
+            height: 4em;
             resize: none;
-            margin-bottom: 0px;
+            margin-bottom: 0;
         }
     }
     #ciapiClose {
@@ -159,7 +164,6 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
 
 #ciapiClose {
     padding-top: 10px;
-    width: 100px;
 }
 
 .info {
@@ -240,9 +244,6 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
 }
 
 @media (max-width: 575.98px) {
-    #cui-messaging-container {
-        height: 570px !important;
-    }
     .ciapiSkinChatTranscript:focus {
         margin-bottom: 1.2em !important;
     }
@@ -256,11 +257,6 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
     display: none;
 }
 
-#cui-messaging-container {
-    width: 100%;
-    height: 600px;
-}
-
 .timestamp-outer {
     clear: both;
 }
@@ -269,7 +265,7 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
     .govuk-grid-column-two-thirds {
         width: 100%;
     }
- 
+
     .ciapi-customer-container {
         display: flow-root;
         padding-bottom: 10px !important;
