@@ -75,6 +75,26 @@ function getRadioId(radioGroup) {
     }
 }
 
+function updateDav3DeskproRefererUrls() {
+    let reportTechnicalIssueElement = document.getElementsByClassName('hmrc-report-technical-issue');
+    if(reportTechnicalIssueElement) {
+        let reportTechnicalIssueElementHref = reportTechnicalIssueElement[0].href;
+        reportTechnicalIssueElement[0].href = reportTechnicalIssueElementHref.concat("-dav3");
+    }
+
+    let feedbackLinkElement = document.getElementsByClassName('govuk-phase-banner__text');
+    if(feedbackLinkElement) {
+        let feedbackLinkHref = feedbackLinkElement[0].getElementsByTagName('a')[0].href;
+        feedbackLinkElement[0].getElementsByTagName('a')[0].href = feedbackLinkHref.concat("-dav3");
+    }
+
+    let accessibilityLinkElement = document.getElementsByClassName('govuk-footer__link');
+    if(accessibilityLinkElement) {
+        let accessibilityLinkHref = accessibilityLinkElement[1].href;
+        accessibilityLinkElement[1].href = accessibilityLinkHref.concat("-dav3");
+    }
+}
+
 export default class CommonChatController {
     constructor() {
         this.sdk = null;
@@ -85,7 +105,7 @@ export default class CommonChatController {
     _launchChat() {
         // TODO: Do we need this any more, now that the above timeout is gone?
         if (this.container) {
-            console.error("This should never happen. If it doesn't, then remove this 'if'");
+            console.log("This should never happen. If it doesn't, then remove this 'if'");
             return
         }
         try {
@@ -107,6 +127,12 @@ export default class CommonChatController {
             });
 
             this._removeAnimation();
+
+            let dav3Skin = document.getElementById("ciapiSkin");
+
+            if(dav3Skin) {
+                updateDav3DeskproRefererUrls();
+            }
 
 
         } catch (e) {
