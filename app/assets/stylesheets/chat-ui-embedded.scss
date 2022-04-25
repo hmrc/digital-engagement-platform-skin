@@ -26,7 +26,6 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
 
 #ciapiSkinHeader {
     width: 100%;
-    height: $header-height;
     background-color: #fff;
     border-bottom-color: rgb(177, 180, 182);
     border-bottom-left-radius: 0px;
@@ -35,6 +34,16 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
     border-bottom-width: $header-border-bottom-height;
     margin-bottom: 0px !important;
     padding-bottom: 8px;
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+#ciapiSkinHeader .govuk-button, 
+#ciapiSkinHeader > div {
+    margin-bottom: 0; /*we are handling margin with the gap in flexbox*/
 }
 
 #ciapiChatComponents {
@@ -192,27 +201,23 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
 }
 
 #print {
-    height: 5px;
     margin-top: -0.2em;
-    float: left;
     margin-bottom: 1.6em;
 }
 
 #sound {
-    height: 5px;
     margin-top: -0.2em;
-    float: right;
     margin-bottom: 1.6em;
     text-align: right;
 }
 
 #print .govuk-button--secondary {
-    height: 31px;
     background: url('/engagement-platform-skin/assets/media/save-transcript.svg') no-repeat;
     background-size: 1em;
     padding-left: 1.2em;
     padding-top: 0.3em;
     background-color: #f3f2f1;
+    background-position: 0 50%; /*we have removed the hard-coded height so need the image to be aware of its context*/
 }
 
 #print .govuk-button--secondary:hover,
@@ -226,12 +231,12 @@ $transcript-sub-height: $footer-height+2*$footer-padding+$footer-top-border-heig
 }
 
 #sound .govuk-button--secondary {
-    height: 31px;
     background: url('/engagement-platform-skin/assets/media/hmrc-alert_on.svg') no-repeat;
     background-size: 1.2em;
     padding-left: 1.3em;
     padding-top: 0.3em;
     background-color: #f3f2f1;
+    background-position: 0 50%; /*we have removed the hard-coded height so need the image to be aware of its context*/
 }
 
 @media (max-width: 575.98px) {

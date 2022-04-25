@@ -9,7 +9,12 @@ import PostChatSurveyWebchatService from '../services/PostChatSurveyWebchatServi
 import PostChatSurveyDigitalAssistantService from '../services/PostChatSurveyDigitalAssistantService'
 import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
 
-const automaton = {
+const automatonDA = {
+    id: "survey-13000304",
+    name: "HMRC_PostChat_Guidance-CUI"
+};
+
+const automatonWebchat = {
     id: "survey-13000303",
     name: "HMRC_PostChat_Transactional-CUI"
 };
@@ -29,7 +34,7 @@ const webchatSurvey = {
 };
 
 const digitalAssistantSurvey = {
-    id: "13000303",
+    id: "13000304",
     questions: [
         { id: ["question1"], text: "Was the digital assistant useful?", freeform: false },
         { id: ["question2"], text: "How could we improve it?", freeform: false },
@@ -66,6 +71,26 @@ function getRadioId(radioGroup) {
     }
 }
 
+function updateDav3DeskproRefererUrls() {
+    let reportTechnicalIssueElement = document.getElementsByClassName('hmrc-report-technical-issue');
+    if(reportTechnicalIssueElement) {
+        let reportTechnicalIssueElementHref = reportTechnicalIssueElement[0].href;
+        reportTechnicalIssueElement[0].href = reportTechnicalIssueElementHref.concat("-dav3");
+    }
+
+    let feedbackLinkElement = document.getElementsByClassName('govuk-phase-banner__text');
+    if(feedbackLinkElement) {
+        let feedbackLinkHref = feedbackLinkElement[0].getElementsByTagName('a')[0].href;
+        feedbackLinkElement[0].getElementsByTagName('a')[0].href = feedbackLinkHref.concat("-dav3");
+    }
+
+    let accessibilityLinkElement = document.getElementsByClassName('govuk-footer__link');
+    if(accessibilityLinkElement) {
+        let accessibilityLinkHref = accessibilityLinkElement[1].href;
+        accessibilityLinkElement[1].href = accessibilityLinkHref.concat("-dav3");
+    }
+}
+
 export default class CommonChatController {
     constructor() {
         this.sdk = null;
@@ -80,7 +105,7 @@ export default class CommonChatController {
     _launchChat() {
         // TODO: Do we need this any more, now that the above timeout is gone?
         if (this.container) {
-            console.error("This should never happen. If it doesn't, then remove this 'if'");
+            console.log("This should never happen. If it doesn't, then remove this 'if'");
             return
         }
         try {
@@ -102,6 +127,12 @@ export default class CommonChatController {
             });
 
             this._removeAnimation();
+
+            let dav3Skin = document.getElementById("ciapiSkin");
+
+            if(dav3Skin) {
+                updateDav3DeskproRefererUrls();
+            }
 
 
         } catch (e) {
@@ -206,9 +237,9 @@ export default class CommonChatController {
             let escalated = this.state.isEscalated();
 
             if (escalated) {
-                this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automaton, timestamp);
+                this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automatonWebchat, timestamp);
             } else {
-                this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automaton, timestamp);
+                this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automatonDA, timestamp);
             }
         }
 
@@ -287,6 +318,7 @@ export default class CommonChatController {
     }
 
     showEndChatPage(showThanks) {
+        this.container._removeSkinHeadingElements();
         this.container.showPage(new PostPCSPage(showThanks));
         document.getElementById("heading_chat_ended").focus();
         this.closeNuanceChat();
@@ -346,10 +378,10 @@ export default class CommonChatController {
         this._moveToClosingState();
 
         if (escalated) {
-            this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automaton, timestamp);
+            this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automatonWebchat, timestamp);
             this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
         } else {
-            this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automaton, timestamp);
+            this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automatonDA, timestamp);
             this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
         }
 
@@ -370,7 +402,7 @@ export default class CommonChatController {
 
         var surveyWithAnswers = Object.assign(answers, webchatSurvey);
 
-        this._sendPostChatSurveyWebchat(this.sdk).submitPostChatSurvey(surveyWithAnswers, automaton, timestamp);
+        this._sendPostChatSurveyWebchat(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonWebchat, timestamp);
         surveyPage.detach();
         this.showEndChatPage(true);
     }
@@ -387,7 +419,7 @@ export default class CommonChatController {
 
         var surveyWithAnswers = Object.assign(answers, digitalAssistantSurvey);
 
-        this._sendPostChatSurveyDigitalAssistant(this.sdk).submitPostChatSurvey(surveyWithAnswers, automaton, timestamp);
+        this._sendPostChatSurveyDigitalAssistant(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonDA, timestamp);
         surveyPage.detach();
         this.showEndChatPage(true);
     };

@@ -125,8 +125,7 @@ export default class ChatContainer {
 
     confirmEndChat() {
         this.endChatPopup.show();
-        document.getElementById("heading_end_chat_popup").focus();
-
+        document.getElementById("endChatPopup").focus();
     }
 
     onCancelEndChat() {
@@ -144,13 +143,15 @@ export default class ChatContainer {
     }
 
     _removeSkinHeadingElements() {
-        document.getElementById("print").remove();
-        document.getElementById("sound").remove();
+        if (document.contains(document.getElementById("print")) && document.contains(document.getElementById("sound"))) {
+            document.getElementById("print").remove();
+            document.getElementById("sound").remove();
 
-        let transcriptHeading = document.getElementById("ciapiSkinHeader");
+            let transcriptHeading = document.getElementById("ciapiSkinHeader");
 
-        transcriptHeading.style.height = "auto";
-        transcriptHeading.style.width = "auto";
+            transcriptHeading.style.height = "auto";
+            transcriptHeading.style.width = "auto";
+        }
     }
 
     _focusOnNextAutomatonMessage() {

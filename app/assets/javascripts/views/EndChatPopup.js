@@ -1,6 +1,6 @@
 const html = `
-    <div id="endChatPopup" role="dialog" aria-modal="true">
-      <h1 class="govuk-heading-xl" id="heading_end_chat_popup" tabindex="-1">End chat?</h1>
+<div id="endChatPopup" role="dialog" aria-modal="true" tabindex="-1" aria-labelledby="heading_end_chat_popup">
+      <h1 class="govuk-heading-xl" id="heading_end_chat_popup">End chat?</h1>
 
       <button id="confirmEndChat" class="govuk-button">
               End chat
@@ -25,15 +25,29 @@ export default class Popup {
         this.wrapper.insertAdjacentHTML("beforeend", html);
         container.appendChild(this.wrapper);
 
-        this.wrapper.querySelector("#cancelEndChat").addEventListener(
-            "click",
-            (e) => this.eventHandler.onCancelEndChat()
-        );
+        this.wrapper.querySelector("#cancelEndChat").addEventListener("click", (e) => {
+            this.onCancelEndChat(e)
+        });
 
-        this.wrapper.querySelector("#confirmEndChat").addEventListener(
-            "click",
-            (e) => this.eventHandler.onConfirmEndChat()
-        );
+        this.wrapper.addEventListener("keydown",(e) => {
+            if (e.key === "Escape") {
+                this.onCancelEndChat(e)
+            }
+        });
+
+        this.wrapper.querySelector("#confirmEndChat").addEventListener("click", (e) => {
+            this.onConfirmEndChat(e)
+        });
+    }
+
+    onCancelEndChat(e) {
+        this.eventHandler.onCancelEndChat();
+        e.preventDefault();
+    }
+
+    onConfirmEndChat(e) {
+        this.eventHandler.onConfirmEndChat();
+        e.preventDefault();
     }
 
     show() {
