@@ -11,6 +11,8 @@ describe("ProactiveChatController", () => {
         const commonChatController = new CommonChatController();
         const proactiveChatController = new ProactiveChatController();
 
+        let spy = jest.spyOn(commonChatController, 'updateDav3DeskproRefererUrls').mockImplementation(() => {});
+
         const sdk = {
             isChatInProgress: jest.fn().mockReturnValue(false),
             getOpenerScripts: jest.fn().mockReturnValue(null),

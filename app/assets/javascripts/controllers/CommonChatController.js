@@ -43,54 +43,6 @@ const digitalAssistantSurvey = {
     ]
 }
 
-function getRadioValue(radioGroup) {
-    var elements = document.getElementsByName(radioGroup);
-    var returnedValue = null;
-
-    for (var i = 0, l = elements.length; i < l; i++) {
-        if (elements[i].checked) {
-            returnedValue = elements[i].value;
-        }
-    }
-
-    if (!returnedValue) {
-        returnedValue = "";
-    }
-
-    return returnedValue;
-}
-
-function getRadioId(radioGroup) {
-    var elements = document.getElementsByName(radioGroup);
-
-    for (var i = 0, l = elements.length; i < l; i++) {
-        // @ts-ignore
-        if (elements[i].checked) {
-            return elements[i].id;
-        }
-    }
-}
-
-function updateDav3DeskproRefererUrls() {
-    let reportTechnicalIssueElement = document.getElementsByClassName('hmrc-report-technical-issue');
-    if(reportTechnicalIssueElement) {
-        let reportTechnicalIssueElementHref = reportTechnicalIssueElement[0].href;
-        reportTechnicalIssueElement[0].href = reportTechnicalIssueElementHref.concat("-dav3");
-    }
-
-    let feedbackLinkElement = document.getElementsByClassName('govuk-phase-banner__text');
-    if(feedbackLinkElement) {
-        let feedbackLinkHref = feedbackLinkElement[0].getElementsByTagName('a')[0].href;
-        feedbackLinkElement[0].getElementsByTagName('a')[0].href = feedbackLinkHref.concat("-dav3");
-    }
-
-    let accessibilityLinkElement = document.getElementsByClassName('govuk-footer__link');
-    if(accessibilityLinkElement) {
-        let accessibilityLinkHref = accessibilityLinkElement[1].href;
-        accessibilityLinkElement[1].href = accessibilityLinkHref.concat("-dav3");
-    }
-}
-
 export default class CommonChatController {
     constructor() {
         this.sdk = null;
@@ -100,6 +52,56 @@ export default class CommonChatController {
 
     getTextAreaValue(textArea) {
         return document.getElementById(textArea).value;
+    }
+
+    getRadioId(radioGroup) {
+        var elements = document.getElementsByName(radioGroup);
+    
+        for (var i = 0, l = elements.length; i < l; i++) {
+            // @ts-ignore
+            if (elements[i].checked) {
+                return elements[i].id;
+            }
+        }
+    }
+
+    updateDav3DeskproRefererUrls() {
+        let reportTechnicalIssueElement = document.getElementsByClassName('hmrc-report-technical-issue');
+        if(reportTechnicalIssueElement) {
+            if(reportTechnicalIssueElement[0].href) {
+                let reportTechnicalIssueElementHref = reportTechnicalIssueElement[0].href;
+                reportTechnicalIssueElement[0].href = reportTechnicalIssueElementHref.concat("-dav3");
+            }
+        }
+    
+        let feedbackLinkElement = document.getElementsByClassName('govuk-phase-banner__text');
+        if(feedbackLinkElement) {
+            let feedbackLinkHref = feedbackLinkElement[0].getElementsByTagName('a')[0].href;
+            feedbackLinkElement[0].getElementsByTagName('a')[0].href = feedbackLinkHref.concat("-dav3");
+        }
+    
+        let accessibilityLinkElement = document.getElementsByClassName('govuk-footer__link');
+        if(accessibilityLinkElement) {
+            let accessibilityLinkHref = accessibilityLinkElement[1].href;
+            accessibilityLinkElement[1].href = accessibilityLinkHref.concat("-dav3");
+        }
+    }
+
+    getRadioValue(radioGroup) {
+        var elements = document.getElementsByName(radioGroup);
+        var returnedValue = null;
+    
+        for (var i = 0, l = elements.length; i < l; i++) {
+            if (elements[i].checked) {
+                returnedValue = elements[i].value;
+            }
+        }
+    
+        if (!returnedValue) {
+            returnedValue = "";
+        }
+    
+        return returnedValue;
     }
 
     _launchChat() {
@@ -131,7 +133,7 @@ export default class CommonChatController {
             let dav3Skin = document.getElementById("ciapiSkin");
 
             if(dav3Skin) {
-                updateDav3DeskproRefererUrls();
+                this.updateDav3DeskproRefererUrls();
             }
 
 
