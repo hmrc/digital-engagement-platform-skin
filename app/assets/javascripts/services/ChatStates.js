@@ -113,7 +113,11 @@ export class EngagedState {
             if (this._isSoundActive()) {
                 this._playMessageRecievedSound();
             }
-            transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
+            if (msg.vaDataPass === '{"endVAEngagement":"VA closed chat"}') {
+                this.closeChat();
+            } else {
+                transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
+            }
         } else if (msg.messageType === MessageType.Chat_Exit) {
             // This message may also have msg.state === "closed".
             // Not sure about transfer scenarios.
