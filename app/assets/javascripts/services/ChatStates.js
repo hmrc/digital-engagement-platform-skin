@@ -107,7 +107,9 @@ export class EngagedState {
                 this._removeAgentIsTyping();
                 transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
             } else {
-                transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
+                if(msg.chatFinalText != "end this chat and give feedback") {
+                    transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
+                }
             }
         } else if (msg.messageType === MessageType.Chat_AutomationRequest) {
             if (this._isSoundActive()) {

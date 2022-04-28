@@ -108,7 +108,9 @@ export default class ChatContainer {
         this._registerEventListener("#ciapiSkinChatTranscript", (e) => {
             if ((e.target.tagName.toLowerCase() === 'a') && !!e.target.dataset && !!e.target.dataset.vtzJump) {
                 Inq.SDK.sendVALinkMessage(e, null, null, null);
-                this._focusOnNextAutomatonMessage();
+                if(e.target.className != "dialog") {
+                    this._focusOnNextAutomatonMessage();
+                }
             }
         });
 
