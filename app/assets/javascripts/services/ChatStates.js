@@ -113,7 +113,9 @@ export class EngagedState {
             }
         } else if (msg.messageType === MessageType.Chat_AutomationRequest) {
             if (this._isSoundActive()) {
-                this._playMessageRecievedSound();
+                if(!!msg.vaDataPass === false) {
+                    this._playMessageRecievedSound();
+                }
             }
             if(!!msg.vaDataPass) {
                 let vaDP = JSON.parse(msg.vaDataPass);

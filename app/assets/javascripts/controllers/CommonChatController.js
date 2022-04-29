@@ -232,7 +232,6 @@ export default class CommonChatController {
     }
 
     closeChat() {
-
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
             let escalated = this.state.isEscalated();
 
@@ -255,7 +254,6 @@ export default class CommonChatController {
     }
 
     getPrintDate() {
-
         const monthNames = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
         ];
@@ -290,12 +288,10 @@ export default class CommonChatController {
 
         this.removeElementsForPrint(elementList);
 
-
         window.print();
 
         return false;
     }
-
 
     // End event handler method
     _sendPostChatSurveyWebchat(sdk) {
@@ -354,8 +350,6 @@ export default class CommonChatController {
     onCloseChat() {
         this.state.onClickedClose();
     }
-
-
 
     onHideChat() {
         if (!this.minimised) {
@@ -427,7 +421,6 @@ export default class CommonChatController {
     }
 
     onSoundToggle(e) {
-
         let soundElement = document.getElementById("toggleSound");
         let isActive = soundElement.classList.contains("active");
 
@@ -442,7 +435,5 @@ export default class CommonChatController {
 
             soundElement.innerHTML = "Turn notification sound off";
         }
-
     }
-
 };
