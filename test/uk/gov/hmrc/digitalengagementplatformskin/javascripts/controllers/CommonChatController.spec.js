@@ -3,13 +3,15 @@ import PostChatSurveyWebchatService from '../../../../../../../app/assets/javasc
 import PostChatSurveyDigitalAssistantService from '../../../../../../../app/assets/javascripts/services/PostChatSurveyDigitalAssistantService'
 
 describe("CommonChatController", () => {
+    const event = { preventDefault: () => {} };
+    
     
     afterEach(() => {
       document.getElementsByTagName('html')[0].innerHTML = ''; 
     });
 
     beforeAll(() => {
-      
+      jest.spyOn(event, 'preventDefault');
     });
 
     it("launches a reactive chat", () => {
@@ -23,7 +25,6 @@ describe("CommonChatController", () => {
       window.Inq = {
           SDK: sdk
       };
-
       
       commonChatController._launchChat();
 
@@ -209,30 +210,34 @@ describe("CommonChatController", () => {
 
     });
 
-    it("onSkipToTopLink should focus on the skipToTopLink", () => {
+    it("closeNuanceChat sends closeChat to nuance if chat is in progress ", () => {
       const commonChatController = new CommonChatController();
 
-      var html = `<div id="skipToTop"><a id="skipToTopLink" href="#skipToTopLink">Skip to top of conversation</a></div>`;
+      const sdk = {
+        isChatInProgress: jest.fn().mockReturnValue(true),
+        closeChat: jest.fn()
+      };
+
+      window.Inq = {
+        SDK: sdk
+      };
+
+      commonChatController.nuanceFrameworkLoaded(window);
+      commonChatController.closeNuanceChat();
+
+      expect(sdk.closeChat).toBeCalledTimes(1);
+    });
+
+    it("onSkipToTopLink should focus on the skipToTopLink", () => {
+      const commonChatController = new CommonChatController();
+      const html = `<div id="skipToTop"><a id="skipToTopLink" href="#skipToTopLink">Skip to top of conversation</a></div>`;
       document.body.innerHTML = html;
-
-      let spy = jest.spyOn(commonChatController, 'onSkipToTopLink');
-
+      const evt = { preventDefault: jest.fn() }
       const mockSkipToTopLink = document.getElementById('skipToTopLink');
 
-      mockSkipToTopLink.simulate('click', {
-        preventDefault: () => {
-        }
-       });
+      commonChatController.onSkipToTopLink(evt);
 
-      var e;
-
-      
-
-      commonChatController.onSkipToTopLink(e);
-
-      
-
-      expect(mockSkipToTopLink.focus).toHaveBeenCalledTimes(1);
-
+      expect(evt.preventDefault).toBeCalled();
+      expect(mockSkipToTopLink === document.activeElement).toBeTruthy;
     });
 });
