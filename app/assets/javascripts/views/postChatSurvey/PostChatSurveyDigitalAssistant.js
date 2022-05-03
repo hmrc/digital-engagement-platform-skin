@@ -34,7 +34,7 @@ const html = `
 
                   <fieldset class="govuk-fieldset" id="question3">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                      If you had not used the digital assistant today, how else would you have contacted us?
+                      If you had not used the digital assistant, how else would you have contacted us?
                     </legend>
                     <div class="govuk-radios" data-module="govuk-radios">
                       <div class="govuk-radios__item">
