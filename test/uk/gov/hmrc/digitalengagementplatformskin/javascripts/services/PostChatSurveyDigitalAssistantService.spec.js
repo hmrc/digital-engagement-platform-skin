@@ -27,7 +27,7 @@ const survey = {
     questions: [
         { id: "q1", text: "Was the digital assistant useful?", freeform: false },
         { id: "q2", text: "How could we improve it?", freeform: false },
-        { id: "q3", text: "If you had not used the chatbot today, how else would you have contacted us?", freeform: false },
+        { id: "q3", text: "If you had not used the digital assistant today, how else would you have contacted us?", freeform: false },
         { id: "q4", text: "Provide other contact options", freeform: false }
     ],
     answers: [
@@ -43,7 +43,7 @@ const surveyWithoutOption = {
     questions: [
         { id: "q1", text: "Was the digital assistant useful?", freeform: false },
         { id: "q2", text: "How could we improve it?", freeform: false },
-        { id: "q3", text: "If you had not used the chatbot today, how else would you have contacted us?", freeform: false },
+        { id: "q3", text: "If you had not used the digital assistant today, how else would you have contacted us?", freeform: false },
         { id: "q4", text: "Provide other contact options", freeform: false }
     ],
     answers: [
@@ -118,7 +118,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
             "custom.decisiontree.questions":
                 "Was%2520the%2520digital%2520assistant%2520useful%253F%2C" +
                 "How%2520could%2520we%2520improve%2520it%253F%2C" +
-                "If%2520you%2520had%2520not%2520used%2520the%2520chatbot%2520today%252C%2520how%2520else%2520would%2520you%2520have%2520contacted%2520us%253F%2C" +
+                "If%2520you%2520had%2520not%2520used%2520the%2520digital%2520assistant%2520today%252C%2520how%2520else%2520would%2520you%2520have%2520contacted%2520us%253F%2C" +
                 "Provide%2520other%2520contact%2520options",
             "custom.decisiontree.questionIDs": "q1%2Cq2%2Cq3%2Cq4",
             clientTimestamp: timestamp,
@@ -184,7 +184,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
             "custom.decisiontree.questions":
                 "Was%2520the%2520digital%2520assistant%2520useful%253F%2C" +
                 "How%2520could%2520we%2520improve%2520it%253F%2C" +
-                "If%2520you%2520had%2520not%2520used%2520the%2520chatbot%2520today%252C%2520how%2520else%2520would%2520you%2520have%2520contacted%2520us%253F%2C" +
+                "If%2520you%2520had%2520not%2520used%2520the%2520digital%2520assistant%2520today%252C%2520how%2520else%2520would%2520you%2520have%2520contacted%2520us%253F%2C" +
                 "Provide%2520other%2520contact%2520options",
             "custom.decisiontree.answers": "Yes%2Ctext%2520area%2520text%2COther%2Ctext%2520area%2520text",
             "custom.decisiontree.answerIDs": "Yes%2Ctext%2520area%2520text%2COther%2Ctext%2520area%2520text",
@@ -289,7 +289,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
                 "custom.decisiontree.questions":
                     "Was%2520the%2520digital%2520assistant%2520useful%253F%2C" +
                     "How%2520could%2520we%2520improve%2520it%253F%2C" +
-                    "If%2520you%2520had%2520not%2520used%2520the%2520chatbot%2520today%252C%2520how%2520else%2520would%2520you%2520have%2520contacted%2520us%253F%2C" +
+                    "If%2520you%2520had%2520not%2520used%2520the%2520digital%2520assistant%2520today%252C%2520how%2520else%2520would%2520you%2520have%2520contacted%2520us%253F%2C" +
                     "Provide%2520other%2520contact%2520options",
                 "custom.decisiontree.answers": "Yes%2Ctext%2520area%2520text%2CPhone",
                 "custom.decisiontree.answerIDs": "Yes%2Ctext%2520area%2520text%2CPhone",
