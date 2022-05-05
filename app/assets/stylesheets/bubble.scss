@@ -1,10 +1,15 @@
+$bubble-padding-vert: 0.8421052632em;
+$bubble-padding-horiz: 1.0526315789em;
+$bubble-border-radius: #{$bubble-padding-horiz};
+$bubble-border-width: 0.3157894737em;
+
 @mixin bubble {
-    background-color: #ffffff;
+    background-color: #fff;
     max-width: 80%;
-    margin: 0 auto 1em auto !important;
-    padding: 0.8421052632em 1.0526315789em;
-    border-radius: 1.0526315789em;
-    border: 0.3157894737em solid #0b0c0c;
+    margin: 0 auto 3rem auto;
+    padding: #{$bubble-padding-vert} #{$bubble-padding-horiz};
+    border-radius: #{$bubble-border-radius};
+    border: #{$bubble-border-width} solid #0b0c0c;
     line-height: 1.4em;
     color: #0b0c0c;
     min-width: 5em;
@@ -15,13 +20,4 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
     text-align: left;
-
-//     @media (max-width: 575.98px) {
-//         max-width: 100%;
-//         margin: 0 auto 1.75em auto;
-//         padding: 0.7368421053em 0.8947368421em;
-//         border-radius: 0.9473684211em;
-//         border: 0.2631578947em solid #0b0c0c;
-//         min-width: 5em;
-//     }
 }

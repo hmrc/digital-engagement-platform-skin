@@ -70,65 +70,63 @@ $footer-top-border-height: 3px;
 
 .ciapiSkinChatTranscript {
     flex-grow: 1;
+    max-height: 90vh;
     background-color: #fff;
     box-sizing: border-box;
     overflow: auto;
     padding: 0;
     position: relative;
     border-bottom: $footer-top-border-height solid rgb(11, 12, 12);
-    div {
-        margin-bottom: 0px;
-    }
-    .skipToTopWithScroll {
-        position: relative;
-        bottom: 0;
-        margin-left: 5px;
-        margin-right: 5px;
-        clear: both;
-    }
-    .skipToTopWithOutScroll {
-        position: absolute;
-        bottom: 0;
-        margin-left: 5px;
-        margin-right: 5px;
-        width: 96%;
-        clear: both;
-    }
-    #skipToBottom {
-        margin-left: 5px;
-        margin-right: 5px;
-    }
+    margin-bottom: 1.25em;
 }
 .ciapiSkinChatTranscript:focus {
     box-shadow: 0 0 0 3px #fd0;
     border: solid #000 4px;
     outline: none;
     margin-top: -4px;
-    margin-bottom: 1.25em !important;
     margin-left: -4px;
     margin-right: -4px;
 }
 
+.skipToTopWithScroll {
+    position: relative;
+    bottom: 0;
+    margin-left: 5px;
+    margin-right: 5px;
+    clear: both;
+}
+.skipToTopWithOutScroll {
+    position: absolute;
+    bottom: 0;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 96%;
+    clear: both;
+}
+#skipToBottom {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 #ciapiSkinFooter {
     flex-grow: 0;
-
-    #ciapiSend {
-        width: 18%;
-        float: left;
-        padding-left: 0.25em;
+}
+#ciapiSend {
+    width: 18%;
+    float: left;
+    padding-left: 0.25em;
+}
+#ciapiInput {
+    width: 80%;
+    float: left;
+    textarea {
+        height: 4em;
+        resize: none;
+        margin-bottom: 0;
     }
-    #ciapiInput {
-        width: 80%;
-        float: left;
-        textarea {
-            height: 4em;
-            resize: none;
-            margin-bottom: 0;
-        }
-    }
-    #ciapiClose {
-        clear: both;
-    }
+}
+#ciapiClose {
+    clear: both;
 }
 
 #HMRC_CIAPI_Anchored_1 {
