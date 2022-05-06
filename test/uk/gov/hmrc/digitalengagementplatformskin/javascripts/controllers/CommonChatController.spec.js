@@ -1,19 +1,7 @@
 import CommonChatController from '../../../../../../../app/assets/javascripts/controllers/CommonChatController';
 import PostChatSurveyWebchatService from '../../../../../../../app/assets/javascripts/services/PostChatSurveyWebchatService'
 import PostChatSurveyDigitalAssistantService from '../../../../../../../app/assets/javascripts/services/PostChatSurveyDigitalAssistantService'
-import ChatContainer from '../../../../../../../app/assets/javascripts/utils/ChatContainer'
 import * as ChatStates from '../../../../../../../app/assets/javascripts/services/ChatStates'
-
-//jest.mock('../../../../../../../app/assets/javascripts/utils/ChatContainer');
-
-//const mockRegisterEventListeners = jest.fn();
-//ChatContainer.mockImplementationOnce(() => {
-//  return {
-//    _registerEventListeners: mockRemoveSkinHeadingElements,
-//  };
-//});
-
-//const chatContainer = require('../../../../../../../app/assets/javascripts/utils/ChatContainer');
 
 const messageClasses = {
   Agent: {
@@ -41,14 +29,9 @@ const messageClasses = {
 describe("CommonChatController", () => {
     const event = { preventDefault: () => {} };
     
-    
     afterEach(() => {
       document.getElementsByTagName('html')[0].innerHTML = ''; 
     });
-
-    //beforeEach(() => {
-     // ChatContainer.mockClear();
-    //})
 
     beforeAll(() => {
       jest.spyOn(event, 'preventDefault');
@@ -281,46 +264,90 @@ describe("CommonChatController", () => {
       expect(mockSkipToTopLink === document.activeElement).toBeTruthy;
     });
 
-    /* it("showEndChatPage removes the skin header buttons and calls post chat survey", () => {
+    it("showEndChatPage removes the skin header buttons and calls post chat survey", () => {
       const commonChatController = new CommonChatController();
-      //const chatContainer = new ChatContainer(messageClasses, "test");
 
-      jest.spyOn(ChatContainer.prototype, '_removeSkinHeadingElements').mockImplementation(() => {});
-      jest.spyOn(ChatContainer.prototype, 'showPage').mockImplementation(() => {});
-    
+      const html = `<h1 id="heading_chat_ended">Chat ended</h1>`;
+      document.body.innerHTML = html;
+
+      const mockChatEnded = document.getElementById('heading_chat_ended');
+
+      const mockContainer = {
+        _removeSkinHeadingElements: jest.fn(),
+        showPage:jest.fn()
+      }
+
+      commonChatController.container = mockContainer;
+      commonChatController.closeNuanceChat = jest.fn();
+
+      let removeSkinHeadingElementsSpy = jest.spyOn(commonChatController.container, '_removeSkinHeadingElements');
+      let showPageSpy = jest.spyOn(commonChatController.container, 'showPage');
+      let closeNuanceChatSpy = jest.spyOn(commonChatController, 'closeNuanceChat');
 
       commonChatController.showEndChatPage(true);
 
-      expect(chatContainer._removeSkinHeadingElements()).toHaveBeenCalledTimes(1);
-      //expect(commonChatController.closeNuanceChat()).toBeCalledTimes(1);
+      expect(removeSkinHeadingElementsSpy).toHaveBeenCalledTimes(1);
+      expect(showPageSpy).toHaveBeenCalledTimes(1);
+      expect(closeNuanceChatSpy).toHaveBeenCalledTimes(1);
+      expect(mockChatEnded === document.activeElement).toBeTruthy;
 
-    }); */
+    });
 
     it("onRestoreChat restores the chat container and sends an activity message to Nunace", () => {
       const commonChatController = new CommonChatController();
-      const chatContainer = new ChatContainer(messageClasses, "test");
 
-      commonChatController.container = chatContainer;
-      jest.spyOn(chatContainer, 'restore');
-      //jest.spyOn(chatContainer, '_registerEventListeners').mockImplementation(() => {});
+      const mockContainer = {
+        restore: jest.fn()
+      };
+
+      commonChatController.container = mockContainer;
+      var restore = jest.spyOn(commonChatController.container, 'restore');
 
       commonChatController.minimised = true;
-      //chatContainer.custInput.addEventListener = "test"
-      //chatContainer._registerEventListeners = jest.fn();
-
 
       const sdk = {
-        sendActivityMessage: jest.fn()
+        sendActivityMessage: jest.fn(),
+        isChatInProgress: jest.fn()
       };
 
       window.Inq = {
         SDK: sdk
       };
 
+      commonChatController.nuanceFrameworkLoaded(window);
       commonChatController.onRestoreChat();
 
       expect(sdk.sendActivityMessage).toBeCalledTimes(1);
-      //expect(chatContainer.restore()).toBeCalledTimes(1);
+      expect(restore).toBeCalledTimes(1);
+
+    });
+
+    it("onHideChat minimises the chat container and sends an activity message to Nunace", () => {
+      const commonChatController = new CommonChatController();
+
+      const mockContainer = {
+        minimise: jest.fn()
+      };
+
+      commonChatController.container = mockContainer;
+      var minimiseSpy = jest.spyOn(commonChatController.container, 'minimise');
+
+      commonChatController.minimised = false;
+
+      const sdk = {
+        sendActivityMessage: jest.fn(),
+        isChatInProgress: jest.fn()
+      };
+
+      window.Inq = {
+        SDK: sdk
+      };
+
+      commonChatController.nuanceFrameworkLoaded(window);
+      commonChatController.onHideChat();
+
+      expect(sdk.sendActivityMessage).toBeCalledTimes(1);
+      expect(minimiseSpy).toBeCalledTimes(1);
 
     });
 
@@ -360,7 +387,10 @@ describe("CommonChatController", () => {
 
     it("onCloseChat calls onClickedClose", () => {
       const commonChatController = new CommonChatController();
-      const state = new ChatStates.NullState();
+      const sdk = {
+        getMessages: jest.fn()
+      };
+      const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
 
       commonChatController.state = state;
       var spy = jest.spyOn(state, 'onClickedClose');
@@ -368,6 +398,5 @@ describe("CommonChatController", () => {
       commonChatController.onCloseChat();
 
       expect(spy).toBeCalledTimes(1);
-    })
-
+    });
 });
