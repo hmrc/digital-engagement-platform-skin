@@ -68,6 +68,13 @@ export default class ChatContainer {
         }
     }
 
+    _registerKeypressEventListener(selector, handler) {
+        const element = this.container.querySelector(selector);
+        if (element) {
+            element.addEventListener("keypress", handler);
+        }
+    }
+
     _registerEventListeners() {
 
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
@@ -98,12 +105,19 @@ export default class ChatContainer {
             this.eventHandler.onRestoreChat();
         });
 
-        this.custInput.addEventListener('keypress', (e) => {
+        this._registerKeypressEventListener("#custMsg", (e) => {
+            if (e.which == 13) {
+                this.eventHandler.onSend();
+                e.preventDefault();
+            }
+        })
+
+        /* this.custInput.addEventListener('keypress', (e) => {
             if (e.which == 13) {
                 this.eventHandler.onSend();
                 e.preventDefault()
             }
-        });
+        }); */
 
         this._registerEventListener("#ciapiSkinChatTranscript", (e) => {
             if ((e.target.tagName.toLowerCase() === 'a') && !!e.target.dataset && !!e.target.dataset.vtzJump) {

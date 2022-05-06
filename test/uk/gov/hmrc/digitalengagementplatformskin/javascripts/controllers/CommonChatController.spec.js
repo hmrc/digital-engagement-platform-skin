@@ -1,6 +1,42 @@
 import CommonChatController from '../../../../../../../app/assets/javascripts/controllers/CommonChatController';
 import PostChatSurveyWebchatService from '../../../../../../../app/assets/javascripts/services/PostChatSurveyWebchatService'
 import PostChatSurveyDigitalAssistantService from '../../../../../../../app/assets/javascripts/services/PostChatSurveyDigitalAssistantService'
+import ChatContainer from '../../../../../../../app/assets/javascripts/utils/ChatContainer'
+import * as ChatStates from '../../../../../../../app/assets/javascripts/services/ChatStates'
+
+//jest.mock('../../../../../../../app/assets/javascripts/utils/ChatContainer');
+
+//const mockRegisterEventListeners = jest.fn();
+//ChatContainer.mockImplementationOnce(() => {
+//  return {
+//    _registerEventListeners: mockRemoveSkinHeadingElements,
+//  };
+//});
+
+//const chatContainer = require('../../../../../../../app/assets/javascripts/utils/ChatContainer');
+
+const messageClasses = {
+  Agent: {
+      Outer: 'agent-outer',
+      Inner: 'agent-inner'
+  },
+  Customer: {
+      Outer: 'customer-outer',
+      Inner: 'customer-inner'
+  },
+  System: {
+      Outer: 'system-outer',
+      Inner: 'system-inner'
+  },
+  Opener: {
+      Outer: 'opener-outer',
+      Inner: 'opener-inner'
+  },
+  Timestamp: {
+      Outer: 'timestamp-outer',
+      Inner: 'timestamp-inner'
+  }
+};
 
 describe("CommonChatController", () => {
     const event = { preventDefault: () => {} };
@@ -9,6 +45,10 @@ describe("CommonChatController", () => {
     afterEach(() => {
       document.getElementsByTagName('html')[0].innerHTML = ''; 
     });
+
+    //beforeEach(() => {
+     // ChatContainer.mockClear();
+    //})
 
     beforeAll(() => {
       jest.spyOn(event, 'preventDefault');
@@ -240,4 +280,94 @@ describe("CommonChatController", () => {
       expect(evt.preventDefault).toBeCalled();
       expect(mockSkipToTopLink === document.activeElement).toBeTruthy;
     });
+
+    /* it("showEndChatPage removes the skin header buttons and calls post chat survey", () => {
+      const commonChatController = new CommonChatController();
+      //const chatContainer = new ChatContainer(messageClasses, "test");
+
+      jest.spyOn(ChatContainer.prototype, '_removeSkinHeadingElements').mockImplementation(() => {});
+      jest.spyOn(ChatContainer.prototype, 'showPage').mockImplementation(() => {});
+    
+
+      commonChatController.showEndChatPage(true);
+
+      expect(chatContainer._removeSkinHeadingElements()).toHaveBeenCalledTimes(1);
+      //expect(commonChatController.closeNuanceChat()).toBeCalledTimes(1);
+
+    }); */
+
+    it("onRestoreChat restores the chat container and sends an activity message to Nunace", () => {
+      const commonChatController = new CommonChatController();
+      const chatContainer = new ChatContainer(messageClasses, "test");
+
+      commonChatController.container = chatContainer;
+      jest.spyOn(chatContainer, 'restore');
+      //jest.spyOn(chatContainer, '_registerEventListeners').mockImplementation(() => {});
+
+      commonChatController.minimised = true;
+      //chatContainer.custInput.addEventListener = "test"
+      //chatContainer._registerEventListeners = jest.fn();
+
+
+      const sdk = {
+        sendActivityMessage: jest.fn()
+      };
+
+      window.Inq = {
+        SDK: sdk
+      };
+
+      commonChatController.onRestoreChat();
+
+      expect(sdk.sendActivityMessage).toBeCalledTimes(1);
+      //expect(chatContainer.restore()).toBeCalledTimes(1);
+
+    });
+
+    it("onSoundToggle adds the active class to the soundtoggle element if it is inactive", () => {
+      const commonChatController = new CommonChatController();
+
+      const html = `<button id="toggleSound" class="inactive">Turn notification sound on</button>`;
+      document.body.innerHTML = html;
+
+      commonChatController.onSoundToggle();
+
+      expect(document.getElementById("toggleSound").classList.contains("active")).toBe(true);
+
+    });
+
+    it("onSoundToggle adds the inactive class to the soundtoggle element if it is active", () => {
+      const commonChatController = new CommonChatController();
+
+      const html = `<button id="toggleSound" class="active">Turn notification sound on</button>`;
+      document.body.innerHTML = html;
+
+      commonChatController.onSoundToggle();
+
+      expect(document.getElementById("toggleSound").classList.contains("inactive")).toBe(true);
+
+    });
+
+    it("_moveToClosingState creates new closing state", () => {
+      const commonChatController = new CommonChatController();
+
+      var spy = jest.spyOn(commonChatController, '_moveToState');
+
+      commonChatController._moveToClosingState();
+
+      expect(spy).toBeCalledTimes(1);
+    });
+
+    it("onCloseChat calls onClickedClose", () => {
+      const commonChatController = new CommonChatController();
+      const state = new ChatStates.NullState();
+
+      commonChatController.state = state;
+      var spy = jest.spyOn(state, 'onClickedClose');
+
+      commonChatController.onCloseChat();
+
+      expect(spy).toBeCalledTimes(1);
+    })
+
 });
