@@ -2,20 +2,19 @@ import CommonChatController from '../../../../../../../app/assets/javascripts/co
 import PostChatSurveyWebchatService from '../../../../../../../app/assets/javascripts/services/PostChatSurveyWebchatService'
 import PostChatSurveyDigitalAssistantService from '../../../../../../../app/assets/javascripts/services/PostChatSurveyDigitalAssistantService'
 import * as ChatStates from '../../../../../../../app/assets/javascripts/services/ChatStates'
-import * as MessageType from '../../../../../../../app/assets/javascripts/NuanceMessageType'
 
 function createDisplayOpenerScriptsDependencies() {
   const sdk = {
     getOpenerScripts: jest.fn()
   };
 
-    const container = {
-      transcript: {
-          addOpenerScript: jest.fn()
-      },
-      getTranscript: function () {
-          return this.transcript;
-      }
+  const container = {
+    transcript: {
+      addOpenerScript: jest.fn()
+    },
+    getTranscript: function () {
+      return this.transcript;
+    }
   };
 
   return [sdk, container]
@@ -50,6 +49,45 @@ describe("CommonChatController", () => {
       expect(sdk.getOpenerScripts).toHaveBeenCalledTimes(1);
       expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1);
 
+    });
+
+    it("updateDav3DeskproRefererUrls will get the three deskpro URLs url,", () => {
+     
+      var html = 
+      `<a class="hmrc-report-technical-issue"
+        href="https://testURL;service=digital-engagement-platform-frontend&amp;referrerUrl=https%3A%2F%2FtestURL">
+        Is this page not working properly? (opens in new tab)
+      </a>
+        
+      <span class="govuk-phase-banner__text">
+        This is a new service – your <a class="govuk-link" href="https://testURL?service=digital-engagement-platform-frontend">
+        feedback</a> will help us to improve it.
+      </span>
+      <a class="govuk-link" href="https://testURL?service=digital-engagement-platform-frontend">feedback</a>
+
+      <div class="govuk-footer__meta">
+        <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
+          <li class="govuk-footer__inline-list-item">
+           <a class="govuk-footer__link" href="/help/cookies">
+           Cookies
+           </a>
+          </li> 
+          <li class="govuk-footer__inline-list-item">
+           <a class="govuk-footer__link" href="/ask-hmrc/accessibility-statement?userAction=%2Fask-hmrc%2Fchat%2Fask-hmrc-online%3Fversion%3D3">
+           Accessibility statement
+           </a>
+          </li>
+        </ul>
+      </div>      
+      `;
+
+      const commonChatController = new CommonChatController();
+      let spy = jest.spyOn(commonChatController, 'updateDav3DeskproRefererUrls');
+      document.body.innerHTML = html;
+
+      commonChatController.updateDav3DeskproRefererUrls();
+
+      expect(commonChatController.updateDav3DeskproRefererUrls).toHaveBeenCalledTimes(1);
     });
 
     it("remove animation after nuance iframe loads", () => {
