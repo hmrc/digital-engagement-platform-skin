@@ -2,6 +2,7 @@ import CommonChatController from '../../../../../../../app/assets/javascripts/co
 import PostChatSurveyWebchatService from '../../../../../../../app/assets/javascripts/services/PostChatSurveyWebchatService'
 import PostChatSurveyDigitalAssistantService from '../../../../../../../app/assets/javascripts/services/PostChatSurveyDigitalAssistantService'
 import * as ChatStates from '../../../../../../../app/assets/javascripts/services/ChatStates'
+import * as MessageType from '../../../../../../../app/assets/javascripts/NuanceMessageType'
 
 const messageClasses = {
   Agent: {
@@ -398,5 +399,47 @@ describe("CommonChatController", () => {
       commonChatController.onCloseChat();
 
       expect(spy).toBeCalledTimes(1);
+    });
+
+    it("_displayOpenerScripts retrieves the opener scripts and adds them to the transcript", () => {
+      const commonChatController = new CommonChatController();
+
+      const sdk = {
+          sendMessage: jest.fn(),
+          getMessages: jest.fn(),
+          getOpenerScripts: jest.fn()
+      };
+
+      const container = {
+          transcript: {
+              addAgentMsg: jest.fn(),
+              addCustomerMsg: jest.fn(),
+              addAutomatonMsg: jest.fn(),
+              addSystemMsg: jest.fn(),
+          },
+          getTranscript: function () {
+              return this.transcript;
+          }
+      };
+
+      window.Inq = {
+        SDK: sdk
+      };
+
+      const handleMessage = sdk.getOpenerScripts.mock.calls[0][0];
+      const message = {
+          data: {
+              messageType: MessageType.Chat_Communication,
+              messageText: "Hello to you",
+              messageTimestamp: "test"
+          }
+      };
+
+      handleMessage(message);
+
+      commonChatController._displayOpenerScripts(window);
+
+      expect(sdk.getOpenerScripts).toHaveBeenCalledWith(expect.any(Function));
+
     });
 });
