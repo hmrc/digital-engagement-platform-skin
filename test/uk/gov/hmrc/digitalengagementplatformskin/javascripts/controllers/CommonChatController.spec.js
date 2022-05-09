@@ -4,27 +4,22 @@ import PostChatSurveyDigitalAssistantService from '../../../../../../../app/asse
 import * as ChatStates from '../../../../../../../app/assets/javascripts/services/ChatStates'
 import * as MessageType from '../../../../../../../app/assets/javascripts/NuanceMessageType'
 
-const messageClasses = {
-  Agent: {
-      Outer: 'agent-outer',
-      Inner: 'agent-inner'
-  },
-  Customer: {
-      Outer: 'customer-outer',
-      Inner: 'customer-inner'
-  },
-  System: {
-      Outer: 'system-outer',
-      Inner: 'system-inner'
-  },
-  Opener: {
-      Outer: 'opener-outer',
-      Inner: 'opener-inner'
-  },
-  Timestamp: {
-      Outer: 'timestamp-outer',
-      Inner: 'timestamp-inner'
-  }
+function createDisplayOpenerScriptsDependencies() {
+  const sdk = {
+    getOpenerScripts: jest.fn()
+  };
+
+    const container = {
+      transcript: {
+          addOpenerScript: jest.fn()
+      },
+      getTranscript: function () {
+          return this.transcript;
+      }
+  };
+
+  return [sdk, container]
+
 };
 
 describe("CommonChatController", () => {
@@ -402,44 +397,44 @@ describe("CommonChatController", () => {
     });
 
     it("_displayOpenerScripts retrieves the opener scripts and adds them to the transcript", () => {
+      const [sdk, container] = createDisplayOpenerScriptsDependencies();
       const commonChatController = new CommonChatController();
-
-      const sdk = {
-          sendMessage: jest.fn(),
-          getMessages: jest.fn(),
-          getOpenerScripts: jest.fn()
-      };
-
-      const container = {
-          transcript: {
-              addAgentMsg: jest.fn(),
-              addCustomerMsg: jest.fn(),
-              addAutomatonMsg: jest.fn(),
-              addSystemMsg: jest.fn(),
-          },
-          getTranscript: function () {
-              return this.transcript;
-          }
-      };
 
       window.Inq = {
         SDK: sdk
       };
 
-      const handleMessage = sdk.getOpenerScripts.mock.calls[0][0];
-      const message = {
-          data: {
-              messageType: MessageType.Chat_Communication,
-              messageText: "Hello to you",
-              messageTimestamp: "test"
-          }
-      };
-
-      handleMessage(message);
+      commonChatController.container = container;
 
       commonChatController._displayOpenerScripts(window);
 
-      expect(sdk.getOpenerScripts).toHaveBeenCalledWith(expect.any(Function));
+      const handleMessage = sdk.getOpenerScripts.mock.calls[0][0];
+
+      handleMessage(["this is an opener script"]); 
+
+      expect(sdk.getOpenerScripts).toHaveBeenCalledTimes(1);
+      expect(commonChatController.container.transcript.addOpenerScript).toBeCalledTimes(1);
+
+    });
+
+    it("_displayOpenerScripts retrieves the opener scripts does not add anything to transcript if there are no opener scripts returned", () => {
+      const [sdk, container] = createDisplayOpenerScriptsDependencies();
+      const commonChatController = new CommonChatController();
+
+      window.Inq = {
+        SDK: sdk
+      };
+
+      commonChatController.container = container;
+
+      commonChatController._displayOpenerScripts(window);
+
+      const handleMessage = sdk.getOpenerScripts.mock.calls[0][0];
+
+      handleMessage(null); 
+
+      expect(sdk.getOpenerScripts).toHaveBeenCalledTimes(1);
+      expect(commonChatController.container.transcript.addOpenerScript).toBeCalledTimes(0);
 
     });
 });

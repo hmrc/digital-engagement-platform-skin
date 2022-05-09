@@ -185,9 +185,10 @@ export default class CommonChatController {
         this.sdk.getOpenerScripts((openerScripts) => {
             if (openerScripts == null)
                 return;
-
-            for (var openerScript of openerScripts) {
-                this.container.getTranscript().addOpenerScript(openerScript);
+            else {
+                for (var openerScript of openerScripts) {
+                    this.container.getTranscript().addOpenerScript(openerScript);
+                }
             }
         });
     }
