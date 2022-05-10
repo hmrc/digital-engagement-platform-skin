@@ -121,7 +121,11 @@ export class EngagedState {
                 let vaDP = JSON.parse(msg.vaDataPass);
                 if (!!vaDP.endVAEngagement) {
                   this.closeChat();
-                } 
+                } else if (!!vaDP.widgetType) {
+                    if(vaDP.widgetType === "form") {
+                        transcript.addAutomatonMsg(msg["messageData"], msg.messageTimestamp, true);
+                    }
+                }
               } else {
                 transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
             }

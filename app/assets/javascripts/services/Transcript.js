@@ -81,14 +81,46 @@ export default class Transcript {
         return text;
     }
 
-    appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class, isSystemMsg, isCustomerMsg) {
+    appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class, isSystemMsg, isCustomerMsg, isForm) {
         if (document.getElementById(id)) {
             if (that) {
                 var msg = that.decodeHTMLEntities(msg);
             }
 
-            document.getElementById(id).innerHTML = "<div class=govuk-visually-hidden>" + msg_type + "</div> " + msg;
-            document.getElementById(id).classList.remove("msg-opacity");
+            if(isForm) {
+                let formData = JSON.parse(msg);
+
+               let label1 = formData.nodes[0].controls[0].label;
+               let id1 = formData.nodes[0].controls[0].id;
+               let label2 = formData.nodes[0].controls[1].label;
+               let id2 = formData.nodes[0].controls[1].id;
+               let buttonId = formData.nodes[0].controls[2].id;
+               let buttonText = formData.nodes[0].controls[2].text;
+
+                msg = `<div class="nuan-widget-outer-cont" style="height: 100%;">
+                <div tabindex="-1" class="nuan-widget-container nuan-mlr-1 nuan-p-1 form">
+                   <div class="nuan-row input">
+                      <fieldset class="govuk-fieldset">
+                         <label class="govuk-label govuk-label--m" for="${id1}" >${label1}</label>
+                         <div style="position:relative;"><input type="text" class="govuk-input" id="${id1}"><span class="validation-error-icon"></span></div>
+                      </fieldset>
+                   </div>
+                   <div class="nuan-row input">
+                      <fieldset class="govuk-fieldset">
+                         <label class="govuk-label govuk-label--m" for="${id2}">${label2}</label>
+                         <div style="position:relative;"><input type="text" class="govuk-input" id="${id2}"><span class="validation-error-icon"></span></div>
+                      </fieldset>
+                   </div>
+                   <button data-module="govuk-button" data-prevent-double-click="true" id="${buttonId}" class="govuk-button nuanbtn nuanbtn-success nuanbtn-sm close"><span class="nuan-inline-block"><span data-id="${buttonId}" class="nuanbtn-text">${buttonText}</span></span></button></div>
+                </div>
+             </div>`
+                document.getElementById(id).innerHTML = "<div class=govuk-visually-hidden>" + msg_type + "</div> " + msg;
+                document.getElementById(id).classList.remove("msg-opacity");
+            } else {
+                document.getElementById(id).innerHTML = "<div class=govuk-visually-hidden>" + msg_type + "</div> " + msg;
+                document.getElementById(id).classList.remove("msg-opacity");
+            }
+            
         }
         if (that) {
             that._showLatestContent(msg_class);
@@ -134,7 +166,7 @@ export default class Transcript {
         return strTime;
     }
 
-    addAutomatonMsg(msg, msgTimestamp) {
+    addAutomatonMsg(msg, msgTimestamp, isForm = false) {
 
         var id = "liveAutomatedMsgId" + (Math.random() * 100);
         const msgDiv = `<div class= "msg-opacity govuk-body ${this.classes.Agent.Inner}" tabindex=-1 id=${id}></div>`;
@@ -162,7 +194,7 @@ export default class Transcript {
 
         this.content.appendChild(printOuterTimeStamp);
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false, false);
+        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false, false, isForm);
 
         if (chatContainer) {
 
