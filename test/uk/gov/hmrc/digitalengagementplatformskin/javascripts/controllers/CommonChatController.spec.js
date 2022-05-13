@@ -35,6 +35,7 @@ describe("CommonChatController", () => {
 
     it("launches a reactive chat", () => {
       const commonChatController = new CommonChatController();
+
       let spy = jest.spyOn(commonChatController, 'updateDav3DeskproRefererUrls').mockImplementation(() => {});
       const sdk = {
           getOpenerScripts: jest.fn().mockReturnValue(null),

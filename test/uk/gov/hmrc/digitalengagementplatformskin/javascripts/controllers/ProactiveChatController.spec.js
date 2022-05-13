@@ -10,6 +10,22 @@ describe("ProactiveChatController", () => {
     it("launches a proactive chat", () => {
         const commonChatController = new CommonChatController();
         const proactiveChatController = new ProactiveChatController();
+        var html = `
+          <span class="govuk-phase-banner__text">
+            This is a new service – your <a class="govuk-link" href="xxx">feedback</a> will help us to improve it.
+          </span>
+          <a hreflang="en" class="govuk-link hmrc-report-technical-issue " rel="noreferrer noopener" target="_blank" href="xxx" lang="en">
+            Is this page not working properly? (opens in new tab)
+          </a>
+          <a class="govuk-footer__link" href="xxx">
+            Cookies
+          </a>
+          <a class="govuk-footer__link" href="xxx">
+            Accessibility statement
+          </a>
+        `;
+
+        document.body.innerHTML = html;
 
         let spy = jest.spyOn(commonChatController, 'updateDav3DeskproRefererUrls').mockImplementation(() => {});
 
