@@ -169,6 +169,25 @@ describe("Chat States", () => {
             expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("Beep boop. I am a robot.", "test");
         });
 
+        it("calls close chat popup when user clicks end chat and give feedback link", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+
+            const onCloseChat = jest.fn();
+
+            const state = new ChatStates.EngagedState(sdk, container, [], onCloseChat);
+
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+            const message = {
+                data: {
+                    messageType: MessageType.Chat_AutomationRequest,
+                    vaDataPass: '{"endVAEngagement":"VA closed chat"}'
+                }
+            };
+
+            handleMessage(message);
+            expect(onCloseChat).toHaveBeenCalled();
+        });
+
         it("sends customer messages to the transcript", () => {
             const [sdk, container] = createEngagedStateDependencies();
 

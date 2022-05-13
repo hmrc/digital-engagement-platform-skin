@@ -38,7 +38,7 @@ const digitalAssistantSurvey = {
     questions: [
         { id: ["question1"], text: "Was the digital assistant useful?", freeform: false },
         { id: ["question2"], text: "How could we improve it?", freeform: false },
-        { id: ["question3"], text: "If you had not used the chatbot today, how else would you have contacted us?", freeform: false },
+        { id: ["question3"], text: "If you had not used the digital assistant, how else would you have contacted us?", freeform: false },
         { id: ["question4"], text: "Provide other contact options", freeform: false }
     ]
 }
@@ -78,7 +78,7 @@ export default class CommonChatController {
             let feedbackLinkHref = feedbackLinkElement[0].getElementsByTagName('a')[0].href;
             feedbackLinkElement[0].getElementsByTagName('a')[0].href = feedbackLinkHref.concat("-dav3");
         }
-    
+
         let accessibilityLinkElement = document.getElementsByClassName('govuk-footer__link');
         if(accessibilityLinkElement) {
             let accessibilityLinkHref = accessibilityLinkElement[1].href;
@@ -89,17 +89,17 @@ export default class CommonChatController {
     getRadioValue(radioGroup) {
         var elements = document.getElementsByName(radioGroup);
         var returnedValue = null;
-    
+
         for (var i = 0, l = elements.length; i < l; i++) {
             if (elements[i].checked) {
                 returnedValue = elements[i].value;
             }
         }
-    
+
         if (!returnedValue) {
             returnedValue = "";
         }
-    
+
         return returnedValue;
     }
 
@@ -132,7 +132,7 @@ export default class CommonChatController {
             let dav3Skin = document.getElementById("ciapiSkin");
 
             if(dav3Skin) {
-                this.updateDav3DeskproRefererUrls();
+                updateDav3DeskproRefererUrls();
             }
 
 
@@ -184,10 +184,9 @@ export default class CommonChatController {
         this.sdk.getOpenerScripts((openerScripts) => {
             if (openerScripts == null)
                 return;
-            else {
-                for (var openerScript of openerScripts) {
-                    this.container.getTranscript().addOpenerScript(openerScript);
-                }
+
+            for (var openerScript of openerScripts) {
+                this.container.getTranscript().addOpenerScript(openerScript);
             }
         });
     }
@@ -210,15 +209,15 @@ export default class CommonChatController {
     }
 
     _getFixedPopupDiv() {
-        return document.getElementById("HMRC_CIAPI_Fixed_1");
+        return document.getElementById("tc-nuance-chat-container");
     }
 
     _getAnchoredPopupDiv() {
-        return document.getElementById("HMRC_CIAPI_Anchored_1");
+        return document.getElementById("tc-nuance-chat-container");
     }
 
     _moveToChatShownState() {
-        this._moveToState(new ChatStates.ShownState(        
+        this._moveToState(new ChatStates.ShownState(
             (text) => this._engageChat(text),
             () => this.closeChat()));
         this.minimised = false;
@@ -293,7 +292,6 @@ export default class CommonChatController {
 
         return false;
     }
-
 
     // End event handler method
     _sendPostChatSurveyWebchat(sdk) {
@@ -414,7 +412,7 @@ export default class CommonChatController {
                 { id: "q4-", text: getTextAreaValue("q4-"), freeform: true }
             ]
         };
-        
+
         var surveyWithAnswers = Object.assign(answers, digitalAssistantSurvey);
 
         this._sendPostChatSurveyDigitalAssistant(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonDA, timestamp);
@@ -423,7 +421,6 @@ export default class CommonChatController {
     };
 
     onSoundToggle(e) {
-
         let soundElement = document.getElementById("toggleSound");
         let isActive = soundElement.classList.contains("active");
 

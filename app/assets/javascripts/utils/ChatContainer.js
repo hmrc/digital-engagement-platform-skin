@@ -15,6 +15,7 @@ export default class ChatContainer {
         this.container = document.createElement("div")
         this.container.id = "ciapiSkin";
         this.eventHandler = nullEventHandler;
+        this.closeMethod = null;
 
         this.container.insertAdjacentHTML("beforeend", containerHtml);
         this.content = this.container.querySelector("#ciapiSkinChatTranscript");
@@ -82,6 +83,7 @@ export default class ChatContainer {
         });
 
         this._registerEventListener("#ciapiSkinCloseButton", (e) => {
+            this.closeMethod = "Button";
             var ciapiSkinContainer = document.querySelector("#ciapiSkin");
             var endChatNonFocusable = ciapiSkinContainer.querySelectorAll('a[href], input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]');
             endChatNonFocusable.forEach(function (element) {
@@ -122,7 +124,11 @@ export default class ChatContainer {
         this._registerEventListener("#ciapiSkinChatTranscript", (e) => {
             if ((e.target.tagName.toLowerCase() === 'a') && !!e.target.dataset && !!e.target.dataset.vtzJump) {
                 Inq.SDK.sendVALinkMessage(e, null, null, null);
-                this._focusOnNextAutomatonMessage();
+                if(e.target.className != "dialog") {
+                    this._focusOnNextAutomatonMessage();
+                } else {
+                    this.closeMethod = "Link";
+                }
             }
         });
 
@@ -153,7 +159,16 @@ export default class ChatContainer {
         document.getElementById("ciapiSkinChatTranscript").setAttribute("tabindex", 0);
         this.endChatPopup.hide();
 
-        document.getElementById("ciapiSkinCloseButton").focus();
+        var endChatGiveFeedback = Array.from(
+            document.querySelectorAll('.dialog')
+          ).pop();
+
+        if(this.closeMethod === "Button") {
+            document.getElementById("ciapiSkinCloseButton").focus();
+        } else {
+            endChatGiveFeedback.focus();
+        }
+        
     }
 
     _removeSkinHeadingElements() {

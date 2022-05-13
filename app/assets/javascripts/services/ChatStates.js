@@ -107,16 +107,25 @@ export class EngagedState {
                 this._removeAgentIsTyping();
                 transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
             } else {
-                transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
+                if(msg.chatFinalText != "end this chat and give feedback") {
+                    transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
+                }
             }
         } else if (msg.messageType === MessageType.Chat_AutomationRequest) {
             if (this._isSoundActive()) {
-                this._playMessageRecievedSound();
+                if(!!msg.vaDataPass === false) {
+                    this._playMessageRecievedSound();
+                }
             }
-            transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
+            if(!!msg.vaDataPass) {
+                let vaDP = JSON.parse(msg.vaDataPass);
+                if (!!vaDP.endVAEngagement) {
+                  this.closeChat();
+                } 
+              } else {
+                transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
+            }
         } else if (msg.messageType === MessageType.Chat_Exit) {
-            // This message may also have msg.state === "closed".
-            // Not sure about transfer scenarios.
             transcript.addSystemMsg({msg: (msg["display.text"] || "Adviser exited chat")});
         } else if (msg.state === MessageState.Closed) {
             transcript.addSystemMsg({msg: "Agent Left Chat."});
@@ -131,7 +140,6 @@ export class EngagedState {
                 }
             );
         } else if (msg.messageType === MessageType.Chat_Denied) {
-            //            this.isConnected = false;
             transcript.addSystemMsg({msg: "No agents are available."});
         } else if (msg.messageType === MessageType.ChatRoom_MemberLost) {
             transcript.addSystemMsg({msg: msg["display.text"]});
