@@ -56,10 +56,15 @@ export default class CommonChatController {
 
     getRadioId(radioGroup) {
         var elements = document.getElementsByName(radioGroup);
-    
+        console.log("===============into getRadioId method=========");
+        console.log("===============radioGroup= " + radioGroup);
         for (var i = 0, l = elements.length; i < l; i++) {
+            console.log("===============in radio button loop print i = " + i);
+
             // @ts-ignore
             if (elements[i].checked) {
+                console.log("===============in radio button loop elements[i].checked = " + elements[i].checked);
+                console.log("===============in radio button loop elements[i].id = " + elements[i].id);
                 return elements[i].id;
             }
         }
@@ -219,7 +224,7 @@ export default class CommonChatController {
     }
 
     _moveToChatShownState() {
-        this._moveToState(new ChatStates.ShownState(
+        this._moveToState(new ChatStates.ShownState(        
             (text) => this._engageChat(text),
             () => this.closeChat()));
         this.minimised = false;
@@ -348,7 +353,7 @@ export default class CommonChatController {
 
     // Begin event handler methods
     onSend() {
-        const text = this.container.currentInputText().trim()
+        const text = this.container.currentInputText().trim();
         this.container.clearCurrentInputText();
         if (text !== "")
             this.state.onSend(text);
@@ -411,6 +416,7 @@ export default class CommonChatController {
     }
 
     onPostChatSurveyDigitalAssistantSubmitted(surveyPage) {
+        console.log("=============1==got here===============");
         const answers = {
             answers: [
                 { id: getRadioId("q1-"), text: getRadioValue("q1-"), freeform: false },
@@ -419,9 +425,10 @@ export default class CommonChatController {
                 { id: "q4-", text: getTextAreaValue("q4-"), freeform: true }
             ]
         };
-
+        
         var surveyWithAnswers = Object.assign(answers, digitalAssistantSurvey);
 
+        console.log("=============2==got here===============");
         this._sendPostChatSurveyDigitalAssistant(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonDA, timestamp);
         surveyPage.detach();
         this.showEndChatPage(true);
