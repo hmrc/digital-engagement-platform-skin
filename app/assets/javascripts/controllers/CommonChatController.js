@@ -56,15 +56,9 @@ export default class CommonChatController {
 
     getRadioId(radioGroup) {
         var elements = document.getElementsByName(radioGroup);
-        console.log("===============into getRadioId method=========");
-        console.log("===============radioGroup= " + radioGroup);
         for (var i = 0, l = elements.length; i < l; i++) {
-            console.log("===============in radio button loop print i = " + i);
-
             // @ts-ignore
             if (elements[i].checked) {
-                console.log("===============in radio button loop elements[i].checked = " + elements[i].checked);
-                console.log("===============in radio button loop elements[i].id = " + elements[i].id);
                 return elements[i].id;
             }
         }
@@ -78,7 +72,7 @@ export default class CommonChatController {
                 reportTechnicalIssueElement[0].href = reportTechnicalIssueElementHref.concat("-dav3");
             }
         }
-    
+
         let feedbackLinkElement = document.getElementsByClassName('govuk-phase-banner__text');
         if(feedbackLinkElement) {
             let feedbackLinkHref = feedbackLinkElement[0].getElementsByTagName('a')[0].href;
@@ -240,7 +234,6 @@ export default class CommonChatController {
     }
 
     closeChat() {
-
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
             let escalated = this.state.isEscalated();
 
@@ -263,14 +256,12 @@ export default class CommonChatController {
     }
 
     getPrintDate() {
-
         const monthNames = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
         ];
 
         const d = new Date();
         return d.getDate() + " " + monthNames[d.getMonth()] + " " + d.getUTCFullYear();
-
     }
 
     removeElementsForPrint(listOfElements) {
@@ -297,7 +288,6 @@ export default class CommonChatController {
         ];
 
         this.removeElementsForPrint(elementList);
-
 
         window.print();
 
@@ -416,7 +406,6 @@ export default class CommonChatController {
     }
 
     onPostChatSurveyDigitalAssistantSubmitted(surveyPage) {
-        console.log("=============1==got here===============");
         const answers = {
             answers: [
                 { id: getRadioId("q1-"), text: getRadioValue("q1-"), freeform: false },
@@ -428,7 +417,6 @@ export default class CommonChatController {
         
         var surveyWithAnswers = Object.assign(answers, digitalAssistantSurvey);
 
-        console.log("=============2==got here===============");
         this._sendPostChatSurveyDigitalAssistant(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonDA, timestamp);
         surveyPage.detach();
         this.showEndChatPage(true);
@@ -449,8 +437,7 @@ export default class CommonChatController {
             soundElement.classList.add("active");
 
             soundElement.innerHTML = "Turn notification sound off";
-        }
-
-    }
+        };
+    };
 
 };

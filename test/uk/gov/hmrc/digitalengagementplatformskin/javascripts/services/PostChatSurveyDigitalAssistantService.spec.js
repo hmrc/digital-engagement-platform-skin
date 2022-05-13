@@ -270,8 +270,8 @@ describe("PostChatSurveyDigitalAssistantService", () => {
         });
     });
 
-    it("sends event for submitting a post chat survey without other option populated", () => {
-            const sdk = {
+    it("sends event for submitting a post chat survey without other option populated", () => {   
+        const sdk = {
                 getChatParams: () => { return chatParams; },
                 isConnected: () => { return true; },
                 logEventToDW: jest.fn()
