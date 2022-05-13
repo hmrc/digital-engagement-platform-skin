@@ -15,20 +15,20 @@ export default class ReactiveChatController {
         this.sdk = null;
         this.c2cButtons = new ClickToChatButtons((c2cIdx) => this._onC2CButtonClicked(c2cIdx), c2cDisplayStateMessages);
         this.commonChatController = new CommonChatController();
-    };
+    }
 
     addC2CButton(c2cObj, divID, buttonClass) {
         this.c2cButtons.addButton(
             c2cObj,
             new ClickToChatButton(document.getElementById(divID), buttonClass)
         );
-    };
+    }
 
     _onC2CButtonClicked(c2cIdx) {
         this.sdk = window.Inq.SDK;
         this.sdk.onC2CClicked(c2cIdx, (state) => {
             this.commonChatController._launchChat();
         });
-    };
+    }
 
-};
+}

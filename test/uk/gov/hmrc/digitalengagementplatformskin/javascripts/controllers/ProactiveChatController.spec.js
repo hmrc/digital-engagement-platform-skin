@@ -8,6 +8,7 @@ describe("ProactiveChatController", () => {
     });
 
     it("launches a proactive chat", () => {
+        console.error = jest.fn();
         const commonChatController = new CommonChatController();
         const proactiveChatController = new ProactiveChatController();
 

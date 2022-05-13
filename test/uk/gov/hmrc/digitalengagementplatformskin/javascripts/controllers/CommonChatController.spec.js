@@ -485,7 +485,7 @@ describe("CommonChatController", () => {
     
     expect(spy).toBeCalledTimes(1);
   });
-   
+
   it("getPrintDate sould return the date", () => {
     const commonChatController = new CommonChatController();
     var getPrintDateSpy = jest.spyOn(commonChatController, 'getPrintDate');
@@ -687,8 +687,7 @@ describe("CommonChatController", () => {
                     you or the Tax Credit Office made a mistake
                 </li>
                 <li>
-                    you did not renew your    const state = new ChatStates.NullState();
-                    commonChatController.state = state; tax credits on time
+                    you did not renew your tax credits on time
                 </li>
               </ul>
               When did your overpayment happen? 

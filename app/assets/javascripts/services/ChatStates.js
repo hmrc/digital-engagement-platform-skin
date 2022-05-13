@@ -4,7 +4,7 @@ import * as MessageState from '../NuanceMessageState';
 // State at start, before anything happens.
 export class NullState {
     onSend(text) {
-        console.error("State Error: Trying to send text with no state. ");
+        console.error("State Error: Trying to send text with no state.");
     }
 
     onClickedClose() {

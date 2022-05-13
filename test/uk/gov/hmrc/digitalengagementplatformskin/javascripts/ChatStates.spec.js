@@ -29,7 +29,7 @@ describe("Chat States", () => {
             const state = new ChatStates.NullState();
 
             state.onSend("Some text that will be ignored");
-            expect(console.error).toHaveBeenCalledWith("State Error: Trying to send text with no state. ");
+            expect(console.error).toHaveBeenCalledWith("State Error: Trying to send text with no state.");
         });
 
         it("logs error for onClickedClose", () => {
