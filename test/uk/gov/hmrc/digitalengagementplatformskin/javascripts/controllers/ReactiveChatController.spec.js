@@ -13,7 +13,7 @@ describe("ReactiveChatController", () => {
     beforeEach(() => {
         // Clear all instances and calls to constructor and all methods:
         ClickToChatButtons.mockClear();
-      });
+    });
 
     it("create an instance of click to chat buttons", () => {
         new ReactiveChatController();
