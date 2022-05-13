@@ -78,6 +78,7 @@ $footer-top-border-height: 3px;
     position: relative;
     border-bottom: $footer-top-border-height solid rgb(11, 12, 12);
     margin-bottom: 1.25em;
+    position: relative; // reqd to constrain the end chat overlay
 }
 .ciapiSkinChatTranscript:focus {
     box-shadow: 0 0 0 3px #fd0;
