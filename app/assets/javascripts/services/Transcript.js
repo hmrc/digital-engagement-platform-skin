@@ -88,34 +88,70 @@ export default class Transcript {
             }
 
             if(isForm) {
+                console.log("THIS IS THE MESSAGE : " + msg)
                 let formData = JSON.parse(msg);
+                
+                let label1 = formData.nodes[0].controls[0].label;
 
-               let label1 = formData.nodes[0].controls[0].label;
-               let id1 = formData.nodes[0].controls[0].id;
-               let label2 = formData.nodes[0].controls[1].label;
-               let id2 = formData.nodes[0].controls[1].id;
-               let buttonId = formData.nodes[0].controls[2].id;
-               let buttonText = formData.nodes[0].controls[2].text;
+                if(label1 === "First Name") {
+                    let id1 = formData.nodes[0].controls[0].id;
+                    let label2 = formData.nodes[0].controls[1].label;
+                    let id2 = formData.nodes[0].controls[1].id;
+                    let pegaFormButtonId = formData.nodes[0].controls[2].id;
+                    let buttonText = formData.nodes[0].controls[2].text;
+                    let displayText = formData.transitions[0].to.sendMessage.displayText;
+                    let data =  {"firstName": "hello","familyName": "test","displayText": "Details Submitted"}
 
-                msg = `<div class="nuan-widget-outer-cont" style="height: 100%;">
-                <div tabindex="-1" class="nuan-widget-container nuan-mlr-1 nuan-p-1 form">
-                   <div class="nuan-row input">
-                      <fieldset class="govuk-fieldset">
-                         <label class="govuk-label govuk-label--m" for="${id1}" >${label1}</label>
-                         <div style="position:relative;"><input type="text" class="govuk-input" id="${id1}"><span class="validation-error-icon"></span></div>
-                      </fieldset>
-                   </div>
-                   <div class="nuan-row input">
-                      <fieldset class="govuk-fieldset">
-                         <label class="govuk-label govuk-label--m" for="${id2}">${label2}</label>
-                         <div style="position:relative;"><input type="text" class="govuk-input" id="${id2}"><span class="validation-error-icon"></span></div>
-                      </fieldset>
-                   </div>
-                   <button data-module="govuk-button" data-prevent-double-click="true" id="${buttonId}" class="govuk-button nuanbtn nuanbtn-success nuanbtn-sm close"><span class="nuan-inline-block"><span data-id="${buttonId}" class="nuanbtn-text">${buttonText}</span></span></button></div>
-                </div>
-             </div>`
-                document.getElementById(id).innerHTML = "<div class=govuk-visually-hidden>" + msg_type + "</div> " + msg;
-                document.getElementById(id).classList.remove("msg-opacity");
+                    msg = `<div class="nuan-widget-outer-cont" style="height: 100%;">
+                    <div tabindex="-1" class="nuan-widget-container nuan-mlr-1 nuan-p-1 form">
+                        <div class="nuan-row input">
+                            <fieldset class="govuk-fieldset">
+                                <label class="govuk-label govuk-label--m" for="${id1}" >${label1}</label>
+                                <div style="position:relative;"><input type="text" class="govuk-input" id="${id1}"><span class="validation-error-icon"></span></div>
+                            </fieldset>
+                        </div>
+                        <div class="nuan-row input">
+                            <fieldset class="govuk-fieldset">
+                                <label class="govuk-label govuk-label--m" for="${id2}">${label2}</label>
+                                <div style="position:relative;"><input type="text" class="govuk-input" id="${id2}"><span class="validation-error-icon"></span></div>
+                            </fieldset>
+                        </div>
+                        <button data-module="govuk-button" data-prevent-double-click="true" id="${pegaFormButtonId}" class="govuk-button nuanbtn nuanbtn-success nuanbtn-sm close"><span class="nuan-inline-block"><span data-id="${pegaFormButtonId}" class="nuanbtn-text">${buttonText}</span></span></button></div>
+                    </div>
+                    </div>`
+
+                    document.getElementById(id).innerHTML = "<div class=govuk-visually-hidden>" + msg_type + "</div> " + msg;
+                    document.getElementById(id).classList.remove("msg-opacity");
+
+                    document.querySelector('#' + pegaFormButtonId).addEventListener('click', (e) => {
+                        window.Inq.SDK.sendRichContentMessage(displayText, data, () => {})
+                    });
+                } else {
+                    let id1 = formData.nodes[0].controls[0].id;
+                    let pegaFormButtonId = formData.nodes[0].controls[1].id;
+                    let buttonText = formData.nodes[0].controls[1].text;
+                    let displayText = formData.transitions[0].to.sendMessage.displayText;
+                    let data =  {"NINo": "test nino", "displayText": "Details Submitted"}
+                    msg = `<div class="nuan-widget-outer-cont" style="height: 100%;">
+                    <div tabindex="-1" class="nuan-widget-container nuan-mlr-1 nuan-p-1 form">
+                        <div class="nuan-row input">
+                            <fieldset class="govuk-fieldset">
+                                <label class="govuk-label govuk-label--m" for="${id1}" >${label1}</label>
+                                <div style="position:relative;"><input type="text" class="govuk-input" id="${id1}"><span class="validation-error-icon"></span></div>
+                            </fieldset>
+                        </div>
+                        <button data-module="govuk-button" data-prevent-double-click="true" id="${pegaFormButtonId}" class="govuk-button nuanbtn nuanbtn-success nuanbtn-sm close"><span class="nuan-inline-block"><span data-id="${pegaFormButtonId}" class="nuanbtn-text">${buttonText}</span></span></button></div>
+                    </div>
+                    </div>`
+
+                    document.getElementById(id).innerHTML = "<div class=govuk-visually-hidden>" + msg_type + "</div> " + msg;
+                    document.getElementById(id).classList.remove("msg-opacity");
+
+                    document.querySelector('#' + pegaFormButtonId).addEventListener('click', (e) => {
+                        window.Inq.SDK.sendRichContentMessage(displayText, data, () => {})
+                    });
+                }
+
             } else {
                 document.getElementById(id).innerHTML = "<div class=govuk-visually-hidden>" + msg_type + "</div> " + msg;
                 document.getElementById(id).classList.remove("msg-opacity");
