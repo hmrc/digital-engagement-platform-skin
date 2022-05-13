@@ -614,114 +614,31 @@ describe("CommonChatController", () => {
 
   it("onSend cleans and sends customer imput text", () => {
     const commonChatController = new CommonChatController();
-    const html = `
-      <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript print-overflow-visible" tabindex="0" aria-label="chat transcript">
-      <div id="skipToBottom"><a id="skipToBottomLink" href="#" class="govuk-skip-link">Skip to bottom of conversation</a></div>
-      <p id="info" class="info govuk-!-display-none-print"><img role="img" src="/ask-hmrc/assets/media/intro-warn.svg" alt="Note">You are currently chatting with a computer.</p>
-      <div class="timestamp-outer">
-        <span class="print-only print-float-left govuk-!-font-weight-bold govuk-body">HMRC: </span>
-        <div class="ciapi-agent-container">
-          <div class="govuk-body ciapi-agent-message" tabindex="-1" id="liveMsgId77.67248247728101" aria-live="polite">
-            <
-            <div class="govuk-visually-hidden">
-                <h3>Automated message : </h3>
-            </div>
-            Hello, I’m HMRC’s digital assistant.<br><br>
-            Tell me in a few words what you’d like help with.<br><br>
-            Do not give me any personal information.
-          </div>
-        </div>
-        <p class="print-only govuk-body print-float-left">9:50 AM</p>
-      </div>
-      <div class="timestamp-outer">
-        <span class="print-only print-float-right govuk-!-font-weight-bold govuk-body">You: </span>
-        <div class="ciapi-customer-container" style="padding-bottom: 94px;">
-          <div class="govuk-body ciapi-customer-message" id="liveMsgId81.62846145434919">
-            <div class="govuk-visually-hidden">
-                <h2>You said : </h2>
-            </div>
-            help
-          </div>
-        </div>
-        <p class="print-only govuk-body print-float-right print-timestamp-right">1:26 PM</p>
-      </div>
-      <div class="timestamp-outer">
-        <span class="print-only print-float-left govuk-!-font-weight-bold govuk-body">HMRC: </span>
-        <div class="ciapi-agent-container" aria-live="polite">
-          <div class="govuk-body ciapi-agent-message" tabindex="-1" id="liveAutomatedMsgId50.024492584533256">
-            <div class="govuk-visually-hidden">
-                <h3>Automated message : </h3>
-            </div>
-            <div id="automaton_vaLink_1652358383000">
-                I can help you by answering questions related to HMRC, helping you find information on our website, and giving you more options to contact us.<br><br>
-                Tell me in a few words what you'd like help with.
-            </div>
-          </div>
-        </div>
-        <p class="print-only govuk-body print-float-left">1:26 PM</p>
-      </div>
-      <div class="timestamp-outer">
-        <span class="print-only print-float-right govuk-!-font-weight-bold govuk-body">You: </span>
-        <div class="ciapi-customer-container" style="padding-bottom: 94px;">
-          <div class="govuk-body ciapi-customer-message" id="liveMsgId35.87495140948258">
-            <div class="govuk-visually-hidden">
-                <h2>You said : </h2>
-            </div>
-            why can you not hepl me?
-          </div>
-        </div>
-        <p class="print-only govuk-body print-float-right print-timestamp-right">1:45 PM</p>
-      </div>
-      <div class="timestamp-outer">
-        <span class="print-only print-float-left govuk-!-font-weight-bold govuk-body">HMRC: </span>
-        <div class="ciapi-agent-container" aria-live="polite">
-          <div class="govuk-body ciapi-agent-message" tabindex="-1" id="liveAutomatedMsgId81.74800921715561">
-            <div class="govuk-visually-hidden">
-                <h3>Automated message : </h3>
-            </div>
-            <div id="automaton_vaLink_1652359519000">
-              You might have been overpaid tax credits if:
-              <ul>
-                <li>
-                    there was a change in your circumstances - even if you reported the change on time
-                </li>
-                <li>
-                    you or the Tax Credit Office made a mistake
-                </li>
-                <li>
-                    you did not renew your tax credits on time
-                </li>
-              </ul>
-              When did your overpayment happen? 
-              <ul>
-                <li><a href="#" data-vtz-link-type="Dialog" data-vtz-jump="83eec1e2-0f20-436d-84cd-3a15df45f51b">The previous tax year</a></li>
-                <li><a href="#" data-vtz-link-type="Dialog" data-vtz-jump="cbeffc2b-d5f8-4ba9-b42c-7b6b434148aa">This tax year</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <p class="print-only govuk-body print-float-left">1:45 PM</p>
-      </div>
-      <div id="skipToTop" class="skipToTopWithScroll govuk-!-padding-top-2"><a id="skipToTopLink" href="#" class="govuk-skip-link">Skip to top of conversation</a></div>
-    </div>
-    `;
+    const html = `<textarea id="custMsg" aria-label="Type your message here" placeholder="Type your message here" class="govuk-textarea" cols="50" name="comments">Testing 123</textarea>`;
     document.body.innerHTML = html;
 
-    console.error = jest.fn();
+    const sdk = {
+      sendMessage: jest.fn(),
+      getMessages: jest.fn()
+    }
+
     const container = {
-      currentInputText: jest.fn().mockReturnValue(html),
+      currentInputText: jest.fn().mockReturnValue("Testing 123"),
       clearCurrentInputText: jest.fn()
     };
     commonChatController.container = container;
 
-    const state = new ChatStates.NullState();
+    const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
     commonChatController.state = state;
 
     let currentInputTextSpy = jest.spyOn(commonChatController.container, 'currentInputText');
     let clearCurrentInputTextSpy = jest.spyOn(commonChatController.container, 'clearCurrentInputText');
-    commonChatController.onSend("Some text that will be ignored");
+    commonChatController.onSend();
 
     expect(currentInputTextSpy).toBeCalledTimes(1);
     expect(clearCurrentInputTextSpy).toBeCalledTimes(1);
+
+    expect(document.getElementById("custMsg")).not.toContain("Testing 123");
+    expect(sdk.sendMessage).toHaveBeenCalledTimes(1);
   });
 });

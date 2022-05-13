@@ -134,10 +134,8 @@ export default class CommonChatController {
             let dav3Skin = document.getElementById("ciapiSkin");
 
             if(dav3Skin) {
-                updateDav3DeskproRefererUrls();
+                this.updateDav3DeskproRefererUrls();
             }
-
-
         } catch (e) {
             console.error("!!!! launchChat got exception: ", e);
         }
