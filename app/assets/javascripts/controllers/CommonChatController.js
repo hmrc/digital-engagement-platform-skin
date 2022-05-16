@@ -391,12 +391,12 @@ export default class CommonChatController {
     onPostChatSurveyWebchatSubmitted(surveyPage) {
         const answers = {
             answers: [
-                { id: getRadioId("q1-"), text: getRadioValue("q1-"), freeform: false },
-                { id: getRadioId("q2-"), text: getRadioValue("q2-"), freeform: false },
-                { id: getRadioId("q3-"), text: getRadioValue("q3-"), freeform: false },
-                { id: "q4-", text: getTextAreaValue("q4-"), freeform: true },
-                { id: getRadioId("q5-"), text: getRadioValue("q5-"), freeform: false },
-                { id: "q6-", text: getTextAreaValue("q6-"), freeform: true }
+                { id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false },
+                { id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false },
+                { id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false },
+                { id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true },
+                { id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false },
+                { id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true }
             ]
         };
 
@@ -410,10 +410,10 @@ export default class CommonChatController {
     onPostChatSurveyDigitalAssistantSubmitted(surveyPage) {
         const answers = {
             answers: [
-                { id: getRadioId("q1-"), text: getRadioValue("q1-"), freeform: false },
-                { id: "q2-", text: getTextAreaValue("q2-"), freeform: true },
-                { id: getRadioId("q3-"), text: getRadioValue("q3-"), freeform: false },
-                { id: "q4-", text: getTextAreaValue("q4-"), freeform: true }
+                { id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false },
+                { id: "q2-", text: this.getTextAreaValue("q2-"), freeform: true },
+                { id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false },
+                { id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true }
             ]
         };
 
