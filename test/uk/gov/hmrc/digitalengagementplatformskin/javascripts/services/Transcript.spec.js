@@ -125,7 +125,7 @@ describe("Transcript", () => {
             scrollTo: jest.fn(),
             scrollHeight: 666
         };
-  
+
         const transcript = new Transcript(content, messageClasses);
 
         transcript._appendMessage("test1", "time", messageClasses.Customer, "test3", true);
@@ -147,7 +147,7 @@ describe("Transcript", () => {
             scrollTo: jest.fn(),
             scrollHeight: 666
         };
-      
+
         const transcript = new Transcript(content, messageClasses);
 
         transcript._appendMessage("test1", "time", messageClasses.Agent, "test3", false);
