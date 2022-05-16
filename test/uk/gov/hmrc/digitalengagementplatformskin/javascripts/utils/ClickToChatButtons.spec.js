@@ -33,7 +33,6 @@ function c2cObj(displayState, launchable = false) {
 
 describe("ClickToChatButtons", () => {
     it("adds a button with active state", () => {
-        console.error = jest.fn();
         const [, buttons, button] = setup();
 
         buttons.addButton(c2cObj(DisplayState.ChatActive), button);
@@ -42,7 +41,6 @@ describe("ClickToChatButtons", () => {
     });
 
     it("adds a button with out-of-hours state", () => {
-        console.error = jest.fn();
         const [, buttons, button] = setup();
 
         buttons.addButton(c2cObj(DisplayState.OutOfHours), button);
@@ -51,7 +49,6 @@ describe("ClickToChatButtons", () => {
     });
 
     it("adds a button with ready state", () => {
-        console.error = jest.fn();
         const [, buttons, button] = setup();
 
         buttons.addButton(c2cObj(DisplayState.Ready), button);
@@ -60,7 +57,6 @@ describe("ClickToChatButtons", () => {
     });
 
     it("adds a button with busy state", () => {
-        console.error = jest.fn();
         const [, buttons, button] = setup();
 
         buttons.addButton(c2cObj(DisplayState.Busy), button);
