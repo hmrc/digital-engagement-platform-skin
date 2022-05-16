@@ -64,7 +64,5 @@ describe("ProactiveChatController", () => {
     commonChatController._showChat();
 
     expect(document.getElementById("ciapiSkinChatTranscript").innerHTML).not.toBe(null);
-    expect(sdk.getOpenerScripts).toHaveBeenCalledTimes(1);
-    expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1);
   });
 });
