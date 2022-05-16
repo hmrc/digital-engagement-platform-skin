@@ -13,6 +13,7 @@ describe("ReactiveChatController", () => {
     beforeEach(() => {
         // Clear all instances and calls to constructor and all methods:
         ClickToChatButtons.mockClear();
+        console.error = jest.fn();
     });
 
     it("create an instance of click to chat buttons", () => {
@@ -31,11 +32,23 @@ describe("ReactiveChatController", () => {
         window.Inq = {
             SDK: sdk
         };
-
+        let _onC2CButtonClickedSpy = jest.spyOn(reactiveChatController, '_onC2CButtonClicked');
         reactiveChatController._onC2CButtonClicked();
 
         expect(sdk.onC2CClicked).toHaveBeenCalledTimes(1);
-
+        expect(_onC2CButtonClickedSpy).toBeCalledTimes(1);
     });
 
+    it("addC2CButton creates a new ClickToChatButton", () => {
+        const reactiveChatController = new ReactiveChatController();
+        const c2cObj = 'ChatActiveText';
+        const divId = "div-id";
+        const buttonClass = "button-class"
+
+
+        let addC2CButtonSpy = jest.spyOn(reactiveChatController, 'addC2CButton');
+        reactiveChatController.addC2CButton(c2cObj, divId, buttonClass);
+
+        expect(addC2CButtonSpy).toHaveBeenCalledTimes(1);
+    });
 });
