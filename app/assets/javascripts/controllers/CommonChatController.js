@@ -408,7 +408,6 @@ export default class CommonChatController {
     }
 
     onPostChatSurveyDigitalAssistantSubmitted(surveyPage) {
-        console.log("=============1==got here===============");
         const answers = {
             answers: [
                 { id: getRadioId("q1-"), text: getRadioValue("q1-"), freeform: false },
@@ -419,8 +418,6 @@ export default class CommonChatController {
         };
 
         var surveyWithAnswers = Object.assign(answers, digitalAssistantSurvey);
-
-        console.log("=============2==got here===============");
         this._sendPostChatSurveyDigitalAssistant(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonDA, timestamp);
         surveyPage.detach();
         this.showEndChatPage(true);

@@ -114,13 +114,6 @@ export default class ChatContainer {
             }
         })
 
-        /* this.custInput.addEventListener('keypress', (e) => {
-            if (e.which == 13) {
-                this.eventHandler.onSend();
-                e.preventDefault()
-            }
-        }); */
-
         this._registerEventListener("#ciapiSkinChatTranscript", (e) => {
             if ((e.target.tagName.toLowerCase() === 'a') && !!e.target.dataset && !!e.target.dataset.vtzJump) {
                 Inq.SDK.sendVALinkMessage(e, null, null, null);

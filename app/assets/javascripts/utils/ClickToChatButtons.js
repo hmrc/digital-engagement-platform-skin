@@ -17,7 +17,6 @@ export default class ClickToChatButtons {
             const c2cObj = {
                 c2cIdx: c2cId,
                 displayState: DisplayState.ChatActive,
-                displayState: DisplayState.ChatActive,
                 launchable: false
             };
             this._updateButton(c2cObj, this.buttons[c2cId]);

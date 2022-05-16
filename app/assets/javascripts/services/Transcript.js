@@ -196,6 +196,9 @@ export default class Transcript {
                     printOuterTimeStamp.classList.add("agent-typing");
                     var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
                 } else {
+                    if (joinTransfer == "true") {
+                        printOuterTimeStamp.classList.add("agent-joins-conference");
+                    }
                     var msgDiv = `<div class= govuk-!-display-none-print ${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id} aria-live=polite></div></div>`;
                 }
             } else {
