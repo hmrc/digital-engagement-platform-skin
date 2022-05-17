@@ -43,63 +43,66 @@ const digitalAssistantSurvey = {
     ]
 }
 
-function getTextAreaValue(textArea) {
-    return document.getElementById(textArea).value;
-}
-
-function getRadioValue(radioGroup) {
-    var elements = document.getElementsByName(radioGroup);
-    var returnedValue = null;
-
-    for (var i = 0, l = elements.length; i < l; i++) {
-        if (elements[i].checked) {
-            returnedValue = elements[i].value;
-        }
-    }
-
-    if (!returnedValue) {
-        returnedValue = "";
-    }
-
-    return returnedValue;
-}
-
-function getRadioId(radioGroup) {
-    var elements = document.getElementsByName(radioGroup);
-
-    for (var i = 0, l = elements.length; i < l; i++) {
-        // @ts-ignore
-        if (elements[i].checked) {
-            return elements[i].id;
-        }
-    }
-}
-
-function updateDav3DeskproRefererUrls() {
-    let reportTechnicalIssueElement = document.getElementsByClassName('hmrc-report-technical-issue');
-    if(reportTechnicalIssueElement) {
-        let reportTechnicalIssueElementHref = reportTechnicalIssueElement[0].href;
-        reportTechnicalIssueElement[0].href = reportTechnicalIssueElementHref.concat("-dav3");
-    }
-
-    let feedbackLinkElement = document.getElementsByClassName('govuk-phase-banner__text');
-    if(feedbackLinkElement) {
-        let feedbackLinkHref = feedbackLinkElement[0].getElementsByTagName('a')[0].href;
-        feedbackLinkElement[0].getElementsByTagName('a')[0].href = feedbackLinkHref.concat("-dav3");
-    }
-
-    let accessibilityLinkElement = document.getElementsByClassName('govuk-footer__link');
-    if(accessibilityLinkElement) {
-        let accessibilityLinkHref = accessibilityLinkElement[1].href;
-        accessibilityLinkElement[1].href = accessibilityLinkHref.concat("-dav3");
-    }
-}
-
 export default class CommonChatController {
     constructor() {
         this.sdk = null;
         this.state = new ChatStates.NullState();
         this.minimised = false;
+    }
+
+    getTextAreaValue(textArea) {
+        return document.getElementById(textArea).value;
+    }
+
+    getRadioId(radioGroup) {
+        var elements = document.getElementsByName(radioGroup);
+
+        for (var i = 0, l = elements.length; i < l; i++) {
+
+            // @ts-ignore
+            if (elements[i].checked) {
+                return elements[i].id;
+            }
+        }
+    }
+
+    updateDav3DeskproRefererUrls() {
+        let reportTechnicalIssueElement = document.getElementsByClassName('hmrc-report-technical-issue');
+        if(reportTechnicalIssueElement) {
+            if(reportTechnicalIssueElement[0].href) {
+                let reportTechnicalIssueElementHref = reportTechnicalIssueElement[0].href;
+                reportTechnicalIssueElement[0].href = reportTechnicalIssueElementHref.concat("-dav3");
+            }
+        }
+    
+        let feedbackLinkElement = document.getElementsByClassName('govuk-phase-banner__text');
+        if(feedbackLinkElement) {
+            let feedbackLinkHref = feedbackLinkElement[0].getElementsByTagName('a')[0].href;
+            feedbackLinkElement[0].getElementsByTagName('a')[0].href = feedbackLinkHref.concat("-dav3");
+        }
+
+        let accessibilityLinkElement = document.getElementsByClassName('govuk-footer__link');
+        if(accessibilityLinkElement) {
+            let accessibilityLinkHref = accessibilityLinkElement[1].href;
+            accessibilityLinkElement[1].href = accessibilityLinkHref.concat("-dav3");
+        }
+    }
+
+    getRadioValue(radioGroup) {
+        var elements = document.getElementsByName(radioGroup);
+        var returnedValue = null;
+
+        for (var i = 0, l = elements.length; i < l; i++) {
+            if (elements[i].checked) {
+                returnedValue = elements[i].value;
+            }
+        }
+
+        if (!returnedValue) {
+            returnedValue = "";
+        }
+
+        return returnedValue;
     }
 
     _launchChat() {
@@ -131,10 +134,8 @@ export default class CommonChatController {
             let dav3Skin = document.getElementById("ciapiSkin");
 
             if(dav3Skin) {
-                updateDav3DeskproRefererUrls();
+                this.updateDav3DeskproRefererUrls();
             }
-
-
         } catch (e) {
             console.error("!!!! launchChat got exception: ", e);
         }
@@ -232,6 +233,7 @@ export default class CommonChatController {
     }
 
     closeChat() {
+
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
             let escalated = this.state.isEscalated();
 
@@ -254,6 +256,7 @@ export default class CommonChatController {
     }
 
     getPrintDate() {
+
         const monthNames = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
         ];
@@ -287,6 +290,7 @@ export default class CommonChatController {
         ];
 
         this.removeElementsForPrint(elementList);
+
 
         window.print();
 
@@ -341,7 +345,7 @@ export default class CommonChatController {
 
     // Begin event handler methods
     onSend() {
-        const text = this.container.currentInputText().trim()
+        const text = this.container.currentInputText().trim();
         this.container.clearCurrentInputText();
         if (text !== "")
             this.state.onSend(text);
@@ -387,12 +391,12 @@ export default class CommonChatController {
     onPostChatSurveyWebchatSubmitted(surveyPage) {
         const answers = {
             answers: [
-                { id: getRadioId("q1-"), text: getRadioValue("q1-"), freeform: false },
-                { id: getRadioId("q2-"), text: getRadioValue("q2-"), freeform: false },
-                { id: getRadioId("q3-"), text: getRadioValue("q3-"), freeform: false },
-                { id: "q4-", text: getTextAreaValue("q4-"), freeform: true },
-                { id: getRadioId("q5-"), text: getRadioValue("q5-"), freeform: false },
-                { id: "q6-", text: getTextAreaValue("q6-"), freeform: true }
+                { id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false },
+                { id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false },
+                { id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false },
+                { id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true },
+                { id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false },
+                { id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true }
             ]
         };
 
@@ -406,19 +410,18 @@ export default class CommonChatController {
     onPostChatSurveyDigitalAssistantSubmitted(surveyPage) {
         const answers = {
             answers: [
-                { id: getRadioId("q1-"), text: getRadioValue("q1-"), freeform: false },
-                { id: "q2-", text: getTextAreaValue("q2-"), freeform: true },
-                { id: getRadioId("q3-"), text: getRadioValue("q3-"), freeform: false },
-                { id: "q4-", text: getTextAreaValue("q4-"), freeform: true }
+                { id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false },
+                { id: "q2-", text: this.getTextAreaValue("q2-"), freeform: true },
+                { id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false },
+                { id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true }
             ]
         };
 
         var surveyWithAnswers = Object.assign(answers, digitalAssistantSurvey);
-
         this._sendPostChatSurveyDigitalAssistant(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonDA, timestamp);
         surveyPage.detach();
         this.showEndChatPage(true);
-    }
+    };
 
     onSoundToggle(e) {
         let soundElement = document.getElementById("toggleSound");
@@ -435,5 +438,7 @@ export default class CommonChatController {
 
             soundElement.innerHTML = "Turn notification sound off";
         }
+
     }
+
 };
