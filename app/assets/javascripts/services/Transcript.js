@@ -1,5 +1,18 @@
 import * as MessageState from '../NuanceMessageState';
 
+function isJsonString(str) {
+    console.log("This is the string we are checking is json : " + str )
+   
+    try {
+        const result = JSON.parse(str);
+        const type = Object.prototype.toString.call(result);
+        return type === '[object Object]' 
+            || type === '[object Array]';
+    } catch (err) {
+        return false;
+    }
+}
+
 export default class Transcript {
     constructor(content, classes, msgPrefix) {
         this.content = content;
@@ -88,68 +101,104 @@ export default class Transcript {
             }
 
             if(isForm) {
-                console.log("THIS IS THE MESSAGE : " + msg)
-                let formData = JSON.parse(msg);
-                
-                let label1 = formData.nodes[0].controls[0].label;
 
-                if(label1 === "First Name") {
-                    let id1 = formData.nodes[0].controls[0].id;
-                    let label2 = formData.nodes[0].controls[1].label;
-                    let id2 = formData.nodes[0].controls[1].id;
-                    let pegaFormButtonId = formData.nodes[0].controls[2].id;
-                    let buttonText = formData.nodes[0].controls[2].text;
-                    let displayText = formData.transitions[0].to.sendMessage.displayText;
-                    let data =  {"firstName": "hello","familyName": "test","displayText": "Details Submitted"}
+                if(isJsonString(msg) === true) {
 
-                    msg = `<div class="nuan-widget-outer-cont" style="height: 100%;">
-                    <div tabindex="-1" class="nuan-widget-container nuan-mlr-1 nuan-p-1 form">
-                        <div class="nuan-row input">
-                            <fieldset class="govuk-fieldset">
-                                <label class="govuk-label govuk-label--m" for="${id1}" >${label1}</label>
-                                <div style="position:relative;"><input type="text" class="govuk-input" id="${id1}"><span class="validation-error-icon"></span></div>
-                            </fieldset>
+                    let formData = JSON.parse(msg);
+                    
+                    let label1 = formData.nodes[0].controls[0].label;
+
+                    if(label1 === "First Name") {
+                        let id1 = formData.nodes[0].controls[0].id;
+                        let label2 = formData.nodes[0].controls[1].label;
+                        let id2 = formData.nodes[0].controls[1].id;
+                        let pegaFormButtonId1 = formData.nodes[0].controls[2].id;
+                        let buttonText = formData.nodes[0].controls[2].text;
+                        let displayText = formData.transitions[0].to.sendMessage.displayText;
+                        
+
+                        msg = `<div class="nuan-widget-outer-cont" style="height: 100%;">
+                        <div tabindex="-1" class="nuan-widget-container nuan-mlr-1 nuan-p-1 form">
+                            <div class="nuan-row input">
+                                <fieldset class="govuk-fieldset">
+                                    <label class="govuk-label govuk-label--m" for="${id1}" >${label1}</label>
+                                    <div style="position:relative;"><input type="text" class="govuk-input" id="${id1}"><span class="validation-error-icon"></span></div>
+                                </fieldset>
+                            </div>
+                            <div class="nuan-row input">
+                                <fieldset class="govuk-fieldset">
+                                    <label class="govuk-label govuk-label--m" for="${id2}">${label2}</label>
+                                    <div style="position:relative;"><input type="text" class="govuk-input" id="${id2}"><span class="validation-error-icon"></span></div>
+                                </fieldset>
+                            </div>
+                            <button data-module="govuk-button" data-prevent-double-click="true" id="${pegaFormButtonId1}" class="govuk-button nuanbtn nuanbtn-success nuanbtn-sm close"><span class="nuan-inline-block"><span data-id="${pegaFormButtonId1}" class="nuanbtn-text">${buttonText}</span></span></button></div>
                         </div>
-                        <div class="nuan-row input">
-                            <fieldset class="govuk-fieldset">
-                                <label class="govuk-label govuk-label--m" for="${id2}">${label2}</label>
-                                <div style="position:relative;"><input type="text" class="govuk-input" id="${id2}"><span class="validation-error-icon"></span></div>
-                            </fieldset>
+                        </div>`
+
+                        document.getElementById(id).innerHTML = "<div class=govuk-visually-hidden>" + msg_type + "</div> " + msg;
+                        document.getElementById(id).classList.remove("msg-opacity");
+
+                        document.getElementById("custMsg").disabled = true;
+                        document.getElementById(id1).focus();
+
+                        document.querySelector('#' + pegaFormButtonId1).addEventListener('click', (e) => {
+                            let firstNameValue = document.getElementById(id1).value;
+                            let familyNameValue = document.getElementById(id2).value;
+
+                            let data =  {"firstName": "" + firstNameValue + "","familyName": "" + familyNameValue + "","displayText": "" + displayText + ""};
+                            window.Inq.SDK.sendRichContentMessage(displayText, data, () => {});
+                        });
+                    } else {
+                        let id1 = formData.nodes[0].controls[0].id;
+                        let pegaFormButtonId2 = formData.nodes[0].controls[1].id;
+                        let buttonText = formData.nodes[0].controls[1].text;
+                        let displayText = formData.transitions[0].to.sendMessage.displayText;
+                        msg = `<div class="nuan-widget-outer-cont" style="height: 100%;">
+                        <div tabindex="-1" class="nuan-widget-container nuan-mlr-1 nuan-p-1 form">
+                            <div class="nuan-row input">
+                                <fieldset class="govuk-fieldset">
+                                    <label class="govuk-label govuk-label--m" for="${id1}" >${label1}</label>
+                                    <div style="position:relative;"><input type="text" class="govuk-input" id="${id1}"><span class="validation-error-icon"></span></div>
+                                </fieldset>
+                            </div>
+                            <button data-module="govuk-button" data-prevent-double-click="true" id="${pegaFormButtonId2}" class="govuk-button nuanbtn nuanbtn-success nuanbtn-sm close"><span class="nuan-inline-block"><span data-id="${pegaFormButtonId2}" class="nuanbtn-text">${buttonText}</span></span></button></div>
                         </div>
-                        <button data-module="govuk-button" data-prevent-double-click="true" id="${pegaFormButtonId}" class="govuk-button nuanbtn nuanbtn-success nuanbtn-sm close"><span class="nuan-inline-block"><span data-id="${pegaFormButtonId}" class="nuanbtn-text">${buttonText}</span></span></button></div>
-                    </div>
-                    </div>`
+                        </div>`
 
-                    document.getElementById(id).innerHTML = "<div class=govuk-visually-hidden>" + msg_type + "</div> " + msg;
-                    document.getElementById(id).classList.remove("msg-opacity");
+                        document.getElementById(id).innerHTML = "<div class=govuk-visually-hidden>" + msg_type + "</div> " + msg;
+                        document.getElementById(id).classList.remove("msg-opacity");
 
-                    document.querySelector('#' + pegaFormButtonId).addEventListener('click', (e) => {
-                        window.Inq.SDK.sendRichContentMessage(displayText, data, () => {})
-                    });
+                        let inputIds = document.querySelectorAll('#' + id1);
+                        for( var inputCount = 0; inputCount < inputIds.length; inputCount ++) {
+                            if(inputCount ===1) {
+                                inputIds[inputCount].focus();
+                            }
+                        }
+
+                        let submitIds = document.querySelectorAll('#' + pegaFormButtonId2);
+                        var ninoValue = null;
+
+                        for(var count = 0; count < submitIds.length;count++) {
+                            if(count === 1) {
+                                submitIds[count].addEventListener('click', (e) => {
+                                    let inputIds = document.querySelectorAll('#' + id1);
+                                    for( var count2 = 0; count2 < inputIds.length; count2 ++) {
+                                        if(count2 === 1) {
+                                            ninoValue = inputIds[count2].value;
+                                        }
+                                    }
+                                    
+                                    let data =  {"NINo": "" + ninoValue + "","displayText": "" + displayText + ""};
+                                    window.Inq.SDK.sendRichContentMessage(displayText, data, () => {});
+                                })
+                            }
+                        }
+                    } 
                 } else {
-                    let id1 = formData.nodes[0].controls[0].id;
-                    let pegaFormButtonId = formData.nodes[0].controls[1].id;
-                    let buttonText = formData.nodes[0].controls[1].text;
-                    let displayText = formData.transitions[0].to.sendMessage.displayText;
-                    let data =  {"NINo": "test nino", "displayText": "Details Submitted"}
-                    msg = `<div class="nuan-widget-outer-cont" style="height: 100%;">
-                    <div tabindex="-1" class="nuan-widget-container nuan-mlr-1 nuan-p-1 form">
-                        <div class="nuan-row input">
-                            <fieldset class="govuk-fieldset">
-                                <label class="govuk-label govuk-label--m" for="${id1}" >${label1}</label>
-                                <div style="position:relative;"><input type="text" class="govuk-input" id="${id1}"><span class="validation-error-icon"></span></div>
-                            </fieldset>
-                        </div>
-                        <button data-module="govuk-button" data-prevent-double-click="true" id="${pegaFormButtonId}" class="govuk-button nuanbtn nuanbtn-success nuanbtn-sm close"><span class="nuan-inline-block"><span data-id="${pegaFormButtonId}" class="nuanbtn-text">${buttonText}</span></span></button></div>
-                    </div>
-                    </div>`
-
                     document.getElementById(id).innerHTML = "<div class=govuk-visually-hidden>" + msg_type + "</div> " + msg;
                     document.getElementById(id).classList.remove("msg-opacity");
 
-                    document.querySelector('#' + pegaFormButtonId).addEventListener('click', (e) => {
-                        window.Inq.SDK.sendRichContentMessage(displayText, data, () => {})
-                    });
+                    document.getElementById("custMsg").disabled = false;
                 }
 
             } else {

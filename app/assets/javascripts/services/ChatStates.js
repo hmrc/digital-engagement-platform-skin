@@ -123,7 +123,11 @@ export class EngagedState {
                   this.closeChat();
                 } else if (!!vaDP.widgetType) {
                     if(vaDP.widgetType === "form") {
-                        transcript.addAutomatonMsg(msg["messageData"], msg.messageTimestamp, true);
+                        if(!!msg["messageData"]){
+                            transcript.addAutomatonMsg(msg["messageData"], msg.messageTimestamp, true);
+                        } else {
+                            transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp, true);
+                        }
                     }
                 }
               } else {
