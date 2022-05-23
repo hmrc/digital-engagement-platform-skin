@@ -345,6 +345,44 @@ describe("CommonChatController", () => {
     expect(mockChatEnded === document.activeElement).toBeTruthy;
   });
 
+  it("onStartTyping sends an activity message to Nuance", () => {
+    const commonChatController = new CommonChatController();
+
+    const sdk = {
+      sendActivityMessage: jest.fn(),
+      isChatInProgress: jest.fn()
+    };
+
+    window.Inq = {
+      SDK: sdk
+    };
+
+    commonChatController.nuanceFrameworkLoaded(window);
+    commonChatController.onStartTyping();
+
+    expect(sdk.sendActivityMessage).toBeCalledTimes(1);
+
+  });
+
+  it("onStopTyping sends an activity message to Nuance", () => {
+    const commonChatController = new CommonChatController();
+
+    const sdk = {
+      sendActivityMessage: jest.fn(),
+      isChatInProgress: jest.fn()
+    };
+
+    window.Inq = {
+      SDK: sdk
+    };
+
+    commonChatController.nuanceFrameworkLoaded(window);
+    commonChatController.onStopTyping();
+
+    expect(sdk.sendActivityMessage).toBeCalledTimes(1);
+
+  })
+
   it("onRestoreChat restores the chat container and sends an activity message to Nunace", () => {
     const commonChatController = new CommonChatController();
     const mockContainer = {

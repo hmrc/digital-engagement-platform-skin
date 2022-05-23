@@ -7,7 +7,9 @@ const nullEventHandler = {
     onHideChat: function () { },
     onRestoreChat: function () { },
     onConfirmEndChat: function () { },
-    onSoundToggle: function () { }
+    onSoundToggle: function () { },
+    onStartTyping: function () { },
+    onStopTyping: function () { }
 };
 
 export default class ChatContainer {
@@ -16,6 +18,7 @@ export default class ChatContainer {
         this.container.id = "ciapiSkin";
         this.eventHandler = nullEventHandler;
         this.closeMethod = null;
+        this.searchTimeout = null;
 
         this.container.insertAdjacentHTML("beforeend", containerHtml);
         this.content = this.container.querySelector("#ciapiSkinChatTranscript");
@@ -24,6 +27,14 @@ export default class ChatContainer {
         this._registerEventListeners();
         this.transcript = new Transcript(this.content, messageClasses);
         this.endChatPopup = new EndChatPopup(this.container.querySelector("#ciapiSkinContainer"), this);
+    }
+
+    stopTyping(eventHandler) {
+        eventHandler.onStopTyping();
+    }
+
+    startTyping(eventHandler) {
+        eventHandler.onStartTyping();
     }
 
     element() {
@@ -76,6 +87,13 @@ export default class ChatContainer {
         }
     }
 
+    _registerKeyupEventListener(selector, handler) {
+        const element = this.container.querySelector(selector);
+        if (element) {
+            element.addEventListener("keyup", handler);
+        }
+    }
+
     _registerEventListeners() {
 
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
@@ -111,8 +129,17 @@ export default class ChatContainer {
             if (e.which == 13) {
                 this.eventHandler.onSend();
                 e.preventDefault();
+            } else {
+                this.startTyping(this.eventHandler);
             }
-        })
+        });
+
+        this._registerKeyupEventListener("#custMsg", (e) => {
+            if (this.searchTimeout != undefined) {
+                clearTimeout(this.searchTimeout);
+            }
+            this.searchTimeout = setTimeout(this.stopTyping, 3000, this.eventHandler);
+        });
 
         this._registerEventListener("#ciapiSkinChatTranscript", (e) => {
             if ((e.target.tagName.toLowerCase() === 'a') && !!e.target.dataset && !!e.target.dataset.vtzJump) {
