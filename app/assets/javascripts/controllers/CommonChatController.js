@@ -371,6 +371,14 @@ export default class CommonChatController {
         }
     }
 
+    onStartTyping() {
+       this.sdk.sendActivityMessage("startTyping");
+    }
+
+    onStopTyping() {
+        this.sdk.sendActivityMessage("stopTyping");
+    }
+
     onConfirmEndChat() {
         this.closeNuanceChat();
         let escalated = this.state.isEscalated();
