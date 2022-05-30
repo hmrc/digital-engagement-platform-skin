@@ -8,18 +8,11 @@ $header-border-bottom-height: 2px;
 $footer-padding: 5px;
 $footer-top-border-height: 3px;
 
-// overriding css set in frontend repo
-#cui-messaging-container {
-    width: 100%;
-    height: calc(max(600px, 50rem));
-}
-
-@media (max-width: 575.98px){
-    #cui-messaging-container {
-        height: 100vh !important;
+@media (max-width: 40.0625em) {
+    .govuk-grid-column-one-third .app-related-items {
+        margin-top: 2em;
     }
 }
-// end
 
 #ciapiSkinContainer {
     height: calc(max(600px, 50rem)); // have to wrap the max in calc because using different units causes a compile error in sass (unless using dart-sass)
@@ -70,7 +63,7 @@ $footer-top-border-height: 3px;
 
 .ciapiSkinChatTranscript {
     flex-grow: 1;
-    max-height: 90vh;
+    //max-height: 90vh; // restricts height of transcript window which makes for a better experience on highly scaled screens. Removed for now pending further testing.
     background-color: #fff;
     box-sizing: border-box;
     overflow: auto;
