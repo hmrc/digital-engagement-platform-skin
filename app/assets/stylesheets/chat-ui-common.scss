@@ -1,0 +1,193 @@
+$header-border-bottom-height: 2px;
+$footer-top-border-height: 3px;
+
+#ciapiSkinContainer {
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+#ciapiSkinHeader {
+    background-color: #fff;
+    border-bottom-color: rgb(177, 180, 182);
+    border-bottom-style: solid;
+    border-bottom-width: $header-border-bottom-height;
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 0.5rem;
+}
+
+#ciapiSkinHeader .govuk-button,
+#ciapiSkinHeader > div {
+    margin-bottom: 0; /*we are handling margin with the gap in flexbox*/
+}
+
+// #print .govuk-button--secondary,
+// #sound .govuk-button--secondary {
+//     margin-bottom: 0;
+// }
+
+#print .govuk-button--secondary {
+    background: url('/engagement-platform-skin/assets/media/save-transcript.svg') no-repeat;
+    background-size: 1em;
+    padding-left: 1.2em;
+    padding-top: 0.3em;
+    background-color: #f3f2f1;
+    background-position: 0 50%; /*we have removed the hard-coded height so need the image to be aware of its context*/
+}
+
+#print .govuk-button--secondary:hover,
+#sound .govuk-button--secondary:hover {
+    background-color: #dbdad9;
+}
+
+#print .govuk-button--secondary:focus,
+#sound .govuk-button--secondary:focus {
+    background-color: #ffdd00;
+}
+
+#sound .govuk-button--secondary {
+    background: url('/engagement-platform-skin/assets/media/hmrc-alert_on.svg') no-repeat;
+    background-size: 1.2em;
+    padding-left: 1.3em;
+    padding-top: 0.3em;
+    background-color: #f3f2f1;
+    background-position: 0 50%; /*we have removed the hard-coded height so need the image to be aware of its context*/
+}
+
+
+
+#ciapiChatComponents {
+    display: flex;
+    flex-direction: column;
+}
+
+    #skipToTopLink:focus {
+        box-shadow: none !important;
+        text-decoration: underline !important;
+    }
+    #skipToBottom {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+        #skipToBottomLink:focus {
+            box-shadow: none !important;
+            text-decoration: underline !important;
+        }
+
+    .ciapiSkinChatTranscript {
+        flex-grow: 1;
+        //max-height: 90vh; // restricts height of transcript window which makes for a better experience on highly scaled screens. Removed for now pending further testing.
+        background-color: #fff;
+        box-sizing: border-box;
+        overflow: auto;
+        padding: 0;
+        position: relative;
+        border: 4px solid transparent;
+        position: relative; // reqd to constrain the end chat overlay
+        width: 100%;
+    }
+        .ciapiSkinChatTranscript:focus {
+            box-shadow: 0 0 0 3px #fd0;
+            border-color: #000;
+            outline: none;
+        }
+
+    .skipToTopWithScroll {
+        position: relative;
+        bottom: 0;
+        margin-left: 5px;
+        margin-right: 5px;
+        clear: both;
+    }
+    .skipToTopWithOutScroll {
+        position: absolute;
+        bottom: 0;
+        margin-left: 5px;
+        margin-right: 5px;
+        width: 96%;
+        clear: both;
+    }
+
+
+    #ciapiSkinFooter {
+        flex-grow: 0;
+        border-top: $footer-top-border-height solid rgb(11, 12, 12);
+        padding-top: 1rem;
+    }
+        #ciapiInput {
+            width: 80%;
+            float: left;
+            textarea {
+                height: 4em;
+                resize: none;
+                margin-bottom: 0;
+            }
+        }
+        #ciapiSend {
+            width: 18%;
+            float: left;
+            padding-left: 0.25em;
+        }
+
+
+
+// Print styles
+.print-only {
+    display: none;
+}
+
+.timestamp-outer {
+    clear: both;
+}
+
+@media print {
+    .govuk-grid-column-two-thirds {
+        width: 100%;
+    }
+
+    .ciapi-customer-container {
+        display: flow-root;
+        padding-bottom: 10px !important;
+    }
+    .ciapi-agent-container {
+      padding-left: 0px;
+    }
+    .print-only {
+        display: block;
+    }
+    .ciapi-agent-container {
+        padding-left: 0px;
+    }
+    .ciapi-customer-container {
+        padding-right: 0px;
+    }
+    .print-overflow-visible {
+        overflow: visible;
+        border-bottom: 0;
+    }
+    .print-timestamp-right {
+        clear: both;
+    }
+    .print-float-right {
+        float: right;
+        margin-bottom: .2em;
+    }
+    .print-float-left {
+        clear: both;
+        display: inline-block;
+        width: 30em;
+        margin-bottom: .2em;
+    }
+    .govuk-header__container {
+        border-bottom: none;
+    }
+    .govuk-header__logo {
+        display: inline-block;
+    }
+    .govuk-header__content {
+        display: inline-block;
+    }
+}
