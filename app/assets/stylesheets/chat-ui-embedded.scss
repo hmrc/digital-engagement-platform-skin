@@ -13,7 +13,7 @@
 }
 
 #ciapiSkinContainer {
-    height: calc(max(600px, 50rem)); // have to wrap the max in calc because using different units causes a compile error in sass (unless using dart-sass)
+    height: calc(max(600px, 37rem)); // have to wrap the max in calc because using different units causes a compile error in sass (unless using dart-sass)
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: max-content minmax(50%, 90%) auto;
