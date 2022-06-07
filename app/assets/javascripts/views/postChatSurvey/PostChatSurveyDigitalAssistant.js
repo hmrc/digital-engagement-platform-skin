@@ -32,7 +32,7 @@ const html = `
                   </label>
                   <textarea class="govuk-textarea" id="q2-" name="q2-" rows="5"></textarea>
 
-                  <fieldset class="govuk-fieldset " id="question3">
+                  <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question3">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                       If you had not used the digital assistant, how else would you have contacted us?
                     </legend>
