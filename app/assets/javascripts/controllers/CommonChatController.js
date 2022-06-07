@@ -136,6 +136,8 @@ export default class CommonChatController {
             if(dav3Skin) {
                 this.updateDav3DeskproRefererUrls();
             }
+
+            document.getElementById("error-message").remove();
         } catch (e) {
             console.error("!!!! launchChat got exception: ", e);
         }
