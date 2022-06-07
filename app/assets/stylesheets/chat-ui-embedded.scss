@@ -3,10 +3,8 @@
 @import 'system-message';
 @import 'c2cbutton';
 @import 'end-chat-popup';
+@import 'chat-ui-common';
 
-$header-border-bottom-height: 2px;
-$footer-padding: 5px;
-$footer-top-border-height: 3px;
 
 @media (max-width: 40.0625em) {
     .govuk-grid-column-one-third .app-related-items {
@@ -15,112 +13,16 @@ $footer-top-border-height: 3px;
 }
 
 #ciapiSkinContainer {
-    height: calc(max(600px, 50rem)); // have to wrap the max in calc because using different units causes a compile error in sass (unless using dart-sass)
-    background-color: #fff;
+    height: calc(max(600px, 37rem)); // have to wrap the max in calc because using different units causes a compile error in sass (unless using dart-sass)
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: auto minmax(50%, 90%) auto;
-}
-
-#ciapiSkinHeader {
-    width: 100%;
-    background-color: #fff;
-    border-bottom-color: rgb(177, 180, 182);
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border-bottom-style: solid;
-    border-bottom-width: $header-border-bottom-height;
-    margin-bottom: 0px !important;
-    padding-bottom: 8px;
-    display: flex;
-    flex-flow: wrap;
-    justify-content: space-between;
-    flex-direction: row;
-    gap: 1rem;
-}
-
-#ciapiSkinHeader .govuk-button,
-#ciapiSkinHeader > div {
-    margin-bottom: 0; /*we are handling margin with the gap in flexbox*/
-}
-
-#ciapiChatComponents {
-    display: flex;
-    flex-direction: column;
+    grid-template-rows: max-content minmax(50%, 90%) auto;
 }
 
 
-
-#skipToTopLink:focus {
-    box-shadow: none !important;
-    text-decoration: underline !important;
-}
-
-#skipToBottomLink:focus {
-    box-shadow: none !important;
-    text-decoration: underline !important;
-}
-
-.ciapiSkinChatTranscript {
-    flex-grow: 1;
-    //max-height: 90vh; // restricts height of transcript window which makes for a better experience on highly scaled screens. Removed for now pending further testing.
-    background-color: #fff;
-    box-sizing: border-box;
-    overflow: auto;
-    padding: 0;
-    position: relative;
-    border-bottom: $footer-top-border-height solid rgb(11, 12, 12);
-    margin-bottom: 1.25em;
-    position: relative; // reqd to constrain the end chat overlay
-}
-.ciapiSkinChatTranscript:focus {
-    box-shadow: 0 0 0 3px #fd0;
-    border: solid #000 4px;
-    outline: none;
-    margin-top: -4px;
-    margin-left: -4px;
-    margin-right: -4px;
-}
-
-.skipToTopWithScroll {
-    position: relative;
-    bottom: 0;
-    margin-left: 5px;
-    margin-right: 5px;
-    clear: both;
-}
-.skipToTopWithOutScroll {
-    position: absolute;
-    bottom: 0;
-    margin-left: 5px;
-    margin-right: 5px;
-    width: 96%;
-    clear: both;
-}
-#skipToBottom {
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
-#ciapiSkinFooter {
-    flex-grow: 0;
-}
-#ciapiSend {
-    width: 18%;
-    float: left;
-    padding-left: 0.25em;
-}
-#ciapiInput {
-    width: 80%;
-    float: left;
-    textarea {
-        height: 4em;
-        resize: none;
-        margin-bottom: 0;
-    }
-}
 #ciapiClose {
     clear: both;
+    padding-top: 1rem;
 }
 
 #HMRC_CIAPI_Anchored_1 {
@@ -143,20 +45,6 @@ $footer-top-border-height: 3px;
     width: auto;
 }
 
-#ciapiPrintButton {
-    @include IconButton;
-    background-image: url('/engagement-platform-skin/assets/media/save-transcript.svg');
-}
-
-#ciapiSoundButton {
-    @include IconButton;
-    background-image: url('/engagement-platform-skin/assets/media/hmrc-alert_on.svg');
-    float: right;
-}
-
-#ciapiClose {
-    padding-top: 10px;
-}
 
 .info {
     text-align: center;
@@ -196,44 +84,7 @@ $footer-top-border-height: 3px;
     }
 }
 
-#print {
-    margin-top: -0.2em;
-    margin-bottom: 1.6em;
-}
 
-#sound {
-    margin-top: -0.2em;
-    margin-bottom: 1.6em;
-    text-align: right;
-}
-
-#print .govuk-button--secondary {
-    background: url('/engagement-platform-skin/assets/media/save-transcript.svg') no-repeat;
-    background-size: 1em;
-    padding-left: 1.2em;
-    padding-top: 0.3em;
-    background-color: #f3f2f1;
-    background-position: 0 50%; /*we have removed the hard-coded height so need the image to be aware of its context*/
-}
-
-#print .govuk-button--secondary:hover,
-#sound .govuk-button--secondary:hover {
-    background-color: #dbdad9;
-}
-
-#print .govuk-button--secondary:focus,
-#sound .govuk-button--secondary:focus {
-    background-color: #ffdd00;
-}
-
-#sound .govuk-button--secondary {
-    background: url('/engagement-platform-skin/assets/media/hmrc-alert_on.svg') no-repeat;
-    background-size: 1.2em;
-    padding-left: 1.3em;
-    padding-top: 0.3em;
-    background-color: #f3f2f1;
-    background-position: 0 50%; /*we have removed the hard-coded height so need the image to be aware of its context*/
-}
 
 @media (max-width: 575.98px) {
     .ciapiSkinChatTranscript:focus {
@@ -245,59 +96,4 @@ $footer-top-border-height: 3px;
     outline:0;
 }
 
-.print-only {
-    display: none;
-}
 
-.timestamp-outer {
-    clear: both;
-}
-
-@media print {
-    .govuk-grid-column-two-thirds {
-        width: 100%;
-    }
-
-    .ciapi-customer-container {
-        display: flow-root;
-        padding-bottom: 10px !important;
-    }
-    .ciapi-agent-container {
-      padding-left: 0px;
-    }
-    .print-only {
-        display: block;
-    }
-    .ciapi-agent-container {
-        padding-left: 0px;
-    }
-    .ciapi-customer-container {
-        padding-right: 0px;
-    }
-    .print-overflow-visible {
-        overflow: visible;
-        border-bottom: 0;
-    }
-    .print-timestamp-right {
-        clear: both;
-    }
-    .print-float-right {
-        float: right;
-        margin-bottom: .2em;
-    }
-    .print-float-left {
-        clear: both;
-        display: inline-block;
-        width: 30em;
-        margin-bottom: .2em;
-    }
-    .govuk-header__container {
-        border-bottom: none;
-    }
-    .govuk-header__logo {
-        display: inline-block;
-    }
-    .govuk-header__content {
-        display: inline-block;
-    }
-}

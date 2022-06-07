@@ -5,15 +5,17 @@ export const ContainerHtml = `
 <p id="print-date" class="govuk-body"></p>
 </div>
 <div id="ciapiSkinContainer">
-    <div id="ciapiSkinHeader" >
-        <div id="ciapiTitleBarLogo"></div>
-        <div id="ciapiSkinTitleBar"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC</h2></div>
+    <div id="titleBar" >
+        <div id="ciapiSkinTitleBar">
+            <div id="ciapiTitleBarLogo"></div>
+            <h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC</h2>
+        </div>
         <div id="hideCloseContainer">
             <button id="ciapiSkinHideButton"  draggable="false" role="button" type="button" aria-label="Minimise chat window"></button>
             <button id="ciapiSkinCloseButton" draggable="false" role="button" type="button" aria-label="Close chat window"></button>
         </div>
     </div>
-    <div id="tools" class="govuk-!-display-none-print">
+    <div id="ciapiSkinHeader" class="govuk-!-display-none-print">
         <div id="print">
             <button id="printButton" class="govuk-button govuk-button--secondary" data-module="govuk-button">
                 Print or save
