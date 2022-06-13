@@ -75,6 +75,8 @@ describe("PostChatSurveyWebchatService", () => {
             logEventToDW: jest.fn()
         };
 
+        window.agentId = "12345";
+
         const service = new PostChatSurveyWebchatService(sdk);
 
         const timestamp = Date.now();
@@ -89,7 +91,7 @@ describe("PostChatSurveyWebchatService", () => {
             clientTimestamp: timestamp,
             chatID: "ChatID",
             customerID: "ThisCustomerID",
-            agentID: "AgentId",
+            agentID: "12345",
             custID: "ThisCustomerID",
             incAssignmentID: "SessionID",
             sessionID: "SessionID",
@@ -135,7 +137,7 @@ describe("PostChatSurveyWebchatService", () => {
             automatonType: "satisfactionSurvey",
             chatID: "ChatID",
             customerID: "ThisCustomerID",
-            agentID: "AgentId",
+            agentID: "12345",
             custID: "ThisCustomerID",
             incAssignmentID: "SessionID",
             sessionID: "SessionID",
@@ -182,6 +184,8 @@ describe("PostChatSurveyWebchatService", () => {
             logEventToDW: jest.fn()
         };
 
+        window.agentId = "12345";
+
         const service = new PostChatSurveyWebchatService(sdk);
         const timestamp = Date.now();
 
@@ -208,7 +212,7 @@ describe("PostChatSurveyWebchatService", () => {
             automatonOrigin: "richMedia",
             chatID: "ChatID",
             customerID: "ThisCustomerID",
-            agentID: "AgentId",
+            agentID: "12345",
             custID: "ThisCustomerID",
             incAssignmentID: "SessionID",
             sessionID: "SessionID",
@@ -246,7 +250,7 @@ describe("PostChatSurveyWebchatService", () => {
             automatonOrigin: "richMedia",
             chatID: "ChatID",
             customerID: "ThisCustomerID",
-            agentID: "AgentId",
+            agentID: "12345",
             custID: "ThisCustomerID",
             incAssignmentID: "SessionID",
             sessionID: "SessionID",
@@ -289,6 +293,8 @@ describe("PostChatSurveyWebchatService", () => {
                 logEventToDW: jest.fn()
             };
 
+            window.agentId = "12345";
+
             const service = new PostChatSurveyWebchatService(sdk);
             const timestamp = Date.now();
 
@@ -315,7 +321,7 @@ describe("PostChatSurveyWebchatService", () => {
                 automatonOrigin: "richMedia",
                 chatID: "ChatID",
                 customerID: "ThisCustomerID",
-                agentID: "AgentId",
+                agentID: "12345",
                 custID: "ThisCustomerID",
                 incAssignmentID: "SessionID",
                 sessionID: "SessionID",
@@ -353,7 +359,7 @@ describe("PostChatSurveyWebchatService", () => {
                 automatonOrigin: "richMedia",
                 chatID: "ChatID",
                 customerID: "ThisCustomerID",
-                agentID: "AgentId",
+                agentID: "12345",
                 custID: "ThisCustomerID",
                 incAssignmentID: "SessionID",
                 sessionID: "SessionID",
