@@ -11,7 +11,7 @@ const html = `
 
                 <div class="govuk-form-group">
 
-                  <fieldset class="govuk-fieldset" id="question1">
+                  <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question1">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                       Were you able to do what you needed to do today?
                     </legend>
@@ -27,7 +27,7 @@ const html = `
                     </div>
                   </fieldset>
 
-                  <fieldset class="govuk-fieldset" id="question2">
+                  <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question2">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                       How easy was it to do what you needed to do today?
                     </legend>
@@ -55,7 +55,7 @@ const html = `
                     </div>
                   </fieldset>
 
-                  <fieldset class="govuk-fieldset" id="question3">
+                  <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question3">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                       Overall, how did you feel about the service you accessed today?
                     </legend>
@@ -88,7 +88,7 @@ const html = `
                   </label>
                   <textarea class="govuk-textarea" id="q4-" name="q4-" rows="5"></textarea>
 
-                  <fieldset class="govuk-fieldset" id="question5">
+                  <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question5">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                         If you had not used webchat today, how else would you have contacted us?
                     </legend>

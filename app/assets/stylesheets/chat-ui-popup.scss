@@ -4,15 +4,16 @@
 @import "c2cbutton";
 @import "end-chat-popup";
 @import "lib/govuk-frontend/govuk/all";
+@import 'chat-ui-common';
 
 $popup-width: 400px;
 $popup-min-width: 272px;
 $popup-max-height: 590px;
 $popup-container-border-width: 4px;
 $header-height: 57px;
-$header-bottom-border-height: 6px;
 $tools-height: 23px;
 $tools-padding-y: 5px;
+$header-bottom-border-height: 2px;
 $components-sub-height: $header-height + $header-bottom-border-height + $tools-height + 2 * $tools-padding-y;
 $footer-height: 80px;
 $footer-padding: 5px;
@@ -27,20 +28,12 @@ $page-height: calc(100% - 5px);
     margin-bottom: 2px;
 }
 
-#tools{
-    position: relative;
-    bottom: 5px;
-}
-
-
 #ciapiSkin {
     font-family: "GDS Transport", arial, sans-serif;
     font-size: 19px;
     -webkit-font-smoothing: antialiased;
 
-    #ciapiSkinContainer {
-        display: block;
-    }
+
     #ciapiSkinMinimised {
         display: none;
     }
@@ -56,191 +49,99 @@ $page-height: calc(100% - 5px);
 }
 
 #ciapiSkinContainer {
-    flex-flow: row wrap;
-    justify-content: space-evenly;
-    justify-content: center;
-    align-items: flex-start;
-    align-content: stretch;
     border: $popup-container-border-width solid;
     position: fixed;
-    max-height: $popup-max-height;
+    max-height: 40rem;
     height: 100%;
-    min-width: $popup-min-width;
-    width: $popup-width;
-    bottom: 0px;
-    right: 0px;
-    background-color: white;
+    min-width: 20rem;
+    width: 25rem;
+    bottom: 0;
+    right: 0;
+
+    display: flex;
+    flex-direction: column;
 }
+
+#titleBar {
+    width: 100%;
+    background-color: #fff;
+    border-bottom-color: #1d70b8;
+    border-bottom-style: solid;
+    border-bottom-width: $header-border-bottom-height;
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+    #ciapiSkinTitleBar {
+        padding-top: 1rem;
+        padding-left: 0.6em;
+        font-weight: 700;
+        display: flex;
+    }
+        #ciapiTitleBarLogo {
+            background: url('/engagement-platform-skin/assets/media/logo.png') no-repeat;
+            background-size: 2rem 2rem;
+            background-position: 0 0;
+            width: 2.4rem;
+            position: relative;
+            top: -0.3rem;
+        }
 
 #ciapiSkinHeader {
-    width: 100%;
-    height: $header-height;
-    background-color: #fff;
-    border-bottom: $header-bottom-border-height solid #1d70b8;
-    font-family: Arial;
+    border-bottom-width: $header-bottom-border-height;
 }
 
-#ciapiSkinTitleBar {
-    float: left;
-    padding-top: 0.9em !important;
-    padding-left: 0.6em;
-    font-weight: 700;
-}
+#ciapiSkinCloseButton,
+#ciapiSkinHideButton {
+    width: 2rem;
+    height: 2rem;
+    margin: 8px 0px;
 
-#print {
-    height: 5px;
-    margin-top: -0.2em;
-    margin-left: -5px;
-    float: left;
-    margin-bottom: 1.6em;
-}
-
-#sound {
-    height: 5px;
-    margin-top: -0.2em;
-    float: right;
-    margin-bottom: 1.6em;
-    text-align: right;
-}
-
-#print .govuk-button--secondary {
-    height: 31px;
-    background: url("/engagement-platform-skin/assets/media/save-transcript.svg") no-repeat;
-    background-size: 1em;
-    padding-left: 1.2em;
-    padding-top: 0.3em;
-    background-color: #f3f2f1;
-}
-
-#print .govuk-button--secondary:hover,
-#sound .govuk-button--secondary:hover {
-    background-color: #dbdad9;
-}
-
-#print .govuk-button--secondary:focus:not(:active):not(:hover),
-#sound .govuk-button--secondary:focus:not(:active):not(:hover) {
-    background-color: #ffdd00;
-}
-
-#sound .govuk-button--secondary {
-    height: 31px;
-    background: url("/engagement-platform-skin/assets/media/hmrc-alert_on.svg") no-repeat;
-    background-size: 1.2em;
-    padding-left: 1.3em;
-    padding-top: 0.3em;
-    background-color: #f3f2f1;
-}
-
-#tools {
-    height: $tools-height;
-    padding-top: $tools-padding-y;
-    padding-bottom: $tools-padding-y;
-    padding-left: 5px;
-}
-
-@mixin TopButton {
-    width: 40px;
-    height: 40px;
-    float: right;
-    box-sizing: border-box;
     background-origin: border-box;
     border: none;
     background-color: transparent;
     color: white;
-    font-size: 20px;
     cursor: pointer;
     &:hover {
         background-color: #dbdad9 !important;
     }
 }
-
-#hideCloseContainer {
-    float: right;
-}
-
-#ciapiSkinCloseButton {
-    background-image: url("/engagement-platform-skin/assets/media/close.svg");
-    margin: 8px 0px;
-    float: none !important;
-    z-index: 1000;
-    position: static;
-    box-shadow: none;
-    margin-top: -20px;
-    @include TopButton;
-}
-
-#ciapiSkinCloseButton:focus:not(:active):not(:hover) {
-    border-color: #ffdd00;
-    color: #0b0c0c;
-    background-color: #ffdd00;
-    box-shadow: 0 2px 0 #0b0c0c;
-}
-
-#ciapiSkinCloseButton:focus {
-    border-color: #ffdd00;
-    outline: 3px solid transparent;
-    box-shadow: inset 0 0 0 1px #ffdd00;
-}
-
-#ciapiSkinHideButton {
-    background-image: url("/engagement-platform-skin/assets/media/minimise.svg");
-    margin: 8px 0px;
-    float: none !important;
-    z-index: 1000;
-    position: static;
-    box-shadow: none;
-    @include TopButton;
-}
-
-#ciapiSkinHideButton:focus:not(:active):not(:hover) {
-    border-color: #ffdd00;
-    color: #0b0c0c;
-    background-color: #ffdd00;
-    box-shadow: 0 2px 0 #0b0c0c;
-}
-
-#ciapiSkinHideButton:focus {
-    border-color: #ffdd00;
-    outline: 3px solid transparent;
-    box-shadow: inset 0 0 0 1px #ffdd00;
-}
-
-#ciapiSkinCloseButton i {
-    color: #fff;
-}
-
-#ciapiTitleBarLogo {
-    float: left;
-    background-image: url('/engagement-platform-skin/assets/media/logo.png') no-repeat;
-    padding-left: 0.9em;
-    padding-top: 0.4em;
-    img {
-        height: 44px;
-        width: 44px;
+    #ciapiSkinCloseButton {
+        background: url("/engagement-platform-skin/assets/media/close.svg") 50% 50% no-repeat;
+        background-size: 1.8rem 1.8rem;
     }
-}
+    #ciapiSkinHideButton {
+        background: url("/engagement-platform-skin/assets/media/minimise.svg") 50% 50% no-repeat;
+        background-size: 1.8rem 1.8rem;
+    }
+
+    #ciapiSkinCloseButton:focus:not(:active):not(:hover),
+    #ciapiSkinHideButton:focus:not(:active):not(:hover) {
+        border-color: #ffdd00;
+        color: #0b0c0c;
+        background-color: #ffdd00;
+        box-shadow: 0 2px 0 #0b0c0c;
+    }
+    #ciapiSkinCloseButton:focus,
+    #ciapiSkinHideButton:focus {
+        border-color: #ffdd00;
+        outline: 3px solid transparent;
+        box-shadow: inset 0 0 0 1px #ffdd00;
+    }
+
+
+
 
 #ciapiChatComponents {
     height: calc(100% - #{$components-sub-height});
     width: 100%;
 }
 
-.ciapiSkinChatTranscript:focus {
-    box-shadow: 0 0 0 3px #fd0;
-    border: solid #000 4px;
-    padding-left: 15px;
-    padding-right: 10px;
-    margin-top: -2px;
-    margin-top: -2px;
-    margin-bottom: 0px;
-    outline: none;
-}
-
 .ciapiSkinChatTranscript {
     height: calc(100% - #{$transcript-sub-height});
-    width: calc(100% - 33px);
-    border-top: $transcript-border-height solid #b1b4b6;
-    border-bottom: $transcript-border-height solid #000;
     overflow: scroll;
     overflow-x: hidden;
     padding-right: 14px;
@@ -293,6 +194,11 @@ $page-height: calc(100% - 5px);
     right: 50px;
 }
 
+#ciapiSkinFooter {
+    padding: 0.5rem 10px;
+}
+
+
 #ciapiInput {
     width: 80%;
     float: left;
@@ -311,11 +217,6 @@ $page-height: calc(100% - 5px);
     text-align: right;
 }
 
-#ciapiSkinFooter {
-    width: calc(100% - 12px);
-    height: $footer-height;
-    padding: $footer-padding;
-}
 
 #ciapiSkinMinimised {
     width: 100%;
