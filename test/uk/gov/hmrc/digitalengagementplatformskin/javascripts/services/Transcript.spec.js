@@ -41,15 +41,9 @@ describe("Transcript", () => {
 
         transcript.addSystemMsg({msg: "System Message"});
 
-        // expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
-        //     "beforeend",
-        //     "<div class= govuk-!-display-none-print system-outer><div class= \"msg-opacity system-inner\" id=liveMsgId50 aria-live=polite></div></div>"
-        // );
-
         expect(content.appendChild).toBeCalledTimes(1);
         expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
         expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
-        //expect(content.appendChild).toHaveBeenCalledWith(Object("govuk-!-display-none-print"));
     });
 
     it("appends opener scripts", () => {
@@ -63,11 +57,6 @@ describe("Transcript", () => {
         const transcript = new Transcript(content, messageClasses);
 
         transcript.addOpenerScript("An Opener Script");
-
-        // expect(content.appendChild).toHaveBeenCalledWith(
-        // "beforeend",
-        // "<div class=opener-outer><div class= \"msg-opacity opener-inner\" tabindex=-1 id=liveMsgId50 aria-live=polite></div></div>"
-        // );
 
         expect(content.appendChild).toBeCalledTimes(1);
         expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
@@ -86,11 +75,6 @@ describe("Transcript", () => {
 
         transcript.addAgentMsg("Some agent message");
 
-        // expect(content.insertAdjacentHTML).toHaveBeenCalledWith(
-        //     "beforeend",
-        //     "<div class=agent-outer><div class= \"msg-opacity agent-inner\" tabindex=-1 id=liveMsgId50 aria-live=polite></div></div>"
-        // );
-
         expect(content.appendChild).toBeCalledTimes(1);
         expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
         expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
@@ -107,11 +91,6 @@ describe("Transcript", () => {
         const transcript = new Transcript(content, messageClasses);
 
         transcript.addCustomerMsg("Some customer message");
-
-        // expect(content.appendChild).toHaveBeenCalledWith(
-        //     "beforeend",
-        //     "<div class=customer-outer><div class= \"msg-opacity customer-inner\" id=liveMsgId50></div></div>"
-        // );
 
         expect(content.appendChild).toBeCalledTimes(1);
         expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
@@ -130,11 +109,6 @@ describe("Transcript", () => {
 
         transcript._appendMessage("test1", "time", messageClasses.Customer, "test3", true);
 
-        // expect(content.appendChild).toHaveBeenCalledWith(
-        //     "beforeend",
-        //     "<div class=customer-outer><div class= \"msg-opacity customer-inner\" id=liveMsgId50></div></div>"
-        // );
-
         expect(content.appendChild).toBeCalledTimes(1);
         expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
         expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
@@ -151,11 +125,6 @@ describe("Transcript", () => {
         const transcript = new Transcript(content, messageClasses);
 
         transcript._appendMessage("test1", "time", messageClasses.Agent, "test3", false);
-
-        // expect(content.appendChild).toHaveBeenCalledWith(
-        //     "beforeend",
-        //     "<div class=agent-outer><div class= \"msg-opacity agent-inner\" tabindex=-1 id=liveMsgId50 aria-live=polite></div></div>"
-        // );
 
         expect(content.appendChild).toBeCalledTimes(1);
         expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
@@ -231,6 +200,4 @@ describe("Transcript", () => {
 
         expect(msg).toBe("<this is ' test>");
     });
-
-    //TODO create a test for each of the above scenarios where the incoming message is higher than the parent div
 });
