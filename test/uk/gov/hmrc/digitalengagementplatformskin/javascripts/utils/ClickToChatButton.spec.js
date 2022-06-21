@@ -8,8 +8,7 @@ describe("ClickToChatButton", () => {
         div.setAttribute("id", "HMRC_Fixed_1");
         div.setAttribute("class", "hmrc-fixed-available");
         document.body.appendChild(div);
-        
-        console.log("------------------------document.body.innerHTML spec = " + document.body.innerHTML);
+
         let divId = document.createElement("div");
         divId.setAttribute("class", "c2cButton");
         divId.innerHTML = "ReadyText";
