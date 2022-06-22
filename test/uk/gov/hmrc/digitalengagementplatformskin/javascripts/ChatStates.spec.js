@@ -213,12 +213,14 @@ describe("Chat States", () => {
             const handleMessage = sdk.getMessages.mock.calls[0][0];
             const message = {
                 data: {
-                    messageType: MessageType.Chat_Denied
+                    messageType: MessageType.Chat_Denied,
+                    thank_you_image_label: "chat denied message"
+
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "No agents are available."});
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "chat denied message"});
         });
 
         it("reports Closed to the transcript", () => {

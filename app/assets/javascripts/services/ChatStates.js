@@ -140,7 +140,7 @@ export class EngagedState {
                 }
             );
         } else if (msg.messageType === MessageType.Chat_Denied) {
-            transcript.addSystemMsg({msg: "No agents are available."});
+            transcript.addSystemMsg({msg: msg["thank_you_image_label"]});
         } else if (msg.messageType === MessageType.ChatRoom_MemberLost) {
             transcript.addSystemMsg({msg: msg["display.text"]});
         } else if (msg.messageType === MessageType.Owner_TransferResponse) {
