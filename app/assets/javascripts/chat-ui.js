@@ -20,7 +20,6 @@ const chatListener = {
         },
     onC2CStateChanged: function (evt) {
         console.log("C2C state changed...")
-        //        chatController.updateC2CButtonsToInProgress();
     }
 };
 
