@@ -106,13 +106,10 @@ export default class CommonChatController {
     }
 
     _launchChat() {
-        // TODO: Do we need this any more, now that the above timeout is gone?
         if (this.container) {
-            console.log("This should never happen. If it doesn't, then remove this 'if'");
             return
         }
         try {
-            //            console.log("in launchChat: ", this);
             this._showChat();
 
             this._displayOpenerScripts(window);
@@ -202,7 +199,6 @@ export default class CommonChatController {
     }
 
     _moveToState(state) {
-        // Clean up previous state?
         this.state = state;
     }
 
@@ -247,7 +243,6 @@ export default class CommonChatController {
         }
 
         if (this._getEmbeddedDiv()) {
-            // Embedded view never dies.
             this.showEndChatPage(false);
         } else {
             this.container.destroy();
@@ -299,7 +294,6 @@ export default class CommonChatController {
         return false;
     }
 
-    // End event handler method
     _sendPostChatSurveyWebchat(sdk) {
         return new PostChatSurveyWebchatService(sdk);
     }
@@ -337,7 +331,6 @@ export default class CommonChatController {
             console.log("************************************")
             console.log("******* chat is in progress ********")
             console.log("************************************")
-                //            setTimeout(() => this._launchChat(), 2000);
         }
     }
 
@@ -345,7 +338,6 @@ export default class CommonChatController {
         this._moveToState(new ChatStates.ClosingState(() => this.closeChat()))
     }
 
-    // Begin event handler methods
     onSend() {
         const text = this.container.currentInputText().trim();
         this.container.clearCurrentInputText();
@@ -448,7 +440,5 @@ export default class CommonChatController {
 
             soundElement.innerHTML = "Turn notification sound off";
         }
-
     }
-
 };
