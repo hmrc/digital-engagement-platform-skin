@@ -33,7 +33,7 @@ export const ContainerHtml = `
                     name="comments"></textarea>
                 </div>
                 <div id="ciapiSend">
-                    <button id="ciapiSkinSendButton" class="govuk-button">Send</button>
+                    <button id="ciapiSkinSendButton" class="govuk-button" data-module="govuk-button">Send Message</button>
                 </div>
             </div>
             <div id="ciapiClose">
