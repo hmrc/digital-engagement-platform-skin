@@ -41,9 +41,9 @@ export const ContainerHtml = `
                 rows="5"
                 cols="50"
                 name="comments"></textarea></div>
-            <div id="ciapiSend"><button
-                id="ciapiSkinSendButton"
-                class="govuk-button">Send</button></div>
+            <div id="ciapiSend">
+                <button id="ciapiSkinSendButton" class="govuk-button" data-module="govuk-button">Send Message</button>
+            </div>
         </div>
     </div>
 </div>
