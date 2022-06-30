@@ -7,6 +7,7 @@ const babel = require('gulp-babel');
 const rollup = require('rollup-stream');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
+const uglify = require('gulp-uglify');
 
 gulp.task('jest', function () {
   return gulp.src('./test/uk/gov/hmrc/digitalengagementplatformskin/javascripts/').pipe(jest({
@@ -38,6 +39,7 @@ gulp.task('bundle', (done) => {
          ]
        ]
 	}))
+	.pipe(uglify())
     .pipe(gulp.dest('./app/assets/javascripts/bundle'));
     done();
 });
