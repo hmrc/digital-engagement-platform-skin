@@ -526,7 +526,7 @@ describe("CommonChatController", () => {
     expect(spy).toBeCalledTimes(1);
   });
 
-  it("getPrintDate sould return the date", () => {
+  it("getPrintDate should return the date", () => {
     const commonChatController = new CommonChatController();
     var getPrintDateSpy = jest.spyOn(commonChatController, 'getPrintDate');
 
@@ -535,7 +535,7 @@ describe("CommonChatController", () => {
     expect(getPrintDateSpy).toBeCalledTimes(1);
   });
 
-  it("removeElementsForPrint should remove elemnets", () => {
+  it("removeElementsForPrint should remove elements", () => {
     const commonChatController = new CommonChatController();
     var html = `
       <a id="back-link" class="govuk-back-link">Back</a>
@@ -639,7 +639,7 @@ describe("CommonChatController", () => {
     expect(document.getElementById("nuanMessagingFrame")).not.toBe(null);
   });
 
-  it("_moveToChatNullState should movr to a Null state", () => {
+  it("_moveToChatNullState should move to a Null state", () => {
     const commonChatController = new CommonChatController();
 
     let _moveToChatNullStateSpy = jest.spyOn(commonChatController, '_moveToChatNullState');
@@ -650,7 +650,7 @@ describe("CommonChatController", () => {
     expect(_moveToStateSpy).toBeCalledTimes(1);
   });
 
-  it("onSend cleans and sends customer imput text", () => {
+  it("onSend cleans and sends customer input text", () => {
     const commonChatController = new CommonChatController();
     const html = `<textarea id="custMsg" aria-label="Type your message here" placeholder="Type your message here" class="govuk-textarea" cols="50" name="comments">Testing 123</textarea>`;
     document.body.innerHTML = html;

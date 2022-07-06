@@ -2,7 +2,7 @@ import ClickToChatButton from '../../../../../../../app/assets/javascripts/utils
 
 
 describe("ClickToChatButton", () => {
-    it("cteates a ClickToChatButton", () => {
+    it("creates a ClickToChatButton", () => {
         
         let div = document.createElement("div");
         div.setAttribute("id", "HMRC_Fixed_1");
