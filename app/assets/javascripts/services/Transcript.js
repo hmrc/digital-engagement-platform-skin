@@ -189,6 +189,7 @@ export default class Transcript {
             printMessageSuffix.innerHTML = "You: ";
 
             printTimeStamp.className = "print-only govuk-body print-float-right print-timestamp-right";
+            printTimeStamp.setAttribute('aria-hidden', 'true');
 
         } else {
             if (isSystemMsg) {
@@ -203,6 +204,10 @@ export default class Transcript {
                 }
             } else {
                 var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" tabindex=-1 id=${id} aria-live=polite></div></div>`;
+                var timestampPrefix = document.createElement("span");
+                timestampPrefix.className = "govuk-visually-hidden";
+                timestampPrefix.innerHTML = this.getPrintTimeStamp(msgTimestamp);
+
                 var printMessageSuffix = document.createElement("span");
                 printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
                 if (window.Agent_Name != null) {
@@ -212,6 +217,7 @@ export default class Transcript {
                 }
 
                 printTimeStamp.className = "print-only govuk-body print-float-left";
+                printTimeStamp.setAttribute('aria-hidden', 'true');
             }
         }
 
@@ -222,7 +228,7 @@ export default class Transcript {
 
         if (!isSystemMsg) {
             printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
-            printOuterTimeStamp.innerHTML = printMessageSuffix.outerHTML + msgDiv + printTimeStamp.outerHTML;
+            printOuterTimeStamp.innerHTML = timestampPrefix.outerHTML + printMessageSuffix.outerHTML + msgDiv + printTimeStamp.outerHTML;
         } else {
             printOuterTimeStamp.innerHTML = msgDiv + printTimeStamp.outerHTML;
         }
