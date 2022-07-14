@@ -134,6 +134,15 @@ export default class Transcript {
         return strTime;
     }
 
+    _getTimestampPrefix(msgTimestamp) {
+        let timestampPrefix = document.createElement("span");
+
+        timestampPrefix.className = "govuk-visually-hidden";
+        timestampPrefix.innerHTML = this.getPrintTimeStamp(msgTimestamp);
+
+        return timestampPrefix.outerHTML;
+    }
+
     addAutomatonMsg(msg, msgTimestamp) {
 
         var id = "liveAutomatedMsgId" + (Math.random() * 100);
@@ -158,7 +167,7 @@ export default class Transcript {
         printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
 
         printOuterTimeStamp.className = "timestamp-outer";
-        printOuterTimeStamp.innerHTML = printMessageSuffix.outerHTML + agentDiv.outerHTML + printTimeStamp.outerHTML;
+        printOuterTimeStamp.innerHTML =  this._getTimestampPrefix(msgTimestamp) + printMessageSuffix.outerHTML + agentDiv.outerHTML + printTimeStamp.outerHTML;
 
         this.content.appendChild(printOuterTimeStamp);
 
@@ -176,12 +185,10 @@ export default class Transcript {
 
     _appendMessage(msg, msgTimestamp, msg_class, msg_type, isCustomerMsg, isSystemMsg, state, joinTransfer) {
 
-
         var id = "liveMsgId" + (Math.random() * 100);
 
         var printOuterTimeStamp = document.createElement("div");
         var printTimeStamp = document.createElement("p");
-        var timestampPrefix = document.createElement("span");
 
         if (isCustomerMsg == true) {
             var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id}></div></div>`;
@@ -205,8 +212,6 @@ export default class Transcript {
                 }
             } else {
                 var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" tabindex=-1 id=${id} aria-live=polite></div></div>`;
-                timestampPrefix.className = "govuk-visually-hidden";
-                timestampPrefix.innerHTML = this.getPrintTimeStamp(msgTimestamp);
 
                 var printMessageSuffix = document.createElement("span");
                 printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
@@ -228,9 +233,9 @@ export default class Transcript {
 
         if (!isSystemMsg) {
             printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
-            printOuterTimeStamp.innerHTML = timestampPrefix.outerHTML + printMessageSuffix.outerHTML + msgDiv + printTimeStamp.outerHTML;
+            printOuterTimeStamp.innerHTML = this._getTimestampPrefix(msgTimestamp) + printMessageSuffix.outerHTML + msgDiv + printTimeStamp.outerHTML;
         } else {
-            printOuterTimeStamp.innerHTML = msgDiv + printTimeStamp.outerHTML;
+            printOuterTimeStamp.innerHTML = this._getTimestampPrefix(msgTimestamp) + msgDiv + printTimeStamp.outerHTML;
         }
 
         if (window.chatId) {
