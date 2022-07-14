@@ -181,6 +181,7 @@ export default class Transcript {
 
         var printOuterTimeStamp = document.createElement("div");
         var printTimeStamp = document.createElement("p");
+        var timestampPrefix = document.createElement("span");
 
         if (isCustomerMsg == true) {
             var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id}></div></div>`;
@@ -204,7 +205,6 @@ export default class Transcript {
                 }
             } else {
                 var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" tabindex=-1 id=${id} aria-live=polite></div></div>`;
-                var timestampPrefix = document.createElement("span");
                 timestampPrefix.className = "govuk-visually-hidden";
                 timestampPrefix.innerHTML = this.getPrintTimeStamp(msgTimestamp);
 
