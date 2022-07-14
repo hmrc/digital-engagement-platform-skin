@@ -156,9 +156,9 @@ export default class Transcript {
         agentDiv.insertAdjacentHTML("beforeend", msgDiv);
         agentDiv.setAttribute('aria-live', 'polite');
 
-        var printMessageSuffix = document.createElement("span");
+        var printMessageSuffix = document.createElement("h2");
         printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
-        printMessageSuffix.innerHTML = "HMRC: ";
+        printMessageSuffix.innerHTML = "HMRC said: ";
 
         var printOuterTimeStamp = document.createElement("div");
 
@@ -192,9 +192,9 @@ export default class Transcript {
 
         if (isCustomerMsg == true) {
             var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id}></div></div>`;
-            var printMessageSuffix = document.createElement("span");
+            var printMessageSuffix = document.createElement("h2");
             printMessageSuffix.className = "print-only print-float-right govuk-!-font-weight-bold govuk-body";
-            printMessageSuffix.innerHTML = "You: ";
+            printMessageSuffix.innerHTML = "You said: ";
 
             printTimeStamp.className = "print-only govuk-body print-float-right print-timestamp-right";
             printTimeStamp.setAttribute('aria-hidden', 'true');
@@ -213,12 +213,12 @@ export default class Transcript {
             } else {
                 var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" tabindex=-1 id=${id} aria-live=polite></div></div>`;
 
-                var printMessageSuffix = document.createElement("span");
+                var printMessageSuffix = document.createElement("h3");
                 printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
                 if (window.Agent_Name != null) {
                     printMessageSuffix.innerHTML = window.Agent_Name + ": ";
                 } else {
-                    printMessageSuffix.innerHTML = "HMRC: ";
+                    printMessageSuffix.innerHTML = "HMRC said: ";
                 }
 
                 printTimeStamp.className = "print-only govuk-body print-float-left";
