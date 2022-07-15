@@ -81,7 +81,7 @@ export default class Transcript {
         return text;
     }
 
-    appendMessgeInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class, isSystemMsg, isCustomerMsg) {
+    appendMessageInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class, isSystemMsg, isCustomerMsg) {
         if (document.getElementById(id)) {
             if (that) {
                 var msg = that.decodeHTMLEntities(msg);
@@ -171,7 +171,7 @@ export default class Transcript {
 
         this.content.appendChild(printOuterTimeStamp);
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false, false);
+        setTimeout(this.appendMessageInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false, false);
 
         if (chatContainer) {
 
@@ -244,7 +244,7 @@ export default class Transcript {
 
         this.content.appendChild(printOuterTimeStamp);
 
-        setTimeout(this.appendMessgeInLiveRegion, 300, msg, id, msg_type, false, this, msg_class, isSystemMsg, isCustomerMsg);
+        setTimeout(this.appendMessageInLiveRegion, 300, msg, id, msg_type, false, this, msg_class, isSystemMsg, isCustomerMsg);
 
         if (chatContainer) {
 
