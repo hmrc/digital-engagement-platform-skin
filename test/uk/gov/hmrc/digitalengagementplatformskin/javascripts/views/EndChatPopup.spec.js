@@ -19,7 +19,7 @@ describe('EndChatPopup', () => {
       
 	});
 
-	test('Escape key closes end chat dialogie', () => {
+	test('Escape key closes end chat dialogue', () => {
         jest.spyOn(ecp, 'onCancelEndChat').mockImplementation();
 
         var event = new KeyboardEvent('keydown', {'key': 'Escape'});
@@ -28,7 +28,7 @@ describe('EndChatPopup', () => {
         expect(ecp.onCancelEndChat).toHaveBeenCalled();
 	});
 
-    test('Click on cancel end chat closes end chat dialogie', () => {
+    test('Click on cancel end chat closes end chat dialogue', () => {
         jest.spyOn(ecp, 'onCancelEndChat').mockImplementation();
 
         var event = new KeyboardEvent('click', {});
