@@ -158,7 +158,11 @@ export default class Transcript {
 
         var printMessageSuffix = document.createElement("h2");
         printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
-        printMessageSuffix.innerHTML = "HMRC said: ";
+		if (window.Agent_Name != null) {
+			printMessageSuffix.innerHTML = window.Agent_Name + " said: ";
+		} else {
+			printMessageSuffix.innerHTML = "HMRC said: ";
+		}
 
         var printOuterTimeStamp = document.createElement("div");
 
@@ -216,7 +220,7 @@ export default class Transcript {
                 var printMessageSuffix = document.createElement("h3");
                 printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
                 if (window.Agent_Name != null) {
-                    printMessageSuffix.innerHTML = window.Agent_Name + ": ";
+                    printMessageSuffix.innerHTML = window.Agent_Name + " said: ";
                 } else {
                     printMessageSuffix.innerHTML = "HMRC said: ";
                 }
