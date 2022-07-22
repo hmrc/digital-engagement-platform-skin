@@ -11,4 +11,4 @@ addSbtPlugin("org.scoverage"        % "sbt-scoverage"          % "1.9.3")
 addSbtPlugin("org.scalastyle"       %% "scalastyle-sbt-plugin" % "1.0.0")
 addSbtPlugin("com.timushev.sbt"     % "sbt-updates"            % "0.5.0")
 addSbtPlugin("net.ground5hark.sbt"  % "sbt-concat"             % "0.2.0")
-addSbtPlugin("com.typesafe.sbt"     % "sbt-twirl"              % "1.5.1") // https://github.com/playframework/twirl/issues/412
+addSbtPlugin("com.typesafe.sbt"     % "sbt-twirl"              % "1.5.1")
