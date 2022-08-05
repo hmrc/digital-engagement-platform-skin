@@ -8,38 +8,67 @@ const rollup = require('rollup-stream');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 const uglify = require('gulp-uglify');
+var ts = require('gulp-typescript');
 
 gulp.task('jest', function () {
-  return gulp.src('./test/uk/gov/hmrc/digitalengagementplatformskin/javascripts/').pipe(jest({
-    "testRegex": "((\\.|/*.)(spec))\\.js?$",
-    "automock": false,
-    "verbose": true
-  }));
+  return gulp
+    .src('./test/uk/gov/hmrc/digitalengagementplatformskin/javascripts/')
+    .pipe(
+      jest({
+        testRegex: '((\\.|/*.)(spec))\\.js?$',
+        automock: false,
+        verbose: true,
+      })
+    );
 });
 
 gulp.task('clean:node_modules', function () {
-  return del(['node_modules'], {force: true});
+  return del(['node_modules'], { force: true });
 });
 
-gulp.task('bundle', (done) => {
-    return rollup({
-      input: './app/assets/javascripts/hmrcChatSkin.js',
-      format: 'iife',
-      sourcemap: false
-    })
-    .pipe(source('hmrcChatSkin.js', './app/assets/javascripts/'))
-    .pipe(buffer())
-    .pipe(babel({
-       "presets": [
-         [
-           "@babel/preset-env",
-           {
-            "targets": "ie >= 11"
-           }
-         ]
-       ]
-	}))
-	.pipe(uglify())
-    .pipe(gulp.dest('./app/assets/javascripts/bundle'));
-    done();
+gulp.task('ts', function () {
+  return gulp
+    .src('./app/assets/typescripts/*.ts')
+    .pipe(
+      ts({
+        noImplicitAny: true,
+        moduleResolution: 'node',
+        target: 'ES6',
+      })
+    )
+    .pipe(gulp.dest('./app/assets/typescripts/'));
 });
+
+gulp.task('combine_js', (done) => {
+  return rollup({
+    input: './app/assets/javascripts/hmrcChatSkin.js',
+    format: 'iife',
+    sourcemap: false,
+  })
+    .pipe(source('hmrcChatSkin.js', './app/assets/javascripts/', './tmp/js'))
+    .pipe(buffer())
+    .pipe(
+      babel({
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              targets: 'ie >= 11',
+            },
+          ],
+        ],
+      })
+    )
+
+    .pipe(uglify())
+    .pipe(gulp.dest('./app/assets/javascripts/bundle'));
+});
+
+gulp.task(
+  'bundle',
+  gulp.series('ts', 'combine_js', (done) => {
+    return del('./app/assets/typescripts/*.js');
+    done();
+  })
+);
+
