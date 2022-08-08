@@ -45,7 +45,13 @@ gulp.task('combine_js', (done) => {
     format: 'iife',
     sourcemap: false,
   })
-    .pipe(source('hmrcChatSkin.js', './app/assets/javascripts/', './tmp/js'))
+    .pipe(
+      source(
+        'hmrcChatSkin.js',
+        './app/assets/javascripts/',
+        './app/assets/typescripts/'
+      )
+    )
     .pipe(buffer())
     .pipe(
       babel({
@@ -59,7 +65,6 @@ gulp.task('combine_js', (done) => {
         ],
       })
     )
-
     .pipe(uglify())
     .pipe(gulp.dest('./app/assets/javascripts/bundle'));
 });

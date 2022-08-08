@@ -2,7 +2,6 @@ import ReactiveChatController from './controllers/ReactiveChatController';
 import ProactiveChatController from './controllers/ProactiveChatController';
 import CommonChatController from './controllers/CommonChatController';
 
-// import { testFunction } from "./test";
 import { testFunction } from '../typescripts/test';
 import { testFunction2 } from '../typescripts/test2';
 
