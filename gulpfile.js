@@ -26,12 +26,12 @@ gulp.task('clean:node_modules', function () {
   return del(['node_modules'], { force: true });
 });
 
-gulp.task('ts', function () {
+gulp.task('transpile_typescript', function () {
   return gulp
     .src('./app/assets/typescripts/*.ts')
     .pipe(
       ts({
-        noImplicitAny: true,
+//        noImplicitAny: true,
         moduleResolution: 'node',
         target: 'ES6',
       })
@@ -71,7 +71,7 @@ gulp.task('combine_js', (done) => {
 
 gulp.task(
   'bundle',
-  gulp.series('ts', 'combine_js', (done) => {
+  gulp.series('transpile_typescript', 'combine_js', (done) => {
     return del('./app/assets/typescripts/*.js');
     done();
   })

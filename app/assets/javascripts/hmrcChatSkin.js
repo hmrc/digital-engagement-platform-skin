@@ -1,3 +1,4 @@
-import * as chatUi from './chat-ui'
+import * as chatUi from '../typescripts/chat-ui';
 
 chatUi.hookWindow(window);
+
