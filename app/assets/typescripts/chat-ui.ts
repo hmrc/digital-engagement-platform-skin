@@ -2,6 +2,8 @@ import ReactiveChatController from '../javascripts/controllers/ReactiveChatContr
 import ProactiveChatController from '../javascripts/controllers/ProactiveChatController';
 import CommonChatController from '../javascripts/controllers/CommonChatController';
 
+import { AugmentedWindow } from './augmented-window';
+
 function safeHandler(f) {
     return function () {
         try {
@@ -12,20 +14,8 @@ function safeHandler(f) {
     };
 }
 
-declare global {
-    interface Window {
-        chatId: string;
-        agentId: string;
-        nuanceFrameworkLoaded: () => any;
-        InqRegistry: any;
-        nuanceReactive_HMRC_CIAPI_Fixed_1: () => any;
-        nuanceReactive_HMRC_CIAPI_Anchored_1: () => any;
-        nuanceProactive: () => any;
-    }
-}
-
 const chatListener = {
-    onAnyEvent: function (evt: any) {
+    onAnyEvent: function (evt) {
         console.log('Chat any event:', evt);
         window.chatId = evt.chatID;
 
@@ -35,12 +25,12 @@ const chatListener = {
 
         window.agentId = evt.agentID;
     },
-    onC2CStateChanged: function (evt: any) {
+    onC2CStateChanged: function (evt) {
         console.log('C2C state changed...');
     },
 };
 
-export function hookWindow(w: Window) {
+export function hookWindow(w) {
     var commonChatController = new CommonChatController();
     var reactiveChatController = new ReactiveChatController();
     var proactiveChatController = new ProactiveChatController();
