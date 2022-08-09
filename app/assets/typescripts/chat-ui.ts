@@ -3,75 +3,79 @@ import ProactiveChatController from '../javascripts/controllers/ProactiveChatCon
 import CommonChatController from '../javascripts/controllers/CommonChatController';
 
 function safeHandler(f) {
-  
     return function () {
-      try {
-        f.apply(null, arguments);
-      } catch (e) {
-        console.error(`!!!! handler for ${f.name}: got exception `, e);
-      }
+        try {
+            f.apply(null, arguments);
+        } catch (e) {
+            console.error(`!!!! handler for ${f.name}: got exception `, e);
+        }
     };
-  }
+}
 
-  declare global {
+declare global {
     interface Window {
-        chatId:any;
-        agentId:string;
-        nuanceFrameworkLoaded:any;
-        InqRegistry:object;
-        nuanceReactive_HMRC_CIAPI_Fixed_1:any;
+        chatId: string;
+        agentId: string;
+        nuanceFrameworkLoaded: () => any;
+        InqRegistry: object;
+        nuanceReactive_HMRC_CIAPI_Fixed_1: any;
         nuanceReactive_HMRC_CIAPI_Anchored_1: any;
-        nuanceProactive:any;
+        nuanceProactive: any;
     }
 }
 
-  const chatListener = {
+const chatListener = {
     onAnyEvent: function (evt: any) {
-      console.log('Chat any event:', evt);
-      window.chatId = evt.chatID;
-      window.agentId = evt.agentID;
+        console.log('Chat any event:', evt);
+        window.chatId = evt.chatID;
+
+        // this is being set on every event, and is sometimes undefined
+        // is this expected?
+        console.log('event agent id: ', evt.agentID);
+
+        window.agentId = evt.agentID;
     },
     onC2CStateChanged: function (evt: any) {
-      console.log('C2C state changed...');
+        console.log('C2C state changed...');
     },
-  };
+};
 
-  export function hookWindow(w: Window) {
+export function hookWindow(w: Window) {
     var commonChatController = new CommonChatController();
     var reactiveChatController = new ReactiveChatController();
     var proactiveChatController = new ProactiveChatController();
 
     w.InqRegistry = {
         listeners: [chatListener],
-      };
+    };
 
-
-      w.nuanceFrameworkLoaded = safeHandler(function nuanceFrameworkLoaded() {
+    w.nuanceFrameworkLoaded = safeHandler(function nuanceFrameworkLoaded() {
         commonChatController.nuanceFrameworkLoaded(w);
-      });
+    });
 
-      w.nuanceReactive_HMRC_CIAPI_Fixed_1 = safeHandler(
+    w.nuanceReactive_HMRC_CIAPI_Fixed_1 = safeHandler(
         function nuanceReactive_HMRC_CIAPI_Fixed_1(c2cObj) {
-          reactiveChatController.addC2CButton(
-            c2cObj,
-            'HMRC_CIAPI_Fixed_1',
-            'fixed'
-          );
+            reactiveChatController.addC2CButton(
+                c2cObj,
+                'HMRC_CIAPI_Fixed_1',
+                'fixed'
+            );
         }
-      );
+    );
 
-      w.nuanceReactive_HMRC_CIAPI_Anchored_1 = safeHandler(
+    w.nuanceReactive_HMRC_CIAPI_Anchored_1 = safeHandler(
         function nuanceReactive_HMRC_CIAPI_Anchored_1(c2cObj) {
-          reactiveChatController.addC2CButton(
-            c2cObj,
-            'HMRC_CIAPI_Anchored_1',
-            'anchored'
-          );
+            reactiveChatController.addC2CButton(
+                c2cObj,
+                'HMRC_CIAPI_Anchored_1',
+                'anchored'
+            );
         }
-      );
+    );
 
-      w.nuanceProactive = safeHandler(function nuanceProactive(obj) {
+    w.nuanceProactive = safeHandler(function nuanceProactive(obj) {
         console.log('### PROACTIVE', obj);
         proactiveChatController.launchProactiveChat();
-      });
-  }
+    });
+}
+

@@ -31,7 +31,6 @@ gulp.task('transpile_typescript', function () {
     .src('./app/assets/typescripts/*.ts')
     .pipe(
       ts({
-//        noImplicitAny: true,
         moduleResolution: 'node',
         target: 'ES6',
       })
