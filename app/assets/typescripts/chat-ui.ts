@@ -17,10 +17,10 @@ declare global {
         chatId: string;
         agentId: string;
         nuanceFrameworkLoaded: () => any;
-        InqRegistry: object;
-        nuanceReactive_HMRC_CIAPI_Fixed_1: any;
-        nuanceReactive_HMRC_CIAPI_Anchored_1: any;
-        nuanceProactive: any;
+        InqRegistry: any;
+        nuanceReactive_HMRC_CIAPI_Fixed_1: () => any;
+        nuanceReactive_HMRC_CIAPI_Anchored_1: () => any;
+        nuanceProactive: () => any;
     }
 }
 
