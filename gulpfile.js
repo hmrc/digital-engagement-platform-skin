@@ -10,6 +10,9 @@ const buffer = require('vinyl-buffer');
 const uglify = require('gulp-uglify');
 var ts = require('gulp-typescript');
 
+var browserify = require('browserify');
+var tsify = require('tsify');
+
 gulp.task('jest', function () {
     return gulp
         .src('./test/uk/gov/hmrc/digitalengagementplatformskin/javascripts/')
@@ -26,57 +29,77 @@ gulp.task('clean:node_modules', function () {
     return del(['node_modules'], { force: true });
 });
 
-gulp.task('transpile_typescript', function () {
-    return gulp
-        .src('./app/assets/typescripts/*.ts')
-        .pipe(
-            ts({
-                typeRoots: ['./app/assets/typescripts/types'],
-                allowJs: true,
-                rootDir: './app/assets',
-                moduleResolution: 'node',
-                target: 'ES6',
-            })
-        )
-        .pipe(gulp.dest('./app/assets/typescripts/'));
+var tsProject = ts.createProject('./tsconfig.json');
+
+gulp.task('compile_all', function () {
+    return browserify({
+        basedir: '.',
+        debug: true,
+        entries: ['./app/assets/javascripts/hmrcChatSkin.js'],
+        cache: {},
+        packageCache: {},
+    })
+        .plugin(tsify)
+        .bundle()
+        .pipe(source('bundle.js'))
+        .pipe(gulp.dest('./app/assets/javascripts/bundle'));
 });
 
-gulp.task('combine_js', (done) => {
-    return rollup({
-        input: './app/assets/javascripts/hmrcChatSkin.js',
-        format: 'iife',
-        sourcemap: false,
-    })
-        .pipe(
-            source(
-                'hmrcChatSkin.js',
-                './app/assets/javascripts/',
-                './app/assets/typescripts/'
-            )
-        )
-        .pipe(buffer())
-        .pipe(
-            babel({
-                plugins: ['@babel/plugin-syntax-flow'],
-                presets: [
-                    [
-                        '@babel/preset-env',
-                        {
-                            targets: 'ie >= 10',
-                        },
-                    ],
-                ],
-            })
-        )
-        .pipe(uglify())
-        .pipe(gulp.dest('./app/assets/javascripts/bundle'));
+gulp.task('delete_bundle', function () {
+    return del('./app/assets/javascripts/bundle/*.js');
 });
 
 gulp.task(
     'bundle',
-    gulp.series('transpile_typescript', 'combine_js', (done) => {
-        return del('./app/assets/typescripts/*.js');
+    gulp.series('delete_bundle', 'compile_all', (done) => {
         done();
     })
 );
+
+// gulp.task('transpile_typescript', function () {
+//     return gulp
+//         .src('./app/assets/typescripts/*.ts')
+//         .pipe(
+//             ts({
+//                 typeRoots: ['./app/assets/typescripts/types/index.d.ts'],
+//                 allowJs: true,
+//                 rootDir: './app/assets',
+//                 moduleResolution: 'node',
+//                 target: 'ES6',
+//             })
+//         )
+//         .pipe(gulp.dest('./app/assets/typescripts/'));
+// });
+
+//gulp.task('combine_js', (done) => {
+//    return rollup({
+//        input: './app/assets/javascripts/hmrcChatSkin.js',
+//        format: 'iife',
+//        sourcemap: false,
+//    })
+//        .pipe(
+//            source(
+//                'hmrcChatSkin.js',
+//                './app/assets/javascripts/',
+//                './app/assets/typescripts/'
+//            )
+//        )
+//        .pipe(buffer())
+//        .pipe(
+//            babel({
+//                plugins: ['@babel/plugin-syntax-flow'],
+//                presets: [
+//                    [
+//                        '@babel/preset-env',
+//                        {
+//                            targets: 'ie >= 10',
+//                        },
+//                    ],
+//                ],
+//            })
+//        )
+//        .pipe(uglify())
+//        .pipe(gulp.dest('./app/assets/javascripts/bundle'));
+//});
+//
 

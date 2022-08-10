@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
-        // "noImplicitAny": true,
-        "moduleResolution": "node",
-        "target": "ES6"
-      }
-   
+    "moduleResolution": "node",
+    "target": "ES6",
+    "allowJs": true,
+    "typeRoots": ["./index.d.ts"]
+    }
 }
