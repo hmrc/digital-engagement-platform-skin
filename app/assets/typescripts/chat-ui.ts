@@ -2,8 +2,6 @@ import ReactiveChatController from '../javascripts/controllers/ReactiveChatContr
 import ProactiveChatController from '../javascripts/controllers/ProactiveChatController';
 import CommonChatController from '../javascripts/controllers/CommonChatController';
 
-import { AugmentedWindow } from './augmented-window';
-
 function safeHandler(f) {
     return function () {
         try {

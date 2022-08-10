@@ -31,6 +31,7 @@ gulp.task('transpile_typescript', function () {
         .src('./app/assets/typescripts/*.ts')
         .pipe(
             ts({
+                typeRoots: ['./app/assets/typescripts/types'],
                 allowJs: true,
                 rootDir: './app/assets',
                 moduleResolution: 'node',
