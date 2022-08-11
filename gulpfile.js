@@ -3,12 +3,8 @@
 var gulp = require('gulp');
 const del = require('del');
 var jest = require('gulp-jest').default;
-const babel = require('gulp-babel');
-const rollup = require('rollup-stream');
 const source = require('vinyl-source-stream');
-const buffer = require('vinyl-buffer');
 const uglify = require('gulp-uglify');
-var ts = require('gulp-typescript');
 
 var browserify = require('browserify');
 var tsify = require('tsify');
@@ -29,8 +25,6 @@ gulp.task('clean:node_modules', function () {
     return del(['node_modules'], { force: true });
 });
 
-var tsProject = ts.createProject('./tsconfig.json');
-
 gulp.task('compile_all', function () {
     return browserify({
         basedir: '.',
@@ -40,8 +34,12 @@ gulp.task('compile_all', function () {
         packageCache: {},
     })
         .plugin(tsify)
+        .transform('babelify', {
+            presets: ['@babel/preset-env'],
+            extensions: ['.ts'],
+        })
         .bundle()
-        .pipe(source('bundle.js'))
+        .pipe(source('hmrcChatSkin.js'))
         .pipe(gulp.dest('./app/assets/javascripts/bundle'));
 });
 
@@ -55,51 +53,4 @@ gulp.task(
         done();
     })
 );
-
-// gulp.task('transpile_typescript', function () {
-//     return gulp
-//         .src('./app/assets/typescripts/*.ts')
-//         .pipe(
-//             ts({
-//                 typeRoots: ['./app/assets/typescripts/types/index.d.ts'],
-//                 allowJs: true,
-//                 rootDir: './app/assets',
-//                 moduleResolution: 'node',
-//                 target: 'ES6',
-//             })
-//         )
-//         .pipe(gulp.dest('./app/assets/typescripts/'));
-// });
-
-//gulp.task('combine_js', (done) => {
-//    return rollup({
-//        input: './app/assets/javascripts/hmrcChatSkin.js',
-//        format: 'iife',
-//        sourcemap: false,
-//    })
-//        .pipe(
-//            source(
-//                'hmrcChatSkin.js',
-//                './app/assets/javascripts/',
-//                './app/assets/typescripts/'
-//            )
-//        )
-//        .pipe(buffer())
-//        .pipe(
-//            babel({
-//                plugins: ['@babel/plugin-syntax-flow'],
-//                presets: [
-//                    [
-//                        '@babel/preset-env',
-//                        {
-//                            targets: 'ie >= 10',
-//                        },
-//                    ],
-//                ],
-//            })
-//        )
-//        .pipe(uglify())
-//        .pipe(gulp.dest('./app/assets/javascripts/bundle'));
-//});
-//
 
