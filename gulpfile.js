@@ -5,6 +5,8 @@ const del = require('del');
 var jest = require('gulp-jest').default;
 const source = require('vinyl-source-stream');
 const uglify = require('gulp-uglify');
+var wrap = require('gulp-wrap');
+var buffer = require('vinyl-buffer');
 
 var browserify = require('browserify');
 var tsify = require('tsify');
@@ -25,7 +27,7 @@ gulp.task('clean:node_modules', function () {
     return del(['node_modules'], { force: true });
 });
 
-gulp.task('compile_all', function () {
+gulp.task('bundle', (done) => {
     return browserify({
         basedir: '.',
         debug: true,
@@ -40,17 +42,11 @@ gulp.task('compile_all', function () {
         })
         .bundle()
         .pipe(source('hmrcChatSkin.js'))
+        .pipe(wrap('(function(){\n"use strict";\n<%= contents %>\n})();'))
+        .pipe(buffer())
+        .pipe(uglify())
         .pipe(gulp.dest('./app/assets/javascripts/bundle'));
-});
 
-gulp.task('delete_bundle', function () {
-    return del('./app/assets/javascripts/bundle/*.js');
+    done();
 });
-
-gulp.task(
-    'bundle',
-    gulp.series('delete_bundle', 'compile_all', (done) => {
-        done();
-    })
-);
 
