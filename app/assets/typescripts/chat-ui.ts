@@ -2,6 +2,11 @@ import ReactiveChatController from '../javascripts/controllers/ReactiveChatContr
 import ProactiveChatController from '../javascripts/controllers/ProactiveChatController';
 import CommonChatController from '../javascripts/controllers/CommonChatController';
 
+interface ChatEvent extends Event {
+    chatID: string;
+    agentID: string;
+}
+
 function safeHandler(f) {
     return function () {
         try {
@@ -13,25 +18,20 @@ function safeHandler(f) {
 }
 
 const chatListener = {
-    onAnyEvent: function (evt) {
+    onAnyEvent: function (evt: ChatEvent) {
         console.log('Chat any event:', evt);
         window.chatId = evt.chatID;
-
-        // this is being set on every event, and is sometimes undefined
-        // is this expected?
-        console.log('event agent id: ', evt.agentID);
-
         window.agentId = evt.agentID;
     },
-    onC2CStateChanged: function (evt) {
+    onC2CStateChanged: function (_: ChatEvent) {
         console.log('C2C state changed...');
     },
 };
 
-export function hookWindow(w) {
-    var commonChatController = new CommonChatController();
-    var reactiveChatController = new ReactiveChatController();
-    var proactiveChatController = new ProactiveChatController();
+export function hookWindow(w: Window) {
+    const commonChatController = new CommonChatController();
+    const reactiveChatController = new ReactiveChatController();
+    const proactiveChatController = new ProactiveChatController();
 
     w.InqRegistry = {
         listeners: [chatListener],
@@ -42,7 +42,7 @@ export function hookWindow(w) {
     });
 
     w.nuanceReactive_HMRC_CIAPI_Fixed_1 = safeHandler(
-        function nuanceReactive_HMRC_CIAPI_Fixed_1(c2cObj) {
+        function nuanceReactive_HMRC_CIAPI_Fixed_1(c2cObj: object) {
             reactiveChatController.addC2CButton(
                 c2cObj,
                 'HMRC_CIAPI_Fixed_1',
@@ -52,7 +52,7 @@ export function hookWindow(w) {
     );
 
     w.nuanceReactive_HMRC_CIAPI_Anchored_1 = safeHandler(
-        function nuanceReactive_HMRC_CIAPI_Anchored_1(c2cObj) {
+        function nuanceReactive_HMRC_CIAPI_Anchored_1(c2cObj: object) {
             reactiveChatController.addC2CButton(
                 c2cObj,
                 'HMRC_CIAPI_Anchored_1',
@@ -61,7 +61,7 @@ export function hookWindow(w) {
         }
     );
 
-    w.nuanceProactive = safeHandler(function nuanceProactive(obj) {
+    w.nuanceProactive = safeHandler(function nuanceProactive(obj: object) {
         console.log('### PROACTIVE', obj);
         proactiveChatController.launchProactiveChat();
     });

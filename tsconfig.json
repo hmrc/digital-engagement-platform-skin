@@ -1,8 +1,10 @@
 {
     "compilerOptions": {
-    "moduleResolution": "node",
-    "target": "ES5",
-    "allowJs": true,
-    "typeRoots": ["./index.d.ts"]
+        "moduleResolution": "node",
+        "target": "ES5",
+        "allowJs": true,
+        "typeRoots": ["./index.d.ts"],
+        "forceConsistentCasingInFileNames": true,
+        "allowUnreachableCode": false
     }
 }
