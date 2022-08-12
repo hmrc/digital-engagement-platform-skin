@@ -1,15 +1,15 @@
 'use strict';
 
-var gulp = require('gulp');
+const gulp = require('gulp');
 const del = require('del');
-var jest = require('gulp-jest').default;
+const jest = require('gulp-jest').default;
 const source = require('vinyl-source-stream');
 const uglify = require('gulp-uglify');
-var wrap = require('gulp-wrap');
-var buffer = require('vinyl-buffer');
-
-var browserify = require('browserify');
-var tsify = require('tsify');
+const wrap = require('gulp-wrap');
+const buffer = require('vinyl-buffer');
+const babel = require('gulp-babel');
+const browserify = require('browserify');
+const tsify = require('tsify');
 
 gulp.task('jest', function () {
     return gulp
@@ -36,14 +36,22 @@ gulp.task('bundle', (done) => {
         packageCache: {},
     })
         .plugin(tsify)
-        .transform('babelify', {
-            presets: ['@babel/preset-env'],
-            extensions: ['.ts'],
-        })
         .bundle()
         .pipe(source('hmrcChatSkin.js'))
-        .pipe(wrap('(function(){\n"use strict";\n<%= contents %>\n})();'))
+        .pipe(wrap('(function(){\n"use strict";\n<%= contents %>\n})();')) // IIFE
         .pipe(buffer())
+        .pipe(
+            babel({
+                presets: [
+                    [
+                        '@babel/preset-env',
+                        {
+                            targets: 'ie >= 10',
+                        },
+                    ],
+                ],
+            })
+        )
         .pipe(uglify())
         .pipe(gulp.dest('./app/assets/javascripts/bundle'));
 
