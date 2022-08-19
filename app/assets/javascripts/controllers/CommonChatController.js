@@ -136,7 +136,12 @@ export default class CommonChatController {
                 this.updateDav3DeskproRefererUrls();
             }
 
-            document.getElementById("error-message").remove();
+            const existingErrorMessage = document.getElementById("error-message")
+
+            if(existingErrorMessage) {
+                existingErrorMessage.remove()
+            }
+
         } catch (e) {
             console.error("!!!! launchChat got exception: ", e);
         }
