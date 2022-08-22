@@ -94,7 +94,7 @@ const html = `
 
             <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question5">
               <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                  If you had not used this service today, how else would you have contacted us?I
+                  If you had not used this service today, how else would you have contacted us?
               </legend>
               <div class="govuk-radios" data-module="govuk-radios">
 
