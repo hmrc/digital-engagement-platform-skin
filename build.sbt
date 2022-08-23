@@ -23,7 +23,7 @@ lazy val scoverageSettings = {
       ".*DateTimeQueryStringBinder.*", // better covered via wiremock/E2E integration tests
       ".*Test.*"
     ).mkString(";"),
-    ScoverageKeys.coverageMinimum := 88,
+    ScoverageKeys.coverageMinimumStmtTotal := 88,
     ScoverageKeys.coverageFailOnMinimum := false,
     ScoverageKeys.coverageHighlighting := true
   )
@@ -44,7 +44,7 @@ lazy val microservice = Project(appName, file("."))
     Concat.groups := Seq(
       "javascripts/hmrcChatSkinBundle.js" -> group(Seq("javascripts/bundle/hmrcChatSkin.js"))
     ),
-    pipelineStages in Assets := Seq(concat)
+    Assets / pipelineStages := Seq(concat)
   )
   .settings(publishingSettings: _*)
   .configs(IntegrationTest)
