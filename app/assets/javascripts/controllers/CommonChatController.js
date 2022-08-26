@@ -26,9 +26,9 @@ const webchatSurvey = {
     questions: [
         { id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false },
         { id: ["question2"], text: "How easy was it to do what you needed to do today?", freeform: false },
-        { id: ["question3"], text: "Overall, how did you feel about the service you accessed today?", freeform: false },
+        { id: ["question3"], text: "Overall, how did you feel about the service you received today?", freeform: false },
         { id: ["question4"], text: "Why did you give these scores?", freeform: true },
-        { id: ["question5"], text: "If you had not used webchat today, how else would you have contacted us?", freeform: false },
+        { id: ["question5"], text: "If you had not used this service today, how else would you have contacted us?", freeform: false },
         { id: ["question6"], text: "Provide other contact option", freeform: true }
     ]
 };
@@ -36,10 +36,12 @@ const webchatSurvey = {
 const digitalAssistantSurvey = {
     id: "13000304",
     questions: [
-        { id: ["question1"], text: "Was the digital assistant useful?", freeform: false },
-        { id: ["question2"], text: "How could we improve it?", freeform: false },
-        { id: ["question3"], text: "If you had not used the digital assistant, how else would you have contacted us?", freeform: false },
-        { id: ["question4"], text: "Provide other contact options", freeform: false }
+        { id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false },
+        { id: ["question2"], text: "How easy was it to do what you needed to do today?", freeform: false },
+        { id: ["question3"], text: "Overall, how did you feel about the service you received today?", freeform: false },
+        { id: ["question4"], text: "Why did you give these scores?", freeform: true },
+        { id: ["question5"], text: "If you had not used this service today, how else would you have contacted us?", freeform: false },
+        { id: ["question6"], text: "Provide other contact option", freeform: true }
     ]
 }
 
@@ -134,7 +136,12 @@ export default class CommonChatController {
                 this.updateDav3DeskproRefererUrls();
             }
 
-            document.getElementById("error-message").remove();
+            const existingErrorMessage = document.getElementById("error-message")
+
+            if(existingErrorMessage) {
+                existingErrorMessage.remove()
+            }
+
         } catch (e) {
             console.error("!!!! launchChat got exception: ", e);
         }
@@ -413,9 +420,11 @@ export default class CommonChatController {
         const answers = {
             answers: [
                 { id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false },
-                { id: "q2-", text: this.getTextAreaValue("q2-"), freeform: true },
+                { id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false },
                 { id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false },
-                { id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true }
+                { id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true },
+                { id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false },
+                { id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true }
             ]
         };
 
