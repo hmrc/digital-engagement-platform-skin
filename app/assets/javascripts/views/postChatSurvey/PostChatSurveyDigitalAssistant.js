@@ -4,8 +4,8 @@ const html = `
 
 <p>We use your feedback to improve our services. These questions are optional.</p>
 
-<div onclick="window.print();">
-  <p>You can still <a href="#">print or save your chat</a>.</p>
+<div>
+  <>You can still <button id="printPostChat">print or save your chat</button>.</p>
 </div>
 
 <div class="govuk-grid-row">
@@ -160,7 +160,67 @@ export default class PostChatSurveyDigitalAssistant {
                 document.getElementById("q4-").value = "";
            }
         });
+
+        this.wrapper.querySelector("#printPostChat").addEventListener(
+          "click",
+          (e) => {
+              this.onPrintPostChatSurvey(this);
+          }
+      );
+
     }
+
+    getPrintDate() {
+
+      const monthNames = ["January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"
+      ];
+
+      const d = new Date();
+      return d.getDate() + " " + monthNames[d.getMonth()] + " " + d.getUTCFullYear();
+    }
+
+    removeElementsForPrint(listOfElements) {
+      listOfElements.forEach(function(item) {
+          if (document.getElementsByClassName(item)[0]) {
+              document.getElementsByClassName(item)[0].classList.add("govuk-!-display-none-print")
+          }
+      });
+  }
+
+    onPrintPostChatSurvey(e) {
+      e.preventDefault;
+
+      let transcript = document.getElementById("ciapiSkinChatTranscript");
+      transcript.style.display = "";
+
+      let postChatSurvey = document.getElementById("postChatSurveyWrapper");
+      postChatSurvey.style.display = "none";
+
+
+      document.getElementById("print-date").innerHTML = this.getPrintDate();
+
+      const elementList = [
+          "app-related-items",
+          "govuk-back-link",
+          "govuk-phase-banner",
+          "hmrc-report-technical-issue",
+          "govuk-footer",
+          "govuk-heading-xl",
+          "hmrc-user-research-banner",
+          "cbanner-govuk-cookie-banner"
+      ];
+
+      this.removeElementsForPrint(elementList);
+
+      console.log("Calling onPrintPostChatSurvey in CommonChatController")
+
+      window.print();
+
+      return false;
+  }
+
+
 
     detach() {
         this.container.removeChild(this.wrapper)
