@@ -295,7 +295,6 @@ export default class CommonChatController {
 
         this.removeElementsForPrint(elementList);
 
-
         window.print();
 
         return false;

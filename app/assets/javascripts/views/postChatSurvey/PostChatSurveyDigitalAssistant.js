@@ -5,7 +5,7 @@ const html = `
 <p>We use your feedback to improve our services. These questions are optional.</p>
 
 <div>
-  <>You can still <button id="printPostChat">print or save your chat</button>.</p>
+  <p>You can still <a href="javascript:void(0);" id="printPostChat">print or save your chat</a>.</p>
 </div>
 
 <div class="govuk-grid-row">
@@ -164,9 +164,18 @@ export default class PostChatSurveyDigitalAssistant {
         this.wrapper.querySelector("#printPostChat").addEventListener(
           "click",
           (e) => {
+              e.preventDefault;
               this.onPrintPostChatSurvey(this);
           }
       );
+
+      window.addEventListener('afterprint', (event) => {
+        let transcript = document.getElementById("ciapiSkinChatTranscript");
+        transcript.style.display = "none";
+
+        let postChatSurvey = document.getElementById("postChatSurveyWrapper");
+        postChatSurvey.style.display = "";
+      });
 
     }
 
@@ -208,7 +217,8 @@ export default class PostChatSurveyDigitalAssistant {
           "govuk-footer",
           "govuk-heading-xl",
           "hmrc-user-research-banner",
-          "cbanner-govuk-cookie-banner"
+          "cbanner-govuk-cookie-banner",
+          "postChatSurveyWrapper"
       ];
 
       this.removeElementsForPrint(elementList);
@@ -219,7 +229,6 @@ export default class PostChatSurveyDigitalAssistant {
 
       return false;
   }
-
 
 
     detach() {
