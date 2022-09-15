@@ -2,6 +2,7 @@ import CommonChatController from '../../../../../../../app/assets/javascripts/co
 import PostChatSurveyWebchatService from '../../../../../../../app/assets/javascripts/services/PostChatSurveyWebchatService'
 import PostChatSurveyDigitalAssistantService from '../../../../../../../app/assets/javascripts/services/PostChatSurveyDigitalAssistantService'
 import * as ChatStates from '../../../../../../../app/assets/javascripts/services/ChatStates'
+import PrintUtils from '../../../../../../../app/assets/javascripts/utils/PrintUtils';
 
 function createDisplayOpenerScriptsDependencies() {
   const sdk = {
@@ -526,14 +527,7 @@ describe("CommonChatController", () => {
     expect(spy).toBeCalledTimes(1);
   });
 
-  it("getPrintDate should return the date", () => {
-    const commonChatController = new CommonChatController();
-    var getPrintDateSpy = jest.spyOn(commonChatController, 'getPrintDate');
 
-    commonChatController.getPrintDate();
-
-    expect(getPrintDateSpy).toBeCalledTimes(1);
-  });
 
   it("removeElementsForPrint should remove elements", () => {
     const commonChatController = new CommonChatController();
@@ -573,7 +567,7 @@ describe("CommonChatController", () => {
       "hmrc-user-research-banner",
     ];
 
-    commonChatController.removeElementsForPrint(elementList);
+    PrintUtils.removeElementsForPrint(elementList);
 
     expect(document.getElementById("back-link").classList.contains("govuk-!-display-none-print")).toBe(true);
     expect(document.getElementById("hmrc-report-technical-issue").classList.contains("govuk-!-display-none-print")).toBe(true);
