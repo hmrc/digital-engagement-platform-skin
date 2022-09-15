@@ -1,3 +1,5 @@
+import PrintUtils from "../../utils/PrintUtils"
+
 const html = `
 <div id="postChatSurvey">
 <h2 id="legend_give_feedback" tabindex="-1">Give feedback</h2>
@@ -170,44 +172,25 @@ export default class PostChatSurveyDigitalAssistant {
       );
 
       window.addEventListener('afterprint', (event) => {
-        let transcript = document.getElementById("ciapiSkinChatTranscript");
-        transcript.style.display = "none";
-
-        let postChatSurvey = document.getElementById("postChatSurveyWrapper");
-        postChatSurvey.style.display = "";
+        this.showTranscriptAndSurvey(false, true)
       });
 
     }
 
-    getPrintDate() {
+    showTranscriptAndSurvey(showTranscript, showSurvey) {
+      let transcript = document.getElementById("ciapiSkinChatTranscript");
+      transcript.style.display = showTranscript ? "" : "none";
 
-      const monthNames = ["January", "February", "March", "April", "May", "June",
-          "July", "August", "September", "October", "November", "December"
-      ];
-
-      const d = new Date();
-      return d.getDate() + " " + monthNames[d.getMonth()] + " " + d.getUTCFullYear();
+      let postChatSurvey = document.getElementById("postChatSurveyWrapper");
+      postChatSurvey.style.display = showSurvey ? "" : "none";
     }
-
-    removeElementsForPrint(listOfElements) {
-      listOfElements.forEach(function(item) {
-          if (document.getElementsByClassName(item)[0]) {
-              document.getElementsByClassName(item)[0].classList.add("govuk-!-display-none-print")
-          }
-      });
-  }
 
     onPrintPostChatSurvey(e) {
       e.preventDefault;
 
-      let transcript = document.getElementById("ciapiSkinChatTranscript");
-      transcript.style.display = "";
+      this.showTranscriptAndSurvey(true, false);
 
-      let postChatSurvey = document.getElementById("postChatSurveyWrapper");
-      postChatSurvey.style.display = "none";
-
-
-      document.getElementById("print-date").innerHTML = this.getPrintDate();
+      document.getElementById("print-date").innerHTML = PrintUtils.getPrintDate();
 
       const elementList = [
           "app-related-items",
@@ -221,9 +204,7 @@ export default class PostChatSurveyDigitalAssistant {
           "postChatSurveyWrapper"
       ];
 
-      this.removeElementsForPrint(elementList);
-
-      console.log("Calling onPrintPostChatSurvey in CommonChatController")
+      PrintUtils.removeElementsForPrint(elementList);
 
       window.print();
 
