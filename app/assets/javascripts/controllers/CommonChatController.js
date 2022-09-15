@@ -76,7 +76,7 @@ export default class CommonChatController {
                 reportTechnicalIssueElement[0].href = reportTechnicalIssueElementHref.concat("-dav3");
             }
         }
-    
+
         let feedbackLinkElement = document.getElementsByClassName('govuk-phase-banner__text');
         if(feedbackLinkElement) {
             let feedbackLinkHref = feedbackLinkElement[0].getElementsByTagName('a')[0].href;
@@ -239,9 +239,8 @@ export default class CommonChatController {
 
     closeChat() {
 
-        if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
+		if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
             let escalated = this.state.isEscalated();
-
             if (escalated) {
                 this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automatonWebchat, timestamp);
             } else {
@@ -380,21 +379,32 @@ export default class CommonChatController {
         this.sdk.sendActivityMessage("stopTyping");
     }
 
+    hasBeenSurveyed() {
+    	return document.cookie.includes("surveyed=true")
+	}
+
     onConfirmEndChat() {
         this.closeNuanceChat();
         let escalated = this.state.isEscalated();
 
-        this._moveToClosingState();
+        console.log("ending chat")
 
-        if (escalated) {
-            this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automatonWebchat, timestamp);
-            this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
-        } else {
-            this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automatonDA, timestamp);
-            this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
-        }
+		this._moveToClosingState();
 
-        window.GOVUKFrontend.initAll();
+		if (this.hasBeenSurveyed()) {
+			this.showEndChatPage(false);
+		} else {
+			document.cookie = "surveyed=true";
+			if (escalated) {
+				this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automatonWebchat, timestamp);
+				this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
+			} else {
+				this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automatonDA, timestamp);
+				this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
+			}
+			window.GOVUKFrontend.initAll();
+		}
+
     }
 
     onPostChatSurveyWebchatSubmitted(surveyPage) {
