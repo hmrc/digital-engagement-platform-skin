@@ -127,7 +127,12 @@ describe("PostChatSurveyDigitalAssistantService", () => {
             evt: "contentSentToCustomer",
             unique_node_id: "node_1",
             "custom.decisiontree.nodeID": "HMRC_PostChat_Guidance%20-%20Initial",
-            "custom.decisiontree.questions": "Were%2520you%2520able%2520to%2520do%2520what%2520you%2520needed%2520to%2520do%2520today%253F%2CHow%2520easy%2520was%2520it%2520to%2520do%2520what%2520you%2520needed%2520to%2520do%2520today%253F%2COverall%252C%2520how%2520did%2520you%2520feel%2520about%2520the%2520service%2520you%2520received%2520today%253F%2CWhy%2520did%2520you%2520give%2520these%2520scores%253F%2CHow%2520would%2520you%2520prefer%2520to%2520get%2520in%2520touch%2520with%2520HMRC%253F%2CProvide%2520other%2520contact%2520option%253F",
+            "custom.decisiontree.questions":
+                "Were%2520you%2520able%2520to%2520do%2520what%2520you%2520needed%2520to%2520do%2520today" + 
+                "%253F%2CHow%2520easy%2520was%2520it%2520to%2520do%2520what%2520you%2520needed%2520to%2520" + 
+                "do%2520today%253F%2COverall%252C%2520how%2520did%2520you%2520feel%2520about%2520the%2520service" +
+                "%2520you%2520received%2520today%253F%2CWhy%2520did%2520you%2520give%2520these%2520scores%253F%2CHow" +
+                "%2520would%2520you%2520prefer%2520to%2520get%2520in%2520touch%2520with%2520HMRC%253F%2CProvide%2520other%2520contact%2520option%253F",
             "custom.decisiontree.questionIDs": "q1%2Cq2%2Cq3%2Cq4%2Cq5%2Cq6",
             clientTimestamp: timestamp,
             automatonType: "satisfactionSurvey",
@@ -191,7 +196,12 @@ describe("PostChatSurveyDigitalAssistantService", () => {
             unique_node_id: "node_1",
             "custom.decisiontree.nodeID": "HMRC_PostChat_Guidance%20-%20Initial",
             "custom.decisiontree.questionIDs": "q1%2Cq2%2Cq3%2Cq4%2Cq5%2Cq6",
-            "custom.decisiontree.questions": "Were%2520you%2520able%2520to%2520do%2520what%2520you%2520needed%2520to%2520do%2520today%253F%2CHow%2520easy%2520was%2520it%2520to%2520do%2520what%2520you%2520needed%2520to%2520do%2520today%253F%2COverall%252C%2520how%2520did%2520you%2520feel%2520about%2520the%2520service%2520you%2520received%2520today%253F%2CWhy%2520did%2520you%2520give%2520these%2520scores%253F%2CHow%2520would%2520you%2520prefer%2520to%2520get%2520in%2520touch%2520with%2520HMRC%253F%2CProvide%2520other%2520contact%2520option%253F",
+            "custom.decisiontree.questions":
+                "Were%2520you%2520able%2520to%2520do%2520what%2520you%2520needed%2520to%2520do%2520today" + 
+                "%253F%2CHow%2520easy%2520was%2520it%2520to%2520do%2520what%2520you%2520needed%2520to%2520" + 
+                "do%2520today%253F%2COverall%252C%2520how%2520did%2520you%2520feel%2520about%2520the%2520service" +
+                "%2520you%2520received%2520today%253F%2CWhy%2520did%2520you%2520give%2520these%2520scores%253F%2CHow" +
+                "%2520would%2520you%2520prefer%2520to%2520get%2520in%2520touch%2520with%2520HMRC%253F%2CProvide%2520other%2520contact%2520option%253F",
             "custom.decisiontree.answers": "Yes%2COK%2CGood%2Ctext%2520area%2520text%2Cother%2Cby%2520letter",
             "custom.decisiontree.answerIDs": "Yes%2COK%2CGood%2Ctext%2520area%2520text%2Cother%2Cby%2520letter",
             "custom.decisiontree.answerTypes": "0,0,0,1,0,1",
@@ -294,7 +304,12 @@ describe("PostChatSurveyDigitalAssistantService", () => {
                 unique_node_id: "node_1",
                 "custom.decisiontree.nodeID": "HMRC_PostChat_Guidance%20-%20Initial",
                 "custom.decisiontree.questionIDs": "q1%2Cq2%2Cq3%2Cq4%2Cq5%2Cq6",
-                "custom.decisiontree.questions": "Were%2520you%2520able%2520to%2520do%2520what%2520you%2520needed%2520to%2520do%2520today%253F%2CHow%2520easy%2520was%2520it%2520to%2520do%2520what%2520you%2520needed%2520to%2520do%2520today%253F%2COverall%252C%2520how%2520did%2520you%2520feel%2520about%2520the%2520service%2520you%2520received%2520today%253F%2CWhy%2520did%2520you%2520give%2520these%2520scores%253F%2CHow%2520would%2520you%2520prefer%2520to%2520get%2520in%2520touch%2520with%2520HMRC%253F%2CProvide%2520other%2520contact%2520option%253F",
+                "custom.decisiontree.questions":
+                    "Were%2520you%2520able%2520to%2520do%2520what%2520you%2520needed%2520to%2520do%2520today" + 
+                    "%253F%2CHow%2520easy%2520was%2520it%2520to%2520do%2520what%2520you%2520needed%2520to%2520" + 
+                    "do%2520today%253F%2COverall%252C%2520how%2520did%2520you%2520feel%2520about%2520the%2520service" +
+                    "%2520you%2520received%2520today%253F%2CWhy%2520did%2520you%2520give%2520these%2520scores%253F%2CHow" +
+                    "%2520would%2520you%2520prefer%2520to%2520get%2520in%2520touch%2520with%2520HMRC%253F%2CProvide%2520other%2520contact%2520option%253F",
                 "custom.decisiontree.answers": "Yes%2COK%2CGood%2Ctext%2520area%2520text%2Cother",
                 "custom.decisiontree.answerIDs": "Yes%2COK%2CGood%2Ctext%2520area%2520text%2Cother",
                 "custom.decisiontree.answerTypes": "0,0,0,1,0,1",
