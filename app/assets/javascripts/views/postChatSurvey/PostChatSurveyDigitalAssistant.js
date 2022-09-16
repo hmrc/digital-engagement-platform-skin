@@ -96,34 +96,37 @@ const html = `
 
         <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question5">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              If you had not used this service today, how else would you have contacted us?
+            How would you prefer to get in touch with HMRC?
           </legend>
           <div class="govuk-radios" data-module="govuk-radios">
 
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="q5-" name="q5-" type="radio" value="Online webchat with HMRC adviser">
+              <label class="govuk-label govuk-radios__label" for="q5-">Online webchat with HMRC adviser</label>
+            </div>
 
             <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q5-" name="q5-" type="radio" value="Phone">
-                <label class="govuk-label govuk-radios__label" for="q5-">Phone</label>
+              <input class="govuk-radios__input" id="q5--2" name="q5-" type="radio" value="Phone">
+              <label class="govuk-label govuk-radios__label" for="q5--2">Phone</label>
             </div>
+
             <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q5--2" name="q5-" type="radio" value="Social media">
-                <label class="govuk-label govuk-radios__label" for="q5--2">Social media</label>
+                <input class="govuk-radios__input" id="q5--3" name="q5-" type="radio" value="Social media">
+                <label class="govuk-label govuk-radios__label" for="q5--4">Social media</label>
             </div>
+
             <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q5--3" name="q5-" type="radio" value="Other" aria-controls="conditional-contact">
-                <label class="govuk-label govuk-radios__label" for="q5--3">Other</label>
+                <input class="govuk-radios__input" id="q5--4" name="q5-" type="radio" value="Other" aria-controls="conditional-contact">
+                <label class="govuk-label govuk-radios__label" for="q5--4">Other</label>
             </div>
+            
             <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-contact">
               <div class="govuk-form-group">
                   <label class="govuk-label" for="q6-">Provide other contact option</label>
                   <textarea class="govuk-textarea" id="q6-" name="q6-" rows="5"></textarea>
               </div>
-            </div>
-            <p>or</p>
-            <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q5--4" name="q5-" type="radio" value="I would not have made contact">
-                <label class="govuk-label govuk-radios__label" for="q5--4">I would not have made contact</label>
-            </div>         
+            </div>  
+            
           </div> 
         </fieldset>
 
