@@ -28,16 +28,16 @@ export default class CommonPostChatSurvey {
         });
 
         this.wrapper.querySelector("#printPostChat").addEventListener(
-        "click",
-        (e) => {
-            e.preventDefault;
-            this.onPrintPostChatSurvey(this);
-        }
-    );
+            "click",
+            (e) => {
+                e.preventDefault;
+                this.onPrintPostChatSurvey(this);
+            }
+        );
 
-    window.addEventListener('afterprint', (event) => {
-        this.showTranscriptAndSurvey(false, true)
-    });
+        window.addEventListener('afterprint', (event) => {
+            this.showTranscriptAndSurvey(false, true)
+        });
 
     }
 
@@ -47,9 +47,9 @@ export default class CommonPostChatSurvey {
   
         let postChatSurvey = document.getElementById("postChatSurveyWrapper");
         postChatSurvey.style.display = showSurvey ? "" : "none";
-      }
+    }
 
-      onPrintPostChatSurvey(e) {
+    onPrintPostChatSurvey(e) {
         e.preventDefault;
   
         this.showTranscriptAndSurvey(true, false);
