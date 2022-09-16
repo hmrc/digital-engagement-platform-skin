@@ -6,9 +6,9 @@ const html = `
 
     <p>We use your feedback to improve our services. These questions are optional.</p>
 
-    <div onclick="window.print();">
-      <p>You can still <a href="#">print or save your chat</a>.</p>
-    </div>
+    <div>
+    <p>You can still <a href="javascript:void(0);" id="printPostChat">print or save your chat</a>.</p>
+  </div>
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
