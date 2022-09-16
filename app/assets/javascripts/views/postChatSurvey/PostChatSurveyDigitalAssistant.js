@@ -1,11 +1,13 @@
+import PrintUtils from "../../utils/PrintUtils"
+
 const html = `
 <div id="postChatSurvey">
 <h2 id="legend_give_feedback" tabindex="-1">Give feedback</h2>
 
 <p>We use your feedback to improve our services. These questions are optional.</p>
 
-<div onclick="window.print();">
-  <p>You can still <a href="#">print or save your chat</a>.</p>
+<div>
+  <p>You can still <a href="javascript:void(0);" id="printPostChat">print or save your chat</a>.</p>
 </div>
 
 <div class="govuk-grid-row">
@@ -160,7 +162,55 @@ export default class PostChatSurveyDigitalAssistant {
                 document.getElementById("q4-").value = "";
            }
         });
+
+        this.wrapper.querySelector("#printPostChat").addEventListener(
+          "click",
+          (e) => {
+              e.preventDefault;
+              this.onPrintPostChatSurvey(this);
+          }
+      );
+
+      window.addEventListener('afterprint', (event) => {
+        this.showTranscriptAndSurvey(false, true)
+      });
+
     }
+
+    showTranscriptAndSurvey(showTranscript, showSurvey) {
+      let transcript = document.getElementById("ciapiSkinChatTranscript");
+      transcript.style.display = showTranscript ? "" : "none";
+
+      let postChatSurvey = document.getElementById("postChatSurveyWrapper");
+      postChatSurvey.style.display = showSurvey ? "" : "none";
+    }
+
+    onPrintPostChatSurvey(e) {
+      e.preventDefault;
+
+      this.showTranscriptAndSurvey(true, false);
+
+      document.getElementById("print-date").innerHTML = PrintUtils.getPrintDate();
+
+      const elementList = [
+          "app-related-items",
+          "govuk-back-link",
+          "govuk-phase-banner",
+          "hmrc-report-technical-issue",
+          "govuk-footer",
+          "govuk-heading-xl",
+          "hmrc-user-research-banner",
+          "cbanner-govuk-cookie-banner",
+          "postChatSurveyWrapper"
+      ];
+
+      PrintUtils.removeElementsForPrint(elementList);
+
+      window.print();
+
+      return false;
+  }
+
 
     detach() {
         this.container.removeChild(this.wrapper)

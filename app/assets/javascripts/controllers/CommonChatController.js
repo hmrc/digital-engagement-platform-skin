@@ -8,6 +8,7 @@ import * as ChatStates from '../services/ChatStates'
 import PostChatSurveyWebchatService from '../services/PostChatSurveyWebchatService'
 import PostChatSurveyDigitalAssistantService from '../services/PostChatSurveyDigitalAssistantService'
 import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
+import PrintUtils from '../utils/PrintUtils'
 
 const automatonDA = {
     id: "survey-13000304",
@@ -259,28 +260,9 @@ export default class CommonChatController {
         this._moveToChatNullState();
     }
 
-    getPrintDate() {
-
-        const monthNames = ["January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        ];
-
-        const d = new Date();
-        return d.getDate() + " " + monthNames[d.getMonth()] + " " + d.getUTCFullYear();
-
-    }
-
-    removeElementsForPrint(listOfElements) {
-        listOfElements.forEach(function(item) {
-            if (document.getElementsByClassName(item)[0]) {
-                document.getElementsByClassName(item)[0].classList.add("govuk-!-display-none-print")
-            }
-        });
-    }
-
     onPrint(e) {
         e.preventDefault;
-        document.getElementById("print-date").innerHTML = this.getPrintDate();
+        document.getElementById("print-date").innerHTML = PrintUtils.getPrintDate();
 
         const elementList = [
             "app-related-items",
@@ -293,8 +275,7 @@ export default class CommonChatController {
             "cbanner-govuk-cookie-banner"
         ];
 
-        this.removeElementsForPrint(elementList);
-
+        PrintUtils.removeElementsForPrint(elementList);
 
         window.print();
 
