@@ -110,14 +110,14 @@ const html = `
                     <label class="govuk-label govuk-radios__label" for="q5--2">Phone</label>
                 </div>
                 <div class="govuk-radios__item">
-                    <input class="govuk-radios__input" id="q5--3" name="q5-" type="radio" value="Social media">
-                    <label class="govuk-label govuk-radios__label" for="q5--4">Social media</label>
+                    <input class="govuk-radios__input" id="q5--3" name="q5-" type="radio" value="Social media messaging (such as, WhatsApp and Twitter)">
+                    <label class="govuk-label govuk-radios__label" for="q5--4">Social media messaging (such as, WhatsApp and Twitter)</label>
                 </div>
                 <div class="govuk-radios__item">
                     <input class="govuk-radios__input" id="q5--4" name="q5-" type="radio" value="Other" aria-controls="conditional-contact">
                     <label class="govuk-label govuk-radios__label" for="q5--4">Other</label>
                 </div>
-                
+
                 <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-contact">
                   <div class="govuk-form-group">
                       <label class="govuk-label" for="q6-">Provide other contact option</label>

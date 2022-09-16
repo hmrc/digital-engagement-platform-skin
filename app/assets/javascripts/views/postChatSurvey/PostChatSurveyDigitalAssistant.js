@@ -111,8 +111,8 @@ const html = `
             </div>
 
             <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q5--3" name="q5-" type="radio" value="Social media">
-                <label class="govuk-label govuk-radios__label" for="q5--4">Social media</label>
+                <input class="govuk-radios__input" id="q5--3" name="q5-" type="radio" value="Social media messaging (such as, WhatsApp and Twitter)">
+                <label class="govuk-label govuk-radios__label" for="q5--4">Social media messaging (such as, WhatsApp and Twitter)</label>
             </div>
 
             <div class="govuk-radios__item">
