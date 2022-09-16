@@ -141,8 +141,4 @@ export default class PostChatSurveyDigitalAssistant extends CommonPostChatSurvey
   constructor(onSubmitted) {
       super(html, onSubmitted)
   }
-
-  // attachTo(container) {
-  //   this.CommonPostChatSurvey.attachTo()
-  // }
 }
