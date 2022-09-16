@@ -1,3 +1,5 @@
+import CommonPostChatSurvey from "./CommonPostChatSurvey"
+
 const html = `
   <div id="postChatSurvey">
     <h2 id="legend_give_feedback" tabindex="-1">Give feedback</h2>
@@ -135,34 +137,8 @@ const html = `
   </div>
 `
 
-export default class PostChatSurveyWebchat {
+export default class PostChatSurveyWebchat extends CommonPostChatSurvey {
   constructor(onSubmitted) {
-    this.onSubmitted = onSubmitted;
-  }
-
-  attachTo(container) {
-    this.container = container;
-
-    this.wrapper = document.createElement("div");
-    this.wrapper.id = "postChatSurveyWrapper";
-    this.wrapper.insertAdjacentHTML("beforeend", html);
-    container.appendChild(this.wrapper);
-
-    this.wrapper.querySelector("#submitPostChatSurvey").addEventListener(
-      "click",
-      (e) => {
-        this.onSubmitted(this);
-      }
-    );
-
-    $('input[name="q5-"]').on('click', function() {
-       if ($(this).val() != 'Other') {
-            document.getElementById("q6-").value = "";
-       }
-    });
-  }
-
-  detach() {
-    this.container.removeChild(this.wrapper)
-  }
+    super(html, onSubmitted)
+}
 }
