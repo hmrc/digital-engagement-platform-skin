@@ -1,4 +1,4 @@
-
+import PrintUtils from "../../utils/PrintUtils"
 
 export default class CommonPostChatSurvey {
     constructor(html, onSubmitted) {
