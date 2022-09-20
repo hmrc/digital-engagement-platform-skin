@@ -24,24 +24,32 @@ const timestamp = Date.now();
 const webchatSurvey = {
     id: "13000303",
     questions: [
-        { id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false },
-        { id: ["question2"], text: "How easy was it to do what you needed to do today?", freeform: false },
-        { id: ["question3"], text: "Overall, how did you feel about the service you received today?", freeform: false },
-        { id: ["question4"], text: "Why did you give these scores?", freeform: true },
-        { id: ["question5"], text: "If you had not used this service today, how else would you have contacted us?", freeform: false },
-        { id: ["question6"], text: "Provide other contact option", freeform: true }
+        {id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false},
+        {id: ["question2"], text: "How easy was it to do what you needed to do today?", freeform: false},
+        {id: ["question3"], text: "Overall, how did you feel about the service you received today?", freeform: false},
+        {id: ["question4"], text: "Why did you give these scores?", freeform: true},
+        {
+            id: ["question5"],
+            text: "If you had not used this service today, how else would you have contacted us?",
+            freeform: false
+        },
+        {id: ["question6"], text: "Provide other contact option", freeform: true}
     ]
 };
 
 const digitalAssistantSurvey = {
     id: "13000304",
     questions: [
-        { id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false },
-        { id: ["question2"], text: "How easy was it to do what you needed to do today?", freeform: false },
-        { id: ["question3"], text: "Overall, how did you feel about the service you received today?", freeform: false },
-        { id: ["question4"], text: "Why did you give these scores?", freeform: true },
-        { id: ["question5"], text: "If you had not used this service today, how else would you have contacted us?", freeform: false },
-        { id: ["question6"], text: "Provide other contact option", freeform: true }
+        {id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false},
+        {id: ["question2"], text: "How easy was it to do what you needed to do today?", freeform: false},
+        {id: ["question3"], text: "Overall, how did you feel about the service you received today?", freeform: false},
+        {id: ["question4"], text: "Why did you give these scores?", freeform: true},
+        {
+            id: ["question5"],
+            text: "If you had not used this service today, how else would you have contacted us?",
+            freeform: false
+        },
+        {id: ["question6"], text: "Provide other contact option", freeform: true}
     ]
 }
 
@@ -70,21 +78,21 @@ export default class CommonChatController {
 
     updateDav3DeskproRefererUrls() {
         let reportTechnicalIssueElement = document.getElementsByClassName('hmrc-report-technical-issue');
-        if(reportTechnicalIssueElement) {
-            if(reportTechnicalIssueElement[0].href) {
+        if (reportTechnicalIssueElement) {
+            if (reportTechnicalIssueElement[0].href) {
                 let reportTechnicalIssueElementHref = reportTechnicalIssueElement[0].href;
                 reportTechnicalIssueElement[0].href = reportTechnicalIssueElementHref.concat("-dav3");
             }
         }
 
         let feedbackLinkElement = document.getElementsByClassName('govuk-phase-banner__text');
-        if(feedbackLinkElement) {
+        if (feedbackLinkElement) {
             let feedbackLinkHref = feedbackLinkElement[0].getElementsByTagName('a')[0].href;
             feedbackLinkElement[0].getElementsByTagName('a')[0].href = feedbackLinkHref.concat("-dav3");
         }
 
         let accessibilityLinkElement = document.getElementsByClassName('govuk-footer__link');
-        if(accessibilityLinkElement) {
+        if (accessibilityLinkElement) {
             let accessibilityLinkHref = accessibilityLinkElement[1].href;
             accessibilityLinkElement[1].href = accessibilityLinkHref.concat("-dav3");
         }
@@ -132,13 +140,13 @@ export default class CommonChatController {
 
             let dav3Skin = document.getElementById("ciapiSkin");
 
-            if(dav3Skin) {
+            if (dav3Skin) {
                 this.updateDav3DeskproRefererUrls();
             }
 
             const existingErrorMessage = document.getElementById("error-message")
 
-            if(existingErrorMessage) {
+            if (existingErrorMessage) {
                 existingErrorMessage.remove()
             }
 
@@ -239,7 +247,7 @@ export default class CommonChatController {
 
     closeChat() {
 
-		if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
+        if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
             let escalated = this.state.isEscalated();
             if (escalated) {
                 this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automatonWebchat, timestamp);
@@ -270,7 +278,7 @@ export default class CommonChatController {
     }
 
     removeElementsForPrint(listOfElements) {
-        listOfElements.forEach(function(item) {
+        listOfElements.forEach(function (item) {
             if (document.getElementsByClassName(item)[0]) {
                 document.getElementsByClassName(item)[0].classList.add("govuk-!-display-none-print")
             }
@@ -372,7 +380,7 @@ export default class CommonChatController {
     }
 
     onStartTyping() {
-       this.sdk.sendActivityMessage("startTyping");
+        this.sdk.sendActivityMessage("startTyping");
     }
 
     onStopTyping() {
@@ -380,42 +388,40 @@ export default class CommonChatController {
     }
 
     hasBeenSurveyed() {
-    	return document.cookie.includes("surveyed=true")
-	}
+        return document.cookie.includes("surveyed=true")
+    }
 
     onConfirmEndChat() {
         this.closeNuanceChat();
         let escalated = this.state.isEscalated();
 
-        console.log("ending chat")
+        this._moveToClosingState();
 
-		this._moveToClosingState();
-
-		if (this.hasBeenSurveyed()) {
-			this.showEndChatPage(false);
-		} else {
-			document.cookie = "surveyed=true";
-			if (escalated) {
-				this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automatonWebchat, timestamp);
-				this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
-			} else {
-				this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automatonDA, timestamp);
-				this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
-			}
-			window.GOVUKFrontend.initAll();
-		}
+        if (this.hasBeenSurveyed()) {
+            this.showEndChatPage(false);
+        } else {
+            document.cookie = "surveyed=true";
+            if (escalated) {
+                this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automatonWebchat, timestamp);
+                this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
+            } else {
+                this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automatonDA, timestamp);
+                this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
+            }
+            window.GOVUKFrontend.initAll();
+        }
 
     }
 
     onPostChatSurveyWebchatSubmitted(surveyPage) {
         const answers = {
             answers: [
-                { id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false },
-                { id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false },
-                { id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false },
-                { id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true },
-                { id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false },
-                { id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true }
+                {id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false},
+                {id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false},
+                {id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false},
+                {id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true},
+                {id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false},
+                {id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true}
             ]
         };
 
@@ -429,12 +435,12 @@ export default class CommonChatController {
     onPostChatSurveyDigitalAssistantSubmitted(surveyPage) {
         const answers = {
             answers: [
-                { id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false },
-                { id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false },
-                { id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false },
-                { id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true },
-                { id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false },
-                { id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true }
+                {id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false},
+                {id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false},
+                {id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false},
+                {id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true},
+                {id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false},
+                {id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true}
             ]
         };
 
