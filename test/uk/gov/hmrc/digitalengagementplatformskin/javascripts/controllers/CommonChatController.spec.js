@@ -612,7 +612,7 @@ describe("CommonChatController", () => {
           <div id="ciapiSkinHeader" class="govuk-!-display-none-print">
             <div id="print">
               <button id="printButton" class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                Print or save
+                Print or save chat
               </button>
             </div>
             <div id="sound">
