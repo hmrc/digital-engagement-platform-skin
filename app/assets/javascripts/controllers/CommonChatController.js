@@ -400,7 +400,6 @@ export default class CommonChatController {
         if (this.hasBeenSurveyed()) {
             this.showEndChatPage(false);
         } else {
-            document.cookie = "surveyed=true";
             if (escalated) {
                 this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automatonWebchat, timestamp);
                 this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
@@ -426,6 +425,7 @@ export default class CommonChatController {
         };
 
         var surveyWithAnswers = Object.assign(answers, webchatSurvey);
+        document.cookie = "surveyed=true";
 
         this._sendPostChatSurveyWebchat(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonWebchat, timestamp);
         surveyPage.detach();
@@ -444,6 +444,7 @@ export default class CommonChatController {
             ]
         };
 
+        document.cookie = "surveyed=true";
         var surveyWithAnswers = Object.assign(answers, digitalAssistantSurvey);
         this._sendPostChatSurveyDigitalAssistant(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonDA, timestamp);
         surveyPage.detach();
