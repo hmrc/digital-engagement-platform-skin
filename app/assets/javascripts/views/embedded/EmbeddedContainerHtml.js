@@ -8,7 +8,7 @@ export const ContainerHtml = `
     <div id="ciapiSkinHeader" class="govuk-!-display-none-print">
         <div id="print">
             <button id="printButton" class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                Print or save
+                Print or save chat
             </button>
         </div>
         <div id="sound">
@@ -20,7 +20,7 @@ export const ContainerHtml = `
     <div id="ciapiChatComponents">
         <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript print-overflow-visible" role="region" tabindex="0" aria-label="chat transcript">
             <div id="skipToBottom"><a id="skipToBottomLink" href="#" class="govuk-skip-link">Skip to bottom of conversation</a></div>
-            <p id="info" class="info govuk-!-display-none-print"><img role="img" src="/ask-hmrc/assets/media/intro-warn.svg" alt="">Note: You are currently chatting with a computer.</p>
+            <p id="info" class="info govuk-!-display-none-print"><img role="img" src="/ask-hmrc/assets/media/digital-assistant.svg" alt="">You are currently chatting with a computer.</p>
         </div>
         <div id="ciapiSkinFooter" class="govuk-!-display-none-print">
             <div>

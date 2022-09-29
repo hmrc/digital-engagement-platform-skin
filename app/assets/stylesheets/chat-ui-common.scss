@@ -16,7 +16,7 @@ $footer-top-border-height: 3px;
     justify-content: space-between;
     flex-direction: row;
     gap: 1rem;
-    padding: 0.5rem;
+    padding-bottom: 0.2rem;
 }
 
 #ciapiSkinHeader .govuk-button,
@@ -30,7 +30,6 @@ $footer-top-border-height: 3px;
 // }
 
 #print .govuk-button--secondary {
-    background: url('/engagement-platform-skin/assets/media/save-transcript.svg') no-repeat;
     background-size: 1em;
     padding-left: 1.2em;
     padding-top: 0.3em;
@@ -49,7 +48,6 @@ $footer-top-border-height: 3px;
 }
 
 #sound .govuk-button--secondary {
-    background: url('/engagement-platform-skin/assets/media/hmrc-alert_on.svg') no-repeat;
     background-size: 1.2em;
     padding-left: 1.3em;
     padding-top: 0.3em;
