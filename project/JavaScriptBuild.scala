@@ -27,14 +27,19 @@ object JavaScriptBuild {
     (test in Test) := {(test in Test) dependsOn runAllTests}.value
   )
 
-  val javaScriptBundler: Seq[sbt.Def.Setting[_]] = Seq(
+  lazy val javaScriptBundler: Seq[sbt.Def.Setting[_]] = Seq(
     configDirectory := {
-      baseDirectory in Compile
+      Compile / baseDirectory
     }.value,
 
-    bundleJs := runOperation("JS bundling", Gulp.gulpProcess(configDirectory.value, "bundle").run().exitValue()),
+    npmInstall := runOperation("npm install", Gulp.npmProcess(configDirectory.value, "install").run().exitValue()),
 
-    (compile in Compile) :=  {(compile in Compile) dependsOn bundleJs}.value
+
+    bundleJs := runOperation("JS bundling", Gulp.gulpProcess(configDirectory.value, "build").run().exitValue()),
+
+    bundleJs := {bundleJs dependsOn npmInstall}.value,
+
+    (Compile / compile) :=  {(Compile / compile) dependsOn bundleJs}.value
   )
 
 }

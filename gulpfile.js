@@ -12,6 +12,7 @@ const browserify = require('browserify');
 const tsify = require('tsify');
 
 gulp.task('jest', function () {
+
     return gulp
         .src('./test/uk/gov/hmrc/digitalengagementplatformskin/javascripts/')
         .pipe(

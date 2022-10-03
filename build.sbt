@@ -39,7 +39,7 @@ lazy val microservice = Project(appName, file("."))
     SilencerSettings(),
     libraryDependencies ++= AppDependencies.all,
     javaScriptBundler,
-    javaScriptTestRunnerHook,
+//    javaScriptTestRunnerHook,
     defaultSettings(),
     Concat.groups := Seq(
       "javascripts/hmrcChatSkinBundle.js" -> group(Seq("javascripts/bundle/hmrcChatSkin.js"))
