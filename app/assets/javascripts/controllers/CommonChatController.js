@@ -8,6 +8,7 @@ import * as ChatStates from '../services/ChatStates'
 import PostChatSurveyWebchatService from '../services/PostChatSurveyWebchatService'
 import PostChatSurveyDigitalAssistantService from '../services/PostChatSurveyDigitalAssistantService'
 import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
+import PrintUtils from '../utils/PrintUtils'
 
 const automatonDA = {
     id: "survey-13000304",
@@ -24,32 +25,24 @@ const timestamp = Date.now();
 const webchatSurvey = {
     id: "13000303",
     questions: [
-        {id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false},
-        {id: ["question2"], text: "How easy was it to do what you needed to do today?", freeform: false},
-        {id: ["question3"], text: "Overall, how did you feel about the service you received today?", freeform: false},
-        {id: ["question4"], text: "Why did you give these scores?", freeform: true},
-        {
-            id: ["question5"],
-            text: "If you had not used this service today, how else would you have contacted us?",
-            freeform: false
-        },
-        {id: ["question6"], text: "Provide other contact option", freeform: true}
+        { id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false },
+        { id: ["question2"], text: "How easy was it to do what you needed to do today?", freeform: false },
+        { id: ["question3"], text: "Overall, how did you feel about the service you received today?", freeform: false },
+        { id: ["question4"], text: "Why did you give these scores?", freeform: true },
+        { id: ["question5"], text: "How would you prefer to get in touch with HMRC??", freeform: false },
+        { id: ["question6"], text: "Provide other contact option", freeform: true }
     ]
 };
 
 const digitalAssistantSurvey = {
     id: "13000304",
     questions: [
-        {id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false},
-        {id: ["question2"], text: "How easy was it to do what you needed to do today?", freeform: false},
-        {id: ["question3"], text: "Overall, how did you feel about the service you received today?", freeform: false},
-        {id: ["question4"], text: "Why did you give these scores?", freeform: true},
-        {
-            id: ["question5"],
-            text: "If you had not used this service today, how else would you have contacted us?",
-            freeform: false
-        },
-        {id: ["question6"], text: "Provide other contact option", freeform: true}
+        { id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false },
+        { id: ["question2"], text: "How easy was it to do what you needed to do today?", freeform: false },
+        { id: ["question3"], text: "Overall, how did you feel about the service you received today?", freeform: false },
+        { id: ["question4"], text: "Why did you give these scores?", freeform: true },
+        { id: ["question5"], text: "How would you prefer to get in touch with HMRC?", freeform: false },
+        { id: ["question6"], text: "Provide other contact option", freeform: true }
     ]
 }
 
@@ -266,28 +259,9 @@ export default class CommonChatController {
         this._moveToChatNullState();
     }
 
-    getPrintDate() {
-
-        const monthNames = ["January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        ];
-
-        const d = new Date();
-        return d.getDate() + " " + monthNames[d.getMonth()] + " " + d.getUTCFullYear();
-
-    }
-
-    removeElementsForPrint(listOfElements) {
-        listOfElements.forEach(function (item) {
-            if (document.getElementsByClassName(item)[0]) {
-                document.getElementsByClassName(item)[0].classList.add("govuk-!-display-none-print")
-            }
-        });
-    }
-
     onPrint(e) {
         e.preventDefault;
-        document.getElementById("print-date").innerHTML = this.getPrintDate();
+        document.getElementById("print-date").innerHTML = PrintUtils.getPrintDate();
 
         const elementList = [
             "app-related-items",
@@ -300,8 +274,7 @@ export default class CommonChatController {
             "cbanner-govuk-cookie-banner"
         ];
 
-        this.removeElementsForPrint(elementList);
-
+        PrintUtils.removeElementsForPrint(elementList);
 
         window.print();
 

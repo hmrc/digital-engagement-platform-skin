@@ -95,9 +95,12 @@ export class EngagedState {
     _displayMessage(msg_in) {
         const msg = msg_in.data
         console.log("---- Received message:", msg);
-        if (msg && msg.senderName) {
-            window.Agent_Name = msg.senderName;
-        }
+
+        // the agent.alias property will only exist on an agent message, and not on a customer message
+        if (msg && msg["agent.alias"]) { 
+            window.Agent_Name = msg["agent.alias"]; 
+        } 
+
         const transcript = this.container.getTranscript();
         if (msg.messageType === MessageType.Chat_Communication) {
             if (msg.agentID) {
