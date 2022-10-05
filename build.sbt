@@ -1,4 +1,4 @@
-import JavaScriptBuild.{javaScriptBundler, javaScriptTestRunnerHook}
+import JavaScriptBuild.{javaScriptBundler}
 import uk.gov.hmrc.DefaultBuildSettings.integrationTestSettings
 import scoverage.ScoverageKeys
 import uk.gov.hmrc.DefaultBuildSettings._
@@ -29,6 +29,8 @@ lazy val scoverageSettings = {
   )
 }
 
+
+
 lazy val microservice = Project(appName, file("."))
   .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin, ScoverageSbtPlugin)
   .disablePlugins(JUnitXmlReportPlugin)
@@ -39,7 +41,6 @@ lazy val microservice = Project(appName, file("."))
     SilencerSettings(),
     libraryDependencies ++= AppDependencies.all,
     javaScriptBundler,
-//    javaScriptTestRunnerHook,
     defaultSettings(),
     Concat.groups := Seq(
       "javascripts/hmrcChatSkinBundle.js" -> group(Seq("javascripts/bundle/hmrcChatSkin.js"))

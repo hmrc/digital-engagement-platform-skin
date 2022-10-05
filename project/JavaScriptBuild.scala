@@ -1,5 +1,5 @@
 import sbt.Keys._
-import sbt._
+import sbt.{Def, _}
 
 object JavaScriptBuild {
   val configDirectory = SettingKey[File]("configDirectory")
@@ -14,32 +14,28 @@ object JavaScriptBuild {
     result
   }
 
-  val javaScriptTestRunnerHook: Seq[sbt.Def.Setting[_]] = Seq(
-    configDirectory := {
-      baseDirectory in Compile
-    }.value,
 
-    npmInstall := runOperation("npm install", Gulp.npmProcess(configDirectory.value, "install").run().exitValue()),
-    runAllTests := runOperation("JavaScript Jest tests", Gulp.gulpProcess(configDirectory.value, "jest").run().exitValue()),
+  lazy val javaScriptBundler: Seq[sbt.Def.Setting[_]] = {
 
-    runAllTests := {runAllTests dependsOn npmInstall}.value,
+    Seq(
 
-    (test in Test) := {(test in Test) dependsOn runAllTests}.value
-  )
+      configDirectory := {
+        Compile / baseDirectory
+      }.value,
 
-  lazy val javaScriptBundler: Seq[sbt.Def.Setting[_]] = Seq(
-    configDirectory := {
-      Compile / baseDirectory
-    }.value,
-
-    npmInstall := runOperation("npm install", Gulp.npmProcess(configDirectory.value, "install").run().exitValue()),
+      npmInstall := runOperation("npm install", Gulp.npmProcess(configDirectory.value, "install").run().exitValue()),
 
 
-    bundleJs := runOperation("JS bundling", Gulp.gulpProcess(configDirectory.value, "build").run().exitValue()),
+      bundleJs := runOperation("JS bundling", Gulp.gulpProcess(configDirectory.value, "build").run().exitValue()),
+      bundleJs := {
+        bundleJs dependsOn npmInstall
+      }.value,
 
-    bundleJs := {bundleJs dependsOn npmInstall}.value,
+      (Compile / compile) := {
+        (Compile / compile) dependsOn bundleJs
+      }.value
+    )
+  }
 
-    (Compile / compile) :=  {(Compile / compile) dependsOn bundleJs}.value
-  )
 
 }
