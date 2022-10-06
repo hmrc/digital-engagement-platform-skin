@@ -71,21 +71,21 @@ export default class CommonChatController {
 
     updateDav3DeskproRefererUrls() {
         let reportTechnicalIssueElement = document.getElementsByClassName('hmrc-report-technical-issue');
-        if(reportTechnicalIssueElement) {
-            if(reportTechnicalIssueElement[0].href) {
+        if (reportTechnicalIssueElement) {
+            if (reportTechnicalIssueElement[0].href) {
                 let reportTechnicalIssueElementHref = reportTechnicalIssueElement[0].href;
                 reportTechnicalIssueElement[0].href = reportTechnicalIssueElementHref.concat("-dav3");
             }
         }
-    
+
         let feedbackLinkElement = document.getElementsByClassName('govuk-phase-banner__text');
-        if(feedbackLinkElement) {
+        if (feedbackLinkElement) {
             let feedbackLinkHref = feedbackLinkElement[0].getElementsByTagName('a')[0].href;
             feedbackLinkElement[0].getElementsByTagName('a')[0].href = feedbackLinkHref.concat("-dav3");
         }
 
         let accessibilityLinkElement = document.getElementsByClassName('govuk-footer__link');
-        if(accessibilityLinkElement) {
+        if (accessibilityLinkElement) {
             let accessibilityLinkHref = accessibilityLinkElement[1].href;
             accessibilityLinkElement[1].href = accessibilityLinkHref.concat("-dav3");
         }
@@ -133,13 +133,13 @@ export default class CommonChatController {
 
             let dav3Skin = document.getElementById("ciapiSkin");
 
-            if(dav3Skin) {
+            if (dav3Skin) {
                 this.updateDav3DeskproRefererUrls();
             }
 
             const existingErrorMessage = document.getElementById("error-message")
 
-            if(existingErrorMessage) {
+            if (existingErrorMessage) {
                 existingErrorMessage.remove()
             }
 
@@ -242,7 +242,6 @@ export default class CommonChatController {
 
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
             let escalated = this.state.isEscalated();
-
             if (escalated) {
                 this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automatonWebchat, timestamp);
             } else {
@@ -354,11 +353,15 @@ export default class CommonChatController {
     }
 
     onStartTyping() {
-       this.sdk.sendActivityMessage("startTyping");
+        this.sdk.sendActivityMessage("startTyping");
     }
 
     onStopTyping() {
         this.sdk.sendActivityMessage("stopTyping");
+    }
+
+    hasBeenSurveyed() {
+        return document.cookie.includes("surveyed=true")
     }
 
     onConfirmEndChat() {
@@ -367,30 +370,35 @@ export default class CommonChatController {
 
         this._moveToClosingState();
 
-        if (escalated) {
-            this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automatonWebchat, timestamp);
-            this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
+        if (this.hasBeenSurveyed()) {
+            this.showEndChatPage(false);
         } else {
-            this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automatonDA, timestamp);
-            this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
+            if (escalated) {
+                this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automatonWebchat, timestamp);
+                this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
+            } else {
+                this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automatonDA, timestamp);
+                this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
+            }
+            window.GOVUKFrontend.initAll();
         }
 
-        window.GOVUKFrontend.initAll();
     }
 
     onPostChatSurveyWebchatSubmitted(surveyPage) {
         const answers = {
             answers: [
-                { id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false },
-                { id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false },
-                { id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false },
-                { id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true },
-                { id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false },
-                { id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true }
+                {id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false},
+                {id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false},
+                {id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false},
+                {id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true},
+                {id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false},
+                {id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true}
             ]
         };
 
         var surveyWithAnswers = Object.assign(answers, webchatSurvey);
+        document.cookie = "surveyed=true";
 
         this._sendPostChatSurveyWebchat(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonWebchat, timestamp);
         surveyPage.detach();
@@ -400,15 +408,16 @@ export default class CommonChatController {
     onPostChatSurveyDigitalAssistantSubmitted(surveyPage) {
         const answers = {
             answers: [
-                { id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false },
-                { id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false },
-                { id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false },
-                { id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true },
-                { id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false },
-                { id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true }
+                {id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false},
+                {id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false},
+                {id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false},
+                {id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true},
+                {id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false},
+                {id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true}
             ]
         };
 
+        document.cookie = "surveyed=true";
         var surveyWithAnswers = Object.assign(answers, digitalAssistantSurvey);
         this._sendPostChatSurveyDigitalAssistant(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonDA, timestamp);
         surveyPage.detach();
