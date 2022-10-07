@@ -30,21 +30,20 @@ lazy val scoverageSettings = {
 }
 
 
-
 lazy val microservice = Project(appName, file("."))
-  .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin, ScoverageSbtPlugin)
+  .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin, ScoverageSbtPlugin, SbtWeb)
   .disablePlugins(JUnitXmlReportPlugin)
   .settings(
-    majorVersion                     := 0,
-    scalaVersion                     := "2.12.15",
+    majorVersion := 0,
+    scalaVersion := "2.12.15",
     PlayKeys.playDefaultPort := 9193,
     SilencerSettings(),
     libraryDependencies ++= AppDependencies.all,
-    javaScriptBundler,
+    //    javaScriptBundler,
     defaultSettings(),
-    Concat.groups := Seq(
-      "javascripts/hmrcChatSkinBundle.js" -> group(Seq("javascripts/bundle/hmrcChatSkin.js"))
-    ),
+        Concat.groups := Seq(
+          "javascripts/hmrcChatSkinBundle.js" -> group(Seq("javascripts/bundle/hmrcChatSkin.js"))
+        ),
     pipelineStages in Assets := Seq(concat)
   )
   .settings(publishingSettings: _*)
@@ -52,3 +51,9 @@ lazy val microservice = Project(appName, file("."))
   .settings(integrationTestSettings(): _*)
   .settings(resolvers += Resolver.jcenterRepo)
   .settings(scoverageSettings)
+
+
+// add development mode run hook which starts webpack file watcher (./project/webpack.scala)
+PlayKeys.playRunHooks += Webpack(baseDirectory.value)
+// include webpack output js files in the public assets
+Assets / unmanagedResourceDirectories += target.value / "webpack"

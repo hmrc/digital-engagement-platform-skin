@@ -22,3 +22,11 @@ const path = require('path');
       path: path.resolve(__dirname, './app/assets/javascripts/bundle'),
     },
   };
+
+  // to support hot reloading in development mode, files are written to sbt-web folder.
+  // for a production build, files are written to a folder which is configured
+  // to be bundled into the public assets folder.
+  function getOutputPath(mode) {
+    const dir = (mode === 'production') ? 'target/webpack/js' : 'target/web/public/main/js';
+    return path.resolve(__dirname, dir);
+  }
