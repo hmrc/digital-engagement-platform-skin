@@ -92,20 +92,15 @@ export class EngagedState {
         document.querySelectorAll('.agent-joins-conference').forEach(e => e.remove());
     }
 
-    _processMessageData(messageDate, messageTimeStamp) {
-        console.log("-----------------------In _processMessageData method------------------");
-        console.log("-----------------------messageDate = " + messageDate + "------------------");
-        const jsonMessageData = JSON.parse(messageDate);
-        console.log("----------------------- jsonMessageDatawidgetType = " + jsonMessageData.widgetType + "------------------");
+    _processMessageData(messageData, messageTimeStamp) {
+        const jsonMessageData = JSON.parse(messageData);
         if (jsonMessageData.widgetType === "youtube-video") {
-            const embeddedVideourl = "https://www.youtube.com/watch?v=" + jsonMessageData.videoId
-            const iframeVidio =  `<iframe src="${embeddedVideourl}"  </iframe>`;
-            console.log("-----------------------iframeVidio = " + iframeVidio + "------------------");
+            const embeddedVideoUrl = "https://www.youtube.com/watch?v=" + jsonMessageData.videoId
+            const iframeVideo =  `<iframe src="${embeddedVideoUrl}"</iframe>`;
 
-            transcript.addAutomatonMsg(iframeVidio, messageTimeStamp);
+            const transcript = this.container.getTranscript();
+            transcript.addAutomatonMsg(iframeVideo, messageTimeStamp);
         }
-
-        
     }
 
     _displayMessage(msg_in) {
@@ -144,7 +139,7 @@ export class EngagedState {
               } else {
                 transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
                 if (msg.messageData) {
-                    this._processMessageData(msg.messageData, msg.messageTimestamp)
+                    this._processMessageData(msg.messageData, msg.messageTimestamp);
                 }
             }
         } else if (msg.messageType === MessageType.Chat_Exit) {

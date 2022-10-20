@@ -147,7 +147,6 @@ export default class Transcript {
     }
 
     addAutomatonMsg(msg, msgTimestamp) {
-
         var id = "liveAutomatedMsgId" + (Math.random() * 100);
         const msgDiv = `<div class= "msg-opacity govuk-body ${this.classes.Agent.Inner}" tabindex=-1 id=${id}></div>`;
 
