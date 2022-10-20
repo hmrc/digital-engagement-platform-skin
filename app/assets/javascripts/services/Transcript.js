@@ -82,6 +82,9 @@ export default class Transcript {
     }
 
     appendMessageInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class, isSystemMsg, isCustomerMsg) {
+        console.log("-----------------------In appendMessageInLiveRegion method------------------");
+        console.log("-----------------------msg " + msg + "------------------");
+
         if (document.getElementById(id)) {
             if (that) {
                 var msg = that.decodeHTMLEntities(msg);

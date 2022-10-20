@@ -92,6 +92,22 @@ export class EngagedState {
         document.querySelectorAll('.agent-joins-conference').forEach(e => e.remove());
     }
 
+    _processMessageData(messageDate, messageTimeStamp) {
+        console.log("-----------------------In _processMessageData method------------------");
+        console.log("-----------------------messageDate = " + messageDate + "------------------");
+        const jsonMessageData = JSON.parse(messageDate);
+        console.log("----------------------- jsonMessageDatawidgetType = " + jsonMessageData.widgetType + "------------------");
+        if (jsonMessageData.widgetType === "youtube-video") {
+            const embeddedVideourl = "https://www.youtube.com/watch?v=" + jsonMessageData.videoId
+            const iframeVidio =  `<iframe src="${embeddedVideourl}"  </iframe>`;
+            console.log("-----------------------iframeVidio = " + iframeVidio + "------------------");
+
+            transcript.addAutomatonMsg(iframeVidio, messageTimeStamp);
+        }
+
+        
+    }
+
     _displayMessage(msg_in) {
         const msg = msg_in.data
         console.log("---- Received message:", msg);
@@ -127,6 +143,9 @@ export class EngagedState {
                 } 
               } else {
                 transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
+                if (msg.messageData) {
+                    this._processMessageData(msg.messageData, msg.messageTimestamp)
+                }
             }
         } else if (msg.messageType === MessageType.Chat_Exit) {
             transcript.addSystemMsg({msg: (msg["display.text"] || "Adviser exited chat")});
