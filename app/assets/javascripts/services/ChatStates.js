@@ -96,7 +96,7 @@ export class EngagedState {
         const jsonMessageData = JSON.parse(messageData);
         if (jsonMessageData.widgetType === "youtube-video") {
             const embeddedVideoUrl = "https://www.youtube.com/embed/" + jsonMessageData.videoId
-            const iframeVideo =  `<div class="video-message"><iframe src="${embeddedVideoUrl}"</iframe></div>`;
+            const iframeVideo =  `<iframe class="video-message" src="${embeddedVideoUrl}"</iframe>`;
             const transcript = this.container.getTranscript();
             transcript.addAutomatonMsg(iframeVideo, messageTimeStamp);
         }
