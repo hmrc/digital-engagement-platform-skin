@@ -179,15 +179,15 @@ describe("Chat States", () => {
             const message = {
                 data: {
                     messageType: MessageType.Chat_AutomationRequest,
-                    messageTimestamp: "test",
+                    messageTimestamp: "1666355784000",
                     "automaton.data": "This is the text with the message of the embedded video.",
                     messageData: "{\"widgetType\":\"youtube-video\",\"customWidget\":true,\"videoId\":\"Jn46jDuKbn8\"}"
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("This is the text with the message of the embedded video.", "test");
-            expect(state._processMessageData).toBeCalledTimes(1);
+            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("This is the text with the message of the embedded video.", "1666355784000");
+            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith(`<iframe class="video-message" src="https://www.youtube.com/embed/Jn46jDuKbn8"</iframe>`, "1666355784000");
         })
 
         it("calls close chat popup when user clicks end chat and give feedback link", () => {
