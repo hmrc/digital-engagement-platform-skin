@@ -167,7 +167,28 @@ describe("Chat States", () => {
 
             handleMessage(message);
             expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("Beep boop. I am a robot.", "test");
-        });
+        })
+
+        it("sends automaton messages with richmedia (embedded video) to the transcript", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+
+            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+
+            const message = {
+                data: {
+                    messageType: MessageType.Chat_AutomationRequest,
+                    messageTimestamp: "1666355784000",
+                    "automaton.data": "This is the text with the message of the embedded video.",
+                    messageData: "{\"widgetType\":\"youtube-video\",\"customWidget\":true,\"videoId\":\"Jn46jDuKbn8\"}"
+                }
+            };
+
+            handleMessage(message);
+            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("This is the text with the message of the embedded video.", "1666355784000");
+            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith(`<iframe class="video-message" src="https://www.youtube.com/embed/Jn46jDuKbn8"</iframe>`, "1666355784000");
+        })
 
         it("calls close chat popup when user clicks end chat and give feedback link", () => {
             const [sdk, container] = createEngagedStateDependencies();
