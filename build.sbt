@@ -1,4 +1,4 @@
-import JavaScriptBuild.{javaScriptBundler, javaScriptTestRunnerHook}
+import JavaScriptBuild.javaScriptTestRunnerHook
 import uk.gov.hmrc.DefaultBuildSettings.integrationTestSettings
 import scoverage.ScoverageKeys
 import uk.gov.hmrc.DefaultBuildSettings._
@@ -38,7 +38,6 @@ lazy val microservice = Project(appName, file("."))
     PlayKeys.playDefaultPort := 9193,
     SilencerSettings(),
     libraryDependencies ++= AppDependencies.all,
-    javaScriptBundler,
     javaScriptTestRunnerHook,
     defaultSettings(),
     Concat.groups := Seq(
@@ -51,3 +50,6 @@ lazy val microservice = Project(appName, file("."))
   .settings(integrationTestSettings(): _*)
   .settings(resolvers += Resolver.jcenterRepo)
   .settings(scoverageSettings)
+
+// add development mode run hook which starts webpack file watcher (./project/WebpackRunHook.scala)
+PlayKeys.playRunHooks += WebpackRunHook(baseDirectory.value)
