@@ -11,12 +11,12 @@ object JavaScriptProcess {
     }
   }
 
-  def webpackProcess(base: File, args: String*): ProcessBuilder = {
+  def nodeProcess(base: File, module: String, args: String*): ProcessBuilder = {
     if (sys.props("os.name").toLowerCase contains "windows") {
-      Process("cmd" :: "/c" :: "node_modules\\.bin\\webpack.cmd" :: args.toList, base)
+      Process("cmd" :: "/c" :: s"node_modules\\.bin\\$module.cmd" :: args.toList, base)
     }
     else {
-      Process("node" :: "node_modules/.bin/webpack" :: args.toList, base)
+      Process("node" :: s"node_modules/.bin/$module" :: args.toList, base)
     }
   }
 

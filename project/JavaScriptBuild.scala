@@ -21,8 +21,8 @@ object JavaScriptBuild {
       }.value,
 
       npmInstall := runOperation("npm install", JavaScriptProcess.processBuilder(configDirectory.value, "npm", "install").run().exitValue()),
-      runAllTests := runOperation("JavaScript Jest tests", JavaScriptProcess.processBuilder(configDirectory.value, "jest").run().exitValue()),
-      webpackBuild := runOperation("webpack build", JavaScriptProcess.webpackProcess(configDirectory.value,  "build").run().exitValue()),
+      runAllTests := runOperation("JavaScript Jest tests", JavaScriptProcess.nodeProcess(configDirectory.value, "jest").run().exitValue()),
+      webpackBuild := runOperation("webpack build", JavaScriptProcess.nodeProcess(configDirectory.value,  "webpack", "build").run().exitValue()),
 
       runAllTests := {runAllTests dependsOn npmInstall}.value,
 
