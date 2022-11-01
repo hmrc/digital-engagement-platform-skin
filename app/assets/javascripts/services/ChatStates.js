@@ -92,6 +92,16 @@ export class EngagedState {
         document.querySelectorAll('.agent-joins-conference').forEach(e => e.remove());
     }
 
+    _processMessageData(messageData, messageTimeStamp) {
+        const jsonMessageData = JSON.parse(messageData);
+        if (jsonMessageData.widgetType === "youtube-video") {
+            const embeddedVideoUrl = "https://www.youtube.com/embed/" + jsonMessageData.videoId
+            const iframeVideo =  `<iframe class="video-message" src="${embeddedVideoUrl}"</iframe>`;
+            const transcript = this.container.getTranscript();
+            transcript.addAutomatonMsg(iframeVideo, messageTimeStamp);
+        }
+    }
+
     _displayMessage(msg_in) {
         const msg = msg_in.data
         console.log("---- Received message:", msg);
@@ -127,6 +137,9 @@ export class EngagedState {
                 } 
               } else {
                 transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
+                if (msg.messageData) {
+                    this._processMessageData(msg.messageData, msg.messageTimestamp);
+                }
             }
         } else if (msg.messageType === MessageType.Chat_Exit) {
             transcript.addSystemMsg({msg: (msg["display.text"] || "Adviser exited chat")});
