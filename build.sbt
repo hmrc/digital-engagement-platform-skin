@@ -1,4 +1,4 @@
-import JavaScriptBuild.javaScriptTestRunnerHook
+import JavaScriptBuild._
 import uk.gov.hmrc.DefaultBuildSettings.integrationTestSettings
 import scoverage.ScoverageKeys
 import uk.gov.hmrc.DefaultBuildSettings._
@@ -38,7 +38,9 @@ lazy val microservice = Project(appName, file("."))
     PlayKeys.playDefaultPort := 9193,
     SilencerSettings(),
     libraryDependencies ++= AppDependencies.all,
-    javaScriptTestRunnerHook,
+    npmInstallSetting,
+    webpackBundleSetting,
+    javaScriptTestSetting,
     defaultSettings(),
     Concat.groups := Seq(
       "javascripts/hmrcChatSkinBundle.js" -> group(Seq("javascripts/bundle/hmrcChatSkin.js"))

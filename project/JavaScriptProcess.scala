@@ -11,7 +11,7 @@ object JavaScriptProcess {
     }
   }
 
-  def nodeProcess(base: File, module: String, args: String*): ProcessBuilder = {
+  def nodeProcessBuilder(base: File, module: String, args: String*): ProcessBuilder = {
     if (sys.props("os.name").toLowerCase contains "windows") {
       Process("cmd" :: "/c" :: s"node_modules\\.bin\\$module.cmd" :: args.toList, base)
     }
