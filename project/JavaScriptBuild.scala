@@ -5,7 +5,7 @@ object JavaScriptBuild {
   val configDirectory = SettingKey[File]("configDirectory")
   val runAllTests = TaskKey[Int]("runAllTests")
   val npmInstall = TaskKey[Int]("npm-install")
-  val webpackBuild = TaskKey[Int]("webpack-build")
+//  val webpackBuild = TaskKey[Int]("webpack-build")
 
   private def runOperation(operation: String, result: Int): Int = {
     if (result != 0) {
@@ -22,13 +22,13 @@ object JavaScriptBuild {
 
       npmInstall := runOperation("npm install", JavaScriptProcess.processBuilder(configDirectory.value, "npm", "install").run().exitValue()),
       runAllTests := runOperation("JavaScript Jest tests", JavaScriptProcess.nodeProcess(configDirectory.value, "jest").run().exitValue()),
-      webpackBuild := runOperation("webpack build", JavaScriptProcess.nodeProcess(configDirectory.value,  "webpack", "build").run().exitValue()),
+//      webpackBuild := runOperation("webpack build", JavaScriptProcess.nodeProcess(configDirectory.value,  "webpack", "build").run().exitValue()),
 
       runAllTests := {runAllTests dependsOn npmInstall}.value,
 
-      webpackBuild := {webpackBuild dependsOn runAllTests}.value,
+//      webpackBuild := {webpackBuild dependsOn runAllTests}.value,
 
-      (Test / test) := {(Test / test) dependsOn webpackBuild}.value
+      (Test / test) := {(Test / test) dependsOn runAllTests}.value
     )
   }
 
