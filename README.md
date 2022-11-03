@@ -52,7 +52,20 @@ jest --coverage
 
 Webpack is used to bundle the various JS files in to one file: `app/assets/javascripts/bundle/hmrcChatSkin.js`
 
-To create the bundle manually you can run `webpack build`
+To create the bundle manually you must install `webpack` and `webpack-cli` globally:
+```
+npm install --global webpack
+```
+
+```
+npm install --global webpack-cli
+```
+
+Then run: 
+
+```
+webpack build
+```
 
 However, starting the service will do this automatically.
 
@@ -82,7 +95,7 @@ Artefacts generated during the Test stage are included in the final build.
 
 To manually remove node modules:
 ```
-rm -rf node_modules`
+rm -rf node_modules
 ```
 
 To reinstall:
