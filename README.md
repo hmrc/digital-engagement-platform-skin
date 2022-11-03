@@ -21,59 +21,75 @@ nvm install 12
 nvm use 12
 ```
 
-## Unit tests
+## Unit Tests
 
-This application has a considerable amount of javascript code, therefore, we have created a set of javascript tests to cover the behaviour the system intends. We use `gulp.js` to pipeline all of our javascript tests into the sbt test pipeline, mentioned above. To be able to run javascript tests in isolation you will need `gulp.js` and also `jest` (the test runner currently used).
+This application has a considerable amount of JavaScript code, therefore, we have created a set of JS tests to cover the behaviour the system intends.
 
-
-Let's install `gulp cli` then we can run gulp commands:
-
-```
-npm install --global gulp-cli
-```
-
-Now, all we have left is to install `jest` globally:
+We use the JS testing framework `jest`. To install `jest` locally:
 
 ```
 npm install --global jest
 ```
 
-We now can run our `javascripts` tests with:
-```
-gulp jest
-```
-or, since you have `jest`globally
+We now can run our JS tests with:
 ```
 jest
 ```
 
-To obtain code coverage run:
+To obtain code coverage run...
 
-For a single file
+For a single file:
 ```
 jest --findRelatedTests app/assets/javascripts/controllers/CommonChatController.js --coverage
 ```
 
-For whole service coverage and coverage report of each file
+For whole service coverage and coverage report of each file:
 ```
 jest --coverage
 ``` 
 
-## Custom gulp commands
+## JavaScript Build Tool: Webpack
 
-To wipe all your node modules use the below command, after that - if you do `sbt-test` it will automatically run an `npm-install` (or you can do `npm-install` manually)
+Webpack is used to bundle the various JS files in to one file: `app/assets/javascripts/bundle/hmrcChatSkin.js`
 
+To create the bundle manually you can run `webpack build`
+
+However, starting the service will do this automatically.
+
+
+## Scala & JavaScript Build
+
+### Development mode
+
+When developing using the command `sbt run`, the project is set up to run the `start` script in the `package.json` file.
+
+It does this by using a `PlayRunHook` defined in `project/WebpackRunHook.scala`, which calls the `start` script. 
+
+This script installs JS dependencies, bundles the JS code, and recompiles the bundle after changes to JS files: 
+
+`npm install && webpack --config webpack.config.js --mode=development --watch`
+
+
+### Build & Deployment
+
+When deployed, the JS bundle is created during the SBT Test stage, using an SBT Setting. 
+
+This is because including the setting in the SBT Compile stage caused the bundle to be created multiple times on a developer's machine (At times it took 5 minutes to start the service locally).
+
+Artefacts generated during the Test stage are included in the final build. 
+
+## Useful commands
+
+To manually remove node modules:
 ```
-gulp clean:node_modules
+rm -rf node_modules`
 ```
 
-Our javascript code is bundled at compile time, if you want to check what the bundled code will look like locally, please run:
-
+To reinstall:
 ```
-gulp bundle
+npn install
 ```
 
-The bundled code will be created within `app/assets/javascripts/bundle/gtm_dl.js`
 
 ### License
 

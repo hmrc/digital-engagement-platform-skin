@@ -14,7 +14,6 @@ function safeHandler(f, helpful_name) {
 
 const chatListener = {
         onAnyEvent: function(evt) {
-            console.log("This is branch DEP-3996");
             console.log("Chat any event:", evt);
             window.chatId = evt.chatID;
             window.agentId = evt.agentID;

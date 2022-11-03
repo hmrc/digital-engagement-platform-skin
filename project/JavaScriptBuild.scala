@@ -1,6 +1,11 @@
 import sbt.Keys._
 import sbt._
 
+/**
+ * Settings defined in this file are run as part of the test stage.
+ * The webpack bundle setting is integral to the bundle being created when the application runs in production.
+ * Previously this setting was included as part of the compile stage, but this caused the bundle to be created multiple times.
+ */
 object JavaScriptBuild {
   val runAllTests = TaskKey[Int]("runAllTests")
   val npmInstall = TaskKey[Int]("npm-install")
