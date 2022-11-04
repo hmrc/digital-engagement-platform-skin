@@ -18,6 +18,18 @@
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0"
   },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ]
+  },
   "dependencies": {
     "jquery": "^3.5.1",
     "lodash": "^4.17.0"
