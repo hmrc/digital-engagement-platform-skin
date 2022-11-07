@@ -7,7 +7,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -18,7 +18,7 @@ module.exports = {
                 {
                   useBuiltIns: 'usage',
                   corejs: 3,
-                  targets: { "node": "current" }
+                  targets: { "node": "current", "ie": "10" }
                 },
               ],
             ],
@@ -28,7 +28,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
     modules: [path.resolve(__dirname, 'node_modules'), 'node_modules'],
   },
   output: {
