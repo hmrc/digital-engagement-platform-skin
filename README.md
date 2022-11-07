@@ -3,22 +3,22 @@
 
 This is a front-end service for supplying chat skin to MDTP microservices.
 
-This application uses `node 12`. Follow these steps if you don't know how to set your local version of node to `12`:
+This application uses `node 18.12.1`. Follow these steps if you don't know how to set your local version of node to `12`:
 
-First of all, we need `nvm` (node version manager, so that we can run `node 12`)
+First of all, we need `nvm` (node version manager, so that we can run `node 18.12.1`)
 
 ```
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
 ```
 
-With `nvm` installed, we can set our node version to 12
+With `nvm` installed, we can set our node version to 18.12.1
 
 ```
-nvm install 12
+nvm install 18.12.1
 ```
 
 ```
-nvm use 12
+nvm use 18.12.1
 ```
 
 ## Unit Tests
