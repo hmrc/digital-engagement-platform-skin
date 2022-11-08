@@ -3,7 +3,7 @@
 
 This is a front-end service for supplying chat skin to MDTP microservices.
 
-This application uses `node 18.12.1`. Follow these steps if you don't know how to set your local version of node to `12`:
+This application uses `node 18.12.1`. Follow these steps to set up node locally:
 
 First of all, we need `nvm` (node version manager, so that we can run `node 18.12.1`)
 
@@ -36,9 +36,7 @@ We now can run our JS tests with:
 jest
 ```
 
-To obtain code coverage run...
-
-For a single file:
+To obtain code coverage for a single file:
 ```
 jest --findRelatedTests app/assets/javascripts/controllers/CommonChatController.js --coverage
 ```
@@ -67,7 +65,7 @@ Then run:
 webpack build
 ```
 
-However, starting the service will do this automatically.
+However, starting the service will bundle the JS code automatically.
 
 
 ## Scala & JavaScript Build
@@ -78,9 +76,9 @@ When developing using the command `sbt run`, the project is set up to run the `s
 
 It does this by using a `PlayRunHook` defined in `project/WebpackRunHook.scala`, which calls the `start` script. 
 
-This script installs JS dependencies, bundles the JS code, and recompiles the bundle after changes to JS files: 
+This script installs JS dependencies, bundles & minimises the JS code, and recompiles the bundle after changes to JS files: 
 
-`npm install && webpack --config webpack.config.js --mode=development --watch`
+`npm install && webpack --config webpack.config.js --mode=development --watch --optimization-minimize`
 
 
 ### Build & Deployment
