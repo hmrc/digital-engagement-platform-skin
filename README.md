@@ -3,6 +3,8 @@
 
 This is a front-end service for supplying chat skin to MDTP microservices.
 
+## Setup
+
 This application uses `node 18.12.1`. Follow these steps to set up node locally:
 
 First of all, we need `nvm` (node version manager, so that we can run `node 18.12.1`)
@@ -101,6 +103,11 @@ To reinstall:
 npn install
 ```
 
+## Troubleshooting
+
+`Error: Cannot find module 'fs/promises'` 
+
+This is caused by not using `node 18.12.1`, run the command `nvm install 18.12.1`
 
 ### License
 

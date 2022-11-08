@@ -18,7 +18,7 @@ module.exports = {
                 {
                   useBuiltIns: 'usage',
                   corejs: 3,
-                  targets: { "node": "current", "ie": "10" }
+                  targets: { "node": "current", browsers: ["ie >= 10"] }
                 },
               ],
             ],
