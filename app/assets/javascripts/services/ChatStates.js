@@ -102,8 +102,103 @@ export class EngagedState {
         }
     }
 
+    _chatCommunicationMessage(msg, transcript) {
+        if (msg.isAgentMsg) {
+            if (this._isSoundActive()) {
+                this._playMessageRecievedSound();
+            }
+            this._removeAgentIsTyping();
+            transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
+
+        } else {
+            if(msg.chatFinalText != "end this chat and give feedback") {
+                transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
+            }
+        }
+
+        // if (msg.isAgentMsg) { //the message is sent from a Agent
+        //     if (msg["external.app"]) { //The message is from MIX
+        //         console.log("--------------MIX message--------");
+        //         if (this._isSoundActive()) {
+        //             if(!!msg.vaDataPass === false) {
+        //                 this._playMessageRecievedSound();
+        //             }
+        //         }
+        //         if(!!msg.vaDataPass) {
+        //             let vaDP = JSON.parse(msg.vaDataPass);
+        //             if (!!vaDP.endVAEngagement) {
+        //                 this.closeChat();
+        //             } 
+        //             } else {
+        //             console.log("--------------Display the messageText--------");
+        //             transcript.addAutomatonMsg(msg["messageText"], msg.messageTimestamp);
+        //             if (msg.messageData) {
+        //                 //Developed in later ticket DEP-4098
+        //                 console.log("--------------is Rich Media message--------");
+        //                 this._processMessageData(msg.messageData, msg.messageTimestamp);
+        //             }
+        //         }
+        //     } else { //Process the Agent message
+        //         console.log("--------------MIX message--------");
+        //         if (this._isSoundActive()) {
+        //             this._playMessageRecievedSound();
+        //         }
+        //         this._removeAgentIsTyping();
+        //         transcript.addAgentMsg(msg.messageText, msg.messageTimestamp); 
+        //     }
+
+        // } else {//the message is sent from a Customer
+        //     console.log("--------------Customer message--------");
+        //     if(msg.chatFinalText != "end this chat and give feedback") {
+        //         transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
+        //     }
+        // }
+
+
+    }
+
+    _chatAutomationRequest(msg, transcript) {
+        if (this._isSoundActive()) {
+            if(!!msg.vaDataPass === false) {
+                this._playMessageRecievedSound();
+            }
+        }
+        if(!!msg.vaDataPass) {
+            let vaDP = JSON.parse(msg.vaDataPass);
+            if (!!vaDP.endVAEngagement) {
+                this.closeChat();
+            } 
+            } else {
+            transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
+            if (msg.messageData) {
+                this._processMessageData(msg.messageData, msg.messageTimestamp);
+            }
+        }
+    }
+
+    _chatRoomMemberConnected(msg, transcript) {
+        this.escalated = true;
+        transcript.addSystemMsg(
+            {
+                msg: msg["client.display.text"] || msg["display.text"],
+                joinTransfer: msg["aeapi.join_transfer"]
+            }
+        );
+    }
+    
+    _chatActivityAndAgentTyping(msg, transcript) {
+        if(msg.state === MessageState.Agent_IsTyping) {
+            if (msg["display.text"] == "Agent is typing...") {
+                transcript.addSystemMsg({msg: msg["display.text"], state: MessageState.Agent_IsTyping});
+            } else {
+                this._removeAgentIsTyping();
+            }
+        }
+    }
+
     _displayMessage(msg_in) {
         const msg = msg_in.data
+
         console.log("---- Received message:", msg);
 
         // the agent.alias property will only exist on an agent message, and not on a customer message
@@ -113,69 +208,43 @@ export class EngagedState {
 
         const transcript = this.container.getTranscript();
 
-        if (msg.messageType === MessageType.Chat_Communication) {
-
-            if (msg.isAgentMsg) {
-                if (this._isSoundActive()) {
-                    this._playMessageRecievedSound();
+        switch(msg.messageType) { 
+            case MessageType.Chat_Communication:
+                this._chatCommunicationMessage(msg, transcript);
+                break;
+            case MessageType.Chat_AutomationRequest:
+                this._chatAutomationRequest(msg, transcript);
+                break;
+            case MessageType.ChatRoom_MemberConnected:
+                this. _chatRoomMemberConnected(msg, transcript);
+                break;
+            case MessageType.Chat_Activity:
+                this._chatActivityAndAgentTyping(msg, transcript);
+                break;
+            case MessageType.Chat_Exit: 
+                transcript.addSystemMsg({msg: (msg["display.text"] || "Adviser exited chat")});
+                break;
+            case MessageType.Chat_CommunicationQueue:
+                transcript.addSystemMsg({msg: msg.messageText});
+                break;
+            case MessageType.Chat_Denied: 
+                transcript.addSystemMsg({msg: msg["thank_you_image_label"]});
+                break;
+            case MessageType.ChatRoom_MemberLost:
+                transcript.addSystemMsg({msg: msg["display.text"]});
+                break;
+            case MessageType.Owner_TransferResponse: 
+                this._removeAgentJoinsConference();
+                break;
+            case MessageType.Chat_System: case MessageType.Chat_TransferResponse:
+                transcript.addSystemMsg({msg: msg["client.display.text"]});
+                break;
+            default: 
+                if(msg.state === MessageState.Closed) {
+                    transcript.addSystemMsg({msg: "Agent Left Chat."});                    
+                } else {
+                    console.log("==== Unknown message:", msg);
                 }
-                this._removeAgentIsTyping();
-                transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
-            } else {
-                if(msg.chatFinalText != "end this chat and give feedback") {
-                    transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
-                }
-            }
-        } else if (msg.messageType === MessageType.Chat_AutomationRequest) {
-            if (this._isSoundActive()) {
-                if(!!msg.vaDataPass === false) {
-                    this._playMessageRecievedSound();
-                }
-            }
-            if(!!msg.vaDataPass) {
-                let vaDP = JSON.parse(msg.vaDataPass);
-                if (!!vaDP.endVAEngagement) {
-                  this.closeChat();
-                } 
-              } else {
-                transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
-                if (msg.messageData) {
-                    this._processMessageData(msg.messageData, msg.messageTimestamp);
-                }
-            }
-        } else if (msg.messageType === MessageType.Chat_Exit) {
-            transcript.addSystemMsg({msg: (msg["display.text"] || "Adviser exited chat")});
-        } else if (msg.state === MessageState.Closed) {
-            transcript.addSystemMsg({msg: "Agent Left Chat."});
-        } else if (msg.messageType === MessageType.Chat_CommunicationQueue) {
-            transcript.addSystemMsg({msg: msg.messageText});
-        } else if (msg.messageType === MessageType.ChatRoom_MemberConnected) {
-            this.escalated = true;
-            transcript.addSystemMsg(
-                {
-                    msg: msg["client.display.text"] || msg["display.text"],
-                    joinTransfer: msg["aeapi.join_transfer"]
-                }
-            );
-        } else if (msg.messageType === MessageType.Chat_Denied) {
-            transcript.addSystemMsg({msg: msg["thank_you_image_label"]});
-        } else if (msg.messageType === MessageType.ChatRoom_MemberLost) {
-            transcript.addSystemMsg({msg: msg["display.text"]});
-        } else if (msg.messageType === MessageType.Owner_TransferResponse) {
-            this._removeAgentJoinsConference();
-        } else if (msg.messageType === MessageType.Chat_Activity && msg.state === MessageState.Agent_IsTyping) {
-            if (msg["display.text"] == "Agent is typing...") {
-                transcript.addSystemMsg({msg: msg["display.text"], state: MessageState.Agent_IsTyping});
-            } else {
-                this._removeAgentIsTyping();
-            }
-        } else if ([
-                MessageType.Chat_System,
-                MessageType.Chat_TransferResponse,
-            ].includes(msg.messageType)) {
-            transcript.addSystemMsg({msg: msg["client.display.text"]});
-        } else {
-            console.log("==== Unknown message:", msg);
         }
     }
 }

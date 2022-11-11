@@ -143,7 +143,7 @@ export default class Transcript {
         return timestampPrefix.outerHTML;
     }
 
-    addAutomatonMsg(msg, msgTimestamp) {
+    addAutomatonMsg(automatonData, msgTimestamp) {
         var id = "liveAutomatedMsgId" + (Math.random() * 100);
         const msgDiv = `<div class= "msg-opacity govuk-body ${this.classes.Agent.Inner}" tabindex=-1 id=${id}></div>`;
 
@@ -174,7 +174,7 @@ export default class Transcript {
 
         this.content.appendChild(printOuterTimeStamp);
 
-        setTimeout(this.appendMessageInLiveRegion, 300, msg, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false, false);
+        setTimeout(this.appendMessageInLiveRegion, 300, automatonData, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false, false);
 
         if (chatContainer) {
 
