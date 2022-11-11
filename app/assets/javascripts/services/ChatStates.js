@@ -112,8 +112,10 @@ export class EngagedState {
         } 
 
         const transcript = this.container.getTranscript();
+
         if (msg.messageType === MessageType.Chat_Communication) {
-            if (msg.agentID) {
+
+            if (msg.isAgentMsg) {
                 if (this._isSoundActive()) {
                     this._playMessageRecievedSound();
                 }

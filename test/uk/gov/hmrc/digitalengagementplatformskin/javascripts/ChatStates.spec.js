@@ -104,6 +104,7 @@ describe("Chat States", () => {
                     messageType: MessageType.Chat_Communication,
                     messageText: "Hello world",
                     agentID: "007",
+                    isAgentMsg: true,
                     messageTimestamp: "test"
                 }
             };
@@ -125,6 +126,7 @@ describe("Chat States", () => {
                     messageType: MessageType.Chat_Communication,
                     messageText: "Hello world",
                     agentID: "007",
+                    isAgentMsg: true,
                     messageTimestamp: "test"
                 }
             };
@@ -346,6 +348,7 @@ describe("Chat States", () => {
                 data: {
                     "state": "closed",
                     "agentID": "42391918",
+                    "isAgentMsg": true,
                     "sessionId": "2493130538282329498",
                     "user.type": "agent",
                     "aeapi.mode": "true",
