@@ -1,4 +1,4 @@
-import JavaScriptBuild.{javaScriptBundler, javaScriptTestRunnerHook}
+import JavaScriptBuild._
 import uk.gov.hmrc.DefaultBuildSettings.integrationTestSettings
 import scoverage.ScoverageKeys
 import uk.gov.hmrc.DefaultBuildSettings._
@@ -38,8 +38,9 @@ lazy val microservice = Project(appName, file("."))
     PlayKeys.playDefaultPort := 9193,
     SilencerSettings(),
     libraryDependencies ++= AppDependencies.all,
-    javaScriptBundler,
-    javaScriptTestRunnerHook,
+    npmInstallSetting,
+    webpackBundleSetting,
+    javaScriptTestSetting,
     defaultSettings(),
     Concat.groups := Seq(
       "javascripts/hmrcChatSkinBundle.js" -> group(Seq("javascripts/bundle/hmrcChatSkin.js"))
@@ -51,3 +52,6 @@ lazy val microservice = Project(appName, file("."))
   .settings(integrationTestSettings(): _*)
   .settings(resolvers += Resolver.jcenterRepo)
   .settings(scoverageSettings)
+
+// add development mode run hook which starts webpack file watcher (./project/WebpackRunHook.scala)
+PlayKeys.playRunHooks += WebpackRunHook(baseDirectory.value)
