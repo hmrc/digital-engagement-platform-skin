@@ -1,11 +1,18 @@
 import sbt.Keys._
 import sbt._
 
+/**
+ * Settings defined in this file are run as part of the test stage.
+ * The webpack bundle setting is integral to the bundle being created when the application runs in production.
+ * Previously this setting was included as part of the compile stage, but this caused the bundle to be created multiple times.
+ */
 object JavaScriptBuild {
-  val configDirectory = SettingKey[File]("configDirectory")
   val runAllTests = TaskKey[Int]("runAllTests")
   val npmInstall = TaskKey[Int]("npm-install")
-  val bundleJs = TaskKey[Int]("bundleJs")
+  val webpackBuild = TaskKey[Int]("webpack-build")
+  val configDirectory: SettingKey[File] = {
+    Compile / baseDirectory
+  }
 
   private def runOperation(operation: String, result: Int): Int = {
     if (result != 0) {
@@ -14,27 +21,35 @@ object JavaScriptBuild {
     result
   }
 
-  val javaScriptTestRunnerHook: Seq[sbt.Def.Setting[_]] = Seq(
-    configDirectory := {
-      Compile / baseDirectory
-    }.value,
+  val npmInstallSetting: Seq[sbt.Def.Setting[_]] = Seq (
+      npmInstall :=
+        runOperation(
+          "npm install",
+          JavaScriptProcess.processBuilder(configDirectory.value, "npm", "install").run().exitValue()
+        ),
 
-    npmInstall := runOperation("npm install", Gulp.npmProcess(configDirectory.value, "install").run().exitValue()),
-    runAllTests := runOperation("JavaScript Jest tests", Gulp.gulpProcess(configDirectory.value, "jest").run().exitValue()),
-
-    runAllTests := {runAllTests dependsOn npmInstall}.value,
-
-    (Test / test) := {(Test / test) dependsOn runAllTests}.value
+      (Test / test) := {(Test / test) dependsOn npmInstall}.value
   )
 
-  val javaScriptBundler: Seq[sbt.Def.Setting[_]] = Seq(
-    configDirectory := {
-      Compile / baseDirectory
-    }.value,
+  val webpackBundleSetting: Seq[sbt.Def.Setting[_]] = Seq (
+    webpackBuild :=
+      runOperation(
+        "webpack build",
+        JavaScriptProcess.nodeProcessBuilder(configDirectory.value, "webpack", "build").run().exitValue()
+      ),
 
-    bundleJs := runOperation("JS bundling", Gulp.gulpProcess(configDirectory.value, "bundle").run().exitValue()),
-
-    (Compile / compile) :=  {(Compile / compile) dependsOn bundleJs}.value
+    webpackBuild := {webpackBuild dependsOn npmInstall}.value,
+    (Test / test) := {(Test / test) dependsOn webpackBuild}.value
   )
 
+  val javaScriptTestSetting: Seq[sbt.Def.Setting[_]] = Seq (
+      runAllTests := runOperation(
+        "JavaScript Jest tests",
+        JavaScriptProcess.nodeProcessBuilder(configDirectory.value, "jest").run().exitValue()
+      ),
+
+      runAllTests := {runAllTests dependsOn webpackBuild}.value,
+
+      (Test / test) := {(Test / test) dependsOn runAllTests}.value
+  )
 }
