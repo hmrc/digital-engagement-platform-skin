@@ -30,6 +30,21 @@ export class ShownState {
     }
 }
 
+// In the process of closing (post-chat survey, etc.)
+export class ClosingState {
+    constructor(closeChat) {
+        this.closeChat = closeChat;
+    }
+
+    onSend(text) {
+        console.error("State Error: Trying to send text when closing.");
+    }
+
+    onClickedClose() {
+        this.closeChat();
+    }
+}
+
 // Customer is engaged in a chat.
 export class EngagedState {
     constructor(sdk, container, previousMessages, closeChat) {
@@ -109,7 +124,6 @@ export class EngagedState {
 
         this._removeAgentIsTyping();
         transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
-
     }
 
     _isMixMessage(msg) { return msg.isAgentMsg && msg["external.app"] }
@@ -125,7 +139,7 @@ export class EngagedState {
                 this._removeAgentIsTyping();
                 transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
             } else {
-                if(msg.chatFinalText != "end this chat and give feedback") {
+                if (msg.chatFinalText != "end this chat and give feedback") {
                     transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
                 }
             }
@@ -222,20 +236,5 @@ export class EngagedState {
                     console.log("==== Unknown message:", msg);
                 }
         }
-    }
-}
-
-// In the process of closing (post-chat survey, etc.)
-export class ClosingState {
-    constructor(closeChat) {
-        this.closeChat = closeChat;
-    }
-
-    onSend(text) {
-        console.error("State Error: Trying to send text when closing.");
-    }
-
-    onClickedClose() {
-        this.closeChat();
     }
 }

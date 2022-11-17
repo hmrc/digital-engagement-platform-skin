@@ -1,25 +1,6 @@
-import * as ChatStates from '../../../../../../app/assets/javascripts/services/ChatStates'
-import * as MessageType from '../../../../../../app/assets/javascripts/NuanceMessageType'
-
-function createEngagedStateDependencies() {
-    const sdk = {
-        sendMessage: jest.fn(),
-        getMessages: jest.fn()
-    };
-
-    const container = {
-        transcript: {
-            addAgentMsg: jest.fn(),
-            addCustomerMsg: jest.fn(),
-            addAutomatonMsg: jest.fn(),
-            addSystemMsg: jest.fn(),
-        },
-        getTranscript: function () {
-            return this.transcript;
-        }
-    };
-    return [sdk, container];
-}
+import * as ChatStates from '../../../../../../../../app/assets/javascripts/services/ChatStates'
+import * as MessageType from '../../../../../../../../app/assets/javascripts/NuanceMessageType'
+import createEngagedStateDependencies from './SharedDependencies'
 
 describe("Chat States", () => {
     describe("NullState", () => {
