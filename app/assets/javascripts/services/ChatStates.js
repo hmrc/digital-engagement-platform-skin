@@ -102,59 +102,34 @@ export class EngagedState {
         }
     }
 
-    _chatCommunicationMessage(msg, transcript) {
-        if (msg.isAgentMsg) {
-            if (this._isSoundActive()) {
-                this._playMessageRecievedSound();
-            }
-            this._removeAgentIsTyping();
-            transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
-
-        } else {
-            if(msg.chatFinalText != "end this chat and give feedback") {
-                transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
-            }
+    _mixCommunicationMessage(msg, transcript) {
+        if (this._isSoundActive()) {
+            this._playMessageRecievedSound();
         }
 
-        // if (msg.isAgentMsg) { //the message is sent from a Agent
-        //     if (msg["external.app"]) { //The message is from MIX
-        //         console.log("--------------MIX message--------");
-        //         if (this._isSoundActive()) {
-        //             if(!!msg.vaDataPass === false) {
-        //                 this._playMessageRecievedSound();
-        //             }
-        //         }
-        //         if(!!msg.vaDataPass) {
-        //             let vaDP = JSON.parse(msg.vaDataPass);
-        //             if (!!vaDP.endVAEngagement) {
-        //                 this.closeChat();
-        //             } 
-        //             } else {
-        //             console.log("--------------Display the messageText--------");
-        //             transcript.addAutomatonMsg(msg["messageText"], msg.messageTimestamp);
-        //             if (msg.messageData) {
-        //                 //Developed in later ticket DEP-4098
-        //                 console.log("--------------is Rich Media message--------");
-        //                 this._processMessageData(msg.messageData, msg.messageTimestamp);
-        //             }
-        //         }
-        //     } else { //Process the Agent message
-        //         console.log("--------------MIX message--------");
-        //         if (this._isSoundActive()) {
-        //             this._playMessageRecievedSound();
-        //         }
-        //         this._removeAgentIsTyping();
-        //         transcript.addAgentMsg(msg.messageText, msg.messageTimestamp); 
-        //     }
+        this._removeAgentIsTyping();
+        transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
 
-        // } else {//the message is sent from a Customer
-        //     console.log("--------------Customer message--------");
-        //     if(msg.chatFinalText != "end this chat and give feedback") {
-        //         transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
-        //     }
-        // }
+    }
 
+    _isMixMessage(msg) { return msg.isAgentMsg && msg["external.app"] }
 
+    _chatCommunicationMessage(msg, transcript) {
+        if (this._isMixMessage(msg)) {
+            this._mixCommunicationMessage(msg, transcript);
+        } else { // NINA message
+            if (msg.isAgentMsg) {
+                if (this._isSoundActive()) {
+                    this._playMessageRecievedSound();
+                }
+                this._removeAgentIsTyping();
+                transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
+            } else {
+                if(msg.chatFinalText != "end this chat and give feedback") {
+                    transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
+                }
+            }
+        }
     }
 
     _chatAutomationRequest(msg, transcript) {
@@ -163,12 +138,13 @@ export class EngagedState {
                 this._playMessageRecievedSound();
             }
         }
+
         if(!!msg.vaDataPass) {
             let vaDP = JSON.parse(msg.vaDataPass);
             if (!!vaDP.endVAEngagement) {
                 this.closeChat();
             } 
-            } else {
+        } else {
             transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
             if (msg.messageData) {
                 this._processMessageData(msg.messageData, msg.messageTimestamp);
@@ -197,7 +173,7 @@ export class EngagedState {
     }
 
     _displayMessage(msg_in) {
-        const msg = msg_in.data
+        const msg = msg_in.data;
 
         console.log("---- Received message:", msg);
 
@@ -208,7 +184,7 @@ export class EngagedState {
 
         const transcript = this.container.getTranscript();
 
-        switch(msg.messageType) { 
+        switch (msg.messageType) {
             case MessageType.Chat_Communication:
                 this._chatCommunicationMessage(msg, transcript);
                 break;
