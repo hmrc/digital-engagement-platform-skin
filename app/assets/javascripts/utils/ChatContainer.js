@@ -69,6 +69,17 @@ export default class ChatContainer {
         this.container.classList.remove("minimised");
     }
 
+    isMixResponsiveLink(eventTarget) {
+        return !!eventTarget.dataset.nuanceMessageData;
+    }
+
+    sanitiseAndParseJsonData(data) {
+        data = data.replace(/'/g, '"');
+        data = data.replace(/\\/g, "");
+        data = JSON.parse(data);
+        return data;
+      }
+
     setEventHandler(eventHandler) {
         this.eventHandler = eventHandler;
     }
@@ -141,8 +152,29 @@ export default class ChatContainer {
             this.searchTimeout = setTimeout(this.stopTyping, 3000, this.eventHandler);
         });
 
+
         this._registerEventListener("#ciapiSkinChatTranscript", (e) => {
-            if ((e.target.tagName.toLowerCase() === 'a') && !!e.target.dataset && !!e.target.dataset.vtzJump) {
+            
+            if(this.isMixResponsiveLink(e.target)) {
+
+                const linkEl = e.target;
+                const linkHref = linkEl.getAttribute("href");
+                const nuanceMessageData = linkEl.dataset.nuanceMessageData;
+                const nuanceMessageText = linkEl.dataset.nuanceMessageText;
+
+                // Prevent defaults
+                if (linkHref == "#" || linkHref == "") event.preventDefault();
+
+                // Handle Responsive Links
+                if (!!nuanceMessageData) {
+                    const messageText = nuanceMessageText ? nuanceMessageText : linkEl.text;
+                    const messageData = this.sanitiseAndParseJsonData(nuanceMessageData);
+                    Inq.SDK.sendRichContentMessage(messageText, messageData);
+                } else if (!!nuanceMessageText) {
+                    Inq.SDK.sendMessage(nuanceMessageText);
+                }
+
+            } else if ((e.target.tagName.toLowerCase() === 'a') && !!e.target.dataset && !!e.target.dataset.vtzJump) {
                 Inq.SDK.sendVALinkMessage(e, null, null, null);
                 if(e.target.className != "dialog") {
                     this._focusOnNextAutomatonMessage();
