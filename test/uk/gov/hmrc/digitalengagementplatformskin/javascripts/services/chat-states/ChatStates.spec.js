@@ -49,6 +49,27 @@ describe("Chat States", () => {
         });
     });
 
+    describe("ClosingState", () => {
+        it("logs error for onSend", () => {
+            console.error = jest.fn();
+
+            const state = new ChatStates.ClosingState(jest.fn());
+
+            state.onSend("Some text that will be ignored");
+            expect(console.error).toHaveBeenCalledWith("State Error: Trying to send text when closing.");
+        });
+
+        it("closes the window onClickedClose", () => {
+            console.error = jest.fn();
+
+            const onCloseChat = jest.fn();
+            const state = new ChatStates.ClosingState(onCloseChat);
+
+            state.onClickedClose();
+            expect(onCloseChat).toHaveBeenCalled();
+        });
+    });
+
     describe("EngagedState", () => {
         it("calls getMessages on creation", () => {
             const [sdk, container] = createEngagedStateDependencies();
@@ -425,24 +446,5 @@ describe("Chat States", () => {
             expect(onCloseChat).toHaveBeenCalled();
         });
     });
-    describe("ClosingState", () => {
-        it("logs error for onSend", () => {
-            console.error = jest.fn();
 
-            const state = new ChatStates.ClosingState(jest.fn());
-
-            state.onSend("Some text that will be ignored");
-            expect(console.error).toHaveBeenCalledWith("State Error: Trying to send text when closing.");
-        });
-
-        it("closes the window onClickedClose", () => {
-            console.error = jest.fn();
-
-            const onCloseChat = jest.fn();
-            const state = new ChatStates.ClosingState(onCloseChat);
-
-            state.onClickedClose();
-            expect(onCloseChat).toHaveBeenCalled();
-        });
-    });
 });

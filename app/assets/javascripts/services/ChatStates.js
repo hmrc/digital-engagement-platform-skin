@@ -117,7 +117,7 @@ export class EngagedState {
         }
     }
 
-    _mixCommunicationMessage(msg, transcript) {
+    _mixAgentCommunicationMessage(msg, transcript) {
         if (this._isSoundActive()) {
             this._playMessageRecievedSound();
         }
@@ -126,23 +126,20 @@ export class EngagedState {
         transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
     }
 
-    _isMixMessage(msg) { return msg.isAgentMsg && msg["external.app"] }
+    _isMixAutomatonMessage(msg) { return msg.isAgentMsg && msg["external.app"] }
 
     _chatCommunicationMessage(msg, transcript) {
-        if (this._isMixMessage(msg)) {
-            this._mixCommunicationMessage(msg, transcript);
-        } else { // NINA message
-            if (msg.isAgentMsg) {
-                if (this._isSoundActive()) {
-                    this._playMessageRecievedSound();
-                }
-                this._removeAgentIsTyping();
-                transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
-            } else {
-                if (msg.chatFinalText != "end this chat and give feedback") {
-                    transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
-                }
+        if (this._isMixAutomatonMessage(msg)) {
+            this._mixAgentCommunicationMessage(msg, transcript);
+        } else if (msg.isAgentMsg) {
+            if (this._isSoundActive()) {
+                this._playMessageRecievedSound();
             }
+            this._removeAgentIsTyping();
+            transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
+
+        } else if (msg.chatFinalText != "end this chat and give feedback") { // customer message
+            transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
         }
     }
 

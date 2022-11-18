@@ -15,7 +15,7 @@ describe("Mix: Chat States", () => {
 
             const isSoundActive = jest.spyOn(state, '_isSoundActive');
             const playMessageRecievedSound = jest.spyOn(state, '_playMessageRecievedSound');
-            const isMixCommunicationMessage = jest.spyOn(state, '_mixCommunicationMessage');
+            const isMixAutomatonMessage = jest.spyOn(state, '_isMixAutomatonMessage');
             
             const handleMessage = sdk.getMessages.mock.calls[0][0];
             const message = {
@@ -33,7 +33,7 @@ describe("Mix: Chat States", () => {
 
             expect(isSoundActive).toBeCalledTimes(1);
             expect(playMessageRecievedSound).toBeCalledTimes(1);
-            expect(isMixCommunicationMessage).toBeCalledTimes(1);
+            expect(isMixAutomatonMessage).toBeCalledTimes(1);
         });
     });
 });
