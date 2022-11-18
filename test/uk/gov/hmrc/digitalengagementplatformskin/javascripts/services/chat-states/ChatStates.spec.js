@@ -1,25 +1,6 @@
-import * as ChatStates from '../../../../../../app/assets/javascripts/services/ChatStates'
-import * as MessageType from '../../../../../../app/assets/javascripts/NuanceMessageType'
-
-function createEngagedStateDependencies() {
-    const sdk = {
-        sendMessage: jest.fn(),
-        getMessages: jest.fn()
-    };
-
-    const container = {
-        transcript: {
-            addAgentMsg: jest.fn(),
-            addCustomerMsg: jest.fn(),
-            addAutomatonMsg: jest.fn(),
-            addSystemMsg: jest.fn(),
-        },
-        getTranscript: function () {
-            return this.transcript;
-        }
-    };
-    return [sdk, container];
-}
+import * as ChatStates from '../../../../../../../../app/assets/javascripts/services/ChatStates'
+import * as MessageType from '../../../../../../../../app/assets/javascripts/NuanceMessageType'
+import createEngagedStateDependencies from './SharedDependencies'
 
 describe("Chat States", () => {
     describe("NullState", () => {
@@ -62,6 +43,27 @@ describe("Chat States", () => {
             const onCloseChat = jest.fn();
 
             const state = new ChatStates.ShownState(onEngage, onCloseChat);
+
+            state.onClickedClose();
+            expect(onCloseChat).toHaveBeenCalled();
+        });
+    });
+
+    describe("ClosingState", () => {
+        it("logs error for onSend", () => {
+            console.error = jest.fn();
+
+            const state = new ChatStates.ClosingState(jest.fn());
+
+            state.onSend("Some text that will be ignored");
+            expect(console.error).toHaveBeenCalledWith("State Error: Trying to send text when closing.");
+        });
+
+        it("closes the window onClickedClose", () => {
+            console.error = jest.fn();
+
+            const onCloseChat = jest.fn();
+            const state = new ChatStates.ClosingState(onCloseChat);
 
             state.onClickedClose();
             expect(onCloseChat).toHaveBeenCalled();
@@ -444,24 +446,5 @@ describe("Chat States", () => {
             expect(onCloseChat).toHaveBeenCalled();
         });
     });
-    describe("ClosingState", () => {
-        it("logs error for onSend", () => {
-            console.error = jest.fn();
 
-            const state = new ChatStates.ClosingState(jest.fn());
-
-            state.onSend("Some text that will be ignored");
-            expect(console.error).toHaveBeenCalledWith("State Error: Trying to send text when closing.");
-        });
-
-        it("closes the window onClickedClose", () => {
-            console.error = jest.fn();
-
-            const onCloseChat = jest.fn();
-            const state = new ChatStates.ClosingState(onCloseChat);
-
-            state.onClickedClose();
-            expect(onCloseChat).toHaveBeenCalled();
-        });
-    });
 });
