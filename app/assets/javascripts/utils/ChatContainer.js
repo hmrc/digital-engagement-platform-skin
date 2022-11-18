@@ -163,7 +163,7 @@ export default class ChatContainer {
                 const nuanceMessageText = linkEl.dataset.nuanceMessageText;
 
                 // Prevent defaults
-                if (linkHref == "#" || linkHref == "") event.preventDefault();
+                if (linkHref == "#" || linkHref == "") e.preventDefault();
 
                 // Handle Responsive Links
                 if (!!nuanceMessageData) {
