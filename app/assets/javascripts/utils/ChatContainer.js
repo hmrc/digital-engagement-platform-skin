@@ -1,24 +1,25 @@
-import Transcript from '../services/Transcript'
-import EndChatPopup from '../views/EndChatPopup'
+import Transcript from "../services/Transcript";
+import EndChatPopup from "../views/EndChatPopup";
 
 const nullEventHandler = {
-    onSend: function () { },
-    onCloseChat: function () { },
-    onHideChat: function () { },
-    onRestoreChat: function () { },
-    onConfirmEndChat: function () { },
-    onSoundToggle: function () { },
-    onStartTyping: function () { },
-    onStopTyping: function () { }
+    onSend: function () {},
+    onCloseChat: function () {},
+    onHideChat: function () {},
+    onRestoreChat: function () {},
+    onConfirmEndChat: function () {},
+    onSoundToggle: function () {},
+    onStartTyping: function () {},
+    onStopTyping: function () {},
 };
 
 export default class ChatContainer {
-    constructor(messageClasses, containerHtml) {
-        this.container = document.createElement("div")
+    constructor(messageClasses, containerHtml, SDK) {
+        this.container = document.createElement("div");
         this.container.id = "ciapiSkin";
         this.eventHandler = nullEventHandler;
         this.closeMethod = null;
         this.searchTimeout = null;
+        this.SDK = SDK;
 
         this.container.insertAdjacentHTML("beforeend", containerHtml);
         this.content = this.container.querySelector("#ciapiSkinChatTranscript");
@@ -73,12 +74,48 @@ export default class ChatContainer {
         return !!eventTarget.dataset.nuanceMessageData;
     }
 
+    processMixResponsiveLink(e) {
+        const linkEl = e.target;
+        const linkHref = linkEl.getAttribute("href");
+        const nuanceMessageData = linkEl.dataset.nuanceMessageData;
+        const nuanceMessageText = linkEl.dataset.nuanceMessageText;
+
+        // Prevent defaults
+        if (linkHref == "#" || linkHref == "") e.preventDefault();
+
+        // Handle Responsive Links
+        if (!!nuanceMessageData) {
+            const messageText = nuanceMessageText ? nuanceMessageText : linkEl.text;
+            const messageData = this.sanitiseAndParseJsonData(nuanceMessageData);
+            this.SDK.sendRichContentMessage(messageText, messageData);
+        } else if (!!nuanceMessageText) {
+            this.SDK.sendMessage(nuanceMessageText);
+        }
+    }
+
     sanitiseAndParseJsonData(data) {
         data = data.replace(/'/g, '"');
         data = data.replace(/\\/g, "");
         data = JSON.parse(data);
         return data;
-      }
+    }
+
+    transcriptEvent(e) {
+        if (this.isMixResponsiveLink(e.target)) {
+            this.processMixResponsiveLink(e);
+        } else if (
+            e.target.tagName.toLowerCase() === "a" &&
+            !!e.target.dataset &&
+            !!e.target.dataset.vtzJump
+        ) {
+            this.SDK.sendVALinkMessage(e, null, null, null);
+            if (e.target.className != "dialog") {
+                this._focusOnNextAutomatonMessage();
+            } else {
+                this.closeMethod = "Link";
+            }
+        }
+    }
 
     setEventHandler(eventHandler) {
         this.eventHandler = eventHandler;
@@ -106,7 +143,6 @@ export default class ChatContainer {
     }
 
     _registerEventListeners() {
-
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
             this.eventHandler.onSend();
         });
@@ -131,7 +167,6 @@ export default class ChatContainer {
             this.eventHandler.onSkipToTopLink(e);
         });
 
-
         this._registerEventListener("#ciapiSkinRestoreButton", (e) => {
             this.eventHandler.onRestoreChat();
         });
@@ -152,36 +187,8 @@ export default class ChatContainer {
             this.searchTimeout = setTimeout(this.stopTyping, 3000, this.eventHandler);
         });
 
-
         this._registerEventListener("#ciapiSkinChatTranscript", (e) => {
-            
-            if(this.isMixResponsiveLink(e.target)) {
-
-                const linkEl = e.target;
-                const linkHref = linkEl.getAttribute("href");
-                const nuanceMessageData = linkEl.dataset.nuanceMessageData;
-                const nuanceMessageText = linkEl.dataset.nuanceMessageText;
-
-                // Prevent defaults
-                if (linkHref == "#" || linkHref == "") e.preventDefault();
-
-                // Handle Responsive Links
-                if (!!nuanceMessageData) {
-                    const messageText = nuanceMessageText ? nuanceMessageText : linkEl.text;
-                    const messageData = this.sanitiseAndParseJsonData(nuanceMessageData);
-                    Inq.SDK.sendRichContentMessage(messageText, messageData);
-                } else if (!!nuanceMessageText) {
-                    Inq.SDK.sendMessage(nuanceMessageText);
-                }
-
-            } else if ((e.target.tagName.toLowerCase() === 'a') && !!e.target.dataset && !!e.target.dataset.vtzJump) {
-                Inq.SDK.sendVALinkMessage(e, null, null, null);
-                if(e.target.className != "dialog") {
-                    this._focusOnNextAutomatonMessage();
-                } else {
-                    this.closeMethod = "Link";
-                }
-            }
+            transcriptEvent(e);
         });
 
         this._registerEventListener("#printButton", (e) => {
@@ -201,7 +208,6 @@ export default class ChatContainer {
     }
 
     onCancelEndChat() {
-
         var ciapiSkinContainer = document.querySelector("#ciapiSkin");
         var endChatNonFocusable = ciapiSkinContainer.querySelectorAll('a[href], input, textarea, button');
         endChatNonFocusable.forEach(function (element) {
@@ -220,7 +226,6 @@ export default class ChatContainer {
         } else {
             endChatGiveFeedback.focus();
         }
-        
     }
 
     _removeSkinHeadingElements() {
@@ -255,6 +260,7 @@ export default class ChatContainer {
     showPage(page) {
         this.container.querySelector("#ciapiSkinChatTranscript").style.display = "none";
         this.container.querySelector("#ciapiSkinFooter").style.display = "none";
-        page.attachTo(this.container.querySelector("#ciapiChatComponents"))
+        page.attachTo(this.container.querySelector("#ciapiChatComponents"));
     }
 }
+

@@ -74,4 +74,34 @@ describe("ChatContainer", () => {
         chatContainer.restore();
         expect(spy).toBeCalledWith('minimised');
     });
+
+    it("Mix: process responsive links", () => {
+
+        const SDK = {
+            sendRichContentMessage : jest.fn(),
+            sendMessage: jest.fn()
+        }
+
+        chatContainer = new ChatContainer(null, null, SDK);
+
+        let isMixResponsiveLink = jest.spyOn(chatContainer, 'isMixResponsiveLink')
+        let transcriptEvent = jest.spyOn(chatContainer, 'transcriptEvent');
+
+        const event = {
+            target : {
+                dataset: {
+                    "nuanceMessageText": "Northern Ireland",
+                    "nuanceMessageData": "{'nvaaType':'formattedLink','selectedItemId':'LOCATION','selectedItemValue':'northern_ireland'}"
+                },
+                getAttribute : jest.fn().mockReturnValueOnce("#")
+            },
+            preventDefault: jest.fn()
+        }
+
+        chatContainer.transcriptEvent(event);
+
+        expect(transcriptEvent).toBeCalledTimes(1);
+        expect(isMixResponsiveLink).toBeCalledTimes(1);
+    });
+
 })
