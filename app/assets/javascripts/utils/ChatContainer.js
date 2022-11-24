@@ -1,5 +1,5 @@
-import Transcript from "../services/Transcript";
-import EndChatPopup from "../views/EndChatPopup";
+import Transcript from '../services/Transcript';
+import EndChatPopup from '../views/EndChatPopup';
 
 const nullEventHandler = {
     onSend: function () {},
@@ -189,7 +189,7 @@ export default class ChatContainer {
         });
 
         this._registerEventListener("#ciapiSkinChatTranscript", (e) => {
-            processTranscriptEvent(e);
+            this.processTranscriptEvent(e);
         });
 
         this._registerEventListener("#printButton", (e) => {
