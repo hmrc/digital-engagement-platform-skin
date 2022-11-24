@@ -17,9 +17,15 @@ const nullEventHandler = {
 };
 
 let chatContainer;
+let mockSDK;
 
 beforeEach(() => {
     chatContainer = new ChatContainer();
+    mockSDK = {
+        sendRichContentMessage : jest.fn().mockImplementation(),
+        sendMessage: jest.fn().mockImplementation()
+    };
+    
 });
 
 describe("ChatContainer", () => {
@@ -75,33 +81,73 @@ describe("ChatContainer", () => {
         expect(spy).toBeCalledWith('minimised');
     });
 
-    it("Mix: process responsive links", () => {
+    it("Mix: process responsive links, send rich content message", () => {
+        chatContainer = new ChatContainer(null, null, mockSDK);
 
-        const SDK = {
-            sendRichContentMessage : jest.fn(),
-            sendMessage: jest.fn()
-        }
-
-        chatContainer = new ChatContainer(null, null, SDK);
-
-        let isMixResponsiveLink = jest.spyOn(chatContainer, 'isMixResponsiveLink')
-        let transcriptEvent = jest.spyOn(chatContainer, 'transcriptEvent');
-
-        const event = {
+        const responsiveLinkEvent = {
             target : {
                 dataset: {
                     "nuanceMessageText": "Northern Ireland",
-                    "nuanceMessageData": "{'nvaaType':'formattedLink','selectedItemId':'LOCATION','selectedItemValue':'northern_ireland'}"
+                    "nuanceMessageData":
+                        "{'nvaaType':'formattedLink','selectedItemId':'LOCATION','selectedItemValue':'northern_ireland'}"
                 },
-                getAttribute : jest.fn().mockReturnValueOnce("#")
+                getAttribute : jest.fn().mockReturnValue("#")
             },
             preventDefault: jest.fn()
         }
 
-        chatContainer.transcriptEvent(event);
+        let isMixResponsiveLink = jest.spyOn(chatContainer, 'isMixResponsiveLink')
+        let processTranscriptEvent = jest.spyOn(chatContainer, 'processTranscriptEvent');
+        let sanitiseAndParseJsonData = jest.spyOn(chatContainer, 'sanitiseAndParseJsonData')
 
-        expect(transcriptEvent).toBeCalledTimes(1);
+        chatContainer.processTranscriptEvent(responsiveLinkEvent); 
+
+        expect(processTranscriptEvent).toBeCalledTimes(1);
         expect(isMixResponsiveLink).toBeCalledTimes(1);
+        expect(sanitiseAndParseJsonData).toBeCalledTimes(1);
+
+        const firstArgToSendRichContentMessage = mockSDK.sendRichContentMessage.mock.calls[0][0];
+        const secondArgToSendRichContentMessage = mockSDK.sendRichContentMessage.mock.calls[0][1];
+
+        expect(mockSDK.sendMessage).toBeCalledTimes(0);
+        expect(firstArgToSendRichContentMessage).toBe("Northern Ireland");
+
+        expect(secondArgToSendRichContentMessage)
+            .toMatchObject({
+                nvaaType: 'formattedLink',
+                selectedItemId: 'LOCATION',
+                selectedItemValue: 'northern_ireland'
+            })
     });
+
+    it("Mix: process responsive links, send message", () => {
+        chatContainer = new ChatContainer(null, null, mockSDK);
+
+        let isMixResponsiveLink = jest.spyOn(chatContainer, 'isMixResponsiveLink')
+        let processTranscriptEvent = jest.spyOn(chatContainer, 'processTranscriptEvent');
+        let sanitiseAndParseJsonData = jest.spyOn(chatContainer, 'sanitiseAndParseJsonData')
+
+        const responsiveLinkEvent = {
+            target : {
+                dataset: {
+                    "nuanceMessageText": "Northern Ireland"
+                },
+                getAttribute : jest.fn().mockReturnValue("#")
+            },
+            preventDefault: jest.fn()
+        }
+
+        chatContainer.processTranscriptEvent(responsiveLinkEvent); 
+
+        expect(isMixResponsiveLink).toBeCalledTimes(1);
+        expect(processTranscriptEvent).toBeCalledTimes(1);
+        expect(mockSDK.sendMessage).toBeCalledTimes(1);
+
+        expect(mockSDK.sendRichContentMessage).toBeCalledTimes(0);
+        expect(sanitiseAndParseJsonData).toBeCalledTimes(0);
+
+        const firstArgToSendMessage = mockSDK.sendMessage.mock.calls[0][0];
+        expect(firstArgToSendMessage).toBe("Northern Ireland");
+    })
 
 })

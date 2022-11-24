@@ -70,8 +70,16 @@ export default class ChatContainer {
         this.container.classList.remove("minimised");
     }
 
+    sanitiseAndParseJsonData(data) {
+        data = data.replace(/'/g, '"');
+        data = data.replace(/\\/g, "");
+        data = JSON.parse(data);
+        return data;
+    }
+
     isMixResponsiveLink(eventTarget) {
-        return !!eventTarget.dataset.nuanceMessageData;
+        return !!eventTarget.dataset.nuanceMessageData ||
+            !!eventTarget.dataset.nuanceMessageText;
     }
 
     processMixResponsiveLink(e) {
@@ -93,14 +101,7 @@ export default class ChatContainer {
         }
     }
 
-    sanitiseAndParseJsonData(data) {
-        data = data.replace(/'/g, '"');
-        data = data.replace(/\\/g, "");
-        data = JSON.parse(data);
-        return data;
-    }
-
-    transcriptEvent(e) {
+    processTranscriptEvent(e) {
         if (this.isMixResponsiveLink(e.target)) {
             this.processMixResponsiveLink(e);
         } else if (
