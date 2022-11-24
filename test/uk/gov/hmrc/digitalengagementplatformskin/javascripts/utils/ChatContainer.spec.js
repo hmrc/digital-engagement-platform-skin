@@ -96,9 +96,9 @@ describe("ChatContainer", () => {
             preventDefault: jest.fn()
         }
 
-        let isMixResponsiveLink = jest.spyOn(chatContainer, 'isMixResponsiveLink')
+        let isMixResponsiveLink = jest.spyOn(chatContainer, 'isMixResponsiveLink');
         let processTranscriptEvent = jest.spyOn(chatContainer, 'processTranscriptEvent');
-        let sanitiseAndParseJsonData = jest.spyOn(chatContainer, 'sanitiseAndParseJsonData')
+        let sanitiseAndParseJsonData = jest.spyOn(chatContainer, 'sanitiseAndParseJsonData');
 
         chatContainer.processTranscriptEvent(responsiveLinkEvent); 
 
@@ -123,9 +123,9 @@ describe("ChatContainer", () => {
     it("Mix: process responsive links, send message", () => {
         chatContainer = new ChatContainer(null, null, mockSDK);
 
-        let isMixResponsiveLink = jest.spyOn(chatContainer, 'isMixResponsiveLink')
+        let isMixResponsiveLink = jest.spyOn(chatContainer, 'isMixResponsiveLink');
         let processTranscriptEvent = jest.spyOn(chatContainer, 'processTranscriptEvent');
-        let sanitiseAndParseJsonData = jest.spyOn(chatContainer, 'sanitiseAndParseJsonData')
+        let sanitiseAndParseJsonData = jest.spyOn(chatContainer, 'sanitiseAndParseJsonData');
 
         const responsiveLinkEvent = {
             target : {
