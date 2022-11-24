@@ -189,7 +189,7 @@ export default class ChatContainer {
         });
 
         this._registerEventListener("#ciapiSkinChatTranscript", (e) => {
-            transcriptEvent(e);
+            processTranscriptEvent(e);
         });
 
         this._registerEventListener("#printButton", (e) => {
