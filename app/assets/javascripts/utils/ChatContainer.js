@@ -9,7 +9,7 @@ const nullEventHandler = {
     onConfirmEndChat: function () {},
     onSoundToggle: function () {},
     onStartTyping: function () {},
-    onStopTyping: function () {},
+    onStopTyping: function () {}
 };
 
 export default class ChatContainer {
