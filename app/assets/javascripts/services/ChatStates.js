@@ -128,9 +128,23 @@ export class EngagedState {
 
     _isMixAutomatonMessage(msg) { return msg.isAgentMsg && msg["external.app"] }
 
+    _isQuickReplyWidget(messageData) {
+        return messageData.widgetType &&
+            messageData.widgetType == "quickreply";
+    }
+
     _chatCommunicationMessage(msg, transcript) {
         if (this._isMixAutomatonMessage(msg)) {
-            this._mixAgentCommunicationMessage(msg, transcript);
+
+            const messageDataAsObject = this.container.sanitiseAndParseJsonData(msg.messageData);
+
+            if(this._isQuickReplyWidget(messageDataAsObject)) {
+                // TODO put the message on the page, add event listener...
+                transcript.renderQuickReply(messageDataAsObject);
+            } else {
+                this._mixAgentCommunicationMessage(msg, transcript);
+            }
+
         } else if (msg.isAgentMsg) {
             if (this._isSoundActive()) {
                 this._playMessageRecievedSound();

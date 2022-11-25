@@ -71,10 +71,15 @@ export default class ChatContainer {
     }
 
     sanitiseAndParseJsonData(data) {
-        data = data.replace(/'/g, '"');
-        data = data.replace(/\\/g, "");
-        data = JSON.parse(data);
-        return data;
+        try {
+            data = data.replace(/'/g, '"');
+            data = data.replace(/\\/g, "");
+            data = JSON.parse(data);
+            return data;
+        } catch(e) {
+            console.log('error in sanitiseAndParseJsonData: ', e);
+            return {};
+        }
     }
 
     isMixResponsiveLink(eventTarget) {
@@ -103,6 +108,7 @@ export default class ChatContainer {
 
     processTranscriptEvent(e) {
         if (this.isMixResponsiveLink(e.target)) {
+            console.log('in isMixResponsiveLink');
             this.processMixResponsiveLink(e);
         } else if (
             e.target.tagName.toLowerCase() === "a" &&

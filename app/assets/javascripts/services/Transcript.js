@@ -18,6 +18,18 @@ export default class Transcript {
         this._appendMessage(msg, msgTimestamp, this.classes.Customer, this.customerMsgPrefix, true, false);
     }
 
+    _addPaddingToCustomerMsg(id) {
+        const lastCustomerMessageHeight = document.getElementById(id).offsetHeight;
+
+        let customerContainer = document.getElementsByClassName("ciapi-customer-container");
+
+        for (let i = 0; i < customerContainer.length; i++) {
+            if (i == (customerContainer.length - 1)) {
+                customerContainer[i].style.paddingBottom = (lastCustomerMessageHeight + 25) + 'px';
+            }
+        }
+    }
+
     addSystemMsg(msgObject) {
         if (msgObject.msg === undefined) msgObject.msg = "";
         if (msgObject.state === undefined) msgObject.state = "";
@@ -99,48 +111,6 @@ export default class Transcript {
                 that._addPaddingToCustomerMsg(id);
             }
         }
-    }
-
-    _addPaddingToCustomerMsg(id) {
-        var lastCustomerMessageHeight = document.getElementById(id).offsetHeight;
-
-        var customerContainer = document.getElementsByClassName("ciapi-customer-container");
-
-        var i;
-        for (i = 0; i < customerContainer.length; i++) {
-            if (i == (customerContainer.length - 1)) {
-                customerContainer[i].style.paddingBottom = (lastCustomerMessageHeight + 25) + 'px';
-            }
-        }
-    }
-
-    getPrintTimeStamp(msgTimestamp) {
-
-        var strTime = "";
-
-        if (msgTimestamp != "") {
-
-            var date = new Date(parseInt(msgTimestamp));
-
-            var hours = date.getHours();
-            var minutes = date.getMinutes();
-            var ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12;
-            hours = hours ? hours : 12; // the hour '0' should be '12'
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            strTime = hours + ':' + minutes + ' ' + ampm;
-
-        }
-        return strTime;
-    }
-
-    _getTimestampPrefix(msgTimestamp) {
-        let timestampPrefix = document.createElement("span");
-
-        timestampPrefix.className = "govuk-visually-hidden";
-        timestampPrefix.innerHTML = this.getPrintTimeStamp(msgTimestamp);
-
-        return timestampPrefix.outerHTML;
     }
 
     addAutomatonMsg(automatonData, msgTimestamp) {
@@ -259,6 +229,105 @@ export default class Transcript {
         }
     }
 
+    // in this function we need to put the buttons on the page with the correct style
+    // then attach an event listener
+    renderQuickReply(richMediaData) {
+        try {
+            if (!richMediaData.nodes) return null;
+        
+            let divContainer = document.createElement("div");
+            let initialNode = richMediaData.nodes[0];
+        
+            // Render first node
+            let nodeContainer = document.createElement("div");
+            nodeContainer.classList.add(initialNode.id);
+
+            for(let i = 0; i < Object.keys(initialNode.controls).length; i++) {
+                let control = initialNode.controls[i];
+                let renderedControl;
+
+                switch (control.type) {
+                    case "QuickReplyButton":
+                    // if (ChatSkin.useLinkOptions)
+                    //   renderedControl = ChatSkin.renderQuickReplyButtonAsLinks(initialNode, control);
+                    // else
+                        renderedControl = this.renderQuickReplyButton(initialNode, control);
+                    break;
+                }
+
+                divContainer.append(renderedControl);
+            }
+        
+            return null;
+
+            // event listener stuff
+            if (!!richMediaData.transitions) {
+                divContainer.transitions = richMediaData.transitions;
+                divContainer.addEventListener('click', this.handleRichMediaClickEvent);
+            }
+            
+                return divContainer;
+        } catch(e) {
+            console.error(e);
+            return null;
+        }
+    }
+
+
+    renderQuickReplyButton(node, controlData) {
+
+        console.log('renderQuickReplyButton called');
+        return null;
+
+        var qrContainer = document.createElement("div");
+        qrContainer.classList.add('quick-reply-widget');
+        
+        qrContainer.disable = function() {
+            buttons = this.querySelectorAll('button');
+            buttons.forEach(btn => btn.setAttribute("disabled", "disabled"));
+        }
+        
+        var buttonElements = controlData.text.map((text,idx) => {
+            var buttonEl = document.createElement("button");
+            var prefix = `#${node.id}.${controlData.id}`;
+            
+            buttonEl.classList.add('quick-reply-widget__option');
+
+            buttonEl.richMediaContext = {
+                [`${prefix}.selectedIndex`]: idx,
+                [`${prefix}.selectedText`]: text,
+                [`${prefix}.selectedValue`]: controlData.values[idx],
+                'event': controlData.event.name,
+                'node': node.id,
+            }
+
+            buttonEl.innerText = text;
+            return buttonEl;
+        })
+        
+        qrContainer.append(...buttonElements);
+        return qrContainer;
+    }
+
+    handleRichMediaClickEvent(event) {
+        var targetEl = event.target;
+        var targetElContext = targetEl.richMediaContext;
+        if(!targetElContext) return;
+
+        var transition = this.transitions.find(transition => transition.from == targetElContext.node && transition.trigger == targetElContext.event);
+        
+        if (!!transition.to && !!transition.to.sendMessage) {
+            var datapassDef = transition.to.sendMessage;
+            var richContentMessageData = {};
+            for (key in datapassDef) {
+                var value = datapassDef[key];
+                richContentMessageData[key] = (value.substr(0,1) == '#') ? targetElContext[value] : value;
+            }
+
+            Inq.SDK.sendRichContentMessage(richContentMessageData.displayText, richContentMessageData);
+        }
+    }
+
     _showLatestContent(msg_class) {
         const chatContainer = document.getElementById("ciapiSkinChatTranscript")
         const agentInner = msg_class.Inner;
@@ -285,4 +354,34 @@ export default class Transcript {
             chatContainer.scrollTo({ top: chatContainer.scrollHeight, left: 0, behavior: "smooth" });
         }
     }
+
+    getPrintTimeStamp(msgTimestamp) {
+
+        var strTime = "";
+
+        if (msgTimestamp != "") {
+
+            var date = new Date(parseInt(msgTimestamp));
+
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            strTime = hours + ':' + minutes + ' ' + ampm;
+
+        }
+        return strTime;
+    }
+
+    _getTimestampPrefix(msgTimestamp) {
+        let timestampPrefix = document.createElement("span");
+
+        timestampPrefix.className = "govuk-visually-hidden";
+        timestampPrefix.innerHTML = this.getPrintTimeStamp(msgTimestamp);
+
+        return timestampPrefix.outerHTML;
+    }
+
 }
