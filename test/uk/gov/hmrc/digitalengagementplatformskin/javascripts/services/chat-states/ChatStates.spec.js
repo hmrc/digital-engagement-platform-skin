@@ -213,7 +213,7 @@ describe("Chat States", () => {
             expect(onCloseChat).toHaveBeenCalled();
         });
 
-        it("sends customer messages to the transcript", () => {
+        it("sends system messages to the transcript chat.communication.queue", () => {
             const [sdk, container] = createEngagedStateDependencies();
 
             const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
@@ -228,6 +228,23 @@ describe("Chat States", () => {
 
             handleMessage(message);
             expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Queue message"});
+        });
+
+        it("sends system messages to the transcript chat.need_wait", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+
+            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+            const message = {
+                data: {
+                    messageType: MessageType.Chat_NeedWait,
+                    messageText: "Need to wait message"
+                }
+            };
+
+            handleMessage(message);
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Need to wait message"});
         });
 
         it("reports Chat Denied to the transcript", () => {
