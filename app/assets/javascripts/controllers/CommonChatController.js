@@ -164,16 +164,16 @@ export default class CommonChatController {
         const anchoredPopupDiv = this._getAnchoredPopupDiv();
         try {
             if (fixedPopupDiv) {
-                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml);
+                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, Inq.SDK);
                 fixedPopupDiv.appendChild(this.container.element());
             } else if (anchoredPopupDiv && !fixedPopupDiv) {
-                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml);
+                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, Inq.SDK);
                 anchoredPopupDiv.appendChild(this.container.element());
             } else if (embeddedDiv) {
-                this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml);
+                this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml, Inq.SDK);
                 embeddedDiv.appendChild(this.container.element());
             } else {
-                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml);
+                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, Inq.SDK);
                 document.getElementsByTagName("body")[0].appendChild(this.container.element());
             }
 
