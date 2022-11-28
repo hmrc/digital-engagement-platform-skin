@@ -144,6 +144,8 @@ export default class Transcript {
 
         this.content.appendChild(printOuterTimeStamp);
 
+        console.log('automatonData: ', automatonData);
+
         setTimeout(this.appendMessageInLiveRegion, 300, automatonData, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false, false);
 
         if (chatContainer) {
@@ -231,11 +233,13 @@ export default class Transcript {
 
     // in this function we need to put the buttons on the page with the correct style
     // then attach an event listener
-    renderQuickReply(richMediaData) {
+    renderQuickReply(richMediaData, msgTimestamp) {
         try {
             if (!richMediaData.nodes) return null;
         
-            let divContainer = document.createElement("div");
+            // let  = document .createElement("div");
+            const divContainer = document.getElementById("ciapiSkinChatTranscript")
+
             let initialNode = richMediaData.nodes[0];
         
             // Render first node
@@ -251,22 +255,20 @@ export default class Transcript {
                     // if (ChatSkin.useLinkOptions)
                     //   renderedControl = ChatSkin.renderQuickReplyButtonAsLinks(initialNode, control);
                     // else
-                        renderedControl = this.renderQuickReplyButton(initialNode, control);
+                        renderedControl = this.createQuickReplyButton(initialNode, control, msgTimestamp);
                     break;
                 }
 
                 divContainer.append(renderedControl);
             }
         
-            return null;
-
-            // event listener stuff
             if (!!richMediaData.transitions) {
                 divContainer.transitions = richMediaData.transitions;
                 divContainer.addEventListener('click', this.handleRichMediaClickEvent);
             }
             
-                return divContainer;
+            return divContainer;
+
         } catch(e) {
             console.error(e);
             return null;
@@ -274,22 +276,53 @@ export default class Transcript {
     }
 
 
-    renderQuickReplyButton(node, controlData) {
-
+    createQuickReplyButton(node, controlData, msgTimestamp) {
         console.log('renderQuickReplyButton called');
-        return null;
 
-        var qrContainer = document.createElement("div");
+        var id = "liveAutomatedMsgId" + (Math.random() * 100);
+        console.log('1');
+        const msgDiv = `<div class= "msg-opacity govuk-body ${this.classes.Agent.Inner}" tabindex=-1 id=${id}></div>`;
+
+        // const skipToTop = document.getElementById("skipToTop");
+        // const chatContainer = document.getElementById("ciapiSkinChatTranscript")
+
+        var qrContainer = document.createElement("div")
+        qrContainer.id = id;
+        qrContainer.classList.add(this.classes.Agent.Outer);
+        // qrContainer.insertAdjacentHTML("beforeend", msgDiv);
+        qrContainer.setAttribute('aria-live', 'polite');
+
+
+        var printMessageSuffix = document.createElement("h2");
+        printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
+
+		if (window.Agent_Name != null) {
+			printMessageSuffix.innerHTML = window.Agent_Name + " said: ";
+		} else {
+			printMessageSuffix.innerHTML = "HMRC said: ";
+		}
+
+        var printOuterTimeStamp = document.createElement("div");
+
+        var printTimeStamp = document.createElement("p");
+        printTimeStamp.className = "print-only govuk-body print-float-left";
+        printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
+
+        printOuterTimeStamp.className = "timestamp-outer";
+        printOuterTimeStamp.innerHTML =  this._getTimestampPrefix(msgTimestamp) + printMessageSuffix.outerHTML + qrContainer.outerHTML + printTimeStamp.outerHTML;
+
+        this.content.appendChild(printOuterTimeStamp);
+
         qrContainer.classList.add('quick-reply-widget');
         
-        qrContainer.disable = function() {
+        qrContainer.disable = () => {
             buttons = this.querySelectorAll('button');
             buttons.forEach(btn => btn.setAttribute("disabled", "disabled"));
         }
         
-        var buttonElements = controlData.text.map((text,idx) => {
-            var buttonEl = document.createElement("button");
-            var prefix = `#${node.id}.${controlData.id}`;
+        let buttonElements = controlData.text.map((text,idx) => {
+            let buttonEl = document.createElement("button");
+            const prefix = `#${node.id}.${controlData.id}`;
             
             buttonEl.classList.add('quick-reply-widget__option');
 
@@ -304,6 +337,9 @@ export default class Transcript {
             buttonEl.innerText = text;
             return buttonEl;
         })
+
+        // setTimeout(this.appendMessageInLiveRegion, 300, automatonData, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false, false);
+
         
         qrContainer.append(...buttonElements);
         return qrContainer;
@@ -314,15 +350,21 @@ export default class Transcript {
         var targetElContext = targetEl.richMediaContext;
         if(!targetElContext) return;
 
-        var transition = this.transitions.find(transition => transition.from == targetElContext.node && transition.trigger == targetElContext.event);
+        var transition =
+            this
+            .transitions
+            .find(transition => transition.from == targetElContext.node && transition.trigger == targetElContext.event);
         
         if (!!transition.to && !!transition.to.sendMessage) {
             var datapassDef = transition.to.sendMessage;
+
             var richContentMessageData = {};
-            for (key in datapassDef) {
-                var value = datapassDef[key];
+
+            Object.entries(datapassDef).forEach(([key, value], index) => {
                 richContentMessageData[key] = (value.substr(0,1) == '#') ? targetElContext[value] : value;
-            }
+            });
+
+            console.log('richContentMessageData: ', richContentMessageData);
 
             Inq.SDK.sendRichContentMessage(richContentMessageData.displayText, richContentMessageData);
         }

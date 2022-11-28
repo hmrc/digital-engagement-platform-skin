@@ -126,32 +126,31 @@ export class EngagedState {
         transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
     }
 
-    _isMixAutomatonMessage(msg) { return msg.isAgentMsg && msg["external.app"] }
+    _isMixAutomatonMessage(msg) { return msg.isAgentMsg && msg["external.app"]}
 
-    _isQuickReplyWidget(messageData) {
-        return messageData.widgetType &&
-            messageData.widgetType == "quickreply";
+    _extractQuickReplyData(msg) {
+        if(!msg.messageData) return null
+
+        const messageDataAsObject = this.container.sanitiseAndParseJsonData(msg.messageData);
+
+        if(messageDataAsObject &&
+            messageDataAsObject.widgetType &&
+            messageDataAsObject.widgetType == "quickreply") {
+            return messageDataAsObject;
+        } 
+
+        return null;
     }
 
     _chatCommunicationMessage(msg, transcript) {
-        if (this._isMixAutomatonMessage(msg)) {
+        const quickReplyData = this._extractQuickReplyData(msg);
 
-            const messageDataAsObject = this.container.sanitiseAndParseJsonData(msg.messageData);
-
-            if(this._isQuickReplyWidget(messageDataAsObject)) {
-                // TODO put the message on the page, add event listener...
-                transcript.renderQuickReply(messageDataAsObject);
-            } else {
-                this._mixAgentCommunicationMessage(msg, transcript);
-            }
-
+        if (quickReplyData) {
+            transcript.renderQuickReply(quickReplyData, msg.messageTimestamp);
+        } else if (this._isMixAutomatonMessage(msg)){
+            this._mixAgentCommunicationMessage(msg, transcript);
         } else if (msg.isAgentMsg) {
-            if (this._isSoundActive()) {
-                this._playMessageRecievedSound();
-            }
-            this._removeAgentIsTyping();
-            transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
-
+            this._mixAgentCommunicationMessage(msg, transcript); // Nina
         } else if (msg.chatFinalText != "end this chat and give feedback") { // customer message
             transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
         }
