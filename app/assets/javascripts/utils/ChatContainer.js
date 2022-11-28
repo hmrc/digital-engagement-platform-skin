@@ -82,6 +82,33 @@ export default class ChatContainer {
             !!eventTarget.dataset.nuanceMessageText;
     }
 
+    isMixExternalLink(eventTarget) {
+        return eventTarget.dataset && eventTarget.dataset.nuanceDatapass;
+    }
+
+    processMixExternalLink(e) {
+        const linkEl = e.target;
+        const linkHref = linkEl.getAttribute("href");
+        const nuanceDatapass = linkEl.dataset.nuanceDatapass;
+
+        // Handle External Links
+        if (linkHref != "#" && linkHref != "") {
+            var ndepVaEventData = JSON.stringify({
+                data: {
+                    address: linkHref,
+                },
+                event: "linkClicked",
+            });
+            this.SDK.sendDataPass({ ndepVaEvent: ndepVaEventData });
+        }
+
+        // Handle Datapass
+        if (!!nuanceDatapass) {
+            const datapass = this.sanitiseAndParseJsonData(e.target.dataset.nuanceDatapass);
+            this.SDK.sendDataPass(datapass);
+        }
+    }
+
     processMixResponsiveLink(e) {
         const linkEl = e.target;
         const linkHref = linkEl.getAttribute("href");
@@ -102,13 +129,11 @@ export default class ChatContainer {
     }
 
     processTranscriptEvent(e) {
-        if (this.isMixResponsiveLink(e.target)) {
+        if(this.isMixExternalLink(e.target)) {
+            this.processMixExternalLink(e);
+        } else if (this.isMixResponsiveLink(e.target)) {
             this.processMixResponsiveLink(e);
-        } else if (
-            e.target.tagName.toLowerCase() === "a" &&
-            !!e.target.dataset &&
-            !!e.target.dataset.vtzJump
-        ) {
+        } else if (e.target.tagName.toLowerCase() === "a" && !!e.target.dataset && !!e.target.dataset.vtzJump) {
             this.SDK.sendVALinkMessage(e, null, null, null);
             if (e.target.className != "dialog") {
                 this._focusOnNextAutomatonMessage();

@@ -23,7 +23,8 @@ beforeEach(() => {
     chatContainer = new ChatContainer();
     mockSDK = {
         sendRichContentMessage : jest.fn().mockImplementation(),
-        sendMessage: jest.fn().mockImplementation()
+        sendMessage: jest.fn().mockImplementation(),
+        sendDataPass: jest.fn().mockImplementation()
     };
     
 });
@@ -96,9 +97,9 @@ describe("ChatContainer", () => {
             preventDefault: jest.fn()
         }
 
-        let isMixResponsiveLink = jest.spyOn(chatContainer, 'isMixResponsiveLink')
+        let isMixResponsiveLink = jest.spyOn(chatContainer, 'isMixResponsiveLink');
         let processTranscriptEvent = jest.spyOn(chatContainer, 'processTranscriptEvent');
-        let sanitiseAndParseJsonData = jest.spyOn(chatContainer, 'sanitiseAndParseJsonData')
+        let sanitiseAndParseJsonData = jest.spyOn(chatContainer, 'sanitiseAndParseJsonData');
 
         chatContainer.processTranscriptEvent(responsiveLinkEvent); 
 
@@ -123,9 +124,9 @@ describe("ChatContainer", () => {
     it("Mix: process responsive links, send message", () => {
         chatContainer = new ChatContainer(null, null, mockSDK);
 
-        let isMixResponsiveLink = jest.spyOn(chatContainer, 'isMixResponsiveLink')
+        let isMixResponsiveLink = jest.spyOn(chatContainer, 'isMixResponsiveLink');
         let processTranscriptEvent = jest.spyOn(chatContainer, 'processTranscriptEvent');
-        let sanitiseAndParseJsonData = jest.spyOn(chatContainer, 'sanitiseAndParseJsonData')
+        let sanitiseAndParseJsonData = jest.spyOn(chatContainer, 'sanitiseAndParseJsonData');
 
         const responsiveLinkEvent = {
             target : {
@@ -148,6 +149,39 @@ describe("ChatContainer", () => {
 
         const firstArgToSendMessage = mockSDK.sendMessage.mock.calls[0][0];
         expect(firstArgToSendMessage).toBe("Northern Ireland");
-    })
+    });
+
+    it("Mix: process external links, send datapass", () => {
+        chatContainer = new ChatContainer(null, null, mockSDK);
+
+        const externalLinkEvent = {
+            target : {
+                dataset: {
+                    "nuanceMessageText": "Where do you live?",
+                    "nuanceDatapass": "{'testDataPass': 'worked'}",
+                    "target": "_blank"
+                },
+                getAttribute : jest.fn().mockReturnValue("https://www.gov.uk/government/organisations/hm-revenue-customs")
+            },
+            preventDefault: jest.fn()
+        }
+
+        let isMixExternalLink = jest.spyOn(chatContainer, 'isMixExternalLink');
+        let processTranscriptEvent = jest.spyOn(chatContainer, 'processTranscriptEvent');
+        let sanitiseAndParseJsonData = jest.spyOn(chatContainer, 'sanitiseAndParseJsonData');
+        
+        chatContainer.processTranscriptEvent(externalLinkEvent);
+
+        expect(isMixExternalLink).toBeCalledTimes(1);
+        expect(processTranscriptEvent).toBeCalledTimes(1);
+        expect(sanitiseAndParseJsonData).toBeCalledTimes(1);
+        
+        expect(mockSDK.sendDataPass).toBeCalledTimes(2);
+        const firstCallToSendDataPass = mockSDK.sendDataPass.mock.calls[0][0];
+        const secondCallToSendDataPass = mockSDK.sendDataPass.mock.calls[1][0];
+
+        expect(firstCallToSendDataPass).toMatchObject({"ndepVaEvent": "{\"data\":{\"address\":\"https://www.gov.uk/government/organisations/hm-revenue-customs\"},\"event\":\"linkClicked\"}"});
+        expect(secondCallToSendDataPass).toMatchObject({ testDataPass: 'worked' });
+    });
 
 })
