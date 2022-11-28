@@ -3,6 +3,7 @@
 export const Chat_AutomationRequest = 'chat.automaton_request';
 export const Chat_Communication = 'chat.communication';
 export const Chat_CommunicationQueue = 'chat.communication.queue';
+export const Chat_NeedWait = 'chat.need_wait';
 export const Chat_Denied = 'chat.denied';
 export const Chat_Exit = 'chat.exit';
 export const Chat_System = 'chat.system';
