@@ -169,6 +169,7 @@ export default class ChatContainer {
     }
 
     _registerEventListeners() {
+
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
             this.eventHandler.onSend();
         });
@@ -289,4 +290,3 @@ export default class ChatContainer {
         page.attachTo(this.container.querySelector("#ciapiChatComponents"));
     }
 }
-
