@@ -227,6 +227,9 @@ export class EngagedState {
             case MessageType.Chat_CommunicationQueue:
                 transcript.addSystemMsg({msg: msg.messageText});
                 break;
+            case MessageType.Chat_NeedWait:
+                transcript.addSystemMsg({msg: msg.messageText});
+                break;
             case MessageType.Chat_Denied: 
                 transcript.addSystemMsg({msg: msg["thank_you_image_label"]});
                 break;
