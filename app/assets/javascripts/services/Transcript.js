@@ -317,7 +317,7 @@ export default class Transcript {
     }
 
     handleRichMediaClickEvent(event) {
-        event.target.preventDefault;
+        event.preventDefault();
 
         let targetEl = event.target;
         let targetElContext = targetEl.richMediaContext;
