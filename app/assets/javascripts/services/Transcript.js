@@ -97,11 +97,14 @@ export default class Transcript {
 
     appendMessageInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class, isSystemMsg, isCustomerMsg, isQuickReply) {
         if (document.getElementById(id)) {
-            if(isQuickReply) {
+            if (isQuickReply) {
                 document.getElementById(id).append(msg);
                 document.getElementById(id).classList.remove("msg-opacity");
-            } else if (that) {
-                var msg = that.decodeHTMLEntities(msg);
+            } else { 
+                if (that) {
+                    var msg = that.decodeHTMLEntities(msg);
+                }
+
                 document.getElementById(id).innerHTML = "<div class=govuk-visually-hidden>" + msg_type + "</div> " + msg;
                 document.getElementById(id).classList.remove("msg-opacity");
             }
@@ -289,47 +292,46 @@ export default class Transcript {
       
         const buttonElements = controlData.text.map((text,idx) => {
 
-          let listItemEl = document.createElement("li");
+            let listItemEl = document.createElement("li");
 
-          let linkEl = document.createElement("a");
-          linkEl.href = '#';
+            let linkEl = document.createElement("a");
+            linkEl.href = '#';
 
-          let prefix = `#${node.id}.${controlData.id}`;
+            let prefix = `#${node.id}.${controlData.id}`;
 
-          linkEl.richMediaContext = {
-            [`${prefix}.selectedIndex`]: idx,
-            [`${prefix}.selectedText`]: text,
-            [`${prefix}.selectedValue`]: controlData.values[idx],
-            'event': controlData.event.name,
-            'node': node.id,
-          }
-          linkEl.innerText = text;
-          listItemEl.append(linkEl);
-          return listItemEl;
+            linkEl.richMediaContext = {
+                [`${prefix}.selectedIndex`]: idx,
+                [`${prefix}.selectedText`]: text,
+                [`${prefix}.selectedValue`]: controlData.values[idx],
+                'event': controlData.event.name,
+                'node': node.id,
+            }
+
+            linkEl.innerText = text;
+            listItemEl.append(linkEl);
+            return listItemEl;
         })
       
         qrContainer.append(...buttonElements);
         return qrContainer;
-      }
-
-
+    }
 
     handleRichMediaClickEvent(event) {
         event.target.preventDefault;
 
-        var targetEl = event.target;
-        var targetElContext = targetEl.richMediaContext;
+        let targetEl = event.target;
+        let targetElContext = targetEl.richMediaContext;
         if(!targetElContext) return;
 
-        var transition =
+        let transition =
             this
             .transitions
             .find(transition => transition.from == targetElContext.node && transition.trigger == targetElContext.event);
         
         if (!!transition.to && !!transition.to.sendMessage) {
-            var datapassDef = transition.to.sendMessage;
+            let datapassDef = transition.to.sendMessage;
 
-            var richContentMessageData = {};
+            let richContentMessageData = {};
 
             Object.entries(datapassDef).forEach(([key, value], index) => {
                 richContentMessageData[key] = (value.substr(0,1) == '#') ? targetElContext[value] : value;
