@@ -216,7 +216,7 @@ export class EngagedState {
                 this._chatAutomationRequest(msg, transcript);
                 break;
             case MessageType.ChatRoom_MemberConnected:
-                this. _chatRoomMemberConnected(msg, transcript);
+                this._chatRoomMemberConnected(msg, transcript);
                 break;
             case MessageType.Chat_Activity:
                 this._chatActivityAndAgentTyping(msg, transcript);
