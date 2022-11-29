@@ -146,7 +146,7 @@ export class EngagedState {
         const quickReplyData = this._extractQuickReplyData(msg);
 
         if (quickReplyData) {
-            transcript.renderQuickReply(quickReplyData, msg.messageTimestamp);
+            transcript.renderQuickReply(quickReplyData, msg.messageText, msg.messageTimestamp);
         } else if (this._isMixAutomatonMessage(msg)){
             this._mixAgentCommunicationMessage(msg, transcript);
         } else if (msg.isAgentMsg) {

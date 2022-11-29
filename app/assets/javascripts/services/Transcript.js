@@ -74,6 +74,7 @@ export default class Transcript {
     }
 
     decodeHTMLEntities(text) {
+
         var entities = [
             ['amp', '&'],
             ['apos', '\''],
@@ -87,21 +88,25 @@ export default class Transcript {
             ['quot', '"']
         ];
 
-        for (var i = 0, max = entities.length; i < max; ++i)
+        for (var i = 0, max = entities.length; i < max; ++i) {
             text = text.replace(new RegExp('&' + entities[i][0] + ';', 'g'), entities[i][1]);
+        }
 
         return text;
     }
 
-    appendMessageInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class, isSystemMsg, isCustomerMsg) {
+    appendMessageInLiveRegion(msg, id, msg_type, isVirtualAssistance, that, msg_class, isSystemMsg, isCustomerMsg, isQuickReply) {
         if (document.getElementById(id)) {
-            if (that) {
+            if(isQuickReply) {
+                document.getElementById(id).append(msg);
+                document.getElementById(id).classList.remove("msg-opacity");
+            } else if (that) {
                 var msg = that.decodeHTMLEntities(msg);
+                document.getElementById(id).innerHTML = "<div class=govuk-visually-hidden>" + msg_type + "</div> " + msg;
+                document.getElementById(id).classList.remove("msg-opacity");
             }
-
-            document.getElementById(id).innerHTML = "<div class=govuk-visually-hidden>" + msg_type + "</div> " + msg;
-            document.getElementById(id).classList.remove("msg-opacity");
         }
+
         if (that) {
             that._showLatestContent(msg_class);
         }
@@ -113,7 +118,7 @@ export default class Transcript {
         }
     }
 
-    addAutomatonMsg(automatonData, msgTimestamp) {
+    addAutomatonMsg(automatonData, msgTimestamp, isQuickReply) {
         var id = "liveAutomatedMsgId" + (Math.random() * 100);
         const msgDiv = `<div class= "msg-opacity govuk-body ${this.classes.Agent.Inner}" tabindex=-1 id=${id}></div>`;
 
@@ -144,9 +149,7 @@ export default class Transcript {
 
         this.content.appendChild(printOuterTimeStamp);
 
-        console.log('automatonData: ', automatonData);
-
-        setTimeout(this.appendMessageInLiveRegion, 300, automatonData, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false, false);
+        setTimeout(this.appendMessageInLiveRegion, 300, automatonData, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false, false, isQuickReply);
 
         if (chatContainer) {
 
@@ -233,14 +236,15 @@ export default class Transcript {
 
     // in this function we need to put the buttons on the page with the correct style
     // then attach an event listener
-    renderQuickReply(richMediaData, msgTimestamp) {
+    renderQuickReply(quickReplyData, messageText, messageTimestamp) {
         try {
-            if (!richMediaData.nodes) return null;
+            if (!quickReplyData.nodes) return null;
         
-            // let  = document .createElement("div");
-            const divContainer = document.getElementById("ciapiSkinChatTranscript")
 
-            let initialNode = richMediaData.nodes[0];
+            let divContainer = document.createElement("div");
+            divContainer.innerHTML = messageText;
+
+            let initialNode = quickReplyData.nodes[0];
         
             // Render first node
             let nodeContainer = document.createElement("div");
@@ -248,104 +252,71 @@ export default class Transcript {
 
             for(let i = 0; i < Object.keys(initialNode.controls).length; i++) {
                 let control = initialNode.controls[i];
+
                 let renderedControl;
 
                 switch (control.type) {
                     case "QuickReplyButton":
-                    // if (ChatSkin.useLinkOptions)
-                    //   renderedControl = ChatSkin.renderQuickReplyButtonAsLinks(initialNode, control);
-                    // else
-                        renderedControl = this.createQuickReplyButton(initialNode, control, msgTimestamp);
+                        renderedControl = this.createQuickReplyButtonAsLinks(initialNode, control);
                     break;
                 }
 
                 divContainer.append(renderedControl);
             }
         
-            if (!!richMediaData.transitions) {
-                divContainer.transitions = richMediaData.transitions;
+            if (!!quickReplyData.transitions) {
+                divContainer.transitions = quickReplyData.transitions;
                 divContainer.addEventListener('click', this.handleRichMediaClickEvent);
             }
-            
-            return divContainer;
 
+            const isQuickReply = true;
+
+            this.addAutomatonMsg(divContainer, messageTimestamp, isQuickReply);
         } catch(e) {
             console.error(e);
             return null;
         }
     }
 
+    createQuickReplyButtonAsLinks(node, controlData) {
 
-    createQuickReplyButton(node, controlData, msgTimestamp) {
-        console.log('renderQuickReplyButton called');
-
-        var id = "liveAutomatedMsgId" + (Math.random() * 100);
-        console.log('1');
-        const msgDiv = `<div class= "msg-opacity govuk-body ${this.classes.Agent.Inner}" tabindex=-1 id=${id}></div>`;
-
-        // const skipToTop = document.getElementById("skipToTop");
-        // const chatContainer = document.getElementById("ciapiSkinChatTranscript")
-
-        var qrContainer = document.createElement("div")
-        qrContainer.id = id;
-        qrContainer.classList.add(this.classes.Agent.Outer);
-        // qrContainer.insertAdjacentHTML("beforeend", msgDiv);
-        qrContainer.setAttribute('aria-live', 'polite');
-
-
-        var printMessageSuffix = document.createElement("h2");
-        printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
-
-		if (window.Agent_Name != null) {
-			printMessageSuffix.innerHTML = window.Agent_Name + " said: ";
-		} else {
-			printMessageSuffix.innerHTML = "HMRC said: ";
-		}
-
-        var printOuterTimeStamp = document.createElement("div");
-
-        var printTimeStamp = document.createElement("p");
-        printTimeStamp.className = "print-only govuk-body print-float-left";
-        printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
-
-        printOuterTimeStamp.className = "timestamp-outer";
-        printOuterTimeStamp.innerHTML =  this._getTimestampPrefix(msgTimestamp) + printMessageSuffix.outerHTML + qrContainer.outerHTML + printTimeStamp.outerHTML;
-
-        this.content.appendChild(printOuterTimeStamp);
-
-        qrContainer.classList.add('quick-reply-widget');
-        
-        qrContainer.disable = () => {
-            buttons = this.querySelectorAll('button');
-            buttons.forEach(btn => btn.setAttribute("disabled", "disabled"));
+        let qrContainer = document.createElement("ul");
+      
+        qrContainer.disable = function() {
+          links = this.querySelectorAll('a');
+          links.forEach(link => link.parentElement.innerText = link.text);
         }
-        
-        let buttonElements = controlData.text.map((text,idx) => {
-            let buttonEl = document.createElement("button");
-            const prefix = `#${node.id}.${controlData.id}`;
-            
-            buttonEl.classList.add('quick-reply-widget__option');
+      
+        const buttonElements = controlData.text.map((text,idx) => {
 
-            buttonEl.richMediaContext = {
-                [`${prefix}.selectedIndex`]: idx,
-                [`${prefix}.selectedText`]: text,
-                [`${prefix}.selectedValue`]: controlData.values[idx],
-                'event': controlData.event.name,
-                'node': node.id,
-            }
+          let listItemEl = document.createElement("li");
 
-            buttonEl.innerText = text;
-            return buttonEl;
+          let linkEl = document.createElement("a");
+          linkEl.href = '#';
+
+          let prefix = `#${node.id}.${controlData.id}`;
+
+          linkEl.richMediaContext = {
+            [`${prefix}.selectedIndex`]: idx,
+            [`${prefix}.selectedText`]: text,
+            [`${prefix}.selectedValue`]: controlData.values[idx],
+            'event': controlData.event.name,
+            'node': node.id,
+          }
+          linkEl.innerText = text;
+          listItemEl.append(linkEl);
+          return listItemEl;
         })
-
-        // setTimeout(this.appendMessageInLiveRegion, 300, automatonData, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false, false);
-
-        
+      
         qrContainer.append(...buttonElements);
         return qrContainer;
-    }
+      }
+
+
 
     handleRichMediaClickEvent(event) {
+        event.target.preventDefault;
+
         var targetEl = event.target;
         var targetElContext = targetEl.richMediaContext;
         if(!targetElContext) return;
@@ -364,7 +335,6 @@ export default class Transcript {
                 richContentMessageData[key] = (value.substr(0,1) == '#') ? targetElContext[value] : value;
             });
 
-            console.log('richContentMessageData: ', richContentMessageData);
 
             Inq.SDK.sendRichContentMessage(richContentMessageData.displayText, richContentMessageData);
         }
