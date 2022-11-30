@@ -1,4 +1,4 @@
-export default function sanitiseAndParseJsonData(data) {
+export const sanitiseAndParseJsonData = (data) => {
     try {
         data = data.replace(/'/g, '"');
         data = data.replace(/\\/g, "");

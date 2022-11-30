@@ -2,8 +2,11 @@ import ChatContainer from '../../../../../../../app/assets/javascripts/utils/Cha
 import Popup from '../../../../../../../app/assets/javascripts/views/EndChatPopup'
 import Transcript from '../../../../../../../app/assets/javascripts/services/Transcript'
 
+import * as JsonUtils from '../../../../../../../app/assets/javascripts/utils/JsonUtils'
+
 jest.mock('../../../../../../../app/assets/javascripts/views/EndChatPopup');
 jest.mock('../../../../../../../app/assets/javascripts/services/Transcript');
+
 
 const nullEventHandler = {
     onSend: jest.fn(),
@@ -18,6 +21,7 @@ const nullEventHandler = {
 
 let chatContainer;
 let mockSDK;
+let sanitiseAndParseJsonData = jest.spyOn(JsonUtils, 'sanitiseAndParseJsonData');
 
 beforeEach(() => {
     chatContainer = new ChatContainer();
@@ -27,7 +31,9 @@ beforeEach(() => {
         sendDataPass: jest.fn().mockImplementation()
     };
 
+    sanitiseAndParseJsonData.mockRestore(); // reset JsonUtils sanitiseAndParseJsonData counter before each test
 });
+
 
 describe("ChatContainer", () => {
 
@@ -99,7 +105,7 @@ describe("ChatContainer", () => {
 
         let isMixResponsiveLink = jest.spyOn(chatContainer, 'isMixResponsiveLink');
         let processTranscriptEvent = jest.spyOn(chatContainer, 'processTranscriptEvent');
-        let sanitiseAndParseJsonData = jest.spyOn(chatContainer, 'sanitiseAndParseJsonData');
+        sanitiseAndParseJsonData = jest.spyOn(JsonUtils, 'sanitiseAndParseJsonData');
 
         chatContainer.processTranscriptEvent(responsiveLinkEvent);
 
@@ -126,7 +132,7 @@ describe("ChatContainer", () => {
 
         let isMixResponsiveLink = jest.spyOn(chatContainer, 'isMixResponsiveLink');
         let processTranscriptEvent = jest.spyOn(chatContainer, 'processTranscriptEvent');
-        let sanitiseAndParseJsonData = jest.spyOn(chatContainer, 'sanitiseAndParseJsonData');
+        sanitiseAndParseJsonData = jest.spyOn(JsonUtils, 'sanitiseAndParseJsonData');
 
         const responsiveLinkEvent = {
             target : {
@@ -168,7 +174,7 @@ describe("ChatContainer", () => {
 
         let isMixExternalLink = jest.spyOn(chatContainer, 'isMixExternalLink');
         let processTranscriptEvent = jest.spyOn(chatContainer, 'processTranscriptEvent');
-        let sanitiseAndParseJsonData = jest.spyOn(chatContainer, 'sanitiseAndParseJsonData');
+        sanitiseAndParseJsonData = jest.spyOn(JsonUtils, 'sanitiseAndParseJsonData');
 
         chatContainer.processTranscriptEvent(externalLinkEvent);
 

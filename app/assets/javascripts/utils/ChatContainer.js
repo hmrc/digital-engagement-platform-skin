@@ -1,6 +1,6 @@
 import Transcript from '../services/Transcript';
 import EndChatPopup from '../views/EndChatPopup';
-import sanitiseAndParseJsonData from './JsonUtils';
+import { sanitiseAndParseJsonData } from './JsonUtils';
 
 const nullEventHandler = {
     onSend: function () {},

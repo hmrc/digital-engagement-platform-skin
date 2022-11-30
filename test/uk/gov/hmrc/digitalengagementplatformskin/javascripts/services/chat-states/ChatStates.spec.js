@@ -462,6 +462,96 @@ describe("Chat States", () => {
             state.onClickedClose();
             expect(onCloseChat).toHaveBeenCalled();
         });
+
+
+        it("calls the transcript addQuickReply method", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+
+            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            let chatCommunicationMessageSpy = jest.spyOn(state, '_chatCommunicationMessage');
+            let extractQuickReplyDataSpy = jest.spyOn(state, '_extractQuickReplyData');
+            
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+
+            const message = {
+                data : {
+                    "agentID": "42413094",
+                    "sessionId": "-2232268617980682976",
+                    "aeapi.mode": "true",
+                    "agent.alias": "HMRC",
+                    "messageData": "{\"widgetType\":\"quickreply\",\"widgetView\":\"inline\",\"widgetAction\":\"optional\",\"showMessageText\":true,\"nodes\":[{\"id\":\"quickreply_template\",\"controls\":{\"0\":{\"type\":\"QuickReplyButton\",\"id\":\"qrb_1\",\"context\":\"info\",\"text\":[\"England, Scotland or Wales\",\"Northern Ireland\"],\"event\":{\"name\":\"eventquick\"},\"values\":[\"england\",\"northern_ireland\"]}}}],\"transitions\":[{\"name\":\"TransitionOne\",\"from\":\"quickreply_template\",\"to\":{\"sendMessage\":{\"selected\":\"#quickreply_template.qrb_1.selectedIndex\",\"selectedText\":\"#quickreply_template.qrb_1.selectedText\",\"selectedValue\":\"#quickreply_template.qrb_1.selectedValue\",\"displayText\":\"#quickreply_template.qrb_1.selectedText\",\"nvaaType\":\"QuickReplyButton\",\"nvaaId\":\"england;LOCATION;northern_ireland;LOCATION;\"}},\"trigger\":\"eventquick\"}]}",
+                    "messageText": "Where do you live?",
+                    "messageType": "chat.communication",
+                    "engagementID": "388263420789170349",
+                    "external.app": "true",
+                    "external_user.ip": "52.142.149.60",
+                    "messageTimestamp": "1669734234000",
+                    "config.session_id": "-2232268617980682976",
+                    "msg.originalrequest.id": "-2232268612589414572",
+                    "senderName": "HMRC",
+                    "isAgentMsg": true,
+                    "chatFinalText": "Where do you live?"
+                }
+            };
+
+            handleMessage(message);
+
+            expect(chatCommunicationMessageSpy).toBeCalledTimes(1);
+            expect(extractQuickReplyDataSpy).toBeCalledTimes(1)
+            expect(container.transcript.addQuickReply).toBeCalledTimes(1);
+
+            const firstArgToTranscriptAddQuickReply =
+                container.transcript.addQuickReply.mock.calls[0][0];
+
+            let expectedAddQuickReplyFirstArg = {
+                widgetType: 'quickreply',
+                widgetView: 'inline',
+                widgetAction: 'optional',
+                showMessageText: true,
+                nodes: [{ id: 'quickreply_template', controls: {
+                    '0': {
+                        type: 'QuickReplyButton',
+                        id: 'qrb_1',
+                        context: 'info',
+                        text: [ 'England, Scotland or Wales', 'Northern Ireland' ],
+                        event: { name: 'eventquick' },
+                        values: [ 'england', 'northern_ireland' ]
+                        }
+                    }
+                }],
+                transitions: [
+                    {
+                        name: 'TransitionOne',
+                        from: 'quickreply_template',
+                        to: {
+                            sendMessage: {
+                                selected: '#quickreply_template.qrb_1.selectedIndex',
+                                selectedText: '#quickreply_template.qrb_1.selectedText',
+                                selectedValue: '#quickreply_template.qrb_1.selectedValue',
+                                displayText: '#quickreply_template.qrb_1.selectedText',
+                                nvaaType: 'QuickReplyButton',
+                                nvaaId: 'england;LOCATION;northern_ireland;LOCATION;'
+                                }
+                        },
+                        trigger: 'eventquick'
+                    }
+                ]
+            }
+
+            const secondArgToTranscriptAddQuickReply =
+                container.transcript.addQuickReply.mock.calls[0][1];
+
+            const thirdArgToTranscriptAddQuickReply = 
+                container.transcript.addQuickReply.mock.calls[0][2];
+
+
+            expect(firstArgToTranscriptAddQuickReply)
+                .toMatchObject(expectedAddQuickReplyFirstArg);
+
+            expect(secondArgToTranscriptAddQuickReply).toBe('Where do you live?');
+            expect(thirdArgToTranscriptAddQuickReply).toBe('1669734234000');
+        });
     });
 
 });
