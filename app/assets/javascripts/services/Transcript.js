@@ -279,6 +279,10 @@ export default class Transcript {
         }
     }
 
+    addCustomEvent(customEventData, messageText, messageTimestamp) {
+    //GOT HERE
+    }
+
     createQuickReplyButtonAsLinks(node, controlData) {
 
         let qrContainer = document.createElement("ul");

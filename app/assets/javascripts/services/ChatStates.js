@@ -143,11 +143,28 @@ export class EngagedState {
         return null;
     }
 
+    _extractCustomEventsData(msg) {
+        if(!msg.messageData) return null
+
+        const messageDataAsObject = sanitiseAndParseJsonData(msg.messageData);
+
+        if(messageDataAsObject &&
+            messageDataAsObject.command &&
+            messageDataAsObject.command.event.CloseChat) {
+                return messageDataAsObject;
+        }
+
+        return null;
+    }
+
     _chatCommunicationMessage(msg, transcript) {
         const quickReplyData = this._extractQuickReplyData(msg);
+        const customEventData = this._extractCustomEventsData(msg);
 
         if (quickReplyData) {
             transcript.addQuickReply(quickReplyData, msg.messageText, msg.messageTimestamp);
+        } else if (customEventData) {   
+            transcript.addCustomEvent(customEventData, msg.messageText, msg.messageTimestamp);
         } else if (this._isMixAutomatonMessage(msg)){
             this._mixAgentCommunicationMessage(msg, transcript);
         } else if (msg.isAgentMsg) {
