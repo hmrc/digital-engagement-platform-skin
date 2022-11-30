@@ -1,5 +1,6 @@
 import * as MessageType from '../NuanceMessageType';
 import * as MessageState from '../NuanceMessageState';
+import sanitiseAndParseJsonData from '../utils/JsonUtils';
 
 // State at start, before anything happens.
 export class NullState {
@@ -129,9 +130,10 @@ export class EngagedState {
     _isMixAutomatonMessage(msg) { return msg.isAgentMsg && msg["external.app"]}
 
     _extractQuickReplyData(msg) {
+
         if(!msg.messageData) return null
 
-        const messageDataAsObject = this.container.sanitiseAndParseJsonData(msg.messageData);
+        const messageDataAsObject = sanitiseAndParseJsonData(msg.messageData);
 
         if(messageDataAsObject &&
             messageDataAsObject.widgetType &&
@@ -146,7 +148,7 @@ export class EngagedState {
         const quickReplyData = this._extractQuickReplyData(msg);
 
         if (quickReplyData) {
-            transcript.renderQuickReply(quickReplyData, msg.messageText, msg.messageTimestamp);
+            transcript.addQuickReply(quickReplyData, msg.messageText, msg.messageTimestamp);
         } else if (this._isMixAutomatonMessage(msg)){
             this._mixAgentCommunicationMessage(msg, transcript);
         } else if (msg.isAgentMsg) {

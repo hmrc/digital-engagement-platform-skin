@@ -237,9 +237,7 @@ export default class Transcript {
         }
     }
 
-    // in this function we need to put the buttons on the page with the correct style
-    // then attach an event listener
-    renderQuickReply(quickReplyData, messageText, messageTimestamp) {
+    addQuickReply(quickReplyData, messageText, messageTimestamp) {
         try {
             if (!quickReplyData.nodes) return null;
         
