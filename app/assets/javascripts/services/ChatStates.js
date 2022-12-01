@@ -165,7 +165,7 @@ export class EngagedState {
         if (quickReplyData) {
             transcript.addQuickReply(quickReplyData, msg.messageText, msg.messageTimestamp);
         } else if (closeChatEventData) {
-        	this.container.confirmEndChat()
+            this.closeChat();
         } else if (this._isMixAutomatonMessage(msg)){
             this._mixAgentCommunicationMessage(msg, transcript);
         } else if (msg.isAgentMsg) {

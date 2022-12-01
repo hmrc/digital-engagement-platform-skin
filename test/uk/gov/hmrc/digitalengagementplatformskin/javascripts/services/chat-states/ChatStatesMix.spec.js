@@ -43,6 +43,7 @@ describe("Mix: Chat States", () => {
 			const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
 
 			const isCommunicationEventMessage = jest.spyOn(state, '_chatCommunicationMessage');
+			const closeChat = jest.spyOn(state, 'closeChat');
 
 			const handleMessage = sdk.getMessages.mock.calls[0][0];
 			const message = {
@@ -68,8 +69,8 @@ describe("Mix: Chat States", () => {
 
 			handleMessage(message);
 
-			expect(isCommunicationEventMessage).toBeCalledTimes(1)
-			expect(container.confirmEndChat).toBeCalledTimes(1)
+			expect(isCommunicationEventMessage).toBeCalledTimes(1);
+			expect(closeChat).toBeCalledTimes(1);
 		})
 	});
 });
