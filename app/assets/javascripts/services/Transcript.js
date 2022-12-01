@@ -100,7 +100,7 @@ export default class Transcript {
             if (isQuickReply) {
                 document.getElementById(id).append(msg);
                 document.getElementById(id).classList.remove("msg-opacity");
-            } else { 
+            } else {
                 if (that) {
                     var msg = that.decodeHTMLEntities(msg);
                 }
@@ -240,13 +240,13 @@ export default class Transcript {
     addQuickReply(quickReplyData, messageText, messageTimestamp) {
         try {
             if (!quickReplyData.nodes) return null;
-        
+
 
             let divContainer = document.createElement("div");
             divContainer.innerHTML = messageText;
 
             let initialNode = quickReplyData.nodes[0];
-        
+
             // Render first node
             let nodeContainer = document.createElement("div");
             nodeContainer.classList.add(initialNode.id);
@@ -264,7 +264,7 @@ export default class Transcript {
 
                 divContainer.append(renderedControl);
             }
-        
+
             if (!!quickReplyData.transitions) {
                 divContainer.transitions = quickReplyData.transitions;
                 divContainer.addEventListener('click', this.handleRichMediaClickEvent);
@@ -279,19 +279,15 @@ export default class Transcript {
         }
     }
 
-    addCustomEvent(customEventData, messageText, messageTimestamp) {
-    //GOT HERE
-    }
-
     createQuickReplyButtonAsLinks(node, controlData) {
 
         let qrContainer = document.createElement("ul");
-      
+
         qrContainer.disable = function() {
           links = this.querySelectorAll('a');
           links.forEach(link => link.parentElement.innerText = link.text);
         }
-      
+
         const buttonElements = controlData.text.map((text,idx) => {
 
             let listItemEl = document.createElement("li");
@@ -313,7 +309,7 @@ export default class Transcript {
             listItemEl.append(linkEl);
             return listItemEl;
         })
-      
+
         qrContainer.append(...buttonElements);
         return qrContainer;
     }
@@ -329,7 +325,7 @@ export default class Transcript {
             this
             .transitions
             .find(transition => transition.from == targetElContext.node && transition.trigger == targetElContext.event);
-        
+
         if (!!transition.to && !!transition.to.sendMessage) {
             let datapassDef = transition.to.sendMessage;
 
