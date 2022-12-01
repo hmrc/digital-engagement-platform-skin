@@ -126,7 +126,6 @@ export default class ChatContainer {
         if(this.isMixExternalLink(e.target)) {
             this.processMixExternalLink(e);
         } else if (this.isMixResponsiveLink(e.target)) {
-            console.log('in isMixResponsiveLink');
             this.processMixResponsiveLink(e);
         } else if (
             e.target.tagName.toLowerCase() === "a" &&
