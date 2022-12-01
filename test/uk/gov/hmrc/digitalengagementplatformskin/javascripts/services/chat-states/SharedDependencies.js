@@ -5,6 +5,7 @@ export default function createEngagedStateDependencies() {
     };
 
     const container = {
+        confirmEndChat: jest.fn().mockImplementation(),
         transcript: {
             addAgentMsg: jest.fn(),
             addCustomerMsg: jest.fn(),

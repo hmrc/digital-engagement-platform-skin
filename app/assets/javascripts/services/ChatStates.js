@@ -127,7 +127,7 @@ export class EngagedState {
         transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
     }
 
-    _isMixAutomatonMessage(msg) { return msg.isAgentMsg && msg["external.app"] }
+    _isMixAutomatonMessage(msg) { return msg.isAgentMsg && msg["external.app"]}
 
     _extractQuickReplyData(msg) {
 
@@ -139,16 +139,33 @@ export class EngagedState {
             messageDataAsObject.widgetType &&
             messageDataAsObject.widgetType == "quickreply") {
             return messageDataAsObject;
-        } 
+        }
+
+        return null;
+    }
+
+    _extractCloseChatEventData(msg) {
+        if(!msg.messageData) return null
+
+        const messageDataAsObject = sanitiseAndParseJsonData(msg.messageData);
+
+        if(messageDataAsObject &&
+            messageDataAsObject.command &&
+            messageDataAsObject.command.event.CloseChat) {
+                return messageDataAsObject;
+        }
 
         return null;
     }
 
     _chatCommunicationMessage(msg, transcript) {
         const quickReplyData = this._extractQuickReplyData(msg);
+        const closeChatEventData = this._extractCloseChatEventData(msg);
 
         if (quickReplyData) {
             transcript.addQuickReply(quickReplyData, msg.messageText, msg.messageTimestamp);
+        } else if (closeChatEventData) {
+        	this.container.confirmEndChat()
         } else if (this._isMixAutomatonMessage(msg)){
             this._mixAgentCommunicationMessage(msg, transcript);
         } else if (msg.isAgentMsg) {
@@ -169,7 +186,7 @@ export class EngagedState {
             let vaDP = JSON.parse(msg.vaDataPass);
             if (!!vaDP.endVAEngagement) {
                 this.closeChat();
-            } 
+            }
         } else {
             transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
             if (msg.messageData) {
@@ -187,7 +204,7 @@ export class EngagedState {
             }
         );
     }
-    
+
     _chatActivityAndAgentTyping(msg, transcript) {
         if(msg.state === MessageState.Agent_IsTyping) {
             if (msg["display.text"] == "Agent is typing...") {
@@ -204,9 +221,9 @@ export class EngagedState {
         console.log("---- Received message:", msg);
 
         // the agent.alias property will only exist on an agent message, and not on a customer message
-        if (msg && msg["agent.alias"]) { 
-            window.Agent_Name = msg["agent.alias"]; 
-        } 
+        if (msg && msg["agent.alias"]) {
+            window.Agent_Name = msg["agent.alias"];
+        }
 
         const transcript = this.container.getTranscript();
 
@@ -223,7 +240,7 @@ export class EngagedState {
             case MessageType.Chat_Activity:
                 this._chatActivityAndAgentTyping(msg, transcript);
                 break;
-            case MessageType.Chat_Exit: 
+            case MessageType.Chat_Exit:
                 transcript.addSystemMsg({msg: (msg["display.text"] || "Adviser exited chat")});
                 break;
             case MessageType.Chat_CommunicationQueue:
@@ -232,21 +249,21 @@ export class EngagedState {
             case MessageType.Chat_NeedWait:
                 transcript.addSystemMsg({msg: msg.messageText});
                 break;
-            case MessageType.Chat_Denied: 
+            case MessageType.Chat_Denied:
                 transcript.addSystemMsg({msg: msg["thank_you_image_label"]});
                 break;
             case MessageType.ChatRoom_MemberLost:
                 transcript.addSystemMsg({msg: msg["display.text"]});
                 break;
-            case MessageType.Owner_TransferResponse: 
+            case MessageType.Owner_TransferResponse:
                 this._removeAgentJoinsConference();
                 break;
             case MessageType.Chat_System: case MessageType.Chat_TransferResponse:
                 transcript.addSystemMsg({msg: msg["client.display.text"]});
                 break;
-            default: 
+            default:
                 if(msg.state === MessageState.Closed) {
-                    transcript.addSystemMsg({msg: "Agent Left Chat."});                    
+                    transcript.addSystemMsg({msg: "Agent Left Chat."});
                 } else {
                     console.log("==== Unknown message:", msg);
                 }
