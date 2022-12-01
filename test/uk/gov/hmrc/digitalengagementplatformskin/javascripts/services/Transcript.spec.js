@@ -183,7 +183,7 @@ describe("Transcript", () => {
         document.body.appendChild(div);
 
         transcript.appendMessageInLiveRegion("Some agent message", "test", "testmsg", this);
-        
+
         expect(document.getElementById("test").innerHTML).toBe("<div class=\"govuk-visually-hidden\">testmsg</div> Some agent message");
     });
 
