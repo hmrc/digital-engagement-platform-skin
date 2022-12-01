@@ -119,9 +119,7 @@ export class EngagedState {
     }
 
     _mixAgentCommunicationMessage(msg, transcript) {
-        if (this._isSoundActive()) {
-            this._playMessageRecievedSound();
-        }
+        this._playSoundIfActive();
 
         this._removeAgentIsTyping();
         transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
@@ -158,11 +156,18 @@ export class EngagedState {
         return null;
     }
 
+    _playSoundIfActive() {
+        if (this._isSoundActive()) {
+            this._playMessageRecievedSound();
+        }
+    }
+
     _chatCommunicationMessage(msg, transcript) {
         const quickReplyData = this._extractQuickReplyData(msg);
         const closeChatEventData = this._extractCloseChatEventData(msg);
 
         if (quickReplyData) {
+            this._playSoundIfActive();
             transcript.addQuickReply(quickReplyData, msg.messageText, msg.messageTimestamp);
         } else if (closeChatEventData) {
             this.closeChat();
