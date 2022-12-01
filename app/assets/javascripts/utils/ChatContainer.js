@@ -1,5 +1,6 @@
 import Transcript from '../services/Transcript';
 import EndChatPopup from '../views/EndChatPopup';
+import { sanitiseAndParseJsonData } from './JsonUtils';
 
 const nullEventHandler = {
     onSend: function () {},
@@ -70,13 +71,6 @@ export default class ChatContainer {
         this.container.classList.remove("minimised");
     }
 
-    sanitiseAndParseJsonData(data) {
-        data = data.replace(/'/g, '"');
-        data = data.replace(/\\/g, "");
-        data = JSON.parse(data);
-        return data;
-    }
-
     isMixResponsiveLink(eventTarget) {
         return !!eventTarget.dataset.nuanceMessageData ||
             !!eventTarget.dataset.nuanceMessageText;
@@ -104,7 +98,7 @@ export default class ChatContainer {
 
         // Handle Datapass
         if (!!nuanceDatapass) {
-            const datapass = this.sanitiseAndParseJsonData(e.target.dataset.nuanceDatapass);
+            const datapass = sanitiseAndParseJsonData(e.target.dataset.nuanceDatapass);
             this.SDK.sendDataPass(datapass);
         }
     }
@@ -121,7 +115,7 @@ export default class ChatContainer {
         // Handle Responsive Links
         if (!!nuanceMessageData) {
             const messageText = nuanceMessageText ? nuanceMessageText : linkEl.text;
-            const messageData = this.sanitiseAndParseJsonData(nuanceMessageData);
+            const messageData = sanitiseAndParseJsonData(nuanceMessageData);
             this.SDK.sendRichContentMessage(messageText, messageData);
         } else if (!!nuanceMessageText) {
             this.SDK.sendMessage(nuanceMessageText);
@@ -133,7 +127,11 @@ export default class ChatContainer {
             this.processMixExternalLink(e);
         } else if (this.isMixResponsiveLink(e.target)) {
             this.processMixResponsiveLink(e);
-        } else if (e.target.tagName.toLowerCase() === "a" && !!e.target.dataset && !!e.target.dataset.vtzJump) {
+        } else if (
+            e.target.tagName.toLowerCase() === "a" &&
+            !!e.target.dataset &&
+            !!e.target.dataset.vtzJump
+        ) {
             this.SDK.sendVALinkMessage(e, null, null, null);
             if (e.target.className != "dialog") {
                 this._focusOnNextAutomatonMessage();
@@ -169,7 +167,6 @@ export default class ChatContainer {
     }
 
     _registerEventListeners() {
-
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
             this.eventHandler.onSend();
         });
@@ -290,3 +287,4 @@ export default class ChatContainer {
         page.attachTo(this.container.querySelector("#ciapiChatComponents"));
     }
 }
+

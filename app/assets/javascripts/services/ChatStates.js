@@ -1,5 +1,6 @@
 import * as MessageType from '../NuanceMessageType';
 import * as MessageState from '../NuanceMessageState';
+import { sanitiseAndParseJsonData } from '../utils/JsonUtils';
 
 // State at start, before anything happens.
 export class NullState {
@@ -128,16 +129,30 @@ export class EngagedState {
 
     _isMixAutomatonMessage(msg) { return msg.isAgentMsg && msg["external.app"] }
 
+    _extractQuickReplyData(msg) {
+
+        if(!msg.messageData) return null
+
+        const messageDataAsObject = sanitiseAndParseJsonData(msg.messageData);
+
+        if(messageDataAsObject &&
+            messageDataAsObject.widgetType &&
+            messageDataAsObject.widgetType == "quickreply") {
+            return messageDataAsObject;
+        } 
+
+        return null;
+    }
+
     _chatCommunicationMessage(msg, transcript) {
-        if (this._isMixAutomatonMessage(msg)) {
+        const quickReplyData = this._extractQuickReplyData(msg);
+
+        if (quickReplyData) {
+            transcript.addQuickReply(quickReplyData, msg.messageText, msg.messageTimestamp);
+        } else if (this._isMixAutomatonMessage(msg)){
             this._mixAgentCommunicationMessage(msg, transcript);
         } else if (msg.isAgentMsg) {
-            if (this._isSoundActive()) {
-                this._playMessageRecievedSound();
-            }
-            this._removeAgentIsTyping();
-            transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
-
+            this._mixAgentCommunicationMessage(msg, transcript); // Nina
         } else if (msg.chatFinalText != "end this chat and give feedback") { // customer message
             transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
         }
@@ -203,7 +218,7 @@ export class EngagedState {
                 this._chatAutomationRequest(msg, transcript);
                 break;
             case MessageType.ChatRoom_MemberConnected:
-                this. _chatRoomMemberConnected(msg, transcript);
+                this._chatRoomMemberConnected(msg, transcript);
                 break;
             case MessageType.Chat_Activity:
                 this._chatActivityAndAgentTyping(msg, transcript);

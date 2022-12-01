@@ -10,10 +10,12 @@ export default function createEngagedStateDependencies() {
             addCustomerMsg: jest.fn(),
             addAutomatonMsg: jest.fn(),
             addSystemMsg: jest.fn(),
+            addQuickReply: jest.fn().mockImplementation()
         },
         getTranscript: function () {
             return this.transcript;
         }
     };
+
     return [sdk, container];
 }
