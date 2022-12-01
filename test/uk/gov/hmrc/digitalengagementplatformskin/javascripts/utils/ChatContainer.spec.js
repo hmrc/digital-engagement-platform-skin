@@ -1,8 +1,7 @@
-import ChatContainer from '../../../../../../../app/assets/javascripts/utils/ChatContainer'
-import Popup from '../../../../../../../app/assets/javascripts/views/EndChatPopup'
-import Transcript from '../../../../../../../app/assets/javascripts/services/Transcript'
-
-import * as JsonUtils from '../../../../../../../app/assets/javascripts/utils/JsonUtils'
+import ChatContainer from '../../../../../../../app/assets/javascripts/utils/ChatContainer';
+import Popup from '../../../../../../../app/assets/javascripts/views/EndChatPopup';
+import Transcript from '../../../../../../../app/assets/javascripts/services/Transcript';
+import * as JsonUtils from '../../../../../../../app/assets/javascripts/utils/JsonUtils';
 
 jest.mock('../../../../../../../app/assets/javascripts/views/EndChatPopup');
 jest.mock('../../../../../../../app/assets/javascripts/services/Transcript');
