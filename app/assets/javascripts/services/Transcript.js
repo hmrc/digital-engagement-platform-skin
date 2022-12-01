@@ -367,35 +367,6 @@ export default class Transcript {
         }
     }
 
-    getPrintTimeStamp(msgTimestamp) {
-
-        var strTime = "";
-
-        if (msgTimestamp != "") {
-
-            var date = new Date(parseInt(msgTimestamp));
-
-            var hours = date.getHours();
-            var minutes = date.getMinutes();
-            var ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12;
-            hours = hours ? hours : 12; // the hour '0' should be '12'
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            strTime = hours + ':' + minutes + ' ' + ampm;
-
-        }
-        return strTime;
-    }
-
-    _getTimestampPrefix(msgTimestamp) {
-        let timestampPrefix = document.createElement("span");
-
-        timestampPrefix.className = "govuk-visually-hidden";
-        timestampPrefix.innerHTML = this.getPrintTimeStamp(msgTimestamp);
-
-        return timestampPrefix.outerHTML;
-    }
-
 
     getPrintTimeStamp(msgTimestamp) {
 
