@@ -102,14 +102,12 @@ describe("ChatContainer", () => {
             preventDefault: jest.fn()
         }
 
-        let isMixResponsiveLink = jest.spyOn(chatContainer, 'isMixResponsiveLink');
         let processTranscriptEvent = jest.spyOn(chatContainer, 'processTranscriptEvent');
         sanitiseAndParseJsonData = jest.spyOn(JsonUtils, 'sanitiseAndParseJsonData');
 
         chatContainer.processTranscriptEvent(responsiveLinkEvent);
 
         expect(processTranscriptEvent).toBeCalledTimes(1);
-        expect(isMixResponsiveLink).toBeCalledTimes(1);
         expect(sanitiseAndParseJsonData).toBeCalledTimes(1);
 
         const firstArgToSendRichContentMessage = mockSDK.sendRichContentMessage.mock.calls[0][0];
@@ -129,7 +127,6 @@ describe("ChatContainer", () => {
     it("Mix: process responsive links, send message", () => {
         chatContainer = new ChatContainer(null, null, mockSDK);
 
-        let isMixResponsiveLink = jest.spyOn(chatContainer, 'isMixResponsiveLink');
         let processTranscriptEvent = jest.spyOn(chatContainer, 'processTranscriptEvent');
         sanitiseAndParseJsonData = jest.spyOn(JsonUtils, 'sanitiseAndParseJsonData');
 
@@ -145,7 +142,6 @@ describe("ChatContainer", () => {
 
         chatContainer.processTranscriptEvent(responsiveLinkEvent);
 
-        expect(isMixResponsiveLink).toBeCalledTimes(1);
         expect(processTranscriptEvent).toBeCalledTimes(1);
         expect(mockSDK.sendMessage).toBeCalledTimes(1);
 
@@ -171,13 +167,11 @@ describe("ChatContainer", () => {
             preventDefault: jest.fn()
         }
 
-        let isMixExternalLink = jest.spyOn(chatContainer, 'isMixExternalLink');
         let processTranscriptEvent = jest.spyOn(chatContainer, 'processTranscriptEvent');
         sanitiseAndParseJsonData = jest.spyOn(JsonUtils, 'sanitiseAndParseJsonData');
 
         chatContainer.processTranscriptEvent(externalLinkEvent);
 
-        expect(isMixExternalLink).toBeCalledTimes(1);
         expect(processTranscriptEvent).toBeCalledTimes(1);
         expect(sanitiseAndParseJsonData).toBeCalledTimes(1);
 
