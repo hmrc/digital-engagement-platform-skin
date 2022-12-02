@@ -74,6 +74,9 @@ export default class ChatContainer {
     processExternalAndResponsiveLinks(e) {
         const linkEl = e.target;
         const linkHref = linkEl.getAttribute("href");
+
+        if(!linkHref) return null; // stop clicks on the container from triggering the following code
+
         const nuanceMessageData = linkEl.dataset.nuanceMessageData;
         const nuanceMessageText = linkEl.dataset.nuanceMessageText;
         const nuanceDatapass = linkEl.dataset.nuanceDatapass;
