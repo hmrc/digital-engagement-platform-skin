@@ -282,11 +282,12 @@ export default class Transcript {
     createQuickReplyButtonAsLinks(node, controlData) {
 
         let qrContainer = document.createElement("ul");
+        qrContainer.classList.add('quick-reply-widget');
 
         qrContainer.disable = function() {
-          links = this.querySelectorAll('a');
-          links.forEach(link => link.parentElement.innerText = link.text);
-        }
+            let links = this.querySelectorAll('a');
+            links.forEach(link => link.parentElement.innerText = link.text);
+          }
 
         const buttonElements = controlData.text.map((text,idx) => {
 

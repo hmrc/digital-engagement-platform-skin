@@ -71,19 +71,27 @@ export default class ChatContainer {
         this.container.classList.remove("minimised");
     }
 
-    isMixResponsiveLink(eventTarget) {
-        return !!eventTarget.dataset.nuanceMessageData ||
-            !!eventTarget.dataset.nuanceMessageText;
-    }
-
-    isMixExternalLink(eventTarget) {
-        return eventTarget.dataset && eventTarget.dataset.nuanceDatapass;
-    }
-
-    processMixExternalLink(e) {
+    processExternalAndResponsiveLinks(e) {
         const linkEl = e.target;
         const linkHref = linkEl.getAttribute("href");
+
+        if(!linkHref) return null; // stop clicks on the container from triggering the following code
+
+        const nuanceMessageData = linkEl.dataset.nuanceMessageData;
+        const nuanceMessageText = linkEl.dataset.nuanceMessageText;
         const nuanceDatapass = linkEl.dataset.nuanceDatapass;
+
+        // Prevent defaults
+        if (linkHref == "#" || linkHref == "") e.preventDefault();
+
+        // Handle Responsive Links
+        if (!!nuanceMessageData) {
+            const messageText = nuanceMessageText ? nuanceMessageText : linkEl.text;
+            const messageData = sanitiseAndParseJsonData(nuanceMessageData);
+            this.SDK.sendRichContentMessage(messageText, messageData);
+        } else if (!!nuanceMessageText) {
+            this.SDK.sendMessage(nuanceMessageText);
+        }
 
         // Handle External Links
         if (linkHref != "#" && linkHref != "") {
@@ -101,34 +109,16 @@ export default class ChatContainer {
             const datapass = sanitiseAndParseJsonData(e.target.dataset.nuanceDatapass);
             this.SDK.sendDataPass(datapass);
         }
-    }
 
-    processMixResponsiveLink(e) {
-        const linkEl = e.target;
-        const linkHref = linkEl.getAttribute("href");
-        const nuanceMessageData = linkEl.dataset.nuanceMessageData;
-        const nuanceMessageText = linkEl.dataset.nuanceMessageText;
-
-        // Prevent defaults
-        if (linkHref == "#" || linkHref == "") e.preventDefault();
-
-        // Handle Responsive Links
-        if (!!nuanceMessageData) {
-            const messageText = nuanceMessageText ? nuanceMessageText : linkEl.text;
-            const messageData = sanitiseAndParseJsonData(nuanceMessageData);
-            this.SDK.sendRichContentMessage(messageText, messageData);
-        } else if (!!nuanceMessageText) {
-            this.SDK.sendMessage(nuanceMessageText);
-        }
+        this.disablePreviousWidgets();
     }
 
     processTranscriptEvent(e) {
-        if(this.isMixExternalLink(e.target)) {
-            this.processMixExternalLink(e);
-        } else if (this.isMixResponsiveLink(e.target)) {
-            this.processMixResponsiveLink(e);
-        } else if (
-            e.target.tagName.toLowerCase() === "a" &&
+
+        this.processExternalAndResponsiveLinks(e);
+
+        if (
+           e.target && e.target.tagName && e.target.tagName.toLowerCase() === "a" &&
             !!e.target.dataset &&
             !!e.target.dataset.vtzJump
         ) {
@@ -140,6 +130,12 @@ export default class ChatContainer {
             }
         }
     }
+
+    disablePreviousWidgets() {
+        // Disable quick-reply widgets
+        let qrWidgets = document.querySelectorAll(".quick-reply-widget");
+        !!qrWidgets && qrWidgets.forEach(widget => widget.disable());
+      }
 
     setEventHandler(eventHandler) {
         this.eventHandler = eventHandler;
