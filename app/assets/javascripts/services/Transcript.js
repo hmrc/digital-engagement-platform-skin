@@ -287,10 +287,9 @@ export default class Transcript {
         qrContainer.disable = function() {
             let links = this.querySelectorAll('a');
             links.forEach(link => link.parentElement.innerText = link.text);
-          }
+        }
 
         const buttonElements = controlData.text.map((text,idx) => {
-
             let listItemEl = document.createElement("li");
 
             let linkEl = document.createElement("a");

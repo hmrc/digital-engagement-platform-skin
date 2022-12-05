@@ -131,7 +131,7 @@ export class EngagedState {
 
         if(!msg.messageData) return null
 
-        const messageDataAsObject = sanitiseAndParseJsonData(msg.messageData);
+        const messageDataAsObject = JSON.parse(msg.messageData);
 
         if(messageDataAsObject &&
             messageDataAsObject.widgetType &&
@@ -145,7 +145,7 @@ export class EngagedState {
     _extractCloseChatEventData(msg) {
         if(!msg.messageData) return null
 
-        const messageDataAsObject = sanitiseAndParseJsonData(msg.messageData);
+        const messageDataAsObject = JSON.parse(msg.messageData);
 
         if(messageDataAsObject &&
             messageDataAsObject.command &&
