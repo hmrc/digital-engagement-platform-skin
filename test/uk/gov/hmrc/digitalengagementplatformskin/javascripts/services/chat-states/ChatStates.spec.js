@@ -560,7 +560,7 @@ describe("Chat States", () => {
 
             let chatCommunicationMessageSpy = jest.spyOn(state, '_chatCommunicationMessage');
             let extractQuickReplyYouTubeVideoDataSpy = jest.spyOn(state, '_extractYouTubeVideoData');
-            let processYouTubeMessageDataSpy = jest.spyOn(state, '_processMessageData');
+            let processYouTubeMessageDataSpy = jest.spyOn(state, '_processMessageYoyTubeVideoData');
             
             const handleMessage = sdk.getMessages.mock.calls[0][0];
 
