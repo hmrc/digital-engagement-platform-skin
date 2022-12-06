@@ -156,6 +156,20 @@ export class EngagedState {
         return null;
     }
 
+    _extractYouTubeVideoData(msg) {
+        if(!msg.messageData) return null
+
+        const messageDataAsObject = JSON.parse(msg.messageData);
+
+        if(messageDataAsObject &&
+            messageDataAsObject.widgetType &&
+            messageDataAsObject.widgetType == "youtube-video") {
+            return messageDataAsObject;
+        }
+
+        return null;
+    }
+
     _playSoundIfActive() {
         if (this._isSoundActive()) {
             this._playMessageRecievedSound();
@@ -165,12 +179,19 @@ export class EngagedState {
     _chatCommunicationMessage(msg, transcript) {
         const quickReplyData = this._extractQuickReplyData(msg);
         const closeChatEventData = this._extractCloseChatEventData(msg);
+        const youTubeVideo = this._extractYouTubeVideoData(msg);
 
         if (quickReplyData) {
             this._playSoundIfActive();
             transcript.addQuickReply(quickReplyData, msg.messageText, msg.messageTimestamp);
         } else if (closeChatEventData) {
             this.closeChat();
+        } else if (youTubeVideo) {
+            transcript.addAutomatonMsg(msg.messageText, msg.messageTimestamp);
+            if (msg.messageData) {
+                this._processMessageData(msg.messageData, msg.messageTimestamp);
+            }
+
         } else if (this._isMixAutomatonMessage(msg)){
             this._mixAgentCommunicationMessage(msg, transcript);
         } else if (msg.isAgentMsg) {

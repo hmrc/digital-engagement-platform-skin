@@ -552,6 +552,52 @@ describe("Chat States", () => {
             expect(secondArgToTranscriptAddQuickReply).toBe('Where do you live?');
             expect(thirdArgToTranscriptAddQuickReply).toBe('1669734234000');
         });
+
+        it("calls the transcript QuickReply YouTube Video method", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+
+            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            let chatCommunicationMessageSpy = jest.spyOn(state, '_chatCommunicationMessage');
+            let extractQuickReplyYouTubeVideoDataSpy = jest.spyOn(state, '_extractYouTubeVideoData');
+            let processYouTubeMessageDataSpy = jest.spyOn(state, '_processMessageData');
+            
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+
+            const message = {
+                data : {
+                    "agentID": "42413088",
+                    "sessionId": "-2232268594100344748",
+                    "aeapi.mode": "true",
+                    "agent.alias": "HMRC",
+                    "messageData": "{\"widgetType\": \"youtube-video\", \"customWidget\": true, \"videoId\": \"Jn46jDuKbn8\" }",
+                    "messageText": "Video test message",
+                    "messageType": "chat.communication",
+                    "engagementID": "388263459296297338",
+                    "external.app": "true",
+                    "external_user.ip": "52.142.149.60",
+                    "messageTimestamp": "1670321809000",
+                    "config.session_id": "-2232268594100344748",
+                    "msg.originalrequest.id": "-2232268574082125842",
+                    "senderName": "HMRC",
+                    "isAgentMsg": true,
+                    "chatFinalText": "Video test message"
+                }
+            };
+
+            handleMessage(message);
+
+            expect(chatCommunicationMessageSpy).toBeCalledTimes(1);
+            expect(extractQuickReplyYouTubeVideoDataSpy).toBeCalledTimes(1)
+            expect(processYouTubeMessageDataSpy).toBeCalledTimes(1);
+
+            const firstArgToTranscriptAddAutomatonMsg = container.transcript.addAutomatonMsg.mock.calls[0][0];
+            const secondArgToTranscriptAddAutomatonMsg = container.transcript.addAutomatonMsg.mock.calls[1][0];
+
+            expect(firstArgToTranscriptAddAutomatonMsg).toBe('Video test message');
+            expect(secondArgToTranscriptAddAutomatonMsg).toBe(`<iframe class="video-message" src="https://www.youtube.com/embed/Jn46jDuKbn8"</iframe>`);
+
+        });
     });
 
 });
