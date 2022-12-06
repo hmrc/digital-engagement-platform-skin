@@ -108,7 +108,7 @@ export class EngagedState {
         document.querySelectorAll('.agent-joins-conference').forEach(e => e.remove());
     }
 
-    _processMessageYoyTubeVideoData(messageData, messageTimeStamp) {
+    _processMessageYouTubeVideoData(messageData, messageTimeStamp) {
         const jsonMessageData = JSON.parse(messageData);
         if (jsonMessageData.widgetType === "youtube-video") {
             const embeddedVideoUrl = "https://www.youtube.com/embed/" + jsonMessageData.videoId
@@ -189,7 +189,7 @@ export class EngagedState {
         } else if (youTubeVideo) {
             transcript.addAutomatonMsg(msg.messageText, msg.messageTimestamp);
             if (msg.messageData) {
-                this._processMessageYoyTubeVideoData(msg.messageData, msg.messageTimestamp);
+                this._processMessageYouTubeVideoData(msg.messageData, msg.messageTimestamp);
             }
 
         } else if (this._isMixAutomatonMessage(msg)){
@@ -216,7 +216,7 @@ export class EngagedState {
         } else {
             transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
             if (msg.messageData) {
-                this._processMessageYoyTubeVideoData(msg.messageData, msg.messageTimestamp);
+                this._processMessageYouTubeVideoData(msg.messageData, msg.messageTimestamp);
             }
         }
     }
