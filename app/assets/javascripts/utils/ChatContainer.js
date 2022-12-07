@@ -35,6 +35,15 @@ export default class ChatContainer {
         this.endChatPopup = new EndChatPopup(this.container.querySelector("#ciapiSkinContainer"), this);
     }
 
+    _resetStopTypingTimeout() {
+        if (this.stopTypingTimeoutId != undefined) {
+            clearTimeout(this.stopTypingTimeoutId);
+        }
+
+        this.stopTypingTimeoutId =
+            setTimeout(this.stopTyping.bind(this), this.typingEventThresholdMillis, this.eventHandler);
+    }
+
     stopTyping(eventHandler) {
         this.isCustomerTyping = false;
         eventHandler.onStopTyping();
@@ -120,7 +129,6 @@ export default class ChatContainer {
     }
 
     processTranscriptEvent(e) {
-
         this.processExternalAndResponsiveLinks(e);
 
         if (
@@ -134,6 +142,20 @@ export default class ChatContainer {
             } else {
                 this.closeMethod = "Link";
             }
+        }
+    }
+
+    processKeypressEvent(e) {
+        this._resetStopTypingTimeout();
+
+        if(!this.isCustomerTyping) {
+            this.startTyping(this.eventHandler); 
+        }
+
+        const enterKey = 13;
+        if (e.which == enterKey) {
+            this.eventHandler.onSend();
+            e.preventDefault();
         }
     }
 
@@ -168,15 +190,6 @@ export default class ChatContainer {
         }
     }
 
-    _resetStopTypingTimeout() {
-        if (this.stopTypingTimeoutId != undefined) {
-            clearTimeout(this.stopTypingTimeoutId);
-        }
-
-        this.stopTypingTimeoutId =
-            setTimeout(this.stopTyping.bind(this), this.typingEventThresholdMillis, this.eventHandler);
-    }
-
     _registerEventListeners() {
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
             this.eventHandler.onSend();
@@ -206,19 +219,8 @@ export default class ChatContainer {
             this.eventHandler.onRestoreChat();
         });
 
-
         this._registerKeypressEventListener("#custMsg", (e) => {
-            this._resetStopTypingTimeout();
-
-            if(!this.isCustomerTyping) {
-                this.startTyping(this.eventHandler); 
-            }
-
-            const enterKey = 13;
-            if (e.which == enterKey) {
-                this.eventHandler.onSend();
-                e.preventDefault();
-            }
+            this.processKeypressEvent(e)
         });
 
         this._registerEventListener("#ciapiSkinChatTranscript", (e) => {
