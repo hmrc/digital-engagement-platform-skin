@@ -326,7 +326,6 @@ export default class CommonChatController {
     }
 
     onSend() {
-        console.log('common chat controller, onSend called');
         const text = this.container.currentInputText().trim();
         this.container.clearCurrentInputText();
         if (text !== "")
