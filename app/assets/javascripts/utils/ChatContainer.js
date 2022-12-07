@@ -19,8 +19,10 @@ export default class ChatContainer {
         this.container.id = "ciapiSkin";
         this.eventHandler = nullEventHandler;
         this.closeMethod = null;
+
         this.stopTypingTimeoutId = undefined;
         this.isCustomerTyping = false;
+        this.typingEventThresholdMillis = 3000;
 
         this.SDK = SDK;
 
@@ -34,13 +36,12 @@ export default class ChatContainer {
     }
 
     stopTyping(eventHandler) {
-        console.log('<<<<<<< stopTyping called');
         this.isCustomerTyping = false;
         eventHandler.onStopTyping();
     }
 
     startTyping(eventHandler) {
-        console.log('>>>>>>> startTyping called');
+        this.isCustomerTyping = true;
         eventHandler.onStartTyping();
     }
 
@@ -167,6 +168,15 @@ export default class ChatContainer {
         }
     }
 
+    _resetStopTypingTimeout() {
+        if (this.stopTypingTimeoutId != undefined) {
+            clearTimeout(this.stopTypingTimeoutId);
+        }
+
+        this.stopTypingTimeoutId =
+            setTimeout(this.stopTyping.bind(this), this.typingEventThresholdMillis, this.eventHandler);
+    }
+
     _registerEventListeners() {
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
             this.eventHandler.onSend();
@@ -196,41 +206,20 @@ export default class ChatContainer {
             this.eventHandler.onRestoreChat();
         });
 
+
         this._registerKeypressEventListener("#custMsg", (e) => {
+            this._resetStopTypingTimeout();
 
-            // customer is already typing
-            if(this.isCustomerTyping) {
-                if (this.stopTypingTimeoutId != undefined) {
-                    clearTimeout(this.stopTypingTimeoutId);
-                }
+            if(!this.isCustomerTyping) {
+                this.startTyping(this.eventHandler); 
+            }
 
-                this.stopTypingTimeoutId = setTimeout(this.stopTyping.bind(this), 3000, this.eventHandler);
-            } else { // customer has just started typing
-
-                if (this.stopTypingTimeoutId != undefined) {
-                    clearTimeout(this.stopTypingTimeoutId);
-                }
-
-                this.stopTypingTimeoutId = setTimeout(this.stopTyping.bind(this), 3000, this.eventHandler);
-
-                const enterKey = 13;
-                if (e.which == enterKey) {
-                    this.eventHandler.onSend();
-                    e.preventDefault();
-                } else {
-                    this.startTyping(this.eventHandler); 
-                }   
-
-                this.isCustomerTyping = true;
+            const enterKey = 13;
+            if (e.which == enterKey) {
+                this.eventHandler.onSend();
+                e.preventDefault();
             }
         });
-
-        // this._registerKeyupEventListener("#custMsg", (e) => {
-        //     if (this.searchTimeout != undefined) {
-        //         clearTimeout(this.searchTimeout);
-        //     }
-        //     this.searchTimeout = setTimeout(this.stopTyping, 3000, this.eventHandler);
-        // });
 
         this._registerEventListener("#ciapiSkinChatTranscript", (e) => {
             this.processTranscriptEvent(e);

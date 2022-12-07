@@ -354,12 +354,10 @@ export default class CommonChatController {
     }
 
     onStartTyping() {
-        console.log('common chat controller, onStartTyping called');
         this.sdk.sendActivityMessage("startTyping");
     }
 
     onStopTyping() {
-        console.log('common chat controller, onStopTyping called');
         this.sdk.sendActivityMessage("stopTyping");
     }
 
