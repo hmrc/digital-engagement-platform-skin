@@ -208,6 +208,10 @@ describe("ChatContainer", () => {
         expect(chatContainer.eventHandler.onStartTyping).toBeCalledTimes(1);
         expect(chatContainer.eventHandler.onSend).toBeCalledTimes(1);
         expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 3000, nullEventHandler);
+
+        chatContainer.processKeypressEvent(keypressEvent); // send second keypress to call clearTimeout for previous setTimeout call
+        expect(clearTimeout).toBeCalled();
+
     });
 
 })

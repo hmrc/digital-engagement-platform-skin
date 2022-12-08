@@ -183,13 +183,6 @@ export default class ChatContainer {
         }
     }
 
-    _registerKeyupEventListener(selector, handler) {
-        const element = this.container.querySelector(selector);
-        if (element) {
-            element.addEventListener("keyup", handler);
-        }
-    }
-
     _registerEventListeners() {
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
             this.eventHandler.onSend();
