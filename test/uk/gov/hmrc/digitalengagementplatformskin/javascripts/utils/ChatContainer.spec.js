@@ -7,22 +7,24 @@ jest.mock('../../../../../../../app/assets/javascripts/views/EndChatPopup');
 jest.mock('../../../../../../../app/assets/javascripts/services/Transcript');
 
 
-const nullEventHandler = {
-    onSend: jest.fn(),
-    onCloseChat: jest.fn(),
-    onHideChat: jest.fn(),
-    onRestoreChat: jest.fn(),
-    onConfirmEndChat: jest.fn(),
-    onSoundToggle: jest.fn(),
-    onStartTyping: jest.fn(),
-    onStopTyping: jest.fn()
-};
-
+let nullEventHandler;
 let chatContainer;
 let mockSDK;
 let sanitiseAndParseJsonData = jest.spyOn(JsonUtils, 'sanitiseAndParseJsonData');
 
 beforeEach(() => {
+
+    nullEventHandler = {
+        onSend: jest.fn(),
+        onCloseChat: jest.fn(),
+        onHideChat: jest.fn(),
+        onRestoreChat: jest.fn(),
+        onConfirmEndChat: jest.fn(),
+        onSoundToggle: jest.fn(),
+        onStartTyping: jest.fn(),
+        onStopTyping: jest.fn()
+    };
+
     chatContainer = new ChatContainer();
     mockSDK = {
         sendRichContentMessage : jest.fn().mockImplementation(),
