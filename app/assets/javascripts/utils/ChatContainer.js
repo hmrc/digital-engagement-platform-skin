@@ -19,7 +19,11 @@ export default class ChatContainer {
         this.container.id = "ciapiSkin";
         this.eventHandler = nullEventHandler;
         this.closeMethod = null;
-        this.searchTimeout = null;
+
+        this.stopTypingTimeoutId = undefined;
+        this.isCustomerTyping = false;
+        this.typingEventThresholdMillis = 3000;
+
         this.SDK = SDK;
 
         this.container.insertAdjacentHTML("beforeend", containerHtml);
@@ -31,11 +35,22 @@ export default class ChatContainer {
         this.endChatPopup = new EndChatPopup(this.container.querySelector("#ciapiSkinContainer"), this);
     }
 
+    _resetStopTypingTimeout() {
+        if (this.stopTypingTimeoutId != undefined) {
+            clearTimeout(this.stopTypingTimeoutId);
+        }
+
+        this.stopTypingTimeoutId =
+            setTimeout(this.stopTyping.bind(this), this.typingEventThresholdMillis, this.eventHandler);
+    }
+
     stopTyping(eventHandler) {
+        this.isCustomerTyping = false;
         eventHandler.onStopTyping();
     }
 
     startTyping(eventHandler) {
+        this.isCustomerTyping = true;
         eventHandler.onStartTyping();
     }
 
@@ -114,7 +129,6 @@ export default class ChatContainer {
     }
 
     processTranscriptEvent(e) {
-
         this.processExternalAndResponsiveLinks(e);
 
         if (
@@ -128,6 +142,20 @@ export default class ChatContainer {
             } else {
                 this.closeMethod = "Link";
             }
+        }
+    }
+
+    processKeypressEvent(e) {
+        this._resetStopTypingTimeout();
+
+        if(!this.isCustomerTyping) {
+            this.startTyping(this.eventHandler); 
+        }
+
+        const enterKey = 13;
+        if (e.which == enterKey) {
+            this.eventHandler.onSend();
+            e.preventDefault();
         }
     }
 
@@ -152,13 +180,6 @@ export default class ChatContainer {
         const element = this.container.querySelector(selector);
         if (element) {
             element.addEventListener("keypress", handler);
-        }
-    }
-
-    _registerKeyupEventListener(selector, handler) {
-        const element = this.container.querySelector(selector);
-        if (element) {
-            element.addEventListener("keyup", handler);
         }
     }
 
@@ -192,19 +213,7 @@ export default class ChatContainer {
         });
 
         this._registerKeypressEventListener("#custMsg", (e) => {
-            if (e.which == 13) {
-                this.eventHandler.onSend();
-                e.preventDefault();
-            } else {
-                this.startTyping(this.eventHandler);
-            }
-        });
-
-        this._registerKeyupEventListener("#custMsg", (e) => {
-            if (this.searchTimeout != undefined) {
-                clearTimeout(this.searchTimeout);
-            }
-            this.searchTimeout = setTimeout(this.stopTyping, 3000, this.eventHandler);
+            this.processKeypressEvent(e)
         });
 
         this._registerEventListener("#ciapiSkinChatTranscript", (e) => {

@@ -7,22 +7,24 @@ jest.mock('../../../../../../../app/assets/javascripts/views/EndChatPopup');
 jest.mock('../../../../../../../app/assets/javascripts/services/Transcript');
 
 
-const nullEventHandler = {
-    onSend: jest.fn(),
-    onCloseChat: jest.fn(),
-    onHideChat: jest.fn(),
-    onRestoreChat: jest.fn(),
-    onConfirmEndChat: jest.fn(),
-    onSoundToggle: jest.fn(),
-    onStartTyping: jest.fn(),
-    onStopTyping: jest.fn()
-};
-
+let nullEventHandler;
 let chatContainer;
 let mockSDK;
 let sanitiseAndParseJsonData = jest.spyOn(JsonUtils, 'sanitiseAndParseJsonData');
 
 beforeEach(() => {
+
+    nullEventHandler = {
+        onSend: jest.fn(),
+        onCloseChat: jest.fn(),
+        onHideChat: jest.fn(),
+        onRestoreChat: jest.fn(),
+        onConfirmEndChat: jest.fn(),
+        onSoundToggle: jest.fn(),
+        onStartTyping: jest.fn(),
+        onStopTyping: jest.fn()
+    };
+
     chatContainer = new ChatContainer();
     mockSDK = {
         sendRichContentMessage : jest.fn().mockImplementation(),
@@ -182,4 +184,34 @@ describe("ChatContainer", () => {
         expect(firstCallToSendDataPass).toMatchObject({"ndepVaEvent": "{\"data\":{\"address\":\"https://www.gov.uk/government/organisations/hm-revenue-customs\"},\"event\":\"linkClicked\"}"});
         expect(secondCallToSendDataPass).toMatchObject({ testDataPass: 'worked' });
     });
+
+    it("Mix: process keypress", () => {
+        jest.useFakeTimers();
+        jest.spyOn(global, 'setTimeout');
+
+        chatContainer = new ChatContainer(null, null, mockSDK);
+        chatContainer.eventHandler = nullEventHandler;
+
+        let resetStopTypingTimeoutSpy = jest.spyOn(chatContainer, '_resetStopTypingTimeout');
+        let startTypingSpy = jest.spyOn(chatContainer, 'startTyping');
+
+        const enterKey = 13;
+        const keypressEvent = {
+            which: enterKey,
+            preventDefault: jest.fn()
+        }
+
+        chatContainer.processKeypressEvent(keypressEvent);
+
+        expect(resetStopTypingTimeoutSpy).toBeCalledTimes(1);
+        expect(startTypingSpy).toBeCalledTimes(1);
+        expect(chatContainer.eventHandler.onStartTyping).toBeCalledTimes(1);
+        expect(chatContainer.eventHandler.onSend).toBeCalledTimes(1);
+        expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 3000, nullEventHandler);
+
+        chatContainer.processKeypressEvent(keypressEvent); // send second keypress to call clearTimeout for previous setTimeout call
+        expect(clearTimeout).toBeCalled();
+
+    });
+
 })
