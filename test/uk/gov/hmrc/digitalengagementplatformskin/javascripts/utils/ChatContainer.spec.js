@@ -1,6 +1,4 @@
-/**
- * @jest-environment jsdom
- */
+
 
 import ChatContainer from '../../../../../../../app/assets/javascripts/utils/ChatContainer';
 import Popup from '../../../../../../../app/assets/javascripts/views/EndChatPopup';
@@ -227,13 +225,15 @@ describe("ChatContainer", () => {
 
         // console.log(dom.window.document.querySelector("p").textContent); // "Hello world"
 
-        chatContainer = new ChatContainer(null, null, mockSDK);
+        chatContainer = new ChatContainer(null, null, mockSDK, document);
         chatContainer.eventHandler = nullEventHandler;
 
         chatContainer._registerEventListeners();
 
         chatContainer.container = document.createElement("div");
         chatContainer.container.id = "endChatPopup";
+
+        document.body.appendChild(chatContainer.container);
 
         let y = document.getElementById("endChatPopup")
         console.log('y: ', y);

@@ -14,7 +14,8 @@ const nullEventHandler = {
 };
 
 export default class ChatContainer {
-    constructor(messageClasses, containerHtml, SDK) {
+    constructor(messageClasses, containerHtml, SDK, documentDep) {
+        this.document = documentDep;
         this.container = document.createElement("div");
         this.container.id = "ciapiSkin";
         this.eventHandler = nullEventHandler;
@@ -235,8 +236,8 @@ export default class ChatContainer {
 
     confirmEndChat() {
         this.endChatPopup.show();
-        let x = document.getElementById("endChatPopup")
-        // console.log('x: ', x);
+        let x = this.document.getElementById("endChatPopup")
+        console.log('x: ', x);
 
         x.focus();
     }
