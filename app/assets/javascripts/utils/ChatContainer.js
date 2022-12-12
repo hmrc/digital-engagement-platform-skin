@@ -191,6 +191,8 @@ export default class ChatContainer {
         this._registerEventListener("#ciapiSkinCloseButton", (e) => {
             this.closeMethod = "Button";
             var ciapiSkinContainer = document.querySelector("#ciapiSkin");
+            console.log('ciapiSkinContainer: ', ciapiSkinContainer);
+
             var endChatNonFocusable = ciapiSkinContainer.querySelectorAll('a[href], input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]');
             endChatNonFocusable.forEach(function (element) {
                 element.tabIndex = -1;
@@ -233,7 +235,10 @@ export default class ChatContainer {
 
     confirmEndChat() {
         this.endChatPopup.show();
-        document.getElementById("endChatPopup").focus();
+        let x = document.getElementById("endChatPopup")
+        // console.log('x: ', x);
+
+        x.focus();
     }
 
     onCancelEndChat() {

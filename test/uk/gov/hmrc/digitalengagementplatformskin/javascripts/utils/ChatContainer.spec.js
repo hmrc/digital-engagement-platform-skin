@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import ChatContainer from '../../../../../../../app/assets/javascripts/utils/ChatContainer';
 import Popup from '../../../../../../../app/assets/javascripts/views/EndChatPopup';
 import Transcript from '../../../../../../../app/assets/javascripts/services/Transcript';
@@ -5,6 +9,9 @@ import * as JsonUtils from '../../../../../../../app/assets/javascripts/utils/Js
 
 jest.mock('../../../../../../../app/assets/javascripts/views/EndChatPopup');
 jest.mock('../../../../../../../app/assets/javascripts/services/Transcript');
+
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 
 
 let nullEventHandler;
@@ -211,6 +218,27 @@ describe("ChatContainer", () => {
 
         chatContainer.processKeypressEvent(keypressEvent); // send second keypress to call clearTimeout for previous setTimeout call
         expect(clearTimeout).toBeCalled();
+
+    });
+
+    it("close button test", () => {
+
+        const { document } = (new JSDOM('')).window;
+
+        // console.log(dom.window.document.querySelector("p").textContent); // "Hello world"
+
+        chatContainer = new ChatContainer(null, null, mockSDK);
+        chatContainer.eventHandler = nullEventHandler;
+
+        chatContainer._registerEventListeners();
+
+        chatContainer.container = document.createElement("div");
+        chatContainer.container.id = "endChatPopup";
+
+        let y = document.getElementById("endChatPopup")
+        console.log('y: ', y);
+
+        chatContainer.confirmEndChat();
 
     });
 
