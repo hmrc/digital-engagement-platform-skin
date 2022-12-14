@@ -219,27 +219,51 @@ describe("ChatContainer", () => {
 
     });
 
-    it("close button test", () => {
+    // it("close button test", () => {
 
-        const { document } = (new JSDOM('')).window;
+    //     // const { document } = (new JSDOM('')).window;
 
-        // console.log(dom.window.document.querySelector("p").textContent); // "Hello world"
+    //     // console.log(dom.window.document.querySelector("p").textContent); // "Hello world"
 
-        chatContainer = new ChatContainer(null, null, mockSDK, document);
+    //     chatContainer = new ChatContainer(null, null, mockSDK) //, document);
+    //     chatContainer.eventHandler = nullEventHandler;
+
+    //     // chatContainer._registerEventListeners();
+
+    //     chatContainer.container = document.createElement("div");
+    //     chatContainer.container.id = "endChatPopup";
+
+    //     document.body.appendChild(chatContainer.container);
+
+    //     let y = document.getElementById("endChatPopup")
+    //     console.log('in test: ', y);
+
+    //     chatContainer.confirmEndChat();
+
+    // });
+
+    it("event test", () => {
+
+        // const { document } = (new JSDOM('')).window;
+
+        chatContainer = new ChatContainer(null, null, mockSDK) // , document);
         chatContainer.eventHandler = nullEventHandler;
 
-        chatContainer._registerEventListeners();
 
         chatContainer.container = document.createElement("div");
-        chatContainer.container.id = "endChatPopup";
+        chatContainer.container.id = "eventListenerTest";
 
         document.body.appendChild(chatContainer.container);
 
-        let y = document.getElementById("endChatPopup")
-        console.log('y: ', y);
 
-        chatContainer.confirmEndChat();
+        const registerEventListenerSpy = jest.spyOn(chatContainer, '_registerEventListener');
 
+        chatContainer._registerEventListeners();
+
+        expect(registerEventListenerSpy.mock.calls[7][0]).toBe("#toggleSound")
+        expect(registerEventListenerSpy.mock.calls[7][1]).toEqual(expect.any(Function))
     });
+
+
 
 })

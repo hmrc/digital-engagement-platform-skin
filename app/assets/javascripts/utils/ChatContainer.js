@@ -15,7 +15,7 @@ const nullEventHandler = {
 
 export default class ChatContainer {
     constructor(messageClasses, containerHtml, SDK, documentDep) {
-        this.document = documentDep;
+        // this.document = documentDep;
         this.container = document.createElement("div");
         this.container.id = "ciapiSkin";
         this.eventHandler = nullEventHandler;
@@ -185,6 +185,7 @@ export default class ChatContainer {
     }
 
     _registerEventListeners() {
+
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
             this.eventHandler.onSend();
         });
@@ -232,14 +233,16 @@ export default class ChatContainer {
             this.eventHandler.onSoundToggle();
             e.preventDefault();
         });
+
+        this._registerEventListener("#eventListenerTest", (e) => {
+            console.log('>>>>> eventListenerTest event: ', e);
+            e.preventDefault();
+        });
     }
 
     confirmEndChat() {
         this.endChatPopup.show();
-        let x = this.document.getElementById("endChatPopup")
-        console.log('x: ', x);
-
-        x.focus();
+        document.getElementById("endChatPopup").focus();
     }
 
     onCancelEndChat() {
