@@ -11,7 +11,6 @@ const nullEventHandler = {
     onSoundToggle: function () {},
     onStartTyping: function () {},
     onStopTyping: function () {},
-    onEndChat: function () {}
 };
 
 export default class ChatContainer {
@@ -19,7 +18,6 @@ export default class ChatContainer {
         this.container = document.createElement("div");
         this.container.id = "ciapiSkin";
         this.eventHandler = nullEventHandler;
-
         this.closeMethod = null;
 
         this.stopTypingTimeoutId = undefined;
@@ -172,7 +170,6 @@ export default class ChatContainer {
     }
 
     _registerEventListener(selector, handler) {
-        // const element = document.querySelector(selector); // this.container.querySelector(selector);
         const element = this.container.querySelector(selector);
 
         if (element) {
@@ -188,7 +185,6 @@ export default class ChatContainer {
     }
 
     _registerEventListeners() {
-
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
             this.eventHandler.onSend();
         });
@@ -196,8 +192,6 @@ export default class ChatContainer {
         this._registerEventListener("#ciapiSkinCloseButton", (e) => {
             this.closeMethod = "Button";
             var ciapiSkinContainer = document.querySelector("#ciapiSkin");
-            console.log('ciapiSkinContainer: ', ciapiSkinContainer);
-
             var endChatNonFocusable = ciapiSkinContainer.querySelectorAll('a[href], input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]');
             endChatNonFocusable.forEach(function (element) {
                 element.tabIndex = -1;
