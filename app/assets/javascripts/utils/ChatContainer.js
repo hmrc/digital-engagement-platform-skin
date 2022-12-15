@@ -10,15 +10,16 @@ const nullEventHandler = {
     onConfirmEndChat: function () {},
     onSoundToggle: function () {},
     onStartTyping: function () {},
-    onStopTyping: function () {}
+    onStopTyping: function () {},
+    onEndChat: function () {}
 };
 
 export default class ChatContainer {
-    constructor(messageClasses, containerHtml, SDK, documentDep) {
-        // this.document = documentDep;
+    constructor(messageClasses, containerHtml, SDK) {
         this.container = document.createElement("div");
         this.container.id = "ciapiSkin";
         this.eventHandler = nullEventHandler;
+
         this.closeMethod = null;
 
         this.stopTypingTimeoutId = undefined;
@@ -171,8 +172,11 @@ export default class ChatContainer {
     }
 
     _registerEventListener(selector, handler) {
+        // const element = document.querySelector(selector); // this.container.querySelector(selector);
         const element = this.container.querySelector(selector);
+
         if (element) {
+            console.log('in element==true in _registerEventListener');
             element.addEventListener("click", handler);
         }
     }
@@ -234,8 +238,12 @@ export default class ChatContainer {
             e.preventDefault();
         });
 
-        this._registerEventListener("#eventListenerTest", (e) => {
-            console.log('>>>>> eventListenerTest event: ', e);
+        const endChatEl = this.container.querySelector("#onEndChat");
+        console.log('endChatEl class: ', endChatEl);
+
+        this._registerEventListener("#onEndChat", (e) => {
+            console.log('>>>>> onEndChat event: ', e);
+            this.eventHandler.onEndChat(e);
             e.preventDefault();
         });
     }

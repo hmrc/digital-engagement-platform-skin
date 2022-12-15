@@ -1,5 +1,4 @@
 
-
 import ChatContainer from '../../../../../../../app/assets/javascripts/utils/ChatContainer';
 import Popup from '../../../../../../../app/assets/javascripts/views/EndChatPopup';
 import Transcript from '../../../../../../../app/assets/javascripts/services/Transcript';
@@ -7,10 +6,6 @@ import * as JsonUtils from '../../../../../../../app/assets/javascripts/utils/Js
 
 jest.mock('../../../../../../../app/assets/javascripts/views/EndChatPopup');
 jest.mock('../../../../../../../app/assets/javascripts/services/Transcript');
-
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-
 
 let nullEventHandler;
 let chatContainer;
@@ -27,7 +22,9 @@ beforeEach(() => {
         onConfirmEndChat: jest.fn(),
         onSoundToggle: jest.fn(),
         onStartTyping: jest.fn(),
-        onStopTyping: jest.fn()
+        onStopTyping: jest.fn(),
+        onEndChat: jest.fn(),
+        onEventListenerTest: jest.fn()
     };
 
     chatContainer = new ChatContainer();
@@ -219,51 +216,19 @@ describe("ChatContainer", () => {
 
     });
 
-    // it("close button test", () => {
+    it("on end chat test", () => {
 
-    //     // const { document } = (new JSDOM('')).window;
+        chatContainer.container.innerHTML ='<div id="onEndChat">Close</div>'; 
 
-    //     // console.log(dom.window.document.querySelector("p").textContent); // "Hello world"
-
-    //     chatContainer = new ChatContainer(null, null, mockSDK) //, document);
-    //     chatContainer.eventHandler = nullEventHandler;
-
-    //     // chatContainer._registerEventListeners();
-
-    //     chatContainer.container = document.createElement("div");
-    //     chatContainer.container.id = "endChatPopup";
-
-    //     document.body.appendChild(chatContainer.container);
-
-    //     let y = document.getElementById("endChatPopup")
-    //     console.log('in test: ', y);
-
-    //     chatContainer.confirmEndChat();
-
-    // });
-
-    it("event test", () => {
-
-        // const { document } = (new JSDOM('')).window;
-
-        chatContainer = new ChatContainer(null, null, mockSDK) // , document);
-        chatContainer.eventHandler = nullEventHandler;
-
-
-        chatContainer.container = document.createElement("div");
-        chatContainer.container.id = "eventListenerTest";
-
-        document.body.appendChild(chatContainer.container);
-
-
-        const registerEventListenerSpy = jest.spyOn(chatContainer, '_registerEventListener');
-
+        jest.spyOn(chatContainer, '_registerEventListener');
         chatContainer._registerEventListeners();
 
-        expect(registerEventListenerSpy.mock.calls[7][0]).toBe("#toggleSound")
-        expect(registerEventListenerSpy.mock.calls[7][1]).toEqual(expect.any(Function))
+        jest.spyOn(chatContainer.eventHandler, 'onEndChat');
+
+        chatContainer.container.querySelector('#onEndChat').click()
+
+        expect(chatContainer._registerEventListener).toHaveBeenCalled();
+        expect(chatContainer.eventHandler.onEndChat).toHaveBeenCalled();
     });
-
-
 
 })
