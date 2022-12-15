@@ -3,6 +3,8 @@ import Popup from '../../../../../../../app/assets/javascripts/views/EndChatPopu
 import Transcript from '../../../../../../../app/assets/javascripts/services/Transcript';
 import * as JsonUtils from '../../../../../../../app/assets/javascripts/utils/JsonUtils';
 
+import { ContainerHtml } from '../../../../../../../app/assets/javascripts/views/embedded/EmbeddedContainerHtml';
+
 jest.mock('../../../../../../../app/assets/javascripts/views/EndChatPopup');
 jest.mock('../../../../../../../app/assets/javascripts/services/Transcript');
 
@@ -216,8 +218,7 @@ describe("ChatContainer", () => {
 
     it("clicking the send button fires the expected handler function", () => {
 
-        chatContainer.container.innerHTML = 
-            `<button id="ciapiSkinSendButton" class="govuk-button" data-module="govuk-button">Send Message</button>`
+        chatContainer.container.innerHTML = ContainerHtml;
 
         const registerEventListenerSpy = jest.spyOn(chatContainer, '_registerEventListener');
         chatContainer._registerEventListeners();
