@@ -10,7 +10,7 @@ const nullEventHandler = {
     onConfirmEndChat: function () {},
     onSoundToggle: function () {},
     onStartTyping: function () {},
-    onStopTyping: function () {},
+    onStopTyping: function () {}
 };
 
 export default class ChatContainer {
@@ -171,7 +171,6 @@ export default class ChatContainer {
 
     _registerEventListener(selector, handler) {
         const element = this.container.querySelector(selector);
-
         if (element) {
             element.addEventListener("click", handler);
         }

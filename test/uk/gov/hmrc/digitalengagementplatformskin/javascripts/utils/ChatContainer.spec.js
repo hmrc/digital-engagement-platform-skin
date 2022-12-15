@@ -21,7 +21,7 @@ beforeEach(() => {
         onConfirmEndChat: jest.fn(),
         onSoundToggle: jest.fn(),
         onStartTyping: jest.fn(),
-        onStopTyping: jest.fn(),
+        onStopTyping: jest.fn()
     };
 
     chatContainer = new ChatContainer();
