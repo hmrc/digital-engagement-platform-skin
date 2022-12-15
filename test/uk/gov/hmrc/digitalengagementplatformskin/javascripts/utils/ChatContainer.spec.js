@@ -1,4 +1,3 @@
-
 import ChatContainer from '../../../../../../../app/assets/javascripts/utils/ChatContainer';
 import Popup from '../../../../../../../app/assets/javascripts/views/EndChatPopup';
 import Transcript from '../../../../../../../app/assets/javascripts/services/Transcript';
@@ -23,7 +22,6 @@ beforeEach(() => {
         onSoundToggle: jest.fn(),
         onStartTyping: jest.fn(),
         onStopTyping: jest.fn(),
-        onEndChat: jest.fn(),
         onEventListenerTest: jest.fn()
     };
 
@@ -190,6 +188,7 @@ describe("ChatContainer", () => {
     it("Mix: process keypress", () => {
         jest.useFakeTimers();
         jest.spyOn(global, 'setTimeout');
+        jest.spyOn(global, 'clearTimeout');
 
         chatContainer = new ChatContainer(null, null, mockSDK);
         chatContainer.eventHandler = nullEventHandler;
@@ -216,19 +215,20 @@ describe("ChatContainer", () => {
 
     });
 
-    it("on end chat test", () => {
+    it("clicking the send button fires the expected handler function", () => {
 
-        chatContainer.container.innerHTML ='<div id="onEndChat">Close</div>'; 
+        chatContainer.container.innerHTML = 
+            `<button id="ciapiSkinSendButton" class="govuk-button" data-module="govuk-button">Send Message</button>`
 
-        jest.spyOn(chatContainer, '_registerEventListener');
+        const registerEventListenerSpy = jest.spyOn(chatContainer, '_registerEventListener');
         chatContainer._registerEventListeners();
 
-        jest.spyOn(chatContainer.eventHandler, 'onEndChat');
+        jest.spyOn(chatContainer.eventHandler, 'onSend');
+        chatContainer.container.querySelector('#ciapiSkinSendButton').click()
 
-        chatContainer.container.querySelector('#onEndChat').click()
-
-        expect(chatContainer._registerEventListener).toHaveBeenCalled();
-        expect(chatContainer.eventHandler.onEndChat).toHaveBeenCalled();
+        expect(registerEventListenerSpy.mock.calls[0][0]).toBe('#ciapiSkinSendButton');
+        expect(registerEventListenerSpy.mock.calls[0][1]).toEqual(expect.any(Function));
+        expect(chatContainer.eventHandler.onSend).toBeCalledTimes(1);
     });
 
 })

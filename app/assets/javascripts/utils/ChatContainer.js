@@ -176,7 +176,6 @@ export default class ChatContainer {
         const element = this.container.querySelector(selector);
 
         if (element) {
-            console.log('in element==true in _registerEventListener');
             element.addEventListener("click", handler);
         }
     }
@@ -235,15 +234,6 @@ export default class ChatContainer {
 
         this._registerEventListener("#toggleSound", (e) => {
             this.eventHandler.onSoundToggle();
-            e.preventDefault();
-        });
-
-        const endChatEl = this.container.querySelector("#onEndChat");
-        console.log('endChatEl class: ', endChatEl);
-
-        this._registerEventListener("#onEndChat", (e) => {
-            console.log('>>>>> onEndChat event: ', e);
-            this.eventHandler.onEndChat(e);
             e.preventDefault();
         });
     }
