@@ -10,7 +10,9 @@ const nullEventHandler = {
     onConfirmEndChat: function () {},
     onSoundToggle: function () {},
     onStartTyping: function () {},
-    onStopTyping: function () {}
+    onStopTyping: function () {},
+    onSkipToTopLink: function () {},
+    onPrint: function () {}
 };
 
 export default class ChatContainer {
@@ -169,11 +171,16 @@ export default class ChatContainer {
         this.eventHandler = eventHandler;
     }
 
-    _registerEventListener(selector, handler) {
-        const element = this.container.querySelector(selector);
-        if (element) {
-            element.addEventListener("click", handler);
-        }
+    _processCloseButtonEvent(e) {
+        this.closeMethod = "Button";
+        var ciapiSkinContainer = document.querySelector("#ciapiSkin");
+        var endChatNonFocusable = ciapiSkinContainer.querySelectorAll('a[href], input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]');
+        endChatNonFocusable.forEach(function (element) {
+            element.tabIndex = -1;
+        });
+
+        document.getElementById("ciapiSkinChatTranscript").setAttribute("tabindex", -1);
+        this.eventHandler.onCloseChat();
     }
 
     _registerKeypressEventListener(selector, handler) {
@@ -183,21 +190,20 @@ export default class ChatContainer {
         }
     }
 
+    _registerEventListener(selector, handler) {
+        const element = this.container.querySelector(selector);
+        if (element) {
+            element.addEventListener("click", handler);
+        }
+    }
+
     _registerEventListeners() {
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
             this.eventHandler.onSend();
         });
 
         this._registerEventListener("#ciapiSkinCloseButton", (e) => {
-            this.closeMethod = "Button";
-            var ciapiSkinContainer = document.querySelector("#ciapiSkin");
-            var endChatNonFocusable = ciapiSkinContainer.querySelectorAll('a[href], input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]');
-            endChatNonFocusable.forEach(function (element) {
-                element.tabIndex = -1;
-            });
-
-            document.getElementById("ciapiSkinChatTranscript").setAttribute("tabindex", -1);
-            this.eventHandler.onCloseChat();
+            this._processCloseButtonEvent(e)
         });
 
         this._registerEventListener("#ciapiSkinHideButton", (e) => {
