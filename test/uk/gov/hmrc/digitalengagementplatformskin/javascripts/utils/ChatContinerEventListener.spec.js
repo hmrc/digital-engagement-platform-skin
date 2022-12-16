@@ -3,9 +3,6 @@ import ChatContainer from '../../../../../../../app/assets/javascripts/utils/Cha
 import { ContainerHtml as EmbeddedContainerHtml } from '../../../../../../../app/assets/javascripts/views/embedded/EmbeddedContainerHtml';
 import { ContainerHtml as PopupContainerHtml } from '../../../../../../../app/assets/javascripts/views/popup/PopupContainerHtml';
 
-jest.mock('../../../../../../../app/assets/javascripts/views/EndChatPopup');
-jest.mock('../../../../../../../app/assets/javascripts/services/Transcript');
-
 describe("ChatContainer Event Listeners", () => {
 
     it("clicking the send button fires the expected handler function", () => {
