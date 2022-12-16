@@ -173,13 +173,17 @@ export default class ChatContainer {
 
     _processCloseButtonEvent(e) {
         this.closeMethod = "Button";
-        var ciapiSkinContainer = document.querySelector("#ciapiSkin");
-        var endChatNonFocusable = ciapiSkinContainer.querySelectorAll('a[href], input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]');
+        
+        var endChatNonFocusable = this.container.querySelectorAll('a[href], input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]');
+
         endChatNonFocusable.forEach(function (element) {
             element.tabIndex = -1;
         });
 
-        document.getElementById("ciapiSkinChatTranscript").setAttribute("tabindex", -1);
+        const skinChatTranscript = this.container.querySelector("#ciapiSkinChatTranscript");
+
+        skinChatTranscript.setAttribute("tabindex", -1);
+
         this.eventHandler.onCloseChat();
     }
 
@@ -198,6 +202,11 @@ export default class ChatContainer {
     }
 
     _registerEventListeners() {
+
+        this._registerKeypressEventListener("#custMsg", (e) => {
+            this.processKeypressEvent(e)
+        });
+
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
             this.eventHandler.onSend();
         });
@@ -216,10 +225,6 @@ export default class ChatContainer {
 
         this._registerEventListener("#ciapiSkinRestoreButton", (e) => {
             this.eventHandler.onRestoreChat();
-        });
-
-        this._registerKeypressEventListener("#custMsg", (e) => {
-            this.processKeypressEvent(e)
         });
 
         this._registerEventListener("#ciapiSkinChatTranscript", (e) => {

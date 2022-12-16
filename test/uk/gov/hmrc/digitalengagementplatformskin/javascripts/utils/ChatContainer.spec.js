@@ -3,9 +3,6 @@ import Popup from '../../../../../../../app/assets/javascripts/views/EndChatPopu
 import Transcript from '../../../../../../../app/assets/javascripts/services/Transcript';
 import * as JsonUtils from '../../../../../../../app/assets/javascripts/utils/JsonUtils';
 
-import { ContainerHtml as EmbeddedContainerHtml } from '../../../../../../../app/assets/javascripts/views/embedded/EmbeddedContainerHtml';
-import { ContainerHtml as PopupContainerHtml } from '../../../../../../../app/assets/javascripts/views/popup/PopupContainerHtml';
-
 jest.mock('../../../../../../../app/assets/javascripts/views/EndChatPopup');
 jest.mock('../../../../../../../app/assets/javascripts/services/Transcript');
 
@@ -214,77 +211,5 @@ describe("ChatContainer", () => {
 
         chatContainer.processKeypressEvent(keypressEvent); // send second keypress to call clearTimeout for previous setTimeout call
         expect(clearTimeout).toBeCalled();
-
     });
-
-    it("clicking the send button fires the expected handler function", () => {
-        chatContainer.container.innerHTML = EmbeddedContainerHtml;
-
-        const registerEventListenerSpy = jest.spyOn(chatContainer, '_registerEventListener');
-        chatContainer._registerEventListeners();
-
-        jest.spyOn(chatContainer.eventHandler, 'onSend');
-        chatContainer.container.querySelector('#ciapiSkinSendButton').click()
-
-        expect(registerEventListenerSpy.mock.calls[0][0]).toBe('#ciapiSkinSendButton');
-        expect(registerEventListenerSpy.mock.calls[0][1]).toEqual(expect.any(Function));
-        expect(chatContainer.eventHandler.onSend).toBeCalledTimes(1);
-    });
-
-    it("clicking the hide button fires the expected handler function", () => {
-        chatContainer.container.innerHTML = PopupContainerHtml;
-
-        const registerEventListenerSpy = jest.spyOn(chatContainer, '_registerEventListener');
-        chatContainer._registerEventListeners();
-
-        jest.spyOn(chatContainer.eventHandler, 'onHideChat');
-        chatContainer.container.querySelector('#ciapiSkinHideButton').click()
-
-        expect(registerEventListenerSpy.mock.calls[2][0]).toBe('#ciapiSkinHideButton');
-        expect(registerEventListenerSpy.mock.calls[2][1]).toEqual(expect.any(Function));
-        expect(chatContainer.eventHandler.onHideChat).toBeCalledTimes(1);
-    });
-
-    it("clicking the restore button fires the expected handler function", () => {
-        chatContainer.container.innerHTML = PopupContainerHtml;
-
-        const registerEventListenerSpy = jest.spyOn(chatContainer, '_registerEventListener');
-        chatContainer._registerEventListeners();
-
-        jest.spyOn(chatContainer.eventHandler, 'onRestoreChat');
-        chatContainer.container.querySelector('#ciapiSkinRestoreButton').click()
-
-        expect(registerEventListenerSpy.mock.calls[4][0]).toBe('#ciapiSkinRestoreButton');
-        expect(registerEventListenerSpy.mock.calls[4][1]).toEqual(expect.any(Function));
-        expect(chatContainer.eventHandler.onRestoreChat).toBeCalledTimes(1);
-    });
-
-    it("clicking the print button fires the expected handler function", () => {
-        chatContainer.container.innerHTML = EmbeddedContainerHtml;
-
-        const registerEventListenerSpy = jest.spyOn(chatContainer, '_registerEventListener');
-        chatContainer._registerEventListeners();
-
-        jest.spyOn(chatContainer.eventHandler, 'onPrint');
-        chatContainer.container.querySelector('#printButton').click()
-
-        expect(registerEventListenerSpy.mock.calls[6][0]).toBe('#printButton');
-        expect(registerEventListenerSpy.mock.calls[6][1]).toEqual(expect.any(Function));
-        expect(chatContainer.eventHandler.onPrint).toBeCalledTimes(1);
-    });
-
-    it("clicking the sound toggle fires the expected handler function", () => {
-        chatContainer.container.innerHTML = EmbeddedContainerHtml;
-
-        const registerEventListenerSpy = jest.spyOn(chatContainer, '_registerEventListener');
-        chatContainer._registerEventListeners();
-
-        jest.spyOn(chatContainer.eventHandler, 'onSoundToggle');
-        chatContainer.container.querySelector('#toggleSound').click()
-
-        expect(registerEventListenerSpy.mock.calls[7][0]).toBe('#toggleSound');
-        expect(registerEventListenerSpy.mock.calls[7][1]).toEqual(expect.any(Function));
-        expect(chatContainer.eventHandler.onSoundToggle).toBeCalledTimes(1);
-    });
-
 })
