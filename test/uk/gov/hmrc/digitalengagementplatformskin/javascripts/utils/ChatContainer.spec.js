@@ -6,7 +6,6 @@ import * as JsonUtils from '../../../../../../../app/assets/javascripts/utils/Js
 jest.mock('../../../../../../../app/assets/javascripts/views/EndChatPopup');
 jest.mock('../../../../../../../app/assets/javascripts/services/Transcript');
 
-
 let nullEventHandler;
 let chatContainer;
 let mockSDK;
@@ -188,6 +187,7 @@ describe("ChatContainer", () => {
     it("Mix: process keypress", () => {
         jest.useFakeTimers();
         jest.spyOn(global, 'setTimeout');
+        jest.spyOn(global, 'clearTimeout');
 
         chatContainer = new ChatContainer(null, null, mockSDK);
         chatContainer.eventHandler = nullEventHandler;
@@ -211,7 +211,5 @@ describe("ChatContainer", () => {
 
         chatContainer.processKeypressEvent(keypressEvent); // send second keypress to call clearTimeout for previous setTimeout call
         expect(clearTimeout).toBeCalled();
-
     });
-
 })
