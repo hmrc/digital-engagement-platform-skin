@@ -5,6 +5,8 @@ import createEngagedStateDependencies from './SharedDependencies'
 describe("Mix: Chat States", () => {
     describe("Mix: EngagedState", () => {
         it("Mix: plays sound on incoming agent message when user has sound turned on", () => {
+			// added the following stub to avoid warning in jest coverage
+			window.HTMLMediaElement.prototype.play = () => { /* do nothing */ };
             const [sdk, container] = createEngagedStateDependencies();
             const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
 
