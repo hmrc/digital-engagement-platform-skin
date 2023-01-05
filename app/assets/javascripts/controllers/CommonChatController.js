@@ -229,9 +229,14 @@ export default class CommonChatController {
         this.minimised = false;
     }
 
+    _getSessionVariable(key) {
+    	return '<%= Session["' + key + '"] %>';
+	}
+
     _engageChat(text) {
         this.sdk.engageChat(text, (resp) => {
             console.log("++++ ENGAGED ++++ ->", resp);
+			console.log("#############\n\n" + this._getSessionVariable("test") + "\n\n##############")
             if (resp.httpStatus == 200) {
                 this._moveToChatEngagedState();
             }
