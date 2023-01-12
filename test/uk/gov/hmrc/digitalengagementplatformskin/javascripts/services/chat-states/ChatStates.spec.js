@@ -191,7 +191,7 @@ describe("Chat States", () => {
 
             handleMessage(message);
             expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("This is the text with the message of the embedded video.", "1666355784000");
-            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith(`<iframe class="video-message" src="https://www.youtube.com/embed/Jn46jDuKbn8"</iframe>`, "1666355784000");
+            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith(`<iframe class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="https://www.youtube.com/embed/Jn46jDuKbn8"</iframe>`, "1666355784000");
         })
 
         it("calls close chat popup when user clicks end chat and give feedback link", () => {
@@ -595,7 +595,7 @@ describe("Chat States", () => {
             const secondArgToTranscriptAddAutomatonMsg = container.transcript.addAutomatonMsg.mock.calls[1][0];
 
             expect(firstArgToTranscriptAddAutomatonMsg).toBe('Video test message');
-            expect(secondArgToTranscriptAddAutomatonMsg).toBe(`<iframe class="video-message" src="https://www.youtube.com/embed/Jn46jDuKbn8"</iframe>`);
+            expect(secondArgToTranscriptAddAutomatonMsg).toBe(`<iframe class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="https://www.youtube.com/embed/Jn46jDuKbn8"</iframe>`);
 
         });
     });
