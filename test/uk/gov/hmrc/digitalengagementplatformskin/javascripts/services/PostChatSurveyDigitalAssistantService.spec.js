@@ -22,8 +22,6 @@ const chatParams = {
     thisCustomerID: "ThisCustomerID",
 };
 
-const agentId = "nina"
-
 const survey = {
     id: 123456,
     questions: [
@@ -81,7 +79,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
 
         const timestamp = Date.now();
 
-        window.agentId = "nina";
+        window.agentId = "MIX";
 
         const expectedStartedEvent = {
             _domain: "automaton",
@@ -93,7 +91,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
             clientTimestamp: timestamp,
             chatID: "ChatID",
             customerID: "ThisCustomerID",
-            agentID: "nina",
+            agentID: "MIX",
             custID: "ThisCustomerID",
             incAssignmentID: "SessionID",
             sessionID: "SessionID",
@@ -138,7 +136,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
             automatonType: "satisfactionSurvey",
             chatID: "ChatID",
             customerID: "ThisCustomerID",
-            agentID: "nina",
+            agentID: "MIX",
             custID: "ThisCustomerID",
             incAssignmentID: "SessionID",
             sessionID: "SessionID",
@@ -185,7 +183,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
             logEventToDW: jest.fn()
         };
 
-        window.agentId = "nina";
+        window.agentId = "MIX";
 
         const service = new PostChatSurveyDigitalAssistantService(sdk);
         const timestamp = Date.now();
@@ -212,7 +210,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
             automatonOrigin: "richMedia",
             chatID: "ChatID",
             customerID: "ThisCustomerID",
-            agentID: "nina",
+            agentID: "MIX",
             custID: "ThisCustomerID",
             incAssignmentID: "SessionID",
             sessionID: "SessionID",
@@ -250,7 +248,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
             automatonOrigin: "richMedia",
             chatID: "ChatID",
             customerID: "ThisCustomerID",
-            agentID: "nina",
+            agentID: "MIX",
             custID: "ThisCustomerID",
             incAssignmentID: "SessionID",
             sessionID: "SessionID",
@@ -293,7 +291,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
                 logEventToDW: jest.fn()
             };
 
-            window.agentId = "nina";
+            window.agentId = "MIX";
 
             const service = new PostChatSurveyDigitalAssistantService(sdk);
             const timestamp = Date.now();
@@ -320,7 +318,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
                 automatonOrigin: "richMedia",
                 chatID: "ChatID",
                 customerID: "ThisCustomerID",
-                agentID: "nina",
+                agentID: "MIX",
                 custID: "ThisCustomerID",
                 incAssignmentID: "SessionID",
                 sessionID: "SessionID",
@@ -358,7 +356,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
                 automatonOrigin: "richMedia",
                 chatID: "ChatID",
                 customerID: "ThisCustomerID",
-                agentID: "nina",
+                agentID: "MIX",
                 custID: "ThisCustomerID",
                 incAssignmentID: "SessionID",
                 sessionID: "SessionID",

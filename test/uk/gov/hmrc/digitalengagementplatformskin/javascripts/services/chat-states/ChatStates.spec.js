@@ -155,45 +155,6 @@ describe("Chat States", () => {
             expect(container.transcript.addCustomerMsg).toHaveBeenCalledWith("Hello to you", "test");
         });
 
-        it("sends automaton messages to the transcript", () => {
-            const [sdk, container] = createEngagedStateDependencies();
-
-            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
-
-            const handleMessage = sdk.getMessages.mock.calls[0][0];
-            const message = {
-                data: {
-                    messageType: MessageType.Chat_AutomationRequest,
-                    messageTimestamp: "test",
-                    "automaton.data": "Beep boop. I am a robot."
-                }
-            };
-
-            handleMessage(message);
-            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("Beep boop. I am a robot.", "test");
-        })
-
-        it("sends automaton messages with richmedia (embedded video) to the transcript", () => {
-            const [sdk, container] = createEngagedStateDependencies();
-
-            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
-
-            const handleMessage = sdk.getMessages.mock.calls[0][0];
-
-            const message = {
-                data: {
-                    messageType: MessageType.Chat_AutomationRequest,
-                    messageTimestamp: "1666355784000",
-                    "automaton.data": "This is the text with the message of the embedded video.",
-                    messageData: "{\"widgetType\":\"youtube-video\",\"customWidget\":true,\"videoId\":\"Jn46jDuKbn8\"}"
-                }
-            };
-
-            handleMessage(message);
-            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("This is the text with the message of the embedded video.", "1666355784000");
-            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith(`<iframe class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="https://www.youtube.com/embed/Jn46jDuKbn8"</iframe>`, "1666355784000");
-        })
-
         it("calls close chat popup when user clicks end chat and give feedback link", () => {
             const [sdk, container] = createEngagedStateDependencies();
 
@@ -204,8 +165,8 @@ describe("Chat States", () => {
             const handleMessage = sdk.getMessages.mock.calls[0][0];
             const message = {
                 data: {
-                    messageType: MessageType.Chat_AutomationRequest,
-                    vaDataPass: '{"endVAEngagement":"VA closed chat"}'
+                    messageType: MessageType.Chat_Communication,
+                    "messageData": "{\"command\":{\"event\":{\"CloseChat\":\"{\\n}\"}}}",
                 }
             };
 
@@ -286,13 +247,17 @@ describe("Chat States", () => {
 
             const messages = [{
                 data: {
-                    messageType: MessageType.Chat_AutomationRequest,
-                    "automaton.data": "Beep boop. I am a robot.",
+                    messageType: MessageType.Chat_Communication,
+                    "isAgentMsg": false,
+                    "external.app": true,
+                    messageText: "Beep boop. I am a robot",
                     messageTimestamp: "test"
                 }
             }, {
                 data: {
                     messageType: MessageType.Chat_Communication,
+                    "isAgentMsg": false,
+                    "external.app": true,
                     messageText: "Hello to you",
                     messageTimestamp: "test"
                 }
@@ -300,8 +265,7 @@ describe("Chat States", () => {
 
             const state = new ChatStates.EngagedState(sdk, container, messages, jest.fn());
 
-            expect(container.transcript.addAutomatonMsg).toHaveBeenCalledWith("Beep boop. I am a robot.", "test");
-            expect(container.transcript.addCustomerMsg).toHaveBeenCalledWith("Hello to you", "test");
+            expect(container.transcript.addCustomerMsg).toHaveBeenCalledWith("Beep boop. I am a robot", "test");
         });
 
         it("sends TransferResponse to the transcript", () => {

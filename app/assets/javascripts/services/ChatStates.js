@@ -1,6 +1,5 @@
 import * as MessageType from '../NuanceMessageType';
 import * as MessageState from '../NuanceMessageState';
-import { sanitiseAndParseJsonData } from '../utils/JsonUtils';
 
 // State at start, before anything happens.
 export class NullState {
@@ -191,33 +190,12 @@ export class EngagedState {
             if (msg.messageData) {
                 this._processMessageYouTubeVideoData(msg.messageData, msg.messageTimestamp);
             }
-
         } else if (this._isMixAutomatonMessage(msg)){
             this._mixAgentCommunicationMessage(msg, transcript);
         } else if (msg.isAgentMsg) {
-            this._mixAgentCommunicationMessage(msg, transcript); // Nina
+            this._mixAgentCommunicationMessage(msg, transcript); // Agent
         } else if (msg.chatFinalText != "end this chat and give feedback") { // customer message
             transcript.addCustomerMsg(msg.messageText, msg.messageTimestamp);
-        }
-    }
-
-    _chatAutomationRequest(msg, transcript) {
-        if (this._isSoundActive()) {
-            if(!!msg.vaDataPass === false) {
-                this._playMessageRecievedSound();
-            }
-        }
-
-        if(!!msg.vaDataPass) {
-            let vaDP = JSON.parse(msg.vaDataPass);
-            if (!!vaDP.endVAEngagement) {
-                this.closeChat();
-            }
-        } else {
-            transcript.addAutomatonMsg(msg["automaton.data"], msg.messageTimestamp);
-            if (msg.messageData) {
-                this._processMessageYouTubeVideoData(msg.messageData, msg.messageTimestamp);
-            }
         }
     }
 
@@ -256,9 +234,6 @@ export class EngagedState {
         switch (msg.messageType) {
             case MessageType.Chat_Communication:
                 this._chatCommunicationMessage(msg, transcript);
-                break;
-            case MessageType.Chat_AutomationRequest:
-                this._chatAutomationRequest(msg, transcript);
                 break;
             case MessageType.ChatRoom_MemberConnected:
                 this._chatRoomMemberConnected(msg, transcript);
