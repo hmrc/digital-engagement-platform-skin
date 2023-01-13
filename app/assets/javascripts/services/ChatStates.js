@@ -1,6 +1,5 @@
 import * as MessageType from '../NuanceMessageType';
 import * as MessageState from '../NuanceMessageState';
-//import { sanitiseAndParseJsonData } from '../utils/JsonUtils';
 
 // State at start, before anything happens.
 export class NullState {
