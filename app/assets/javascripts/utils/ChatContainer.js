@@ -105,7 +105,9 @@ export default class ChatContainer {
         if (!!nuanceMessageData) {
             const messageText = nuanceMessageText ? nuanceMessageText : linkEl.text;
             const messageData = sanitiseAndParseJsonData(nuanceMessageData);
-            this.SDK.sendRichContentMessage(messageText, messageData);
+            if (messageData) {
+                this.SDK.sendRichContentMessage(messageText, messageData);
+            }
         } else if (!!nuanceMessageText) {
             this.SDK.sendMessage(nuanceMessageText);
         }
@@ -124,7 +126,9 @@ export default class ChatContainer {
         // Handle Datapass
         if (!!nuanceDatapass) {
             const datapass = sanitiseAndParseJsonData(e.target.dataset.nuanceDatapass);
-            this.SDK.sendDataPass(datapass);
+            if (datapass){
+                this.SDK.sendDataPass(datapass);
+            }    
         }
 
         this.disablePreviousWidgets();

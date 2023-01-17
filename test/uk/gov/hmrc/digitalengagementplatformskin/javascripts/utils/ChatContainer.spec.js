@@ -184,6 +184,29 @@ describe("ChatContainer", () => {
         expect(secondCallToSendDataPass).toMatchObject({ testDataPass: 'worked' });
     });
 
+    it("Mix: process external links, with error returned from JsonUtils bacause of malformed datapass test", () => {
+        chatContainer = new ChatContainer(null, null, mockSDK);
+
+        const invalidJson = "{'testDataPass': worked'}"//missing ' before worked
+        const externalLinkEventWithInvalidJson = {
+            target : {
+                dataset: {
+                    "nuanceMessageText": "Where do you live?",
+                    "nuanceDatapass": invalidJson,
+                    "target": "_blank"
+                },
+                getAttribute : jest.fn().mockReturnValue("https://www.gov.uk/government/organisations/hm-revenue-customs")
+            },
+            preventDefault: jest.fn()
+        }
+
+        sanitiseAndParseJsonData = jest.spyOn(JsonUtils, 'sanitiseAndParseJsonData');
+
+        chatContainer.processTranscriptEvent(externalLinkEventWithInvalidJson);
+
+        expect(sanitiseAndParseJsonData).toBeCalledTimes(1);
+    });
+
     it("Mix: process keypress", () => {
         jest.useFakeTimers();
         jest.spyOn(global, 'setTimeout');
