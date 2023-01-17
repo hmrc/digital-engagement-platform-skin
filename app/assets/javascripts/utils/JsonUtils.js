@@ -6,6 +6,6 @@ export const sanitiseAndParseJsonData = (data) => {
         return data;
     } catch(e) {
         console.log('error in sanitiseAndParseJsonData: ', e);
-        return {};
+        return null;
     }
 }
