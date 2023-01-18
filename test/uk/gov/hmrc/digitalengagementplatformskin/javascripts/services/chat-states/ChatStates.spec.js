@@ -559,7 +559,7 @@ describe("Chat States", () => {
             const secondArgToTranscriptAddAutomatonMsg = container.transcript.addAutomatonMsg.mock.calls[1][0];
 
             expect(firstArgToTranscriptAddAutomatonMsg).toBe('Video test message');
-            expect(secondArgToTranscriptAddAutomatonMsg).toBe(`<iframe class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="https://www.youtube.com/embed/Jn46jDuKbn8"</iframe>`);
+            expect(secondArgToTranscriptAddAutomatonMsg).toBe(`<iframe class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="https://www.youtube.com/embed/Jn46jDuKbn8"></iframe>`);
 
         });
     });

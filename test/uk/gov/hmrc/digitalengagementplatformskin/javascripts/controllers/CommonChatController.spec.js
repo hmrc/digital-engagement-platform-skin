@@ -57,6 +57,7 @@ describe("CommonChatController", () => {
 
   beforeAll(() => {
     jest.spyOn(event, 'preventDefault');
+    jest.spyOn(console, 'log').mockImplementation(jest.fn());
   });
     
 
