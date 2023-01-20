@@ -525,7 +525,8 @@ describe("Chat States", () => {
             let chatCommunicationMessageSpy = jest.spyOn(state, '_chatCommunicationMessage');
             let extractQuickReplyYouTubeVideoDataSpy = jest.spyOn(state, '_extractYouTubeVideoData');
             let processYouTubeMessageDataSpy = jest.spyOn(state, '_processMessageYouTubeVideoData');
-            
+            let playSoundIfActiveSpy = jest.spyOn(state, '_playSoundIfActive');
+
             const handleMessage = sdk.getMessages.mock.calls[0][0];
 
             const message = {
@@ -554,12 +555,13 @@ describe("Chat States", () => {
             expect(chatCommunicationMessageSpy).toBeCalledTimes(1);
             expect(extractQuickReplyYouTubeVideoDataSpy).toBeCalledTimes(1)
             expect(processYouTubeMessageDataSpy).toBeCalledTimes(1);
+            expect(playSoundIfActiveSpy).toBeCalledTimes(1)
 
             const firstArgToTranscriptAddAutomatonMsg = container.transcript.addAutomatonMsg.mock.calls[0][0];
             const secondArgToTranscriptAddAutomatonMsg = container.transcript.addAutomatonMsg.mock.calls[1][0];
 
             expect(firstArgToTranscriptAddAutomatonMsg).toBe('Video test message');
-            expect(secondArgToTranscriptAddAutomatonMsg).toBe(`<iframe class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="https://www.youtube.com/embed/Jn46jDuKbn8"</iframe>`);
+            expect(secondArgToTranscriptAddAutomatonMsg).toBe(`<iframe class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="https://www.youtube.com/embed/Jn46jDuKbn8"></iframe>`);
 
         });
     });

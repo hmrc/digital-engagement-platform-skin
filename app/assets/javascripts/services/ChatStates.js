@@ -111,8 +111,9 @@ export class EngagedState {
         const jsonMessageData = JSON.parse(messageData);
         if (jsonMessageData.widgetType === "youtube-video") {
             const embeddedVideoUrl = "https://www.youtube.com/embed/" + jsonMessageData.videoId
-            const iframeVideo =  `<iframe class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="${embeddedVideoUrl}"</iframe>`;
+            const iframeVideo =  `<iframe class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="${embeddedVideoUrl}"></iframe>`;
             const transcript = this.container.getTranscript();
+            this._playSoundIfActive();
             transcript.addAutomatonMsg(iframeVideo, messageTimeStamp);
         }
     }
