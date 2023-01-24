@@ -118,6 +118,7 @@ export default class CommonChatController {
             this._displayOpenerScripts(window);
 
             console.log("===== chatDisplayed =====");
+			console.log("#############" + this._getCookieVariable("test") + "##############")
 
             this.sdk.chatDisplayed({
                 "customerName": "You",
@@ -229,14 +230,19 @@ export default class CommonChatController {
         this.minimised = false;
     }
 
-    _getSessionVariable(key) {
-    	return '<%= Session["' + key + '"] %>';
+    _getCookieVariable(key) {
+    	let cookieVariables = document.cookie.split(';');
+    	for (let i = 0; i < cookieVariables.length; i++) {
+    		let cookieComponent = cookieVariables[i];
+    		if (cookieComponent.split('=')[0] === key) {
+    			return cookieComponent.split('=')[1]
+			}
+		}
 	}
 
     _engageChat(text) {
         this.sdk.engageChat(text, (resp) => {
             console.log("++++ ENGAGED ++++ ->", resp);
-			console.log("#############\n\n" + this._getSessionVariable("test") + "\n\n##############")
             if (resp.httpStatus == 200) {
                 this._moveToChatEngagedState();
             }
