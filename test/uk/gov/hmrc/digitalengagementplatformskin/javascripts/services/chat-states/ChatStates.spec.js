@@ -558,7 +558,6 @@ describe("Chat States", () => {
             expect(playSoundIfActiveSpy).toBeCalledTimes(1)
 
             const firstArgToTranscriptAddAutomatonMsg = container.transcript.addAutomatonMsg.mock.calls[0][0];
-            const secondArgToTranscriptAddAutomatonMsg = container.transcript.addAutomatonMsg.mock.calls[1][0];
 
             expect(firstArgToTranscriptAddAutomatonMsg).toBe(`<p>Video test message</p><div class="iframe-wrap"><iframe class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="https://www.youtube.com/embed/Jn46jDuKbn8"></iframe></div>`);
         });
