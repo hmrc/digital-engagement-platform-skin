@@ -107,11 +107,11 @@ export class EngagedState {
         document.querySelectorAll('.agent-joins-conference').forEach(e => e.remove());
     }
 
-    _processMessageYouTubeVideoData(messageData, messageTimeStamp) {
-        const jsonMessageData = JSON.parse(messageData);
+    _processMessageYouTubeVideoData(msg, messageTimeStamp) {
+        const jsonMessageData = JSON.parse(msg.messageData);
         if (jsonMessageData.widgetType === "youtube-video") {
             const embeddedVideoUrl = "https://www.youtube.com/embed/" + jsonMessageData.videoId
-            const iframeVideo =  `<iframe class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="${embeddedVideoUrl}"></iframe>`;
+            const iframeVideo =  `<p>${msg.messageText}</p><div class="iframe-wrap"><iframe class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="${embeddedVideoUrl}"></iframe></div>`;
             const transcript = this.container.getTranscript();
             this._playSoundIfActive();
             transcript.addAutomatonMsg(iframeVideo, messageTimeStamp);
@@ -187,9 +187,8 @@ export class EngagedState {
         } else if (closeChatEventData) {
             this.closeChat();
         } else if (youTubeVideo) {
-            transcript.addAutomatonMsg(msg.messageText, msg.messageTimestamp);
             if (msg.messageData) {
-                this._processMessageYouTubeVideoData(msg.messageData, msg.messageTimestamp);
+                this._processMessageYouTubeVideoData(msg, msg.messageTimestamp);
             }
         } else if (this._isMixAutomatonMessage(msg)){
             this._mixAgentCommunicationMessage(msg, transcript);

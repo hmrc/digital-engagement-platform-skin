@@ -99,7 +99,7 @@ describe("Chat States", () => {
 
             const isSoundActive = jest.spyOn(state, '_isSoundActive');
             const playMessageRecievedSound = jest.spyOn(state, '_playMessageRecievedSound');
-            
+
             const handleMessage = sdk.getMessages.mock.calls[0][0];
             const message = {
                 data: {
@@ -119,7 +119,7 @@ describe("Chat States", () => {
 
         it("sends agent messages to the transcript", () => {
             const [sdk, container] = createEngagedStateDependencies();
-            
+
             const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
 
             const handleMessage = sdk.getMessages.mock.calls[0][0];
@@ -435,7 +435,7 @@ describe("Chat States", () => {
 
             let chatCommunicationMessageSpy = jest.spyOn(state, '_chatCommunicationMessage');
             let extractQuickReplyDataSpy = jest.spyOn(state, '_extractQuickReplyData');
-            
+
             const handleMessage = sdk.getMessages.mock.calls[0][0];
 
             const message = {
@@ -506,7 +506,7 @@ describe("Chat States", () => {
             const secondArgToTranscriptAddQuickReply =
                 container.transcript.addQuickReply.mock.calls[0][1];
 
-            const thirdArgToTranscriptAddQuickReply = 
+            const thirdArgToTranscriptAddQuickReply =
                 container.transcript.addQuickReply.mock.calls[0][2];
 
 
@@ -558,11 +558,8 @@ describe("Chat States", () => {
             expect(playSoundIfActiveSpy).toBeCalledTimes(1)
 
             const firstArgToTranscriptAddAutomatonMsg = container.transcript.addAutomatonMsg.mock.calls[0][0];
-            const secondArgToTranscriptAddAutomatonMsg = container.transcript.addAutomatonMsg.mock.calls[1][0];
 
-            expect(firstArgToTranscriptAddAutomatonMsg).toBe('Video test message');
-            expect(secondArgToTranscriptAddAutomatonMsg).toBe(`<iframe class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="https://www.youtube.com/embed/Jn46jDuKbn8"></iframe>`);
-
+            expect(firstArgToTranscriptAddAutomatonMsg).toBe(`<p>Video test message</p><div class="iframe-wrap"><iframe class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="https://www.youtube.com/embed/Jn46jDuKbn8"></iframe></div>`);
         });
     });
 
