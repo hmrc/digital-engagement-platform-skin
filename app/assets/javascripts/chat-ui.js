@@ -2,7 +2,7 @@ import ReactiveChatController from './controllers/ReactiveChatController'
 import ProactiveChatController from './controllers/ProactiveChatController'
 import CommonChatController from './controllers/CommonChatController'
 
-function safeHandler(f, helpful_name) {
+export function safeHandler(f, helpful_name) {
     return function () {
         try {
             f.apply(null, arguments)
