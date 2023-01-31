@@ -49,6 +49,11 @@ const digitalAssistantSurvey = {
 export default class CommonChatController {
     constructor() {
         this.sdk = null;
+
+        if(window.Inq && window.Inq.SDK) {
+            this.sdk = window.Inq.SDK;
+        }
+
         this.state = new ChatStates.NullState();
         this.minimised = false;
     }
@@ -72,20 +77,22 @@ export default class CommonChatController {
     updateDav3DeskproRefererUrls() {
         let reportTechnicalIssueElement = document.getElementsByClassName('hmrc-report-technical-issue');
         if (reportTechnicalIssueElement) {
-            if (reportTechnicalIssueElement[0].href) {
+            if (reportTechnicalIssueElement[0] && reportTechnicalIssueElement[0].href) {
                 let reportTechnicalIssueElementHref = reportTechnicalIssueElement[0].href;
                 reportTechnicalIssueElement[0].href = reportTechnicalIssueElementHref.concat("-dav3");
             }
         }
 
         let feedbackLinkElement = document.getElementsByClassName('govuk-phase-banner__text');
-        if (feedbackLinkElement) {
+
+        if (Object.keys(feedbackLinkElement).length) {
             let feedbackLinkHref = feedbackLinkElement[0].getElementsByTagName('a')[0].href;
             feedbackLinkElement[0].getElementsByTagName('a')[0].href = feedbackLinkHref.concat("-dav3");
         }
 
         let accessibilityLinkElement = document.getElementsByClassName('govuk-footer__link');
-        if (accessibilityLinkElement) {
+
+        if (Object.keys(accessibilityLinkElement).length) {
             let accessibilityLinkHref = accessibilityLinkElement[1].href;
             accessibilityLinkElement[1].href = accessibilityLinkHref.concat("-dav3");
         }
@@ -110,12 +117,13 @@ export default class CommonChatController {
 
     _launchChat() {
         if (this.container) {
-            return
+            return;
         }
+
         try {
             this._showChat();
 
-            this._displayOpenerScripts(window);
+            this._displayOpenerScripts();
 
             console.log("===== chatDisplayed =====");
 
@@ -164,16 +172,16 @@ export default class CommonChatController {
         const anchoredPopupDiv = this._getAnchoredPopupDiv();
         try {
             if (fixedPopupDiv) {
-                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, Inq.SDK);
+                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, window.Inq.SDK);
                 fixedPopupDiv.appendChild(this.container.element());
             } else if (anchoredPopupDiv && !fixedPopupDiv) {
-                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, Inq.SDK);
+                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, window.Inq.SDK);
                 anchoredPopupDiv.appendChild(this.container.element());
             } else if (embeddedDiv) {
-                this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml, Inq.SDK);
+                this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml, window.Inq.SDK);
                 embeddedDiv.appendChild(this.container.element());
             } else {
-                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, Inq.SDK);
+                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, window.Inq.SDK);
                 document.getElementsByTagName("body")[0].appendChild(this.container.element());
             }
 
@@ -185,8 +193,11 @@ export default class CommonChatController {
         }
     }
 
-    _displayOpenerScripts(w) {
-        this.sdk = w.Inq.SDK;
+    _displayOpenerScripts() {
+
+
+        this.sdk = window.Inq.SDK;
+
 
         this.sdk.getOpenerScripts((openerScripts) => {
             if (openerScripts == null)
