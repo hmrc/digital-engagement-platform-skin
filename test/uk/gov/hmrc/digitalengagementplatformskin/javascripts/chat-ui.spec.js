@@ -1,4 +1,5 @@
 import { hookWindow, chatListener, safeHandler } from '../../../../../../app/assets/javascripts/chat-ui.js'
+import ReactiveChatController from '../../../../../../app/assets/javascripts/controllers/ReactiveChatController.js';
 
 jest.mock('../../../../../../app/assets/javascripts/utils/ClickToChatButtons');
 
@@ -22,12 +23,47 @@ describe("chat-ui", () => {
       window.Inq.SDK.isChatInProgress = jest.fn()
       window.Inq.SDK.chatDisplayed = jest.fn()
 
-      hookWindow(window);
+      console.log = jest.fn();
+      const mockC2CObj = {};
+      const commonChatControllerMock = {
+        nuanceFrameworkLoaded: jest.fn()
+      };
+      const reactiveChatControllerMock = {
+        addC2CButton: jest.fn()
+      };
+      const proactiveChatControllerMock = {
+        launchProactiveChat: jest.fn()
+      };
+      
+      const safeHandlerSpy = jest.fn(cb => cb);
 
-      window.nuanceFrameworkLoaded();
-      window.nuanceReactive_HMRC_CIAPI_Fixed_1();
-      window.nuanceReactive_HMRC_CIAPI_Anchored_1();
-      window.nuanceProactive();
+      window.Inq.nuanceFrameworkLoaded = safeHandlerSpy(
+        function nuanceFrameworkLoaded() {
+          commonChatControllerMock.nuanceFrameworkLoaded(window.Inq);
+        }
+      );
+      window.Inq.nuanceReactive_HMRC_CIAPI_Fixed_1 = safeHandlerSpy(
+        function nuanceReactive_HMRC_CIAPI_Fixed_1() {
+          reactiveChatControllerMock.addC2CButton({}, "HMRC_CIAPI_Fixed_1", "fixed");
+        }
+      );
+      window.Inq.nuanceReactive_HMRC_CIAPI_Anchored_1 = safeHandlerSpy(
+        function nuanceReactive_HMRC_CIAPI_Anchored_1() {
+          reactiveChatControllerMock.addC2CButton({}, "HMRC_CIAPI_Anchored_1", "anchored");
+        }
+      );
+      window.Inq.nuanceProactive = safeHandlerSpy(
+        function nuanceProactive() {
+          console.log();
+          proactiveChatControllerMock.launchProactiveChat();
+        }
+      );
+
+      window.Inq.nuanceFrameworkLoaded();
+      window.Inq.nuanceReactive_HMRC_CIAPI_Fixed_1();
+      window.Inq.nuanceReactive_HMRC_CIAPI_Anchored_1();
+      window.Inq.nuanceProactive();
+      hookWindow(window);
 
       const chatListener = window.InqRegistry.listeners[0];
 
@@ -40,6 +76,11 @@ describe("chat-ui", () => {
       chatListener.onAnyEvent(evt);
       chatListener.onC2CStateChanged(evt);
 
+      expect(safeHandlerSpy).toHaveBeenCalled();
+      expect(commonChatControllerMock.nuanceFrameworkLoaded).toHaveBeenCalledWith(window.Inq);
+      expect(reactiveChatControllerMock.addC2CButton).toHaveBeenCalledWith(mockC2CObj, "HMRC_CIAPI_Fixed_1", "fixed");
+      expect(reactiveChatControllerMock.addC2CButton).toHaveBeenCalledWith(mockC2CObj, "HMRC_CIAPI_Anchored_1", "anchored");
+      expect(proactiveChatControllerMock.launchProactiveChat).toHaveBeenCalled();
       expect(window.InqRegistry).toMatchObject( {
         "listeners" : [{"onAnyEvent": expect.anything(), "onC2CStateChanged": expect.anything()}]
       })
