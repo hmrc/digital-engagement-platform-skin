@@ -29,6 +29,16 @@ describe("chat-ui", () => {
       window.nuanceReactive_HMRC_CIAPI_Anchored_1();
       window.nuanceProactive();
 
+      const chatListener = window.InqRegistry.listeners[0];
+
+      const evt = {
+        preventDefault: jest.fn(),
+        chatID: 1,
+        agentID: "Terry"
+      }
+
+      chatListener.onAnyEvent(evt);
+      chatListener.onC2CStateChanged(evt);
 
       expect(window.InqRegistry).toMatchObject( {
         "listeners" : [{"onAnyEvent": expect.anything(), "onC2CStateChanged": expect.anything()}]
