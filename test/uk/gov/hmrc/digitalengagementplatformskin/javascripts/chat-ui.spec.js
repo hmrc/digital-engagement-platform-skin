@@ -48,8 +48,10 @@ describe("chat-ui", () => {
   it("safeHandler", () => {
     let explodeyFunction = () => { throw 'kaboom'; }
     let safeFn = safeHandler(explodeyFunction, 'hello');
+    console.error = jest.fn();
 
     safeFn();
+    expect(console.error).toHaveBeenCalledTimes(1);
   })
 
 })
