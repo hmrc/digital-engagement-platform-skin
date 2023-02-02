@@ -1,8 +1,5 @@
-import ReactiveChatController from './controllers/ReactiveChatController'
-import ProactiveChatController from './controllers/ProactiveChatController'
-import CommonChatController from './controllers/CommonChatController'
 
-export function safeHandler(f, helpful_name) {
+export function safeHandler(f) {
     return function () {
         try {
             f.apply(null, arguments)
@@ -10,9 +7,9 @@ export function safeHandler(f, helpful_name) {
             console.error(`!!!! handler for ${f.name}: got exception `, e);
         }
     }
-}
+};
 
-const chatListener = {
+export const chatListener = {
     onAnyEvent: function(evt) {
         console.log("Chat any event:", evt);
         window.chatId = evt.chatID;
@@ -23,10 +20,7 @@ const chatListener = {
     }
 };
 
-export function hookWindow(w) {
-    var commonChatController = new CommonChatController;
-    var reactiveChatController = new ReactiveChatController;
-    var proactiveChatController = new ProactiveChatController;
+export function hookWindow(w, commonChatController, reactiveChatController, proactiveChatController) {
 
     w.InqRegistry = {
         listeners: [chatListener]
@@ -57,3 +51,6 @@ export function hookWindow(w) {
         }
     );
 }
+
+
+
