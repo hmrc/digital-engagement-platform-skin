@@ -53,7 +53,7 @@ describe("chat-ui", () => {
         }
       }; 
 
-      let commonChatNuacneFrameworkLoaded = jest.spyOn(commonCC, 'nuanceFrameworkLoaded');
+      let commonChatNuanceFrameworkLoaded = jest.spyOn(commonCC, 'nuanceFrameworkLoaded');
       let reactiveChatAddC2CButton = jest.spyOn(reactiveCC, 'addC2CButton');
       let proactiveChatLaunch = jest.spyOn(proactiveCC, 'launchProactiveChat');
 
@@ -68,7 +68,7 @@ describe("chat-ui", () => {
         "listeners" : [{"onAnyEvent": expect.any(Function), "onC2CStateChanged": expect.any(Function)}]
       })
 
-      expect(commonChatNuacneFrameworkLoaded).toBeCalledTimes(1);
+      expect(commonChatNuanceFrameworkLoaded).toBeCalledTimes(1);
       expect(reactiveChatAddC2CButton).toBeCalledTimes(2);
 
       expect(reactiveChatAddC2CButton).toBeCalledWith({}, "HMRC_CIAPI_Fixed_1", "fixed");
