@@ -65,7 +65,7 @@ describe("chat-ui", () => {
       window.nuanceProactive();
 
       expect(window.InqRegistry).toMatchObject( {
-        "listeners" : [{"onAnyEvent": expect.anything(), "onC2CStateChanged": expect.anything()}]
+        "listeners" : [{"onAnyEvent": expect.any(Function), "onC2CStateChanged": expect.any(Function)}]
       })
 
       expect(commonChatNuacneFrameworkLoaded).toBeCalledTimes(1);
