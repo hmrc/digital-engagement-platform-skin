@@ -51,6 +51,3 @@ export function hookWindow(w, commonChatController, reactiveChatController, proa
         }
     );
 }
-
-
-

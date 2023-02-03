@@ -5,7 +5,7 @@ import ProactiveChatController from './controllers/ProactiveChatController';
 
 chatUi.hookWindow(
     window,
-    new CommonChatController(),
-    new ReactiveChatController(),
-    new ProactiveChatController()
+    new CommonChatController,
+    new ReactiveChatController,
+    new ProactiveChatController
 );

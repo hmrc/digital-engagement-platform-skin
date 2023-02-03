@@ -49,11 +49,6 @@ const digitalAssistantSurvey = {
 export default class CommonChatController {
     constructor() {
         this.sdk = null;
-
-        if(window.Inq && window.Inq.SDK) {
-            this.sdk = window.Inq.SDK;
-        }
-
         this.state = new ChatStates.NullState();
         this.minimised = false;
     }
@@ -76,8 +71,9 @@ export default class CommonChatController {
 
     updateDav3DeskproRefererUrls() {
         let reportTechnicalIssueElement = document.getElementsByClassName('hmrc-report-technical-issue');
-        if (reportTechnicalIssueElement) {
-            if (reportTechnicalIssueElement[0] && reportTechnicalIssueElement[0].href) {
+
+        if (reportTechnicalIssueElement.length) {
+            if (reportTechnicalIssueElement[0].href) {
                 let reportTechnicalIssueElementHref = reportTechnicalIssueElement[0].href;
                 reportTechnicalIssueElement[0].href = reportTechnicalIssueElementHref.concat("-dav3");
             }
@@ -85,14 +81,14 @@ export default class CommonChatController {
 
         let feedbackLinkElement = document.getElementsByClassName('govuk-phase-banner__text');
 
-        if (Object.keys(feedbackLinkElement).length) {
+        if (feedbackLinkElement.length) {
             let feedbackLinkHref = feedbackLinkElement[0].getElementsByTagName('a')[0].href;
             feedbackLinkElement[0].getElementsByTagName('a')[0].href = feedbackLinkHref.concat("-dav3");
         }
 
         let accessibilityLinkElement = document.getElementsByClassName('govuk-footer__link');
 
-        if (Object.keys(accessibilityLinkElement).length) {
+        if (accessibilityLinkElement.length) {
             let accessibilityLinkHref = accessibilityLinkElement[1].href;
             accessibilityLinkElement[1].href = accessibilityLinkHref.concat("-dav3");
         }
@@ -194,10 +190,7 @@ export default class CommonChatController {
     }
 
     _displayOpenerScripts() {
-
-
         this.sdk = window.Inq.SDK;
-
 
         this.sdk.getOpenerScripts((openerScripts) => {
             if (openerScripts == null)

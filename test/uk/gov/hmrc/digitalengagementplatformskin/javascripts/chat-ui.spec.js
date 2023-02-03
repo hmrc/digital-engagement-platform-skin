@@ -30,7 +30,6 @@ describe("chat-ui", () => {
     const chatListenerFromWindow = window.InqRegistry.listeners[0];
 
     const evt = {
-      preventDefault: jest.fn(),
       chatID: 1,
       agentID: "Terry"
     }
@@ -53,8 +52,6 @@ describe("chat-ui", () => {
           chatDisplayed: jest.fn()
         }
       }; 
-
-      console.log = jest.fn();
 
       let commonChatNuacneFrameworkLoaded = jest.spyOn(commonCC, 'nuanceFrameworkLoaded');
       let reactiveChatAddC2CButton = jest.spyOn(reactiveCC, 'addC2CButton');
