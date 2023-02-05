@@ -46,9 +46,9 @@ const chatParams = {
 
 describe("CommonChatController", () => {
   const event = { preventDefault: () => {} };
-  
+
   afterEach(() => {
-    document.getElementsByTagName('html')[0].innerHTML = ''; 
+    document.getElementsByTagName('html')[0].innerHTML = '';
   });
 
   beforeEach(() => {
@@ -59,7 +59,7 @@ describe("CommonChatController", () => {
     jest.spyOn(event, 'preventDefault');
     jest.spyOn(console, 'log').mockImplementation(jest.fn());
   });
-    
+
 
   it("launches a reactive chat", () => {
     const commonChatController = new CommonChatController();
@@ -78,17 +78,16 @@ describe("CommonChatController", () => {
 
     expect(sdk.getOpenerScripts).toHaveBeenCalledTimes(1);
     expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1);
-
   });
 
   it("updateDav3DeskproRefererUrls will get the three deskpro URLs url,", () => {
-    
-    var html = 
+
+    var html =
     `<a class="hmrc-report-technical-issue"
       href="https://testURL;service=digital-engagement-platform-frontend&amp;referrerUrl=https%3A%2F%2FtestURL">
       Is this page not working properly? (opens in new tab)
     </a>
-      
+
     <span class="govuk-phase-banner__text">
       This is a new service – your <a class="govuk-link" href="https://testURL?service=digital-engagement-platform-frontend">
       feedback</a> will help us to improve it.
@@ -101,14 +100,14 @@ describe("CommonChatController", () => {
           <a class="govuk-footer__link" href="/help/cookies">
           Cookies
           </a>
-        </li> 
+        </li>
         <li class="govuk-footer__inline-list-item">
           <a class="govuk-footer__link" href="/ask-hmrc/accessibility-statement?userAction=%2Fask-hmrc%2Fchat%2Fask-hmrc-online%3Fversion%3D3">
           Accessibility statement
           </a>
         </li>
       </ul>
-    </div>      
+    </div>
     `;
 
     const commonChatController = new CommonChatController();
@@ -122,7 +121,7 @@ describe("CommonChatController", () => {
 
   it("remove animation after nuance iframe loads", () => {
     const commonChatController = new CommonChatController();
-    
+
     let chatContainerOne = document.createElement("div");
     chatContainerOne.setAttribute("id", "cui-loading-animation");
     document.body.appendChild(chatContainerOne);
@@ -131,8 +130,8 @@ describe("CommonChatController", () => {
     chatContainerTwo.setAttribute("id", "cui-messaging-container");
     document.body.appendChild(chatContainerTwo);
 
-    commonChatController._removeAnimation();     
-    
+    commonChatController._removeAnimation();
+
     expect(chatContainerOne).not.toBeVisible;
     expect(chatContainerTwo).toBeVisible;
   });
@@ -147,7 +146,7 @@ describe("CommonChatController", () => {
 
   it("appends embedded chat transcript div to page when an embedded div id is found on page", () => {
     const commonChatController = new CommonChatController();
-    
+
     let chatContainer = document.createElement("div");
     chatContainer.setAttribute("id", "nuanMessagingFrame");
     document.body.appendChild(chatContainer);
@@ -160,7 +159,7 @@ describe("CommonChatController", () => {
   it("appends fixed popup chat transcript div to page when an fixed popup div id is found on page", () => {
     const commonChatController = new CommonChatController();
     let chatContainer = document.createElement("div");
-    chatContainer.setAttribute("id", "HMRC_CIAPI_Fixed_1");
+    chatContainer.setAttribute("id", "tc-nuance-chat-container");
     document.body.appendChild(chatContainer);
 
     commonChatController._showChat();
@@ -171,13 +170,29 @@ describe("CommonChatController", () => {
   it("appends anchored popup chat transcript div to page when an anchored popup div id is found on page", () => {
     const commonChatController = new CommonChatController();
     let chatContainer = document.createElement("div");
-    chatContainer.setAttribute("id", "HMRC_CIAPI_Anchored_1");
+    chatContainer.setAttribute("id", "tc-nuance-chat-container");
     document.body.appendChild(chatContainer);
 
     commonChatController._showChat();
 
     expect(document.getElementById("ciapiSkinChatTranscript").innerHTML).not.toBe(null);
   });
+
+  it("moves chat to engaged state on method call", () => {
+	  const commonChatController = new CommonChatController();
+	  let spy = jest.spyOn(commonChatController, '_moveToState');
+	  const sdk = {
+		  getMessages: jest.fn().mockReturnValue("messages"),
+	  }
+
+	  window.Inq = {
+		  SDK: sdk
+	  };
+
+	  commonChatController._moveToChatEngagedState();
+
+	  expect(spy).toBeCalledTimes(1);
+  })
 
   it("getRadioValue returns an empty string if given radiogroup is not found", () => {
     var html = `
@@ -492,7 +507,7 @@ describe("CommonChatController", () => {
     commonChatController.container = container;
     commonChatController._displayOpenerScripts(window);
     const handleMessage = sdk.getOpenerScripts.mock.calls[0][0];
-    handleMessage(["this is an opener script"]); 
+    handleMessage(["this is an opener script"]);
 
     expect(sdk.getOpenerScripts).toHaveBeenCalledTimes(1);
     expect(commonChatController.container.transcript.addOpenerScript).toBeCalledTimes(1);
@@ -509,7 +524,7 @@ describe("CommonChatController", () => {
     commonChatController.container = container;
     commonChatController._displayOpenerScripts(window);
     const handleMessage = sdk.getOpenerScripts.mock.calls[0][0];
-    handleMessage(null); 
+    handleMessage(null);
 
     expect(sdk.getOpenerScripts).toHaveBeenCalledTimes(1);
     expect(commonChatController.container.transcript.addOpenerScript).toBeCalledTimes(0);
@@ -522,9 +537,9 @@ describe("CommonChatController", () => {
     const state = new ChatStates.ShownState(onEngage, onCloseChat);
     commonChatController.state = state;
     var spy = jest.spyOn(commonChatController, '_moveToState');
-    
+
     commonChatController._moveToChatShownState();
-    
+
     expect(spy).toBeCalledTimes(1);
   });
 
@@ -534,7 +549,7 @@ describe("CommonChatController", () => {
     const commonChatController = new CommonChatController();
     var html = `
       <a id="back-link" class="govuk-back-link">Back</a>
-      <a id="hmrc-report-technical-issue" hreflang="en" class="govuk-link hmrc-report-technical-issue ">Is this page not working properly? (opens in new tab)</a> 
+      <a id="hmrc-report-technical-issue" hreflang="en" class="govuk-link hmrc-report-technical-issue ">Is this page not working properly? (opens in new tab)</a>
       <footer id="govuk-footer" class="govuk-footer " role="contentinfo">
         <div class="govuk-width-container banner__text">
           <div class="govuk-footer__meta">
@@ -582,7 +597,7 @@ describe("CommonChatController", () => {
     const html = `
       <p id="print-date" class="govuk-body print-only"></p>
       <a id="back-link" class="govuk-back-link">Back</a>
-      <a id="hmrc-report-technical-issue" hreflang="en" class="govuk-link hmrc-report-technical-issue ">Is this page not working properly? (opens in new tab)</a> 
+      <a id="hmrc-report-technical-issue" hreflang="en" class="govuk-link hmrc-report-technical-issue ">Is this page not working properly? (opens in new tab)</a>
       <footer id="govuk-footer" class="govuk-footer " role="contentinfo">
         <div class="govuk-width-container ">
           <div class="govuk-footer__meta">
