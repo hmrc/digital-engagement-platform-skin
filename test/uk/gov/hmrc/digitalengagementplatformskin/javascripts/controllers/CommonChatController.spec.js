@@ -80,6 +80,25 @@ describe("CommonChatController", () => {
     expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1);
   });
 
+  it("launch chat returns undefined given a defined container", () => {
+    const commonChatController = new CommonChatController();
+
+    let spy = jest.spyOn(commonChatController, 'updateDav3DeskproRefererUrls').mockImplementation(() => {});
+    const sdk = {
+        getOpenerScripts: jest.fn().mockReturnValue(null),
+        chatDisplayed: jest.fn()
+    }
+
+    window.Inq = {
+        SDK: sdk
+    };
+
+    commonChatController._showChat();
+    
+    expect(commonChatController._launchChat()).toBe(undefined)
+
+  });
+
   it("updateDav3DeskproRefererUrls will get the three deskpro URLs url,", () => {
 
     var html =
