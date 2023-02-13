@@ -111,6 +111,11 @@ export default class CommonChatController {
         return returnedValue;
     }
 
+    getSdk() {
+        console.log("printing this.sdk.chatDisplayed",this.sdk.chatDisplayed)
+        return this.sdk
+    }
+
     _launchChat() {
         if (this.container) {
             return;

@@ -99,6 +99,24 @@ describe("CommonChatController", () => {
 
   });
 
+  it("controller test", () => {
+    const commonChatController = new CommonChatController();
+
+    const sdk = {
+        getOpenerScripts: jest.fn().mockReturnValue(null)
+    }
+
+    window.Inq = {
+        SDK: sdk
+    };
+
+    commonChatController._displayOpenerScripts();
+    
+    commonChatController._launchChat();
+
+    expect(commonChatController.getSdk()).toMatchObject({'test':17})
+  });
+
   it("updateDav3DeskproRefererUrls will get the three deskpro URLs url,", () => {
 
     var html =
