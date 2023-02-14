@@ -99,22 +99,39 @@ describe("CommonChatController", () => {
 
   });
 
-  it("controller test", () => {
+  it("calls the chatDisplayed function with the expected object & callbacks", () => {
     const commonChatController = new CommonChatController();
+    let moveToChatEngagedStateMock = commonChatController._moveToChatEngagedState = jest.fn();
+
+    console.log = jest.fn();
 
     const sdk = {
-        getOpenerScripts: jest.fn().mockReturnValue(null)
+        getOpenerScripts: jest.fn().mockReturnValue(null),
+        chatDisplayed: jest.fn()
     }
 
     window.Inq = {
-        SDK: sdk
-    };
+      SDK : sdk
+    }
 
     commonChatController._displayOpenerScripts();
-    
     commonChatController._launchChat();
 
-    expect(commonChatController.getSdk()).toMatchObject({'test':17})
+    let firstCallObject = sdk.chatDisplayed.mock.calls[0][0]
+
+    firstCallObject.failedCb();
+    firstCallObject.reConnectCb();
+    firstCallObject.disconnectCb();
+    firstCallObject.previousMessagesCb({messages: ["fake message"]});
+
+    expect(moveToChatEngagedStateMock).toBeCalledWith(["fake message"]);
+    expect(console.log).toHaveBeenCalledWith("%%%%%% disconnected %%%%%%");
+    expect(console.log).toHaveBeenCalledWith("%%%%%% reconnected %%%%%%");
+    expect(console.log).toHaveBeenCalledWith("%%%%%% failed %%%%%%");
+
+    expect(firstCallObject.customerName).toBe("You");
+    expect(firstCallObject.defaultAgentAlias).toBe("HMRC");
+    expect(firstCallObject.openerScripts).toBe(null);
   });
 
   it("updateDav3DeskproRefererUrls will get the three deskpro URLs url,", () => {
