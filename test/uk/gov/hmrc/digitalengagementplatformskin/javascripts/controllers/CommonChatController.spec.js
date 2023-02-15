@@ -134,6 +134,38 @@ describe("CommonChatController", () => {
     expect(firstCallObject.openerScripts).toBe(null);
   });
 
+it("removes existingErrorMessage", () => {
+  const commonChatController = new CommonChatController();
+
+  document.body.innerHTML += '<div id="error-message"> </div>'
+  
+  commonChatController._launchChat();
+
+  const existingErrorMessage = document.getElementById("error-message")
+
+  expect(existingErrorMessage).toBe(null)
+});
+
+it("catches an exception in the launchChat function", () => {
+  console.error = jest.fn();
+  const commonChatController = new CommonChatController();
+  let showChatMock = commonChatController._showChat = jest.fn(() => {throw new Error("test")});
+
+  commonChatController._launchChat();
+
+  expect(console.error).toBeCalledWith("!!!! launchChat got exception: ", new Error("test"))
+});
+
+it("catches an exception in the showChat function", () => {
+  console.error = jest.fn();
+  const commonChatController = new CommonChatController();
+  let chatShownStateMock = commonChatController._moveToChatShownState = jest.fn(() => {throw new Error("test")});
+
+  commonChatController._showChat();
+
+  expect(console.error).toBeCalledWith("!!!! _showChat got exception: ", new Error("test"))
+});
+
   it("updateDav3DeskproRefererUrls will get the three deskpro URLs url,", () => {
 
     var html =
