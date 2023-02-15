@@ -44,7 +44,13 @@ const chatParams = {
   thisCustomerID: "ThisCustomerID",
 };
 
+
+
+
 describe("CommonChatController", () => {
+
+  let commonChatController
+
   const event = { preventDefault: () => {} };
 
   afterEach(() => {
@@ -52,6 +58,8 @@ describe("CommonChatController", () => {
   });
 
   beforeEach(() => {
+    jest.restoreAllMocks();
+    commonChatController = new CommonChatController();
     window.print = jest.fn();
   });
 
@@ -62,7 +70,7 @@ describe("CommonChatController", () => {
 
 
   it("launches a reactive chat", () => {
-    const commonChatController = new CommonChatController();
+    
 
     let spy = jest.spyOn(commonChatController, 'updateDav3DeskproRefererUrls').mockImplementation(() => {});
     const sdk = {
@@ -81,7 +89,7 @@ describe("CommonChatController", () => {
   });
 
   it("launch chat returns undefined given a defined container", () => {
-    const commonChatController = new CommonChatController();
+    
 
     let spy = jest.spyOn(commonChatController, 'updateDav3DeskproRefererUrls').mockImplementation(() => {});
     const sdk = {
@@ -100,7 +108,7 @@ describe("CommonChatController", () => {
   });
 
   it("calls the chatDisplayed function with the expected object & callbacks", () => {
-    const commonChatController = new CommonChatController();
+    
     let moveToChatEngagedStateMock = commonChatController._moveToChatEngagedState = jest.fn();
 
     console.log = jest.fn();
@@ -135,7 +143,7 @@ describe("CommonChatController", () => {
   });
 
 it("removes existingErrorMessage", () => {
-  const commonChatController = new CommonChatController();
+  
 
   document.body.innerHTML += '<div id="error-message"> </div>'
   
@@ -148,7 +156,7 @@ it("removes existingErrorMessage", () => {
 
 it("catches an exception in the launchChat function", () => {
   console.error = jest.fn();
-  const commonChatController = new CommonChatController();
+  
   let showChatMock = commonChatController._showChat = jest.fn(() => {throw new Error("test")});
 
   commonChatController._launchChat();
@@ -158,7 +166,7 @@ it("catches an exception in the launchChat function", () => {
 
 it("catches an exception in the showChat function", () => {
   console.error = jest.fn();
-  const commonChatController = new CommonChatController();
+  
   let chatShownStateMock = commonChatController._moveToChatShownState = jest.fn(() => {throw new Error("test")});
 
   commonChatController._showChat();
@@ -196,7 +204,7 @@ it("catches an exception in the showChat function", () => {
     </div>
     `;
 
-    const commonChatController = new CommonChatController();
+    
     let spy = jest.spyOn(commonChatController, 'updateDav3DeskproRefererUrls');
     document.body.innerHTML = html;
 
@@ -206,7 +214,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("remove animation after nuance iframe loads", () => {
-    const commonChatController = new CommonChatController();
+    
 
     let chatContainerOne = document.createElement("div");
     chatContainerOne.setAttribute("id", "cui-loading-animation");
@@ -223,7 +231,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("appends chat transcript div to page when no div id is found on page", () => {
-    const commonChatController = new CommonChatController();
+    
 
     commonChatController._showChat();
 
@@ -231,7 +239,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("appends embedded chat transcript div to page when an embedded div id is found on page", () => {
-    const commonChatController = new CommonChatController();
+    
 
     let chatContainer = document.createElement("div");
     chatContainer.setAttribute("id", "nuanMessagingFrame");
@@ -243,7 +251,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("appends fixed popup chat transcript div to page when an fixed popup div id is found on page", () => {
-    const commonChatController = new CommonChatController();
+    
     let chatContainer = document.createElement("div");
     chatContainer.setAttribute("id", "tc-nuance-chat-container");
     document.body.appendChild(chatContainer);
@@ -254,7 +262,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("appends anchored popup chat transcript div to page when an anchored popup div id is found on page", () => {
-    const commonChatController = new CommonChatController();
+    
     let chatContainer = document.createElement("div");
     chatContainer.setAttribute("id", "tc-nuance-chat-container");
     document.body.appendChild(chatContainer);
@@ -265,19 +273,40 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("moves chat to engaged state on method call", () => {
-	  const commonChatController = new CommonChatController();
-	  let spy = jest.spyOn(commonChatController, '_moveToState');
-	  const sdk = {
-		  getMessages: jest.fn().mockReturnValue("messages"),
-	  }
+	  
+
+    let confirmEndChatSpy = jest.fn()
+    commonChatController.container = {
+      confirmEndChat : confirmEndChatSpy
+    } 
+
+	  // let moveToChatEngagedStateSpy = jest.spyOn(commonChatController, '_moveToChatEngagedState');
+
+    ChatStates.EngagedState = jest.fn()
+
+    let chatStatesSpy = jest.spyOn(ChatStates, 'EngagedState')
 
 	  window.Inq = {
-		  SDK: sdk
+		  SDK: {
+        getMessages: jest.fn().mockReturnValue("messages"),
+      }
 	  };
 
 	  commonChatController._moveToChatEngagedState();
 
-	  expect(spy).toBeCalledTimes(1);
+    // get the close chat callback function from ChatStates.EngagedState and call it
+    let engagedChatStateCloseChatFunctionArgumentIndex = 3
+    chatStatesSpy.mock.calls[0][engagedChatStateCloseChatFunctionArgumentIndex]()
+
+    expect(confirmEndChatSpy).toBeCalled();
+
+    // this.container.confirmEndChat())
+
+
+    // expect(chatStatesSpy).toBeCalledWith("")
+    // expect(ChatStates.EngagedState).toBeCalledWith(null, undefined, [], expect.any(Function))
+
+	  // expect(moveToChatEngagedStateSpy).toBeCalled()
   })
 
   it("getRadioValue returns an empty string if given radiogroup is not found", () => {
@@ -299,7 +328,7 @@ it("catches an exception in the showChat function", () => {
       </fieldset>
     `;
 
-    const commonChatController = new CommonChatController();
+    
     let spy = jest.spyOn(commonChatController, 'getRadioValue');
     document.body.innerHTML = html;
 
@@ -326,7 +355,7 @@ it("catches an exception in the showChat function", () => {
       </fieldset>
     `;
 
-    const commonChatController = new CommonChatController();
+    
     let spy = jest.spyOn(commonChatController, 'getRadioValue');
     document.body.innerHTML = html;
 
@@ -352,7 +381,7 @@ it("catches an exception in the showChat function", () => {
       </fieldset>
     `;
 
-    const commonChatController = new CommonChatController();
+    
     let spy = jest.spyOn(commonChatController, 'getRadioId');
     document.body.innerHTML = html;
 
@@ -360,7 +389,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("getTextAreaValue returns an Element object", () => {
-    const commonChatController = new CommonChatController();
+    
 
     var html = `<textarea id="test" name="test" rows="4" cols="50">testing</textarea>`;
     document.body.innerHTML = html;
@@ -370,7 +399,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("_sendPostChatSurveyWebchat returns a new instance of PostChatSurveyWebchatService", () => {
-    const commonChatController = new CommonChatController();
+    
     const sdk = {
       getOpenerScripts: "hello"
     }
@@ -382,7 +411,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("_sendPostChatSurveyDigitalAssistant returns a new instance of PostChatSurveyDigitalAssistantService", () => {
-    const commonChatController = new CommonChatController();
+    
     const sdk = {
       getOpenerScripts: jest.fn().mockReturnValue(null)
     }
@@ -394,7 +423,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("closeNuanceChat sends closeChat to nuance if chat is in progress ", () => {
-    const commonChatController = new CommonChatController();
+    
     const sdk = {
       isChatInProgress: jest.fn().mockReturnValue(true),
       closeChat: jest.fn()
@@ -411,7 +440,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("onSkipToTopLink should focus on the skipToTopLink", () => {
-    const commonChatController = new CommonChatController();
+    
     const html = `<div id="skipToTop"><a id="skipToTopLink" href="#skipToTopLink">Skip to top of conversation</a></div>`;
     document.body.innerHTML = html;
     const evt = { preventDefault: jest.fn() }
@@ -424,7 +453,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("showEndChatPage removes the skin header buttons and calls post chat survey", () => {
-    const commonChatController = new CommonChatController();
+    
     const html = `<h1 id="heading_chat_ended">Chat ended</h1>`;
     document.body.innerHTML = html;
     const mockChatEnded = document.getElementById('heading_chat_ended');
@@ -449,7 +478,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("onStartTyping sends an activity message to Nuance", () => {
-    const commonChatController = new CommonChatController();
+    
 
     const sdk = {
       sendActivityMessage: jest.fn(),
@@ -468,7 +497,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("onStopTyping sends an activity message to Nuance", () => {
-    const commonChatController = new CommonChatController();
+    
 
     const sdk = {
       sendActivityMessage: jest.fn(),
@@ -487,7 +516,7 @@ it("catches an exception in the showChat function", () => {
   })
 
   it("onRestoreChat restores the chat container and sends an activity message to Nunace", () => {
-    const commonChatController = new CommonChatController();
+    
     const mockContainer = {
       restore: jest.fn()
     };
@@ -513,7 +542,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("onHideChat minimises the chat container and sends an activity message to Nunace", () => {
-    const commonChatController = new CommonChatController();
+    
 
     const mockContainer = {
       minimise: jest.fn()
@@ -539,7 +568,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("onSoundToggle adds the active class to the soundtoggle element if it is inactive", () => {
-    const commonChatController = new CommonChatController();
+    
     const html = `<button id="toggleSound" class="inactive">Turn notification sound on</button>`;
     document.body.innerHTML = html;
 
@@ -549,7 +578,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("onSoundToggle adds the inactive class to the soundtoggle element if it is active", () => {
-    const commonChatController = new CommonChatController();
+    
     const html = `<button id="toggleSound" class="active">Turn notification sound on</button>`;
     document.body.innerHTML = html;
 
@@ -559,7 +588,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("_moveToClosingState creates new closing state", () => {
-    const commonChatController = new CommonChatController();
+    
     var spy = jest.spyOn(commonChatController, '_moveToState');
 
     commonChatController._moveToClosingState();
@@ -568,14 +597,15 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("onCloseChat calls onClickedClose", () => {
-    const commonChatController = new CommonChatController();
+    // const commonChatController = new CommonChatController();
     const sdk = {
       getMessages: jest.fn()
     };
     const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
+    // let spyTest  = state.onClickedClose = jest.fn()
+    var spy = jest.spyOn(state, 'onClickedClose');
 
     commonChatController.state = state;
-    var spy = jest.spyOn(state, 'onClickedClose');
 
     commonChatController.onCloseChat();
 
@@ -584,7 +614,7 @@ it("catches an exception in the showChat function", () => {
 
   it("_displayOpenerScripts retrieves the opener scripts and adds them to the transcript", () => {
     const [sdk, container] = createDisplayOpenerScriptsDependencies();
-    const commonChatController = new CommonChatController();
+    
 
     window.Inq = {
       SDK: sdk
@@ -601,7 +631,7 @@ it("catches an exception in the showChat function", () => {
 
   it("_displayOpenerScripts retrieves the opener scripts does not add anything to transcript if there are no opener scripts returned", () => {
     const [sdk, container] = createDisplayOpenerScriptsDependencies();
-    const commonChatController = new CommonChatController();
+    
 
     window.Inq = {
       SDK: sdk
@@ -617,7 +647,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("_moveToChatShownState move to show state", () => {
-    const commonChatController = new CommonChatController();
+    
     const onEngage =  jest.fn();
     const onCloseChat = jest.fn();
     const state = new ChatStates.ShownState(onEngage, onCloseChat);
@@ -632,7 +662,7 @@ it("catches an exception in the showChat function", () => {
 
 
   it("removeElementsForPrint should remove elements", () => {
-    const commonChatController = new CommonChatController();
+    
     var html = `
       <a id="back-link" class="govuk-back-link">Back</a>
       <a id="hmrc-report-technical-issue" hreflang="en" class="govuk-link hmrc-report-technical-issue ">Is this page not working properly? (opens in new tab)</a>
@@ -679,7 +709,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("onPrint returns a print window", () => {
-    const commonChatController = new CommonChatController();
+    
     const html = `
       <p id="print-date" class="govuk-body print-only"></p>
       <a id="back-link" class="govuk-back-link">Back</a>
@@ -736,7 +766,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("_moveToChatNullState should move to a Null state", () => {
-    const commonChatController = new CommonChatController();
+    
 
     let _moveToChatNullStateSpy = jest.spyOn(commonChatController, '_moveToChatNullState');
     let _moveToStateSpy = jest.spyOn(commonChatController, '_moveToState');
@@ -747,7 +777,7 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("onSend cleans and sends customer input text", () => {
-    const commonChatController = new CommonChatController();
+    
     const html = `<textarea id="custMsg" aria-label="Type your message here" placeholder="Type your message here" class="govuk-textarea" cols="50" name="comments">Testing 123</textarea>`;
     document.body.innerHTML = html;
 
