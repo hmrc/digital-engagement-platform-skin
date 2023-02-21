@@ -68,6 +68,15 @@ describe("CommonChatController", () => {
     jest.spyOn(console, 'log').mockImplementation(jest.fn());
   });
 
+  it("gets the correct sdk", () => {
+  	const sdk = {
+		getOpenerScripts: jest.fn().mockReturnValue(null),
+		chatDisplayed: jest.fn()
+	}
+	commonChatController.sdk = sdk
+
+	expect(commonChatController.getSdk()).toBe(sdk)
+  })
 
   it("launches a reactive chat", () => {
 
@@ -642,18 +651,32 @@ it("catches an exception in the showChat function", () => {
 
   it("_moveToChatShownState move to show state", () => {
 
-    const onEngage =  jest.fn();
-    const onCloseChat = jest.fn();
-    const state = new ChatStates.ShownState(onEngage, onCloseChat);
-    commonChatController.state = state;
     var spy = jest.spyOn(commonChatController, '_moveToState');
+    var engageSpy = jest.spyOn(commonChatController, '_engageChat').mockImplementation();
+    var closeSpy = jest.spyOn(commonChatController, 'closeChat').mockImplementation();
 
     commonChatController._moveToChatShownState();
 
     expect(spy).toBeCalledTimes(1);
+    expect(commonChatController.state).toBeInstanceOf(ChatStates.ShownState);
+    commonChatController.state.onSend("test");
+    commonChatController.state.onClickedClose();
+    expect(engageSpy).toBeCalledTimes(1);
+    expect(closeSpy).toBeCalledTimes(1);
   });
 
+  it("_engageChat engages the chat correctly", () => {
+  	var engageChatMock = jest.fn();
+  	const sdk = {
+		getOpenerScripts: jest.fn().mockReturnValue(null),
+		chatDisplayed: jest.fn(),
+		engageChat: engageChatMock
+	}
+	commonChatController.sdk = sdk;
 
+  	commonChatController._engageChat("text");
+  	expect(engageChatMock).toBeCalledTimes(1);
+  })
 
   it("removeElementsForPrint should remove elements", () => {
 
