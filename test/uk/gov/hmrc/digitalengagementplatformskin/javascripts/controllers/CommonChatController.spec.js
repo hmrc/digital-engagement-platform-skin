@@ -316,6 +316,104 @@ it("catches an exception in the showChat function", () => {
       // expect(moveToChatEngagedStateSpy).toBeCalled()
   })
 
+  it("closeChat is called when the post survey chat wrapper is open with escalation and no embedded div", () => {
+  	var html = `
+		<div id="postChatSurveyWrapper">
+			<p>Fake post chat survey</p>
+		</div>
+	  `;
+
+		const sdk = {
+			getMessages: jest.fn()
+		};
+		const container = {
+			destroy: jest.fn()
+		};
+		const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
+		const fakeSurvey = new PostChatSurveyWebchatService(sdk);
+
+		state.escalated = true;
+		commonChatController.state = state
+		commonChatController.container = container
+		document.body.innerHTML = html;
+		var surveySpy = jest.spyOn(commonChatController, "_sendPostChatSurveyWebchat").mockImplementation(() => fakeSurvey)
+		var closeSpy = jest.spyOn(fakeSurvey, "closePostChatSurvey").mockImplementation()
+		var nullSpy = jest.spyOn(commonChatController, "_moveToChatNullState").mockImplementation()
+		var destroySpy = jest.spyOn(container, "destroy")
+		commonChatController.closeChat()
+
+		expect(surveySpy).toBeCalledTimes(1);
+		expect(closeSpy).toBeCalledTimes(1);
+		expect(nullSpy).toBeCalledTimes(1);
+		expect(destroySpy).toBeCalledTimes(1);
+		expect(commonChatController.container).toBe(null);
+  })
+
+	it("closeChat is called when the post survey chat wrapper is open without escalation or an embedded div", () => {
+		var html = `
+		<div id="postChatSurveyWrapper">
+			<p>Fake post chat survey</p>
+		</div>
+	  `;
+
+		const sdk = {
+			getMessages: jest.fn()
+		};
+		const container = {
+			destroy: jest.fn()
+		};
+		const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
+		const fakeSurvey = new PostChatSurveyDigitalAssistantService(sdk);
+
+		commonChatController.state = state
+		commonChatController.container = container
+		document.body.innerHTML = html;
+		var surveySpy = jest.spyOn(commonChatController, "_sendPostChatSurveyDigitalAssistant").mockImplementation(() => fakeSurvey)
+		var closeSpy = jest.spyOn(fakeSurvey, "closePostChatSurvey").mockImplementation()
+		var nullSpy = jest.spyOn(commonChatController, "_moveToChatNullState").mockImplementation()
+		var destroySpy = jest.spyOn(container, "destroy")
+		commonChatController.closeChat()
+
+		expect(surveySpy).toBeCalledTimes(1);
+		expect(closeSpy).toBeCalledTimes(1);
+		expect(nullSpy).toBeCalledTimes(1);
+		expect(destroySpy).toBeCalledTimes(1);
+		expect(commonChatController.container).toBe(null);
+	})
+
+	it("closeChat is called when the post survey chat wrapper is not open but with an embedded nuance div", () => {
+		var html = `
+		<div id="nuanMessagingFrame">
+			<p>Fake nuance message frame</p>
+		</div>
+	  `;
+
+		const sdk = {
+			getMessages: jest.fn()
+		};
+		const container = {
+			destroy: jest.fn()
+		};
+		const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
+		const fakeSurvey = new PostChatSurveyDigitalAssistantService(sdk);
+
+		commonChatController.state = state
+		commonChatController.container = container
+		document.body.innerHTML = html;
+		var surveyDigitalSpy = jest.spyOn(commonChatController, "_sendPostChatSurveyDigitalAssistant")
+		var surveyWebchatSpy = jest.spyOn(commonChatController, "_sendPostChatSurveyWebchat")
+		var nullSpy = jest.spyOn(commonChatController, "_moveToChatNullState").mockImplementation()
+		var destroySpy = jest.spyOn(container, "destroy")
+		var endPageSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation()
+		commonChatController.closeChat()
+
+		expect(surveyDigitalSpy).toBeCalledTimes(0);
+		expect(surveyWebchatSpy).toBeCalledTimes(0);
+		expect(nullSpy).toBeCalledTimes(1);
+		expect(endPageSpy).toBeCalledTimes(1);
+		expect(destroySpy).toBeCalledTimes(0);
+	})
+
   it("getRadioValue returns an empty string if given radiogroup is not found", () => {
     var html = `
       <fieldset class="govuk-fieldset" id="question1">
