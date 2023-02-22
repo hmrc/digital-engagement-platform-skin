@@ -4,6 +4,7 @@ import PostChatSurveyDigitalAssistantService from '../../../../../../../app/asse
 import * as ChatStates from '../../../../../../../app/assets/javascripts/services/ChatStates'
 import PrintUtils from '../../../../../../../app/assets/javascripts/utils/PrintUtils';
 
+
 function createDisplayOpenerScriptsDependencies() {
   const sdk = {
     getOpenerScripts: jest.fn()
@@ -618,6 +619,123 @@ it("catches an exception in the showChat function", () => {
 
     expect(sdk.sendActivityMessage).toBeCalledTimes(1);
 
+  })
+
+  it("hasBeenSurveyed returns true if there is a survey cookie", () => {
+
+    document.cookie = "surveyed=true";
+    expect(commonChatController.hasBeenSurveyed()).toBe(true);
+  })
+
+  it("hasBeenSurveyed returns false if there is a false survey cookie", () => {
+
+    document.cookie = "surveyed=false";
+    expect(commonChatController.hasBeenSurveyed()).toBe(false);
+  })
+
+  it("hasBeenSurveyed returns false if there is no survey value", () => {
+
+    document.cookie = "mockCookie=true";
+    expect(commonChatController.hasBeenSurveyed()).toBe(false);
+  })
+
+  it("hasBeenSurveyed returns false if there is no cookie", () => {
+
+    expect(commonChatController.hasBeenSurveyed()).toBe(false);
+  })
+
+  it("onConfirmEndChat when has been surveyed should show end chat page", () => {
+
+    var closeNuanceSpy = jest.spyOn(commonChatController, "closeNuanceChat").mockImplementation();
+    var closingStateSpy = jest.spyOn(commonChatController, "_moveToClosingState").mockImplementation();
+    var showEndChatPageSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation();
+    
+    const sdk = {getMessages: jest.fn()};
+    const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
+
+    commonChatController.state = state;
+
+    document.cookie = "surveyed=true";
+
+    commonChatController.onConfirmEndChat();
+
+    expect(closeNuanceSpy).toBeCalledTimes(1);
+    expect(closingStateSpy).toBeCalledTimes(1);
+    expect(showEndChatPageSpy).toBeCalledTimes(1);
+
+    expect(showEndChatPageSpy).toBeCalledWith(false);
+  })
+
+  it("onConfirmEndChat when has not been surveyed and has been escalated should show webchat survey", () => {
+
+    var closeNuanceSpy = jest.spyOn(commonChatController, "closeNuanceChat").mockImplementation();
+    var closingStateSpy = jest.spyOn(commonChatController, "_moveToClosingState").mockImplementation();
+    var showEndChatPageSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation();
+    var initMock = jest.fn();
+    var showPageMock = jest.fn();
+
+    const sdk = {getMessages: jest.fn()};
+    const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
+    const fakeSurvey = new PostChatSurveyWebchatService(sdk);
+    const container = {showPage: showPageMock};
+    const frontend = {initAll: initMock};
+
+    var sendWebchatSurveySpy = jest.spyOn(commonChatController, "_sendPostChatSurveyWebchat").mockImplementation(() => fakeSurvey);
+    var beginWebchatSurveySpy = jest.spyOn(fakeSurvey, "beginPostChatSurvey").mockImplementation();
+  
+    state.escalated = true;
+    window.GOVUKFrontend = frontend;
+
+    commonChatController.container = container;
+    commonChatController.state = state;
+
+    document.cookie = "surveyed=false";
+
+    commonChatController.onConfirmEndChat();
+
+    expect(closeNuanceSpy).toBeCalledTimes(1);
+    expect(closingStateSpy).toBeCalledTimes(1);
+    expect(showEndChatPageSpy).toBeCalledTimes(0);
+    expect(sendWebchatSurveySpy).toBeCalledTimes(1);
+    expect(beginWebchatSurveySpy).toBeCalledTimes(1);
+    expect(initMock).toBeCalledTimes(1);
+    expect(showPageMock).toBeCalledTimes(1);
+  })
+
+  it("onConfirmEndChat when has not been surveyed and has not been escalated should show assistant survey", () => {
+
+    var closeNuanceSpy = jest.spyOn(commonChatController, "closeNuanceChat").mockImplementation();
+    var closingStateSpy = jest.spyOn(commonChatController, "_moveToClosingState").mockImplementation();
+    var showEndChatPageSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation();
+    var initMock = jest.fn();
+    var showPageMock = jest.fn();
+
+    const sdk = {getMessages: jest.fn()};
+    const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
+    const fakeSurvey = new PostChatSurveyDigitalAssistantService(sdk);
+    const container = {showPage: showPageMock};
+    const frontend = {initAll: initMock};
+
+    var sendAssistantSurveySpy = jest.spyOn(commonChatController, "_sendPostChatSurveyDigitalAssistant").mockImplementation(() => fakeSurvey);
+    var beginAssistantSurveySpy = jest.spyOn(fakeSurvey, "beginPostChatSurvey").mockImplementation();
+  
+    state.escalated = false;
+    window.GOVUKFrontend = frontend;
+
+    commonChatController.container = container;
+    commonChatController.state = state;
+
+    document.cookie = "surveyed=false";
+
+    commonChatController.onConfirmEndChat();
+
+    expect(closeNuanceSpy).toBeCalledTimes(1);
+    expect(closingStateSpy).toBeCalledTimes(1);
+    expect(showEndChatPageSpy).toBeCalledTimes(0);
+    expect(sendAssistantSurveySpy).toBeCalledTimes(1);
+    expect(beginAssistantSurveySpy).toBeCalledTimes(1);
+    expect(initMock).toBeCalledTimes(1);
+    expect(showPageMock).toBeCalledTimes(1);
   })
 
   it("onRestoreChat restores the chat container and sends an activity message to Nunace", () => {
