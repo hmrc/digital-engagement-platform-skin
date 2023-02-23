@@ -738,6 +738,61 @@ it("catches an exception in the showChat function", () => {
     expect(showPageMock).toBeCalledTimes(1);
   })
 
+
+  it("onPostChatSurveyWebchatSubmitted should submit answers and show end chat page", () => {
+
+    var showEndChatPageSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation();
+    var detachMock = jest.fn();
+
+    commonChatController.getRadioId = jest.fn(() => "radioId"); 
+    commonChatController.getRadioValue = jest.fn(() => "radioValue");
+    commonChatController.getTextAreaValue = jest.fn(() => "textAreaValue");
+
+    const sdk = {getMessages: jest.fn()};
+    const fakeSurvey = new PostChatSurveyWebchatService(sdk);
+    const mockSurveyPage = {detach: detachMock};
+
+    var sendWebchatSurveySpy = jest.spyOn(commonChatController, "_sendPostChatSurveyWebchat").mockImplementation(() => fakeSurvey);
+    var submitDigitalAssistantSurveySpy = jest.spyOn(fakeSurvey, "submitPostChatSurvey").mockImplementation();
+     
+    commonChatController.onPostChatSurveyWebchatSubmitted(mockSurveyPage);
+
+    expect(sendWebchatSurveySpy).toBeCalledTimes(1);
+    expect(submitDigitalAssistantSurveySpy).toBeCalledTimes(1);
+    expect(showEndChatPageSpy).toBeCalledTimes(1);
+    expect(detachMock).toBeCalledTimes(1);
+    expect(document.cookie).toContain("surveyed=true");
+
+    //need to figure out way to test answers but not obvious if we can
+  });
+
+  it("onPostChatSurveyDigitalAssistantSubmitted should submit answers and show end chat page", () => {
+
+    var showEndChatPageSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation();
+    var detachMock = jest.fn();
+
+    commonChatController.getRadioId = jest.fn(() => "radioId"); 
+    commonChatController.getRadioValue = jest.fn(() => "radioValue");
+    commonChatController.getTextAreaValue = jest.fn(() => "textAreaValue");
+
+    const sdk = {getMessages: jest.fn()};
+    const fakeSurvey = new PostChatSurveyWebchatService(sdk);
+    const mockSurveyPage = {detach: detachMock};
+
+    var sendDigitalAssistantSurveySpy = jest.spyOn(commonChatController, "_sendPostChatSurveyDigitalAssistant").mockImplementation(() => fakeSurvey);
+    var submitWebchatSurveySpy = jest.spyOn(fakeSurvey, "submitPostChatSurvey").mockImplementation();
+     
+    commonChatController.onPostChatSurveyDigitalAssistantSubmitted(mockSurveyPage);
+    
+    expect(sendDigitalAssistantSurveySpy).toBeCalledTimes(1);
+    expect(submitWebchatSurveySpy).toBeCalledTimes(1);
+    expect(showEndChatPageSpy).toBeCalledTimes(1);
+    expect(detachMock).toBeCalledTimes(1);
+    expect(document.cookie).toContain("surveyed=true");
+
+    //need to figure out way to test answers but not obvious if we can
+  });
+
   it("onRestoreChat restores the chat container and sends an activity message to Nunace", () => {
 
     const mockContainer = {
