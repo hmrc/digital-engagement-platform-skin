@@ -290,8 +290,6 @@ it("catches an exception in the showChat function", () => {
       confirmEndChat : confirmEndChatSpy
     }
 
-      // let moveToChatEngagedStateSpy = jest.spyOn(commonChatController, '_moveToChatEngagedState');
-
     let chatStatesSpy = jest.spyOn(ChatStates, 'EngagedState').mockImplementation();
 
       window.Inq = {
@@ -302,19 +300,11 @@ it("catches an exception in the showChat function", () => {
 
       commonChatController._moveToChatEngagedState();
 
-    // get the close chat callback function from ChatStates.EngagedState and call it
     let engagedChatStateCloseChatFunctionArgumentIndex = 3
     chatStatesSpy.mock.calls[0][engagedChatStateCloseChatFunctionArgumentIndex]()
 
     expect(confirmEndChatSpy).toBeCalled();
 
-    // this.container.confirmEndChat())
-
-
-    // expect(chatStatesSpy).toBeCalledWith("")
-    // expect(ChatStates.EngagedState).toBeCalledWith(null, undefined, [], expect.any(Function))
-
-      // expect(moveToChatEngagedStateSpy).toBeCalled()
   })
 
   it("closeChat is called when the post survey chat wrapper is open with escalation and no embedded div", () => {
