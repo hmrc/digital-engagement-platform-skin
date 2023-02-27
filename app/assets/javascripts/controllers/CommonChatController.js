@@ -111,6 +111,11 @@ export default class CommonChatController {
         return returnedValue;
     }
 
+    getSdk() {
+        console.log("printing this.sdk.chatDisplayed",this.sdk.chatDisplayed)
+        return this.sdk
+    }
+
     _launchChat() {
         if (this.container) {
             return;
@@ -171,6 +176,8 @@ export default class CommonChatController {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, window.Inq.SDK);
                 fixedPopupDiv.appendChild(this.container.element());
             } else if (anchoredPopupDiv && !fixedPopupDiv) {
+
+            	//This statement seems impossible (the two conditions are always either both true or both false), needs looking into
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, window.Inq.SDK);
                 anchoredPopupDiv.appendChild(this.container.element());
             } else if (embeddedDiv) {
