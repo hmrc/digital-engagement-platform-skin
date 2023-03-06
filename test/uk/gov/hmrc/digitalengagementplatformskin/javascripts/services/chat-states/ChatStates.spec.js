@@ -3,6 +3,23 @@ import * as MessageType from '../../../../../../../../app/assets/javascripts/Nua
 import createEngagedStateDependencies from './SharedDependencies'
 
 describe("Chat States", () => {
+
+    const event = { preventDefault: () => {} };
+
+  afterEach(() => {
+    document.getElementsByTagName('html')[0].innerHTML = '';
+  });
+
+  beforeEach(() => {
+    jest.restoreAllMocks();
+    window.print = jest.fn();
+  });
+
+  beforeAll(() => {
+    jest.spyOn(event, 'preventDefault');
+    jest.spyOn(console, 'log').mockImplementation(jest.fn());
+  });
+
     describe("NullState", () => {
         it("logs error for onSend", () => {
             console.error = jest.fn();
@@ -115,6 +132,30 @@ describe("Chat States", () => {
 
             expect(isSoundActive).toBeCalledTimes(1);
             expect(playMessageRecievedSound).toBeCalledTimes(1);
+        });
+
+        it("does not play sound on incoming agent message when user has sound turned off", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            const isSoundActive = jest.spyOn(state, '_isSoundActive');
+            const playMessageRecievedSound = jest.spyOn(state, '_playMessageRecievedSound');
+
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+            const message = {
+                data: {
+                    messageType: MessageType.Chat_Communication,
+                    messageText: "Hello world",
+                    agentID: "007",
+                    isAgentMsg: true,
+                    messageTimestamp: "test"
+                }
+            };
+
+            handleMessage(message);
+
+            expect(isSoundActive).toBeCalledTimes(1);
+            expect(playMessageRecievedSound).toBeCalledTimes(0);
         });
 
         it("sends agent messages to the transcript", () => {
@@ -321,6 +362,64 @@ describe("Chat States", () => {
             expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "You're now talking to Jay"});
         });
 
+        it("sends AgentTyping to the transcript", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+
+            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            let agentIsTypingSpy = jest.spyOn(state, '_chatActivityAndAgentTyping');
+
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+            const message = {
+                data: {
+                    "type": "2",
+                    "state": "agentIsTyping",
+                    "agentID": "42409619",
+                    "user.id":"42409619",
+                    "sessionId": "2493130538282329498",
+                    "aeapi.mode": "true",
+                    "messageType":"chat.activity",
+                    "display.text": "Agent is typing...",
+                    "engagementID": "388260662637696059",
+                    "external_user.ip": "80.0.102.28",
+                    "config.session_id": "2493130538282329498",
+                    "msg.originalrequest.id": "2493130538484377173"
+                }
+            };
+
+            handleMessage(message);
+            expect(agentIsTypingSpy).toBeCalledTimes(1);
+        });
+
+        it("sends AgentStoppedTyping to the transcript", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+
+            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            let agentStoppedTypingSpy = jest.spyOn(state, '_removeAgentIsTyping');
+
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+            const message = {
+                data: {
+                    "type": "16",
+                    "state": "agentIsTyping",
+                    "agentID": "42409619",
+                    "user.id":"42409619",
+                    "sessionId": "2493130538282329498",
+                    "aeapi.mode": "true",
+                    "messageType":"chat.activity",
+                    "display.text": "Agent stopped typing",
+                    "engagementID": "388260662637696059",
+                    "external_user.ip": "80.0.102.28",
+                    "config.session_id": "2493130538282329498",
+                    "msg.originalrequest.id": "2493130538484377173"
+                }
+            };
+
+            handleMessage(message);
+            expect(agentStoppedTypingSpy).toBeCalledTimes(1);
+        });
+
         it("reports chat exit in transcript", () => {
             const [sdk, container] = createEngagedStateDependencies();
 
@@ -395,6 +494,26 @@ describe("Chat States", () => {
 
             handleMessage(message);
             expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent 'JoeBloggs' loses connection"});
+        });
+
+        it("reports agent joins conference", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+
+            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            let transferResponseSpy = jest.spyOn(state, '_removeAgentJoinsConference');
+
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+            const message = {
+                data: {
+                    "messageType": "owner.transfer_response",
+                    "engagementID": "388260663047034009",
+                    "messageTimestamp": "1627654612000"
+                }
+            };
+
+            handleMessage(message);
+            expect(transferResponseSpy).toBeCalledTimes(1);
         });
 
         it("reports chat system messages", () => {
