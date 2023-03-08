@@ -283,6 +283,21 @@ describe("Chat States", () => {
             expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent Left Chat."});
         });
 
+        it("reports unknown message to console log", () => {
+                    const [sdk, container] = createEngagedStateDependencies();
+
+                    console.log = jest.fn();
+
+                    const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+                    
+                    const handleMessage = sdk.getMessages.mock.calls[0][0];
+                    const message = {data: {}};
+
+                    
+                    handleMessage(message);
+                    expect(console.log).toBeCalledWith("==== Unknown message:", {});
+                });
+
         it("send previous messages to the transcript", () => {
             const [sdk, container] = createEngagedStateDependencies();
 
