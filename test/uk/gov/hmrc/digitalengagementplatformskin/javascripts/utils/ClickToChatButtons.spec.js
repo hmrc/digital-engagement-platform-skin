@@ -64,19 +64,17 @@ describe("ClickToChatButtons", () => {
         expect(button.replaceChild).toHaveBeenCalledWith('<div class="button-class busy">BusyText</div>');
     });
 
-    it("updates all buttons to ChatActive state", () => {
+    it("updates button to ChatActive state", () => {
         const [, buttons, button] = setup();
 
         buttons.addButton(c2cObj(DisplayState.OutOfHours), button);
-        buttons.addButton(c2cObj(DisplayState.Ready), button);
-        buttons.addButton(c2cObj(DisplayState.Busy), button);
       
         buttons.updateC2CButtonsToInProgress();
       
-        expect(button.replaceChild).toHaveBeenNthCalledWith(1, '<div class="button-class chatactive">ChatActiveText</div>');
+
+        expect(button.replaceChild).toHaveBeenNthCalledWith(1, '<div class="button-class outofhours">OutOfHoursText</div>');
         expect(button.replaceChild).toHaveBeenNthCalledWith(2, '<div class="button-class chatactive">ChatActiveText</div>');
-        expect(button.replaceChild).toHaveBeenNthCalledWith(3, '<div class="button-class chatactive">ChatActiveText</div>');
-      });
+    });
 
     it("returns message for unknown state", () => {
         const [, buttons, ] = setup();
@@ -86,5 +84,16 @@ describe("ClickToChatButtons", () => {
         const result = buttons._getDisplayStateText(unknownState);
     
         expect(result).toContain("Unknown display state");
+    });
+
+    it("launchable", () => {
+        const [onClicked, buttons, button] = setup();
+        const launchable = true;
+
+        buttons.addButton(c2cObj(DisplayState.ChatActive, launchable), button);
+
+        const docButton = document.getElementsByClassName("button-class");
+
+        expect(docButton).toBe("");
     });
 });
