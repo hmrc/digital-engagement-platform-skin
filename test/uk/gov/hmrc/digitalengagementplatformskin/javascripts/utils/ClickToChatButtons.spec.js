@@ -8,6 +8,8 @@ const displayStateMessages = {
     [DisplayState.ChatActive]: "ChatActiveText"
 };
 
+const testButton = document.createElement("div");
+
 function setup() {
     const onClicked = jest.fn();
     return [
@@ -18,7 +20,7 @@ function setup() {
         // button
         {
             buttonClass: 'button-class',
-            replaceChild: jest.fn()
+            replaceChild: jest.fn(_ => { return testButton; })
         }
     ];
 }
@@ -86,14 +88,15 @@ describe("ClickToChatButtons", () => {
         expect(result).toContain("Unknown display state");
     });
 
-    it("launchable", () => {
+    it("sets an onclick function given the click to chat object is launchable", () => {
         const [onClicked, buttons, button] = setup();
         const launchable = true;
 
         buttons.addButton(c2cObj(DisplayState.ChatActive, launchable), button);
 
-        const docButton = document.getElementsByClassName("button-class");
+        testButton.click();
 
-        expect(docButton).toBe("");
+        expect(onClicked).toBeCalledTimes(1);
+        expect(onClicked).toBeCalledWith("c2cId");
     });
 });
