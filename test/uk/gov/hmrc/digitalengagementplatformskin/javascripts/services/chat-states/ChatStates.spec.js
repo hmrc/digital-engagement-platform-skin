@@ -430,10 +430,10 @@ describe("Chat States", () => {
             const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
 
             let agentTypingDiv = document.createElement("div");
-            agentTypingDiv.setAttribute("class", "agent-typing");
+            agentTypingDiv.innerHTML = "agent is typing"
+            agentTypingDiv.classList.add("agent-typing");
             document.body.appendChild(agentTypingDiv);
 
-            const test2 = document.querySelectorAll('.agent-typing');
             let agentStoppedTypingSpy = jest.spyOn(state, '_removeAgentIsTyping');
 
             const handleMessage = sdk.getMessages.mock.calls[0][0];
@@ -454,11 +454,9 @@ describe("Chat States", () => {
                 }
             };
 
-            console.log(test2)
             handleMessage(message);
-            const test = document.querySelectorAll('.agent-typing');
 
-            expect(test).toMatchObject({});
+            expect(document.body.innerHTML).toBe("");
             expect(agentStoppedTypingSpy).toBeCalledTimes(1);
         });
 
@@ -538,10 +536,15 @@ describe("Chat States", () => {
             expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent 'JoeBloggs' loses connection"});
         });
 
-        it("reports agent joins conference", () => {
+        it("removes agent joins conference", () => {
             const [sdk, container] = createEngagedStateDependencies();
 
             const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            let agentJoinsDiv = document.createElement("div");
+            agentJoinsDiv.innerHTML = "agent joins conference"
+            agentJoinsDiv.classList.add("agent-joins-conference");
+            document.body.appendChild(agentJoinsDiv)
 
             let transferResponseSpy = jest.spyOn(state, '_removeAgentJoinsConference');
 
@@ -561,6 +564,8 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
+
+            expect(document.body.innerHTML).toBe("");
             expect(transferResponseSpy).toBeCalledTimes(1);
         });
 
