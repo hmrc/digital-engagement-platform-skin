@@ -3,6 +3,11 @@ import * as MessageType from '../../../../../../../../app/assets/javascripts/Nua
 import createEngagedStateDependencies from './SharedDependencies'
 
 describe("Chat States", () => {
+
+  afterEach(() => {
+    document.getElementsByTagName('html')[0].innerHTML = '';
+  });
+
     describe("NullState", () => {
         it("logs error for onSend", () => {
             console.error = jest.fn();
@@ -115,6 +120,59 @@ describe("Chat States", () => {
 
             expect(isSoundActive).toBeCalledTimes(1);
             expect(playMessageRecievedSound).toBeCalledTimes(1);
+        });
+
+        it("does not play sound on incoming agent message when user has sound turned off", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            let chatContainer = document.createElement("button");
+            chatContainer.setAttribute("id", "toggleSound");
+            chatContainer.setAttribute("class", "inactive");
+            document.body.appendChild(chatContainer);
+
+            const isSoundActive = jest.spyOn(state, '_isSoundActive');
+            const playMessageRecievedSound = jest.spyOn(state, '_playMessageRecievedSound');
+
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+            const message = {
+                data: {
+                    messageType: MessageType.Chat_Communication,
+                    messageText: "Hello world",
+                    agentID: "007",
+                    isAgentMsg: true,
+                    messageTimestamp: "test"
+                }
+            };
+
+            handleMessage(message);
+
+            expect(isSoundActive).toBeCalledTimes(1);
+            expect(playMessageRecievedSound).toBeCalledTimes(0);
+        });
+
+        it("does not play sound on incoming agent message if there is no sound element", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            const isSoundActive = jest.spyOn(state, '_isSoundActive');
+            const playMessageRecievedSound = jest.spyOn(state, '_playMessageRecievedSound');
+
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+            const message = {
+                data: {
+                    messageType: MessageType.Chat_Communication,
+                    messageText: "Hello world",
+                    agentID: "007",
+                    isAgentMsg: true,
+                    messageTimestamp: "test"
+                }
+            };
+
+            handleMessage(message);
+
+            expect(isSoundActive).toBeCalledTimes(1);
+            expect(playMessageRecievedSound).toBeCalledTimes(0);
         });
 
         it("sends agent messages to the transcript", () => {
@@ -242,6 +300,21 @@ describe("Chat States", () => {
             expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent Left Chat."});
         });
 
+        it("reports unknown message to console log", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+
+            console.log = jest.fn();
+
+            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+            
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+            const message = {data: {}};
+
+            
+            handleMessage(message);
+            expect(console.log).toBeCalledWith("==== Unknown message:", {});
+        });
+
         it("send previous messages to the transcript", () => {
             const [sdk, container] = createEngagedStateDependencies();
 
@@ -321,6 +394,72 @@ describe("Chat States", () => {
             expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "You're now talking to Jay"});
         });
 
+        it("sends AgentTyping to the transcript", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+
+            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            let agentIsTypingSpy = jest.spyOn(state, '_chatActivityAndAgentTyping');
+
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+            const message = {
+                data: {
+                    "type": "2",
+                    "state": "agentIsTyping",
+                    "agentID": "42409619",
+                    "user.id":"42409619",
+                    "sessionId": "2493130538282329498",
+                    "aeapi.mode": "true",
+                    "messageType":"chat.activity",
+                    "display.text": "Agent is typing...",
+                    "engagementID": "388260662637696059",
+                    "external_user.ip": "80.0.102.28",
+                    "config.session_id": "2493130538282329498",
+                    "msg.originalrequest.id": "2493130538484377173"
+                }
+            };
+
+            handleMessage(message);
+            expect(agentIsTypingSpy).toBeCalledTimes(1);
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent is typing...", state: "agentIsTyping"});
+        });
+
+        it("removes AgentTyping from the transcript", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+
+            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            let agentTypingDiv = document.createElement("div");
+            agentTypingDiv.innerHTML = "agent is typing"
+            agentTypingDiv.classList.add("agent-typing");
+            document.body.appendChild(agentTypingDiv);
+
+            let agentStoppedTypingSpy = jest.spyOn(state, '_removeAgentIsTyping');
+
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+            const message = {
+                data: {
+                    "type": "16",
+                    "state": "agentIsTyping",
+                    "agentID": "42409619",
+                    "user.id":"42409619",
+                    "sessionId": "2493130538282329498",
+                    "aeapi.mode": "true",
+                    "messageType":"chat.activity",
+                    "display.text": "Agent stopped typing",
+                    "engagementID": "388260662637696059",
+                    "external_user.ip": "80.0.102.28",
+                    "config.session_id": "2493130538282329498",
+                    "msg.originalrequest.id": "2493130538484377173"
+                }
+            };
+
+            handleMessage(message);
+
+            expect(document.body.innerHTML).toBe("");
+            expect(agentStoppedTypingSpy).toBeCalledTimes(1);
+        });
+
         it("reports chat exit in transcript", () => {
             const [sdk, container] = createEngagedStateDependencies();
 
@@ -395,6 +534,39 @@ describe("Chat States", () => {
 
             handleMessage(message);
             expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent 'JoeBloggs' loses connection"});
+        });
+
+        it("removes agent joins conference", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+
+            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            let agentJoinsDiv = document.createElement("div");
+            agentJoinsDiv.innerHTML = "agent joins conference"
+            agentJoinsDiv.classList.add("agent-joins-conference");
+            document.body.appendChild(agentJoinsDiv)
+
+            let transferResponseSpy = jest.spyOn(state, '_removeAgentJoinsConference');
+
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+            const message = {
+                data: {
+                    "ltime":"817018",
+                    "state":"transfer",
+                    "reason":"Transfer accepted and sent to Steve",
+                    "status":"accepted",
+                    "messageType":"owner.transfer_response",
+                    "engagementID":"388260663047034009",
+                    "messageTimestamp":"1627654612000",
+                    "client.display.text":"Joe has left the chat\nPlease wait, you'll be connected to the next available adviser",
+                    "msg.originalrequest.id":"3415245869783399775"
+                }
+            };
+
+            handleMessage(message);
+
+            expect(document.body.innerHTML).toBe("");
+            expect(transferResponseSpy).toBeCalledTimes(1);
         });
 
         it("reports chat system messages", () => {
