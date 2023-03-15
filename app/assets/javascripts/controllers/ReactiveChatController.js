@@ -30,5 +30,4 @@ export default class ReactiveChatController {
             this.commonChatController._launchChat();
         });
     }
-
 }
