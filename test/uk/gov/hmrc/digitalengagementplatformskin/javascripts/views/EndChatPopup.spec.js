@@ -1,3 +1,4 @@
+import { container } from 'webpack';
 import Popup from '../../../../../../../app/assets/javascripts/views/EndChatPopup'
 
 describe('EndChatPopup', () => {
@@ -6,8 +7,9 @@ describe('EndChatPopup', () => {
     let wrapper;
 
 	beforeEach(() => {
-        let container = document.createElement("div")
-		ecp = new Popup(container, "");
+        let container = document.createElement("div");
+        let eventHandler = (jest.fn(), jest.fn());
+        ecp = new Popup(container, eventHandler);
 
         wrapper = ecp.wrapper;
 
@@ -45,4 +47,17 @@ describe('EndChatPopup', () => {
 
         expect(ecp.onConfirmEndChat).toHaveBeenCalled();
 	});
+
+	test('Click on cancel end chat closes end chat dialogue TEST', () => {
+        // let eventHandler = (jest.fn(), jest.fn());
+        // ecp = new Popup(container, eventHandler)
+        
+        const evt = { preventDefault: jest.fn() };
+        ecp.onConfirmEndChat(evt);
+
+        // expect(ecp.onConfirmEndChat).toHaveBeenCalledTimes(1);
+        expect(evt.preventDefault).toHaveBeenCalledTimes(1);
+        // expect(ecp.eventHandler.onConfirmEndChat).toBeCalledTimes(1);
+    });
+
 });
