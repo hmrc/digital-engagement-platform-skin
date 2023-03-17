@@ -79,4 +79,34 @@ describe("ReactiveChatController", () => {
 
         expect(commonChatController._launchChat).toBeCalled()
     });
+
+
+    it("creates a ClickToChatButtons class with the expected constructor parameters", () => {
+        const reactiveChatController = new ReactiveChatController();
+
+        let clickToChatCallbackSpy = jest.spyOn(reactiveChatController, '_clickToChatCallback')
+        let onC2CButtonClickedSpy = jest.spyOn(reactiveChatController, '_onC2CButtonClicked')
+
+        const onC2CClickedFunction = jest.fn()
+
+        window.Inq = {
+            SDK: { onC2CClicked: onC2CClickedFunction }
+        };
+
+        let clickToChatCallback = reactiveChatController._clickToChatCallback();
+        clickToChatCallback();
+
+        let c2cDisplayStateMessages = {
+            "busy": "All advisers are busy",
+            "chatactive": "In progress",
+            "outofhours": "Out of hours",
+            "ready": "Ask HMRC a question"
+        }
+
+        expect(clickToChatCallbackSpy).toBeCalled();
+        expect(onC2CButtonClickedSpy).toBeCalled()
+
+        expect(ClickToChatButtons).toBeCalledWith(expect.any(Function), c2cDisplayStateMessages)
+    });
+
 });
