@@ -1,4 +1,3 @@
-import { wrap } from 'lodash';
 import Popup from '../../../../../../../app/assets/javascripts/views/EndChatPopup'
 
 describe('EndChatPopup', () => {
