@@ -1,14 +1,20 @@
-import { container } from 'webpack';
+import { wrap } from 'lodash';
 import Popup from '../../../../../../../app/assets/javascripts/views/EndChatPopup'
 
 describe('EndChatPopup', () => {
 	let ecp;
 	let events = {};
     let wrapper;
+    let eventHandler = {
+        onCancelEndChat: jest.fn(),
+        onConfirmEndChat: jest.fn()
+    };
 
 	beforeEach(() => {
+        jest.clearAllMocks();
+
         let container = document.createElement("div");
-        let eventHandler = (jest.fn(), jest.fn());
+
         ecp = new Popup(container, eventHandler);
 
         wrapper = ecp.wrapper;
@@ -19,6 +25,7 @@ describe('EndChatPopup', () => {
       		events[event] = callback;
     	});
       
+        
 	});
 
 	test('Escape key closes end chat dialogue', () => {
@@ -48,16 +55,28 @@ describe('EndChatPopup', () => {
         expect(ecp.onConfirmEndChat).toHaveBeenCalled();
 	});
 
-	test('Click on cancel end chat closes end chat dialogue TEST', () => {
-        // let eventHandler = (jest.fn(), jest.fn());
-        // ecp = new Popup(container, eventHandler)
-        
+	test('Click on confirm end chat calls the expected method on the eventHandler', () => {
         const evt = { preventDefault: jest.fn() };
         ecp.onConfirmEndChat(evt);
 
-        // expect(ecp.onConfirmEndChat).toHaveBeenCalledTimes(1);
-        expect(evt.preventDefault).toHaveBeenCalledTimes(1);
-        // expect(ecp.eventHandler.onConfirmEndChat).toBeCalledTimes(1);
+        expect(eventHandler.onConfirmEndChat).toHaveBeenCalledTimes(1);
     });
 
+    test('Click on cancel end chat calls the expected method on the eventHandler', () => {
+        const evt = { preventDefault: jest.fn() };
+        ecp.onCancelEndChat(evt);
+
+        expect(eventHandler.onCancelEndChat).toHaveBeenCalledTimes(1);
+    });
+
+    test('Calls setDisplay with the expected state', () => {
+        jest.spyOn(ecp, '_setDisplay').mockImplementation();
+        
+        ecp.show();
+
+        expect(ecp._setDisplay).toBeCalledWith("block");
+        // expect(ecp._setDisplay).toBeCalledTimes(1);
+        expect(wrapper.style.display).toBe("block");
+        expect(wrapper.style.display).toBeCalledTimes(2);
+    });
 });
