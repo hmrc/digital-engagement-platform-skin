@@ -2,7 +2,7 @@ import { wrap } from 'lodash';
 import Popup from '../../../../../../../app/assets/javascripts/views/EndChatPopup'
 
 describe('EndChatPopup', () => {
-	let ecp;
+	let endChatPopup;
 	let events = {};
     let wrapper;
     let eventHandler = {
@@ -15,68 +15,64 @@ describe('EndChatPopup', () => {
 
         let container = document.createElement("div");
 
-        ecp = new Popup(container, eventHandler);
+        endChatPopup = new Popup(container, eventHandler);
 
-        wrapper = ecp.wrapper;
+        wrapper = endChatPopup.wrapper;
 
 		events = {};
 
 		wrapper.addEventListener = jest.fn((event, callback) => {
       		events[event] = callback;
     	});
-      
-        
 	});
 
 	test('Escape key closes end chat dialogue', () => {
-        jest.spyOn(ecp, 'onCancelEndChat').mockImplementation();
+        jest.spyOn(endChatPopup, 'onCancelEndChat').mockImplementation();
 
         var event = new KeyboardEvent('keydown', {'key': 'Escape'});
         wrapper.dispatchEvent(event);
 
-        expect(ecp.onCancelEndChat).toHaveBeenCalled();
+        expect(endChatPopup.onCancelEndChat).toHaveBeenCalled();
 	});
 
     test('Click on cancel end chat closes end chat dialogue', () => {
-        jest.spyOn(ecp, 'onCancelEndChat').mockImplementation();
+        jest.spyOn(endChatPopup, 'onCancelEndChat').mockImplementation();
 
         var event = new KeyboardEvent('click', {});
         wrapper.querySelector("#cancelEndChat").dispatchEvent(event);
 
-        expect(ecp.onCancelEndChat).toHaveBeenCalled();
+        expect(endChatPopup.onCancelEndChat).toHaveBeenCalled();
 	});
 
     test('Click on confirm end chat and end chat', () => {
-        jest.spyOn(ecp, 'onConfirmEndChat').mockImplementation();
+        jest.spyOn(endChatPopup, 'onConfirmEndChat').mockImplementation();
 
         var event = new KeyboardEvent('click', {});
         wrapper.querySelector("#confirmEndChat").dispatchEvent(event);
 
-        expect(ecp.onConfirmEndChat).toHaveBeenCalled();
+        expect(endChatPopup.onConfirmEndChat).toHaveBeenCalled();
 	});
 
 	test('Click on confirm end chat calls the expected method on the eventHandler', () => {
         const evt = { preventDefault: jest.fn() };
-        ecp.onConfirmEndChat(evt);
+        endChatPopup.onConfirmEndChat(evt);
 
         expect(eventHandler.onConfirmEndChat).toHaveBeenCalledTimes(1);
     });
 
     test('Click on cancel end chat calls the expected method on the eventHandler', () => {
         const evt = { preventDefault: jest.fn() };
-        ecp.onCancelEndChat(evt);
+        endChatPopup.onCancelEndChat(evt);
 
         expect(eventHandler.onCancelEndChat).toHaveBeenCalledTimes(1);
     });
 
-    test('Calls setDisplay with the expected state', () => {
-        jest.spyOn(ecp, '_setDisplay').mockImplementation();
+    test('Calls _setDisplay with the expected state, and sets the wrapper style display property', () => {
+        let endChatPopupSpy = jest.spyOn(endChatPopup, '_setDisplay');
         
-        ecp.show();
+        endChatPopup.show();
 
-        expect(ecp._setDisplay).toBeCalledWith("block");
-        // expect(ecp._setDisplay).toBeCalledTimes(1);
+        expect(endChatPopupSpy).toBeCalledWith("block");
         expect(wrapper.style.display).toBe("block");
-        expect(wrapper.style.display).toBeCalledTimes(2);
     });
 });
