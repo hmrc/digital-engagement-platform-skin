@@ -13,7 +13,7 @@ const c2cDisplayStateMessages = {
 export default class ReactiveChatController {
     constructor() {
         this.sdk = null;
-        this.c2cButtons = new ClickToChatButtons(this._clickToChatCallback, c2cDisplayStateMessages);
+        this.c2cButtons = new ClickToChatButtons(this._clickToChatCallback(), c2cDisplayStateMessages);
         this.commonChatController = new CommonChatController();
     }
 
