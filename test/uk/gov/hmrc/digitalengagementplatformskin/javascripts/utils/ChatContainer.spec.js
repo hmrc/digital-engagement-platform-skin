@@ -24,11 +24,12 @@ beforeEach(() => {
         onStopTyping: jest.fn()
     };
 
-    chatContainer = new ChatContainer();
+    chatContainer = new ChatContainer(null, document.createElement("div"), null);
     mockSDK = {
         sendRichContentMessage : jest.fn().mockImplementation(),
         sendMessage: jest.fn().mockImplementation(),
-        sendDataPass: jest.fn().mockImplementation()
+        sendDataPass: jest.fn().mockImplementation(),
+        sendVALinkMessage: jest.fn().mockImplementation()
     };
 
     sanitiseAndParseJsonData.mockRestore(); // reset JsonUtils sanitiseAndParseJsonData counter before each test
@@ -124,6 +125,51 @@ describe("ChatContainer", () => {
                 selectedItemValue: 'northern_ireland'
             })
     });
+
+
+    it("Calls SDK.sendVALinkMessage and _focusOnNextAutomatonMessage methods, given an event with specific properties", () => {
+        chatContainer = new ChatContainer(null, null, mockSDK);
+
+        const focusOnNextAutomatonMessageSpy = jest.spyOn(chatContainer, '_focusOnNextAutomatonMessage')
+
+        const responsiveLinkEvent = {
+            target : {
+                tagName: "a",
+                dataset: {
+                    vtzJump: {}
+                },
+                getAttribute : jest.fn().mockReturnValue("#"),
+            },
+            preventDefault: jest.fn()
+        }
+
+        chatContainer.processTranscriptEvent(responsiveLinkEvent);
+
+        expect(mockSDK.sendVALinkMessage).toBeCalledWith(responsiveLinkEvent, null, null, null);
+        expect(focusOnNextAutomatonMessageSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it("Calls SDK.sendVALinkMessage method and sets the class's closeMethod to 'Link', given an event with specific properties", () => {
+        chatContainer = new ChatContainer(null, null, mockSDK);
+
+        const responsiveLinkEvent = {
+            target : {
+                tagName: "a",
+                dataset: {
+                    vtzJump: {}
+                },
+                getAttribute : jest.fn().mockReturnValue("#"),
+                className: "dialog"
+            },
+            preventDefault: jest.fn()
+        }
+
+        chatContainer.processTranscriptEvent(responsiveLinkEvent);
+
+        expect(mockSDK.sendVALinkMessage).toBeCalledWith(responsiveLinkEvent, null, null, null);
+        expect(chatContainer.closeMethod).toBe("Link");
+    });
+
 
     it("Mix: process responsive links, send message", () => {
         chatContainer = new ChatContainer(null, null, mockSDK);
@@ -235,4 +281,38 @@ describe("ChatContainer", () => {
         chatContainer.processKeypressEvent(keypressEvent); // send second keypress to call clearTimeout for previous setTimeout call
         expect(clearTimeout).toBeCalled();
     });
+
+
+    it("Returns the current customer input text", () => {
+        let customerInputHtml = document.createElement("textarea")
+        customerInputHtml.setAttribute("id", "custMsg");
+        customerInputHtml.value = "How many times did the batmobile catch a flat?"
+
+        chatContainer.custInput = customerInputHtml
+
+        expect(chatContainer.currentInputText()).toBe("How many times did the batmobile catch a flat?")
+    });
+
+    it("Clears the current customer input text", () => {
+        let customerInputHtml = document.createElement("textarea")
+        customerInputHtml.setAttribute("id", "custMsg");
+        customerInputHtml.value = "How many times did the batmobile catch a flat?"
+
+        chatContainer.custInput = customerInputHtml
+
+        chatContainer.clearCurrentInputText()
+        expect(chatContainer.currentInputText()).toBe("")
+    });
+
+    it("Returns null given a call to processExternalAndResponsiveLinks where there is no href link attribute", () => {
+
+        const responsiveLinkEvent = {
+            target : {
+                getAttribute : jest.fn(() => { return null; } )
+            }
+        }
+
+        expect(chatContainer.processExternalAndResponsiveLinks(responsiveLinkEvent)).toBe(null)
+    });
+
 })
