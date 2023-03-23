@@ -53,6 +53,14 @@ export default class CommonChatController {
         this.minimised = false;
     }
 
+    getFeatureSwitch(switchName) {
+    	const http = new XMLHttpRequest();
+    	http.open("POST", window.featureSwitchUrl + "/" + switchName, false);
+			http.send();
+
+			return http.status === 204;
+		}
+
     getTextAreaValue(textArea) {
         return document.getElementById(textArea).value;
     }
