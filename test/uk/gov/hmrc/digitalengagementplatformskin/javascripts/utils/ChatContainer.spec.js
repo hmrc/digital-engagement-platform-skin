@@ -3,6 +3,9 @@ import Popup from '../../../../../../../app/assets/javascripts/views/EndChatPopu
 import Transcript from '../../../../../../../app/assets/javascripts/services/Transcript';
 import * as JsonUtils from '../../../../../../../app/assets/javascripts/utils/JsonUtils';
 
+import { popupHtml } from '../../../../../../../app/assets/javascripts/views/EndChatPopup';
+import { ContainerHtml } from '../../../../../../../app/assets/javascripts/views/embedded/EmbeddedContainerHtml';
+
 jest.mock('../../../../../../../app/assets/javascripts/views/EndChatPopup');
 jest.mock('../../../../../../../app/assets/javascripts/services/Transcript');
 
@@ -10,6 +13,8 @@ let nullEventHandler;
 let chatContainer;
 let mockSDK;
 let sanitiseAndParseJsonData = jest.spyOn(JsonUtils, 'sanitiseAndParseJsonData');
+
+const originalGetElementById = document.getElementById;
 
 beforeEach(() => {
 
@@ -33,6 +38,10 @@ beforeEach(() => {
     };
 
     sanitiseAndParseJsonData.mockRestore(); // reset JsonUtils sanitiseAndParseJsonData counter before each test
+});
+
+afterEach(() => {
+    document.getElementById = originalGetElementById;
 });
 
 
@@ -284,13 +293,13 @@ describe("ChatContainer", () => {
 
 
     it("Returns the current customer input text", () => {
-        let customerInputHtml = document.createElement("textarea")
+        let customerInputHtml = document.createElement("textarea");
         customerInputHtml.setAttribute("id", "custMsg");
-        customerInputHtml.value = "How many times did the batmobile catch a flat?"
+        customerInputHtml.value = "How many times did the batmobile catch a flat?";
 
-        chatContainer.custInput = customerInputHtml
+        chatContainer.custInput = customerInputHtml;
 
-        expect(chatContainer.currentInputText()).toBe("How many times did the batmobile catch a flat?")
+        expect(chatContainer.currentInputText()).toBe("How many times did the batmobile catch a flat?");
     });
 
     it("Clears the current customer input text", () => {
@@ -300,7 +309,7 @@ describe("ChatContainer", () => {
 
         chatContainer.custInput = customerInputHtml
 
-        chatContainer.clearCurrentInputText()
+        chatContainer.clearCurrentInputText();
         expect(chatContainer.currentInputText()).toBe("")
     });
 
@@ -312,7 +321,49 @@ describe("ChatContainer", () => {
             }
         }
 
-        expect(chatContainer.processExternalAndResponsiveLinks(responsiveLinkEvent)).toBe(null)
+        expect(chatContainer.processExternalAndResponsiveLinks(responsiveLinkEvent)).toBe(null);
     });
+
+    it("Calls the endchatPopup's show method and brings it to focus", () => {
+        let eventContainer = document.createElement("div");
+        eventContainer.setAttribute("id", "endChatPopup");
+        document.body.appendChild(eventContainer);
+
+        const focus = jest.fn();
+        document.getElementById =  jest.fn(() => { return { focus } });
+
+        chatContainer = new ChatContainer(null, eventContainer, mockSDK);
+
+        chatContainer.confirmEndChat();
+
+        expect(chatContainer.endChatPopup.show).toBeCalled();
+        expect(document.getElementById).toBeCalledWith("endChatPopup");
+        expect(focus).toBeCalledTimes(1);
+    });
+
+    it("onCancelEndChat", () => {
+
+        const focus = jest.fn();
+        const setAttribute = jest.fn()
+
+        document.getElementById = 
+            jest.fn()
+            .mockReturnValueOnce({setAttribute})
+            .mockReturnValueOnce({focus})
+            
+        const testDialog = "<div class='dialog'>test dialog</div>"
+
+        const test = "<div id='ciapiSkin'>" + ContainerHtml + testDialog + "</div>";
+        document.body.innerHTML = test
+
+        chatContainer = new ChatContainer(null, test, mockSDK);
+        chatContainer.closeMethod = "Button"
+
+        chatContainer.onCancelEndChat()
+
+        expect(setAttribute).toBeCalledWith("tabindex", 0)
+        expect(focus).toBeCalledTimes(1)
+    });
+
 
 })

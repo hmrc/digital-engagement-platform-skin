@@ -252,8 +252,8 @@ export default class ChatContainer {
     }
 
     onCancelEndChat() {
-        var ciapiSkinContainer = document.querySelector("#ciapiSkin");
-        var endChatNonFocusable = ciapiSkinContainer.querySelectorAll('a[href], input, textarea, button');
+        const ciapiSkinContainer = document.querySelector("#ciapiSkin");
+        const endChatNonFocusable = ciapiSkinContainer.querySelectorAll('a[href], input, textarea, button');
         endChatNonFocusable.forEach(function (element) {
             element.removeAttribute("tabindex");
         });
@@ -261,11 +261,11 @@ export default class ChatContainer {
         document.getElementById("ciapiSkinChatTranscript").setAttribute("tabindex", 0);
         this.endChatPopup.hide();
 
-        var endChatGiveFeedback = Array.from(
+        const endChatGiveFeedback = Array.from(
             document.querySelectorAll('.dialog')
           ).pop();
 
-        if(this.closeMethod === "Button") {
+        if (this.closeMethod === "Button") {
             document.getElementById("ciapiSkinCloseButton").focus();
         } else {
             endChatGiveFeedback.focus();
