@@ -15,6 +15,7 @@ let mockSDK;
 let sanitiseAndParseJsonData = jest.spyOn(JsonUtils, 'sanitiseAndParseJsonData');
 
 const originalGetElementById = document.getElementById;
+const originalQuerySelectorAll = document.querySelectorAll;
 
 beforeEach(() => {
 
@@ -42,6 +43,7 @@ beforeEach(() => {
 
 afterEach(() => {
     document.getElementById = originalGetElementById;
+    document.querySelectorAll = originalQuerySelectorAll
 });
 
 
@@ -341,29 +343,61 @@ describe("ChatContainer", () => {
         expect(focus).toBeCalledTimes(1);
     });
 
-    it("onCancelEndChat", () => {
+    function setupDocumentforCancelEndChatTests() {
+        const testElementWithDialogClass = "<div class='dialog'>test dialog</div>"
 
+        const documentHtml = "<div id='ciapiSkin'>" + ContainerHtml + testElementWithDialogClass + "</div>";
+        document.body.innerHTML = documentHtml
+
+        // set the various html elements tab index to zero in order to assert these are removed after the call
+        let skinContainer = document.querySelector("#ciapiSkin");
+        skinContainer.querySelectorAll('a[href], input, textarea, button').forEach((element) => {
+            element.setAttribute("tabindex", 0)
+        })
+
+        return documentHtml;
+    }
+
+    it("onCancelEndChat behaves as expected given the chatContainer's closeMethod is set to Button", () => {
         const focus = jest.fn();
         const setAttribute = jest.fn()
 
         document.getElementById = 
             jest.fn()
-            .mockReturnValueOnce({setAttribute})
-            .mockReturnValueOnce({focus})
+                .mockReturnValueOnce({setAttribute})
+                .mockReturnValueOnce({focus})
             
-        const testDialog = "<div class='dialog'>test dialog</div>"
+        const documentHtml = setupDocumentforCancelEndChatTests()
 
-        const test = "<div id='ciapiSkin'>" + ContainerHtml + testDialog + "</div>";
-        document.body.innerHTML = test
+        chatContainer = new ChatContainer(null, documentHtml, null);
+        chatContainer.closeMethod = "Button";
 
-        chatContainer = new ChatContainer(null, test, mockSDK);
-        chatContainer.closeMethod = "Button"
+        chatContainer.onCancelEndChat();
 
-        chatContainer.onCancelEndChat()
-
-        expect(setAttribute).toBeCalledWith("tabindex", 0)
+        expect(setAttribute).toBeCalledWith("tabindex", 0);
+        expect(setAttribute).toBeCalledTimes(1);
+        expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
         expect(focus).toBeCalledTimes(1)
+
+        document
+            .querySelector("#ciapiSkin")
+            .querySelectorAll('a[href], input, textarea, button').forEach((element) => {
+                expect(element.getAttribute("tabindex")).toBe(null)
+            })
     });
 
+    it("onCancelEndChat behaves as expected given the chatContainer's closeMethod is set to Link", () => {
+        const focus = jest.fn()
+        document.querySelectorAll = jest.fn().mockReturnValueOnce([{focus}])
+
+        const documentHtml = setupDocumentforCancelEndChatTests()
+
+        chatContainer = new ChatContainer(null, documentHtml, null);
+        chatContainer.closeMethod = "Link";
+
+        chatContainer.onCancelEndChat();
+
+        expect(focus).toBeCalledTimes(1)
+    });
 
 })
