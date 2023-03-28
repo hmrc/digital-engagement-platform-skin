@@ -400,4 +400,22 @@ describe("ChatContainer", () => {
         expect(focus).toBeCalledTimes(1)
     });
 
+    it("removeSkinHeadingElements removes heading elements and sets transcript style properties", () => {
+        document.body.innerHTML = ContainerHtml;
+        chatContainer = new ChatContainer(null, ContainerHtml, null);
+
+        expect(document.contains(document.getElementById("print"))).toBeTruthy()
+        expect(document.contains(document.getElementById("sound"))).toBeTruthy()
+
+        chatContainer._removeSkinHeadingElements();
+
+        let transcriptHeading = document.getElementById("ciapiSkinHeader");
+
+        expect(transcriptHeading.style.height).toBe("auto")
+        expect(transcriptHeading.style.width).toBe("auto")
+
+        expect(document.contains(document.getElementById("print"))).toBeFalsy()
+        expect(document.contains(document.getElementById("sound"))).toBeFalsy()
+    });
+
 })
