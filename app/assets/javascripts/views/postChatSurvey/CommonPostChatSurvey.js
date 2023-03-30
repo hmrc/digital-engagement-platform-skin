@@ -53,7 +53,6 @@ export default class CommonPostChatSurvey {
         e.preventDefault;
   
         this.showTranscriptAndSurvey(true, false);
-  
         document.getElementById("print-date").innerHTML = PrintUtils.getPrintDate();
   
         const elementList = [
