@@ -51,9 +51,7 @@ afterEach(() => {
 describe("ChatContainer", () => {
 
     it("the onStopTying event handler method is called on stopTyping call", () => {
-
         chatContainer.eventHandler.onStopTyping = jest.fn();
-
         chatContainer.stopTyping(chatContainer.eventHandler);
 
         expect(chatContainer.eventHandler.onStopTyping).toHaveBeenCalledTimes(1);
@@ -423,7 +421,7 @@ describe("ChatContainer", () => {
         expect(document.contains(document.getElementById("sound"))).toBe(false);
     });
 
-    it("focusOnNextAutomatonMessage", () => {
+    it("focusOnNextAutomatonMessage calls setTimeout with the expected callback", () => {
         const focus = jest.fn()
 
         document.querySelectorAll = jest.fn()
@@ -438,7 +436,7 @@ describe("ChatContainer", () => {
         expect(focus).toBeCalledTimes(1); // TODO this is called twice when run individually, not sure why
     });
 
-    it("onConfirmEndChat", () => {
+    it("onConfirmEndChat calls the expected methods, and focuses the legend_give_feedback element", () => {
         const focus = jest.fn();
         
         document.getElementById = jest.fn().mockReturnValueOnce({focus});
@@ -451,7 +449,7 @@ describe("ChatContainer", () => {
         expect(chatContainer._removeSkinHeadingElements).toBeCalledTimes(1);
     });
 
-    it("showPage", () => {
+    it("showPage attaches the ciapiChatComponents to the page, and sets the transcript and footer style displays to none", () => {
         const attachTo = jest.fn();
         const page = { attachTo };
 
@@ -470,7 +468,7 @@ describe("ChatContainer", () => {
         expect(attachTo).toBeCalledWith(containerHtmlElement.querySelector("#ciapiChatComponents"));
     });
 
-    it("disablePreviousWidgets", () => {
+    it("disablePreviousWidgets disables elements with the quick-reply-widget class", () => {
         const disable = jest.fn();
         const widget = { disable };
         document.querySelectorAll = jest.fn().mockReturnValueOnce([widget]);
