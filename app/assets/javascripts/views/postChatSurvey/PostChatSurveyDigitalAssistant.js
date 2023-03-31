@@ -1,6 +1,6 @@
 import CommonPostChatSurvey from "./CommonPostChatSurvey"
 
-const html = `
+export const html = `
 <div id="postChatSurvey">
   <h2 id="legend_give_feedback" tabindex="-1">Give feedback</h2>
 
