@@ -1,4 +1,4 @@
-const html = `
+export const popupHtml = `
 <div id="endChatPopup" role="dialog" aria-modal="true" tabindex="-1" aria-labelledby="heading_end_chat_popup">
       <h1 class="govuk-heading-xl" id="heading_end_chat_popup">End chat?</h1>
 
@@ -22,7 +22,7 @@ export default class Popup {
         this.wrapper = document.createElement("div")
         this.wrapper.id = "endChatPopupWrapper";
         this.hide();
-        this.wrapper.insertAdjacentHTML("beforeend", html);
+        this.wrapper.insertAdjacentHTML("beforeend", popupHtml);
         container.appendChild(this.wrapper);
 
         this.wrapper.querySelector("#cancelEndChat").addEventListener("click", (e) => {

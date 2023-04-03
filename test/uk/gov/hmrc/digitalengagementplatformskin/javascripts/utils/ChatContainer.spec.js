@@ -1,7 +1,8 @@
 import ChatContainer from '../../../../../../../app/assets/javascripts/utils/ChatContainer';
-import Popup from '../../../../../../../app/assets/javascripts/views/EndChatPopup';
 import Transcript from '../../../../../../../app/assets/javascripts/services/Transcript';
 import * as JsonUtils from '../../../../../../../app/assets/javascripts/utils/JsonUtils';
+
+import { ContainerHtml } from '../../../../../../../app/assets/javascripts/views/embedded/EmbeddedContainerHtml';
 
 jest.mock('../../../../../../../app/assets/javascripts/views/EndChatPopup');
 jest.mock('../../../../../../../app/assets/javascripts/services/Transcript');
@@ -10,6 +11,12 @@ let nullEventHandler;
 let chatContainer;
 let mockSDK;
 let sanitiseAndParseJsonData = jest.spyOn(JsonUtils, 'sanitiseAndParseJsonData');
+
+jest.useFakeTimers();
+jest.spyOn(global, 'setTimeout');
+
+const originalGetElementById = document.getElementById;
+const originalQuerySelectorAll = document.querySelectorAll;
 
 beforeEach(() => {
 
@@ -24,23 +31,31 @@ beforeEach(() => {
         onStopTyping: jest.fn()
     };
 
-    chatContainer = new ChatContainer();
+    chatContainer = new ChatContainer(null, document.createElement("div"), null);
     mockSDK = {
         sendRichContentMessage : jest.fn().mockImplementation(),
         sendMessage: jest.fn().mockImplementation(),
-        sendDataPass: jest.fn().mockImplementation()
+        sendDataPass: jest.fn().mockImplementation(),
+        sendVALinkMessage: jest.fn().mockImplementation()
     };
 
     sanitiseAndParseJsonData.mockRestore(); // reset JsonUtils sanitiseAndParseJsonData counter before each test
 });
 
+afterEach(() => {
+    document.getElementById = originalGetElementById;
+    document.querySelectorAll = originalQuerySelectorAll;
+    jest.resetAllMocks();
+});
 
 describe("ChatContainer", () => {
 
     it("the onStopTying event handler method is called on stopTyping call", () => {
-        chatContainer.eventHandler = nullEventHandler;
+        chatContainer.eventHandler.onStopTyping = jest.fn();
         chatContainer.stopTyping(chatContainer.eventHandler);
-        expect(chatContainer.eventHandler.onStopTyping).toHaveBeenCalled();
+
+        expect(chatContainer.eventHandler.onStopTyping).toHaveBeenCalledTimes(1);
+        expect(chatContainer.isCustomerTyping).toBe(false);
     });
 
     it("the onStartTyping event handler method is called on startTyping call", () => {
@@ -124,6 +139,51 @@ describe("ChatContainer", () => {
                 selectedItemValue: 'northern_ireland'
             })
     });
+
+
+    it("Calls SDK.sendVALinkMessage and _focusOnNextAutomatonMessage methods, given an event with specific properties", () => {
+        chatContainer = new ChatContainer(null, null, mockSDK);
+
+        const focusOnNextAutomatonMessageSpy = jest.spyOn(chatContainer, '_focusOnNextAutomatonMessage')
+
+        const responsiveLinkEvent = {
+            target : {
+                tagName: "a",
+                dataset: {
+                    vtzJump: {}
+                },
+                getAttribute : jest.fn().mockReturnValue("#"),
+            },
+            preventDefault: jest.fn()
+        }
+
+        chatContainer.processTranscriptEvent(responsiveLinkEvent);
+
+        expect(mockSDK.sendVALinkMessage).toBeCalledWith(responsiveLinkEvent, null, null, null);
+        expect(focusOnNextAutomatonMessageSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it("Calls SDK.sendVALinkMessage method and sets the class's closeMethod to 'Link', given an event with specific properties", () => {
+        chatContainer = new ChatContainer(null, null, mockSDK);
+
+        const responsiveLinkEvent = {
+            target : {
+                tagName: "a",
+                dataset: {
+                    vtzJump: {}
+                },
+                getAttribute : jest.fn().mockReturnValue("#"),
+                className: "dialog"
+            },
+            preventDefault: jest.fn()
+        }
+
+        chatContainer.processTranscriptEvent(responsiveLinkEvent);
+
+        expect(mockSDK.sendVALinkMessage).toBeCalledWith(responsiveLinkEvent, null, null, null);
+        expect(chatContainer.closeMethod).toBe("Link");
+    });
+
 
     it("Mix: process responsive links, send message", () => {
         chatContainer = new ChatContainer(null, null, mockSDK);
@@ -235,4 +295,185 @@ describe("ChatContainer", () => {
         chatContainer.processKeypressEvent(keypressEvent); // send second keypress to call clearTimeout for previous setTimeout call
         expect(clearTimeout).toBeCalled();
     });
+
+
+    it("Returns the current customer input text", () => {
+        let customerInputHtml = document.createElement("textarea");
+        customerInputHtml.setAttribute("id", "custMsg");
+        customerInputHtml.value = "How many times did the batmobile catch a flat?";
+
+        chatContainer.custInput = customerInputHtml;
+
+        expect(chatContainer.currentInputText()).toBe("How many times did the batmobile catch a flat?");
+    });
+
+    it("Clears the current customer input text", () => {
+        let customerInputHtml = document.createElement("textarea")
+        customerInputHtml.setAttribute("id", "custMsg");
+        customerInputHtml.value = "How many times did the batmobile catch a flat?"
+
+        chatContainer.custInput = customerInputHtml
+
+        chatContainer.clearCurrentInputText();
+        expect(chatContainer.currentInputText()).toBe("")
+    });
+
+    it("Returns null given a call to processExternalAndResponsiveLinks where there is no href link attribute", () => {
+
+        const responsiveLinkEvent = {
+            target : {
+                getAttribute : jest.fn(() => { return null; } )
+            }
+        }
+
+        expect(chatContainer.processExternalAndResponsiveLinks(responsiveLinkEvent)).toBe(null);
+    });
+
+    it("Calls the endchatPopup's show method and brings it to focus", () => {
+        let eventContainer = document.createElement("div");
+        eventContainer.setAttribute("id", "endChatPopup");
+        document.body.appendChild(eventContainer);
+
+        const focus = jest.fn();
+        document.getElementById =  jest.fn(() => { return { focus } });
+
+        chatContainer = new ChatContainer(null, eventContainer, mockSDK);
+
+        chatContainer.confirmEndChat();
+
+        expect(chatContainer.endChatPopup.show).toBeCalled();
+        expect(document.getElementById).toBeCalledWith("endChatPopup");
+        expect(focus).toBeCalledTimes(1);
+    });
+
+    function setupDocumentforCancelEndChatTests() {
+        const testElementWithDialogClass = "<div class='dialog'>test dialog</div>"
+
+        const documentHtml = "<div id='ciapiSkin'>" + ContainerHtml + testElementWithDialogClass + "</div>";
+        document.body.innerHTML = documentHtml;
+
+        // set the various html elements tab index to zero in order to assert these are removed after the call
+        let skinContainer = document.querySelector("#ciapiSkin");
+        skinContainer.querySelectorAll('a[href], input, textarea, button').forEach((element) => {
+            element.setAttribute("tabindex", 0)
+        })
+
+        return documentHtml;
+    }
+
+    it("onCancelEndChat behaves as expected given the chatContainer's closeMethod is set to Button", () => {
+        const focus = jest.fn();
+        const setAttribute = jest.fn();
+
+        document.getElementById = 
+            jest.fn()
+                .mockReturnValueOnce({setAttribute})
+                .mockReturnValueOnce({focus});
+            
+        const documentHtml = setupDocumentforCancelEndChatTests();
+
+        chatContainer = new ChatContainer(null, documentHtml, null);
+        chatContainer.closeMethod = "Button";
+
+        chatContainer.onCancelEndChat();
+
+        expect(setAttribute).toBeCalledWith("tabindex", 0);
+        expect(setAttribute).toBeCalledTimes(1);
+        expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
+        expect(focus).toBeCalledTimes(1);
+
+        document
+            .querySelector("#ciapiSkin")
+            .querySelectorAll('a[href], input, textarea, button').forEach((element) => {
+                expect(element.getAttribute("tabindex")).toBe(null)
+            });
+    });
+
+    it("onCancelEndChat behaves as expected given the chatContainer's closeMethod is set to Link", () => {
+        const focus = jest.fn();
+        document.querySelectorAll = jest.fn().mockReturnValueOnce([{focus}]);
+
+        const documentHtml = setupDocumentforCancelEndChatTests();
+
+        chatContainer = new ChatContainer(null, documentHtml, null);
+        chatContainer.closeMethod = "Link";
+
+        chatContainer.onCancelEndChat();
+
+        expect(focus).toBeCalledTimes(1);
+    });
+
+    it("removeSkinHeadingElements removes heading elements and sets transcript style properties", () => {
+        document.body.innerHTML = ContainerHtml;
+        chatContainer = new ChatContainer(null, ContainerHtml, null);
+
+        expect(document.contains(document.getElementById("print"))).toBe(true);
+        expect(document.contains(document.getElementById("sound"))).toBe(true);
+
+        chatContainer._removeSkinHeadingElements();
+
+        let transcriptHeading = document.getElementById("ciapiSkinHeader");
+
+        expect(transcriptHeading.style.height).toBe("auto");
+        expect(transcriptHeading.style.width).toBe("auto");
+
+        expect(document.contains(document.getElementById("print"))).toBe(false);
+        expect(document.contains(document.getElementById("sound"))).toBe(false);
+    });
+
+    it("focusOnNextAutomatonMessage calls setTimeout with the expected callback", () => {
+        const focus = jest.fn()
+
+        document.querySelectorAll = jest.fn()
+            .mockReturnValueOnce([{focus}])
+            .mockReturnValueOnce([{focus}])
+
+        chatContainer._focusOnNextAutomatonMessage()
+
+        jest.advanceTimersByTime(1001);
+
+        expect(setTimeout).toHaveBeenCalledTimes(1);
+        expect(focus).toBeCalledTimes(1); // TODO this is called twice when run individually, not sure why
+    });
+
+    it("onConfirmEndChat calls the expected methods, and focuses the legend_give_feedback element", () => {
+        const focus = jest.fn();
+        
+        document.getElementById = jest.fn().mockReturnValueOnce({focus});
+
+        chatContainer._removeSkinHeadingElements = jest.fn();
+        chatContainer.onConfirmEndChat();
+
+        expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
+        expect(focus).toBeCalledTimes(1);
+        expect(chatContainer._removeSkinHeadingElements).toBeCalledTimes(1);
+    });
+
+    it("showPage attaches the ciapiChatComponents to the page, and sets the transcript and footer style displays to none", () => {
+        const attachTo = jest.fn();
+        const page = { attachTo };
+
+        let containerHtmlElement = document.createElement("div");
+        containerHtmlElement.innerHTML = ContainerHtml;
+
+        containerHtmlElement.querySelector("#ciapiSkinChatTranscript").style.display = "none";
+        containerHtmlElement.querySelector("#ciapiSkinFooter").style.display = "none";
+
+        chatContainer.container.insertAdjacentHTML("beforeend", ContainerHtml);
+
+        chatContainer.showPage(page);
+
+        expect(chatContainer.container.querySelector("#ciapiSkinChatTranscript").style.display).toBe("none");
+        expect(chatContainer.container.querySelector("#ciapiSkinFooter").style.display).toBe("none");
+        expect(attachTo).toBeCalledWith(containerHtmlElement.querySelector("#ciapiChatComponents"));
+    });
+
+    it("disablePreviousWidgets disables elements with the quick-reply-widget class", () => {
+        const disable = jest.fn();
+        const widget = { disable };
+        document.querySelectorAll = jest.fn().mockReturnValueOnce([widget]);
+        chatContainer.disablePreviousWidgets();
+
+        expect(disable).toBeCalledTimes(1);
+    })
 })
