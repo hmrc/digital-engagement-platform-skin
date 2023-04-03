@@ -53,6 +53,15 @@ export default class CommonChatController {
         this.minimised = false;
     }
 
+    getFeatureSwitch(switchName) {
+      //Feature switches are held by the frontend, so call to the frontend to retrieve the state of each switch. Url is set by the frontend on page load.
+      const http = new XMLHttpRequest();
+      http.open("GET", window.featureSwitchUrl + "/" + switchName, false);
+      http.send();
+
+      return http.status === 204;
+    }
+
     getTextAreaValue(textArea) {
         return document.getElementById(textArea).value;
     }
@@ -177,7 +186,7 @@ export default class CommonChatController {
                 fixedPopupDiv.appendChild(this.container.element());
             } else if (anchoredPopupDiv && !fixedPopupDiv) {
 
-            	//This statement seems impossible (the two conditions are always either both true or both false), needs looking into
+              //This statement seems impossible (the two conditions are always either both true or both false), needs looking into
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, window.Inq.SDK);
                 anchoredPopupDiv.appendChild(this.container.element());
             } else if (embeddedDiv) {
