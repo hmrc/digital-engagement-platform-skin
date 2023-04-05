@@ -219,6 +219,14 @@ export class EngagedState {
         }
     }
 
+    _suppressMessage(msg, transcript) {
+        if (msg["tc.mode"] === "transfer" && msg["display.text"] === "Agent 'HMRC' loses connection") {
+            console.log("Message Suppressed")
+        } else {
+            transcript.addSystemMsg({msg: msg["display.text"]});
+        }
+    }
+
     _displayMessage(msg_in) {
         const msg = msg_in.data;
 
@@ -254,7 +262,7 @@ export class EngagedState {
                 transcript.addSystemMsg({msg: msg["thank_you_image_label"]});
                 break;
             case MessageType.ChatRoom_MemberLost:
-                transcript.addSystemMsg({msg: msg["display.text"]});
+                this._suppressMessage(msg, transcript);
                 break;
             case MessageType.Owner_TransferResponse:
                 this._removeAgentJoinsConference();

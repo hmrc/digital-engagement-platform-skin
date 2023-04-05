@@ -513,6 +513,30 @@ describe("Chat States", () => {
             expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Adviser exited chat"});
         });
 
+        it("does not report HMRC loses connection ", () => {
+            const [sdk, container] = createEngagedStateDependencies();
+
+            const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            const handleMessage = sdk.getMessages.mock.calls[0][0];
+            const message = {
+                data: {
+                    "chatroom.member.id": "42413088",
+                    "chatroom.member.type": "agent",
+                    "display.text": "Agent 'HMRC' loses connection",
+                    "engagementID": "388264134371804042",
+                    "ltime": "353083",
+                    "messageTimestamp": "1680622644000",
+                    "messageType": "chatroom.member_lost",
+                    "tc.mode": "transfer"
+                }
+            };
+
+            handleMessage(message);
+            expect(container.transcript.addSystemMsg).toBeCalledTimes(0);
+            expect(console.log).toBeCalledWith("Message Suppressed");
+        });
+
         it("reports agent has been lost", () => {
             const [sdk, container] = createEngagedStateDependencies();
 
@@ -534,6 +558,7 @@ describe("Chat States", () => {
 
             handleMessage(message);
             expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent 'JoeBloggs' loses connection"});
+            expect(container.transcript.addSystemMsg).toBeCalledTimes(1);
         });
 
         it("removes agent joins conference", () => {
