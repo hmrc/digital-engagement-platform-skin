@@ -518,6 +518,8 @@ describe("Chat States", () => {
 
             const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
 
+            let chatRoomMemberLostSpy = jest.spyOn(state, '_chatRoomMemberLost');
+
             const handleMessage = sdk.getMessages.mock.calls[0][0];
             const message = {
                 data: {
@@ -534,6 +536,7 @@ describe("Chat States", () => {
 
             handleMessage(message);
             expect(container.transcript.addSystemMsg).toBeCalledTimes(0);
+            expect(chatRoomMemberLostSpy).toBeCalledTimes(1);
             expect(console.log).toBeCalledWith("Message Suppressed");
         });
 
@@ -541,6 +544,8 @@ describe("Chat States", () => {
             const [sdk, container] = createEngagedStateDependencies();
 
             const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+
+            let chatRoomMemberLostSpy = jest.spyOn(state, '_chatRoomMemberLost');
 
             const handleMessage = sdk.getMessages.mock.calls[0][0];
             const message = {
@@ -559,6 +564,7 @@ describe("Chat States", () => {
             handleMessage(message);
             expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent 'JoeBloggs' loses connection"});
             expect(container.transcript.addSystemMsg).toBeCalledTimes(1);
+            expect(chatRoomMemberLostSpy).toBeCalledTimes(1);
         });
 
         it("removes agent joins conference", () => {
