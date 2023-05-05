@@ -22,8 +22,8 @@ export const ContainerHtml = `
             </button>
         </div>
         <div id="sound">
-            <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
-               Turn sound on
+            <button id="toggleSound" class="govuk-button govuk-button--secondary active" data-module="govuk-button">
+               Turn notification sound off
             </button>
         </div>
     </div>
