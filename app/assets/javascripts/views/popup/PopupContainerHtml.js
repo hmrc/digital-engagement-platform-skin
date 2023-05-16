@@ -1,12 +1,12 @@
 'use strict';
 export const ContainerHtml = `
-<div id="printDetails" style="display:none" class="govuk-!-padding-top-8 govuk-!-padding-bottom-8">
-<p class="govuk-body">Chat id: <span id="chat-id"></span></p>
-<p id="print-date" class="govuk-body"></p>
+<div id="printDetails" class="print-only govuk-!-padding-top-8 govuk-!-padding-bottom-8">
+<p class="govuk-body print-only">Chat ID: <span id="chat-id"></span></p>
+<p id="print-date" class="govuk-body print-only"></p>
 </div>
 <div id="ciapiSkinContainer">
     <div id="titleBar" >
-        <div id="ciapiSkinTitleBar">
+        <div id="ciapiSkinTitleBar" class="govuk-!-display-none-print">
             <div id="ciapiTitleBarLogo"></div>
             <h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC</h2>
         </div>
@@ -28,7 +28,7 @@ export const ContainerHtml = `
         </div>
     </div>
     <div id="ciapiChatComponents">
-        <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript" tabindex="0" aria-label="chat transcript">
+        <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript print-overflow-visible" tabindex="0" aria-label="chat transcript">
             <div id="skipToBottom"><a id="skipToBottomLink" href="#skipToTopLink" class="govuk-skip-link">Skip to bottom of conversation</a></div>
             <p id="info" class="info govuk-!-display-none-print"><img role="img" src="/ask-hmrc/assets/media/digital-assistant.svg" alt="">You are currently chatting with a computer.</p>
         </div>
