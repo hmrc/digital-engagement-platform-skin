@@ -5,12 +5,12 @@ export const ContainerHtml = `
 <p id="print-date" class="govuk-body print-only"></p>
 </div>
 <div id="ciapiSkinContainer">
-    <div id="titleBar" >
-        <div id="ciapiSkinTitleBar" class="govuk-!-display-none-print">
+    <div id="titleBar" class="govuk-!-display-none-print">
+        <div id="ciapiSkinTitleBar">
             <div id="ciapiTitleBarLogo"></div>
             <h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC</h2>
         </div>
-        <div id="hideCloseContainer">
+        <div id="hideCloseContainer" class="govuk-!-display-none-print">
             <button id="ciapiSkinHideButton"  draggable="false" role="button" type="button" aria-label="Minimise chat window"></button>
             <button id="ciapiSkinCloseButton" draggable="false" role="button" type="button" aria-label="Close chat window"></button>
         </div>
