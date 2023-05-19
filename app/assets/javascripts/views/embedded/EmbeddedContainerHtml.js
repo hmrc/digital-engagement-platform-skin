@@ -1,6 +1,6 @@
 'use strict';
 
-const host = window.location.hostname === "localhost" ?  "http://localhost:9193/" : "";
+import { host } from "../../utils/HostUtils";
 
 export const ContainerHtml = `
 <div id="printDetails" class="print-only govuk-!-padding-top-8 govuk-!-padding-bottom-8">
