@@ -54,7 +54,7 @@ $page-height: calc(100% - 5px);
     max-height: 40rem;
     height: 100%;
     min-width: 20rem;
-    width: 25rem;
+    width: 29rem;
     bottom: 0;
     right: 0;
 
@@ -91,6 +91,7 @@ $page-height: calc(100% - 5px);
         }
 
 #ciapiSkinHeader {
+    font-size: 16px;
     border-bottom-width: $header-bottom-border-height;
 }
 
@@ -200,7 +201,7 @@ $page-height: calc(100% - 5px);
 
 
 #ciapiInput {
-    width: 80%;
+    width: 78%;
     float: left;
 
     textarea {
