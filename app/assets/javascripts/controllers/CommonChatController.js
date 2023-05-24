@@ -294,7 +294,24 @@ export default class CommonChatController {
             "cbanner-govuk-cookie-banner"
         ];
 
+        const printList = [
+        "govuk-width-container",
+        "govuk-grid-row",
+        "govuk-grid-column-two-thirds",
+        "govuk-main-wrapper"
+        ];
+
         PrintUtils.removeElementsForPrint(elementList);
+
+        if (document.getElementById("nuanMessagingFrame").classList.contains("ci-api-popup")) {
+            document.body.querySelectorAll('*').forEach(function(node) {
+                printList.forEach(function(item) {
+                    if (node.classList.contains(item)) {
+                        node.classList.add("govuk-!-display-none-print");
+                    }
+                });
+            });
+        }
 
         window.print();
 

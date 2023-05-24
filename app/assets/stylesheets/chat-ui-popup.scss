@@ -62,6 +62,14 @@ $page-height: calc(100% - 5px);
     flex-direction: column;
 }
 
+@media print {
+    #ciapiSkinContainer {
+        position: relative;
+        border: none;
+        width: 100%;
+    }
+}
+
 #titleBar {
     width: 100%;
     background-color: #fff;

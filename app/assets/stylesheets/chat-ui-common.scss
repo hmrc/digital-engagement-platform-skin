@@ -171,12 +171,14 @@ $footer-top-border-height: 3px;
     }
     .print-float-right {
         float: right;
+        margin-top: 2em;
         margin-bottom: .2em;
     }
     .print-float-left {
         clear: both;
         display: inline-block;
         width: 30em;
+        margin-top: 2em;
         margin-bottom: .2em;
     }
     .govuk-header__container {
