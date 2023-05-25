@@ -295,7 +295,6 @@ export default class CommonChatController {
         ];
 
         const printList = [
-        "govuk-width-container",
         "govuk-grid-row",
         "govuk-grid-column-two-thirds",
         "govuk-main-wrapper"
