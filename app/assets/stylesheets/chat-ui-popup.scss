@@ -15,7 +15,7 @@ $tools-height: 23px;
 $tools-padding-y: 5px;
 $header-bottom-border-height: 2px;
 $components-sub-height: $header-height + $header-bottom-border-height + $tools-height + 2 * $tools-padding-y;
-$footer-height: 80px;
+$footer-height: 70px;
 $footer-padding: 5px;
 $textarea-height: $footer-height;
 $transcript-border-height: 2px;
@@ -168,7 +168,12 @@ $page-height: calc(100% - 5px);
     .info {
         text-align: center;
         color: #505a5f;
-        padding-top: 15px;
+        padding: 15px 5px;
+        border-radius: 1.0526315789em;
+        border: 0.3157894737em solid #505a5f;
+        line-height: 1.4em;
+        color: #0b0c0c;
+        min-width: 5em;
     }
 
     .info img {
