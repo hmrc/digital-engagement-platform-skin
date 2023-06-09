@@ -269,8 +269,12 @@ export class EngagedState {
                 this._removeAgentJoinsConference();
                 break;
             case MessageType.Chat_System: case MessageType.Chat_TransferResponse:
-                transcript.addSystemMsg({msg: msg["client.display.text"]});
-                break;
+                if(msg["client.display.text"] == '') {
+                    break;
+                } else {
+                    transcript.addSystemMsg({msg: msg["client.display.text"]})
+                    break;
+                }
             default:
                 if(msg.state === MessageState.Closed) {
                     transcript.addSystemMsg({msg: "Agent Left Chat."});
