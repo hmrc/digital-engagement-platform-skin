@@ -186,8 +186,12 @@ export default class ChatContainer {
 
         const skinChatTranscript = this.container.querySelector("#ciapiSkinChatTranscript");
 
-        skinChatTranscript.setAttribute("tabindex", -1);
-
+        if(skinChatTranscript.getAttribute('tabIndex') == -1) {
+            this.destroy()
+        } else {
+            skinChatTranscript.setAttribute("tabindex", -1);
+            this.eventHandler.onCloseChat();
+        }
         this.eventHandler.onCloseChat();
     }
 

@@ -986,6 +986,33 @@ it("catches an exception in the showChat function", () => {
     expect(document.getElementById("hmrc-user-research-banner").classList.contains("govuk-!-display-none-print")).toBe(true);
   });
 
+  it("onPrint should remove elements on popup", () => {
+
+      var html = `
+        <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+            <div class="govuk-grid-row govuk-body">
+                <div class="govuk-grid-column-two-thirds"></div>
+            </div>
+        </main>
+        <div id="nuanMessagingFrame" class="ci-api-popup"><iframe id="inqChatStage" title="Chat Window" name="10006719" src="https://www.qa.tax.service.gov.uk/engagement-platform/nuance/hmrc-uk-nuance.html?IFRAME&amp;nuance-frame-ac=0" style="z-index:9999999; display: none;overflow: hidden; position: absolute; height: 1px; width: 1px; left: 0px; top: 0px; border-style: none; border-width: 0px;"></iframe><div id="ciapiSkin">
+        <p class="govuk-body print-only">Chat ID: <span id="chat-id">388262275535576909</span></p>
+        <p id="print-date" class="govuk-body print-only"></p>
+        </div>
+      `;
+      document.body.innerHTML = html;
+      const evt = { preventDefault: jest.fn() }
+
+      expect(document.querySelector("div.govuk-grid-row").classList.contains("govuk-!-display-none-print")).toBe(false);
+      expect(document.querySelector("div.govuk-grid-column-two-thirds").classList.contains("govuk-!-display-none-print")).toBe(false);
+      expect(document.querySelector("main.govuk-main-wrapper").classList.contains("govuk-!-display-none-print")).toBe(false);
+
+      commonChatController.onPrint(evt);
+
+      expect(document.querySelector("div.govuk-grid-row").classList.contains("govuk-!-display-none-print")).toBe(true);
+      expect(document.querySelector("div.govuk-grid-column-two-thirds").classList.contains("govuk-!-display-none-print")).toBe(true);
+      expect(document.querySelector("main.govuk-main-wrapper").classList.contains("govuk-!-display-none-print")).toBe(true);
+    });
+
   it("onPrint returns a print window", () => {
 
     const html = `

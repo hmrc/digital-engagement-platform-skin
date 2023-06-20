@@ -1,5 +1,6 @@
 import * as MessageType from '../NuanceMessageType';
 import * as MessageState from '../NuanceMessageState';
+import { host } from '../utils/HostUtils';
 
 // State at start, before anything happens.
 export class NullState {
@@ -94,7 +95,7 @@ export class EngagedState {
     }
 
     _playMessageRecievedSound() {
-        let messageReceivedSound = new Audio('../assets/media/message-received-sound.mp3');
+        let messageReceivedSound = new Audio( host + '/engagement-platform-skin/assets/media/message-received-sound.mp3');
         messageReceivedSound.autoplay = true;
         messageReceivedSound.play();
     }
@@ -268,8 +269,12 @@ export class EngagedState {
                 this._removeAgentJoinsConference();
                 break;
             case MessageType.Chat_System: case MessageType.Chat_TransferResponse:
-                transcript.addSystemMsg({msg: msg["client.display.text"]});
-                break;
+                if(msg["client.display.text"] == '') {
+                    break;
+                } else {
+                    transcript.addSystemMsg({msg: msg["client.display.text"]})
+                    break;
+                }
             default:
                 if(msg.state === MessageState.Closed) {
                     transcript.addSystemMsg({msg: "Agent Left Chat."});

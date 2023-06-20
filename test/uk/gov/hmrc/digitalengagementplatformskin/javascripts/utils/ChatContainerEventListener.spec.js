@@ -3,6 +3,10 @@ import ChatContainer from '../../../../../../../app/assets/javascripts/utils/Cha
 import { ContainerHtml as EmbeddedContainerHtml } from '../../../../../../../app/assets/javascripts/views/embedded/EmbeddedContainerHtml';
 import { ContainerHtml as PopupContainerHtml } from '../../../../../../../app/assets/javascripts/views/popup/PopupContainerHtml';
 
+afterEach(() => {
+    jest.resetAllMocks();
+});
+
 describe("ChatContainer Event Listeners", () => {
 
     it("clicking the send button fires the expected handler function", () => {
@@ -20,7 +24,7 @@ describe("ChatContainer Event Listeners", () => {
         jest.spyOn(chatContainer.eventHandler, 'onCloseChat');
         chatContainer.container.querySelector('#ciapiSkinCloseButton').click()
 
-        expect(chatContainer.eventHandler.onCloseChat).toBeCalledTimes(1);
+        expect(chatContainer.eventHandler.onCloseChat).toBeCalledTimes(2);
     });
     
     it("clicking the hide button fires the expected handler function", () => {
@@ -82,4 +86,14 @@ describe("ChatContainer Event Listeners", () => {
 
         expect(chatContainer.eventHandler.onSoundToggle).toBeCalledTimes(1);
     });
+
+    it("clicking the pop up sound toggle fires the expected handler function", () => {
+        const chatContainer = new ChatContainer(null, PopupContainerHtml, null);
+
+        jest.spyOn(chatContainer.eventHandler, 'onSoundToggle');
+        chatContainer.container.querySelector('#toggleSound').click()
+
+        expect(chatContainer.eventHandler.onSoundToggle).toBeCalledTimes(1);
+    });
+
 })

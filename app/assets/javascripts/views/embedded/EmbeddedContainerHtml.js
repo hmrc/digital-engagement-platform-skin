@@ -1,4 +1,7 @@
 'use strict';
+
+import { host } from "../../utils/HostUtils";
+
 export const ContainerHtml = `
 <div id="printDetails" class="print-only govuk-!-padding-top-8 govuk-!-padding-bottom-8">
 <p class="govuk-body print-only">Chat ID: <span id="chat-id"></span></p>
@@ -20,7 +23,7 @@ export const ContainerHtml = `
     <div id="ciapiChatComponents">
         <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript print-overflow-visible" role="region" tabindex="0" aria-label="chat transcript">
             <div id="skipToBottom"><a id="skipToBottomLink" href="#" class="govuk-skip-link">Skip to bottom of conversation</a></div>
-            <p id="info" class="info govuk-!-display-none-print"><img role="img" src="/ask-hmrc/assets/media/digital-assistant.svg" alt="">You are currently chatting with a computer.</p>
+            <p id="info" class="info govuk-!-display-none-print"><img role="img" src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">You are currently chatting with a computer.</p>
         </div>
         <div id="ciapiSkinFooter" class="govuk-!-display-none-print">
             <div>

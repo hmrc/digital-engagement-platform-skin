@@ -15,7 +15,7 @@ $tools-height: 23px;
 $tools-padding-y: 5px;
 $header-bottom-border-height: 2px;
 $components-sub-height: $header-height + $header-bottom-border-height + $tools-height + 2 * $tools-padding-y;
-$footer-height: 80px;
+$footer-height: 70px;
 $footer-padding: 5px;
 $textarea-height: $footer-height;
 $transcript-border-height: 2px;
@@ -54,7 +54,7 @@ $page-height: calc(100% - 5px);
     max-height: 40rem;
     height: 100%;
     min-width: 20rem;
-    width: 25rem;
+    width: 29rem;
     bottom: 0;
     right: 0;
 
@@ -62,9 +62,17 @@ $page-height: calc(100% - 5px);
     flex-direction: column;
 }
 
+@media print {
+    #ciapiSkinContainer {
+        position: relative;
+        border: none;
+        width: 100%;
+    }
+}
+
 #titleBar {
     width: 100%;
-    background-color: #fff;
+    background-color: #1d70b8;
     border-bottom-color: #1d70b8;
     border-bottom-style: solid;
     border-bottom-width: $header-border-bottom-height;
@@ -73,6 +81,9 @@ $page-height: calc(100% - 5px);
     justify-content: space-between;
     flex-direction: row;
     gap: 1rem;
+    h2 {
+        color: white;
+    }
 }
 
     #ciapiSkinTitleBar {
@@ -82,7 +93,7 @@ $page-height: calc(100% - 5px);
         display: flex;
     }
         #ciapiTitleBarLogo {
-            background: url('/engagement-platform-skin/assets/media/logo.png') no-repeat;
+            background: url('/engagement-platform-skin/assets/media/logo-white.png') no-repeat;
             background-size: 2rem 2rem;
             background-position: 0 0;
             width: 2.4rem;
@@ -91,6 +102,7 @@ $page-height: calc(100% - 5px);
         }
 
 #ciapiSkinHeader {
+    font-size: 16px;
     border-bottom-width: $header-bottom-border-height;
 }
 
@@ -110,11 +122,11 @@ $page-height: calc(100% - 5px);
     }
 }
     #ciapiSkinCloseButton {
-        background: url("/engagement-platform-skin/assets/media/close.svg") 50% 50% no-repeat;
+        background: url("/engagement-platform-skin/assets/media/close-white.svg") 50% 50% no-repeat;
         background-size: 1.8rem 1.8rem;
     }
     #ciapiSkinHideButton {
-        background: url("/engagement-platform-skin/assets/media/minimise.svg") 50% 50% no-repeat;
+        background: url("/engagement-platform-skin/assets/media/minimise-white.svg") 50% 50% no-repeat;
         background-size: 1.8rem 1.8rem;
     }
 
@@ -156,7 +168,12 @@ $page-height: calc(100% - 5px);
     .info {
         text-align: center;
         color: #505a5f;
-        padding-top: 15px;
+        padding: 15px 5px;
+        border-radius: 1.0526315789em;
+        border: 0.3157894737em solid #505a5f;
+        line-height: 1.4em;
+        color: #0b0c0c;
+        min-width: 5em;
     }
 
     .info img {
@@ -200,7 +217,7 @@ $page-height: calc(100% - 5px);
 
 
 #ciapiInput {
-    width: 80%;
+    width: 78%;
     float: left;
 
     textarea {

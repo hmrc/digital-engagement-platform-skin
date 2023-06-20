@@ -1,3 +1,8 @@
+$bubble-padding-vert: 0.8421052632em;
+$bubble-padding-horiz: 1.0526315789em;
+$bubble-border-radius: #{$bubble-padding-horiz};
+$bubble-border-width: 0.3157894737em;
+
 .ciapi-system-container {
     margin-bottom: 0.5em !important;
     clear: both;
@@ -10,4 +15,9 @@
     margin-top: 1.2em !important;
     margin-bottom: 1.2em !important;
     text-align: center;
+    border-radius: #{$bubble-border-radius};
+    border: #{$bubble-border-width} solid #505a5f;
+    line-height: 1.4em;
+    min-width: 5em;
+    padding: 15px 5px;
 }
