@@ -331,13 +331,15 @@ it("catches an exception in the showChat function", () => {
 		var closeSpy = jest.spyOn(fakeSurvey, "closePostChatSurvey").mockImplementation()
 		var nullSpy = jest.spyOn(commonChatController, "_moveToChatNullState").mockImplementation()
 		var destroySpy = jest.spyOn(container, "destroy")
+    var showEndChatSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation()
 		commonChatController.closeChat()
 
 		expect(surveySpy).toBeCalledTimes(1);
 		expect(closeSpy).toBeCalledTimes(1);
-		expect(nullSpy).toBeCalledTimes(1);
-		expect(destroySpy).toBeCalledTimes(1);
-		expect(commonChatController.container).toBe(null);
+		expect(nullSpy).toBeCalledTimes(0);
+		expect(destroySpy).toBeCalledTimes(0);
+    expect(showEndChatSpy).toBeCalledTimes(1);
+		expect(commonChatController.container).not.toBe(null);
   })
 
 	it("closeChat is called when the post survey chat wrapper is open without escalation or an embedded div", () => {
@@ -363,13 +365,15 @@ it("catches an exception in the showChat function", () => {
 		var closeSpy = jest.spyOn(fakeSurvey, "closePostChatSurvey").mockImplementation()
 		var nullSpy = jest.spyOn(commonChatController, "_moveToChatNullState").mockImplementation()
 		var destroySpy = jest.spyOn(container, "destroy")
+    var showEndChatSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation()
 		commonChatController.closeChat()
 
 		expect(surveySpy).toBeCalledTimes(1);
 		expect(closeSpy).toBeCalledTimes(1);
-		expect(nullSpy).toBeCalledTimes(1);
-		expect(destroySpy).toBeCalledTimes(1);
-		expect(commonChatController.container).toBe(null);
+		expect(nullSpy).toBeCalledTimes(0);
+		expect(destroySpy).toBeCalledTimes(0);
+    expect(showEndChatSpy).toBeCalledTimes(1);
+		expect(commonChatController.container).not.toBe(null);
 	})
 
 	it("closeChat is called when the post survey chat wrapper is not open but with an embedded nuance div", () => {
