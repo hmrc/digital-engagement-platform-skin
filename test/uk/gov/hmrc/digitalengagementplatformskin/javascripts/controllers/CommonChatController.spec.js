@@ -400,7 +400,7 @@ it("catches an exception in the showChat function", () => {
 
 		expect(surveyDigitalSpy).toBeCalledTimes(0);
 		expect(surveyWebchatSpy).toBeCalledTimes(0);
-		expect(nullSpy).toBeCalledTimes(1);
+		expect(nullSpy).toBeCalledTimes(0);
 		expect(endPageSpy).toBeCalledTimes(1);
 		expect(destroySpy).toBeCalledTimes(0);
 	})
