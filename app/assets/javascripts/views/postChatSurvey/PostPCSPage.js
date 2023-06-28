@@ -73,6 +73,12 @@ export default class PostPCSPage {
                 endPageWrapper.style.display = 'none'
                 skinChatTranscript.style.display = ''
 
+                document.body.querySelectorAll('*').forEach(function(node) {
+                    if (node.classList.contains("govuk-grid-column-two-thirds")) {
+                        node.classList.remove("govuk-!-display-none-print");
+                    }
+                });
+
                 window.print();
                     this.eventHandler.onPrint(e);      
                     e.preventDefault();
