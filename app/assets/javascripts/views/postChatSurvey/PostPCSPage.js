@@ -51,8 +51,7 @@ export default class PostPCSPage {
         const element = this.wrapper.querySelector('#printButton');
         if (element) {
             element.addEventListener("click", (e) => {
-
-                const elementList = [
+                let elementList = [
                     "app-related-items",
                     "govuk-back-link",
                     "govuk-phase-banner",
@@ -61,9 +60,12 @@ export default class PostPCSPage {
                     "govuk-heading-xl",
                     "hmrc-user-research-banner",
                     "cbanner-govuk-cookie-banner",
-                    "postChatSurveyWrapper",
-                    "govuk-grid-column-two-thirds"
+                    "postChatSurveyWrapper"
                 ];
+
+                if (document.getElementById("nuanMessagingFrame").classList.contains("ci-api-popup")) {
+                    elementList.push("govuk-grid-column-two-thirds")
+                }
           
                 PrintUtils.removeElementsForPrint(elementList);
 
@@ -73,11 +75,8 @@ export default class PostPCSPage {
                 endPageWrapper.style.display = 'none'
                 skinChatTranscript.style.display = ''
 
-                document.body.querySelectorAll('*').forEach(function(node) {
-                    if (node.classList.contains("govuk-grid-column-two-thirds")) {
-                        node.classList.remove("govuk-!-display-none-print");
-                    }
-                });
+                document.getElementById("print-date").innerHTML = PrintUtils.getPrintDate();
+                document.getElementById("postPCSPageWrapper").classList.add("govuk-!-display-none-print")
 
                 window.print();
                     this.eventHandler.onPrint(e);      
