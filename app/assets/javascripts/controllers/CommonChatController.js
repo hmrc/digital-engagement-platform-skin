@@ -406,6 +406,8 @@ export default class CommonChatController {
 
         this._moveToClosingState();
 
+        this.ended = 'true'
+
         if (this.hasBeenSurveyed()) {
             this.showEndChatPage(false);
         } else {
