@@ -56,7 +56,7 @@ export default class CommonPostChatSurvey {
     
         document.getElementById("print-date").innerHTML = PrintUtils.getPrintDate();
   
-        const elementList = [
+        let elementList = [
             "app-related-items",
             "govuk-back-link",
             "govuk-phase-banner",
@@ -67,6 +67,12 @@ export default class CommonPostChatSurvey {
             "cbanner-govuk-cookie-banner",
             "postChatSurveyWrapper"
         ];
+
+        if (document.getElementById("nuanMessagingFrame")) {
+            if (document.getElementById("nuanMessagingFrame").classList.contains("ci-api-popup")) {
+                elementList.push("govuk-grid-column-two-thirds")
+            }
+        }
   
         PrintUtils.removeElementsForPrint(elementList);
   

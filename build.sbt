@@ -47,7 +47,6 @@ lazy val microservice = Project(appName, file("."))
     ),
     Assets / pipelineStages := Seq(concat)
   )
-  .settings(publishingSettings: _*)
   .configs(IntegrationTest)
   .settings(integrationTestSettings(): _*)
   .settings(resolvers += Resolver.jcenterRepo)
