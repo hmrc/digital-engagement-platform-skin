@@ -68,8 +68,10 @@ export default class CommonPostChatSurvey {
             "postChatSurveyWrapper"
         ];
 
-        if (document.getElementById("nuanMessagingFrame").classList.contains("ci-api-popup")) {
-            elementList.push("govuk-grid-column-two-thirds")
+        if (document.getElementById("nuanMessagingFrame")) {
+            if (document.getElementById("nuanMessagingFrame").classList.contains("ci-api-popup")) {
+                elementList.push("govuk-grid-column-two-thirds")
+            }
         }
   
         PrintUtils.removeElementsForPrint(elementList);
