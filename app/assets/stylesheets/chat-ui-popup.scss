@@ -357,3 +357,13 @@ $page-height: calc(100% - 5px);
 #heading_chat_ended:focus, #legend_give_feedback:focus, #heading_end_chat_popup:focus{
     outline:0;
 }
+
+.ciapi-agent-message:has(iframe.video-message) {
+    min-width: 50%;
+}
+
+@media only screen and (max-width: 768px) {
+    .ciapi-agent-message:has(iframe.video-message) {
+        min-width: 80%;
+    }
+}
