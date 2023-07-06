@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>close</title>
+    <defs>
+        <polygon id="path-1" points="28.5 9.615 26.385 7.5 18 15.885 9.615 7.5 7.5 9.615 15.885 18 7.5 26.385 9.615 28.5 18 20.115 26.385 28.5 28.5 26.385 20.115 18"></polygon>
+    </defs>
+    <g id="functional-tools" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Ask-HMRC---New-buttons-1---DT" transform="translate(-1290.000000, -147.000000)">
+            <g id="ASK-HMRC-HEADER" transform="translate(968.000000, 145.000000)">
+                <g id="close" transform="translate(322.000000, 2.000000)">
+                    <rect id="close-bg" x="0" y="0" width="40" height="40"></rect>
+                    <g id="Icons-/-Close" transform="translate(2.000000, 2.000000)">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <g id="Path" fill-rule="nonzero"></g>
+                        <g id="Group" mask="url(#mask-2)" fill="white">
+                            <g id="↳-Icon-Color">
+                                <rect id="Rectangle-13" x="0" y="0" width="36" height="36"></rect>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

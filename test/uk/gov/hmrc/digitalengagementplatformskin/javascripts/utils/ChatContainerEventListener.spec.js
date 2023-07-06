@@ -24,7 +24,7 @@ describe("ChatContainer Event Listeners", () => {
         jest.spyOn(chatContainer.eventHandler, 'onCloseChat');
         chatContainer.container.querySelector('#ciapiSkinCloseButton').click()
 
-        expect(chatContainer.eventHandler.onCloseChat).toBeCalledTimes(2);
+        expect(chatContainer.eventHandler.onCloseChat).toBeCalledTimes(1);
     });
     
     it("clicking the hide button fires the expected handler function", () => {

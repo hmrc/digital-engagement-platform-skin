@@ -51,6 +51,7 @@ export default class CommonChatController {
         this.sdk = null;
         this.state = new ChatStates.NullState();
         this.minimised = false;
+        this.ended = false;
     }
 
     getFeatureSwitch(switchName) {
@@ -259,7 +260,6 @@ export default class CommonChatController {
     }
 
     closeChat() {
-
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
             let escalated = this.state.isEscalated();
             if (escalated) {
@@ -269,14 +269,14 @@ export default class CommonChatController {
             }
         }
 
-        if (this._getEmbeddedDiv()) {
-            this.showEndChatPage(false);
-        } else {
+        if(this.ended){
             this.container.destroy();
             this.container = null;
+            this._moveToChatNullState();
+        } else {
+            this.showEndChatPage(false);
+            this.ended = 'true'
         }
-
-        this._moveToChatNullState();
     }
 
     onPrint(e) {
@@ -405,6 +405,8 @@ export default class CommonChatController {
         let escalated = this.state.isEscalated();
 
         this._moveToClosingState();
+
+        this.ended = 'true'
 
         if (this.hasBeenSurveyed()) {
             this.showEndChatPage(false);
