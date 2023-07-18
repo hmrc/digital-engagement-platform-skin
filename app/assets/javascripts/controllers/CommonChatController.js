@@ -52,6 +52,7 @@ export default class CommonChatController {
         this.state = new ChatStates.NullState();
         this.minimised = false;
         this.ended = false;
+        this.escalated = false;
     }
 
     getFeatureSwitch(switchName) {
@@ -261,8 +262,7 @@ export default class CommonChatController {
 
     closeChat() {
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
-            let escalated = this.state.isEscalated();
-            if (escalated) {
+            if (this.state.escalated) {
                 this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automatonWebchat, timestamp);
             } else {
                 this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automatonDA, timestamp);
@@ -402,7 +402,7 @@ export default class CommonChatController {
 
     onConfirmEndChat() {
         this.closeNuanceChat();
-        let escalated = this.state.isEscalated();
+        this.state.escalated = this.state.isEscalated();
 
         this._moveToClosingState();
 
@@ -411,7 +411,7 @@ export default class CommonChatController {
         if (this.hasBeenSurveyed()) {
             this.showEndChatPage(false);
         } else {
-            if (escalated) {
+            if (this.state.escalated) {
                 this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automatonWebchat, timestamp);
                 this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
             } else {
