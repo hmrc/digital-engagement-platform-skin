@@ -180,12 +180,12 @@ export default class CommonChatController {
 
     _showChat() {
         const embeddedDiv = this._getEmbeddedDiv();
-        const fixedPopupDiv = this._getFixedPopupDiv();
+        const popupDiv = this._getPopupDiv();
 
         try {
-            if (fixedPopupDiv) {
+            if (popupDiv) {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, window.Inq.SDK);
-                fixedPopupDiv.appendChild(this.container.element());
+                popupDiv.appendChild(this.container.element());
             } else if (embeddedDiv) {
                 this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml, window.Inq.SDK);
                 embeddedDiv.appendChild(this.container.element());
@@ -231,8 +231,8 @@ export default class CommonChatController {
         return document.getElementById("nuanMessagingFrame");
     }
 
-    _getFixedPopupDiv() {
-        return document.getElementById("tc-nuance-chat-container");
+    _getPopupDiv() {
+        return document.getElementById("nuanMessagingFramePopup");
     }
 
     _moveToChatShownState() {

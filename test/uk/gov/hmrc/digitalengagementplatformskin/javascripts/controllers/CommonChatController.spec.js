@@ -260,21 +260,10 @@ it("catches an exception in the showChat function", () => {
     expect(document.getElementById("ciapiSkinMinimised")).toBe(null);
   });
 
-  it("appends fixed popup chat transcript div to page when an fixed popup div id is found on page", () => {
+  it("appends popup chat transcript div to page when the popup div id is found on page", () => {
 
     let chatContainer = document.createElement("div");
-    chatContainer.setAttribute("id", "tc-nuance-chat-container");
-    document.body.appendChild(chatContainer);
-
-    commonChatController._showChat();
-
-    expect(document.getElementById("ciapiSkinChatTranscript").innerHTML).not.toBe(null);
-  });
-
-  it("appends anchored popup chat transcript div to page when an anchored popup div id is found on page", () => {
-
-    let chatContainer = document.createElement("div");
-    chatContainer.setAttribute("id", "tc-nuance-chat-container");
+    chatContainer.setAttribute("id", "nuanMessagingFramePopup");
     document.body.appendChild(chatContainer);
 
     commonChatController._showChat();
