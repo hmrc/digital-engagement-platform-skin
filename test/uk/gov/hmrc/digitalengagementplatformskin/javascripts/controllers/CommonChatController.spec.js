@@ -263,7 +263,7 @@ it("catches an exception in the showChat function", () => {
   it("appends popup chat transcript div to page when the popup div id is found on page", () => {
 
     let chatContainer = document.createElement("div");
-    chatContainer.setAttribute("id", "nuanMessagingFrame");
+    chatContainer.setAttribute("id", "tc-nuance-chat-container");
     document.body.appendChild(chatContainer);
 
     commonChatController._showChat();
