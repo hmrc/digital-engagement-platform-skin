@@ -232,7 +232,7 @@ export default class CommonChatController {
     }
 
     _getPopupDiv() {
-        return document.getElementById("nuanMessagingFramePopup");
+        return document.getElementById("tc-nuance-chat-container");
     }
 
     _moveToChatShownState() {

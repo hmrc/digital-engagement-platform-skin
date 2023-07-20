@@ -263,7 +263,7 @@ it("catches an exception in the showChat function", () => {
   it("appends popup chat transcript div to page when the popup div id is found on page", () => {
 
     let chatContainer = document.createElement("div");
-    chatContainer.setAttribute("id", "nuanMessagingFramePopup");
+    chatContainer.setAttribute("id", "nuanMessagingFrame");
     document.body.appendChild(chatContainer);
 
     commonChatController._showChat();
@@ -987,7 +987,7 @@ it("catches an exception in the showChat function", () => {
                 <div class="govuk-grid-column-two-thirds"></div>
             </div>
         </main>
-        <div id="nuanMessagingFramePopup" class="ci-api-popup"><iframe id="inqChatStage" title="Chat Window" name="10006719" src="https://www.qa.tax.service.gov.uk/engagement-platform/nuance/hmrc-uk-nuance.html?IFRAME&amp;nuance-frame-ac=0" style="z-index:9999999; display: none;overflow: hidden; position: absolute; height: 1px; width: 1px; left: 0px; top: 0px; border-style: none; border-width: 0px;"></iframe><div id="ciapiSkin">
+        <div id="nuanMessagingFrame" class="ci-api-popup"><iframe id="inqChatStage" title="Chat Window" name="10006719" src="https://www.qa.tax.service.gov.uk/engagement-platform/nuance/hmrc-uk-nuance.html?IFRAME&amp;nuance-frame-ac=0" style="z-index:9999999; display: none;overflow: hidden; position: absolute; height: 1px; width: 1px; left: 0px; top: 0px; border-style: none; border-width: 0px;"></iframe><div id="ciapiSkin">
         <p class="govuk-body print-only">Chat ID: <span id="chat-id">388262275535576909</span></p>
         <p id="print-date" class="govuk-body print-only"></p>
         </div>
