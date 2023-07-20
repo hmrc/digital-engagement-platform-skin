@@ -180,17 +180,12 @@ export default class CommonChatController {
 
     _showChat() {
         const embeddedDiv = this._getEmbeddedDiv();
-        const fixedPopupDiv = this._getFixedPopupDiv();
-        const anchoredPopupDiv = this._getAnchoredPopupDiv();
-        try {
-            if (fixedPopupDiv) {
-                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, window.Inq.SDK);
-                fixedPopupDiv.appendChild(this.container.element());
-            } else if (anchoredPopupDiv && !fixedPopupDiv) {
+        const popupDiv = this._getPopupDiv();
 
-              //This statement seems impossible (the two conditions are always either both true or both false), needs looking into
+        try {
+            if (popupDiv) {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, window.Inq.SDK);
-                anchoredPopupDiv.appendChild(this.container.element());
+                popupDiv.appendChild(this.container.element());
             } else if (embeddedDiv) {
                 this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml, window.Inq.SDK);
                 embeddedDiv.appendChild(this.container.element());
@@ -236,11 +231,7 @@ export default class CommonChatController {
         return document.getElementById("nuanMessagingFrame");
     }
 
-    _getFixedPopupDiv() {
-        return document.getElementById("tc-nuance-chat-container");
-    }
-
-    _getAnchoredPopupDiv() {
+    _getPopupDiv() {
         return document.getElementById("tc-nuance-chat-container");
     }
 
