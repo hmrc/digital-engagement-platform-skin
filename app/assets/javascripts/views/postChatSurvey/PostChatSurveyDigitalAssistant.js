@@ -35,7 +35,7 @@ export const html = `
 
           <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question2">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              How easy was it to do what you needed to do today?
+              How easy was it?
             </legend>
             <div class="govuk-radios" data-module="govuk-radios">
               <div class="govuk-radios__item">
