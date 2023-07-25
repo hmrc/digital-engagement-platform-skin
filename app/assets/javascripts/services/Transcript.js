@@ -127,6 +127,7 @@ export default class Transcript {
 
         const skipToTop = document.getElementById("skipToTop");
         const chatContainer = document.getElementById("ciapiSkinChatTranscript")
+        const popupChatContainer = document.getElementsByClassName("ci-api-popup");
 
         var agentDiv = document.createElement("div")
         agentDiv.classList.add(this.classes.Agent.Outer);
@@ -134,7 +135,13 @@ export default class Transcript {
         agentDiv.setAttribute('aria-live', 'polite');
 
         var printMessageSuffix = document.createElement("h2");
-        printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
+
+        if (popupChatContainer.length > 0) {
+          printMessageSuffix.className = "print-only popup-print-float-left govuk-!-font-weight-bold govuk-body";
+        } else {
+          printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
+        }
+
 		if (window.Agent_Name != null) {
 			printMessageSuffix.innerHTML = window.Agent_Name + " said: ";
 		} else {
@@ -144,7 +151,13 @@ export default class Transcript {
         var printOuterTimeStamp = document.createElement("div");
 
         var printTimeStamp = document.createElement("p");
-        printTimeStamp.className = "print-only govuk-body print-float-left";
+
+        if (popupChatContainer.length > 0) {
+          printTimeStamp.className = "print-only govuk-body popup-print-float-left";
+        } else {
+          printTimeStamp.className = "print-only govuk-body print-float-left";
+        }
+
         printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
 
         printOuterTimeStamp.className = "timestamp-outer";
@@ -170,14 +183,26 @@ export default class Transcript {
 
         var printOuterTimeStamp = document.createElement("div");
         var printTimeStamp = document.createElement("p");
+        const popupChatContainer = document.getElementsByClassName("ci-api-popup");
 
         if (isCustomerMsg == true) {
             var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" id=${id}></div></div>`;
             var printMessageSuffix = document.createElement("h2");
-            printMessageSuffix.className = "print-only print-float-right govuk-!-font-weight-bold govuk-body";
+
+            if (popupChatContainer.length > 0) {
+              printMessageSuffix.className = "print-only popup-print-float-right govuk-!-font-weight-bold govuk-body";
+            } else {
+              printMessageSuffix.className = "print-only print-float-right govuk-!-font-weight-bold govuk-body";
+            }
+
             printMessageSuffix.innerHTML = "You said: ";
 
-            printTimeStamp.className = "print-only govuk-body print-float-right print-timestamp-right";
+            if (popupChatContainer.length > 0) {
+              printTimeStamp.className = "print-only govuk-body popup-print-float-right print-timestamp-right";
+            } else {
+              printTimeStamp.className = "print-only govuk-body print-float-right print-timestamp-right";
+            }
+
             printTimeStamp.setAttribute('aria-hidden', 'true');
 
         } else {
@@ -195,6 +220,11 @@ export default class Transcript {
                 var msgDiv = `<div class=${msg_class.Outer}><div class= "msg-opacity govuk-body ${msg_class.Inner}" tabindex=-1 id=${id} aria-live=polite></div></div>`;
 
                 var printMessageSuffix = document.createElement("h3");
+                if (popupChatContainer.length > 0) {
+                  printMessageSuffix.className = "print-only popup-print-float-left govuk-!-font-weight-bold govuk-body";
+                } else {
+                  printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
+                }
                 printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
                 if (window.Agent_Name != null) {
                     printMessageSuffix.innerHTML = window.Agent_Name + " said: ";
@@ -202,7 +232,11 @@ export default class Transcript {
                     printMessageSuffix.innerHTML = "HMRC said: ";
                 }
 
-                printTimeStamp.className = "print-only govuk-body print-float-left";
+                if (popupChatContainer.length > 0) {
+                  printTimeStamp.className = "print-only govuk-body popup-print-float-left";
+                } else {
+                  printTimeStamp.className = "print-only govuk-body print-float-left";
+                }
                 printTimeStamp.setAttribute('aria-hidden', 'true');
             }
         }
