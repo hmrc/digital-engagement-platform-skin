@@ -49,6 +49,8 @@ export const ContainerHtml = `
             </div>
         </div>
     </div>
+    <!-- at the moment, the below URL is hardcoded. in the future this should be a properly encoded URL and have the correct chat passed in as a parameter -->
+    <div id="accessibility-statement"><a class="govuk-link" href="https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend?referrerUrl=%2Fask-hmrc%2Ftest-only%2Fci-api%2Fpopup-skin-hmrc" target="_blank">Accessibility statement (opens in a new tab)</a></div>
 </div>
 <div id="ciapiSkinMinimised">
     <button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button">
