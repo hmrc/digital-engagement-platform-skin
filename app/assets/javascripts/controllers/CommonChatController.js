@@ -245,10 +245,7 @@ export default class CommonChatController {
 
     _engageChat(text) {
         this.sdk.engageChat(text, (resp) => {
-            const url = window.location.href
-            if(url.includes('qa') || url.includes('test') || url.includes('staging') || url.includes('localhost')) {
-                logger.debug("++++ ENGAGED ++++ ->", resp);
-            } 
+            logger.debug("++++ ENGAGED ++++ ->", resp);
             if (resp.httpStatus == 200) {
                 this._moveToChatEngagedState();
             }
