@@ -1,4 +1,5 @@
 import * as MessageState from '../NuanceMessageState';
+import * as logger from '../utils/logger';
 
 export default class Transcript {
     constructor(content, classes, msgPrefix) {
@@ -308,7 +309,7 @@ export default class Transcript {
 
             this.addAutomatonMsg(divContainer, messageTimestamp, isQuickReply);
         } catch(e) {
-            console.error(e);
+            logger.error('quickReplayError',e);
             return null;
         }
     }

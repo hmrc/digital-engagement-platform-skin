@@ -1,15 +1,16 @@
 import * as MessageType from '../NuanceMessageType';
+import * as logger from '../utils/logger';
 import * as MessageState from '../NuanceMessageState';
 import { host } from '../utils/HostUtils';
 
 // State at start, before anything happens.
 export class NullState {
     onSend(text) {
-        console.error("State Error: Trying to send text with no state.");
+        logger.error("State Error: Trying to send text with no state.");
     }
 
     onClickedClose() {
-        console.error("State Error: Trying to close chat with no state.");
+        logger.error("State Error: Trying to close chat with no state.");
     }
 }
 
@@ -22,7 +23,7 @@ export class ShownState {
     }
 
     onSend(text) {
-        console.log(">>> not connected: engage request");
+        logger.info(">>> not connected: engage request");
         this.engageRequest(text);
     }
 
@@ -38,7 +39,7 @@ export class ClosingState {
     }
 
     onSend(text) {
-        console.error("State Error: Trying to send text when closing.");
+        logger.error("State Error: Trying to send text when closing.");
     }
 
     onClickedClose() {
@@ -63,7 +64,7 @@ export class EngagedState {
     }
 
     onSend(text) {
-        console.log(">>> connected: send message");
+        logger.info(">>> connected: send message");
         this.sdk.sendMessage(text);
     }
 
@@ -222,7 +223,7 @@ export class EngagedState {
 
     _chatRoomMemberLost(msg, transcript) {
         if (msg["tc.mode"] === "transfer" && msg["display.text"] === "Agent 'HMRC' loses connection") {
-            console.log("Message Suppressed")
+            logger.info("Message Suppressed")
         } else {
             transcript.addSystemMsg({msg: msg["display.text"]});
         }
@@ -230,8 +231,7 @@ export class EngagedState {
 
     _displayMessage(msg_in) {
         const msg = msg_in.data;
-
-        console.log("---- Received message:", msg);
+        logger.debug("---- Received message:", msg)
 
         // the agent.alias property will only exist on an agent message, and not on a customer message
         if (msg && msg["agent.alias"]) {
@@ -279,7 +279,7 @@ export class EngagedState {
                 if(msg.state === MessageState.Closed) {
                     transcript.addSystemMsg({msg: "Agent Left Chat."});
                 } else {
-                    console.log("==== Unknown message:", msg);
+                    logger.debug("==== Unknown message:", msg);
                 }
         }
     }

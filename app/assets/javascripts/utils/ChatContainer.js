@@ -37,6 +37,8 @@ export default class ChatContainer {
         this.endChatPopup = new EndChatPopup(this.container.querySelector("#ciapiSkinContainer"), this);
     }
 
+    
+
     _resetStopTypingTimeout() {
         if (this.stopTypingTimeoutId != undefined) {
             clearTimeout(this.stopTypingTimeoutId);
