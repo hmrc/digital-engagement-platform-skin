@@ -124,10 +124,7 @@ export default class CommonChatController {
     }
 
     getSdk() {
-        const url = window.location.href
-        if(url.includes('qa') || url.includes('test') || url.includes('staging') || url.includes('localhost')) {
-            logger.debug("printing this.sdk.chatDisplayed",this.sdk.chatDisplayed)
-        } 
+        logger.debug("printing this.sdk.chatDisplayed",this.sdk.chatDisplayed)
         return this.sdk
     }
 
@@ -141,10 +138,7 @@ export default class CommonChatController {
 
             this._displayOpenerScripts();
 
-            const url = window.location.href
-            if(url.includes('qa') || url.includes('test') || url.includes('staging') || url.includes('localhost')) {
-                logger.info("===== chatDisplayed =====");
-            } 
+            logger.info("===== chatDisplayed =====");
 
             this.sdk.chatDisplayed({
                 "customerName": "You",
