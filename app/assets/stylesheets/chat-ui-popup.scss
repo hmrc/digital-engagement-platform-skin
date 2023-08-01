@@ -206,6 +206,12 @@ $page-height: calc(100% - 5px);
     }
 }
 
+@media print {
+  .ciapiSkinChatTranscript {
+  height: calc(100% - #{$transcript-sub-height});
+  }
+}
+
 #HMRC_CIAPI_Anchored_1 {
     position: fixed;
     bottom: 0;
