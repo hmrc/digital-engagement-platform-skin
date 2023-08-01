@@ -10,6 +10,7 @@
 .ciapi-customer-message {
   @include bubble;
   float: right;
+  page-break-inside: avoid;
 }
 
 .ciapi-customer-message::before, .ciapi-customer-message::after {
