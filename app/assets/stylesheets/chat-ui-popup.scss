@@ -153,9 +153,10 @@ $page-height: calc(100% - 5px);
 }
 
 .ciapiSkinChatTranscript {
-    height: calc(100% - #{$transcript-sub-height});
+    height: 300px;
     overflow: scroll;
     overflow-x: hidden;
+    overflow-y: auto;
     padding-right: 14px;
     padding-left: 1em;
     position: relative;
@@ -203,6 +204,12 @@ $page-height: calc(100% - 5px);
         margin-left: 5px;
         margin-right: 5px;
     }
+}
+
+@media print {
+  .ciapiSkinChatTranscript {
+  height: calc(100% - #{$transcript-sub-height});
+  }
 }
 
 #HMRC_CIAPI_Anchored_1 {
