@@ -15,7 +15,7 @@ export const info = (info) =>  {
     let env = envChecker()
 
     if(env = 'nonprod'){
-        console.log('INFO', info)
+        console.log('INFO: ' + info)
     } 
     
 }
@@ -24,7 +24,7 @@ export const debug = (info, obj) =>  {
     let env = envChecker()
 
     if(env = 'nonprod'){
-        console.log('DEBUG', info, obj)
+        console.log('DEBUG: ' + info, obj)
     } 
 }
 
@@ -32,6 +32,11 @@ export const error = (info, obj) =>  {
     let env = envChecker()
 
     if(env = 'nonprod'){
-        console.log('ERROR', info, obj)
+        if(obj){
+            console.error('ERROR: ' + info, obj)
+        } else {
+            console.error('ERROR: ' + info)
+        }
+        
     } 
 }
