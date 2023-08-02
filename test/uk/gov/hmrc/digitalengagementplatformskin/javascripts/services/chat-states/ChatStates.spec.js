@@ -15,7 +15,7 @@ describe("Chat States", () => {
             const state = new ChatStates.NullState();
 
             state.onSend("Some text that will be ignored");
-            expect(console.error).toHaveBeenCalledWith("State Error: Trying to send text with no state.");
+            expect(console.error).toHaveBeenCalledWith("ERROR: State Error: Trying to send text with no state.");
         });
 
         it("logs error for onClickedClose", () => {
@@ -24,7 +24,7 @@ describe("Chat States", () => {
             const state = new ChatStates.NullState();
 
             state.onClickedClose();
-            expect(console.error).toHaveBeenCalledWith("State Error: Trying to close chat with no state.");
+            expect(console.error).toHaveBeenCalledWith("ERROR: State Error: Trying to close chat with no state.");
         });
     });
 
@@ -61,7 +61,7 @@ describe("Chat States", () => {
             const state = new ChatStates.ClosingState(jest.fn());
 
             state.onSend("Some text that will be ignored");
-            expect(console.error).toHaveBeenCalledWith("State Error: Trying to send text when closing.");
+            expect(console.error).toHaveBeenCalledWith("ERROR: State Error: Trying to send text when closing.");
         });
 
         it("closes the window onClickedClose", () => {
@@ -312,7 +312,7 @@ describe("Chat States", () => {
 
             
             handleMessage(message);
-            expect(console.log).toBeCalledWith("==== Unknown message:", {});
+            expect(console.log).toBeCalledWith("DEBUG: ==== Unknown message:", {});
         });
 
         it("send previous messages to the transcript", () => {
@@ -537,7 +537,6 @@ describe("Chat States", () => {
             handleMessage(message);
             expect(container.transcript.addSystemMsg).toBeCalledTimes(0);
             expect(chatRoomMemberLostSpy).toBeCalledTimes(1);
-            expect(console.log).toBeCalledWith("Message Suppressed");
         });
 
         it("reports agent has been lost", () => {

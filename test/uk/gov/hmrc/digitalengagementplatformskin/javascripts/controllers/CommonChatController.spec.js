@@ -143,9 +143,9 @@ describe("CommonChatController", () => {
     firstCallObject.previousMessagesCb({messages: ["fake message"]});
 
     expect(moveToChatEngagedStateMock).toBeCalledWith(["fake message"]);
-    expect(console.log).toHaveBeenCalledWith("%%%%%% disconnected %%%%%%");
-    expect(console.log).toHaveBeenCalledWith("%%%%%% reconnected %%%%%%");
-    expect(console.log).toHaveBeenCalledWith("%%%%%% failed %%%%%%");
+    expect(console.log).toHaveBeenCalledWith("INFO: %%%%%% disconnected %%%%%%");
+    expect(console.log).toHaveBeenCalledWith("INFO: %%%%%% reconnected %%%%%%");
+    expect(console.log).toHaveBeenCalledWith("INFO: %%%%%% failed %%%%%%");
 
     expect(firstCallObject.customerName).toBe("You");
     expect(firstCallObject.defaultAgentAlias).toBe("HMRC");
@@ -171,7 +171,7 @@ it("catches an exception in the launchChat function", () => {
 
   commonChatController._launchChat();
 
-  expect(console.error).toBeCalledWith("!!!! launchChat got exception: ", new Error("test"))
+  expect(console.error).toBeCalledWith("ERROR: !!!! launchChat got exception: ", new Error("test"))
 });
 
 it("catches an exception in the showChat function", () => {
@@ -181,7 +181,7 @@ it("catches an exception in the showChat function", () => {
 
   commonChatController._showChat();
 
-  expect(console.error).toBeCalledWith("!!!! _showChat got exception: ", new Error("test"))
+  expect(console.error).toBeCalledWith("ERROR: !!!! _showChat got exception: ", new Error("test"))
 });
 
   it("updateDav3DeskproRefererUrls will get the three deskpro URLs url,", () => {

@@ -1,3 +1,5 @@
+import * as logger from '../utils/logger';
+
 export const sanitiseAndParseJsonData = (data) => {
     try {
         data = data.replace(/'/g, '"');
@@ -5,7 +7,7 @@ export const sanitiseAndParseJsonData = (data) => {
         data = JSON.parse(data);
         return data;
     } catch(e) {
-        console.log('error in sanitiseAndParseJsonData: ', e);
+        logger.error('error in sanitiseAndParseJsonData: ', e);
         return null;
     }
 }
