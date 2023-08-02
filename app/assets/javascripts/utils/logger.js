@@ -2,36 +2,33 @@ function envChecker() {
     let env;
     let url = window.location.href;
 
-    if(!url.includes('qa') || !url.includes('test') || !url.includes('staging') || !url.includes('localhost')) {
-        env = 'prod'
+    if(url.includes('qa') || url.includes('test') || url.includes('staging') || url.includes('localhost')) {
+        env = 'dev'
     } else {
-        env = 'nonprod'
+        env = 'prod'
     }
 
     return env;
 }
 
 export const info = (info) =>  {
-    let env = envChecker()
 
-    if(env = 'nonprod'){
+    if(envChecker() == 'dev'){
         console.log('INFO: ' + info)
     } 
     
 }
 
 export const debug = (info, obj) =>  {
-    let env = envChecker()
 
-    if(env = 'nonprod'){
+    if(envChecker() == 'dev'){
         console.log('DEBUG: ' + info, obj)
     } 
 }
 
 export const error = (info, obj) =>  {
-    let env = envChecker()
 
-    if(env = 'nonprod'){
+    if(envChecker() == 'dev'){
         if(obj){
             console.error('ERROR: ' + info, obj)
         } else {
