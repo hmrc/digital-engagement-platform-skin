@@ -45,7 +45,7 @@ export const ContainerHtml = `
                 cols="50"
                 name="comments"></textarea></div>
             <div id="ciapiSend">
-                <button id="ciapiSkinSendButton" class="govuk-button" data-module="govuk-button">Send Message</button>
+                <button id="ciapiSkinSendButton" class="govuk-button" data-module="govuk-button">Send message</button>
             </div>
         </div>
         <!-- at the moment, the below URL is hardcoded. in the future this should be a properly encoded URL and have the correct chat passed in as a parameter -->
