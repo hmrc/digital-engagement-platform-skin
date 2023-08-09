@@ -54,7 +54,7 @@ export const ContainerHtml = `
 </div>
 <div id="ciapiSkinMinimised">
     <button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button">
-        <div id="logo-white"></div>
+        <div id="logo-white"><img src="` + host + `/engagement-platform-skin/assets/media/logo-white.png"></div>
         <h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2>
     </button>
 </div>
