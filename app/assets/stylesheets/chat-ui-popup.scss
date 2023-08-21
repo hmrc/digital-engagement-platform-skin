@@ -118,7 +118,7 @@ $page-height: calc(100% - 5px);
     color: white;
     cursor: pointer;
     &:hover {
-        background-color: #dbdad9 !important;
+        background-color: #003078 !important;
     }
 }
     #ciapiSkinCloseButton {
@@ -153,15 +153,16 @@ $page-height: calc(100% - 5px);
 }
 
 .ciapiSkinChatTranscript {
-    height: calc(100% - #{$transcript-sub-height});
+    height: 300px;
     overflow: scroll;
     overflow-x: hidden;
+    overflow-y: auto;
     padding-right: 14px;
     padding-left: 1em;
     position: relative;
 
     div {
-        margin-bottom: 0px;
+        margin-bottom: 10px;
         @extend .govuk-body;
     }
 
@@ -205,6 +206,12 @@ $page-height: calc(100% - 5px);
     }
 }
 
+@media print {
+  .ciapiSkinChatTranscript {
+  height: calc(100% - #{$transcript-sub-height});
+  }
+}
+
 #HMRC_CIAPI_Anchored_1 {
     position: fixed;
     bottom: 0;
@@ -234,6 +241,19 @@ $page-height: calc(100% - 5px);
     text-align: right;
 }
 
+#accessibility-statement {
+    float: left;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    height: 19px;
+    background-color: #eee;
+    font-size: 14px;
+
+  a {
+    padding-left: 5px;
+  }
+}
+
 
 #ciapiSkinMinimised {
     width: 100%;
@@ -242,7 +262,7 @@ $page-height: calc(100% - 5px);
     position: fixed;
     bottom: 0px;
     right: 0px;
-    background-color: #00703c;
+    background-color: #1d70b8;
     #ciapiSkinRestoreButton {
         z-index: 1000;
         width: 100%;
@@ -251,12 +271,12 @@ $page-height: calc(100% - 5px);
         cursor: pointer;
         #logo-white {
             float: left;
-            background-image: url('/engagement-platform-skin/assets/media/logo-white.svg') no-repeat;
             padding-left: 0.6em;
             padding-top: 0.3em;
             img {
-                height: 44px;
-                width: 44px;
+                margin: 3px 0 0 0;
+                height: 42px;
+                width: 42px;
             }
         }
         h2 {

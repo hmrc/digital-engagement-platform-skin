@@ -1,22 +1,23 @@
-
+import * as logger from './utils/logger';
+ 
 export function safeHandler(f) {
     return function () {
         try {
             f.apply(null, arguments)
         } catch (e) {
-            console.error(`!!!! handler for ${f.name}: got exception `, e);
+            logger.error(`!!!! handler for ${f.name}: got exception `, e)
         }
     }
 };
 
 export const chatListener = {
     onAnyEvent: function(evt) {
-        console.log("Chat any event:", evt);
+        logger.debug("Chat any event:", evt);
         window.chatId = evt.chatID;
         window.agentId = evt.agentID;
     },
     onC2CStateChanged: function (evt) {
-        console.log("C2C state changed...")
+        logger.info("C2C state changed...")
     }
 };
 
@@ -46,7 +47,7 @@ export function hookWindow(w, commonChatController, reactiveChatController, proa
 
     w.nuanceProactive = safeHandler(
         function nuanceProactive(obj) {
-            console.log("### PROACTIVE", obj);
+            logger.debug("### PROACTIVE", obj)
             proactiveChatController.launchProactiveChat();
         }
     );

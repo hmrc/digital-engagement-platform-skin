@@ -48,14 +48,16 @@ export function ContainerHtml(isEscalated) {
                 cols="50"
                 name="comments"></textarea></div>
             <div id="ciapiSend">
-                <button id="ciapiSkinSendButton" class="govuk-button" data-module="govuk-button">Send Message</button>
+                <button id="ciapiSkinSendButton" class="govuk-button" data-module="govuk-button">Send message</button>
             </div>
         </div>
+        <!-- at the moment, the below URL is hardcoded. in the future this should be a properly encoded URL and have the correct chat passed in as a parameter -->
+        <div id="accessibility-statement"><a class="govuk-link govuk-!-display-none-print" href="https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend?referrerUrl=%2Fask-hmrc%2Ftest-only%2Fci-api%2Fpopup-skin-hmrc" target="_blank">Accessibility statement (opens in a new tab)</a></div>    
     </div>
 </div>
 <div id="ciapiSkinMinimised">
     <button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button">
-        <div id="logo-white"></div>
+        <div id="logo-white"><img src="` + host + `/engagement-platform-skin/assets/media/logo-white.png"></div>
         <h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2>
     </button>
 </div>

@@ -5,6 +5,7 @@ import * as MessageClasses from '../DefaultClasses'
 import * as EmbeddedContainerHtml from '../views/embedded/EmbeddedContainerHtml'
 import * as PopupContainerHtml from '../views/popup/PopupContainerHtml'
 import * as ChatStates from '../services/ChatStates'
+import * as logger from '../utils/logger';
 import PostChatSurveyWebchatService from '../services/PostChatSurveyWebchatService'
 import PostChatSurveyDigitalAssistantService from '../services/PostChatSurveyDigitalAssistantService'
 import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
@@ -123,7 +124,7 @@ export default class CommonChatController {
     }
 
     getSdk() {
-        console.log("printing this.sdk.chatDisplayed",this.sdk.chatDisplayed)
+        logger.debug("printing this.sdk.chatDisplayed",this.sdk.chatDisplayed)
         return this.sdk
     }
 
@@ -137,14 +138,14 @@ export default class CommonChatController {
 
             this._displayOpenerScripts();
 
-            console.log("===== chatDisplayed =====");
+            logger.info("===== chatDisplayed =====");
 
             this.sdk.chatDisplayed({
                 "customerName": "You",
                 "previousMessagesCb": (resp) => this._moveToChatEngagedState(resp.messages),
-                "disconnectCb": () => console.log("%%%%%% disconnected %%%%%%"),
-                "reConnectCb": () => console.log("%%%%%% reconnected %%%%%%"),
-                "failedCb": () => console.log("%%%%%% failed %%%%%%"),
+                "disconnectCb": () => logger.info("%%%%%% disconnected %%%%%%"),
+                "reConnectCb": () => logger.info("%%%%%% reconnected %%%%%%"),
+                "failedCb": () => logger.info("%%%%%% failed %%%%%%"),
                 "openerScripts": null,
                 "defaultAgentAlias": "HMRC"
             });
@@ -164,7 +165,7 @@ export default class CommonChatController {
             }
 
         } catch (e) {
-            console.error("!!!! launchChat got exception: ", e);
+            logger.error("!!!! launchChat got exception: ", e);
         }
     }
 
@@ -180,17 +181,13 @@ export default class CommonChatController {
 
     _showChat() {
         const embeddedDiv = this._getEmbeddedDiv();
-        const fixedPopupDiv = this._getFixedPopupDiv();
-        const anchoredPopupDiv = this._getAnchoredPopupDiv();
+        const popupDiv = this._getPopupDiv();
         const webchatOnly = this._isWebchatOnly();
+
         try {
-            if (fixedPopupDiv) {
+            if (popupDiv) {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
-                fixedPopupDiv.appendChild(this.container.element());
-            } else if (anchoredPopupDiv && !fixedPopupDiv) {
-              //This statement seems impossible (the two conditions are always either both true or both false), needs looking into
-                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
-                anchoredPopupDiv.appendChild(this.container.element());
+                popupDiv.appendChild(this.container.element());
             } else if (embeddedDiv) {
                 this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 embeddedDiv.appendChild(this.container.element());
@@ -203,7 +200,7 @@ export default class CommonChatController {
 
             this._moveToChatShownState();
         } catch (e) {
-            console.error("!!!! _showChat got exception: ", e);
+            logger.error("!!!! _showChat got exception: ", e);
         }
     }
 
@@ -242,17 +239,7 @@ export default class CommonChatController {
         }
     }
 
-    _getFixedPopupDiv() {
-        let baseDiv = document.getElementById("tc-nuance-chat-container");
-        let webchatOnlyDiv = document.getElementById("tc-nuance-chat-container-webchat");
-        if (baseDiv) {
-            return baseDiv
-        } else {
-            return webchatOnlyDiv
-        }
-    }
-
-    _getAnchoredPopupDiv() {
+    _getPopupDiv() {
         let baseDiv = document.getElementById("tc-nuance-chat-container");
         let webchatOnlyDiv = document.getElementById("tc-nuance-chat-container-webchat");
         if (baseDiv) {
@@ -278,7 +265,7 @@ export default class CommonChatController {
 
     _engageChat(text) {
         this.sdk.engageChat(text, (resp) => {
-            console.log("++++ ENGAGED ++++ ->", resp);
+            logger.debug("++++ ENGAGED ++++ ->", resp);
             if (resp.httpStatus == 200) {
                 this._moveToChatEngagedState();
             }
@@ -373,12 +360,12 @@ export default class CommonChatController {
     }
 
     nuanceFrameworkLoaded(w) {
-        console.log("### framework loaded");
+        logger.info("### framework loaded");
         this.sdk = w.Inq.SDK;
         if (this.sdk.isChatInProgress()) {
-            console.log("************************************")
-            console.log("******* chat is in progress ********")
-            console.log("************************************")
+            logger.info("************************************")
+            logger.info("******* chat is in progress ********")
+            logger.info("************************************")
         }
     }
 

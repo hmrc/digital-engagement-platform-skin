@@ -15,8 +15,7 @@ $footer-top-border-height: 3px;
     flex-flow: wrap;
     justify-content: space-between;
     flex-direction: row;
-    gap: 1rem;
-    padding-bottom: 0.2rem;
+    padding: 0.5rem 0;
 }
 
 #ciapiSkinHeader .govuk-button,
@@ -31,8 +30,9 @@ $footer-top-border-height: 3px;
 
 #print .govuk-button--secondary {
     background-size: 1em;
-    padding-left: 1.2em;
-    padding-top: 0.3em;
+    padding: 0.3em 0.3em;
+    // padding-left: 1.2em;
+    // padding-top: 0.3em;
     background-color: #f3f2f1;
     background-position: 0 50%; /*we have removed the hard-coded height so need the image to be aware of its context*/
 }
@@ -169,16 +169,26 @@ $footer-top-border-height: 3px;
     .print-timestamp-right {
         clear: both;
     }
+    .popup-print-float-right {
+      float: right;
+      margin-top: 2em;
+      margin-bottom: .2em;
+    }
+    .popup-print-float-left {
+      clear: both;
+      display: inline-block;
+      width: 30em;
+      margin-top: 2em;
+      margin-bottom: .2em;
+    }
     .print-float-right {
         float: right;
-        margin-top: 2em;
         margin-bottom: .2em;
     }
     .print-float-left {
         clear: both;
         display: inline-block;
         width: 30em;
-        margin-top: 2em;
         margin-bottom: .2em;
     }
     .govuk-header__container {

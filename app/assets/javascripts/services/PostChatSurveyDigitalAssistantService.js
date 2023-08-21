@@ -1,3 +1,5 @@
+import * as logger from '../utils/logger';
+
 export default class PostChatSurveyDigitalAssistantService {
     constructor(sdk) {
         this.sdk = sdk;
@@ -94,12 +96,12 @@ export default class PostChatSurveyDigitalAssistantService {
             automatonName: automaton.name,
             automatonOrigin: "richMedia"
         };
-        console.log("== beginPostChatSurvey ==");
+        logger.info("== beginPostChatSurvey ==");
 
         try {
             this.sdk.logEventToDW({ eventList: [startedEvent, contentSentToCustomerEvent] });
         } catch (e) {
-            console.error("!!!! logEventToDW got exception: ", e);
+            logger.error("!!!! logEventToDW got exception: ", e);
         }
     }
 
@@ -225,12 +227,12 @@ export default class PostChatSurveyDigitalAssistantService {
                 clientTimestamp: timestamp,
                 automatonOrigin: "richMedia"
             };
-            console.log("== submitPostChatSurvey ==");
+            logger.info("== submitPostChatSurvey ==");
 
             try {
                 this.sdk.logEventToDW({ eventList: [customerRespondedEvent, endedEvent] });
             } catch (e) {
-                console.error("!!!! logEventToDW got exception: ", e);
+                logger.error("!!!! logEventToDW got exception: ", e);
             }
         }
 
@@ -253,12 +255,12 @@ export default class PostChatSurveyDigitalAssistantService {
             clientTimestamp: timestamp,
             automatonOrigin: "richMedia"
         };
-        console.log("===== closePostChatSurvey =====");
+        logger.info("===== closePostChatSurvey =====");
 
         try {
             this.sdk.logEventToDW({ eventList: [endedEvent] });
         } catch (e) {
-            console.error("!!!! logEventToDW got exception: ", e);
+            logger.error("!!!! logEventToDW got exception: ", e);
         }
     }
 }

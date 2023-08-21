@@ -1,15 +1,16 @@
 import * as MessageType from '../NuanceMessageType';
+import * as logger from '../utils/logger';
 import * as MessageState from '../NuanceMessageState';
 import { host } from '../utils/HostUtils';
 
 // State at start, before anything happens.
 export class NullState {
     onSend(text) {
-        console.error("State Error: Trying to send text with no state.");
+        logger.error("State Error: Trying to send text with no state.");
     }
 
     onClickedClose() {
-        console.error("State Error: Trying to close chat with no state.");
+        logger.error("State Error: Trying to close chat with no state.");
     }
 }
 
@@ -22,7 +23,7 @@ export class ShownState {
     }
 
     onSend(text) {
-        console.log(">>> not connected: engage request");
+        logger.info(">>> not connected: engage request");
         this.engageRequest(text);
     }
 
@@ -38,7 +39,7 @@ export class ClosingState {
     }
 
     onSend(text) {
-        console.error("State Error: Trying to send text when closing.");
+        logger.error("State Error: Trying to send text when closing.");
     }
 
     onClickedClose() {
@@ -63,7 +64,7 @@ export class EngagedState {
     }
 
     onSend(text) {
-        console.log(">>> connected: send message");
+        logger.info(">>> connected: send message");
         this.sdk.sendMessage(text);
     }
 
@@ -110,9 +111,10 @@ export class EngagedState {
 
     _processMessageYouTubeVideoData(msg, messageTimeStamp) {
         const jsonMessageData = JSON.parse(msg.messageData);
+        const youtubeURL = "https://www.youtube.com/watch?v=" + jsonMessageData.videoId
         if (jsonMessageData.widgetType === "youtube-video") {
             const embeddedVideoUrl = "https://www.youtube.com/embed/" + jsonMessageData.videoId
-            const iframeVideo =  `<p>${msg.messageText}</p><div class="iframe-wrap"><iframe class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="${embeddedVideoUrl}"></iframe></div>`;
+            const iframeVideo =  `<p>${msg.messageText}</p><p><a href="${youtubeURL}" rel="noreferrer noopener" target="_blank"> ${youtubeURL} (opens in new tab)</a></p><div class="iframe-wrap"><iframe class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="${embeddedVideoUrl}"></iframe></div>`;
             const transcript = this.container.getTranscript();
             this._playSoundIfActive();
             transcript.addAutomatonMsg(iframeVideo, messageTimeStamp);
@@ -222,7 +224,7 @@ export class EngagedState {
 
     _chatRoomMemberLost(msg, transcript) {
         if (msg["tc.mode"] === "transfer" && msg["display.text"] === "Agent 'HMRC' loses connection") {
-            console.log("Message Suppressed")
+            logger.info("Message Suppressed")
         } else {
             transcript.addSystemMsg({msg: msg["display.text"]});
         }
@@ -230,8 +232,7 @@ export class EngagedState {
 
     _displayMessage(msg_in) {
         const msg = msg_in.data;
-
-        console.log("---- Received message:", msg);
+        logger.debug("---- Received message:", msg)
 
         // the agent.alias property will only exist on an agent message, and not on a customer message
         if (msg && msg["agent.alias"]) {
@@ -279,7 +280,7 @@ export class EngagedState {
                 if(msg.state === MessageState.Closed) {
                     transcript.addSystemMsg({msg: "Agent Left Chat."});
                 } else {
-                    console.log("==== Unknown message:", msg);
+                    logger.debug("==== Unknown message:", msg);
                 }
         }
     }

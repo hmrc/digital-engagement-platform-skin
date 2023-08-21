@@ -1,4 +1,5 @@
 import * as DisplayState from '../NuanceDisplayState'
+import * as logger from '../utils/logger';
 
 export default class ClickToChatButtons {
     constructor(onClicked, displayStateMessages) {
@@ -36,7 +37,7 @@ export default class ClickToChatButtons {
 
         if (c2cObj.launchable) {
             div.onclick = function() {
-                console.log(this);
+                logger.debug('c2cObj', this);
                 this.onClicked(c2cObj.c2cIdx);
             }.bind(this);
         }
