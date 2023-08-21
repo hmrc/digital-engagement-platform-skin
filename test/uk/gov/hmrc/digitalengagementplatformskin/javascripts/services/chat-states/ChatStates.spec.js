@@ -761,7 +761,7 @@ describe("Chat States", () => {
 
             const firstArgToTranscriptAddAutomatonMsg = container.transcript.addAutomatonMsg.mock.calls[0][0];
 
-            expect(firstArgToTranscriptAddAutomatonMsg).toBe(`<p>Video test message</p><p><a href=\"https://www.youtube.com/watch?v=Jn46jDuKbn8\" rel="noreferrer noopener" target=\"_blank\"> https://www.youtube.com/watch?v=Jn46jDuKbn8 (opens in new tab)</a></p><div class="iframe-wrap"><iframe class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="https://www.youtube.com/embed/Jn46jDuKbn8"></iframe></div>`);
+            expect(firstArgToTranscriptAddAutomatonMsg).toBe(`<p>Video test message</p><p><a href=\"https://www.youtube.com/watch?v=Jn46jDuKbn8\" rel="noreferrer noopener" target=\"_blank\"> https://www.youtube.com/watch?v=Jn46jDuKbn8 (opens in new tab)</a></p><div class="iframe-wrap"><iframe title=\"Embedded YouTube Video\" class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="https://www.youtube.com/embed/Jn46jDuKbn8"></iframe></div>`);
         });
     });
 
