@@ -182,20 +182,20 @@ export default class CommonChatController {
         const embeddedDiv = this._getEmbeddedDiv();
         const fixedPopupDiv = this._getFixedPopupDiv();
         const anchoredPopupDiv = this._getAnchoredPopupDiv();
+        const webchatOnly = this._isWebchatOnly();
         try {
             if (fixedPopupDiv) {
-                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, window.Inq.SDK);
+                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 fixedPopupDiv.appendChild(this.container.element());
             } else if (anchoredPopupDiv && !fixedPopupDiv) {
-
               //This statement seems impossible (the two conditions are always either both true or both false), needs looking into
-                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, window.Inq.SDK);
+                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 anchoredPopupDiv.appendChild(this.container.element());
             } else if (embeddedDiv) {
-                this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml, window.Inq.SDK);
+                this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 embeddedDiv.appendChild(this.container.element());
             } else {
-                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, window.Inq.SDK);
+                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 document.getElementsByTagName("body")[0].appendChild(this.container.element());
             }
 
@@ -233,15 +233,40 @@ export default class CommonChatController {
     }
 
     _getEmbeddedDiv() {
-        return document.getElementById("nuanMessagingFrame");
+        let baseDiv = document.getElementById("nuanMessagingFrame");
+        let webchatOnlyDiv = document.getElementById("nuanMessagingFrame-webchat");
+        if (baseDiv) {
+            return baseDiv
+        } else {
+            return webchatOnlyDiv
+        }
     }
 
     _getFixedPopupDiv() {
-        return document.getElementById("tc-nuance-chat-container");
+        let baseDiv = document.getElementById("tc-nuance-chat-container");
+        let webchatOnlyDiv = document.getElementById("tc-nuance-chat-container-webchat");
+        if (baseDiv) {
+            return baseDiv
+        } else {
+            return webchatOnlyDiv
+        }
     }
 
     _getAnchoredPopupDiv() {
-        return document.getElementById("tc-nuance-chat-container");
+        let baseDiv = document.getElementById("tc-nuance-chat-container");
+        let webchatOnlyDiv = document.getElementById("tc-nuance-chat-container-webchat");
+        if (baseDiv) {
+            return baseDiv
+        } else {
+            return webchatOnlyDiv
+        }
+    }
+
+    _isWebchatOnly() {
+        let embeddedWebchat = document.getElementById("nuanMessagingFrame-webchat");
+        let popupWebchat = document.getElementById("tc-nuance-chat-container-webchat");
+
+        return !!(embeddedWebchat || popupWebchat);
     }
 
     _moveToChatShownState() {
