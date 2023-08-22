@@ -2,7 +2,11 @@
 
 import { host } from "../../utils/HostUtils";
 
-export const ContainerHtml = `
+export function ContainerHtml(isEscalated) {
+    let automatedMessage = "";
+    if (!isEscalated) { automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img role="img" src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">You are currently chatting with a computer.</p>`}
+
+    return `
 <div id="printDetails" class="print-only govuk-!-padding-top-8 govuk-!-padding-bottom-8">
 <p class="govuk-body print-only">Chat ID: <span id="chat-id"></span></p>
 <p id="print-date" class="govuk-body print-only"></p>
@@ -32,8 +36,7 @@ export const ContainerHtml = `
     </div>
     <div id="ciapiChatComponents">
         <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript print-overflow-visible" tabindex="0" aria-label="chat transcript">
-            <div id="skipToBottom"><a id="skipToBottomLink" href="#skipToTopLink" class="govuk-skip-link">Skip to bottom of conversation</a></div>
-            <p id="info" class="info govuk-!-display-none-print"><img role="img" src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">You are currently chatting with a computer.</p>
+            <div id="skipToBottom"><a id="skipToBottomLink" href="#skipToTopLink" class="govuk-skip-link">Skip to bottom of conversation</a></div>` + automatedMessage + `
         </div>
         <div id="ciapiSkinFooter" class="govuk-!-display-none-print">
             <div id="ciapiInput"><textarea
@@ -58,4 +61,4 @@ export const ContainerHtml = `
         <h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2>
     </button>
 </div>
-`
+`}

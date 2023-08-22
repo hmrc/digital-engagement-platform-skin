@@ -182,16 +182,17 @@ export default class CommonChatController {
     _showChat() {
         const embeddedDiv = this._getEmbeddedDiv();
         const popupDiv = this._getPopupDiv();
+        const webchatOnly = this._isWebchatOnly();
 
         try {
             if (popupDiv) {
-                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, window.Inq.SDK);
+                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 popupDiv.appendChild(this.container.element());
             } else if (embeddedDiv) {
-                this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml, window.Inq.SDK);
+                this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 embeddedDiv.appendChild(this.container.element());
             } else {
-                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml, window.Inq.SDK);
+                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 document.getElementsByTagName("body")[0].appendChild(this.container.element());
             }
 
@@ -229,11 +230,30 @@ export default class CommonChatController {
     }
 
     _getEmbeddedDiv() {
-        return document.getElementById("nuanMessagingFrame");
+        let baseDiv = document.getElementById("nuanMessagingFrame");
+        let webchatOnlyDiv = document.getElementById("nuanMessagingFrame-webchat");
+        if (baseDiv) {
+            return baseDiv
+        } else {
+            return webchatOnlyDiv
+        }
     }
 
     _getPopupDiv() {
-        return document.getElementById("tc-nuance-chat-container");
+        let baseDiv = document.getElementById("tc-nuance-chat-container");
+        let webchatOnlyDiv = document.getElementById("tc-nuance-chat-container-webchat");
+        if (baseDiv) {
+            return baseDiv
+        } else {
+            return webchatOnlyDiv
+        }
+    }
+
+    _isWebchatOnly() {
+        let embeddedWebchat = document.getElementById("nuanMessagingFrame-webchat");
+        let popupWebchat = document.getElementById("tc-nuance-chat-container-webchat");
+
+        return !!(embeddedWebchat || popupWebchat);
     }
 
     _moveToChatShownState() {
