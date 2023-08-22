@@ -114,7 +114,7 @@ export class EngagedState {
         const youtubeURL = "https://www.youtube.com/watch?v=" + jsonMessageData.videoId
         if (jsonMessageData.widgetType === "youtube-video") {
             const embeddedVideoUrl = "https://www.youtube.com/embed/" + jsonMessageData.videoId
-            const iframeVideo =  `<p>${msg.messageText}</p><p><a href="${youtubeURL}" rel="noreferrer noopener" target="_blank"> ${youtubeURL} (opens in new tab)</a></p><div class="iframe-wrap"><iframe title="Embedded YouTube Video" class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="${embeddedVideoUrl}"></iframe></div>`;
+            const iframeVideo =  `<p>${msg.messageText}</p><span class="govuk-visually-hidden">embedded youtube video below with url</span><p><a href="${youtubeURL}" rel="noreferrer noopener" target="_blank"> ${youtubeURL} (opens in new tab)</a></p><div class="iframe-wrap"><iframe title="Embedded YouTube Video" class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="${embeddedVideoUrl}"></iframe></div>`;
             const transcript = this.container.getTranscript();
             this._playSoundIfActive();
             transcript.addAutomatonMsg(iframeVideo, messageTimeStamp);
