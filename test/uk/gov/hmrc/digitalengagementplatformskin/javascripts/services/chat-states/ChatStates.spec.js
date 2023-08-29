@@ -360,7 +360,7 @@ describe("Chat States", () => {
                     "engagementID": "388260662637696059",
                     "messageTimestamp": "1627648283000",
                     "client.display.text": "I'm connecting you to the next available webchat adviser.",
-                    "msg.originalrequest.id": "385445912674772418",
+                    "msg.originalrequest.id": "385445912674772418"
                 }
             };
 
