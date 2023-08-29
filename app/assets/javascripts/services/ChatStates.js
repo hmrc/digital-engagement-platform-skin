@@ -208,14 +208,15 @@ export class EngagedState {
             {
                 msg: msg["client.display.text"] || msg["display.text"],
                 joinTransfer: msg["aeapi.join_transfer"]
-            }
+            },
+            msg.messageTimestamp
         );
     }
 
     _chatActivityAndAgentTyping(msg, transcript) {
         if(msg.state === MessageState.Agent_IsTyping) {
             if (msg["display.text"] == "Agent is typing...") {
-                transcript.addSystemMsg({msg: msg["display.text"], state: MessageState.Agent_IsTyping});
+                transcript.addSystemMsg({msg: msg["display.text"], state: MessageState.Agent_IsTyping}, msg.messageTimestamp);
             } else {
                 this._removeAgentIsTyping();
             }
@@ -226,7 +227,7 @@ export class EngagedState {
         if (msg["tc.mode"] === "transfer" && msg["display.text"] === "Agent 'HMRC' loses connection") {
             logger.info("Message Suppressed")
         } else {
-            transcript.addSystemMsg({msg: msg["display.text"]});
+            transcript.addSystemMsg({msg: msg["display.text"]}, msg.messageTimestamp);
         }
     }
 
@@ -252,16 +253,16 @@ export class EngagedState {
                 this._chatActivityAndAgentTyping(msg, transcript);
                 break;
             case MessageType.Chat_Exit:
-                transcript.addSystemMsg({msg: (msg["display.text"] || "Adviser exited chat")});
+                transcript.addSystemMsg({msg: (msg["display.text"] || "Adviser exited chat")}, msg.messageTimestamp);
                 break;
             case MessageType.Chat_CommunicationQueue:
-                transcript.addSystemMsg({msg: msg.messageText});
+                transcript.addSystemMsg({msg: msg.messageText}, msg.messageTimestamp);
                 break;
             case MessageType.Chat_NeedWait:
-                transcript.addSystemMsg({msg: msg.messageText});
+                transcript.addSystemMsg({msg: msg.messageText}, msg.messageTimestamp);
                 break;
             case MessageType.Chat_Denied:
-                transcript.addSystemMsg({msg: msg["thank_you_image_label"]});
+                transcript.addSystemMsg({msg: msg["thank_you_image_label"]}, msg.messageTimestamp);
                 break;
             case MessageType.ChatRoom_MemberLost:
                 this._chatRoomMemberLost(msg, transcript);
@@ -273,12 +274,12 @@ export class EngagedState {
                 if(msg["client.display.text"] == '') {
                     break;
                 } else {
-                    transcript.addSystemMsg({msg: msg["client.display.text"]})
+                    transcript.addSystemMsg({msg: msg["client.display.text"]}, msg.messageTimestamp)
                     break;
                 }
             default:
                 if(msg.state === MessageState.Closed) {
-                    transcript.addSystemMsg({msg: "Agent Left Chat."});
+                    transcript.addSystemMsg({msg: "Agent Left Chat."}, msg.messageTimestamp);
                 } else {
                     logger.debug("==== Unknown message:", msg);
                 }

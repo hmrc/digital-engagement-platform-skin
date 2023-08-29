@@ -241,12 +241,13 @@ describe("Chat States", () => {
             const message = {
                 data: {
                     messageType: MessageType.Chat_CommunicationQueue,
-                    messageText: "Queue message"
+                    messageText: "Queue message",
+                    messageTimestamp: "test"
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Queue message"});
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Queue message"}, "test");
         });
 
         it("sends system messages to the transcript chat.need_wait", () => {
@@ -258,12 +259,13 @@ describe("Chat States", () => {
             const message = {
                 data: {
                     messageType: MessageType.Chat_NeedWait,
-                    messageText: "Need to wait message"
+                    messageText: "Need to wait message",
+                    messageTimestamp: "test"
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Need to wait message"});
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Need to wait message"}, "test");
         });
 
         it("reports Chat Denied to the transcript", () => {
@@ -275,13 +277,13 @@ describe("Chat States", () => {
             const message = {
                 data: {
                     messageType: MessageType.Chat_Denied,
-                    thank_you_image_label: "chat denied message"
-
+                    thank_you_image_label: "chat denied message",
+                    messageTimestamp: "test"
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "chat denied message"});
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "chat denied message"}, "test");
         });
 
         it("reports Closed to the transcript", () => {
@@ -292,12 +294,13 @@ describe("Chat States", () => {
             const handleMessage = sdk.getMessages.mock.calls[0][0];
             const message = {
                 data: {
-                    state: "closed"
+                    state: "closed",
+                    messageTimestamp: "test"
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent Left Chat."});
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent Left Chat."}, "test");
         });
 
         it("reports unknown message to console log", () => {
@@ -357,12 +360,12 @@ describe("Chat States", () => {
                     "engagementID": "388260662637696059",
                     "messageTimestamp": "1627648283000",
                     "client.display.text": "I'm connecting you to the next available webchat adviser.",
-                    "msg.originalrequest.id": "385445912674772418"
+                    "msg.originalrequest.id": "385445912674772418",
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "I'm connecting you to the next available webchat adviser."});
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "I'm connecting you to the next available webchat adviser."}, "1627648283000");
         });
 
         it("sends MemberConnected to the transcript", () => {
@@ -391,7 +394,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "You're now talking to Jay"});
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "You're now talking to Jay"}, "1627648283000");
         });
 
         it("sends AgentTyping to the transcript", () => {
@@ -415,13 +418,14 @@ describe("Chat States", () => {
                     "engagementID": "388260662637696059",
                     "external_user.ip": "80.0.102.28",
                     "config.session_id": "2493130538282329498",
-                    "msg.originalrequest.id": "2493130538484377173"
+                    "msg.originalrequest.id": "2493130538484377173",
+                    "messageTimestamp": "1627651337000"
                 }
             };
 
             handleMessage(message);
             expect(agentIsTypingSpy).toBeCalledTimes(1);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent is typing...", state: "agentIsTyping"});
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent is typing...", state: "agentIsTyping"}, "1627651337000");
         });
 
         it("removes AgentTyping from the transcript", () => {
@@ -491,7 +495,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent 'Jay' exits chat"});
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent 'Jay' exits chat"}, "1627651338000");
         });
 
         it("reports chat exit in transcript when from digital assistant", () => {
@@ -510,7 +514,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Adviser exited chat"});
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Adviser exited chat"}, "1628001005000");
         });
 
         it("does not report HMRC loses connection ", () => {
@@ -561,7 +565,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent 'JoeBloggs' loses connection"});
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent 'JoeBloggs' loses connection"}, "1627654612000");
             expect(container.transcript.addSystemMsg).toBeCalledTimes(1);
             expect(chatRoomMemberLostSpy).toBeCalledTimes(1);
         });
@@ -615,7 +619,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Sorry for the delay. An adviser should be with you soon."});
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Sorry for the delay. An adviser should be with you soon."}, "1627654732000");
         });
 
         it("closes the chat when clicked", () => {

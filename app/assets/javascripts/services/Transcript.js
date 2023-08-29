@@ -5,18 +5,18 @@ export default class Transcript {
     constructor(content, classes, msgPrefix) {
         this.content = content;
         this.classes = classes;
-        this.agentMsgPrefix = "<h3>Adviser said : </h3>";
-        this.customerMsgPrefix = "<h2>You said : </h2>";
-        this.systemMsgPrefix = "<h3>System message : </h3>";
-        this.automatedMsgPrefix = "<h3>Automated message : </h3>";
+        this.agentMsgPrefix = " Adviser said :";
+        this.customerMsgPrefix = " You said : ";
+        this.systemMsgPrefix = " System message : ";
+        this.automatedMsgPrefix = " Automated message : ";
     }
 
     addAgentMsg(msg, msgTimestamp, agent) {
-        this._appendMessage(msg, msgTimestamp, this.classes.Agent, this.agentMsgPrefix, false, false);
+        this._appendMessage(msg, msgTimestamp, this.classes.Agent, this._getMsgTimestampPrefix(msgTimestamp, this.agentMsgPrefix, "h3"), false, false);
     }
 
     addCustomerMsg(msg, msgTimestamp, agent) {
-        this._appendMessage(msg, msgTimestamp, this.classes.Customer, this.customerMsgPrefix, true, false);
+        this._appendMessage(msg, msgTimestamp, this.classes.Customer, this._getMsgTimestampPrefix(msgTimestamp, this.customerMsgPrefix, "h2"), true, false);
     }
 
     _addPaddingToCustomerMsg(id) {
@@ -31,12 +31,12 @@ export default class Transcript {
         }
     }
 
-    addSystemMsg(msgObject) {
+    addSystemMsg(msgObject, msgTimestamp) {
         if (msgObject.msg === undefined) msgObject.msg = "";
         if (msgObject.state === undefined) msgObject.state = "";
         if (msgObject.joinTransfer === undefined) msgObject.joinTransfer = "";
 
-        this._appendMessage(msgObject.msg, "", this.classes.System, this.systemMsgPrefix, false, true, msgObject.state, msgObject.joinTransfer);
+        this._appendMessage(msgObject.msg, "", this.classes.System, this._getMsgTimestampPrefix(msgTimestamp, this.systemMsgPrefix, "h3"), false, true, msgObject.state, msgObject.joinTransfer);
     }
 
     addOpenerScript(msg) {
@@ -49,7 +49,7 @@ export default class Transcript {
 
         openerScriptTimestamp = sessionStorage.getItem("openerScriptTimestamp");
 
-        this._appendMessage(msg, openerScriptTimestamp, this.classes.Opener, this.automatedMsgPrefix, false, false);
+        this._appendMessage(msg, openerScriptTimestamp, this.classes.Opener, this._getMsgTimestampPrefix(openerScriptTimestamp, this.automatedMsgPrefix, "h3"), false, false);
     }
 
     addSkipToBottomLink() {
@@ -166,7 +166,7 @@ export default class Transcript {
 
         this.content.appendChild(printOuterTimeStamp);
 
-        setTimeout(this.appendMessageInLiveRegion, 300, automatonData, id, this.automatedMsgPrefix, true, this, this.classes.Agent, false, false, isQuickReply);
+        setTimeout(this.appendMessageInLiveRegion, 300, automatonData, id, this._getMsgTimestampPrefix(msgTimestamp, this.automatedMsgPrefix, "h3"), true, this, this.classes.Agent, false, false, isQuickReply);
 
         if (chatContainer) {
 
@@ -432,4 +432,11 @@ export default class Transcript {
         return timestampPrefix.outerHTML;
     }
 
+    _getMsgTimestampPrefix(msgTimestamp, prefix, hTag) {
+            let msgTimestampPrefix = document.createElement(hTag);
+
+            msgTimestampPrefix.innerHTML = this.getPrintTimeStamp(msgTimestamp) + prefix;
+
+            return msgTimestampPrefix.outerHTML;
+    }
 }
