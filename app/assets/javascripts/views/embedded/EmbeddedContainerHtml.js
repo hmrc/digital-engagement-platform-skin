@@ -5,7 +5,8 @@ import { host } from "../../utils/HostUtils";
 export function ContainerHtml(isEscalated) {
     let automatedMessage = "";
     if (!isEscalated) { automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img role="img" src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">You are currently chatting with a computer.</p>`}
-
+    let soundButton = `<button id="toggleSound" class="govuk-button govuk-button--secondary active" data-module="govuk-button"> Turn notification sound off </button>`;
+    if (sessionStorage.getItem("isActive") == "false") { soundButton = `<button id="toggleSound" class="govuk-button govuk-button--secondary inactive" data-module="govuk-button"> Turn notification sound on </button>`}
     return `
 <div id="printDetails" class="print-only govuk-!-padding-top-8 govuk-!-padding-bottom-8">
 <p class="govuk-body print-only">Chat ID: <span id="chat-id"></span></p>
@@ -19,9 +20,7 @@ export function ContainerHtml(isEscalated) {
             </button>
         </div>
         <div id="sound">
-            <button id="toggleSound" class="govuk-button govuk-button--secondary active" data-module="govuk-button">
-                Turn notification sound off
-            </button>
+                ` + soundButton + `
         </div>
     </div>
     <div id="ciapiChatComponents">

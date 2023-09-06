@@ -467,16 +467,25 @@ export default class CommonChatController {
         let soundElement = document.getElementById("toggleSound");
         let isActive = soundElement.classList.contains("active");
 
+        logger.debug("sdfguytccv", sessionStorage.getItem("isActive"))
+        logger.debug("123456789", isActive)
+
         if (isActive) {
             soundElement.classList.remove("active");
             soundElement.classList.add("inactive");
 
             soundElement.innerHTML = "Turn notification sound on";
+
         } else {
             soundElement.classList.remove("inactive");
             soundElement.classList.add("active");
 
             soundElement.innerHTML = "Turn notification sound off";
+
         }
+
+        sessionStorage.setItem("isActive", !isActive);
+
     }
+
 };
