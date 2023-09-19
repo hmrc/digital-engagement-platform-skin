@@ -231,29 +231,18 @@ export default class CommonChatController {
 
     _getEmbeddedDiv() {
         let baseDiv = document.getElementById("nuanMessagingFrame");
-        let webchatOnlyDiv = document.getElementById("nuanMessagingFrame-webchat");
-        if (baseDiv) {
-            return baseDiv
-        } else {
-            return webchatOnlyDiv
-        }
+        return baseDiv
     }
 
     _getPopupDiv() {
         let baseDiv = document.getElementById("tc-nuance-chat-container");
-        let webchatOnlyDiv = document.getElementById("tc-nuance-chat-container-webchat");
-        if (baseDiv) {
-            return baseDiv
-        } else {
-            return webchatOnlyDiv
-        }
+        return baseDiv
     }
 
     _isWebchatOnly() {
-        let embeddedWebchat = document.getElementById("nuanMessagingFrame-webchat");
-        let popupWebchat = document.getElementById("tc-nuance-chat-container-webchat");
+        let webchatOnlyElement = document.getElementsByClassName("webchat-only");
 
-        return !!(embeddedWebchat || popupWebchat);
+        return webchatOnlyElement.length > 0
     }
 
     _moveToChatShownState() {
