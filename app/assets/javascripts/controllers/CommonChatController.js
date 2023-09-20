@@ -478,5 +478,9 @@ export default class CommonChatController {
 
             soundElement.innerHTML = "Turn notification sound off";
         }
+
+        sessionStorage.setItem("isActive", !isActive);
+
     }
+
 };
