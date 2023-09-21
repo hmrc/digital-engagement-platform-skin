@@ -224,7 +224,7 @@ export class EngagedState {
     }
 
     _chatRoomMemberLost(msg, transcript) {
-        if (msg["tc.mode"] === "transfer" && msg["display.text"] === "Agent 'HMRC' loses connection") {
+        if (msg["tc.mode"] === "transfer" && (msg["display.text"] === "Agent 'HMRC' loses connection" || msg["display.text"] === "Agent 'hmrcda' loses connection")) {
             logger.info("Message Suppressed")
         } else {
             transcript.addSystemMsg({msg: msg["display.text"]}, msg.messageTimestamp);
