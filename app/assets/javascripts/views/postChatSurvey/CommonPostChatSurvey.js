@@ -47,8 +47,9 @@ export default class CommonPostChatSurvey {
         }
 
         let printContainer = document.getElementById("surveyPrintContainer")
-        printContainer.style.display = isAndroidAndChrome ? "none" : "";
-        
+        if(printContainer){
+            printContainer.style.display = isAndroidAndChrome ? "none" : "";
+        }
     }
 
     showTranscriptAndSurvey(showTranscript, showSurvey) {

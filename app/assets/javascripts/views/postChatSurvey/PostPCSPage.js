@@ -56,7 +56,10 @@ export default class PostPCSPage {
         }
 
         let printContainer = document.getElementById("printOption")
-        printContainer.style.display = isAndroidAndChrome ? "" : "none";
+        if(printContainer) {
+            printContainer.style.display = isAndroidAndChrome ? "" : "none";
+        }
+        
         
 
         const element = this.wrapper.querySelector('#printButton');
