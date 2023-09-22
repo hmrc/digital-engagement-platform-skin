@@ -162,7 +162,7 @@ $page-height: calc(100% - 5px);
     position: relative;
 
     div {
-        margin-bottom: 10px;
+        margin-bottom: 0px;
         @extend .govuk-body;
     }
 
@@ -385,6 +385,7 @@ $page-height: calc(100% - 5px);
 
 .ciapi-agent-message:has(iframe.video-message) {
     min-width: 50%;
+    padding-bottom: 0 !important;
 }
 
 @media only screen and (max-width: 768px) {
