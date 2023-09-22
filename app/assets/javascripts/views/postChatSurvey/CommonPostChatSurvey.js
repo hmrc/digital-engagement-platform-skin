@@ -39,6 +39,16 @@ export default class CommonPostChatSurvey {
             this.showTranscriptAndSurvey(false, true)
         });
 
+        let isAndroidAndChrome
+        if ((/Android/i.test(navigator.userAgent)) && (userAgent.match(/chrome|chromium|crios/i))) {
+            isAndroidAndChrome = true
+        } else {
+            isAndroidAndChrome = false
+        }
+
+        let printContainer = document.getElementById("surveyPrintContainer")
+        printContainer.style.display = isAndroidAndChrome ? "none" : "";
+        
     }
 
     showTranscriptAndSurvey(showTranscript, showSurvey) {

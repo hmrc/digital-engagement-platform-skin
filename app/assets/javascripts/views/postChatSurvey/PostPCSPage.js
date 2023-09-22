@@ -11,7 +11,7 @@ const html = `
         <p>You can:</p>
         <ul>
         
-        <li><a href='#' id='printButton'>print or save your chat</a></li>
+        <li id='printOption'><a href='#' id='printButton'>print or save your chat</a></li>
             <li><a href="http://www.gov.uk">return to GOV.UK</a></li>
             <li>close this window</li>
         </ul>
@@ -47,6 +47,17 @@ export default class PostPCSPage {
         }
         
         container.appendChild(this.wrapper);
+
+        let isAndroidAndChrome
+        if ((/Android/i.test(navigator.userAgent)) && (userAgent.match(/chrome|chromium|crios/i))) {
+            isAndroidAndChrome = true
+        } else {
+            isAndroidAndChrome = false
+        }
+
+        let printContainer = document.getElementById("printOption")
+        printContainer.style.display = isAndroidAndChrome ? "" : "none";
+        
 
         const element = this.wrapper.querySelector('#printButton');
         if (element) {
