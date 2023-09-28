@@ -29,10 +29,12 @@ export function ContainerHtml(isEscalated) {
         </div>
         <div id="ciapiSkinFooter" class="govuk-!-display-none-print">
             <div>
-                <div id="ciapiInput"><textarea
+                <label class="govuk-label" for="custMsg">Type your message here</label>
+                <div id="ciapiInput">
+                <textarea
                     id="custMsg"
                     aria-label="Type your message here"
-                    placeholder="Type your message here"
+                    placeholder=""
                     class="govuk-textarea"
                     cols="50"
                     name="comments"></textarea>
