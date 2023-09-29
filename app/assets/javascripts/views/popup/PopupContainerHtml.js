@@ -43,6 +43,7 @@ export function ContainerHtml(isEscalated) {
             <textarea
                 id="custMsg"
                 class="govuk-textarea"
+                role="textbox"
                 aria-label="Type your message here"
                 placeholder=""
                 rows="5"
