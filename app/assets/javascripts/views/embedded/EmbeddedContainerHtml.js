@@ -33,6 +33,7 @@ export function ContainerHtml(isEscalated) {
                 <div id="ciapiInput">
                 <textarea
                     id="custMsg"
+                    role="textbox"
                     aria-label="Type your message here"
                     placeholder=""
                     class="govuk-textarea"

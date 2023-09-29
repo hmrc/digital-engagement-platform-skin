@@ -34,7 +34,7 @@ export function ContainerHtml(isEscalated) {
         </div>
     </div>
     <div id="ciapiChatComponents">
-        <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript print-overflow-visible" tabindex="0" aria-label="chat transcript">
+        <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript print-overflow-visible" role="region" tabindex="0" aria-label="chat transcript">
             <div id="skipToBottom"><a id="skipToBottomLink" href="#skipToTopLink" class="govuk-skip-link">Skip to bottom of conversation</a></div>` + automatedMessage + `
         </div>
         <div id="ciapiSkinFooter" class="govuk-!-display-none-print">
@@ -43,6 +43,7 @@ export function ContainerHtml(isEscalated) {
             <textarea
                 id="custMsg"
                 class="govuk-textarea"
+                role="textbox"
                 aria-label="Type your message here"
                 placeholder=""
                 rows="5"
