@@ -220,6 +220,7 @@ $page-height: calc(100% - 5px);
 
 #ciapiSkinFooter {
     padding: 0.5rem 10px;
+    margin-bottom: 20px;
 }
 
 
@@ -248,6 +249,9 @@ $page-height: calc(100% - 5px);
     height: 19px;
     background-color: #eee;
     font-size: 14px;
+    position: absolute;
+    bottom: 0px;
+    width:100%;
 
   a {
     padding-left: 5px;
