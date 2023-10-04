@@ -3,6 +3,8 @@
 import { host } from "../../utils/HostUtils";
 
 export function ContainerHtml(isEscalated) {
+    let url = new URL(window.location.href).pathname.replaceAll("/", "%2F");
+    console.log(url)
     let automatedMessage = "";
     if (!isEscalated) { automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img role="img" src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">You are currently chatting with a computer.</p>`}
     let soundButton = `<button id="toggleSound" class="govuk-button govuk-button--secondary active" data-module="govuk-button"> Turn notification sound off </button>`;
@@ -54,7 +56,7 @@ export function ContainerHtml(isEscalated) {
             </div>
         </div>
         <!-- at the moment, the below URL is hardcoded. in the future this should be a properly encoded URL and have the correct chat passed in as a parameter -->
-        <div id="accessibility-statement"><a class="govuk-link govuk-!-display-none-print" href="https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend?referrerUrl=%2Fask-hmrc%2Ftest-only%2Fci-api%2Fpopup-skin-hmrc" target="_blank">Accessibility statement (opens in a new tab)</a></div>    
+        <div id="accessibility-statement"><a class="govuk-link govuk-!-display-none-print" href="https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend?referrerUrl=` + url + `-skin-hmrc" target="_blank">Accessibility statement (opens in a new tab)</a></div>
     </div>
 </div>
 <div id="ciapiSkinMinimised">
