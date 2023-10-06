@@ -51,7 +51,7 @@ export default class CommonChatController {
     constructor() {
         this.sdk = null;
         this.state = new ChatStates.NullState();
-        this.minimised = false;
+        this.minimised = true;
         this.ended = false;
         this.escalated = false;
     }
@@ -163,6 +163,8 @@ export default class CommonChatController {
             if (existingErrorMessage) {
                 existingErrorMessage.remove()
             }
+
+            this.onHideChat();
 
         } catch (e) {
             logger.error("!!!! launchChat got exception: ", e);
