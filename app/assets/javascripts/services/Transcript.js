@@ -286,6 +286,10 @@ export default class Transcript {
             let nodeContainer = document.createElement("div");
             nodeContainer.classList.add(initialNode.id);
 
+            let widgetContainer = document.createElement("div")
+
+            divContainer.append(widgetContainer)
+
             for(let i = 0; i < Object.keys(initialNode.controls).length; i++) {
                 let control = initialNode.controls[i];
 
@@ -297,12 +301,12 @@ export default class Transcript {
                     break;
                 }
 
-                divContainer.append(renderedControl);
+                widgetContainer.append(renderedControl);
             }
 
             if (!!quickReplyData.transitions) {
-                divContainer.transitions = quickReplyData.transitions;
-                divContainer.addEventListener('click', this.handleRichMediaClickEvent);
+                widgetContainer.transitions = quickReplyData.transitions;
+                widgetContainer.addEventListener('click', this.handleRichMediaClickEvent);
             }
 
             const isQuickReply = true;
