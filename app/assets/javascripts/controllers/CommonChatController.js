@@ -51,7 +51,7 @@ export default class CommonChatController {
     constructor() {
         this.sdk = null;
         this.state = new ChatStates.NullState();
-        this.minimised = true;
+        this.minimised = false;
         this.ended = false;
         this.escalated = false;
     }
