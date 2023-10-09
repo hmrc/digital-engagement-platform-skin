@@ -4,7 +4,6 @@ import { host } from "../../utils/HostUtils";
 
 export function ContainerHtml(isEscalated) {
     let url = new URL(window.location.href).pathname.replaceAll("/", "%2F");
-    console.log(url)
     let automatedMessage = "";
     if (!isEscalated) { automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img role="img" src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">You are currently chatting with a computer.</p>`}
     let soundButton = `<button id="toggleSound" class="govuk-button govuk-button--secondary active" data-module="govuk-button"> Turn notification sound off </button>`;
