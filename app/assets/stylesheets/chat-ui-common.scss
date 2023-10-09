@@ -75,6 +75,14 @@ $footer-top-border-height: 3px;
             text-decoration: underline !important;
         }
 
+    ::-webkit-scrollbar {
+        background: #fff;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: #8f8f8f;
+    }
+
     .ciapiSkinChatTranscript {
         flex-grow: 1;
         //max-height: 90vh; // restricts height of transcript window which makes for a better experience on highly scaled screens. Removed for now pending further testing.
