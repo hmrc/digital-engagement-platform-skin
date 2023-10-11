@@ -301,8 +301,9 @@ export default class Transcript {
             }
 
             if (!!quickReplyData.transitions) {
-                divContainer.transitions = quickReplyData.transitions;
-                divContainer.addEventListener('click', this.handleRichMediaClickEvent);
+                let quickReplyWidget = divContainer.getElementsByClassName("quick-reply-widget")[0]
+                quickReplyWidget.transitions = quickReplyData.transitions;
+                quickReplyWidget.addEventListener('click', this.handleRichMediaClickEvent);
             }
 
             const isQuickReply = true;
