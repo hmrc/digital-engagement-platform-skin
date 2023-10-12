@@ -279,6 +279,9 @@ export default class ChatContainer {
             document.getElementById("print").remove();
             document.getElementById("sound").remove();
 
+            document.getElementById("ciapiSkinHideButton").setAttribute("tabindex", 1);
+            document.getElementById("ciapiSkinCloseButton").setAttribute("tabindex", 1);
+
             let transcriptHeading = document.getElementById("ciapiSkinHeader");
 
             transcriptHeading.style.height = "auto";
