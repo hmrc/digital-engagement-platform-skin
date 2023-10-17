@@ -84,6 +84,11 @@ export default class ChatContainer {
 
     minimise() {
         this.container.classList.add("minimised");
+        try {
+            document.getElementById("ciapiSkinRestoreButton").setAttribute("tabindex", 0);
+        } catch {
+            console.log('DEBUG: ' + 'Elements not found' )
+        }
     }
 
     restore() {
@@ -282,6 +287,7 @@ export default class ChatContainer {
             try {
                 document.getElementById("ciapiSkinHideButton").setAttribute("tabindex", 0);
                 document.getElementById("ciapiSkinCloseButton").setAttribute("tabindex", 0);
+                document.getElementById("accessibility-statement-link").setAttribute("tabindex", 0);
             } catch {
                 console.log('DEBUG: ' + 'Elements not found' )
             }
