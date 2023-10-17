@@ -84,6 +84,11 @@ export default class ChatContainer {
 
     minimise() {
         this.container.classList.add("minimised");
+        try {
+            document.getElementById("ciapiSkinRestoreButton").setAttribute("tabindex", 0);
+        } catch {
+            console.log('DEBUG: ' + 'Elements not found' )
+        }
     }
 
     restore() {
@@ -278,6 +283,14 @@ export default class ChatContainer {
         if (document.contains(document.getElementById("print")) && document.contains(document.getElementById("sound"))) {
             document.getElementById("print").remove();
             document.getElementById("sound").remove();
+
+            try {
+                document.getElementById("ciapiSkinHideButton").setAttribute("tabindex", 0);
+                document.getElementById("ciapiSkinCloseButton").setAttribute("tabindex", 0);
+                document.getElementById("accessibility-statement-link").setAttribute("tabindex", 0);
+            } catch {
+                console.log('DEBUG: ' + 'Elements not found' )
+            }
 
             let transcriptHeading = document.getElementById("ciapiSkinHeader");
 
