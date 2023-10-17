@@ -280,8 +280,8 @@ export default class ChatContainer {
             document.getElementById("sound").remove();
 
             try {
-                document.getElementById("ciapiSkinHideButton").setAttribute("tabindex", 1);
-                document.getElementById("ciapiSkinCloseButton").setAttribute("tabindex", 1);
+                document.getElementById("ciapiSkinHideButton").setAttribute("tabindex", 0);
+                document.getElementById("ciapiSkinCloseButton").setAttribute("tabindex", 0);
             } catch {
                 console.log('DEBUG: ' + 'Elements not found' )
             }
