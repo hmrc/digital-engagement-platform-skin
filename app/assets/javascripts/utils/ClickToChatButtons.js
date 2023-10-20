@@ -40,7 +40,7 @@ export default class ClickToChatButtons {
             innerHTML = `<div class="${button.buttonClass} ${c2cObj.displayState}">${buttonText}</div>`;
         }
 
-        const div = button.replaceChild(innerHTML);
+        const div = button.replaceChild(innerHTML, hmrcSkin);
 
         if (c2cObj.launchable) {
             div.onclick = function() {
