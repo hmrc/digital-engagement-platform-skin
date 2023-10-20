@@ -35,7 +35,7 @@ export default class ClickToChatButtons {
         let innerHTML = ``
 
         if (hmrcSkin) {
-            innerHTML = `<div id="logo-white"><img src="/engagement-platform-skin/assets/media/logo-white.png"></div><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2>`
+            innerHTML = `<div class="ciapiSkinMinimised"><div id="logo-white"><img src="/engagement-platform-skin/assets/media/logo-white.png"></div><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></div>`
         } else {
             innerHTML = `<div class="${button.buttonClass} ${c2cObj.displayState}">${buttonText}</div>`;
         }

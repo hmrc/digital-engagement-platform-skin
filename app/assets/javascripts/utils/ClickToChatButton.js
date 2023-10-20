@@ -8,7 +8,8 @@ export default class ClickToChatButton {
         const buttonDiv = this.parentElement.ownerDocument.createElement("div");
         console.log("BUTTON CREATION SKIN BOOLEAN CHECK: " + hmrcSkin)
         if (hmrcSkin) {
-            buttonDiv.setAttribute("class", "ciapiSkinMinimised");
+            buttonDiv.setAttribute("class", "minimised");
+            buttonDiv.setAttribute("id", "ciapiSkin");
         } else {
             buttonDiv.setAttribute("class", "c2cButton");
         }
