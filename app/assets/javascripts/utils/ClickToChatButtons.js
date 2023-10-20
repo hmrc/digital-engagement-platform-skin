@@ -21,7 +21,7 @@ export default class ClickToChatButtons {
                 displayState: DisplayState.ChatActive,
                 launchable: false
             };
-            this._updateButton(c2cObj, this.buttons[c2cId]);
+            this._updateButton(c2cObj, this.buttons[c2cId], document.getElementById("tc-nuance-chat-container"));
         }
     }
 
