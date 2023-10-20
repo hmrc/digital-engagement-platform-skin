@@ -8,9 +8,10 @@ export default class ClickToChatButtons {
         this.displayStateMessages = displayStateMessages;
     }
 
-    addButton(c2cObj, button) {
+    addButton(c2cObj, button, divID) {
+        console.log("LOGGING DIV ID" + divID)
         this.buttons[c2cObj.c2cIdx] = button;
-        this._updateButton(c2cObj, button);
+        this._updateButton(c2cObj, button, divID === "tc-nuance-chat-container");
     }
 
     updateC2CButtonsToInProgress() {
@@ -28,10 +29,16 @@ export default class ClickToChatButtons {
         return this.displayStateMessages[displayState] || ("Unknown display state: " + displayState);
     }
 
-    _updateButton(c2cObj, button) {
+    _updateButton(c2cObj, button, hmrcSkin) {
+        console.log("LOGGING IF HMRC SKIN:" + hmrcSkin)
         const buttonText = this._getDisplayStateText(c2cObj.displayState);
+        let innerHTML = ``
 
-        const innerHTML = `<div class="${button.buttonClass} ${c2cObj.displayState}">${buttonText}</div>`;
+        if (hmrcSkin) {
+            innerHTML = `<div id="logo-white"><img src="/engagement-platform-skin/assets/media/logo-white.png"></div><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2>`
+        } else {
+            innerHTML = `<div class="${button.buttonClass} ${c2cObj.displayState}">${buttonText}</div>`;
+        }
 
         const div = button.replaceChild(innerHTML);
 
