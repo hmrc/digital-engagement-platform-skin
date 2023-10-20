@@ -242,6 +242,17 @@ $page-height: calc(100% - 5px);
     text-align: right;
 }
 
+@media screen and (max-width: 320px) {
+    #ciapiInput {
+        width: 71%;
+    }
+    
+    #ciapiSend {
+        width: 27%;
+    }
+    
+}
+
 #accessibility-statement {
     float: left;
     padding-bottom: 2px;
