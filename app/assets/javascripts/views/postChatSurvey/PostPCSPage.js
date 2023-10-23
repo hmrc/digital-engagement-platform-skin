@@ -57,7 +57,7 @@ export default class PostPCSPage {
 
         let printContainer = document.getElementById("printOption")
         if(printContainer) {
-            printContainer.style.display = isAndroidAndChrome ? "" : "none";
+            printContainer.style.display = isAndroidAndChrome ? "none" : "";
         }
         
         
