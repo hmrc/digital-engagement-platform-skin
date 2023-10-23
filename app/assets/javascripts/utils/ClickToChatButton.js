@@ -6,7 +6,6 @@ export default class ClickToChatButton {
 
     replaceChild(innerHTML, hmrcSkin) {
         const buttonDiv = this.parentElement.ownerDocument.createElement("div");
-        console.log("BUTTON CREATION SKIN BOOLEAN CHECK: " + hmrcSkin)
         if (hmrcSkin) {
             buttonDiv.setAttribute("class", "minimised");
             buttonDiv.setAttribute("id", "ciapiSkin");
@@ -19,7 +18,6 @@ export default class ClickToChatButton {
         this.parentElement.innerHTML = "";
         this.parentElement.appendChild(buttonDiv);
 
-        console.log("BUTTON DIV PRINT: " + buttonDiv)
         return buttonDiv;
     }
 }

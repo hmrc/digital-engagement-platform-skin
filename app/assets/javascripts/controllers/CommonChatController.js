@@ -164,8 +164,6 @@ export default class CommonChatController {
                 existingErrorMessage.remove()
             }
 
-            this.onHideChat();
-
         } catch (e) {
             logger.error("!!!! launchChat got exception: ", e);
         }

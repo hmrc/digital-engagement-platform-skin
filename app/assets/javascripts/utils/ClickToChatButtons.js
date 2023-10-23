@@ -9,7 +9,6 @@ export default class ClickToChatButtons {
     }
 
     addButton(c2cObj, button, divID) {
-        console.log("LOGGING DIV ID" + divID)
         this.buttons[c2cObj.c2cIdx] = button;
         this._updateButton(c2cObj, button, divID === "tc-nuance-chat-container");
     }
@@ -30,7 +29,6 @@ export default class ClickToChatButtons {
     }
 
     _updateButton(c2cObj, button, hmrcSkin) {
-        console.log("LOGGING IF HMRC SKIN:" + hmrcSkin)
         const buttonText = this._getDisplayStateText(c2cObj.displayState);
         let innerHTML = ``
 
