@@ -4,9 +4,15 @@ export default class ClickToChatButton {
         this.buttonClass = buttonClass;
     }
 
-    replaceChild(innerHTML) {
+    replaceChild(innerHTML, hmrcSkin) {
         const buttonDiv = this.parentElement.ownerDocument.createElement("div");
-        buttonDiv.setAttribute("class", "c2cButton");
+        if (hmrcSkin) {
+            buttonDiv.setAttribute("class", "minimised");
+            buttonDiv.setAttribute("id", "ciapiSkin");
+        } else {
+            buttonDiv.setAttribute("class", "c2cButton");
+        }
+
         buttonDiv.innerHTML = innerHTML;
 
         this.parentElement.innerHTML = "";

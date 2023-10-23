@@ -8,9 +8,9 @@ export default class ClickToChatButtons {
         this.displayStateMessages = displayStateMessages;
     }
 
-    addButton(c2cObj, button) {
+    addButton(c2cObj, button, divID) {
         this.buttons[c2cObj.c2cIdx] = button;
-        this._updateButton(c2cObj, button);
+        this._updateButton(c2cObj, button, divID === "tc-nuance-chat-container");
     }
 
     updateC2CButtonsToInProgress() {
@@ -20,7 +20,7 @@ export default class ClickToChatButtons {
                 displayState: DisplayState.ChatActive,
                 launchable: false
             };
-            this._updateButton(c2cObj, this.buttons[c2cId]);
+            this._updateButton(c2cObj, this.buttons[c2cId], document.getElementById("tc-nuance-chat-container"));
         }
     }
 
@@ -28,12 +28,17 @@ export default class ClickToChatButtons {
         return this.displayStateMessages[displayState] || ("Unknown display state: " + displayState);
     }
 
-    _updateButton(c2cObj, button) {
+    _updateButton(c2cObj, button, hmrcSkin) {
         const buttonText = this._getDisplayStateText(c2cObj.displayState);
+        let innerHTML = ``
 
-        const innerHTML = `<div class="${button.buttonClass} ${c2cObj.displayState}">${buttonText}</div>`;
+        if (hmrcSkin) {
+            innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><div id="logo-white"><img src="/engagement-platform-skin/assets/media/logo-white.png"></div><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
+        } else {
+            innerHTML = `<div class="${button.buttonClass} ${c2cObj.displayState}">${buttonText}</div>`;
+        }
 
-        const div = button.replaceChild(innerHTML);
+        const div = button.replaceChild(innerHTML, hmrcSkin);
 
         if (c2cObj.launchable) {
             div.onclick = function() {
