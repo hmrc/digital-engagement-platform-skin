@@ -6,7 +6,7 @@ const html = `
 
   <p>We use your feedback to improve our services. These questions are optional.</p>
 
-  <div>
+  <div id="surveyPrintContainer">
     <p>You can still <a href="javascript:void(0);" id="printPostChat">print or save your chat</a>.</p>
   </div>
 

@@ -10,6 +10,10 @@ export const popupHtml = `
         Return to chat
       </button>
 
+      <div id="surveyPrintContainer">
+    <p><a href="#" id="printLink">Print or save your chat</a>.</p>
+  </div>
+
     </div>
     <div id="popupOverlay" class="backdrop"></div>
 `
@@ -38,10 +42,21 @@ export default class Popup {
         this.wrapper.querySelector("#confirmEndChat").addEventListener("click", (e) => {
             this.onConfirmEndChat(e)
         });
+
+        this.wrapper.querySelector("#surveyPrintContainer").addEventListener("click", (e) => {
+            this.endChatPrint(e)
+        });
+
+
     }
 
-    onCancelEndChat(e) {
-        this.eventHandler.onCancelEndChat();
+    endChatPrint(e) {
+        this.eventHandler.onCancelEndChat(e, true);
+        e.preventDefault();
+    }
+
+    onCancelEndChat(e, toPrint) {
+        this.eventHandler.onCancelEndChat(e, toPrint);
         e.preventDefault();
     }
 

@@ -258,25 +258,29 @@ export default class ChatContainer {
         document.getElementById("endChatPopup").focus();
     }
 
-    onCancelEndChat() {
-        const ciapiSkinContainer = document.querySelector("#ciapiSkin");
-        const endChatNonFocusable = ciapiSkinContainer.querySelectorAll('a[href], input, textarea, button');
-        endChatNonFocusable.forEach(function (element) {
-            element.removeAttribute("tabindex");
-        });
+    onCancelEndChat(e, toPrint) {
+            const ciapiSkinContainer = document.querySelector("#ciapiSkin");
+            const endChatNonFocusable = ciapiSkinContainer.querySelectorAll('a[href], input, textarea, button');
+            endChatNonFocusable.forEach(function (element) {
+                element.removeAttribute("tabindex");
+            });
 
-        document.getElementById("ciapiSkinChatTranscript").setAttribute("tabindex", 0);
-        this.endChatPopup.hide();
+            document.getElementById("ciapiSkinChatTranscript").setAttribute("tabindex", 0);
+            this.endChatPopup.hide();
 
-        const endChatGiveFeedback = Array.from(
-            document.querySelectorAll('.dialog')
-          ).pop();
+            const endChatGiveFeedback = Array.from(
+                document.querySelectorAll('.dialog')
+            ).pop();
 
-        if (this.closeMethod === "Button") {
-            document.getElementById("ciapiSkinCloseButton").focus();
-        } else {
-            endChatGiveFeedback.focus();
-        }
+            if (this.closeMethod === "Button") {
+                document.getElementById("ciapiSkinCloseButton").focus();
+            } else {
+                endChatGiveFeedback.focus();
+            }
+            if(toPrint){
+                this.eventHandler.onPrint(e);
+            }
+        
     }
 
     _removeSkinHeadingElements() {
