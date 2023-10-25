@@ -42,6 +42,12 @@ export default class PostPCSPage {
         this.wrapper.id = "postPCSPageWrapper";
         this.wrapper.insertAdjacentHTML("beforeend", html);
 
+        try {
+            document.getElementById("ciapiSkinHeader").style.display = "none"
+        } catch {
+            console.log('DEBUG: ' + 'Elements not found' )
+        }
+
         if (!this.showThanks) {
             this.wrapper.querySelector('#endpage-thanks').style.display = 'none';
         }
