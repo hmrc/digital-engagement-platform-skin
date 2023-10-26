@@ -9,11 +9,13 @@ export default class ClickToChatButtons {
     }
 
     addButton(c2cObj, button, divID) {
+        console.log("ADD BUTTON CALLED")
         this.buttons[c2cObj.c2cIdx] = button;
         this._updateButton(c2cObj, button, divID === "tc-nuance-chat-container");
     }
 
     updateC2CButtonsToInProgress() {
+        console.log("UPDATE IN PROGRESS BUTTON CALLED")
         for (const c2cId of Object.keys(this.buttons)) {
             const c2cObj = {
                 c2cIdx: c2cId,
@@ -29,6 +31,7 @@ export default class ClickToChatButtons {
     }
 
     _updateButton(c2cObj, button, hmrcSkin) {
+        console.log("UPDATE BUTTON CALLED")
         const buttonText = this._getDisplayStateText(c2cObj.displayState);
         let innerHTML = ``
 

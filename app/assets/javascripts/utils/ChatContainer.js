@@ -255,6 +255,7 @@ export default class ChatContainer {
     }
 
     confirmEndChat() {
+        console.log("CONFIRM END CHAT CALLED FROM ENAGAGED STATE")
         this.endChatPopup.show();
         document.getElementById("endChatPopup").focus();
     }

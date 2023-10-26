@@ -413,6 +413,7 @@ export default class CommonChatController {
     }
 
     onConfirmEndChat() {
+        console.log("ON CONFIRM END CHAT CALLED")
         this.closeNuanceChat();
         this.state.escalated = this.state.isEscalated();
 
@@ -427,6 +428,7 @@ export default class CommonChatController {
                 this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automatonWebchat, timestamp);
                 this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
             } else {
+                console.log("DA SURVEY ROUTE CALLED")
                 this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automatonDA, timestamp);
                 this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
             }
