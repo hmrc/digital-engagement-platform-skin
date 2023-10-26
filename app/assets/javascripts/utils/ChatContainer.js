@@ -183,6 +183,7 @@ export default class ChatContainer {
     }
 
     _processCloseButtonEvent(e) {
+        console.log("CLOSE EVENT CLICK CLOSED")
         this.closeMethod = "Button";
         
         let endChatNonFocusable = this.container.querySelectorAll('a[href], input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]');
