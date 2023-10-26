@@ -262,10 +262,6 @@ export default class CommonChatController {
     }
 
     closeChat() {
-        console.log("CLOSE CHAT CALLED")
-        console.log("ENDED BOOLEAN: " + this.ended)
-        console.log("CHAT STATE: " + this.state)
-        console.log("CHAT CONTAINER: " + this.container)
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
             if (this.state.escalated) {
                 this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automatonWebchat, timestamp);
@@ -278,15 +274,10 @@ export default class CommonChatController {
             this.container.destroy();
             this.container = null;
             this._moveToChatNullState();
-            console.log("FINAL ENDED BOOLEAN: " + this.ended)
-            console.log("FINAL CHAT STATE: " + this.state)
-            console.log("FINAL CHAT CONTAINER: " + this.container)
+            window.Inq.reinitChat();
         } else {
             this.showEndChatPage(false);
             this.ended = 'true'
-            console.log("FINAL ENDED BOOLEAN: " + this.ended)
-            console.log("FINAL CHAT STATE: " + this.state)
-            console.log("FINAL CHAT CONTAINER: " + this.container)
         }
     }
 
