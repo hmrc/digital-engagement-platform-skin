@@ -274,6 +274,7 @@ export default class CommonChatController {
             this.container.destroy();
             this.container = null;
             this._moveToChatNullState();
+            window.Inq.reinitChat();
         } else {
             this.showEndChatPage(false);
             this.ended = 'true'
