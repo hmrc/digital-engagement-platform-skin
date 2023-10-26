@@ -39,7 +39,7 @@ export function hookWindow(w, commonChatController, reactiveChatController, proa
         }
     );
 
-        w.nuanceReactive_HMRC_CIAPI_Anchored_1 = safeHandler(
+    w.nuanceReactive_HMRC_CIAPI_Anchored_1 = safeHandler(
         function nuanceReactive_HMRC_CIAPI_Anchored_1(c2cObj) {
             if (document.getElementById("tc-nuance-chat-container")) {
                 reactiveChatController.addC2CButton(c2cObj, "tc-nuance-chat-container", "anchored");

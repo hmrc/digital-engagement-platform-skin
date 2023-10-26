@@ -9,8 +9,10 @@ export default class ClickToChatButtons {
     }
 
     addButton(c2cObj, button, divID) {
-        this.buttons[c2cObj.c2cIdx] = button;
-        this._updateButton(c2cObj, button, divID === "tc-nuance-chat-container");
+        if (!document.getElementById("ciapiSkinContainer")) {
+            this.buttons[c2cObj.c2cIdx] = button;
+            this._updateButton(c2cObj, button, divID === "tc-nuance-chat-container");
+        }
     }
 
     updateC2CButtonsToInProgress() {
