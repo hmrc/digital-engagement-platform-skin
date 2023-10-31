@@ -387,6 +387,7 @@ export default class CommonChatController {
             this.container.restore();
             this.sdk.sendActivityMessage("restore");
             this.minimised = false;
+            document.getElementById("ciapiSkinHideButton").focus();
         }
     }
 
