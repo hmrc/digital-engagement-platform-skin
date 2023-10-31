@@ -112,6 +112,13 @@ $footer-top-border-height: 3px;
             outline: none;
         }
 
+    .ciapi-customer-container {
+        padding-bottom: 94px;
+    }
+    .ciapi-agent-container {
+        padding-bottom: 30px;
+    }
+
     .skipToTopWithScroll {
         position: relative;
         bottom: 0;
@@ -174,9 +181,6 @@ $footer-top-border-height: 3px;
     }
     .print-only {
         display: block;
-    }
-    .ciapi-agent-container {
-        padding-left: 0px;
     }
     .ciapi-customer-container {
         padding-right: 0px;
