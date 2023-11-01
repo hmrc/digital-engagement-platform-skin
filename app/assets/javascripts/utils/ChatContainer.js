@@ -185,7 +185,7 @@ export default class ChatContainer {
     _processCloseButtonEvent(e) {
         this.closeMethod = "Button";
         
-        let endChatNonFocusable = this.container.querySelectorAll('a[href], input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]');
+        let endChatNonFocusable = this.container.querySelectorAll('input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]');
 
         endChatNonFocusable.forEach(function (element) {
             element.tabIndex = -1;
@@ -255,31 +255,46 @@ export default class ChatContainer {
 
     confirmEndChat() {
         this.endChatPopup.show();
+
+        let endChatNonFocusableLinks = document.querySelectorAll('a[href]:not([id="printLink"]), iframe');
+
+        endChatNonFocusableLinks.forEach(function (element) {
+            element.tabIndex = -1;
+        });
+
+        document.getElementById("endChatPopup").removeAttribute("style");
         document.getElementById("endChatPopup").focus();
     }
 
     onCancelEndChat(e, toPrint) {
-            const ciapiSkinContainer = document.querySelector("#ciapiSkin");
-            const endChatNonFocusable = ciapiSkinContainer.querySelectorAll('a[href], input, textarea, button');
-            endChatNonFocusable.forEach(function (element) {
-                element.removeAttribute("tabindex");
-            });
+        const ciapiSkinContainer = document.querySelector("#ciapiSkin");
+        const endChatNonFocusable = ciapiSkinContainer.querySelectorAll('input, textarea, button');
+        endChatNonFocusable.forEach(function (element) {
+            element.removeAttribute("tabindex");
+        });
 
-            document.getElementById("ciapiSkinChatTranscript").setAttribute("tabindex", 0);
-            this.endChatPopup.hide();
+        const endChatNonFocusableLinks = document.querySelectorAll('a[href], iframe');
+        endChatNonFocusableLinks.forEach(function (element) {
+            element.removeAttribute("tabindex");
+        });
 
-            const endChatGiveFeedback = Array.from(
-                document.querySelectorAll('.dialog')
-            ).pop();
+        document.getElementById("endChatPopup").setAttribute("style", "display: none;");
 
-            if (this.closeMethod === "Button") {
-                document.getElementById("ciapiSkinCloseButton").focus();
-            } else {
-                endChatGiveFeedback.focus();
-            }
-            if(toPrint){
-                this.eventHandler.onPrint(e);
-            }
+        document.getElementById("ciapiSkinChatTranscript").setAttribute("tabindex", 0);
+        this.endChatPopup.hide();
+
+        const endChatGiveFeedback = Array.from(
+            document.querySelectorAll('.dialog')
+        ).pop();
+
+        if (this.closeMethod === "Button") {
+            document.getElementById("ciapiSkinCloseButton").focus();
+        } else {
+            endChatGiveFeedback.focus();
+        }
+        if(toPrint){
+            this.eventHandler.onPrint(e);
+        }
         
     }
 
@@ -316,8 +331,16 @@ export default class ChatContainer {
     onConfirmEndChat() {
         this.endChatPopup.hide();
         this.eventHandler.onConfirmEndChat();
-        document.getElementById("legend_give_feedback").focus();
         this._removeSkinHeadingElements();
+
+        const endChatNonFocusableLinks = document.querySelectorAll('a[href], iframe');
+        endChatNonFocusableLinks.forEach(function (element) {
+            element.removeAttribute("tabindex");
+        });
+
+        document.getElementById("endChatPopup").setAttribute("style", "display: none;");
+
+        document.getElementById("legend_give_feedback").focus();
     }
 
     showPage(page) {

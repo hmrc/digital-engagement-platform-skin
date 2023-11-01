@@ -1,5 +1,5 @@
 export const popupHtml = `
-<div id="endChatPopup" role="dialog" aria-modal="true" tabindex="-1" aria-labelledby="heading_end_chat_popup">
+<div id="endChatPopup" role="alertdialog" aria-modal="true" tabindex="0" aria-labelledby="heading_end_chat_popup" style="display: none;">
       <h1 class="govuk-heading-xl" id="heading_end_chat_popup">End chat?</h1>
 
       <button id="confirmEndChat" class="govuk-button">
