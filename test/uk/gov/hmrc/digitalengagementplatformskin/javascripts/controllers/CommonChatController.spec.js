@@ -1076,7 +1076,7 @@ it("catches an exception in the showChat function", () => {
 
   it("onSend cleans and sends customer input text", () => {
 
-    const html = `<textarea id="custMsg" aria-label="Type your message here" placeholder="Type your message here" class="govuk-textarea" cols="50" name="comments">Testing 123</textarea>`;
+    const html = `<textarea id="custMsg" aria-label="Enter a message" placeholder="" class="govuk-textarea" cols="50" name="comments">Testing 123</textarea>`;
     document.body.innerHTML = html;
 
     const sdk = {

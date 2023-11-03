@@ -39,13 +39,13 @@ export function ContainerHtml(isEscalated) {
             <div id="skipToBottom"><a id="skipToBottomLink" href="#" class="govuk-skip-link">Skip to bottom of conversation</a></div>` + automatedMessage + `
         </div>
         <div id="ciapiSkinFooter" class="govuk-!-display-none-print">
-            <label class="govuk-label" for="custMsg">Type your message here</label>
+            <label class="govuk-label" for="custMsg">Enter a message</label>
             <div id="ciapiInput">
             <textarea
                 id="custMsg"
                 class="govuk-textarea"
                 role="textbox"
-                aria-label="Type your message here"
+                aria-label="Enter a message "
                 placeholder=""
                 rows="5"
                 cols="50"
