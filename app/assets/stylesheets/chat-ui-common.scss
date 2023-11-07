@@ -30,7 +30,6 @@ $footer-top-border-height: 3px;
 
 #print .govuk-button--secondary {
     background-size: 1em;
-    padding: 0.3em;
     // padding-left: 1.2em;
     // padding-top: 0.3em;
     background-color: #f3f2f1;
@@ -48,9 +47,7 @@ $footer-top-border-height: 3px;
 }
 
 #sound .govuk-button--secondary {
-    background-size: 1.2em;
-    padding-left: 1.3em;
-    padding-top: 0.3em;
+    padding: 10px 10px 5px;
     background-color: #f3f2f1;
     background-position: 0 50%; /*we have removed the hard-coded height so need the image to be aware of its context*/
 }
