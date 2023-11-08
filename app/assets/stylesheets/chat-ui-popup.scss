@@ -216,7 +216,7 @@ $page-height: calc(100% - 5px);
 
 #ciapiSkinFooter {
     padding: 0.5rem 10px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 
@@ -231,6 +231,10 @@ $page-height: calc(100% - 5px);
     }
 }
 
+#ciapiSkinHeader {
+    padding: 3px 0;
+}
+
 #ciapiSend {
     width: 24%;
     height: 40px;
@@ -238,13 +242,32 @@ $page-height: calc(100% - 5px);
     text-align: right;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (width: 320px) {
     #ciapiInput {
         width: 71%;
+        textarea {
+            height: 40px;
+            resize: none;
+            margin-bottom: 0px;
+        }
     }
     
+    #ciapiSkinFooter {
+        padding: 0.1rem 10px;
+        margin-bottom: 25px;
+        label {
+            margin-bottom: 1px;
+        }
+    } 
+
     #ciapiSend {
         width: 27%;
+    }
+
+    #ciapiSkinSendButton {
+        padding: 1px 10px 1px;
+        line-height: 1.1275;
+        height: 39px;
     }
     
     #postPCSPageWrapper {
