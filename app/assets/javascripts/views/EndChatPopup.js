@@ -11,7 +11,7 @@ export const popupHtml = `
       </button>
 
       <div id="surveyPrintContainer">
-    <p><a href="#" id="printLink">Print or save your chat</a>.</p>
+    <p><a class="govuk-link" href="#" id="printLink">Print or save your chat</a>.</p>
   </div>
 
     </div>
