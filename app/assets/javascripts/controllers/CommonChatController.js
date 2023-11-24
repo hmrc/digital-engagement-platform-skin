@@ -386,7 +386,9 @@ export default class CommonChatController {
     onHideChat() {
         if (!this.minimised) {
             this.container.minimise();
-            this.sdk.sendActivityMessage("minimize");
+            if(this.sdk) {
+                this.sdk.sendActivityMessage("minimize");
+            }
             this.minimised = true;
         }
     }
@@ -394,7 +396,9 @@ export default class CommonChatController {
     onRestoreChat() {
         if (this.minimised) {
             this.container.restore();
-            this.sdk.sendActivityMessage("restore");
+            if(this.sdk) {
+                this.sdk.sendActivityMessage("restore");
+            }
             this.minimised = false;
             try{
                 document.getElementById("ciapiSkinHideButton").focus();
