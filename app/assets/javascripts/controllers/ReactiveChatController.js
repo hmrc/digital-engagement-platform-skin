@@ -30,9 +30,12 @@ export default class ReactiveChatController {
     }
 
     _onC2CButtonClicked(c2cIdx) {
+        const reactiveObj= {
+            type: 'reactive'
+        }
         this.sdk = window.Inq.SDK;
         this.sdk.onC2CClicked(c2cIdx, (state) => {
-            this.commonChatController._launchChat();
+            this.commonChatController._launchChat(reactiveObj);
         });
     }
 }

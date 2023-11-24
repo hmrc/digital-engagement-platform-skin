@@ -41,7 +41,7 @@ describe("ProactiveChatController", () => {
         };
 
         commonChatController.nuanceFrameworkLoaded(window);
-        proactiveChatController.launchProactiveChat();
+        proactiveChatController.launchProactiveChat({state: 'show'});
 
         expect(sdk.getOpenerScripts).toHaveBeenCalledTimes(1);
         expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1);

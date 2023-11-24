@@ -52,7 +52,7 @@ export function hookWindow(w, commonChatController, reactiveChatController, proa
     w.nuanceProactive = safeHandler(
         function nuanceProactive(obj) {
             logger.debug("### PROACTIVE", obj)
-            proactiveChatController.launchProactiveChat();
+            proactiveChatController.launchProactiveChat(obj);
         }
     );
 }

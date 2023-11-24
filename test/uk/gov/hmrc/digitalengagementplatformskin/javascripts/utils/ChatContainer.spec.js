@@ -444,9 +444,13 @@ describe("ChatContainer", () => {
     it("onConfirmEndChat calls the expected methods, and focuses the legend_give_feedback element", () => {
         const focus = jest.fn();
         const setAttribute = jest.fn();
+        let focusDiv = document.createElement("h2");
+        focusDiv.id = 'legend_give_feedback'
 
         document.getElementById = jest.fn()
                                     .mockReturnValueOnce({setAttribute})
+                                    .mockReturnValueOnce({setAttribute})
+                                    .mockReturnValueOnce({focus})
                                     .mockReturnValueOnce({focus});
 
         chatContainer._removeSkinHeadingElements = jest.fn();

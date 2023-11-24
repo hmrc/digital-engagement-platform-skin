@@ -54,6 +54,7 @@ export default class CommonChatController {
         this.minimised = false;
         this.ended = false;
         this.escalated = false;
+        this.type = '';
     }
 
     getFeatureSwitch(switchName) {
@@ -128,45 +129,49 @@ export default class CommonChatController {
         return this.sdk
     }
 
-    _launchChat() {
+    _launchChat(obj) {
         if (this.container) {
             return;
         }
-
-        try {
+        try{
+            this.type = obj.type
             this._showChat();
-
-            this._displayOpenerScripts();
-
-            logger.info("===== chatDisplayed =====");
-
-            this.sdk.chatDisplayed({
-                "customerName": "You",
-                "previousMessagesCb": (resp) => this._moveToChatEngagedState(resp.messages),
-                "disconnectCb": () => logger.info("%%%%%% disconnected %%%%%%"),
-                "reConnectCb": () => logger.info("%%%%%% reconnected %%%%%%"),
-                "failedCb": () => logger.info("%%%%%% failed %%%%%%"),
-                "openerScripts": null,
-                "defaultAgentAlias": "HMRC"
-            });
-
-            this._removeAnimation();
-
-            let dav3Skin = document.getElementById("ciapiSkin");
-
-            if (dav3Skin) {
-                this.updateDav3DeskproRefererUrls();
+            if (obj.state === 'missed') {
+                const contactLink = "<a href='https://www.gov.uk/contact'>Contact us</a> "
+                let msg = `Sorry, our virtual assistant is unavailable. Try again later. ${contactLink} if you need to speak to someone.`
+                this.container.getTranscript().addSystemMsg({msg: msg}, Date.now());
+                document.getElementById('ciapiSkinFooter').style.display = 'none'
+            } else {
+                    this._displayOpenerScripts();
+        
+                    this.sdk.chatDisplayed({
+                        "customerName": "You",
+                        "previousMessagesCb": (resp) => this._moveToChatEngagedState(resp.messages),
+                        "disconnectCb": () => logger.info("%%%%%% disconnected %%%%%%"),
+                        "reConnectCb": () => logger.info("%%%%%% reconnected %%%%%%"),
+                        "failedCb": () => logger.info("%%%%%% failed %%%%%%"),
+                        "openerScripts": null,
+                        "defaultAgentAlias": "HMRC"
+                    });
+        
+                    this._removeAnimation();
+        
+                    let dav3Skin = document.getElementById("ciapiSkin");
+        
+                    if (dav3Skin) {
+                        this.updateDav3DeskproRefererUrls();
+                    }
+        
+                    const existingErrorMessage = document.getElementById("error-message")
+        
+                    if (existingErrorMessage) {
+                        existingErrorMessage.remove()
+                    }
             }
-
-            const existingErrorMessage = document.getElementById("error-message")
-
-            if (existingErrorMessage) {
-                existingErrorMessage.remove()
-            }
-
         } catch (e) {
             logger.error("!!!! launchChat got exception: ", e);
         }
+
     }
 
     _removeAnimation() {
@@ -274,10 +279,12 @@ export default class CommonChatController {
             this.container.destroy();
             this.container = null;
             this._moveToChatNullState();
-            window.Inq.reinitChat();
+            if(this.sdk && this.type != 'proactive'){
+                window.Inq.reinitChat();
+            }
         } else {
-            this.showEndChatPage(false);
             this.ended = 'true'
+            this.showEndChatPage(false);
         }
     }
 
@@ -333,8 +340,10 @@ export default class CommonChatController {
     }
 
     closeNuanceChat() {
-        if (this.sdk.isChatInProgress()) {
-            this.sdk.closeChat();
+        if(this.sdk) {
+            if (this.sdk.isChatInProgress()) {
+                this.sdk.closeChat();
+            }
         }
     }
 

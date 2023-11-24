@@ -340,7 +340,9 @@ export default class ChatContainer {
 
         document.getElementById("endChatPopup").setAttribute("style", "display: none;");
 
-        document.getElementById("legend_give_feedback").focus();
+        if((document.getElementById("legend_give_feedback") != null && document.getElementById("legend_give_feedback") != undefined)) {
+            document.getElementById("legend_give_feedback").focus();
+        }
     }
 
     showPage(page) {
