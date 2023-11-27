@@ -185,7 +185,7 @@ export default class ChatContainer {
     _processCloseButtonEvent(e) {
         this.closeMethod = "Button";
         
-        let endChatNonFocusable = this.container.querySelectorAll('input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]');
+        let endChatNonFocusable = document.querySelectorAll('input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]');
 
         endChatNonFocusable.forEach(function (element) {
             element.tabIndex = -1;
@@ -256,9 +256,9 @@ export default class ChatContainer {
     confirmEndChat() {
         this.endChatPopup.show();
 
-        let endChatNonFocusableLinks = document.querySelectorAll('a[href]:not([id="printLink"]), iframe');
+        let endChatNonFocusable = document.querySelectorAll('a[href]:not([id="printLink"]), iframe');
 
-        endChatNonFocusableLinks.forEach(function (element) {
+        endChatNonFocusable.forEach(function (element) {
             element.tabIndex = -1;
         });
 
@@ -268,13 +268,8 @@ export default class ChatContainer {
 
     onCancelEndChat(e, toPrint) {
         const ciapiSkinContainer = document.querySelector("#ciapiSkin");
-        const endChatNonFocusable = ciapiSkinContainer.querySelectorAll('input, textarea, button');
+        const endChatNonFocusable = document.querySelectorAll('input, textarea, button, a[href], iframe');
         endChatNonFocusable.forEach(function (element) {
-            element.removeAttribute("tabindex");
-        });
-
-        const endChatNonFocusableLinks = document.querySelectorAll('a[href], iframe');
-        endChatNonFocusableLinks.forEach(function (element) {
             element.removeAttribute("tabindex");
         });
 
@@ -333,8 +328,8 @@ export default class ChatContainer {
         this.eventHandler.onConfirmEndChat();
         this._removeSkinHeadingElements();
 
-        const endChatNonFocusableLinks = document.querySelectorAll('a[href], iframe');
-        endChatNonFocusableLinks.forEach(function (element) {
+        const endChatNonFocusable = document.querySelectorAll('a[href], iframe, button');
+        endChatNonFocusable.forEach(function (element) {
             element.removeAttribute("tabindex");
         });
 
