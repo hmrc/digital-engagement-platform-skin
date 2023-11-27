@@ -52,6 +52,10 @@ $footer-top-border-height: 3px;
     background-position: 0 50%; /*we have removed the hard-coded height so need the image to be aware of its context*/
 }
 
+#toggleSound {
+    text-align: left!important;
+}
+
 @media screen and (max-width: 320px) {
     #print .govuk-button--secondary {
         padding: 0.3em 0em;
@@ -110,11 +114,11 @@ $footer-top-border-height: 3px;
         }
 
     .ciapi-customer-container {
-        padding-bottom: 94px;
+        padding-bottom: 44px !important;
     }
-    .ciapi-agent-container {
-        padding-bottom: 30px;
-    }
+    // .ciapi-agent-container {
+    //     padding-bottom: 15px;
+    // }
 
     .skipToTopWithScroll {
         position: relative;

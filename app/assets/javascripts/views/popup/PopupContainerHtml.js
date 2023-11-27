@@ -6,8 +6,8 @@ export function ContainerHtml(isEscalated) {
     let url = new URL(window.location.href).pathname.replaceAll("/", "%2F");
     let automatedMessage = "";
     if (!isEscalated) { automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img role="img" src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">You are currently chatting with a computer.</p>`}
-    let soundButton = `<button id="toggleSound" class="govuk-button govuk-button--secondary active" data-module="govuk-button"> Turn notification sound off </button>`;
-    if (sessionStorage.getItem("isActive") == "false") { soundButton = `<button id="toggleSound" class="govuk-button govuk-button--secondary inactive" data-module="govuk-button"> Turn notification sound on </button>`}
+    let soundButton = `<button id="toggleSound"> Turn notification sound off </button>`;
+    if (sessionStorage.getItem("isActive") == "false") { soundButton = `<button id="toggleSound" tabindex="0" > Turn notification sound on </button>`}
     return `
 <div id="printDetails" class="print-only govuk-!-padding-top-8 govuk-!-padding-bottom-8">
 <p class="govuk-body print-only">Chat ID: <span id="chat-id"></span></p>
@@ -15,24 +15,29 @@ export function ContainerHtml(isEscalated) {
 </div>
 <div id="ciapiSkinContainer">
     <div id="titleBar" class="govuk-!-display-none-print">
+
+    <div class="dropdown">
+        <button id="hamburgerMenu" class="dropbtn">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </button>
+        <div id="hamburgerList" class="dropdown-content">
+            <button id="ciapiSkinCloseButton" tabindex="0" > End chat </button>
+            <button id="printButton" tabindex="0" > Print or save chat </button>
+            ` + soundButton + `
+        </div>
+    </div>
         <div id="ciapiSkinTitleBar">
-            <div id="ciapiTitleBarLogo"></div>
             <h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC</h2>
         </div>
         <div id="hideCloseContainer" class="govuk-!-display-none-print">
-            <button id="ciapiSkinHideButton"  draggable="false" role="button" type="button" aria-label="Minimise chat window"></button>
-            <button id="ciapiSkinCloseButton" draggable="false" role="button" type="button" aria-label="Close chat window"></button>
-        </div>
-    </div>
-    <div id="ciapiSkinHeader" class="govuk-!-display-none-print">
-        <div id="print">
-            <button id="printButton" class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                Print or save chat
-            </button>
-        </div>
-        <div id="sound">
-            ` + soundButton + `
-        </div>
+
+        
+
+
+            <button id="ciapiSkinHideButton" tabindex="0"><i class="arrow down"></i></button>
+         </div>
     </div>
     <div id="ciapiChatComponents">
         <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript print-overflow-visible" role="region" tabindex="0" aria-label="chat transcript">

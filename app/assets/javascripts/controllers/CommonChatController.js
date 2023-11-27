@@ -372,6 +372,7 @@ export default class CommonChatController {
 
     onCloseChat() {
         this.state.onClickedClose();
+        this.onShowHamburger();
     }
 
     onHideChat() {
@@ -393,6 +394,10 @@ export default class CommonChatController {
                 console.log('DEBUG: ' + 'Element not found' )
             }
         }
+    }
+
+    onShowHamburger() {
+        document.getElementById("hamburgerList").classList.toggle("show");
     }
 
     onStartTyping() {

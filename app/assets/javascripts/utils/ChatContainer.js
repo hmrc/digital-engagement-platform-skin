@@ -4,6 +4,7 @@ import { sanitiseAndParseJsonData } from './JsonUtils';
 
 const nullEventHandler = {
     onSend: function () {},
+    onShowHamburger: function () {},
     onCloseChat: function () {},
     onHideChat: function () {},
     onRestoreChat: function () {},
@@ -220,6 +221,10 @@ export default class ChatContainer {
 
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
             this.eventHandler.onSend();
+        });
+
+        this._registerEventListener("#hamburgerMenu", (e) => {
+            this.eventHandler.onShowHamburger();
         });
 
         this._registerEventListener("#ciapiSkinCloseButton", (e) => {
