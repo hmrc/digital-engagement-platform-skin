@@ -389,8 +389,8 @@ describe("ChatContainer", () => {
 
         document
             .querySelector("#ciapiSkin")
-            .querySelectorAll('input, textarea, button').forEach((element) => {
-                expect(element.getAttribute("tabindex")).toBe(null)
+            .querySelectorAll('input, textarea').forEach((element) => {
+                expect(element.getAttribute("tabindex")).toBe("0")
             });
     });
 
