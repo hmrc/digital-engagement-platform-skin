@@ -185,9 +185,9 @@ export default class ChatContainer {
     _processCloseButtonEvent(e) {
         this.closeMethod = "Button";
         
-        let endChatNonFocusable = this.container.querySelectorAll('input, textarea');
+        let endChatNonFocusableContainer = this.container.querySelectorAll('input, textarea');
 
-        endChatNonFocusable.forEach(function (element) {
+        endChatNonFocusableContainer.forEach(function (element) {
             element.tabIndex = -1;
         });
 
@@ -268,7 +268,7 @@ export default class ChatContainer {
 
     onCancelEndChat(e, toPrint) {
         const ciapiSkinContainer = document.querySelector("#ciapiSkin");
-        const endChatNonFocusable = document.querySelectorAll('button, a[href], iframe');
+        const endChatNonFocusable = document.querySelectorAll('a[href], iframe, button');
         endChatNonFocusable.forEach(function (element) {
             element.removeAttribute("tabindex");
         });
