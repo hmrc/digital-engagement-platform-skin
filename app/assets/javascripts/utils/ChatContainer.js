@@ -268,6 +268,11 @@ export default class ChatContainer {
 
     onCancelEndChat(e, toPrint) {
         const ciapiSkinContainer = document.querySelector("#ciapiSkin");
+        const endChatNonFocusableContainer = ciapiSkinContainer.querySelectorAll('input, textarea');
+        endChatNonFocusableContainer.forEach(function (element) {
+            element.removeAttribute("tabindex");
+        });
+
         const endChatNonFocusable = document.querySelectorAll('a[href], iframe, button');
         endChatNonFocusable.forEach(function (element) {
             element.removeAttribute("tabindex");
