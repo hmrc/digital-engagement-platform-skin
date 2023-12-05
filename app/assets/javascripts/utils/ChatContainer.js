@@ -151,8 +151,10 @@ export default class ChatContainer {
         ) {
             this.SDK.sendVALinkMessage(e, null, null, null);
             if (e.target.className != "dialog") {
+                console.log('dialog class')
                 this._focusOnNextAutomatonMessage();
             } else {
+                console.log('end chat link method')
                 this.closeMethod = "Link";
             }
         }
@@ -332,6 +334,15 @@ export default class ChatContainer {
         this.endChatPopup.hide();
         this.eventHandler.onConfirmEndChat();
         this._removeSkinHeadingElements();
+
+        if (this.closeMethod = "Link") {
+            console.log("link close method 1234567890")
+            let endChatNonFocusableContainer = this.container.querySelectorAll('input, textarea');
+
+            endChatNonFocusableContainer.forEach(function (element) {
+                element.tabIndex = -1;
+            });
+        }
 
         const endChatNonFocusable = document.querySelectorAll('a[href], iframe, button');
         endChatNonFocusable.forEach(function (element) {

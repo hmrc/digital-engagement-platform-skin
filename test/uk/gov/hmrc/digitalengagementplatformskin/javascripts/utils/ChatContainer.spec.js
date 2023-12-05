@@ -394,19 +394,24 @@ describe("ChatContainer", () => {
             });
     });
 
-//    it("onCancelEndChat behaves as expected given the chatContainer's closeMethod is set to Link", () => {
-//        const focus = jest.fn();
-//        document.querySelectorAll = jest.fn().mockReturnValueOnce([{focus}]);
-//
-//        const documentHtml = setupDocumentforCancelEndChatTests();
-//
-//        chatContainer = new ChatContainer(null, documentHtml, null);
-//        chatContainer.closeMethod = "Link";
-//
-//        chatContainer.onCancelEndChat();
-//
-//        expect(focus).toBeCalledTimes(1);
-//    });
+    it("onCancelEndChat behaves as expected given the chatContainer's closeMethod is set to Link", () => {
+        const focus = jest.fn();
+        const setAttribute = jest.fn();
+
+        document.getElementById = jest.fn()
+                                        .mockReturnValueOnce({setAttribute})
+                                        .mockReturnValueOnce({setAttribute})
+                                        .mockReturnValueOnce({focus});
+
+        const documentHtml = setupDocumentforCancelEndChatTests();
+
+        chatContainer = new ChatContainer(null, documentHtml, null);
+        chatContainer.closeMethod = "Link";
+
+        chatContainer.onCancelEndChat();
+
+        expect(focus).toBeCalledTimes(1);
+    });
 
     it("removeSkinHeadingElements removes heading elements and sets transcript style properties", () => {
         document.body.innerHTML = ContainerHtml;
