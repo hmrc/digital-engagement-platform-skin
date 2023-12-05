@@ -142,9 +142,17 @@ export default class CommonChatController {
                 this.container.getTranscript().addSystemMsg({msg: msg}, Date.now());
                 document.getElementById('ciapiSkinFooter').style.display = 'none'
             } else {
-                    this._displayOpenerScripts();
-        
-                    this.sdk.chatDisplayed({
+
+                let chatDisplayed;
+
+                if (this.sdk.isChatInProgress()) {
+                    logger.info("************************************")
+                    logger.info("******* chat is in progress ********")
+                    logger.info("************************************")
+
+
+                } else {
+                    chatDisplayed = {
                         "customerName": "You",
                         "previousMessagesCb": (resp) => this._moveToChatEngagedState(resp.messages),
                         "disconnectCb": () => logger.info("%%%%%% disconnected %%%%%%"),
@@ -152,7 +160,11 @@ export default class CommonChatController {
                         "failedCb": () => logger.info("%%%%%% failed %%%%%%"),
                         "openerScripts": null,
                         "defaultAgentAlias": "HMRC"
-                    });
+                    }
+                    this._displayOpenerScripts();
+                }
+
+                    this.sdk.chatDisplayed({chatDisplayed});
         
                     this._removeAnimation();
         
@@ -365,6 +377,7 @@ export default class CommonChatController {
             logger.info("************************************")
             logger.info("******* chat is in progress ********")
             logger.info("************************************")
+            return true
         }
     }
 
