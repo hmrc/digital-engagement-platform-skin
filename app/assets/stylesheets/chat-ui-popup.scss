@@ -15,7 +15,7 @@ $tools-height: 23px;
 $tools-padding-y: 5px;
 $header-bottom-border-height: 2px;
 $components-sub-height: $header-height + $header-bottom-border-height + $tools-height + 2 * $tools-padding-y;
-$footer-height: 70px;
+$footer-height: 62px;
 $footer-padding: 5px;
 $textarea-height: $footer-height;
 $transcript-border-height: 2px;
@@ -195,7 +195,7 @@ $page-height: calc(100% - 5px);
 
 #ciapiSkinFooter {
     padding: 0.5rem 10px;
-    margin-bottom: -25px;
+    margin-bottom: -42px;
 }
 
 
@@ -233,7 +233,7 @@ $page-height: calc(100% - 5px);
     
     #ciapiSkinFooter {
         padding: 0.1rem 10px;
-        margin-bottom: -15px;
+        margin-bottom: -39px;
         label {
             margin-bottom: 1px;
         }

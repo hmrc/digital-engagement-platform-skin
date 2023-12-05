@@ -5,6 +5,7 @@ import { sanitiseAndParseJsonData } from './JsonUtils';
 const nullEventHandler = {
     onSend: function () {},
     onShowHamburger: function () {},
+    onAccessibilityStatement: function () {},
     onCloseChat: function () {},
     onHideChat: function () {},
     onRestoreChat: function () {},
@@ -229,6 +230,10 @@ export default class ChatContainer {
 
         this._registerEventListener("#ciapiSkinCloseButton", (e) => {
             this._processCloseButtonEvent(e)
+        });
+
+        this._registerEventListener("#accessibility-statement-link", (e) => {
+            this.eventHandler.onAccessibilityStatement()
         });
 
         this._registerEventListener("#ciapiSkinHideButton", (e) => {
