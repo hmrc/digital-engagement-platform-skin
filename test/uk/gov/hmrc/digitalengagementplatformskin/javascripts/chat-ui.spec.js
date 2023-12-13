@@ -44,7 +44,6 @@ describe("chat-ui", () => {
   })
 
   it("should call the relevant controllers with expected arguments, given a call to hookWindow", () => {
-
       window.Inq = {
         SDK : {
           getOpenerScripts: jest.fn(),
@@ -58,6 +57,14 @@ describe("chat-ui", () => {
       let proactiveChatLaunch = jest.spyOn(proactiveCC, 'launchProactiveChat');
 
       hookWindow(window, commonCC, reactiveCC, proactiveCC);
+      const chatListenerFromWindow = window.InqRegistry.listeners[0];
+
+      const evt = {
+        c2c: {displayState: "ready"}
+      }
+
+      chatListenerFromWindow.onAnyEvent(evt);
+      chatListenerFromWindow.onC2CStateChanged(evt);
 
       window.nuanceFrameworkLoaded();
       window.nuanceReactive_HMRC_CIAPI_Fixed_1({});
@@ -72,7 +79,7 @@ describe("chat-ui", () => {
       expect(reactiveChatAddC2CButton).toBeCalledTimes(2);
 
       expect(reactiveChatAddC2CButton).toBeCalledWith({}, "HMRC_CIAPI_Fixed_1", "fixed");
-      expect(reactiveChatAddC2CButton).lastCalledWith({}, "HMRC_CIAPI_Anchored_1", "anchored");
+      expect(reactiveChatAddC2CButton).lastCalledWith(evt, "HMRC_CIAPI_Anchored_1", "anchored");
 
       expect(proactiveChatLaunch).toBeCalled();
   });
