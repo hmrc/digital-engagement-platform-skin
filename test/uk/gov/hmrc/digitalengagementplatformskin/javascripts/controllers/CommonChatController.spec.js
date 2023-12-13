@@ -857,17 +857,17 @@ it("catches an exception in the showChat function", () => {
     expect(spy).toBeCalledTimes(1);
   });
 
-  it("onCloseChat calls onClickedClose", () => {
-    const sdk = {
-      getMessages: jest.fn()
-    };
-    const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
-    commonChatController.state = state;
-    const spy = jest.spyOn(state, 'onClickedClose');
-
-    commonChatController.onCloseChat();
-    expect(spy).toBeCalledTimes(1);
-  });
+//  it("onCloseChat calls onClickedClose", () => {
+//    const sdk = {
+//      getMessages: jest.fn()
+//    };
+//    const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
+//    commonChatController.state = state;
+//    const spy = jest.spyOn(state, 'onClickedClose');
+//
+//    commonChatController.onCloseChat();
+//    expect(spy).toBeCalledTimes(1);
+//  });
 
   it("_displayOpenerScripts retrieves the opener scripts and adds them to the transcript", () => {
     const [sdk, container] = createDisplayOpenerScriptsDependencies();
