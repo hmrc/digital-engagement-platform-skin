@@ -1,9 +1,11 @@
 import ReactiveChatController from '../../../../../../../app/assets/javascripts/controllers/ReactiveChatController' 
 import CommonChatController from '../../../../../../../app/assets/javascripts/controllers/CommonChatController'
 import ClickToChatButtons from '../../../../../../../app/assets/javascripts/utils/ClickToChatButtons'
+import ClickToChatButton from '../../../../../../../app/assets/javascripts/utils/ClickToChatButton'
 import {_onC2CButtonClicked} from '../../../../../../../app/assets/javascripts/controllers/ReactiveChatController'
 
 jest.mock('../../../../../../../app/assets/javascripts/utils/ClickToChatButtons')
+jest.mock('../../../../../../../app/assets/javascripts/utils/ClickToChatButton')
 jest.mock('../../../../../../../app/assets/javascripts/controllers/CommonChatController')
 
 describe("ReactiveChatController", () => {
@@ -15,6 +17,7 @@ describe("ReactiveChatController", () => {
     beforeEach(() => {
         // Clear all instances and calls to constructor and all methods:
         ClickToChatButtons.mockClear();
+        ClickToChatButton.mockClear();
         CommonChatController.mockClear();
         console.error = jest.fn();
     });
@@ -42,17 +45,30 @@ describe("ReactiveChatController", () => {
         expect(_onC2CButtonClickedSpy).toBeCalledTimes(1);
     });
 
-    it("addC2CButton creates a new ClickToChatButton", () => {
+    it("addC2CButton creates a new ClickToChatButton when displayState is ready", () => {
         const reactiveChatController = new ReactiveChatController();
-        const c2cObj = 'ChatActiveText';
+        const c2cObj = {displayState: "ready"};
         const divId = "div-id";
         const buttonClass = "button-class";
-
 
         let addC2CButtonSpy = jest.spyOn(reactiveChatController, 'addC2CButton');
         reactiveChatController.addC2CButton(c2cObj, divId, buttonClass);
 
         expect(addC2CButtonSpy).toHaveBeenCalledTimes(1);
+        expect(ClickToChatButton).toBeCalledTimes(1);
+    });
+
+    it("addC2CButton does not create a new ClickToChatButton when displayState is busy", () => {
+        const reactiveChatController = new ReactiveChatController();
+        const c2cObj = {displayState: "busy"};
+        const divId = "div-id";
+        const buttonClass = "button-class";
+
+        let addC2CButtonSpy = jest.spyOn(reactiveChatController, 'addC2CButton');
+        reactiveChatController.addC2CButton(c2cObj, divId, buttonClass);
+
+        expect(addC2CButtonSpy).toHaveBeenCalledTimes(1);
+        expect(ClickToChatButton).toBeCalledTimes(0);
     });
 
     it("attaches a callback function to the SDK onC2CClicked method", () => {

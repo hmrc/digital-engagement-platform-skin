@@ -1,5 +1,5 @@
 import * as logger from './utils/logger';
- 
+ let event;
 export function safeHandler(f) {
     return function () {
         try {
@@ -12,6 +12,9 @@ export function safeHandler(f) {
 
 export const chatListener = {
     onAnyEvent: function(evt) {
+        if (evt.c2c) {
+            event = evt
+        }
         logger.debug("Chat any event:", evt);
         window.chatId = evt.chatID;
         window.agentId = evt.agentID;
@@ -40,7 +43,8 @@ export function hookWindow(w, commonChatController, reactiveChatController, proa
     );
 
     w.nuanceReactive_HMRC_CIAPI_Anchored_1 = safeHandler(
-        function nuanceReactive_HMRC_CIAPI_Anchored_1(c2cObj) {
+        function nuanceReactive_HMRC_CIAPI_Anchored_1(c2cObj) {  
+            c2cObj.c2c = event.c2c
             if (document.getElementById("tc-nuance-chat-container")) {
                 reactiveChatController.addC2CButton(c2cObj, "tc-nuance-chat-container", "anchored");
             } else {
