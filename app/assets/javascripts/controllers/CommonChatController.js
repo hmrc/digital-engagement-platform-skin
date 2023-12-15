@@ -130,6 +130,7 @@ export default class CommonChatController {
     }
 
     _launchChat(obj) {
+//        var loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
         if (this.container) {
             return;
         }
@@ -155,6 +156,18 @@ export default class CommonChatController {
                     });
         
                     this._removeAnimation();
+                    var loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
+
+                    logger.debug("AEWZRSXDTCFVYGBUHINJMOINBUVYTCRXE 1234567890 sss", loadTime)
+
+                    if (loadTime > 10) {
+                        logger.error("Load time too long ====++++----", loadTime)
+                        const xhttp = new XMLHttpRequest();
+                        xhttp.open("GET", window.chatLoadTimeUrl, true);
+                        xhttp.send();
+                    } else {
+                        logger.debug("load time good", loadTime)
+                    }
         
                     let dav3Skin = document.getElementById("ciapiSkin");
         
