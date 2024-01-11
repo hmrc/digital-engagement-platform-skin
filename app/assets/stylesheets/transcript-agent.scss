@@ -3,7 +3,7 @@
 .ciapi-agent-container {
   padding: 8px 15px;
   clear: both;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 .ciapi-agent-message {
   @include bubble;
