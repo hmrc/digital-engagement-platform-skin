@@ -110,6 +110,7 @@ export default class Transcript {
                 document.getElementById(id).classList.remove("msg-opacity");
             }
         }
+
         if (that) {
             that._showLatestContent(msg_class);
         }
@@ -321,7 +322,6 @@ export default class Transcript {
             const isQuickReply = true;
 
             this.addAutomatonMsg(divContainer, messageTimestamp, isQuickReply);
-
         } catch(e) {
             logger.error('quickReplayError',e);
             return null;
