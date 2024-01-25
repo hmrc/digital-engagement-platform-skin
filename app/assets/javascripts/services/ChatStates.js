@@ -131,7 +131,6 @@ export class EngagedState {
     _isMixAutomatonMessage(msg) { return msg.isAgentMsg && msg["external.app"]}
 
     _extractQuickReplyData(msg) {
-
         if(!msg.messageData) return null
 
         const messageDataAsObject = JSON.parse(msg.messageData);

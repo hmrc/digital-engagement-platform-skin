@@ -138,7 +138,7 @@ export default class ChatContainer {
             }    
         }
 
-        this.disablePreviousWidgets();
+        this.disablePreviousWidgets(e);
     }
 
     processTranscriptEvent(e) {
@@ -172,10 +172,16 @@ export default class ChatContainer {
         }
     }
 
-    disablePreviousWidgets() {
+    disablePreviousWidgets(e) {
         // Disable quick-reply widgets
-        let qrWidgets = document.querySelectorAll(".quick-reply-widget");
-        !!qrWidgets && qrWidgets.forEach(widget => widget.disable());
+        try {
+            if(e.target.getAttribute('href') == "#") {
+                let qrWidgets = document.querySelectorAll(".quick-reply-widget");
+                !!qrWidgets && qrWidgets.forEach(widget => widget.disable());
+            }
+        } catch {
+          console.log('DEBUG: ' + 'Elements not found' )
+        }
       }
 
     setEventHandler(eventHandler) {
