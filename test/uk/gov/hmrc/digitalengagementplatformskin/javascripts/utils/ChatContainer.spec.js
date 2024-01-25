@@ -483,8 +483,15 @@ describe("ChatContainer", () => {
     it("disablePreviousWidgets disables elements with the quick-reply-widget class", () => {
         const disable = jest.fn();
         const widget = { disable };
+
+        const responsiveLinkEvent = {
+            target : {
+                getAttribute : jest.fn().mockReturnValue("#"),
+            }
+        }
+
         document.querySelectorAll = jest.fn().mockReturnValueOnce([widget]);
-        chatContainer.disablePreviousWidgets();
+        chatContainer.disablePreviousWidgets(responsiveLinkEvent);
 
         expect(disable).toBeCalledTimes(1);
     })
