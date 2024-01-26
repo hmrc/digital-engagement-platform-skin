@@ -55,7 +55,7 @@ export default class PostPCSPage {
         container.appendChild(this.wrapper);
 
         let isAndroidAndChrome
-        if ((/Android/i.test(navigator.userAgent)) && (userAgent.match(/chrome|chromium|crios/i))) {
+        if ((/Android/i.test(navigator.userAgent)) && (navigator.userAgent.match(/chrome|chromium|crios/i))) {
             isAndroidAndChrome = true
         } else {
             isAndroidAndChrome = false
