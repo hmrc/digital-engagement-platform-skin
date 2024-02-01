@@ -187,7 +187,7 @@ export default class ChatContainer {
     _processCloseButtonEvent(e) {
         this.closeMethod = "Button";
         
-        let endChatNonFocusable = this.container.querySelectorAll('input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]');
+        let endChatNonFocusable = this.container.querySelectorAll('input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]):not([id="hamburgerMenu"]):not([id=ciapiSkinHideButton])');
 
         endChatNonFocusable.forEach(function (element) {
             element.tabIndex = -1;
@@ -196,6 +196,10 @@ export default class ChatContainer {
         const skinChatTranscript = this.container.querySelector("#ciapiSkinChatTranscript");
 
         skinChatTranscript.setAttribute("tabindex", -1);
+
+        document.getElementById("ciapiSkinCloseButton").setAttribute("style", "display: none;");
+        document.getElementById("printButton").setAttribute("style", "display: none;");
+        document.getElementById("toggleSound").setAttribute("style", "display: none;");
 
         this.eventHandler.onCloseChat();
     }
@@ -266,7 +270,7 @@ export default class ChatContainer {
     confirmEndChat() {
         this.endChatPopup.show();
 
-        let endChatNonFocusableLinks = document.querySelectorAll('a[href]:not([id="printLink"]), iframe');
+        let endChatNonFocusableLinks = document.querySelectorAll('a[href]:not([id="printLink"]), iframe, button:not([id="cancelEndChat"]):not([id="confirmEndChat"])');
 
         endChatNonFocusableLinks.forEach(function (element) {
             element.tabIndex = -1;
@@ -289,6 +293,9 @@ export default class ChatContainer {
         });
 
         document.getElementById("endChatPopup").setAttribute("style", "display: none;");
+        document.getElementById("ciapiSkinCloseButton").setAttribute("style", "display: '';");
+        document.getElementById("printButton").setAttribute("style", "display: '';");
+        document.getElementById("toggleSound").setAttribute("style", "display: '';");
 
         document.getElementById("ciapiSkinChatTranscript").setAttribute("tabindex", 0);
         this.endChatPopup.hide();
@@ -298,6 +305,7 @@ export default class ChatContainer {
         ).pop();
 
         if (this.closeMethod === "Button") {
+            this.eventHandler.onShowHamburger();
             document.getElementById("ciapiSkinCloseButton").focus();
         } else {
             endChatGiveFeedback.focus();
@@ -339,16 +347,16 @@ export default class ChatContainer {
     }
 
     onConfirmEndChat() {
-        this.endChatPopup.hide();
-        this.eventHandler.onConfirmEndChat();
-        this._removeSkinHeadingElements();
-
-        const endChatNonFocusableLinks = document.querySelectorAll('a[href], iframe');
-        endChatNonFocusableLinks.forEach(function (element) {
+        const endChatNonFocusableLinks = document.querySelectorAll('a[href], iframe, button');
+            endChatNonFocusableLinks.forEach(function (element) {
             element.removeAttribute("tabindex");
         });
 
         document.getElementById("endChatPopup").setAttribute("style", "display: none;");
+
+        this.endChatPopup.hide();
+        this.eventHandler.onConfirmEndChat();
+        this._removeSkinHeadingElements();
 
         document.getElementById("legend_give_feedback").focus();
     }

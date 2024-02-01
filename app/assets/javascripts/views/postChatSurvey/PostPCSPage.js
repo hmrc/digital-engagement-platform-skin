@@ -12,7 +12,7 @@ const html = `
         <ul>
         
         <li id='printOption'><a href='#' id='printButton'>print or save your chat</a></li>
-            <li><a href="http://www.gov.uk">return to GOV.UK</a></li>
+            <li><a id='returnToGovUk' href="http://www.gov.uk">return to GOV.UK</a></li>
             <li>close this window</li>
         </ul>
     </div>

@@ -5,7 +5,7 @@ import { host } from "../../utils/HostUtils";
 export function ContainerHtml(isEscalated) {
     let url = new URL(window.location.href).pathname.replaceAll("/", "%2F");
     let automatedMessage = "";
-    if (!isEscalated) { automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img role="img" src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">You are currently chatting with a computer.</p>`}
+    if (!isEscalated) { automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">You are currently chatting with a computer.</p>`}
     let soundButton = `<button id="toggleSound"> Turn notification sound off </button>`;
     if (sessionStorage.getItem("isActive") == "false") { soundButton = `<button id="toggleSound" tabindex="0" > Turn notification sound on </button>`}
     return `
@@ -17,7 +17,7 @@ export function ContainerHtml(isEscalated) {
     <div id="titleBar" class="govuk-!-display-none-print">
 
     <div class="dropdown">
-        <button id="hamburgerMenu" class="dropbtn">
+        <button id="hamburgerMenu" class="dropbtn" draggable="false" role="button" type="button" aria-label="Hamburger Menu">
             <div class="bar1"></div>
             <div class="bar2"></div>
             <div class="bar3"></div>
@@ -37,7 +37,7 @@ export function ContainerHtml(isEscalated) {
         
 
 
-            <button id="ciapiSkinHideButton" tabindex="0"><i class="arrow down"></i></button>
+            <button id="ciapiSkinHideButton" tabindex="0"><i class="arrow down" draggable="false" role="button" type="button" aria-label="Minimise chat window"></i></button>
          </div>
     </div>
     <div id="ciapiChatComponents">
