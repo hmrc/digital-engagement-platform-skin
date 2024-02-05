@@ -6,8 +6,8 @@ export function ContainerHtml(isEscalated) {
     let url = new URL(window.location.href).pathname.replaceAll("/", "%2F");
     let automatedMessage = "";
     if (!isEscalated) { automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">You are currently chatting with a computer.</p>`}
-    let soundButton = `<button id="toggleSound"> Turn notification sound off </button>`;
-    if (sessionStorage.getItem("isActive") == "false") { soundButton = `<button id="toggleSound" tabindex="0" > Turn notification sound on </button>`}
+    let soundButton = `<button id="toggleSound" class="active"> Turn notification sound off </button>`;
+    if (sessionStorage.getItem("isActive") == "false") { soundButton = `<button id="toggleSound" class="inactive"> Turn notification sound on </button>`}
     return `
 <div id="printDetails" class="print-only govuk-!-padding-top-8 govuk-!-padding-bottom-8">
 <p class="govuk-body print-only">Chat ID: <span id="chat-id"></span></p>
