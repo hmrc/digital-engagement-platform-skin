@@ -34,3 +34,21 @@
     left: 0;
     background: rgba(0, 0, 0, 0.6);
 }
+
+@media screen and (max-height: 350px) {
+    #endChatPopup {
+        padding-top: 0.2em;
+    }
+
+    #endChatPopup h2 {
+        margin-bottom: 0.2em;
+    }
+
+    #confirmEndChat {
+        margin-bottom: 10px;
+    }
+
+    #cancelEndChat {
+        margin-bottom: 10px;
+    }
+}
