@@ -397,6 +397,13 @@ export default class CommonChatController {
     }
 
     onShowHamburger() {
+        let x = document.getElementById("hamburgerMenu").getAttribute("aria-expanded"); 
+        if (x == "true") {
+            x = "false"
+        } else {
+            x = "true"
+        }
+        document.getElementById("hamburgerMenu").setAttribute("aria-expanded", x);
         document.getElementById("hamburgerList").classList.toggle("show");
     }
 
