@@ -17,7 +17,7 @@ export function ContainerHtml(isEscalated) {
     <div id="titleBar" class="govuk-!-display-none-print">
 
     <div class="dropdown">
-        <button id="hamburgerMenu" class="dropbtn" draggable="false" role="button" type="button" aria-expanded="false" aria-label="Hamburger Menu">
+        <button id="hamburgerMenu" class="dropbtn" draggable="false" role="button" type="button" aria-expanded="false" aria-controls="hamburgerList" aria-label="Hamburger Menu">
             <div class="bar1"></div>
             <div class="bar2"></div>
             <div class="bar3"></div>
