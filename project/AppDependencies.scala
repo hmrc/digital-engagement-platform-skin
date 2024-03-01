@@ -8,8 +8,7 @@ object AppDependencies {
   )
 
   val test = Seq(
-    "uk.gov.hmrc"             %% "bootstrap-test-play-29"     % "8.4.0"             % Test,
-    "org.jsoup"               %  "jsoup"                      % "1.15.1"            % Test
+    "uk.gov.hmrc"             %% "bootstrap-test-play-29"     % "8.4.0"             % Test
   )
 
   val all: Seq[ModuleID] = compile ++ test
