@@ -92,7 +92,7 @@ describe("CommonChatController", () => {
         SDK: sdk
     };
 
-    commonChatController._launchChat();
+    commonChatController._launchChat({state: 'show'});
 
     expect(sdk.getOpenerScripts).toHaveBeenCalledTimes(1);
     expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1);
@@ -113,7 +113,7 @@ describe("CommonChatController", () => {
 
     commonChatController._showChat();
 
-    expect(commonChatController._launchChat()).toBe(undefined)
+    expect(commonChatController._launchChat({state: 'show'})).toBe(undefined)
 
   });
 
@@ -133,7 +133,7 @@ describe("CommonChatController", () => {
     }
 
     commonChatController._displayOpenerScripts();
-    commonChatController._launchChat();
+    commonChatController._launchChat({state: 'show'});
 
     let firstCallObject = sdk.chatDisplayed.mock.calls[0][0]
 
@@ -157,7 +157,7 @@ it("removes existingErrorMessage", () => {
 
   document.body.innerHTML += '<div id="error-message"> </div>'
 
-  commonChatController._launchChat();
+  commonChatController._launchChat({state: 'show'});
 
   const existingErrorMessage = document.getElementById("error-message")
 
@@ -169,7 +169,7 @@ it("catches an exception in the launchChat function", () => {
 
   let showChatMock = commonChatController._showChat = jest.fn(() => {throw new Error("test")});
 
-  commonChatController._launchChat();
+  commonChatController._launchChat({state: 'show'});
 
   expect(console.error).toBeCalledWith("ERROR: !!!! launchChat got exception: ", new Error("test"))
 });
@@ -554,11 +554,22 @@ it("catches an exception in the showChat function", () => {
     commonChatController.container = mockContainer;
     commonChatController.closeNuanceChat = jest.fn();
 
+    
+
     let removeSkinHeadingElementsSpy = jest.spyOn(commonChatController.container, '_removeSkinHeadingElements');
     let showPageSpy = jest.spyOn(commonChatController.container, 'showPage');
     let closeNuanceChatSpy = jest.spyOn(commonChatController, 'closeNuanceChat');
 
     commonChatController.showEndChatPage(true);
+
+    const sdk = {
+      _removeSkinHeadingElements: jest.fn(),
+      showPage:jest.fn()
+    };
+
+    window.Inq = {
+      SDK: sdk
+    };
 
     expect(removeSkinHeadingElementsSpy).toHaveBeenCalledTimes(1);
     expect(showPageSpy).toHaveBeenCalledTimes(1);

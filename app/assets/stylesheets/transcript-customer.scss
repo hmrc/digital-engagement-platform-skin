@@ -3,7 +3,7 @@
 .ciapi-customer-container {
   padding: 16px 15px;
   clear: both;
-  overflow-wrap: break-word
+  overflow-wrap: anywhere;
 }
 .ciapi-customer-message {
   @include bubble;

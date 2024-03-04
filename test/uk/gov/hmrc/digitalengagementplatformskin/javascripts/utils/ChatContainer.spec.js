@@ -392,7 +392,7 @@ describe("ChatContainer", () => {
 
         document
             .querySelector("#ciapiSkin")
-            .querySelectorAll('input, textarea, button').forEach((element) => {
+            .querySelectorAll('input, textarea').forEach((element) => {
                 expect(element.getAttribute("tabindex")).toBe(null)
             });
     });
@@ -447,9 +447,13 @@ describe("ChatContainer", () => {
     it("onConfirmEndChat calls the expected methods, and focuses the legend_give_feedback element", () => {
         const focus = jest.fn();
         const setAttribute = jest.fn();
+        let focusDiv = document.createElement("h2");
+        focusDiv.id = 'legend_give_feedback'
 
         document.getElementById = jest.fn()
                                     .mockReturnValueOnce({setAttribute})
+                                    .mockReturnValueOnce({setAttribute})
+                                    .mockReturnValueOnce({focus})
                                     .mockReturnValueOnce({focus});
 
         chatContainer._removeSkinHeadingElements = jest.fn();
@@ -482,8 +486,15 @@ describe("ChatContainer", () => {
     it("disablePreviousWidgets disables elements with the quick-reply-widget class", () => {
         const disable = jest.fn();
         const widget = { disable };
+
+        const responsiveLinkEvent = {
+            target : {
+                getAttribute : jest.fn().mockReturnValue("#"),
+            }
+        }
+
         document.querySelectorAll = jest.fn().mockReturnValueOnce([widget]);
-        chatContainer.disablePreviousWidgets();
+        chatContainer.disablePreviousWidgets(responsiveLinkEvent);
 
         expect(disable).toBeCalledTimes(1);
     })

@@ -22,17 +22,22 @@ export default class ReactiveChatController {
     }
 
     addC2CButton(c2cObj, divID, buttonClass) {
-        this.c2cButtons.addButton(
-            c2cObj,
-            new ClickToChatButton(document.getElementById(divID), buttonClass),
-            divID
-        );
+        if (c2cObj.displayState == "ready") {
+            this.c2cButtons.addButton(
+                c2cObj,
+                new ClickToChatButton(document.getElementById(divID), buttonClass),
+                divID
+            );
+        }
     }
 
     _onC2CButtonClicked(c2cIdx) {
+        const reactiveObj= {
+            type: 'reactive'
+        }
         this.sdk = window.Inq.SDK;
         this.sdk.onC2CClicked(c2cIdx, (state) => {
-            this.commonChatController._launchChat();
+            this.commonChatController._launchChat(reactiveObj);
         });
     }
 }

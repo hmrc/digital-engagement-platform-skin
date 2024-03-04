@@ -140,7 +140,7 @@ export default class ChatContainer {
             }    
         }
 
-        this.disablePreviousWidgets();
+        this.disablePreviousWidgets(e);
     }
 
     processTranscriptEvent(e) {
@@ -174,10 +174,16 @@ export default class ChatContainer {
         }
     }
 
-    disablePreviousWidgets() {
+    disablePreviousWidgets(e) {
         // Disable quick-reply widgets
-        let qrWidgets = document.querySelectorAll(".quick-reply-widget");
-        !!qrWidgets && qrWidgets.forEach(widget => widget.disable());
+        try {
+            if(e.target.getAttribute('href') == "#") {
+                let qrWidgets = document.querySelectorAll(".quick-reply-widget");
+                !!qrWidgets && qrWidgets.forEach(widget => widget.disable());
+            }
+        } catch {
+          console.log('DEBUG: ' + 'Elements not found' )
+        }
       }
 
     setEventHandler(eventHandler) {
@@ -186,10 +192,9 @@ export default class ChatContainer {
 
     _processCloseButtonEvent(e) {
         this.closeMethod = "Button";
-        
         let endChatNonFocusable = this.container.querySelectorAll('input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]):not([id="hamburgerMenu"]):not([id=ciapiSkinHideButton])');
 
-        endChatNonFocusable.forEach(function (element) {
+        endChatNonFocusableContainer.forEach(function (element) {
             element.tabIndex = -1;
         });
 
@@ -269,10 +274,9 @@ export default class ChatContainer {
 
     confirmEndChat() {
         this.endChatPopup.show();
-
         let endChatNonFocusableLinks = document.querySelectorAll('a[href]:not([id="printLink"]), iframe, button:not([id="cancelEndChat"]):not([id="confirmEndChat"])');
 
-        endChatNonFocusableLinks.forEach(function (element) {
+        endChatNonFocusable.forEach(function (element) {
             element.tabIndex = -1;
         });
 
@@ -282,13 +286,13 @@ export default class ChatContainer {
 
     onCancelEndChat(e, toPrint) {
         const ciapiSkinContainer = document.querySelector("#ciapiSkin");
-        const endChatNonFocusable = ciapiSkinContainer.querySelectorAll('input, textarea, button');
-        endChatNonFocusable.forEach(function (element) {
+        const endChatNonFocusableContainer = ciapiSkinContainer.querySelectorAll('input, textarea');
+        endChatNonFocusableContainer.forEach(function (element) {
             element.removeAttribute("tabindex");
         });
 
-        const endChatNonFocusableLinks = document.querySelectorAll('a[href], iframe');
-        endChatNonFocusableLinks.forEach(function (element) {
+        const endChatNonFocusable = document.querySelectorAll('a[href], iframe, button');
+        endChatNonFocusable.forEach(function (element) {
             element.removeAttribute("tabindex");
         });
 
@@ -347,7 +351,7 @@ export default class ChatContainer {
     }
 
     onConfirmEndChat() {
-        const endChatNonFocusableLinks = document.querySelectorAll('a[href], iframe, button');
+      const endChatNonFocusableLinks = document.querySelectorAll('a[href], iframe, button');
             endChatNonFocusableLinks.forEach(function (element) {
             element.removeAttribute("tabindex");
         });

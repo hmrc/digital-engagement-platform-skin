@@ -5,7 +5,11 @@ export default class ProactiveChatController {
         this.commonChatController = new CommonChatController();
     }
 
-    launchProactiveChat() {
-        this.commonChatController._launchChat();
+    launchProactiveChat(obj) {
+        let proactiveObj = {
+            state: obj.state,
+            type: 'proactive'
+        }
+        this.commonChatController._launchChat(proactiveObj);
     }
 }

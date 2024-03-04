@@ -276,7 +276,6 @@ export default class Transcript {
         try {
             if (!quickReplyData.nodes) return null;
 
-
             let divContainer = document.createElement("div");
             divContainer.innerHTML = messageText;
 
@@ -286,17 +285,31 @@ export default class Transcript {
             let nodeContainer = document.createElement("div");
             nodeContainer.classList.add(initialNode.id);
 
+            let renderedControl;
+            let divContainerQrw;
+
+            if(messageText.includes('<ul class="quick-reply-widget"')) {
+                divContainerQrw = divContainer.getElementsByClassName("quick-reply-widget")[0]
+                divContainerQrw.disable = function() {
+                    let links = this.querySelectorAll('a[href="#"]');
+                    links.forEach(link => link.parentElement.innerText = link.text);
+                }
+            }
             for(let i = 0; i < Object.keys(initialNode.controls).length; i++) {
                 let control = initialNode.controls[i];
 
-                let renderedControl;
-
                 switch (control.type) {
                     case "QuickReplyButton":
-                        renderedControl = this.createQuickReplyButtonAsLinks(initialNode, control);
+                        if(messageText.includes('<ul class="quick-reply-widget"')) {
+                            divContainerQrw.append(...this.createQuickReplyButtonAsLinks(initialNode, control, messageText));
+                        } else {
+                            renderedControl = this.createQuickReplyButtonAsLinks(initialNode, control, messageText);
+                        }
                     break;
                 }
+            }
 
+            if(!messageText.includes('<ul class="quick-reply-widget"')) {
                 divContainer.append(renderedControl);
             }
 
@@ -315,13 +328,12 @@ export default class Transcript {
         }
     }
 
-    createQuickReplyButtonAsLinks(node, controlData) {
-
+    createQuickReplyButtonAsLinks(node, controlData, messageText) {
         let qrContainer = document.createElement("ul");
         qrContainer.classList.add('quick-reply-widget');
 
         qrContainer.disable = function() {
-            let links = this.querySelectorAll('a');
+            let links = this.querySelectorAll('a[href="#"]');
             links.forEach(link => link.parentElement.innerText = link.text);
         }
 
@@ -346,8 +358,12 @@ export default class Transcript {
             return listItemEl;
         })
 
-        qrContainer.append(...buttonElements);
-        return qrContainer;
+        if(messageText.includes('<ul class="quick-reply-widget"')) {
+            return buttonElements;
+        } else {
+            qrContainer.append(...buttonElements);
+            return qrContainer;
+        }
     }
 
     handleRichMediaClickEvent(event) {
