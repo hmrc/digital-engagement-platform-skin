@@ -192,7 +192,7 @@ export default class ChatContainer {
 
     _processCloseButtonEvent(e) {
         this.closeMethod = "Button";
-        let endChatNonFocusable = this.container.querySelectorAll('input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]):not([id="hamburgerMenu"]):not([id=ciapiSkinHideButton])');
+        let endChatNonFocusableContainer = this.container.querySelectorAll('input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]):not([id="hamburgerMenu"]):not([id=ciapiSkinHideButton])');
 
         endChatNonFocusableContainer.forEach(function (element) {
             element.tabIndex = -1;
@@ -274,7 +274,7 @@ export default class ChatContainer {
 
     confirmEndChat() {
         this.endChatPopup.show();
-        let endChatNonFocusableLinks = document.querySelectorAll('a[href]:not([id="printLink"]), iframe, button:not([id="cancelEndChat"]):not([id="confirmEndChat"])');
+        let endChatNonFocusable = document.querySelectorAll('a[href]:not([id="printLink"]), iframe, button:not([id="cancelEndChat"]):not([id="confirmEndChat"])');
 
         endChatNonFocusable.forEach(function (element) {
             element.tabIndex = -1;
@@ -351,18 +351,20 @@ export default class ChatContainer {
     }
 
     onConfirmEndChat() {
-      const endChatNonFocusableLinks = document.querySelectorAll('a[href], iframe, button');
-            endChatNonFocusableLinks.forEach(function (element) {
-            element.removeAttribute("tabindex");
-        });
+      this.endChatPopup.hide();
+              this.eventHandler.onConfirmEndChat();
+              this._removeSkinHeadingElements();
 
-        document.getElementById("endChatPopup").setAttribute("style", "display: none;");
+              const endChatNonFocusable = document.querySelectorAll('a[href], iframe, button');
+              endChatNonFocusable.forEach(function (element) {
+                  element.removeAttribute("tabindex");
+              });
 
-        this.endChatPopup.hide();
-        this.eventHandler.onConfirmEndChat();
-        this._removeSkinHeadingElements();
+              document.getElementById("endChatPopup").setAttribute("style", "display: none;");
 
-        document.getElementById("legend_give_feedback").focus();
+              if((document.getElementById("legend_give_feedback") != null || document.getElementById("legend_give_feedback") != undefined)) {
+                  document.getElementById("legend_give_feedback").focus();
+              }
     }
 
     showPage(page) {

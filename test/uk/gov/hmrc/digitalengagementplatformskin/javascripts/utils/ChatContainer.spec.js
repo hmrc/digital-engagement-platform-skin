@@ -453,7 +453,6 @@ describe("ChatContainer", () => {
         document.getElementById = jest.fn()
                                     .mockReturnValueOnce({setAttribute})
                                     .mockReturnValueOnce({setAttribute})
-                                    .mockReturnValueOnce({focus})
                                     .mockReturnValueOnce({focus});
 
         chatContainer._removeSkinHeadingElements = jest.fn();

@@ -23,10 +23,10 @@ export function ContainerHtml(isEscalated) {
             <div class="bar3"></div>
         </button>
         <div id="hamburgerList" class="dropdown-content">
-            <button id="ciapiSkinCloseButton" tabindex="0" > End chat </button>
-            <button id="printButton" tabindex="0" > Print or save chat </button>
+            <button id="ciapiSkinCloseButton" role="button" tabindex="0" > End chat </button>
+            <button id="printButton" role="button" tabindex="0" > Print or save chat </button>
             ` + soundButton + `
-            <button id='accessibility-statement-link' >Accessibility statement (opens in a new tab)</button>
+            <button id='accessibility-statement-link' role="button" >Accessibility statement (opens in a new tab)</button>
         </div>
     </div>
         <div id="ciapiSkinTitleBar">
@@ -37,7 +37,7 @@ export function ContainerHtml(isEscalated) {
         
 
 
-            <button id="ciapiSkinHideButton" tabindex="0"><i class="arrow down" draggable="false" role="button" type="button" aria-label="Minimise chat window"></i></button>
+            <button id="ciapiSkinHideButton" role="button" tabindex="0"><i class="arrow down" draggable="false" role="button" type="button" aria-label="Minimise chat window"></i></button>
          </div>
     </div>
     <div id="ciapiChatComponents">
