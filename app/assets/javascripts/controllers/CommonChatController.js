@@ -380,7 +380,11 @@ export default class CommonChatController {
     }
 
     onCloseChat() {
+        const popupChatContainer = document.getElementsByClassName("ci-api-popup");
         this.state.onClickedClose();
+        if (popupChatContainer.length > 0) {
+            this.onShowHamburger();
+        }
     }
 
     onHideChat() {
@@ -406,6 +410,22 @@ export default class CommonChatController {
                 console.log('DEBUG: ' + 'Element not found' )
             }
         }
+    }
+
+    onShowHamburger() {
+        let x = document.getElementById("hamburgerMenu").getAttribute("aria-expanded");
+        if (x == "true") {
+            x = "false"
+        } else {
+            x = "true"
+        }
+        document.getElementById("hamburgerMenu").setAttribute("aria-expanded", x);
+        document.getElementById("hamburgerList").classList.toggle("show");
+    }
+
+    onAccessibilityStatement() {
+        let url = new URL(window.location.href).pathname.replaceAll("/", "%2F");
+        window.open("https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend?referrerUrl=` + url + `-skin-hmrc", "_blank");
     }
 
     onStartTyping() {

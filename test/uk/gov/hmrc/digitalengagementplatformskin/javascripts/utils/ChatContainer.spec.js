@@ -373,6 +373,9 @@ describe("ChatContainer", () => {
             jest.fn()
                 .mockReturnValueOnce({setAttribute})
                 .mockReturnValueOnce({setAttribute})
+                .mockReturnValueOnce({setAttribute})
+                .mockReturnValueOnce({setAttribute})
+                .mockReturnValueOnce({setAttribute})
                 .mockReturnValueOnce({focus});
             
         const documentHtml = setupDocumentforCancelEndChatTests();
@@ -383,7 +386,7 @@ describe("ChatContainer", () => {
         chatContainer.onCancelEndChat();
 
         expect(setAttribute).toBeCalledWith("tabindex", 0);
-        expect(setAttribute).toBeCalledTimes(2);
+        expect(setAttribute).toBeCalledTimes(5);
         expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
         expect(focus).toBeCalledTimes(1);
 
@@ -450,7 +453,6 @@ describe("ChatContainer", () => {
         document.getElementById = jest.fn()
                                     .mockReturnValueOnce({setAttribute})
                                     .mockReturnValueOnce({setAttribute})
-                                    .mockReturnValueOnce({focus})
                                     .mockReturnValueOnce({focus});
 
         chatContainer._removeSkinHeadingElements = jest.fn();

@@ -4,12 +4,11 @@ $bubble-border-radius: #{$bubble-padding-horiz};
 $bubble-border-width: 0.3157894737em;
 
 @mixin bubble {
-    background-color: #fff;
+    // background-color: #e9e9e9;
     max-width: 80%;
-    margin: 0 auto 3rem auto;
-    padding: #{$bubble-padding-vert} #{$bubble-padding-horiz};
-    border-radius: #{$bubble-border-radius};
-    border: #{$bubble-border-width} solid #0b0c0c;
+    margin: 0 auto 2rem auto;
+    padding: 0.5rem 1.3rem;
+    border-radius: 10px;
     line-height: 1.4em;
     color: #0b0c0c;
     min-width: 5em;
@@ -20,4 +19,12 @@ $bubble-border-width: 0.3157894737em;
     background-repeat: no-repeat;
     background-size: 100% 100%;
     text-align: left;
+}
+
+.ciapi-customer-message {
+    background-color: #cce9ff;
+}
+
+.ciapi-agent-message {
+    background-color: #f3f2f1;
 }

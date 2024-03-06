@@ -4,6 +4,8 @@ import { sanitiseAndParseJsonData } from './JsonUtils';
 
 const nullEventHandler = {
     onSend: function () {},
+    onShowHamburger: function () {},
+    onAccessibilityStatement: function () {},
     onCloseChat: function () {},
     onHideChat: function () {},
     onRestoreChat: function () {},
@@ -190,8 +192,7 @@ export default class ChatContainer {
 
     _processCloseButtonEvent(e) {
         this.closeMethod = "Button";
-        
-        let endChatNonFocusableContainer = this.container.querySelectorAll('input, textarea');
+        let endChatNonFocusableContainer = this.container.querySelectorAll('input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]):not([id="hamburgerMenu"]):not([id=ciapiSkinHideButton])');
 
         endChatNonFocusableContainer.forEach(function (element) {
             element.tabIndex = -1;
@@ -200,6 +201,10 @@ export default class ChatContainer {
         const skinChatTranscript = this.container.querySelector("#ciapiSkinChatTranscript");
 
         skinChatTranscript.setAttribute("tabindex", -1);
+
+        document.getElementById("ciapiSkinCloseButton").setAttribute("style", "display: none;");
+        document.getElementById("printButton").setAttribute("style", "display: none;");
+        document.getElementById("toggleSound").setAttribute("style", "display: none;");
 
         this.eventHandler.onCloseChat();
     }
@@ -228,8 +233,16 @@ export default class ChatContainer {
             this.eventHandler.onSend();
         });
 
+        this._registerEventListener("#hamburgerMenu", (e) => {
+            this.eventHandler.onShowHamburger();
+        });
+
         this._registerEventListener("#ciapiSkinCloseButton", (e) => {
             this._processCloseButtonEvent(e)
+        });
+
+        this._registerEventListener("#accessibility-statement-link", (e) => {
+            this.eventHandler.onAccessibilityStatement()
         });
 
         this._registerEventListener("#ciapiSkinHideButton", (e) => {
@@ -261,8 +274,7 @@ export default class ChatContainer {
 
     confirmEndChat() {
         this.endChatPopup.show();
-
-        let endChatNonFocusable = document.querySelectorAll('a[href]:not([id="printLink"]), iframe, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]');
+        let endChatNonFocusable = document.querySelectorAll('a[href]:not([id="printLink"]), iframe, button:not([id="cancelEndChat"]):not([id="confirmEndChat"])');
 
         endChatNonFocusable.forEach(function (element) {
             element.tabIndex = -1;
@@ -285,6 +297,9 @@ export default class ChatContainer {
         });
 
         document.getElementById("endChatPopup").setAttribute("style", "display: none;");
+        document.getElementById("ciapiSkinCloseButton").setAttribute("style", "display: '';");
+        document.getElementById("printButton").setAttribute("style", "display: '';");
+        document.getElementById("toggleSound").setAttribute("style", "display: '';");
 
         document.getElementById("ciapiSkinChatTranscript").setAttribute("tabindex", 0);
         this.endChatPopup.hide();
@@ -294,6 +309,10 @@ export default class ChatContainer {
         ).pop();
 
         if (this.closeMethod === "Button") {
+            const popupChatContainer = document.getElementsByClassName("ci-api-popup");
+            if (popupChatContainer.length > 0) {
+                this.eventHandler.onShowHamburger();
+            }
             document.getElementById("ciapiSkinCloseButton").focus();
         } else {
             endChatGiveFeedback.focus();
@@ -335,20 +354,20 @@ export default class ChatContainer {
     }
 
     onConfirmEndChat() {
-        this.endChatPopup.hide();
-        this.eventHandler.onConfirmEndChat();
-        this._removeSkinHeadingElements();
+      this.endChatPopup.hide();
+              this.eventHandler.onConfirmEndChat();
+              this._removeSkinHeadingElements();
 
-        const endChatNonFocusable = document.querySelectorAll('a[href], iframe, button');
-        endChatNonFocusable.forEach(function (element) {
-            element.removeAttribute("tabindex");
-        });
+              const endChatNonFocusable = document.querySelectorAll('a[href], iframe, button');
+              endChatNonFocusable.forEach(function (element) {
+                  element.removeAttribute("tabindex");
+              });
 
-        document.getElementById("endChatPopup").setAttribute("style", "display: none;");
+              document.getElementById("endChatPopup").setAttribute("style", "display: none;");
 
-        if((document.getElementById("legend_give_feedback") != null && document.getElementById("legend_give_feedback") != undefined)) {
-            document.getElementById("legend_give_feedback").focus();
-        }
+              if((document.getElementById("legend_give_feedback") != null || document.getElementById("legend_give_feedback") != undefined)) {
+                  document.getElementById("legend_give_feedback").focus();
+              }
     }
 
     showPage(page) {

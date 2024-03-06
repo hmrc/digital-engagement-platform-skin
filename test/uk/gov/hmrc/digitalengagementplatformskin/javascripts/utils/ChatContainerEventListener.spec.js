@@ -20,6 +20,13 @@ describe("ChatContainer Event Listeners", () => {
 
     it("clicking the close button fires the expected handler function", () => {
         const chatContainer = new ChatContainer(null, EmbeddedContainerHtml, null);
+        const setAttribute = jest.fn();
+
+        document.getElementById =
+            jest.fn()
+                .mockReturnValueOnce({setAttribute})
+                .mockReturnValueOnce({setAttribute})
+                .mockReturnValueOnce({setAttribute});
 
         jest.spyOn(chatContainer.eventHandler, 'onCloseChat');
         chatContainer.container.querySelector('#ciapiSkinCloseButton').click()

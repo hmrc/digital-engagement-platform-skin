@@ -1,9 +1,7 @@
 @import 'bubble';
 
 .ciapi-customer-container {
-  padding-top: 8px;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding: 16px 15px;
   clear: both;
   overflow-wrap: anywhere;
 }
@@ -11,31 +9,6 @@
   @include bubble;
   float: right;
   page-break-inside: avoid;
-}
-
-.ciapi-customer-message::before, .ciapi-customer-message::after {
-    content: " ";
-    position: absolute;
-    width: 0;
-    height: 0;
-}
-.ciapi-customer-message::before {
-    right: 0.7rem;
-    bottom: -2.3rem;
-    border: 1.1rem solid;
-    border-color: #0b0c0c #0b0c0c transparent transparent;
-}
-.ciapi-customer-message::before, .ciapi-customer-message::after {
-    content: " ";
-    position: absolute;
-    width: 0;
-    height: 0;
-}
-.ciapi-customer-message::after {
-    right: 1rem;
-    bottom: -1.6rem;
-    border: 0.9rem solid;
-    border-color: white white transparent transparent;
 }
 
 .timestamp-outer{
