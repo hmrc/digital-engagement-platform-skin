@@ -380,8 +380,11 @@ export default class CommonChatController {
     }
 
     onCloseChat() {
+        const popupChatContainer = document.getElementsByClassName("ci-api-popup");
         this.state.onClickedClose();
-        this.onShowHamburger();
+        if (popupChatContainer.length > 0) {
+            this.onShowHamburger();
+        }
     }
 
     onHideChat() {
@@ -410,7 +413,7 @@ export default class CommonChatController {
     }
 
     onShowHamburger() {
-        let x = document.getElementById("hamburgerMenu").getAttribute("aria-expanded"); 
+        let x = document.getElementById("hamburgerMenu").getAttribute("aria-expanded");
         if (x == "true") {
             x = "false"
         } else {

@@ -309,7 +309,10 @@ export default class ChatContainer {
         ).pop();
 
         if (this.closeMethod === "Button") {
-            this.eventHandler.onShowHamburger();
+            const popupChatContainer = document.getElementsByClassName("ci-api-popup");
+            if (popupChatContainer.length > 0) {
+                this.eventHandler.onShowHamburger();
+            }
             document.getElementById("ciapiSkinCloseButton").focus();
         } else {
             endChatGiveFeedback.focus();
