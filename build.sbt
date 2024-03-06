@@ -34,9 +34,10 @@ lazy val microservice = Project(appName, file("."))
   .disablePlugins(JUnitXmlReportPlugin)
   .settings(
     majorVersion                     := 0,
-    scalaVersion                     := "2.13.8",
+    scalaVersion                     := "2.13.12",
     PlayKeys.playDefaultPort := 9193,
-    SilencerSettings(),
+    scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s", 
+    scalacOptions += "-Wconf:cat=unused-imports&src=routes/.*:s", 
     libraryDependencies ++= AppDependencies.all,
     npmInstallSetting,
     webpackBundleSetting,
