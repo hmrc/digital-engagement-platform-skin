@@ -17,7 +17,12 @@ export const chatListener = {
         }
         logger.debug("Chat any event:", evt);
         window.chatId = evt.chatID;
-        window.agentId = evt.agentID;
+    }, 
+    onAgentAssigned: function (evt) {
+        logger.debug("### Agent Assigned");
+        if (!!evt.agentID) {
+            sessionStorage.agentId = evt.agentID;
+        }
     },
     onC2CStateChanged: function (evt) {
         logger.info("C2C state changed...")
