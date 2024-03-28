@@ -30,8 +30,7 @@ describe("chat-ui", () => {
     const chatListenerFromWindow = window.InqRegistry.listeners[0];
 
     const evt = {
-      chatID: 1,
-      agentID: "Terry"
+      chatID: 1
     }
 
     chatListenerFromWindow.onAnyEvent(evt);
@@ -39,7 +38,6 @@ describe("chat-ui", () => {
 
     expect(onAnyEventSpy).toBeCalledTimes(1);
     expect(onC2CSpy).toBeCalledTimes(1);
-    expect(window.agentId).toBe("Terry");
     expect(window.chatId).toBe(1);
   })
 
