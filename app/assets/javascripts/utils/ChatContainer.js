@@ -14,7 +14,8 @@ const nullEventHandler = {
     onStartTyping: function () {},
     onStopTyping: function () {},
     onSkipToTopLink: function () {},
-    onPrint: function () {}
+    onPrint: function () {},
+    makeResizableDiv: function() {}
 };
 
 export default class ChatContainer {
@@ -268,6 +269,11 @@ export default class ChatContainer {
 
         this._registerEventListener("#toggleSound", (e) => {
             this.eventHandler.onSoundToggle();
+            e.preventDefault();
+        });
+
+        this._registerEventListener(".resizer", (e) => {
+            this.eventHandler.makeResizableSkinContainer('#ciapiSkinContainer');
             e.preventDefault();
         });
     }

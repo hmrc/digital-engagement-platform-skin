@@ -522,4 +522,56 @@ export default class CommonChatController {
 
     }
 
+    makeResizableSkinContainer(div) {
+        const element = document.querySelector('#ciapiSkinContainer');
+        const resizer = document.querySelector('.top-left')
+        const minimum_height = 60
+        const maximum_height = 100
+        const minimum_width = 25
+        const maximum_width = 60
+
+        // Variables to store original dimensions and mouse positions
+        let original_width = 0;
+        let original_height = 0;
+        let original_x = 0;
+        let original_y = 0;
+        let original_mouse_x = 0;
+        let original_mouse_y = 0;
+
+        resizer.addEventListener('mousedown', function(e) {
+            e.preventDefault()
+            original_width = parseFloat(getComputedStyle(element, null).getPropertyValue('width'));
+            original_height = parseFloat(getComputedStyle(element, null).getPropertyValue('height'));
+            original_x = element.getBoundingClientRect().left;
+            original_y = element.getBoundingClientRect().top;
+            original_mouse_x = e.pageX;
+            original_mouse_y = e.pageY;
+            window.addEventListener('mousemove', resize)
+            window.addEventListener('mouseup', stopResize)
+        })
+          
+        // Handles resizing
+        function resize(e) {
+            const window_width = window.innerWidth;
+            const window_height = window.innerHeight;
+            let width = original_width - (e.pageX - original_mouse_x);
+            let height = original_height - (e.pageY - original_mouse_y);
+        
+            // Constrain width and height within min and max values
+            width = Math.max(Math.min(width / window_width * 100, maximum_width), minimum_width) + '%';
+            height = Math.max(Math.min(height / window_height * 100, maximum_height), minimum_height) + '%';
+                
+            // Adjust left and top positions to keep the bottom-right corner fixed
+            const newLeft = original_x + (original_width - width / 100 * window_width);
+            
+            element.style.width = width;
+            element.style.height = height;
+            element.style.left = Math.max(newLeft, 0)
+         
+        }
+        function stopResize() {
+            window.removeEventListener('mousemove', resize)
+        }
+    }
 };
+
