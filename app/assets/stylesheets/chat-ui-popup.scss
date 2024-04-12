@@ -581,9 +581,3 @@ $page-height: calc(100% - 5px);
     transform: rotate(45deg);
     -webkit-transform: rotate(225deg);
 }
-
-#printPostChat:focus {
-  background-color: #ffdd00;
-  text-decoration: underline;
-  color: black;
-}
