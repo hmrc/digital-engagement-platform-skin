@@ -75,7 +75,7 @@ describe("PostChatSurveyWebchatService", () => {
             logEventToDW: jest.fn()
         };
 
-        window.agentId = "12345";
+        sessionStorage.agentId = "12345";
 
         const service = new PostChatSurveyWebchatService(sdk);
 
@@ -183,7 +183,7 @@ describe("PostChatSurveyWebchatService", () => {
             logEventToDW: jest.fn()
         };
 
-        window.agentId = "12345";
+        sessionStorage.agentId = "12345";
 
         const service = new PostChatSurveyWebchatService(sdk);
         const timestamp = Date.now();
@@ -291,7 +291,7 @@ describe("PostChatSurveyWebchatService", () => {
                 logEventToDW: jest.fn()
             };
 
-            window.agentId = "12345";
+            sessionStorage.agentId = "12345";
 
             const service = new PostChatSurveyWebchatService(sdk);
             const timestamp = Date.now();
