@@ -11,8 +11,8 @@ const html = `
         <p>You can:</p>
         <ul>
         
-        <li id='printOption'><a href='#' id='printButton'>print or save your chat</a></li>
-            <li><a id='returnToGovUk' href="http://www.gov.uk">return to GOV.UK</a></li>
+        <li id='printOption'><a class="govuk-link" href='#' id='printLink'>print or save your chat</a></li>
+            <li><a class="govuk-link" id='returnToGovUk' href="http://www.gov.uk">return to GOV.UK</a></li>
             <li>close this window</li>
         </ul>
     </div>
@@ -68,7 +68,7 @@ export default class PostPCSPage {
         
         
 
-        const element = this.wrapper.querySelector('#printButton');
+        const element = this.wrapper.querySelector('#printLink');
         if (element) {
             element.addEventListener("click", (e) => {
                 let elementList = [
