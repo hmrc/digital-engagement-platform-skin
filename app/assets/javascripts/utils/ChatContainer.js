@@ -224,6 +224,13 @@ export default class ChatContainer {
         }
     }
 
+    _registerEventListenerOnMouseOver(selector, handler) {
+        const element = this.container.querySelector(selector);
+        if (element) {
+            element.addEventListener("mouseover", handler);
+        }
+      }
+
     _registerEventListeners() {
 
         this._registerKeypressEventListener("#custMsg", (e) => {
@@ -272,10 +279,10 @@ export default class ChatContainer {
             e.preventDefault();
         });
 
-        this._registerEventListener(".resizer", (e) => {
+        this._registerEventListenerOnMouseOver('.resizer', (e) => {
             this.eventHandler.makeResizableSkinContainer('#ciapiSkinContainer');
             e.preventDefault();
-        });
+          });
     }
 
     confirmEndChat() {
