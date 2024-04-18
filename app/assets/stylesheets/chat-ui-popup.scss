@@ -72,14 +72,24 @@ $page-height: calc(100% - 5px);
   }
 
   #ciapiSkinContainer .resizers .resizer{
-    width: 4px;
     height: 4px;
-    border-radius: 50%;
-    background: #4286f4;
+    background: orange;
+    display: block;
+  }
+
+  .paneContentContainer{
+    display: flex;
+    height: 100%
+  }
+
+  .one{
+   height: 100%;
+   width: 4px;
+   background: orange;
   }
 
   #ciapiSkinContainer .resizers .resizer.top-left {
-    cursor: nwse-resize;
+    cursor: n-resize;
   }
 
 #titleBar {

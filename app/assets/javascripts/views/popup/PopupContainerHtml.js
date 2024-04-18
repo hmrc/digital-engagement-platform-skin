@@ -16,6 +16,9 @@ export function ContainerHtml(isEscalated) {
 <div id="ciapiSkinContainer">
 <div class="resizers">
 <div class="resizer top-left"></div>
+<div class='paneContentContainer'>
+<div class="one"></div>
+<div>
     <div id="titleBar" class="govuk-!-display-none-print">
 
     <div class="dropdown">
@@ -65,9 +68,10 @@ export function ContainerHtml(isEscalated) {
         <!-- at the moment, the below URL is hardcoded. in the future this should be a properly encoded URL and have the correct chat passed in as a parameter -->
         <!-- <div id="accessibility-statement"><a id='accessibility-statement-link' class="govuk-link govuk-!-display-none-print" href="https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend?referrerUrl=` + url + `-skin-hmrc" target="_blank">Accessibility statement (opens in a new tab)</a></div> -->
     </div>
+    <div>
+</div>
 </div>
 
-</div>
 <div id="ciapiSkinMinimised">
     <button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button">
         <div id="logo-white"><img src="` + host + `/engagement-platform-skin/assets/media/logo-white.png"></div>
