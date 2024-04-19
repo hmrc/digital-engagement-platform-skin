@@ -15,9 +15,9 @@ export function ContainerHtml(isEscalated) {
 </div>
 <div id="ciapiSkinContainer">
 <div class="resizers">
-<div class="resizer topPane"></div>
+<div class="resizer topPane"><i class="arrow up"></i></div>
 <div class='paneContentContainer'>
-<div class="resizer leftPane"></div>
+<div class="resizer leftPane"><i class="arrow left"></i></div>
 <div>
     <div id="titleBar" class="govuk-!-display-none-print">
 

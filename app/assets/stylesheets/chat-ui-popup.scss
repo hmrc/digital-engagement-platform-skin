@@ -72,9 +72,7 @@ $page-height: calc(100% - 5px);
   }
 
   .resizer{
-    height: 4px;
-    background: orange;
-    display: block;
+    background: grey;
   }
 
   .paneContentContainer{
@@ -83,14 +81,38 @@ $page-height: calc(100% - 5px);
   }
 
   .leftPane{
-   height: 100%;
-   width: 4px;
-   background: orange;
+   background: grey;
    cursor: w-resize;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 16px;
+   border: solid 1px black
   }
 
   .topPane {
+    height: 14px;
     cursor: n-resize;
+    text-align:center;
+    border: solid 1px black
+  }
+
+  .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    padding: 3px;
+  }
+  
+  .left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+    margin-right: 3px;
+  }
+  
+  .up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    margin:auto;
   }
 
 #titleBar {
