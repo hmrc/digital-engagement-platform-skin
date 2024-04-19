@@ -65,13 +65,13 @@ $page-height: calc(100% - 5px);
 }
 
 // Classes for the resizer
-#ciapiSkinContainer .resizers{
+.resizers{
     width: 100%;
     height: 100%;
     box-sizing: border-box;
   }
 
-  #ciapiSkinContainer .resizers .resizer{
+  .resizer{
     height: 4px;
     background: orange;
     display: block;
@@ -82,13 +82,14 @@ $page-height: calc(100% - 5px);
     height: 100%
   }
 
-  .one{
+  .leftPane{
    height: 100%;
    width: 4px;
    background: orange;
+   cursor: w-resize;
   }
 
-  #ciapiSkinContainer .resizers .resizer.top-left {
+  .topPane {
     cursor: n-resize;
   }
 

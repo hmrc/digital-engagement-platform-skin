@@ -279,7 +279,7 @@ export default class ChatContainer {
             e.preventDefault();
         });
 
-        this._registerEventListenerOnMouseOver('.resizer', (e) => {
+        this._registerEventListenerOnMouseOver('.resizers', (e) => {
             this.eventHandler.makeResizableSkinContainer('#ciapiSkinContainer');
             e.preventDefault();
           });

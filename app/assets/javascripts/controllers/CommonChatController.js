@@ -524,7 +524,8 @@ export default class CommonChatController {
 
     makeResizableSkinContainer(div) {
         const element = document.querySelector('#ciapiSkinContainer');
-        const resizer = document.querySelector('.top-left')
+        const resizerTop = document.querySelector('.topPane')
+        const resizerLeft = document.querySelector('.leftPane')
         const minimum_height = 60
         const maximum_height = 100
         const minimum_width = 25
@@ -538,7 +539,19 @@ export default class CommonChatController {
         let original_mouse_x = 0;
         let original_mouse_y = 0;
 
-        resizer.addEventListener('mousedown', function(e) {
+        resizerTop.addEventListener('mousedown', function(e) {
+            e.preventDefault()
+            original_width = parseFloat(getComputedStyle(element, null).getPropertyValue('width'));
+            original_height = parseFloat(getComputedStyle(element, null).getPropertyValue('height'));
+            original_x = element.getBoundingClientRect().left;
+            original_y = element.getBoundingClientRect().top;
+            original_mouse_x = e.pageX;
+            original_mouse_y = e.pageY;
+            window.addEventListener('mousemove', resize)
+            window.addEventListener('mouseup', stopResize)
+        })
+
+        resizerLeft.addEventListener('mousedown', function(e) {
             e.preventDefault()
             original_width = parseFloat(getComputedStyle(element, null).getPropertyValue('width'));
             original_height = parseFloat(getComputedStyle(element, null).getPropertyValue('height'));
