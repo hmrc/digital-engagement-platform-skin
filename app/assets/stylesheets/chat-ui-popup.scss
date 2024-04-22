@@ -72,7 +72,7 @@ $page-height: calc(100% - 5px);
   }
 
   .resizer{
-    background: grey;
+    background: #1d70b8;
   }
 
   .paneContentContainer{
@@ -81,20 +81,17 @@ $page-height: calc(100% - 5px);
   }
 
   .leftPane{
-   background: grey;
    cursor: w-resize;
    display: flex;
    justify-content: center;
    align-items: center;
    width: 16px;
-   border: solid 1px black
   }
 
   .topPane {
     height: 14px;
     cursor: n-resize;
     text-align:center;
-    border: solid 1px black
   }
 
   .arrow {

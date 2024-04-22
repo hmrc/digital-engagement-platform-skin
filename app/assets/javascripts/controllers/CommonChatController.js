@@ -527,9 +527,9 @@ export default class CommonChatController {
         const resizerTop = document.querySelector('.topPane')
         const resizerLeft = document.querySelector('.leftPane')
         const minimum_height = 60
-        const maximum_height = 100
+        const maximum_height = 95
         const minimum_width = 25
-        const maximum_width = 60
+        const maximum_width = 45
 
         // Variables to store original dimensions and mouse positions
         let original_width = 0;
