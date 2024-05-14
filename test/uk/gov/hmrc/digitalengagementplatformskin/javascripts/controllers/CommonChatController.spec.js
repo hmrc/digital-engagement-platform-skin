@@ -1053,7 +1053,7 @@ it("catches an exception in the showChat function", () => {
           <div id="ciapiSkinHeader" class="govuk-!-display-none-print">
             <div id="print">
               <button id="printButton" class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                Print or save chat
+                Print chat
               </button>
             </div>
             <div id="sound">

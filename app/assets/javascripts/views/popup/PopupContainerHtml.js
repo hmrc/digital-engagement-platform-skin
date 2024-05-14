@@ -4,16 +4,24 @@ import { host } from "../../utils/HostUtils";
 
 export function ContainerHtml(isEscalated) {
     let url = new URL(window.location.href).pathname.replaceAll("/", "%2F");
+    let sizeButton = `<button id='toggleSizeButton' role="button">Increase chat size</button>`
+    let container = `<div id="ciapiSkinContainer" class='ciapiSkinContainerStandardSize'>`
+    if (sessionStorage.getItem("isStandard") == "false") {
+        container = `<div id="ciapiSkinContainer" class='ciapiSkinContainerLargerSize'>`;
+        sizeButton = `<button id='toggleSizeButton' role="button">Decrease chat size</button>`}
+    
+
     let automatedMessage = "";
     if (!isEscalated) { automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">You are currently chatting with a computer.</p>`}
     let soundButton = `<button id="toggleSound" class="active"> Turn notification sound off </button>`;
     if (sessionStorage.getItem("isActive") == "false") { soundButton = `<button id="toggleSound" class="inactive"> Turn notification sound on </button>`}
+    
     return `
 <div id="printDetails" class="print-only govuk-!-padding-top-8 govuk-!-padding-bottom-8">
 <p class="govuk-body print-only">Chat ID: <span id="chat-id"></span></p>
 <p id="print-date" class="govuk-body print-only"></p>
 </div>
-<div id="ciapiSkinContainer">
+` + container + `
     <div id="titleBar" class="govuk-!-display-none-print">
 
     <div class="dropdown">
@@ -24,7 +32,8 @@ export function ContainerHtml(isEscalated) {
         </button>
         <div id="hamburgerList" class="dropdown-content">
             <button id="ciapiSkinCloseButton" role="button" tabindex="0" > End chat </button>
-            <button id="printButton" role="button" tabindex="0" > Print or save chat </button>
+            <button id="printButton" role="button" tabindex="0" > Print chat </button>
+            ` + sizeButton + `
             ` + soundButton + `
             <button id='accessibility-statement-link' role="button" >Accessibility statement (opens in a new tab)</button>
         </div>
@@ -66,7 +75,6 @@ export function ContainerHtml(isEscalated) {
 </div>
 <div id="ciapiSkinMinimised">
     <button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button">
-        <div id="logo-white"><img src="` + host + `/engagement-platform-skin/assets/media/logo-white.png"></div>
         <h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2>
         <div id="ciapiSkinExpandButton" role="button" tabindex="0"><i class="arrow up" draggable="false" role="button" type="button" aria-label="Expand chat window"></i></div>
     </button>

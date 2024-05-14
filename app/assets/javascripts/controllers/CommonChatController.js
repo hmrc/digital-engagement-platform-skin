@@ -522,4 +522,24 @@ export default class CommonChatController {
 
     }
 
+    onSizeToggle(e) {
+        let container = document.getElementById("ciapiSkinContainer");
+        let isStandard = container.classList.contains("ciapiSkinContainerStandardSize");
+        let sizeButton = document.getElementById('toggleSizeButton')
+
+        if (isStandard) {
+            container.classList.remove("ciapiSkinContainerStandardSize");
+            container.classList.add("ciapiSkinContainerLargerSize");
+
+            sizeButton.innerHTML = "Decrease chat size";
+        } else {
+            container.classList.remove("ciapiSkinContainerLargerSize");
+            container.classList.add("ciapiSkinContainerStandardSize");
+
+            sizeButton.innerHTML = "Increase chat size";
+        }
+
+        sessionStorage.setItem("isStandard", !isStandard);
+
+    }
 };

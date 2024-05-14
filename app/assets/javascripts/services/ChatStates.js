@@ -256,13 +256,13 @@ export class EngagedState {
                 transcript.addSystemMsg({msg: (msg["display.text"] || "Adviser exited chat")}, msg.messageTimestamp);
                 break;
             case MessageType.Chat_CommunicationQueue:
-                transcript.addSystemMsg({msg: (msg.messageText || "All of our agents are currently busy.  Please wait and an agent will be with you shortly")}, msg.messageTimestamp);
+                transcript.addSystemMsg({msg: msg.messageText}, msg.messageTimestamp);
                 break;
             case MessageType.Chat_NeedWait:
-                transcript.addSystemMsg({msg: (msg.messageText || "Thank you for your patience, the next available adviser will be with you shortly. You are " + msg["queueDepth"] + " in the queue")}, msg.messageTimestamp);
+                transcript.addSystemMsg({msg: msg.messageText}, msg.messageTimestamp);
                 break;
             case MessageType.Chat_Denied:
-                transcript.addSystemMsg({msg: (msg["thank_you_image_label"] || "I'm sorry, there are no advisers available right now. You can see <a href=‘https://www.gov.uk/contact-hmrc' target=‘_blank’> other ways to contact HMRC</a>")}, msg.messageTimestamp);
+                transcript.addSystemMsg({msg: msg["thank_you_image_label"]}, msg.messageTimestamp);
                 break;
             case MessageType.ChatRoom_MemberLost:
                 this._chatRoomMemberLost(msg, transcript);
