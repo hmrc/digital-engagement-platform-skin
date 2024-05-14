@@ -79,7 +79,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
 
         const timestamp = Date.now();
 
-        sessionStorage.agentId = "MIX";
+        window.agentId = "MIX";
 
         const expectedStartedEvent = {
             _domain: "automaton",
@@ -183,7 +183,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
             logEventToDW: jest.fn()
         };
 
-        sessionStorage.agentId = "MIX";
+        window.agentId = "MIX";
 
         const service = new PostChatSurveyDigitalAssistantService(sdk);
         const timestamp = Date.now();
@@ -291,7 +291,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
                 logEventToDW: jest.fn()
             };
 
-            sessionStorage.agentId = "MIX";
+            window.agentId = "MIX";
 
             const service = new PostChatSurveyDigitalAssistantService(sdk);
             const timestamp = Date.now();

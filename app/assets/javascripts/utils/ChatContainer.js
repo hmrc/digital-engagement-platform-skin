@@ -270,6 +270,10 @@ export default class ChatContainer {
             this.eventHandler.onSoundToggle();
             e.preventDefault();
         });
+        this._registerEventListener("#toggleSizeButton", (e) => {
+            this.eventHandler.onSizeToggle();
+            e.preventDefault();
+        });
     }
 
     confirmEndChat() {
@@ -285,7 +289,7 @@ export default class ChatContainer {
     }
 
     onCancelEndChat(e, toPrint) {
-        const ciapiSkinContainer = document.querySelector("#ciapiSkin");
+        const ciapiSkinContainer = document.querySelector("#ciapiSkinContainer");
         const endChatNonFocusableContainer = ciapiSkinContainer.querySelectorAll('input, textarea');
         endChatNonFocusableContainer.forEach(function (element) {
             element.removeAttribute("tabindex");

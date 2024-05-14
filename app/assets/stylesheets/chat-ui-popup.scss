@@ -36,7 +36,7 @@ $page-height: calc(100% - 5px);
 }
 
 #ciapiSkin.minimised {
-    #ciapiSkinContainer {
+     #ciapiSkinContainer {
         display: none;
     }
     #ciapiSkinMinimised {
@@ -47,13 +47,8 @@ $page-height: calc(100% - 5px);
 #ciapiSkinContainer {
     border: $popup-container-border-width solid;
     position: fixed;
-    max-height: 40rem;
-    height: 100%;
-    min-width: 20rem;
-    width: 29rem;
     bottom: 0;
     right: 0;
-
     display: flex;
     flex-direction: column;
 }
@@ -64,6 +59,20 @@ $page-height: calc(100% - 5px);
         border: none;
         width: 100%;
     }
+}
+
+.ciapiSkinContainerStandardSize {
+    max-height: 40rem;
+    height: 100%;
+    min-width: 20rem;
+    width: 29rem;
+}
+
+.ciapiSkinContainerLargerSize {
+    max-height: 57rem;
+    height: 100%;
+    width: 36em;
+    min-width: 30rem;
 }
 
 #titleBar {
@@ -120,6 +129,12 @@ $page-height: calc(100% - 5px);
     }
 
     #printButton:focus {
+        background-color: #ffdd00;
+        text-decoration: underline;
+        color: black;
+    }
+
+    #returnToGovUk:focus {
         background-color: #ffdd00;
         text-decoration: underline;
         color: black;
@@ -415,6 +430,9 @@ $page-height: calc(100% - 5px);
         border: none;
         max-height: 100%;
     }
+    #toggleSizeButton {
+        display: none;
+      }
 
     #ciapiChatComponents p {
         font-size: 16px;
@@ -574,4 +592,10 @@ $page-height: calc(100% - 5px);
   .up {
     transform: rotate(45deg);
     -webkit-transform: rotate(225deg);
+}
+
+#printPostChat:focus {
+  background-color: #ffdd00;
+  text-decoration: underline;
+  color: black;
 }
