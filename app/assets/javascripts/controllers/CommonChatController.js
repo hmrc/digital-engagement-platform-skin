@@ -362,6 +362,7 @@ export default class CommonChatController {
         logger.info("### framework loaded");
         this.sdk = w.Inq.SDK;
         if (this.sdk.isChatInProgress()) {
+            document.getElementById("error-message").setAttribute("class", "chat-in-progress");
             logger.info("************************************")
             logger.info("******* chat is in progress ********")
             logger.info("************************************")
