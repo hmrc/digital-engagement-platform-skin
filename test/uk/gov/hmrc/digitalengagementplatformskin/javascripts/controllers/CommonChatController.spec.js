@@ -512,6 +512,8 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("closeNuanceChat sends closeChat to nuance if chat is in progress ", () => {
+    const html = `<div id="error-message" class="chat-in-progress"></div>`;
+    document.body.innerHTML = html;
 
     const sdk = {
       isChatInProgress: jest.fn().mockReturnValue(true),
