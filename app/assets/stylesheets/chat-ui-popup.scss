@@ -166,6 +166,12 @@ $page-height: calc(100% - 5px);
         }
     }
 
+    #toggleSizeButton:focus {
+        background-color: #ffdd00;
+        text-decoration: underline;
+        color: black;
+    }
+
     #ciapiSkinExpandButton {
         .arrow {
             margin: 25px 20px 0 0;
