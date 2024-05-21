@@ -200,4 +200,30 @@ describe("Transcript", () => {
 
         expect(msg).toBe("<this is ' test>");
     });
+
+    it('Print time stamp with parameter', () => {
+        const content = {
+            insertAdjacentHTML: jest.fn(),
+            scrollTo: jest.fn(),
+            scrollHeight: 314
+        }
+        const transcript = new Transcript(content, messageClasses);
+
+        let time = transcript.getPrintTimeStamp('1716282325416');
+
+        expect(time).toBe("10:05 AM");
+    })
+
+    it('Print time stamp with empty string', () => {
+        const content = {
+            insertAdjacentHTML: jest.fn(),
+            scrollTo: jest.fn(),
+            scrollHeight: 314
+        }
+        const transcript = new Transcript(content, messageClasses);
+
+        let time = transcript.getPrintTimeStamp('');
+
+        expect(time).toBe("");
+    })
 });
