@@ -226,4 +226,30 @@ describe("Transcript", () => {
 
         expect(time).toBe("");
     })
+
+    it('Get timestamp prefix', () => {
+        const content = {
+            insertAdjacentHTML: jest.fn(),
+            scrollTo: jest.fn(),
+            scrollHeight: 314
+        }
+        const transcript = new Transcript(content, messageClasses);
+
+        let time = transcript._getTimestampPrefix('1716282325416')
+
+        expect(time).toBe('<span class=\"govuk-visually-hidden\">10:05 AM</span>')
+    })
+
+    it('Get Message time stamp prefix', () => {
+        const content = {
+            insertAdjacentHTML: jest.fn(),
+            scrollTo: jest.fn(),
+            scrollHeight: 314
+        }
+        const transcript = new Transcript(content, messageClasses);
+
+        let time = transcript._getMsgTimestampPrefix('1716282325416', ' Automated message : ', 'h3')
+
+        expect(time).toBe('<h3>10:05 AM Automated message : </h3>')
+    })
 });

@@ -421,7 +421,6 @@ export default class Transcript {
 
 
     getPrintTimeStamp(msgTimestamp) {
-console.log('msgTimestamp', msgTimestamp)
         let strTime = "";
 
         if (msgTimestamp != "") {
