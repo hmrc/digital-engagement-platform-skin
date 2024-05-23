@@ -1,4 +1,5 @@
 import * as logger from './utils/logger';
+
  let event;
 export function safeHandler(f) {
     return function () {
