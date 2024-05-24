@@ -201,6 +201,22 @@ describe("Transcript", () => {
         expect(msg).toBe("<this is ' test>");
     });
 
+    //Not working and needs further work
+    it('Create Quick Reply Button as links', () => {
+        const content = {
+            insertAdjacentHTML: jest.fn(),
+            scrollTo: jest.fn(),
+            scrollHeight: 314
+        }
+        const transcript = new Transcript(content, messageClasses);
+
+        let output = transcript.createQuickReplyButtonAsLinks({"id":"quickreply_template","controls":{"0":{"type":"QuickReplyButton","id":"qrb_1","context":"info","text":["Child Benefit","PAYE","Self Assessment"],"event":{"name":"eventquick"},"values":["Child Benefit","PAYE","Self Assessment "]}}},{"type":"QuickReplyButton","id":"qrb_1","context":"info","text":["Child Benefit","PAYE","Self Assessment"],"event":{"name":"eventquick"},"values":["Child Benefit","PAYE","Self Assessment "]}, 'What is your question about?')
+
+        expect(output).toBe("");
+    })
+    
+
+
     it('Print time stamp with parameter', () => {
         const content = {
             insertAdjacentHTML: jest.fn(),
