@@ -168,6 +168,10 @@ $footer-top-border-height: 3px;
     clear: both;
 }
 
+.quick-reply-widget  li {
+    padding: 5px 0;
+}
+
 @media print {
     .govuk-grid-column-two-thirds {
         width: 100%;
