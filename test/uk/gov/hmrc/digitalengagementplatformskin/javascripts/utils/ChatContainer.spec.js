@@ -170,7 +170,7 @@ describe("ChatContainer", () => {
             target : {
                 tagName: "a",
                 dataset: {
-                    vtzJump: {}
+                    nuanceMessageText: "end this chat and give feedback"
                 },
                 getAttribute : jest.fn().mockReturnValue("#"),
                 className: "dialog"
@@ -335,9 +335,13 @@ describe("ChatContainer", () => {
         document.body.appendChild(eventContainer);
 
         const focus = jest.fn();
+        const setAttribute = jest.fn();
         const removeAttribute = jest.fn();
 
         document.getElementById = jest.fn()
+                                  .mockReturnValueOnce({setAttribute})
+                                  .mockReturnValueOnce({setAttribute})
+                                  .mockReturnValueOnce({setAttribute})
                                   .mockReturnValueOnce({removeAttribute})
                                   .mockReturnValueOnce({focus});
 
