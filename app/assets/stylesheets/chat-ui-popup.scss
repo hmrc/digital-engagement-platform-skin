@@ -3,7 +3,7 @@
 @import "system-message";
 @import "c2cbutton";
 @import "end-chat-popup";
-@import "lib/govuk-frontend/govuk/all";
+@import "lib/govuk-frontend/dist/govuk/all";
 @import 'chat-ui-common';
 
 $popup-width: 400px;
