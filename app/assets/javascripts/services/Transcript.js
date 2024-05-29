@@ -1,14 +1,15 @@
 import * as MessageState from '../NuanceMessageState';
 import * as logger from '../utils/logger';
+import { messages } from '../utils/Messages';
 
 export default class Transcript {
     constructor(content, classes, msgPrefix) {
         this.content = content;
         this.classes = classes;
-        this.agentMsgPrefix = " Adviser said :";
-        this.customerMsgPrefix = " You said : ";
-        this.systemMsgPrefix = " System message : ";
-        this.automatedMsgPrefix = " Automated message : ";
+        this.agentMsgPrefix = messages.agentMsgPrefix;
+        this.customerMsgPrefix = messages.customerMsgPrefix;
+        this.systemMsgPrefix = messages.systemMsgPrefix;
+        this.automatedMsgPrefix = messages.automatedMsgPrefix;
     }
 
     addAgentMsg(msg, msgTimestamp, agent) {
