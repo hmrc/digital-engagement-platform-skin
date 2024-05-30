@@ -170,7 +170,7 @@ describe("ChatContainer", () => {
             target : {
                 tagName: "a",
                 dataset: {
-                    nuanceMessageText: "end this chat and give feedback"
+                    "nuanceMessageText": "end this chat and give feedback"
                 },
                 getAttribute : jest.fn().mockReturnValue("#"),
                 className: "dialog"
@@ -373,7 +373,7 @@ describe("ChatContainer", () => {
         const focus = jest.fn();
         const setAttribute = jest.fn();
 
-        document.getElementById = 
+        document.getElementById =
             jest.fn()
                 .mockReturnValueOnce({setAttribute})
                 .mockReturnValueOnce({setAttribute})
@@ -381,7 +381,7 @@ describe("ChatContainer", () => {
                 .mockReturnValueOnce({setAttribute})
                 .mockReturnValueOnce({setAttribute})
                 .mockReturnValueOnce({focus});
-            
+
         const documentHtml = setupDocumentforCancelEndChatTests();
 
         chatContainer = new ChatContainer(null, documentHtml, null);
@@ -401,19 +401,68 @@ describe("ChatContainer", () => {
             });
     });
 
-//    it("onCancelEndChat behaves as expected given the chatContainer's closeMethod is set to Link", () => {
-//        const focus = jest.fn();
-//        document.querySelectorAll = jest.fn().mockReturnValueOnce([{focus}]);
-//
-//        const documentHtml = setupDocumentforCancelEndChatTests();
-//
-//        chatContainer = new ChatContainer(null, documentHtml, null);
-//        chatContainer.closeMethod = "Link";
-//
-//        chatContainer.onCancelEndChat();
-//
-//        expect(focus).toBeCalledTimes(1);
-//    });
+    it("onCancelEndChat behaves as expected given the chatContainer's closeMethod is set to Link", () => {
+       const focus = jest.fn();
+       const setAttribute = jest.fn();
+       const removeAttribute = jest.fn();
+       const lastFeedbackMessage = jest.fn();
+       const lastEndChatMessage = jest.fn();
+
+       document.getElementById =
+           jest.fn()
+               .mockReturnValueOnce({setAttribute})
+               .mockReturnValueOnce({setAttribute})
+               .mockReturnValueOnce({setAttribute})
+               .mockReturnValueOnce({setAttribute})
+               .mockReturnValueOnce({setAttribute});
+
+       document.querySelectorAll =
+           jest.fn()
+               .mockReturnValueOnce([{removeAttribute}])
+               .mockReturnValueOnce({lastFeedbackMessage})
+               .mockReturnValueOnce({lastEndChatMessage})
+               .mockReturnValueOnce([{focus}]);
+
+
+       const documentHtml = setupDocumentforCancelEndChatTests();
+
+       chatContainer = new ChatContainer(null, documentHtml, null);
+       chatContainer.closeMethod = "Link";
+       chatContainer.endChatFeedback = false;
+
+       chatContainer.onCancelEndChat();
+
+       expect(setAttribute).toBeCalledWith("tabindex", 0);
+       expect(setAttribute).toBeCalledTimes(5);
+       expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
+       expect(focus).toBeCalledTimes(1);
+   });
+
+    it("onCancelEndChat behaves as expected given the chatContainer's closeMethod is set to Message", () => {
+        const focus = jest.fn();
+        const setAttribute = jest.fn();
+
+        document.getElementById =
+            jest.fn()
+                .mockReturnValueOnce({setAttribute})
+                .mockReturnValueOnce({setAttribute})
+                .mockReturnValueOnce({setAttribute})
+                .mockReturnValueOnce({setAttribute})
+                .mockReturnValueOnce({setAttribute})
+                .mockReturnValueOnce({focus});
+
+        const documentHtml = setupDocumentforCancelEndChatTests();
+
+        chatContainer = new ChatContainer(null, documentHtml, null);
+        chatContainer.closeMethod = "Message";
+
+        chatContainer.onCancelEndChat();
+
+        expect(setAttribute).toBeCalledWith("tabindex", 0);
+        expect(setAttribute).toBeCalledTimes(5);
+        expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
+        expect(focus).toBeCalledTimes(1);
+    });
 
     it("removeSkinHeadingElements removes heading elements and sets transcript style properties", () => {
         document.body.innerHTML = ContainerHtml;
