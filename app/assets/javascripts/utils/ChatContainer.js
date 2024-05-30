@@ -286,9 +286,15 @@ export default class ChatContainer {
             element.tabIndex = -1;
         });
 
-        document.getElementById("ciapiSkinCloseButton").setAttribute("style", "display: none;");
-        document.getElementById("printButton").setAttribute("style", "display: none;");
-        document.getElementById("toggleSound").setAttribute("style", "display: none;");
+       const styleList = [
+           "ciapiSkinCloseButton",
+           "printButton",
+           "toggleSound"
+       ];
+
+       styleList.forEach(function(item) {
+           document.getElementById(item).setAttribute("style", "display: none;");
+       });
 
         let endChatNonFocusable = document.querySelectorAll('a[href]:not([id="printLink"]), iframe, button:not([id="cancelEndChat"]):not([id="confirmEndChat"])');
 
@@ -315,22 +321,16 @@ export default class ChatContainer {
         });
 
         const styleList = [
-            "endChatPopup",
             "ciapiSkinCloseButton",
             "printButton",
             "toggleSound"
         ];
 
-        document.body.getElementById('*').forEach(function(node) {
-            styleList.forEach(function(item) {
-
-            });
+        styleList.forEach(function(item) {
+            document.getElementById(item).setAttribute("style", "display: '';");
         });
 
         document.getElementById("endChatPopup").setAttribute("style", "display: none;");
-        document.getElementById("ciapiSkinCloseButton").setAttribute("style", "display: '';");
-        document.getElementById("printButton").setAttribute("style", "display: '';");
-        document.getElementById("toggleSound").setAttribute("style", "display: '';");
 
         document.getElementById("ciapiSkinChatTranscript").setAttribute("tabindex", 0);
         this.endChatPopup.hide();
