@@ -314,6 +314,19 @@ export default class ChatContainer {
             element.removeAttribute("tabindex");
         });
 
+        const styleList = [
+            "endChatPopup",
+            "ciapiSkinCloseButton",
+            "printButton",
+            "toggleSound"
+        ];
+
+        document.body.getElementById('*').forEach(function(node) {
+            styleList.forEach(function(item) {
+
+            });
+        });
+
         document.getElementById("endChatPopup").setAttribute("style", "display: none;");
         document.getElementById("ciapiSkinCloseButton").setAttribute("style", "display: '';");
         document.getElementById("printButton").setAttribute("style", "display: '';");
