@@ -1,6 +1,7 @@
 'use strict';
 
 import { host } from "../../utils/HostUtils";
+import { messages } from "../../utils/Messages";
 
 export function ContainerHtml(isEscalated) {
     let url = new URL(window.location.href).pathname.replaceAll("/", "%2F");
@@ -12,7 +13,7 @@ export function ContainerHtml(isEscalated) {
     
 
     let automatedMessage = "";
-    if (!isEscalated) { automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">You are currently chatting with a computer.</p>`}
+    if (!isEscalated) { automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">${messages.computer}</p>`}
     let soundButton = `<button id="toggleSound" class="active"> Turn notification sound off </button>`;
     if (sessionStorage.getItem("isActive") == "false") { soundButton = `<button id="toggleSound" class="inactive"> Turn notification sound on </button>`}
     

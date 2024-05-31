@@ -2,12 +2,13 @@ import ClickToChatButtons from '../utils/ClickToChatButtons'
 import ClickToChatButton from '../utils/ClickToChatButton'
 import CommonChatController from './CommonChatController'
 import * as DisplayState from '../NuanceDisplayState'
+import { messages} from '../utils/Messages'
 
 const c2cDisplayStateMessages = {
-    [DisplayState.OutOfHours]: "Out of hours",
-    [DisplayState.Ready]: "Ask HMRC a question",
-    [DisplayState.Busy]: "All advisers are busy",
-    [DisplayState.ChatActive]: "In progress"
+    [DisplayState.OutOfHours]: messages.outofhours,
+    [DisplayState.Ready]: messages.ready,
+    [DisplayState.Busy]: messages.busy,
+    [DisplayState.ChatActive]: messages.active
 };
 
 export default class ReactiveChatController {
