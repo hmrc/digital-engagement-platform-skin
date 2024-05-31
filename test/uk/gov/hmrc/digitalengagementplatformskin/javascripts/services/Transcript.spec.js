@@ -208,11 +208,42 @@ describe("Transcript", () => {
             scrollTo: jest.fn(),
             scrollHeight: 314
         }
+
+        const node = {
+            id:"quickreply_template",
+            controls:
+            {
+                0:{type:"QuickReplyButton",
+                id:"qrb_1",
+                context:"info",
+                text:["Child Benefit","PAYE","Self Assessment"],
+                event:
+                {
+                    name:"eventquick"
+                },
+                values:["Child Benefit","PAYE","Self Assessment "]
+                }
+            }
+        }
+
+        const controlData = {
+            type:"QuickReplyButton",
+            id:"qrb_1",
+            context:"info",
+            text:["Child Benefit","PAYE","Self Assessment"],
+            event:
+            {
+                name:"eventquick"},
+                values:["Child Benefit","PAYE","Self Assessment "]
+            }
+
+        const messageText = '<ul class="quick-reply-widget"'
+
         const transcript = new Transcript(content, messageClasses);
 
-        let output = transcript.createQuickReplyButtonAsLinks({"id":"quickreply_template","controls":{"0":{"type":"QuickReplyButton","id":"qrb_1","context":"info","text":["Child Benefit","PAYE","Self Assessment"],"event":{"name":"eventquick"},"values":["Child Benefit","PAYE","Self Assessment "]}}},{"type":"QuickReplyButton","id":"qrb_1","context":"info","text":["Child Benefit","PAYE","Self Assessment"],"event":{"name":"eventquick"},"values":["Child Benefit","PAYE","Self Assessment "]}, 'What is your question about?')
+        let output = transcript.createQuickReplyButtonAsLinks(node, controlData, messageText)
 
-        expect(output).toBe("");
+        expect(output).toBe();
     })
     
 
