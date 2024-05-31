@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+      "outDir": "./built",
+      "allowJs": true,
+      "target": "es5",
+      "lib": ["ES2021.String"],
+    },
+    "include": ["./app/assets/javascripts/**/*"]
+  }
