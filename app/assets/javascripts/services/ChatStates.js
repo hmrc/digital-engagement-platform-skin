@@ -2,6 +2,7 @@ import * as MessageType from '../NuanceMessageType';
 import * as logger from '../utils/logger';
 import * as MessageState from '../NuanceMessageState';
 import { host } from '../utils/HostUtils';
+import { messages } from '../utils/Messages';
 
 // State at start, before anything happens.
 export class NullState {
@@ -253,7 +254,7 @@ export class EngagedState {
                 this._chatActivityAndAgentTyping(msg, transcript);
                 break;
             case MessageType.Chat_Exit:
-                transcript.addSystemMsg({msg: (msg["display.text"] || "Adviser exited chat")}, msg.messageTimestamp);
+                transcript.addSystemMsg({msg: (msg["display.text"] || messages.adviserExitedChat)}, msg.messageTimestamp);
                 break;
             case MessageType.Chat_CommunicationQueue:
                 transcript.addSystemMsg({msg: msg.messageText}, msg.messageTimestamp);
@@ -279,7 +280,7 @@ export class EngagedState {
                 }
             default:
                 if(msg.state === MessageState.Closed) {
-                    transcript.addSystemMsg({msg: "Agent Left Chat."}, msg.messageTimestamp);
+                    transcript.addSystemMsg({msg: messages.agentLeftChat}, msg.messageTimestamp);
                 } else {
                     logger.debug("==== Unknown message:", msg);
                 }
