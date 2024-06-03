@@ -273,9 +273,6 @@ export default class Transcript {
     }
 
     addQuickReply(quickReplyData, messageText, messageTimestamp) {
-        console.log(JSON.stringify(quickReplyData), 'quickReplyData')
-        console.log(messageText, 'messageText')
-        console.log(messageTimestamp, 'messageTimestamp')
         try {
             if (!quickReplyData.nodes) return null;
 
@@ -332,9 +329,6 @@ export default class Transcript {
     }
 
     createQuickReplyButtonAsLinks(node, controlData, messageText) {
-        // console.log(node,'node')
-        // console.log(controlData,'controlData')
-        // console.log(messageText, 'MessageText')
         let qrContainer = document.createElement("ul");
         qrContainer.classList.add('quick-reply-widget');
 
