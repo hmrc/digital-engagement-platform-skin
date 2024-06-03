@@ -37,6 +37,9 @@ export default class ChatContainer {
         this._registerEventListeners();
         this.transcript = new Transcript(this.content, messageClasses);
         this.endChatPopup = new EndChatPopup(this.container.querySelector("#ciapiSkinContainer"), this);
+
+        this.inputBoxFocus = false;
+        this.endChatFeedback = false;
     }
 
     
@@ -145,17 +148,22 @@ export default class ChatContainer {
 
     processTranscriptEvent(e) {
         this.processExternalAndResponsiveLinks(e);
-
+        const nuanceMessageText = JSON.stringify(e.target.dataset.nuanceMessageText);
         if (
            e.target && e.target.tagName && e.target.tagName.toLowerCase() === "a" &&
-            !!e.target.dataset &&
-            !!e.target.dataset.vtzJump
+            !!e.target.dataset
         ) {
             this.SDK.sendVALinkMessage(e, null, null, null);
-            if (e.target.className != "dialog") {
+            if (nuanceMessageText) {
+                if (nuanceMessageText === '"end this chat and give feedback"') {
+                    this.endChatFeedback = true;
+                    this.closeMethod = "Link";
+                } else if (nuanceMessageText === '"end this chat"') {
+                    this.endChatFeedback = false;
+                    this.closeMethod = "Link";
+                }
+            } else if (e.target.className != "govuk-skip-link") {
                 this._focusOnNextAutomatonMessage();
-            } else {
-                this.closeMethod = "Link";
             }
         }
     }
@@ -171,6 +179,9 @@ export default class ChatContainer {
         if (e.which == enterKey) {
             this.eventHandler.onSend();
             e.preventDefault();
+            this.inputBoxFocus = true;
+        } else {
+            this.inputBoxFocus = false;
         }
     }
 
@@ -192,19 +203,6 @@ export default class ChatContainer {
 
     _processCloseButtonEvent(e) {
         this.closeMethod = "Button";
-        let endChatNonFocusableContainer = this.container.querySelectorAll('input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]):not([id="hamburgerMenu"]):not([id=ciapiSkinHideButton])');
-
-        endChatNonFocusableContainer.forEach(function (element) {
-            element.tabIndex = -1;
-        });
-
-        const skinChatTranscript = this.container.querySelector("#ciapiSkinChatTranscript");
-
-        skinChatTranscript.setAttribute("tabindex", -1);
-
-        document.getElementById("ciapiSkinCloseButton").setAttribute("style", "display: none;");
-        document.getElementById("printButton").setAttribute("style", "display: none;");
-        document.getElementById("toggleSound").setAttribute("style", "display: none;");
 
         this.eventHandler.onCloseChat();
     }
@@ -231,6 +229,7 @@ export default class ChatContainer {
 
         this._registerEventListener("#ciapiSkinSendButton", (e) => {
             this.eventHandler.onSend();
+            this.inputBoxFocus = false;
         });
 
         this._registerEventListener("#hamburgerMenu", (e) => {
@@ -277,12 +276,33 @@ export default class ChatContainer {
     }
 
     confirmEndChat() {
-        this.endChatPopup.show();
+        if (this.closeMethod === null) {
+            this.closeMethod = "Message"
+        }
+
+        let endChatNonFocusableContainer = this.container.querySelectorAll('input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]):not([id="hamburgerMenu"]):not([id=ciapiSkinHideButton]), #ciapiSkinChatTranscript');
+
+        endChatNonFocusableContainer.forEach(function (element) {
+            element.tabIndex = -1;
+        });
+
+       const styleList = [
+           "ciapiSkinCloseButton",
+           "printButton",
+           "toggleSound"
+       ];
+
+       styleList.forEach(function(item) {
+           document.getElementById(item).setAttribute("style", "display: none;");
+       });
+
         let endChatNonFocusable = document.querySelectorAll('a[href]:not([id="printLink"]), iframe, button:not([id="cancelEndChat"]):not([id="confirmEndChat"])');
 
         endChatNonFocusable.forEach(function (element) {
             element.tabIndex = -1;
         });
+
+        this.endChatPopup.show();
 
         document.getElementById("endChatPopup").removeAttribute("style");
         document.getElementById("endChatPopup").focus();
@@ -300,10 +320,17 @@ export default class ChatContainer {
             element.removeAttribute("tabindex");
         });
 
+        const styleList = [
+            "ciapiSkinCloseButton",
+            "printButton",
+            "toggleSound"
+        ];
+
+        styleList.forEach(function(item) {
+            document.getElementById(item).setAttribute("style", "display: '';");
+        });
+
         document.getElementById("endChatPopup").setAttribute("style", "display: none;");
-        document.getElementById("ciapiSkinCloseButton").setAttribute("style", "display: '';");
-        document.getElementById("printButton").setAttribute("style", "display: '';");
-        document.getElementById("toggleSound").setAttribute("style", "display: '';");
 
         document.getElementById("ciapiSkinChatTranscript").setAttribute("tabindex", 0);
         this.endChatPopup.hide();
@@ -318,13 +345,33 @@ export default class ChatContainer {
                 this.eventHandler.onShowHamburger();
             }
             document.getElementById("ciapiSkinCloseButton").focus();
+        } else if (this.closeMethod === "Link") {
+            const lastFeedbackMessage = Array.from(
+                document.querySelectorAll('a[data-nuance-message-text = "end this chat and give feedback"]')
+            ).pop();
+
+            const lastEndChatMessage = Array.from(
+                document.querySelectorAll('a[data-nuance-message-text = "end this chat"]')
+            ).pop();
+
+            if (this.endChatFeedback) {
+                lastFeedbackMessage.focus();
+            } else {
+                lastEndChatMessage.focus();
+            }
+        } else if (this.closeMethod === "Message") {
+            if (this.inputBoxFocus) {
+                document.getElementById("custMsg").focus();
+            } else {
+                document.getElementById("ciapiSkinSendButton").focus();
+            }
         } else {
             endChatGiveFeedback.focus();
         }
         if(toPrint){
             this.eventHandler.onPrint(e);
         }
-        
+        this.closeMethod = null
     }
 
     _removeSkinHeadingElements() {
