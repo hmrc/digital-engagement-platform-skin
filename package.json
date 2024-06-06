@@ -32,15 +32,11 @@
   },
   "dependencies": {
     "gulp": "^4.0.2",
-    "jquery": "^3.6.3",
     "lodash": "^4.17.21",
     "source-map-loader": "^5.0.0",
     "ts-loader": "^9.5.1"
   },
   "jest": {
-    "setupFiles": [
-      "./test/uk/gov/hmrc/digitalengagementplatformskin/javascripts/setup.js"
-    ],
     "testRegex": "((\\.|/*.)(spec))\\.js?$",
     "verbose": true,
     "testEnvironment": "jsdom"
