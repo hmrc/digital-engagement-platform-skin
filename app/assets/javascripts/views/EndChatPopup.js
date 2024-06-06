@@ -1,9 +1,9 @@
 export const popupHtml = `
 <div id="endChatPopup" role="alertdialog" aria-modal="true" tabindex="0" aria-labelledby="heading_end_chat_popup" style="display: none;">
-      <h2 class="govuk-heading-xl" id="heading_end_chat_popup">End chat?</h2>
+      <h2 class="govuk-heading-l" id="heading_end_chat_popup">Do you want to end the chat?</h2>
 
       <button id="confirmEndChat" class="govuk-button">
-              End chat
+              Yes, end chat
             </button>
 
       <button id="cancelEndChat" class="govuk-button govuk-!-margin-right-1 govuk-button--secondary">
@@ -11,7 +11,7 @@ export const popupHtml = `
       </button>
 
       <div id="surveyPrintContainer">
-    <p><a class="govuk-link" href="#" id="printLink">Print chat</a>.</p>
+    <p><a class="govuk-link" href="#" id="printLink">Print chat</a></p>
   </div>
 
     </div>
