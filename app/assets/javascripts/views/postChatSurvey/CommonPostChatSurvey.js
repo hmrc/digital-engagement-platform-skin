@@ -21,11 +21,14 @@ export default class CommonPostChatSurvey {
             }
         );
 
-        $('input[name="q5-"]').on('click', function() {
-            if ($(this).val() != 'Other') {
-                document.getElementById("q6-").value = "";
+        this.wrapper.querySelector('#q5-').addEventListener(
+            "click",
+            (e) => {
+                if(document.getElementById("q5-").value != "Other"){
+                    document.getElementById("q6-").value = "";
+                }
             }
-        });
+        )
 
         this.wrapper.querySelector("#printPostChat").addEventListener(
             "click",
