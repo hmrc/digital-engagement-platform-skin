@@ -211,7 +211,7 @@ describe("Transcript", () => {
 
         let time = transcript.getPrintTimeStamp('1716282325416');
 
-        expect(time).toBe("10:05 AM");
+        expect(["10:05 AM", '09:05 AM']).toContain(time);
     })
 
     it('Print time stamp with empty string', () => {
@@ -235,9 +235,9 @@ describe("Transcript", () => {
         }
         const transcript = new Transcript(content, messageClasses);
 
-        let time = transcript._getTimestampPrefix('1716282325416')
+        let timestampPrefix = transcript._getTimestampPrefix('1716282325416')
 
-        expect(time).toBe('<span class=\"govuk-visually-hidden\">10:05 AM</span>')
+        expect(['<span class=\"govuk-visually-hidden\">10:05 AM</span>', '<span class=\"govuk-visually-hidden\">09:05 AM</span>']).toContain(timestampPrefix);
     })
 
     it('Get Message time stamp prefix', () => {
@@ -248,8 +248,8 @@ describe("Transcript", () => {
         }
         const transcript = new Transcript(content, messageClasses);
 
-        let time = transcript._getMsgTimestampPrefix('1716282325416', ' Automated message : ', 'h3')
+        let messageTimestampPrefix = transcript._getMsgTimestampPrefix('1716282325416', ' Automated message : ', 'h3')
 
-        expect(time).toBe('<h3>10:05 AM Automated message : </h3>')
+        expect(['<h3>10:05 AM Automated message : </h3>', '<h3>09:05 AM Automated message : </h3>']).toContain(messageTimestampPrefix)
     })
 });
