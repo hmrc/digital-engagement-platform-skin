@@ -201,6 +201,9 @@ describe("Transcript", () => {
         expect(msg).toBe("<this is ' test>");
     });
 
+    const dateString = "2024-01-01T00:00:00";
+    const timeStamp = Date.parse(dateString);
+
     it('Print time stamp with parameter', () => {
         const content = {
             insertAdjacentHTML: jest.fn(),
@@ -209,9 +212,9 @@ describe("Transcript", () => {
         }
         const transcript = new Transcript(content, messageClasses);
 
-        let time = transcript.getPrintTimeStamp('1716282325416');
+        const time = transcript.getPrintTimeStamp(timeStamp);
 
-        expect(["10:05 AM", '9:05 AM']).toContain(time);
+        expect(time).toBe('12:00 AM')
     })
 
     it('Print time stamp with empty string', () => {
@@ -222,7 +225,7 @@ describe("Transcript", () => {
         }
         const transcript = new Transcript(content, messageClasses);
 
-        let time = transcript.getPrintTimeStamp('');
+        const time = transcript.getPrintTimeStamp('');
 
         expect(time).toBe("");
     })
@@ -235,9 +238,9 @@ describe("Transcript", () => {
         }
         const transcript = new Transcript(content, messageClasses);
 
-        let timestampPrefix = transcript._getTimestampPrefix('1716282325416')
+        const timestampPrefix = transcript._getTimestampPrefix(timeStamp)
 
-        expect(['<span class=\"govuk-visually-hidden\">10:05 AM</span>', '<span class=\"govuk-visually-hidden\">9:05 AM</span>']).toContain(timestampPrefix);
+        expect(timestampPrefix).toBe('<span class=\"govuk-visually-hidden\">12:00 AM</span>')
     })
 
     it('Get Message time stamp prefix', () => {
@@ -248,8 +251,8 @@ describe("Transcript", () => {
         }
         const transcript = new Transcript(content, messageClasses);
 
-        let messageTimestampPrefix = transcript._getMsgTimestampPrefix('1716282325416', ' Automated message : ', 'h3')
+        const messageTimestampPrefix = transcript._getMsgTimestampPrefix(timeStamp, ' Automated message : ', 'h3')
 
-        expect(['<h3>10:05 AM Automated message : </h3>', '<h3>9:05 AM Automated message : </h3>']).toContain(messageTimestampPrefix)
+        expect(messageTimestampPrefix).toBe('<h3>12:00 AM Automated message : </h3>')
     })
 });
