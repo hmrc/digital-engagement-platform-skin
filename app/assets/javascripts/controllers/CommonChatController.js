@@ -12,6 +12,9 @@ import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
 import PrintUtils from '../utils/PrintUtils'
 import { messages } from "../utils/Messages";
 
+// this is to replicate the window.govuk.initAll function for this specific file - if needed elsewhere a global solution will need to be done or the import copied to the necessary files
+import { initAll } from '../../../../target/web/public/main/lib/govuk-frontend/dist/govuk/all.mjs';
+
 const automatonDA = {
     id: "survey-13000304",
     name: "HMRC_PostChat_Guidance-CUI"
@@ -459,7 +462,7 @@ export default class CommonChatController {
                 this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automatonDA, timestamp);
                 this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
             }
-            window.GOVUKFrontend.initAll();
+            initAll();
         }
 
     }

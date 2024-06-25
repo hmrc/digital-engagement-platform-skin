@@ -23,6 +23,11 @@
 )
 @(pageTitle: Option[String] = None)(contentBlock: Html)(implicit request: Request[_], messages: Messages)
 
+<script type="module">
+  import { initAll } from '{path-to-javascript}/govuk-frontend.min.js'
+  initAll()
+</script>
+
 @hmrcLayout(
     pageTitle = pageTitle,
     isWelshTranslationAvailable = appConfig.welshLanguageSupportEnabled

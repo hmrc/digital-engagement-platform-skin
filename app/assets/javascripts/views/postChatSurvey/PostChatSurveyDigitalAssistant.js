@@ -129,7 +129,7 @@ export const html = `
 
               <div class="govuk-radios__item">
                 <input class="govuk-radios__input" id="q5--4" name="q5-" type="radio" value="Other"
-                       data-aria-controls="conditional-contact">
+                       aria-controls="conditional-contact">
                 <label class="govuk-label govuk-radios__label" for="q5--4">Other</label>
               </div>
 

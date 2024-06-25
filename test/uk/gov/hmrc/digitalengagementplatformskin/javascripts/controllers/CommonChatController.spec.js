@@ -3,6 +3,7 @@ import PostChatSurveyWebchatService from '../../../../../../../app/assets/javasc
 import PostChatSurveyDigitalAssistantService from '../../../../../../../app/assets/javascripts/services/PostChatSurveyDigitalAssistantService'
 import * as ChatStates from '../../../../../../../app/assets/javascripts/services/ChatStates'
 import PrintUtils from '../../../../../../../app/assets/javascripts/utils/PrintUtils';
+import { initAll } from '../../../../target/web/public/main/lib/govuk-frontend/dist/govuk/all.mjs';
 
 
 function createDisplayOpenerScriptsDependencies() {
