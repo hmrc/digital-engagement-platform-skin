@@ -21,11 +21,14 @@ export default class CommonPostChatSurvey {
             }
         );
 
-        this.wrapper.querySelector('#q5-').addEventListener(
+        this.wrapper.querySelector('#question5').addEventListener(
             "click",
             (e) => {
-                if(document.getElementById("q5-").value != "Other"){
+                if(document.getElementById('q5--4').checked){
+                    document.getElementById("conditional-contact").classList.remove("govuk-radios__conditional--hidden");
+                } else {
                     document.getElementById("q6-").value = "";
+                    document.getElementById("conditional-contact").classList.add("govuk-radios__conditional--hidden");
                 }
             }
         )
