@@ -667,20 +667,17 @@ it("catches an exception in the showChat function", () => {
     var closeNuanceSpy = jest.spyOn(commonChatController, "closeNuanceChat").mockImplementation();
     var closingStateSpy = jest.spyOn(commonChatController, "_moveToClosingState").mockImplementation();
     var showEndChatPageSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation();
-    var initMock = jest.fn();
     var showPageMock = jest.fn();
 
     const sdk = {getMessages: jest.fn()};
     const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
     const fakeSurvey = new PostChatSurveyWebchatService(sdk);
     const container = {showPage: showPageMock};
-    const frontend = {initAll: initMock};
 
     var sendWebchatSurveySpy = jest.spyOn(commonChatController, "_sendPostChatSurveyWebchat").mockImplementation(() => fakeSurvey);
     var beginWebchatSurveySpy = jest.spyOn(fakeSurvey, "beginPostChatSurvey").mockImplementation();
   
     state.escalated = true;
-    window.GOVUKFrontend = frontend;
 
     commonChatController.container = container;
     commonChatController.state = state;
@@ -694,7 +691,6 @@ it("catches an exception in the showChat function", () => {
     expect(showEndChatPageSpy).toBeCalledTimes(0);
     expect(sendWebchatSurveySpy).toBeCalledTimes(1);
     expect(beginWebchatSurveySpy).toBeCalledTimes(1);
-    expect(initMock).toBeCalledTimes(1);
     expect(showPageMock).toBeCalledTimes(1);
   })
 
@@ -703,20 +699,17 @@ it("catches an exception in the showChat function", () => {
     var closeNuanceSpy = jest.spyOn(commonChatController, "closeNuanceChat").mockImplementation();
     var closingStateSpy = jest.spyOn(commonChatController, "_moveToClosingState").mockImplementation();
     var showEndChatPageSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation();
-    var initMock = jest.fn();
     var showPageMock = jest.fn();
 
     const sdk = {getMessages: jest.fn()};
     const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
     const fakeSurvey = new PostChatSurveyDigitalAssistantService(sdk);
     const container = {showPage: showPageMock};
-    const frontend = {initAll: initMock};
 
     var sendAssistantSurveySpy = jest.spyOn(commonChatController, "_sendPostChatSurveyDigitalAssistant").mockImplementation(() => fakeSurvey);
     var beginAssistantSurveySpy = jest.spyOn(fakeSurvey, "beginPostChatSurvey").mockImplementation();
   
     state.escalated = false;
-    window.GOVUKFrontend = frontend;
 
     commonChatController.container = container;
     commonChatController.state = state;
@@ -730,7 +723,6 @@ it("catches an exception in the showChat function", () => {
     expect(showEndChatPageSpy).toBeCalledTimes(0);
     expect(sendAssistantSurveySpy).toBeCalledTimes(1);
     expect(beginAssistantSurveySpy).toBeCalledTimes(1);
-    expect(initMock).toBeCalledTimes(1);
     expect(showPageMock).toBeCalledTimes(1);
   })
 

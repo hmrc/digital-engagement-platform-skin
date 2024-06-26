@@ -459,7 +459,6 @@ export default class CommonChatController {
                 this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automatonDA, timestamp);
                 this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
             }
-            window.GOVUKFrontend.initAll();
         }
 
     }
