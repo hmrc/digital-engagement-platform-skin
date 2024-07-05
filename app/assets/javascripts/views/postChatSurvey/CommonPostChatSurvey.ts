@@ -6,7 +6,7 @@ export default class CommonPostChatSurvey {
     wrapper: HTMLElement | undefined
     onSubmitted: (a:object) => void
 
-    constructor(html: string, onSubmitted: () => void) {
+    constructor(html: string, onSubmitted: (a: object) => void) {
         this.html = html;
         this.onSubmitted = onSubmitted;
     }
@@ -63,7 +63,7 @@ export default class CommonPostChatSurvey {
         }
     }
 
-    showTranscriptAndSurvey(showTranscript: boolean, showSurvey: boolean) {
+    showTranscriptAndSurvey(showTranscript: boolean, showSurvey: boolean): void {
         let transcript: HTMLElement | null = document.getElementById("ciapiSkinChatTranscript");
         if(transcript){
             transcript.style.display = showTranscript ? "" : "none";
@@ -74,7 +74,7 @@ export default class CommonPostChatSurvey {
         }
     }
 
-    onPrintPostChatSurvey(e: any) {
+    onPrintPostChatSurvey(e: any): boolean {
         e.preventDefault;
   
         this.showTranscriptAndSurvey(true, false);
@@ -109,7 +109,7 @@ export default class CommonPostChatSurvey {
         return false;
     }
 
-    detach() {
+    detach(): void {
         if(this.wrapper){
             this.container?.removeChild(this.wrapper)
         }

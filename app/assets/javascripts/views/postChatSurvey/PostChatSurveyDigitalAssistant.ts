@@ -1,6 +1,6 @@
 import CommonPostChatSurvey from "./CommonPostChatSurvey"
 
-export const html = `
+export const html: string = `
 <div id="postChatSurvey">
   <h2 id="legend_give_feedback" tabindex="-1">Give feedback</h2>
 
@@ -154,7 +154,7 @@ export const html = `
 `
 
 export default class PostChatSurveyDigitalAssistant extends CommonPostChatSurvey {
-  constructor(onSubmitted) {
+  constructor(onSubmitted: (a:object) => void) {
       super(html, onSubmitted)
   }
 }
