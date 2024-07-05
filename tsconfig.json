@@ -4,6 +4,7 @@
       "allowJs": true,
       "target": "es5",
       "lib": ["ES2021.String"],
+      "strict": true
     },
     "include": ["./app/assets/javascripts/**/*"]
   }

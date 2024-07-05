@@ -1,12 +1,17 @@
 import PrintUtils from "../../utils/PrintUtils"
 
 export default class CommonPostChatSurvey {
-    constructor(html, onSubmitted) {
+    html: string
+    container: HTMLElement | undefined
+    wrapper: HTMLElement | undefined
+    onSubmitted: (a:object) => void
+
+    constructor(html: string, onSubmitted: () => void) {
         this.html = html;
         this.onSubmitted = onSubmitted;
     }
 
-    attachTo(container) {
+    attachTo(container: HTMLElement): void {
         this.container = container;
 
         this.wrapper = document.createElement("div");
@@ -14,26 +19,26 @@ export default class CommonPostChatSurvey {
         this.wrapper.insertAdjacentHTML("beforeend", this.html);
         container.appendChild(this.wrapper);
 
-        this.wrapper.querySelector("#submitPostChatSurvey").addEventListener(
+        this.wrapper.querySelector("#submitPostChatSurvey")?.addEventListener(
             "click",
             (e) => {
                 this.onSubmitted(this);
             }
         );
 
-        this.wrapper.querySelector('#question5').addEventListener(
+        this.wrapper.querySelector('#question5')?.addEventListener(
             "click",
             (e) => {
-                if(document.getElementById('q5--4').checked){
-                    document.getElementById("conditional-contact").classList.remove("govuk-radios__conditional--hidden");
+                if((document.getElementById('q5--4') as HTMLInputElement).checked){
+                    document.getElementById("conditional-contact")?.classList.remove("govuk-radios__conditional--hidden");
                 } else {
-                    document.getElementById("q6-").value = "";
-                    document.getElementById("conditional-contact").classList.add("govuk-radios__conditional--hidden");
+                    (document.getElementById("q6-") as HTMLInputElement).value = "";
+                    document.getElementById("conditional-contact")?.classList.add("govuk-radios__conditional--hidden");
                 }
             }
         )
 
-        this.wrapper.querySelector("#printPostChat").addEventListener(
+        this.wrapper.querySelector("#printPostChat")?.addEventListener(
             "click",
             (e) => {
                 e.preventDefault;
@@ -45,7 +50,7 @@ export default class CommonPostChatSurvey {
             this.showTranscriptAndSurvey(false, true)
         });
 
-        let isAndroidAndChrome
+        let isAndroidAndChrome: boolean
         if ((/Android/i.test(navigator.userAgent)) && (navigator.userAgent.match(/chrome|chromium|crios/i))) {
             isAndroidAndChrome = true
         } else {
@@ -58,20 +63,26 @@ export default class CommonPostChatSurvey {
         }
     }
 
-    showTranscriptAndSurvey(showTranscript, showSurvey) {
-        let transcript = document.getElementById("ciapiSkinChatTranscript");
-        transcript.style.display = showTranscript ? "" : "none";
-  
-        let postChatSurvey = document.getElementById("postChatSurveyWrapper");
-        postChatSurvey.style.display = showSurvey ? "" : "none";
+    showTranscriptAndSurvey(showTranscript: boolean, showSurvey: boolean) {
+        let transcript: HTMLElement | null = document.getElementById("ciapiSkinChatTranscript");
+        if(transcript){
+            transcript.style.display = showTranscript ? "" : "none";
+        }
+        let postChatSurvey: HTMLElement | null = document.getElementById("postChatSurveyWrapper");
+        if(postChatSurvey){
+            postChatSurvey.style.display = showSurvey ? "" : "none";
+        }
     }
 
-    onPrintPostChatSurvey(e) {
+    onPrintPostChatSurvey(e: any) {
         e.preventDefault;
   
         this.showTranscriptAndSurvey(true, false);
     
-        document.getElementById("print-date").innerHTML = PrintUtils.getPrintDate();
+        let printDate: HTMLElement | null = document.getElementById("print-date")
+        if(printDate){
+            printDate.innerHTML = PrintUtils.getPrintDate();
+        }
   
         let elementList = [
             "app-related-items",
@@ -86,7 +97,7 @@ export default class CommonPostChatSurvey {
         ];
 
         if (document.getElementById("nuanMessagingFrame")) {
-            if (document.getElementById("nuanMessagingFrame").classList.contains("ci-api-popup")) {
+            if (document.getElementById("nuanMessagingFrame")?.classList.contains("ci-api-popup")) {
                 elementList.push("govuk-grid-column-two-thirds")
             }
         }
@@ -99,6 +110,8 @@ export default class CommonPostChatSurvey {
     }
 
     detach() {
-        this.container.removeChild(this.wrapper)
+        if(this.wrapper){
+            this.container?.removeChild(this.wrapper)
+        }
     }
 }
