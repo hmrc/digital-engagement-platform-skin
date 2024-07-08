@@ -1,6 +1,7 @@
+import ProactiveChatController from "../../controllers/ProactiveChatController";
 import PrintUtils from "../../utils/PrintUtils"
 
-const html = `
+const html: string = `
 <div id="endPage">
     <div class="govuk-panel govuk-panel--confirmation" style="margin-right:0.8em;">
         <h2 class="govuk-panel__title" id="heading_chat_ended" tabindex="-1">
@@ -27,8 +28,16 @@ const nullEventHandler = {
 };
 
 export default class PostPCSPage {
+    html: string | undefined
+    container: HTMLElement | undefined
+    wrapper: HTMLElement | undefined
+    onSubmitted: ((a: object) => void) | undefined
+    showThanks: boolean
+    eventHandler: any
+    content: HTMLElement | null
     
-    constructor(showThanks) {
+    
+    constructor(showThanks: boolean) {
         this.showThanks = showThanks;
         this.container = document.createElement("div");
         this.container.id = "ciapiSkin";
@@ -36,23 +45,27 @@ export default class PostPCSPage {
         this.content = this.container.querySelector("#endPage");
     }
 
-    attachTo(container) {
+    attachTo(container: HTMLElement | undefined) {
         this.container = container;
         this.wrapper = document.createElement("div")
         this.wrapper.id = "postPCSPageWrapper";
         this.wrapper.insertAdjacentHTML("beforeend", html);
 
-        try {
-            document.getElementById("ciapiSkinHeader").style.display = "none"
-        } catch {
-            console.log('DEBUG: ' + 'Elements not found' )
+        const ciapiSkinHeader = document.getElementById("ciapiSkinHeader")
+        if(ciapiSkinHeader){
+            try {
+                ciapiSkinHeader.style.display = "none"
+            } catch {
+                console.log('DEBUG: ' + 'Elements not found' )
+            }
         }
 
-        if (!this.showThanks) {
-            this.wrapper.querySelector('#endpage-thanks').style.display = 'none';
+        const endpageThanks = this.wrapper.querySelector('#endpage-thanks')
+        if (!this.showThanks && endpageThanks instanceof HTMLElement) {
+            endpageThanks.style.display = 'none';
         }
         
-        container.appendChild(this.wrapper);
+        container?.appendChild(this.wrapper);
 
         let isAndroidAndChrome
         if ((/Android/i.test(navigator.userAgent)) && (navigator.userAgent.match(/chrome|chromium|crios/i))) {
@@ -66,8 +79,6 @@ export default class PostPCSPage {
             printContainer.style.display = isAndroidAndChrome ? "none" : "";
         }
         
-        
-
         const element = this.wrapper.querySelector('#printButton');
         if (element) {
             element.addEventListener("click", (e) => {
@@ -83,20 +94,28 @@ export default class PostPCSPage {
                     "postChatSurveyWrapper"
                 ];
 
-                if (document.getElementById("nuanMessagingFrame").classList.contains("ci-api-popup")) {
+                if (document.getElementById("nuanMessagingFrame")?.classList.contains("ci-api-popup")) {
                     elementList.push("govuk-grid-column-two-thirds")
                 }
           
                 PrintUtils.removeElementsForPrint(elementList);
 
-                const endPageWrapper = this.container.querySelector('#endPage')
-                const skinChatTranscript = this.container.querySelector("#ciapiSkinChatTranscript");
+                const endPageWrapper = this.container?.querySelector('#endPage')
+                const skinChatTranscript = this.container?.querySelector("#ciapiSkinChatTranscript");
 
-                endPageWrapper.style.display = 'none'
-                skinChatTranscript.style.display = ''
+                if(endPageWrapper && endPageWrapper instanceof HTMLElement){
+                    endPageWrapper.style.display = 'none'
+                }
+                if(skinChatTranscript && skinChatTranscript instanceof HTMLElement){
+                    skinChatTranscript.style.display = ''
+                }
 
-                document.getElementById("print-date").innerHTML = PrintUtils.getPrintDate();
-                document.getElementById("postPCSPageWrapper").classList.add("govuk-!-display-none-print")
+                let printDate = document.getElementById("print-date")
+                if(printDate){
+                    printDate.innerHTML = PrintUtils.getPrintDate();
+                }
+
+                document.getElementById("postPCSPageWrapper")?.classList.add("govuk-!-display-none-print")
 
                 window.print();
                     this.eventHandler.onPrint(e);      
@@ -106,16 +125,23 @@ export default class PostPCSPage {
                     window.addEventListener("afterprint", (e) => {});
                     onafterprint = (e) => {
                         e.preventDefault();
-                        const endPageWrapper = this.container.querySelector('#endPage')
-                        const skinChatTranscript = this.container.querySelector("#ciapiSkinChatTranscript");
+                        const endPageWrapper = this.container?.querySelector('#endPage')
+                        const skinChatTranscript = this.container?.querySelector("#ciapiSkinChatTranscript");
 
-                        endPageWrapper.style.display = ''
-                        skinChatTranscript.style.display = 'none'
+                        if(endPageWrapper && endPageWrapper instanceof HTMLElement){
+                            endPageWrapper.style.display = ''
+                        }
+
+                        if(skinChatTranscript && skinChatTranscript instanceof HTMLElement){
+                            skinChatTranscript.style.display = 'none'
+                        }
                     };
         }
     }
 
-    detach() {
-        this.container.removeChild(this.wrapper)
+    detach(): void {
+        if(this.wrapper){
+            this.container?.removeChild(this.wrapper)
+        }
     }
 }
