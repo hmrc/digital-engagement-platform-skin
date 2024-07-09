@@ -2,7 +2,7 @@ import Transcript from '../services/Transcript';
 import EndChatPopup from '../views/EndChatPopup';
 import { sanitiseAndParseJsonData } from './JsonUtils';
 
-const nullEventHandler = {
+export const nullEventHandler = {
     onSend: function () {},
     onShowHamburger: function () {},
     onAccessibilityStatement: function () {},
