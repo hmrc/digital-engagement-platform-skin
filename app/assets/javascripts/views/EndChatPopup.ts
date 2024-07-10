@@ -24,7 +24,7 @@ export default class Popup {
     container: HTMLElement | undefined
     wrapper: HTMLElement | undefined
     eventHandler: nullEventHandler
-    constructor(container: HTMLElement | undefined, eventHandler: any) {
+    constructor(container: HTMLElement | undefined, eventHandler: nullEventHandler) {
         this.container = container;
         this.eventHandler = eventHandler;
 

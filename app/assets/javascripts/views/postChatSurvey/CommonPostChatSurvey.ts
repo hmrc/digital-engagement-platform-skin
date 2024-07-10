@@ -11,13 +11,12 @@ export default class CommonPostChatSurvey {
         this.onSubmitted = onSubmitted;
     }
 
-    attachTo(container: HTMLElement): void {
+    attachTo(container: HTMLElement | undefined): void {
         this.container = container;
-
         this.wrapper = document.createElement("div");
         this.wrapper.id = "postChatSurveyWrapper";
         this.wrapper.insertAdjacentHTML("beforeend", this.html);
-        container.appendChild(this.wrapper);
+        container?.appendChild(this.wrapper);
 
         this.wrapper.querySelector("#submitPostChatSurvey")?.addEventListener(
             "click",
@@ -32,7 +31,7 @@ export default class CommonPostChatSurvey {
                 if((document.getElementById('q5--4') as HTMLInputElement).checked){
                     document.getElementById("conditional-contact")?.classList.remove("govuk-radios__conditional--hidden");
                 } else {
-                    (document.getElementById("q6-") as HTMLInputElement).value = "";
+                    (document.getElementById("q6-") as HTMLTextAreaElement).value = "";
                     document.getElementById("conditional-contact")?.classList.add("govuk-radios__conditional--hidden");
                 }
             }
@@ -46,7 +45,7 @@ export default class CommonPostChatSurvey {
             }
         );
 
-        window.addEventListener('afterprint', (event) => {
+        window.addEventListener('afterprint', (event: Event) => {
             this.showTranscriptAndSurvey(false, true)
         });
 
@@ -57,7 +56,7 @@ export default class CommonPostChatSurvey {
             isAndroidAndChrome = false
         }
 
-        let printContainer = document.getElementById("surveyPrintContainer")
+        let printContainer: HTMLElement | null = document.getElementById("surveyPrintContainer")
         if(printContainer){
             printContainer.style.display = isAndroidAndChrome ? "none" : "";
         }

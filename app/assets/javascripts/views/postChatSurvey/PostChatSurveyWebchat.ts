@@ -149,5 +149,5 @@ const html: string = `
 export default class PostChatSurveyWebchat extends CommonPostChatSurvey {
   constructor(onSubmitted: (a:object) => void) {
     super(html, onSubmitted)
-}
+  }
 }

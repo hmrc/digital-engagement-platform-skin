@@ -24,7 +24,7 @@ const html: string = `
 `
 
 const nullEventHandler = {
-    onPrint: function () {}
+    onPrint: function (e: Event) {}
 };
 
 export default class PostPCSPage {
@@ -33,7 +33,7 @@ export default class PostPCSPage {
     wrapper: HTMLElement | undefined
     onSubmitted: ((a: object) => void) | undefined
     showThanks: boolean
-    eventHandler: any
+    eventHandler: typeof nullEventHandler
     content: HTMLElement | null
     
     
@@ -45,13 +45,13 @@ export default class PostPCSPage {
         this.content = this.container.querySelector("#endPage");
     }
 
-    attachTo(container: HTMLElement | undefined) {
+    attachTo(container: HTMLElement | undefined): void {
         this.container = container;
         this.wrapper = document.createElement("div")
         this.wrapper.id = "postPCSPageWrapper";
         this.wrapper.insertAdjacentHTML("beforeend", html);
 
-        const ciapiSkinHeader = document.getElementById("ciapiSkinHeader")
+        const ciapiSkinHeader: HTMLElement | null = document.getElementById("ciapiSkinHeader")
         if(ciapiSkinHeader){
             try {
                 ciapiSkinHeader.style.display = "none"
@@ -60,8 +60,8 @@ export default class PostPCSPage {
             }
         }
 
-        const endpageThanks = this.wrapper.querySelector('#endpage-thanks')
-        if (!this.showThanks && endpageThanks instanceof HTMLElement) {
+        const endpageThanks: HTMLElement | null = this.wrapper.querySelector('#endpage-thanks')
+        if (!this.showThanks && endpageThanks) {
             endpageThanks.style.display = 'none';
         }
         
@@ -125,14 +125,14 @@ export default class PostPCSPage {
                     window.addEventListener("afterprint", (e) => {});
                     onafterprint = (e) => {
                         e.preventDefault();
-                        const endPageWrapper = this.container?.querySelector('#endPage')
-                        const skinChatTranscript = this.container?.querySelector("#ciapiSkinChatTranscript");
+                        const endPageWrapper: HTMLElement | null | undefined = this.container?.querySelector('#endPage')
+                        const skinChatTranscript: HTMLElement | null | undefined = this.container?.querySelector("#ciapiSkinChatTranscript");
 
-                        if(endPageWrapper && endPageWrapper instanceof HTMLElement){
+                        if(endPageWrapper){
                             endPageWrapper.style.display = ''
                         }
 
-                        if(skinChatTranscript && skinChatTranscript instanceof HTMLElement){
+                        if(skinChatTranscript){
                             skinChatTranscript.style.display = 'none'
                         }
                     };
