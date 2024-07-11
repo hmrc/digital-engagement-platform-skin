@@ -9,8 +9,8 @@ export function ContainerHtml(isEscalated: boolean): string {
     let container: string = `<div id="ciapiSkinContainer" class='ciapiSkinContainerStandardSize'>`
     if (sessionStorage.getItem("isStandard") == "false") {
         container = `<div id="ciapiSkinContainer" class='ciapiSkinContainerLargerSize'>`;
-        sizeButton = `<button id='toggleSizeButton' role="button">Decrease chat size</button>`}
-    
+        sizeButton = `<button id='toggleSizeButton' role="button">Decrease chat size</button>`
+    }
 
     let automatedMessage: string = "";
     if (!isEscalated) { automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">${messages.computer}</p>`}

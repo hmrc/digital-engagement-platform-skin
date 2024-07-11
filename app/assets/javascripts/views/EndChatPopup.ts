@@ -34,7 +34,7 @@ export default class Popup {
         this.wrapper.insertAdjacentHTML("beforeend", popupHtml);
         container?.appendChild(this.wrapper);
 
-        this.wrapper.querySelector("#cancelEndChat")?.addEventListener("click", (e: Event): void => {
+        this.wrapper.querySelector<HTMLButtonElement>("#cancelEndChat")?.addEventListener("click", (e: Event): void => {
             this.onCancelEndChat(e)
         });
 
@@ -44,11 +44,11 @@ export default class Popup {
             }
         });
 
-        this.wrapper.querySelector("#confirmEndChat")?.addEventListener("click", (e: Event): void => {
+        this.wrapper.querySelector<HTMLButtonElement>("#confirmEndChat")?.addEventListener("click", (e: Event): void => {
             this.onConfirmEndChat(e)
         });
 
-        this.wrapper.querySelector("#surveyPrintContainer")?.addEventListener("click", (e: Event): void => {
+        this.wrapper.querySelector<HTMLDivElement>("#surveyPrintContainer")?.addEventListener("click", (e: Event): void => {
             this.endChatPrint(e)
         });
 
@@ -60,7 +60,7 @@ export default class Popup {
         e.preventDefault();
     }
 
-    onCancelEndChat(e: Event, toPrint?: undefined): void {
+    onCancelEndChat(e: Event, toPrint?: boolean): void {
         this.eventHandler.onCancelEndChat(e, toPrint);
         e.preventDefault();
     }

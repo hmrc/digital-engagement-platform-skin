@@ -1,4 +1,3 @@
-import ProactiveChatController from "../../controllers/ProactiveChatController";
 import PrintUtils from "../../utils/PrintUtils"
 
 const html: string = `
@@ -24,7 +23,7 @@ const html: string = `
 `
 
 const nullEventHandler = {
-    onPrint: function (e: Event) {}
+    onPrint: function (_:Event) {}
 };
 
 export default class PostPCSPage {
@@ -45,7 +44,7 @@ export default class PostPCSPage {
         this.content = this.container.querySelector("#endPage");
     }
 
-    attachTo(container: HTMLElement | undefined): void {
+    attachTo(container?: HTMLElement): void {
         this.container = container;
         this.wrapper = document.createElement("div")
         this.wrapper.id = "postPCSPageWrapper";
@@ -60,28 +59,28 @@ export default class PostPCSPage {
             }
         }
 
-        const endpageThanks: HTMLElement | null = this.wrapper.querySelector('#endpage-thanks')
+        const endpageThanks = this.wrapper.querySelector<HTMLParagraphElement>('#endpage-thanks')
         if (!this.showThanks && endpageThanks) {
             endpageThanks.style.display = 'none';
         }
         
         container?.appendChild(this.wrapper);
 
-        let isAndroidAndChrome
+        let isAndroidAndChrome: boolean
         if ((/Android/i.test(navigator.userAgent)) && (navigator.userAgent.match(/chrome|chromium|crios/i))) {
             isAndroidAndChrome = true
         } else {
             isAndroidAndChrome = false
         }
 
-        let printContainer = document.getElementById("printOption")
+        let printContainer: HTMLElement | null = document.getElementById("printOption")
         if(printContainer) {
             printContainer.style.display = isAndroidAndChrome ? "none" : "";
         }
         
-        const element = this.wrapper.querySelector('#printButton');
+        const element = this.wrapper.querySelector<HTMLDivElement>('#printButton');
         if (element) {
-            element.addEventListener("click", (e) => {
+            element.addEventListener("click", (e: MouseEvent): void => {
                 let elementList = [
                     "app-related-items",
                     "govuk-back-link",
@@ -100,13 +99,13 @@ export default class PostPCSPage {
           
                 PrintUtils.removeElementsForPrint(elementList);
 
-                const endPageWrapper = this.container?.querySelector('#endPage')
-                const skinChatTranscript = this.container?.querySelector("#ciapiSkinChatTranscript");
+                const endPageWrapper= this.container?.querySelector<HTMLDivElement>('#endPage')
+                const skinChatTranscript = this.container?.querySelector<HTMLDivElement>("#ciapiSkinChatTranscript");
 
-                if(endPageWrapper && endPageWrapper instanceof HTMLElement){
+                if(endPageWrapper){
                     endPageWrapper.style.display = 'none'
                 }
-                if(skinChatTranscript && skinChatTranscript instanceof HTMLElement){
+                if(skinChatTranscript){
                     skinChatTranscript.style.display = ''
                 }
 
@@ -122,11 +121,11 @@ export default class PostPCSPage {
                     e.preventDefault();
                 })
 
-                    window.addEventListener("afterprint", (e) => {});
-                    onafterprint = (e) => {
+                    window.addEventListener("afterprint", (_) => {});
+                    onafterprint = (e: Event): void => {
                         e.preventDefault();
-                        const endPageWrapper: HTMLElement | null | undefined = this.container?.querySelector('#endPage')
-                        const skinChatTranscript: HTMLElement | null | undefined = this.container?.querySelector("#ciapiSkinChatTranscript");
+                        const endPageWrapper = this.container?.querySelector<HTMLDivElement>('#endPage')
+                        const skinChatTranscript = this.container?.querySelector<HTMLDivElement>("#ciapiSkinChatTranscript");
 
                         if(endPageWrapper){
                             endPageWrapper.style.display = ''

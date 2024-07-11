@@ -18,18 +18,18 @@ export default class CommonPostChatSurvey {
         this.wrapper.insertAdjacentHTML("beforeend", this.html);
         container?.appendChild(this.wrapper);
 
-        this.wrapper.querySelector("#submitPostChatSurvey")?.addEventListener(
+        this.wrapper.querySelector<HTMLButtonElement>("#submitPostChatSurvey")?.addEventListener(
             "click",
-            (e) => {
+            (_:Event): void => {
                 this.onSubmitted(this);
             }
         );
 
-        this.wrapper.querySelector('#question5')?.addEventListener(
+        this.wrapper.querySelector<HTMLFieldSetElement>('#question5')?.addEventListener(
             "click",
-            (e) => {
+            (_:Event): void => {
                 if((document.getElementById('q5--4') as HTMLInputElement).checked){
-                    document.getElementById("conditional-contact")?.classList.remove("govuk-radios__conditional--hidden");
+                    document.getElementById("conditional-contact")?.classList.remove("govuk-radios__conditional--hidden")
                 } else {
                     (document.getElementById("q6-") as HTMLTextAreaElement).value = "";
                     document.getElementById("conditional-contact")?.classList.add("govuk-radios__conditional--hidden");
@@ -37,15 +37,15 @@ export default class CommonPostChatSurvey {
             }
         )
 
-        this.wrapper.querySelector("#printPostChat")?.addEventListener(
+        this.wrapper.querySelector<HTMLAnchorElement>("#printPostChat")?.addEventListener(
             "click",
-            (e) => {
+            (e: Event): void => {
                 e.preventDefault;
                 this.onPrintPostChatSurvey(this);
             }
         );
 
-        window.addEventListener('afterprint', (event: Event) => {
+        window.addEventListener('afterprint', (_:Event): void => {
             this.showTranscriptAndSurvey(false, true)
         });
 
