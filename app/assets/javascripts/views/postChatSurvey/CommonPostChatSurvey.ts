@@ -11,21 +11,21 @@ export default class CommonPostChatSurvey {
         this.onSubmitted = onSubmitted;
     }
 
-    attachTo(container: HTMLElement | undefined): void {
+    attachTo(container: HTMLElement): void {
         this.container = container;
         this.wrapper = document.createElement("div");
         this.wrapper.id = "postChatSurveyWrapper";
         this.wrapper.insertAdjacentHTML("beforeend", this.html);
         container?.appendChild(this.wrapper);
 
-        this.wrapper.querySelector<HTMLButtonElement>("#submitPostChatSurvey")?.addEventListener(
+        this.wrapper.querySelector<HTMLElement>("#submitPostChatSurvey")?.addEventListener(
             "click",
             (_:Event): void => {
                 this.onSubmitted(this);
             }
         );
 
-        this.wrapper.querySelector<HTMLFieldSetElement>('#question5')?.addEventListener(
+        this.wrapper.querySelector<HTMLElement>('#question5')?.addEventListener(
             "click",
             (_:Event): void => {
                 if((document.getElementById('q5--4') as HTMLInputElement).checked){
@@ -37,7 +37,7 @@ export default class CommonPostChatSurvey {
             }
         )
 
-        this.wrapper.querySelector<HTMLAnchorElement>("#printPostChat")?.addEventListener(
+        this.wrapper.querySelector<HTMLElement>("#printPostChat")?.addEventListener(
             "click",
             (e: Event): void => {
                 e.preventDefault;
@@ -103,7 +103,7 @@ export default class CommonPostChatSurvey {
   
         PrintUtils.removeElementsForPrint(elementList);
   
-        window.print();
+        window.print()
   
         return false;
     }

@@ -24,7 +24,7 @@ export default class Popup {
     container: HTMLElement | undefined
     wrapper: HTMLElement | undefined
     eventHandler: nullEventHandler
-    constructor(container: HTMLElement | undefined, eventHandler: nullEventHandler) {
+    constructor(container: HTMLElement, eventHandler: nullEventHandler) {
         this.container = container;
         this.eventHandler = eventHandler;
 
@@ -34,7 +34,7 @@ export default class Popup {
         this.wrapper.insertAdjacentHTML("beforeend", popupHtml);
         container?.appendChild(this.wrapper);
 
-        this.wrapper.querySelector<HTMLButtonElement>("#cancelEndChat")?.addEventListener("click", (e: Event): void => {
+        this.wrapper.querySelector<HTMLElement>("#cancelEndChat")?.addEventListener("click", (e: Event): void => {
             this.onCancelEndChat(e)
         });
 
@@ -44,11 +44,11 @@ export default class Popup {
             }
         });
 
-        this.wrapper.querySelector<HTMLButtonElement>("#confirmEndChat")?.addEventListener("click", (e: Event): void => {
+        this.wrapper.querySelector<HTMLElement>("#confirmEndChat")?.addEventListener("click", (e: Event): void => {
             this.onConfirmEndChat(e)
         });
 
-        this.wrapper.querySelector<HTMLDivElement>("#surveyPrintContainer")?.addEventListener("click", (e: Event): void => {
+        this.wrapper.querySelector<HTMLElement>("#surveyPrintContainer")?.addEventListener("click", (e: Event): void => {
             this.endChatPrint(e)
         });
 
