@@ -1,23 +1,22 @@
 export default class PrintUtils {
 
-     static getPrintDate() {
+     static getPrintDate(): string {
 
-        const monthNames = ["January", "February", "March", "April", "May", "June",
+        const monthNames: string[] = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
         ];
     
-        const d = new Date();
+        const d: Date = new Date();
         return d.getDate() + " " + monthNames[d.getMonth()] + " " + d.getUTCFullYear();
     }
     
-     static removeElementsForPrint(listOfElements) {
-        listOfElements.forEach(function(item) {
+     static removeElementsForPrint(listOfElements: string[]): void {
+        listOfElements.forEach(function(item: string): void {
             if (document.getElementsByClassName(item)[0]) {
                 document.getElementsByClassName(item)[0].classList.add("govuk-!-display-none-print")
             }
         });
     }
-
 }
 
 
