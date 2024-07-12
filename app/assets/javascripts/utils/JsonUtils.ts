@@ -1,6 +1,6 @@
-import * as logger from '../utils/logger';
+import * as logger from './logger';
 
-export const sanitiseAndParseJsonData = (data) => {
+export const sanitiseAndParseJsonData = (data: string): {} | null => {
     try {
         data = data.replace(/'/g, '"');
         data = data.replace(/\\/g, "");
