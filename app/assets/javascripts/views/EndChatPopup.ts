@@ -1,4 +1,6 @@
-export const popupHtml = `
+import nullEventHandler from '../../javascripts/utils/ChatContainer'
+
+export const popupHtml: string = `
 <div id="endChatPopup" role="alertdialog" aria-modal="true" tabindex="0" aria-labelledby="heading_end_chat_popup" style="display: none;">
       <h2 class="govuk-heading-l" id="heading_end_chat_popup">Do you want to end the chat?</h2>
 
@@ -19,7 +21,10 @@ export const popupHtml = `
 `
 
 export default class Popup {
-    constructor(container, eventHandler) {
+    container: HTMLElement | undefined
+    wrapper: HTMLElement | undefined
+    eventHandler: nullEventHandler
+    constructor(container: HTMLElement, eventHandler: nullEventHandler) {
         this.container = container;
         this.eventHandler = eventHandler;
 
@@ -27,53 +32,55 @@ export default class Popup {
         this.wrapper.id = "endChatPopupWrapper";
         this.hide();
         this.wrapper.insertAdjacentHTML("beforeend", popupHtml);
-        container.appendChild(this.wrapper);
+        container?.appendChild(this.wrapper);
 
-        this.wrapper.querySelector("#cancelEndChat").addEventListener("click", (e) => {
+        this.wrapper.querySelector<HTMLElement>("#cancelEndChat")?.addEventListener("click", (e: Event): void => {
             this.onCancelEndChat(e)
         });
 
-        this.wrapper.addEventListener("keydown",(e) => {
+        this.wrapper.addEventListener("keydown",(e: KeyboardEvent): void => {
             if (e.key === "Escape") {
                 this.onCancelEndChat(e)
             }
         });
 
-        this.wrapper.querySelector("#confirmEndChat").addEventListener("click", (e) => {
+        this.wrapper.querySelector<HTMLElement>("#confirmEndChat")?.addEventListener("click", (e: Event): void => {
             this.onConfirmEndChat(e)
         });
 
-        this.wrapper.querySelector("#surveyPrintContainer").addEventListener("click", (e) => {
+        this.wrapper.querySelector<HTMLElement>("#surveyPrintContainer")?.addEventListener("click", (e: Event): void => {
             this.endChatPrint(e)
         });
 
 
     }
 
-    endChatPrint(e) {
+    endChatPrint(e: Event): void {
         this.eventHandler.onCancelEndChat(e, true);
         e.preventDefault();
     }
 
-    onCancelEndChat(e, toPrint) {
+    onCancelEndChat(e: Event, toPrint?: boolean): void {
         this.eventHandler.onCancelEndChat(e, toPrint);
         e.preventDefault();
     }
 
-    onConfirmEndChat(e) {
+    onConfirmEndChat(e: Event): void {
         this.eventHandler.onConfirmEndChat();
         e.preventDefault();
     }
 
-    show() {
+    show(): void {
         this._setDisplay("block");
     }
 
-    hide() {
+    hide(): void {
         this._setDisplay("none");
     }
 
-    _setDisplay(state) {
-        this.wrapper.style.display = state;
+    _setDisplay(state: string): void {
+        if(this.wrapper){
+            this.wrapper.style.display = state;
+        }
     }
 }
