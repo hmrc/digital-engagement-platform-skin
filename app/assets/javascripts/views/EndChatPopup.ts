@@ -21,10 +21,10 @@ export const popupHtml: string = `
 `
 
 export default class Popup {
-    container: HTMLElement | undefined
+    container: HTMLElement | null
     wrapper: HTMLElement | undefined
     eventHandler: nullEventHandler
-    constructor(container: HTMLElement, eventHandler: nullEventHandler) {
+    constructor(container: HTMLElement | null, eventHandler: nullEventHandler) {
         this.container = container;
         this.eventHandler = eventHandler;
 

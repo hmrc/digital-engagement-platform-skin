@@ -1,6 +1,5 @@
 import * as DisplayState from '../NuanceDisplayState'
 import * as logger from '../utils/logger';
-import { host } from "../utils/HostUtils";
 import ClickToChatButton from './ClickToChatButton';
 
 interface ClickToChatObjectInterface {
@@ -10,7 +9,7 @@ interface ClickToChatObjectInterface {
 }
 
 export default class ClickToChatButtons {
-    buttons: {}
+    buttons: any
     onClicked: (c2cIdx: string) => void;
     displayStateMessages: { outofhours: string; ready: string; busy: string; chatactive: string; }
     
