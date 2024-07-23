@@ -193,11 +193,11 @@ export default class ChatContainer {
         this.disablePreviousWidgets(e);
     }
 
-    processTranscriptEvent(e: Event): void {
+    processTranscriptEvent(e: any): void {
         this.processExternalAndResponsiveLinks(e);
         // https://stackoverflow.com/questions/28900077/why-is-event-target-not-element-in-typescript
-        //  EventTarget is not always an Element but in this instance is it safe to assume it is? This assumes the event is on a DOM/HTML element and not the window object
-        if(e.target instanceof HTMLElement){
+        //  I did have e: Event and then tried to use instanceof in the if statement but it failed the unit tests so I have swapped it back to e: any. Do you have any ideas on what this could be?
+        if(e.target){
         const nuanceMessageText: string = JSON.stringify(e.target?.dataset.nuanceMessageText);
             if (
             e.target && e.target.tagName && e.target.tagName.toLowerCase() === "a" &&
