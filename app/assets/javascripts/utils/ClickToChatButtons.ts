@@ -2,9 +2,11 @@ import * as DisplayState from '../NuanceDisplayState'
 import * as logger from '../utils/logger';
 import ClickToChatButton from './ClickToChatButton';
 
+type  displayState = "chatactive" | "outofhours" | "ready" | "busy"
 interface ClickToChatObjectInterface {
     c2cIdx: string, 
-    displayState: "chatactive" | "outofhours" | "ready" | "busy", 
+    // Currently typed as a string but one of the tests also has it as a number. Perhaps it is safer to type it as any as we are not sure? This query persists through the page but I will not repeat it as I go.
+    displayState: displayState,
     launchable: boolean
 }
 
@@ -20,6 +22,7 @@ export default class ClickToChatButtons {
     }
     
     addButton(c2cObj: ClickToChatObjectInterface, button: ClickToChatButton, divID: string): void {
+        // I think ClickToChatButton is correct as we are adding a button. Do you mind double checking please?
         if (!document.getElementById("ciapiSkinContainer")) {
             this.buttons[c2cObj.c2cIdx] = button;
             this._updateButton(c2cObj, button, divID === "tc-nuance-chat-container");
@@ -37,7 +40,7 @@ export default class ClickToChatButtons {
         }
     }
     
-    _getDisplayStateText(displayState:keyof typeof this.displayStateMessages): string {
+    _getDisplayStateText(displayState: displayState): string {
         return (this.displayStateMessages)[displayState] || ("Unknown display state: " + displayState);
     }
 

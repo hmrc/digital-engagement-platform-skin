@@ -37,23 +37,24 @@ export const nullEventHandler: nullEventHandlerInterface = {
 export default class ChatContainer {
     container: HTMLElement
     closeMethod: string | null
-    //Is this correct NodeJS.Timeout
-    stopTypingTimeoutId:  NodeJS.Timeout | undefined;
+    stopTypingTimeoutId: number | NodeJS.Timeout | undefined
+    // I think we only need NodeJS.Timeout if it runs in a node environment which I think this is just browser so we can remove it?
     isCustomerTyping: boolean;
     typingEventThresholdMillis: number;
-    //Check below
     SDK: any;
+    // Should I leave this as any? I am unsure how to type the SDK.
     content: HTMLElement | null
     custInput: HTMLTextAreaElement | null
-    // Check below the class does not seem to appear in the code base.
     soundButton: any;
+    // soundButton comment below on soundButton will determine the answer to this one.
     transcript: Transcript;
     endChatPopup: EndChatPopup;
     inputBoxFocus: boolean;
     endChatFeedback: boolean;
     eventHandler: nullEventHandlerInterface
-    //Check below line
+
     constructor(messageClasses: typeof import("../DefaultClasses"), containerHtml: string, SDK: any) {
+// the typeof import was inferred, are you in agreement that this is correct?
         this.container = document.createElement("div");
         this.container.id = "ciapiSkin";
         this.eventHandler = nullEventHandler;
@@ -69,6 +70,7 @@ export default class ChatContainer {
         this.content = this.container.querySelector<HTMLElement>("#ciapiSkinChatTranscript");
         this.custInput = this.container.querySelector<HTMLTextAreaElement>("#custMsg");
         this.soundButton = this.container.querySelector(".sound-button")
+        // soundButton is probably going to be a HTMLElement but I cannot find it being used in the code base under 'sound-button'. However, we do use the variable soundButton. Should I leave it for the moment?
         this._registerEventListeners();
         this.transcript = new Transcript(this.content, messageClasses);
         this.endChatPopup = new EndChatPopup(this.container.querySelector("#ciapiSkinContainer"), this);
@@ -76,8 +78,6 @@ export default class ChatContainer {
         this.inputBoxFocus = false;
         this.endChatFeedback = false;
     }
-
-    
 
     _resetStopTypingTimeout(): void {
         if (this.stopTypingTimeoutId != undefined) {
@@ -140,16 +140,17 @@ export default class ChatContainer {
     restore(): void {
         this.container.classList.remove("minimised");
     }
-// Is null | void correct?
-    processExternalAndResponsiveLinks(e): null | void {
-        const linkEl = e.target
-        const linkHref = linkEl?.getAttribute("href");
+
+    processExternalAndResponsiveLinks(e: any): null | void {
+        const linkEl: any = e.target
+        const linkHref: string | null | undefined = linkEl?.getAttribute("href");
 
         if(!linkHref) return null; // stop clicks on the container from triggering the following code
 
         const nuanceMessageData = linkEl.dataset.nuanceMessageData;
         const nuanceMessageText = linkEl.dataset.nuanceMessageText;
         const nuanceDatapass = linkEl.dataset.nuanceDatapass;
+        // Tricky to type these until we know the above typing.
 
         // Prevent defaults
         if (linkHref == "#" || linkHref == "") e.preventDefault();
@@ -157,17 +158,18 @@ export default class ChatContainer {
         // Handle Responsive Links
         if (!!nuanceMessageData) {
             const messageText = nuanceMessageText ? nuanceMessageText : linkEl.text;
-            const messageData = sanitiseAndParseJsonData(nuanceMessageData);
+            const messageData: {} | null = sanitiseAndParseJsonData(nuanceMessageData);
             if (messageData) {
                 this.SDK.sendRichContentMessage(messageText, messageData);
             }
         } else if (!!nuanceMessageText) {
             this.SDK.sendMessage(nuanceMessageText);
         }
+        // This one is difficult, I am not sure of the typing and I cannot get it error free. Do you have any ideas on what the typing may be? I tried e:Event, casting linkEl as HTMLAnchorElement and linkHref as string | null | undefined but I get an error. I console logged linkEl and it gave an anchor tag so HTMLAnchorElement type.  In transcript, linkEl is an anchor tag.
 
         // Handle External Links
         if (linkHref != "#" && linkHref != "") {
-            var ndepVaEventData = JSON.stringify({
+            var ndepVaEventData: string = JSON.stringify({
                 data: {
                     address: linkHref,
                 },
@@ -178,7 +180,7 @@ export default class ChatContainer {
 
         // Handle Datapass
         if (!!nuanceDatapass) {
-            const datapass = sanitiseAndParseJsonData(e.target.dataset.nuanceDatapass);
+            const datapass: {} | null = sanitiseAndParseJsonData(e.target.dataset.nuanceDatapass);
             if (datapass){
                 this.SDK.sendDataPass(datapass);
             }    
@@ -187,27 +189,31 @@ export default class ChatContainer {
         this.disablePreviousWidgets(e);
     }
 
-    processTranscriptEvent(e): void {
+    processTranscriptEvent(e: Event): void {
         this.processExternalAndResponsiveLinks(e);
-        const nuanceMessageText: string = JSON.stringify(e.target.dataset.nuanceMessageText);
-        if (
-           e.target && e.target.tagName && e.target.tagName.toLowerCase() === "a" &&
-            !!e.target.dataset
-        ) {
-            this.SDK.sendVALinkMessage(e, null, null, null);
-            if (nuanceMessageText) {
-                if (nuanceMessageText === '"end this chat and give feedback"') {
-                    this.endChatFeedback = true;
-                    this.closeMethod = "Link";
-                } else if (nuanceMessageText === '"end this chat"') {
-                    this.endChatFeedback = false;
-                    this.closeMethod = "Link";
+        // https://stackoverflow.com/questions/28900077/why-is-event-target-not-element-in-typescript
+        //  EventTarget is not always an Element but in this instance is it safe to assume it is? This assumes the event is on a DOM/HTML element and not the window object
+        if(e.target instanceof HTMLElement){
+        const nuanceMessageText: string = JSON.stringify(e.target?.dataset.nuanceMessageText);
+            if (
+            e.target && e.target.tagName && e.target.tagName.toLowerCase() === "a" &&
+                !!e.target.dataset
+            ) {
+                this.SDK.sendVALinkMessage(e, null, null, null);
+                if (nuanceMessageText) {
+                    if (nuanceMessageText === '"end this chat and give feedback"') {
+                        this.endChatFeedback = true;
+                        this.closeMethod = "Link";
+                    } else if (nuanceMessageText === '"end this chat"') {
+                        this.endChatFeedback = false;
+                        this.closeMethod = "Link";
+                    }
+                } else if (e.target.className != "govuk-skip-link") {
+                    this._focusOnNextAutomatonMessage();
                 }
-            } else if (e.target.className != "govuk-skip-link") {
-                this._focusOnNextAutomatonMessage();
             }
-        }
     }
+}
 
     processKeypressEvent(e: KeyboardEvent): void {
         this._resetStopTypingTimeout();
@@ -252,7 +258,6 @@ export default class ChatContainer {
     }
 
     _registerKeypressEventListener(selector: string, handler: (e: KeyboardEvent) => void): void {
-        console.log('Handler', typeof handler)
         const element = this.container.querySelector<HTMLTextAreaElement>(selector);
         if (element) {
             element.addEventListener("keypress", handler);
@@ -269,8 +274,7 @@ export default class ChatContainer {
 
     _registerEventListeners(): void {
 
-        this._registerKeypressEventListener("#custMsg", (e: KeyboardEvent) => {
-            console.log('EVENTKP', e.type) 
+        this._registerKeypressEventListener("#custMsg", (e: KeyboardEvent): void => {
             this.processKeypressEvent(e)
         });
 
@@ -327,25 +331,25 @@ export default class ChatContainer {
             this.closeMethod = "Message"
         }
 
-        let endChatNonFocusableContainer = this.container.querySelectorAll<HTMLElement>('input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]):not([id="hamburgerMenu"]):not([id=ciapiSkinHideButton]), #ciapiSkinChatTranscript');
+        let endChatNonFocusableContainer: NodeListOf<HTMLElement> = this.container.querySelectorAll<HTMLElement>('input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]):not([id="hamburgerMenu"]):not([id=ciapiSkinHideButton]), #ciapiSkinChatTranscript');
 
-        endChatNonFocusableContainer.forEach(function (element) {
+        endChatNonFocusableContainer.forEach(function (element: HTMLElement): void {
             element.tabIndex = -1;
         });
 
-       const styleList = [
+       const styleList: string[] = [
            "ciapiSkinCloseButton",
            "printButton",
            "toggleSound"
        ];
 
-       styleList.forEach(function(item) {
+       styleList.forEach(function(item: string): void {
            document.getElementById(item)?.setAttribute("style", "display: none;");
        });
 
-        let endChatNonFocusable = document.querySelectorAll<HTMLElement>('a[href]:not([id="printLink"]), iframe, button:not([id="cancelEndChat"]):not([id="confirmEndChat"])');
+        let endChatNonFocusable: NodeListOf<HTMLElement> = document.querySelectorAll<HTMLElement>('a[href]:not([id="printLink"]), iframe, button:not([id="cancelEndChat"]):not([id="confirmEndChat"])');
 
-        endChatNonFocusable.forEach(function (element) {
+        endChatNonFocusable.forEach(function (element: HTMLElement): void {
             element.tabIndex = -1;
         });
 
@@ -357,13 +361,13 @@ export default class ChatContainer {
 
     onCancelEndChat(e: Event, toPrint: boolean | undefined): void {
         const ciapiSkinContainer = document.querySelector<HTMLElement>("#ciapiSkinContainer");
-        const endChatNonFocusableContainer = ciapiSkinContainer?.querySelectorAll<HTMLElement>('input, textarea');
-        endChatNonFocusableContainer?.forEach(function (element) {
+        const endChatNonFocusableContainer: NodeListOf<HTMLElement> | undefined = ciapiSkinContainer?.querySelectorAll<HTMLElement>('input, textarea');
+        endChatNonFocusableContainer?.forEach(function (element: HTMLElement): void {
             element.removeAttribute("tabindex");
         });
 
-        const endChatNonFocusable = document.querySelectorAll<HTMLElement>('a[href], iframe, button');
-        endChatNonFocusable.forEach(function (element) {
+        const endChatNonFocusable: NodeListOf<HTMLElement> = document.querySelectorAll<HTMLElement>('a[href], iframe, button');
+        endChatNonFocusable.forEach(function (element: HTMLElement): void {
             element.removeAttribute("tabindex");
         });
 
@@ -373,7 +377,7 @@ export default class ChatContainer {
             "toggleSound"
         ];
 
-        styleList.forEach(function(item) {
+        styleList.forEach(function(item: string): void {
             document.getElementById(item)?.setAttribute("style", "display: '';");
         });
 
@@ -388,7 +392,7 @@ export default class ChatContainer {
         // I could not find dialog in the codebase other than in the tests. However, the tests suggest it will be a HTMLElement. We also use .focus on endChatGiveFeedback which does not exist on Element and that is the default returned by querySelectorAll. .focus is available on HTMLElement. What do you think?
 
         if (this.closeMethod === "Button") {
-            const popupChatContainer = document.getElementsByClassName("ci-api-popup");
+            const popupChatContainer: HTMLCollectionOf<Element> = document.getElementsByClassName("ci-api-popup");
             if (popupChatContainer.length > 0) {
                 this.eventHandler.onShowHamburger();
             }
@@ -445,8 +449,8 @@ export default class ChatContainer {
     }
 
     _focusOnNextAutomatonMessage(): void {
-        setTimeout(function(_: any) {
-            //Unsure on the type of e / _. I tried console.logging and looking at the tests but could not find an answer. The console.log provided undefined after using quick reply functionality and clicking subsequent links.
+        setTimeout(function(_: any): void {
+            //If I do not delete the parameter, it needs typed. However, it is not being read. What should I do?
             var lastAgentMessage = Array.from(
                 document.querySelectorAll<HTMLElement>('.ciapi-agent-message')
               ).pop();
@@ -459,8 +463,8 @@ export default class ChatContainer {
               this.eventHandler.onConfirmEndChat();
               this._removeSkinHeadingElements();
 
-              const endChatNonFocusable = document.querySelectorAll('a[href], iframe, button');
-              endChatNonFocusable.forEach(function (element) {
+              const endChatNonFocusable: NodeListOf<HTMLElement> = document.querySelectorAll<HTMLElement>('a[href], iframe, button');
+              endChatNonFocusable.forEach(function (element: HTMLElement): void {
                   element.removeAttribute("tabindex");
               });
 
@@ -471,8 +475,7 @@ export default class ChatContainer {
               }
     }
 
-    showPage(page) {
-        console.log('PAGE', page)
+    showPage(page: any) {
         const ciapiSkinChatTranscript = this.container.querySelector<HTMLElement>("#ciapiSkinChatTranscript")
         if(ciapiSkinChatTranscript){
             ciapiSkinChatTranscript.style.display = "none";
@@ -484,4 +487,5 @@ export default class ChatContainer {
         page.attachTo(this.container.querySelector<HTMLElement>("#ciapiChatComponents"));
     }
 }
+// I have console logged page and typeof page and it is apparently an object but when I set page: {}. It gives me an error on attachTo which is Property 'attachTo' does not exist on type '{}'.ts(2339). I could not find info about attachTo on the MDN. Do you have any ideas?
 

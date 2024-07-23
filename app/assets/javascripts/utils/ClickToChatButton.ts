@@ -6,7 +6,7 @@ export default class ClickToChatButton {
         this.buttonClass = buttonClass;
     }
 
-    replaceChild(innerHTML: string, hmrcSkin: boolean | HTMLElement | null) {
+    replaceChild(innerHTML: string, hmrcSkin: boolean | HTMLElement | null): HTMLElement | undefined {
         const buttonDiv: HTMLElement | undefined = this.parentElement?.ownerDocument.createElement("div");
         if (hmrcSkin) {
             buttonDiv?.setAttribute("class", "minimised");
