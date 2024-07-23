@@ -9,6 +9,8 @@ interface nullEventHandlerInterface {
     onCloseChat: () => void,
     onHideChat: () => void,
     onRestoreChat: () => void,
+    // should the below be included in the interface? It is present in EndChatPopup and without it being in here, it throws an error
+    // onCancelEndChat: (e: Event, toPrint: boolean | undefined) => void,
     onConfirmEndChat: () => void,
     onSizeToggle: () => void,
     onSoundToggle: () => void,
@@ -25,6 +27,8 @@ export const nullEventHandler: nullEventHandlerInterface = {
     onCloseChat: function (): void {},
     onHideChat: function (): void {},
     onRestoreChat: function (): void {},
+    // should this be added to the nullEventHandler?
+    // onCancelEndChat: function (e: Event, toPrint: boolean | undefined): void {},
     onConfirmEndChat: function (): void {},
     onSizeToggle: function (): void {},
     onSoundToggle: function (): void {},
@@ -488,4 +492,3 @@ export default class ChatContainer {
     }
 }
 // I have console logged page and typeof page and it is apparently an object but when I set page: {}. It gives me an error on attachTo which is Property 'attachTo' does not exist on type '{}'.ts(2339). I could not find info about attachTo on the MDN. Do you have any ideas?
-
