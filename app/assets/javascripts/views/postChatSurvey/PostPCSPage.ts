@@ -11,7 +11,7 @@ const html: string = `
         <p>You can:</p>
         <ul>
         
-        <li id='printOption'><a class="govuk-link" href='#' id='printButton'>print your chat</a></li>
+        <li id='printOption'><a class="govuk-link" href='#' id='printPostChat'>print your chat</a></li>
             <li><a class="govuk-link" id='returnToGovUk' href="http://www.gov.uk">return to GOV.UK</a></li>
             <li>close this window</li>
         </ul>
@@ -78,7 +78,7 @@ export default class PostPCSPage {
             printContainer.style.display = isAndroidAndChrome ? "none" : "";
         }
         
-        const element = this.wrapper.querySelector<HTMLElement>('#printButton');
+        const element = this.wrapper.querySelector<HTMLElement>('#printPostChat');
         if (element) {
             element.addEventListener("click", (e: MouseEvent): void => {
                 let elementList = [
