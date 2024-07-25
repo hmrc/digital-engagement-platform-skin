@@ -131,11 +131,13 @@ export default class CommonChatController {
     }
 
     _launchChat(obj) {
+        console.log('OBJCCC', obj)
         if (this.container) {
             return;
         }
         try{
             this.type = obj.type
+            console.log('OBJTYPECCC', obj.type)
             this._showChat();
             if (obj.state === 'missed') {
                 let msg = messages.unavilable
