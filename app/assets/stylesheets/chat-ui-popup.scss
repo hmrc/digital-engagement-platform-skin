@@ -134,12 +134,6 @@ $page-height: calc(100% - 5px);
         color: black;
     }
 
-    #returnToGovUk:focus {
-        background-color: #ffdd00;
-        text-decoration: underline;
-        color: black;
-    }
-
     #toggleSound:focus {
         background-color: #ffdd00;
         text-decoration: underline;
@@ -604,10 +598,4 @@ $page-height: calc(100% - 5px);
   .up {
     transform: rotate(45deg);
     -webkit-transform: rotate(225deg);
-}
-
-#printPostChat:focus {
-  background-color: #ffdd00;
-  text-decoration: underline;
-  color: black;
 }

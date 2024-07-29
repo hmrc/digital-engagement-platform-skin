@@ -1,6 +1,6 @@
 import CommonPostChatSurvey from "./CommonPostChatSurvey"
 
-const html = `
+const html: string = `
 <div id="postChatSurvey">
 
   <div class="govuk-error-summary" id="errorSummary" data-module="govuk-error-summary">
@@ -205,7 +205,7 @@ const html = `
 `
 
 export default class PostChatSurveyWebchat extends CommonPostChatSurvey {
-  constructor(onSubmitted) {
+  constructor(onSubmitted: (a:object) => void) {
     super(html, onSubmitted)
-}
+  }
 }

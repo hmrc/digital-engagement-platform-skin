@@ -1,6 +1,6 @@
 import CommonPostChatSurvey from "./CommonPostChatSurvey"
 
-export const html = `
+export const html: string = `
 <div id="postChatSurvey">
 
   <div class="govuk-error-summary" id="errorSummary" data-module="govuk-error-summary">
@@ -205,7 +205,7 @@ export const html = `
 `
 
 export default class PostChatSurveyDigitalAssistant extends CommonPostChatSurvey {
-  constructor(onSubmitted) {
+  constructor(onSubmitted: (a:object) => void) {
       super(html, onSubmitted)
   }
 }
