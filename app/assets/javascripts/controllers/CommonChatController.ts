@@ -12,19 +12,36 @@ import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
 import PrintUtils from '../utils/PrintUtils'
 import { messages } from "../utils/Messages";
 
-const automatonDA = {
+interface Survey {
+    id: string;
+    questions: {
+        id: string[];
+        text: string;
+        freeform: boolean;
+    }[];
+}
+
+interface Answers {
+    answers: {
+        id: string | undefined;
+        text: string;
+        freeform: boolean;
+    }[];
+}
+
+const automatonDA: {id: string, name: string} = {
     id: "survey-13000304",
     name: "HMRC_PostChat_Guidance-CUI"
 };
 
-const automatonWebchat = {
+const automatonWebchat: {id: string, name: string} = {
     id: "survey-13000303",
     name: "HMRC_PostChat_Transactional-CUI"
 };
 
-const timestamp = Date.now();
+const timestamp: number = Date.now();
 
-const webchatSurvey = {
+const webchatSurvey: Survey = {
     id: "13000303",
     questions: [
         { id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false },
@@ -36,7 +53,7 @@ const webchatSurvey = {
     ]
 };
 
-const digitalAssistantSurvey = {
+const digitalAssistantSurvey: Survey = {
     id: "13000304",
     questions: [
         { id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false },
@@ -49,6 +66,13 @@ const digitalAssistantSurvey = {
 }
 
 export default class CommonChatController {
+    sdk: any
+    state: ChatStates.NullState
+    minimised: boolean
+    ended: boolean | string
+    escalated: boolean
+    type: string
+    container: any
     constructor() {
         this.sdk = null;
         this.state = new ChatStates.NullState();
@@ -58,63 +82,68 @@ export default class CommonChatController {
         this.type = '';
     }
 
-    getFeatureSwitch(switchName) {
+    getFeatureSwitch(switchName: string): boolean {
       //Feature switches are held by the frontend, so call to the frontend to retrieve the state of each switch. Url is set by the frontend on page load.
-      const http = new XMLHttpRequest();
+      const http: XMLHttpRequest = new XMLHttpRequest();
       http.open("GET", window.featureSwitchUrl + "/" + switchName, false);
       http.send();
 
       return http.status === 204;
     }
 
-    getTextAreaValue(textArea) {
-        return document.getElementById(textArea).value;
+    getTextAreaValue(textArea: string): string {
+        return (document.getElementById(textArea) as HTMLTextAreaElement).value
     }
+    // I have had to cast the above function but I have checked the code and think it is correct. Is this ok? I try to avoid casting where possible.
 
-    getRadioId(radioGroup) {
-        var elements = document.getElementsByName(radioGroup);
+    getRadioId(radioGroup: string) {
+        var elements: NodeListOf<HTMLElement> = document.getElementsByName(radioGroup);
 
         for (var i = 0, l = elements.length; i < l; i++) {
 
-            // @ts-ignore
-            if (elements[i].checked) {
+           
+            if ((elements[i] as HTMLInputElement).checked) {
                 return elements[i].id;
             }
         }
     }
+       // I have had to cast the above function but I have checked the code and think it is correct.
 
-    updateDav3DeskproRefererUrls() {
-        let reportTechnicalIssueElement = document.getElementsByClassName('hmrc-report-technical-issue');
+    updateDav3DeskproRefererUrls(): void {
+        let reportTechnicalIssueElement: HTMLCollectionOf<Element> = document.getElementsByClassName('hmrc-report-technical-issue');
+        let reportTechnicalIssueElementZero = reportTechnicalIssueElement[0] as HTMLAnchorElement
 
         if (reportTechnicalIssueElement.length) {
-            if (reportTechnicalIssueElement[0].href) {
-                let reportTechnicalIssueElementHref = reportTechnicalIssueElement[0].href;
-                reportTechnicalIssueElement[0].href = reportTechnicalIssueElementHref.concat("-dav3");
+            if ((reportTechnicalIssueElementZero).href) {
+                let reportTechnicalIssueElementHref: string = (reportTechnicalIssueElementZero).href;
+                (reportTechnicalIssueElementZero).href = reportTechnicalIssueElementHref.concat("-dav3");
             }
         }
+          // I could not find this className in the skin code but the tests have it as an anchor tag and it is an anchor tag in the DOM using the inspect tool. Is this ok?
 
-        let feedbackLinkElement = document.getElementsByClassName('govuk-phase-banner__text');
+        let feedbackLinkElement: HTMLCollectionOf<Element> = document.getElementsByClassName('govuk-phase-banner__text');
 
         if (feedbackLinkElement.length) {
-            let feedbackLinkHref = feedbackLinkElement[0].getElementsByTagName('a')[0].href;
+            let feedbackLinkHref: string = feedbackLinkElement[0].getElementsByTagName('a')[0].href;
             feedbackLinkElement[0].getElementsByTagName('a')[0].href = feedbackLinkHref.concat("-dav3");
         }
 
-        let accessibilityLinkElement = document.getElementsByClassName('govuk-footer__link');
+        let accessibilityLinkElement: HTMLCollectionOf<Element> = document.getElementsByClassName('govuk-footer__link')
 
         if (accessibilityLinkElement.length) {
-            let accessibilityLinkHref = accessibilityLinkElement[1].href;
-            accessibilityLinkElement[1].href = accessibilityLinkHref.concat("-dav3");
+            let accessibilityLinkHref: string = (accessibilityLinkElement[1] as HTMLAnchorElement).href;
+            (accessibilityLinkElement[1] as HTMLAnchorElement).href = accessibilityLinkHref.concat("-dav3");
         }
     }
+// This is selecting the accessibility statement link from the footer. I have had to cast it but it is an anchor tag. I have checked using the inspect tool. 
 
-    getRadioValue(radioGroup) {
-        var elements = document.getElementsByName(radioGroup);
-        var returnedValue = null;
+    getRadioValue(radioGroup: string): string {
+        var elements: NodeListOf<HTMLElement> = document.getElementsByName(radioGroup);
+        var returnedValue: string | null = null;
 
-        for (var i = 0, l = elements.length; i < l; i++) {
-            if (elements[i].checked) {
-                returnedValue = elements[i].value;
+        for (var i: number = 0, l: number = elements.length; i < l; i++) {
+            if ((elements[i] as HTMLInputElement).checked) {
+                returnedValue = (elements[i] as HTMLInputElement).value;
             }
         }
 
@@ -124,61 +153,71 @@ export default class CommonChatController {
 
         return returnedValue;
     }
+    // Had to cast but used the console to check it was still working and appears to be fine.
 
     getSdk() {
         logger.debug("printing this.sdk.chatDisplayed",this.sdk.chatDisplayed)
         return this.sdk
     }
+    // Left this as any as I really do not know how to handle this.
+    
 
-    _launchChat(obj) {
+    _launchChat(obj: { type: string; state: string }): void {
         console.log('OBJCCC', obj)
         if (this.container) {
             return;
         }
         try{
             this.type = obj.type
-            console.log('OBJTYPECCC', obj.type)
+            console.log('OBJTYPECCC', typeof obj.type)
             this._showChat();
             if (obj.state === 'missed') {
-                let msg = messages.unavilable
+                let msg: string = messages.unavilable
                 this.container.getTranscript().addSystemMsg({msg: msg}, Date.now());
-                document.getElementById('ciapiSkinFooter').style.display = 'none'
+                let ciapiSkinFooter: HTMLElement | null = document.getElementById('ciapiSkinFooter')
+                if(ciapiSkinFooter){
+                    ciapiSkinFooter.style.display = 'none'
+                }
+                // Had to use a nested if statement to show that the ciapiSkinFooter was not null it would not let me used optional chaining symbol '?' with style. We could get rid of the nested if and use the '!' to say that it definitely will be present. The HTML is there so perhaps that is tidier than a nested if but probably not as safe according to TS. Although there is no if on the else to catch it if it is not truthy.
+                
             } else {
                     this._displayOpenerScripts();
         
                     this.sdk.chatDisplayed({
                         "customerName": "You",
-                        "previousMessagesCb": (resp) => this._moveToChatEngagedState(resp.messages),
+                        "previousMessagesCb": (resp: any) => this._moveToChatEngagedState(resp.messages),
                         "disconnectCb": () => logger.info("%%%%%% disconnected %%%%%%"),
                         "reConnectCb": () => logger.info("%%%%%% reconnected %%%%%%"),
                         "failedCb": () => logger.info("%%%%%% failed %%%%%%"),
                         "openerScripts": null,
                         "defaultAgentAlias": "HMRC"
                     });
+                    // Typed the above as any due to the sdk. However, inference is saying that it is { messages: never[] | undefined }. I am not too familiar with never but it is used where a function always throws an exception or never returns. Do you have any ideas?
         
                     this._removeAnimation();
         
-                    let dav3Skin = document.getElementById("ciapiSkin");
+                    let dav3Skin: HTMLElement | null = document.getElementById("ciapiSkin");
         
                     if (dav3Skin) {
                         this.updateDav3DeskproRefererUrls();
                     }
         
-                    const existingErrorMessage = document.getElementById("error-message")
+                    const existingErrorMessage: HTMLElement | null = document.getElementById("error-message")
+                    // Cannot find error-message in the codebase or using the inspect but it is a HTMLElement in the tests for the CommonChatController
         
                     if (existingErrorMessage) {
                         existingErrorMessage.remove()
                     }
             }
-        } catch (e) {
+        } catch (e: unknown) {
             logger.error("!!!! launchChat got exception: ", e);
         }
 
     }
 
-    _removeAnimation() {
-        let loadingAnimation = document.getElementById("cui-loading-animation");
-        let cuiContainer = document.getElementById("cui-messaging-container");
+    _removeAnimation(): void {
+        let loadingAnimation: HTMLElement | null = document.getElementById("cui-loading-animation");
+        let cuiContainer: HTMLElement | null = document.getElementById("cui-messaging-container");
 
         if (loadingAnimation && cuiContainer) {
             loadingAnimation.style.display = 'none';
@@ -186,10 +225,10 @@ export default class CommonChatController {
         }
     }
 
-    _showChat() {
-        const embeddedDiv = this._getEmbeddedDiv();
-        const popupDiv = this._getPopupDiv();
-        const webchatOnly = this._isWebchatOnly();
+    _showChat(): void {
+        const embeddedDiv: HTMLElement | null = this._getEmbeddedDiv();
+        const popupDiv: HTMLElement | null = this._getPopupDiv();
+        const webchatOnly: boolean = this._isWebchatOnly();
 
         try {
             if (popupDiv) {
@@ -202,19 +241,20 @@ export default class CommonChatController {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 document.getElementsByTagName("body")[0].appendChild(this.container.element());
             }
+            // Had to extend the global window interface in index.d.tsto get the Inq to work. I have set it as any as when console logged it is returning a very complex object. It was not happy with only being typed {}. Do you have any ideas?
 
             this.container.setEventHandler(this);
 
             this._moveToChatShownState();
-        } catch (e) {
+        } catch (e: unknown) {
             logger.error("!!!! _showChat got exception: ", e);
         }
     }
 
-    _displayOpenerScripts() {
+    _displayOpenerScripts(): void {
         this.sdk = window.Inq.SDK;
 
-        this.sdk.getOpenerScripts((openerScripts) => {
+        this.sdk.getOpenerScripts((openerScripts: any) => {
             if (openerScripts == null)
                 return;
 
@@ -224,43 +264,45 @@ export default class CommonChatController {
         });
     }
 
-    _moveToChatEngagedState(previousMessages = []) {
+    _moveToChatEngagedState(previousMessages = []): void {
         this._moveToState(new ChatStates.EngagedState(
             this.sdk,
             this.container,
             previousMessages,
             () => this.container.confirmEndChat()));
     }
+    // Previous messages is set to a default parameter. I console logged previousMessages and it gave me []. The inference wants to type it as never[]. However, I am not sure?
 
-    _moveToState(state) {
+    _moveToState(state: ChatStates.NullState | ChatStates.EngagedState | ChatStates.ShownState | ChatStates.ClosingState): void {
         this.state = state;
     }
 
-    _getEmbeddedDiv() {
-        let baseDiv = document.getElementById("nuanMessagingFrame");
+    _getEmbeddedDiv(): HTMLElement | null {
+        let baseDiv: HTMLElement | null = document.getElementById("nuanMessagingFrame");
         return baseDiv
     }
 
-    _getPopupDiv() {
-        let baseDiv = document.getElementById("tc-nuance-chat-container");
+    _getPopupDiv(): HTMLElement | null {
+        let baseDiv: HTMLElement | null = document.getElementById("tc-nuance-chat-container");
         return baseDiv
     }
 
-    _isWebchatOnly() {
-        let webchatOnlyElement = document.getElementsByClassName("webchat-only");
+    _isWebchatOnly(): boolean {
+        let webchatOnlyElement: HTMLCollectionOf<Element> = document.getElementsByClassName("webchat-only");
 
         return webchatOnlyElement.length > 0
     }
+    // There are 0 instances of this in the codebase. However, it is typed HTMLCollection... as this is what it will return if there were multiple elements with this className
 
-    _moveToChatShownState() {
+    _moveToChatShownState(): void {
         this._moveToState(new ChatStates.ShownState(
-            (text) => this._engageChat(text),
+            (text: string) => this._engageChat(text),
             () => this.closeChat()));
         this.minimised = false;
     }
 
-    _engageChat(text) {
-        this.sdk.engageChat(text, (resp) => {
+    _engageChat(text: string): void {
+        this.sdk.engageChat(text, (resp: { httpStatus: number }) => {
             logger.debug("++++ ENGAGED ++++ ->", resp);
             if (resp.httpStatus == 200) {
                 this._moveToChatEngagedState();
@@ -268,7 +310,7 @@ export default class CommonChatController {
         });
     }
 
-    closeChat() {
+    closeChat(): void {
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
             if (this.state.escalated) {
                 this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automatonWebchat, timestamp);
@@ -290,11 +332,14 @@ export default class CommonChatController {
         }
     }
 
-    onPrint(e) {
+    onPrint(e: Event): boolean {
         e.preventDefault;
-        document.getElementById("print-date").innerHTML = PrintUtils.getPrintDate();
+        const printDate: HTMLElement | null = document.getElementById("print-date")
+        if(printDate){
+            printDate.innerHTML = PrintUtils.getPrintDate();
+        }
 
-        const elementList = [
+        const elementList: string[] = [
             "app-related-items",
             "govuk-back-link",
             "govuk-phase-banner",
@@ -302,10 +347,10 @@ export default class CommonChatController {
             "govuk-footer",
             "govuk-heading-xl",
             "hmrc-user-research-banner",
-            "cbanner-govuk-cookie-banner"
+            "cbanner-govuk-cookie-banner",
         ];
 
-        const printList = [
+        const printList: string[] = [
         "govuk-grid-row",
         "govuk-grid-column-two-thirds",
         "govuk-main-wrapper"
@@ -313,9 +358,9 @@ export default class CommonChatController {
 
         PrintUtils.removeElementsForPrint(elementList);
 
-        if (document.getElementById("nuanMessagingFrame").classList.contains("ci-api-popup")) {
+        if (document.getElementById("nuanMessagingFrame")?.classList.contains("ci-api-popup")) {
             document.body.querySelectorAll('*').forEach(function(node) {
-                printList.forEach(function(item) {
+                printList.forEach(function(item: string): void {
                     if (node.classList.contains(item)) {
                         node.classList.add("govuk-!-display-none-print");
                     }
@@ -328,20 +373,21 @@ export default class CommonChatController {
         return false;
     }
 
-    _sendPostChatSurveyWebchat(sdk) {
+    _sendPostChatSurveyWebchat(sdk: any): PostChatSurveyWebchatService {
         return new PostChatSurveyWebchatService(sdk);
     }
 
-    _sendPostChatSurveyDigitalAssistant(sdk) {
+    _sendPostChatSurveyDigitalAssistant(sdk: any): PostChatSurveyDigitalAssistantService {
         return new PostChatSurveyDigitalAssistantService(sdk);
     }
+    // Two methods above are SDK. I console logged the second as it was DA. It is a very complex object, we can set the parameter to {} but as other SDK stuff is typed any it may not be actually checking it how we expect. Please let me know what you think?
 
-    onSkipToTopLink(e) {
+    onSkipToTopLink(e: Event) {
         e.preventDefault();
-        document.getElementById("skipToTopLink").focus();
+        document.getElementById("skipToTopLink")?.focus();
     }
 
-    closeNuanceChat() {
+    closeNuanceChat(): void {
         if(this.sdk) {
             if (this.sdk.isChatInProgress()) {
                 this.sdk.closeChat();
@@ -349,48 +395,49 @@ export default class CommonChatController {
         }
     }
 
-    showEndChatPage(showThanks) {
+    showEndChatPage(showThanks: boolean): void {
         this.container._removeSkinHeadingElements();
         this.container.showPage(new PostPCSPage(showThanks));
-        document.getElementById("heading_chat_ended").focus();
+        document.getElementById("heading_chat_ended")?.focus();
         this.closeNuanceChat();
     }
 
-    _moveToChatNullState() {
+    _moveToChatNullState(): void {
         this._moveToState(new ChatStates.NullState());
     }
 
-    nuanceFrameworkLoaded(w) {
+    nuanceFrameworkLoaded(w: Window & typeof globalThis) {
         logger.info("### framework loaded");
         this.sdk = w.Inq.SDK;
         if (this.sdk.isChatInProgress()) {
-            document.getElementById("error-message").setAttribute("class", "chat-in-progress");
+            document.getElementById("error-message")?.setAttribute("class", "chat-in-progress");
             logger.info("************************************")
             logger.info("******* chat is in progress ********")
             logger.info("************************************")
         }
     }
+    // Console log did not return 'w' and inference has it as w: { Inq: { SDK: any } }. I have looked in tests and it appears we pass through Window to this method. Obviously the parameter is called w and the inferred type on the test is Window & typeof globalThis. Should we go with this? I really am struggling to piece together how window is used here though.
 
-    _moveToClosingState() {
+    _moveToClosingState(): void {
         this._moveToState(new ChatStates.ClosingState(() => this.closeChat()))
     }
 
-    onSend() {
-        const text = this.container.currentInputText().trim();
+    onSend(): void {
+        const text: string = this.container.currentInputText().trim();
         this.container.clearCurrentInputText();
         if (text !== "")
             this.state.onSend(text);
     }
 
-    onCloseChat() {
-        const popupChatContainer = document.getElementsByClassName("ci-api-popup");
+    onCloseChat(): void {
+        const popupChatContainer: HTMLCollectionOf<Element> = document.getElementsByClassName("ci-api-popup");
         this.state.onClickedClose();
         if (popupChatContainer.length > 0) {
             this.onShowHamburger();
         }
     }
 
-    onHideChat() {
+    onHideChat(): void {
         if (!this.minimised) {
             this.container.minimise();
             if(this.sdk) {
@@ -400,7 +447,7 @@ export default class CommonChatController {
         }
     }
 
-    onRestoreChat() {
+    onRestoreChat(): void {
         if (this.minimised) {
             this.container.restore();
             if(this.sdk) {
@@ -408,42 +455,42 @@ export default class CommonChatController {
             }
             this.minimised = false;
             try{
-                document.getElementById("ciapiSkinHideButton").focus();
+                document.getElementById("ciapiSkinHideButton")?.focus();
             } catch {
                 console.log('DEBUG: ' + 'Element not found' )
             }
         }
     }
 
-    onShowHamburger() {
-        let x = document.getElementById("hamburgerMenu").getAttribute("aria-expanded");
+    onShowHamburger(): void {
+        let x: string | null | undefined = document.getElementById("hamburgerMenu")?.getAttribute("aria-expanded");
         if (x == "true") {
             x = "false"
         } else {
             x = "true"
         }
-        document.getElementById("hamburgerMenu").setAttribute("aria-expanded", x);
-        document.getElementById("hamburgerList").classList.toggle("show");
+        document.getElementById("hamburgerMenu")?.setAttribute("aria-expanded", x);
+        document.getElementById("hamburgerList")?.classList.toggle("show");
     }
 
-    onAccessibilityStatement() {
-        let url = new URL(window.location.href).pathname.replaceAll("/", "%2F");
+    onAccessibilityStatement(): void {
+        let url: string = new URL(window.location.href).pathname.replaceAll("/", "%2F");
         window.open("https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend?referrerUrl=" + url + "-skin-hmrc", "_blank");
     }
 
-    onStartTyping() {
+    onStartTyping(): void {
         this.sdk.sendActivityMessage("startTyping");
     }
 
-    onStopTyping() {
+    onStopTyping(): void {
         this.sdk.sendActivityMessage("stopTyping");
     }
 
-    hasBeenSurveyed() {
+    hasBeenSurveyed(): boolean {
         return document.cookie.includes("surveyed=true")
     }
 
-    onConfirmEndChat() {
+    onConfirmEndChat(): void {
         this.closeNuanceChat();
         this.state.escalated = this.state.isEscalated();
 
@@ -465,8 +512,8 @@ export default class CommonChatController {
 
     }
 
-    onPostChatSurveyWebchatSubmitted(surveyPage) {
-        const answers = {
+    onPostChatSurveyWebchatSubmitted(surveyPage: {}) {
+        const answers: Answers = {
             answers: [
                 {id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false},
                 {id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false},
@@ -485,8 +532,9 @@ export default class CommonChatController {
         this.showEndChatPage(true);
     }
 
-    onPostChatSurveyDigitalAssistantSubmitted(surveyPage) {
-        const answers = {
+    onPostChatSurveyDigitalAssistantSubmitted(surveyPage: object): void {
+        console.log('SURVEYPAGEDA', surveyPage)
+        const answers: Answers = {
             answers: [
                 {id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false},
                 {id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false},
@@ -504,44 +552,40 @@ export default class CommonChatController {
         this.showEndChatPage(true);
     };
 
-    onSoundToggle(e) {
-        let soundElement = document.getElementById("toggleSound");
-        let isActive = soundElement.classList.contains("active");
+    // Apparently .detach() will not work but it is jquery. I think parameter may have to be typed as jquery object but my understanding was that we had removed jquery?
 
-        if (isActive) {
+    onSoundToggle() {
+        let soundElement: HTMLElement | null = document.getElementById("toggleSound");
+        let isActive: boolean | undefined = soundElement?.classList.contains("active");
+
+        if (isActive && soundElement) {
             soundElement.classList.remove("active");
             soundElement.classList.add("inactive");
-
             soundElement.innerHTML = "Turn notification sound on";
-        } else {
+
+        } else if (!isActive && soundElement){
             soundElement.classList.remove("inactive");
             soundElement.classList.add("active");
-
             soundElement.innerHTML = "Turn notification sound off";
         }
-
-        sessionStorage.setItem("isActive", !isActive);
-
+        sessionStorage.setItem("isActive", `${!isActive}`);
     }
 
-    onSizeToggle(e) {
-        let container = document.getElementById("ciapiSkinContainer");
-        let isStandard = container.classList.contains("ciapiSkinContainerStandardSize");
-        let sizeButton = document.getElementById('toggleSizeButton')
+    onSizeToggle() {
+        let container: HTMLElement | null = document.getElementById("ciapiSkinContainer");
+        let isStandard: boolean | undefined = container?.classList.contains("ciapiSkinContainerStandardSize");
+        let sizeButton: HTMLElement | null = document.getElementById('toggleSizeButton')
 
-        if (isStandard) {
+        if (isStandard && container && sizeButton) {
             container.classList.remove("ciapiSkinContainerStandardSize");
             container.classList.add("ciapiSkinContainerLargerSize");
-
             sizeButton.innerHTML = "Decrease chat size";
-        } else {
+
+        } else if(!isStandard && container && sizeButton){
             container.classList.remove("ciapiSkinContainerLargerSize");
             container.classList.add("ciapiSkinContainerStandardSize");
-
             sizeButton.innerHTML = "Increase chat size";
         }
-
-        sessionStorage.setItem("isStandard", !isStandard);
-
+        sessionStorage.setItem("isStandard", `${!isStandard}`);
     }
 };
