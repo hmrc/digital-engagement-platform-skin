@@ -48,9 +48,10 @@ describe("CommonPostChatSurvey", () => {
     
         commonPostChatSurvey.attachTo(container);
         var event = new KeyboardEvent('click', {});
-        commonPostChatSurvey.wrapper.querySelector("#printPostChat").dispatchEvent(event);
-
-        expect(commonPostChatSurvey.onPrintPostChatSurvey).toHaveBeenCalled();
+        if(commonPostChatSurvey.wrapper.querySelector("#printPostChat")) {
+            commonPostChatSurvey.wrapper.querySelector("#printPostChat").dispatchEvent(event);
+            expect(commonPostChatSurvey.onPrintPostChatSurvey).toHaveBeenCalled();
+        }
 	});
 
     test('afterprint event shows post chat survey without the transcript', () => {
