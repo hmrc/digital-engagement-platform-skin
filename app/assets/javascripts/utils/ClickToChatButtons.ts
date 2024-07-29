@@ -4,25 +4,23 @@ import ClickToChatButton from './ClickToChatButton';
 
 type  displayState = "chatactive" | "outofhours" | "ready" | "busy"
 interface ClickToChatObjectInterface {
-    c2cIdx: string, 
-    // Currently typed as a string but one of the tests also has it as a number. Perhaps it is safer to type it as any as we are not sure? This query persists through the page but I will not repeat it as I go.
+    c2cIdx: any, 
     displayState: displayState,
     launchable: boolean
 }
 
 export default class ClickToChatButtons {
     buttons: any
-    onClicked: (c2cIdx: string) => void;
+    onClicked: (c2cIdx: any) => void;
     displayStateMessages: { outofhours: string; ready: string; busy: string; chatactive: string; }
     
-    constructor(onClicked: (c2cIdx: string) => void, displayStateMessages: { outofhours: string; ready: string; busy: string; chatactive: string; }) {
+    constructor(onClicked: (c2cIdx: any) => void, displayStateMessages: { outofhours: string; ready: string; busy: string; chatactive: string; }) {
         this.buttons = {};
         this.onClicked = onClicked;
         this.displayStateMessages = displayStateMessages;
     }
     
     addButton(c2cObj: ClickToChatObjectInterface, button: ClickToChatButton, divID: string): void {
-        // I think ClickToChatButton is correct as we are adding a button. Do you mind double checking please?
         if (!document.getElementById("ciapiSkinContainer")) {
             this.buttons[c2cObj.c2cIdx] = button;
             this._updateButton(c2cObj, button, divID === "tc-nuance-chat-container");

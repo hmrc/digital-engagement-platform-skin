@@ -23,7 +23,6 @@ export default class ClickToChatButton {
             this.parentElement.innerHTML = "";
             this.parentElement.appendChild(buttonDiv);
         }
-
         return buttonDiv;
     }
 }

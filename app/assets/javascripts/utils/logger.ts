@@ -22,8 +22,6 @@ export const debug = (info: string, obj?: {}): void =>  {
     } 
 }
 
-// I have set this as an object only. The issue with setting an interface is that the object is complicated and changes properties depending on what the DA is doing. AL
-
 export const error = (info: string, obj: unknown): void =>  {
     if(envChecker() == 'dev'){
         if(obj){
@@ -33,4 +31,3 @@ export const error = (info: string, obj: unknown): void =>  {
         }
     } 
 }
-// Obj here has to be typed as unknown because it is throwing an error on the JsonUtils.ts file where it is called. I think this is because TS cannot know what the object will be that comes from the fetch. It could be data or it could be an error.

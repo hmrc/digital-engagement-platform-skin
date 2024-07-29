@@ -9,8 +9,6 @@ interface nullEventHandlerInterface {
     onCloseChat: () => void,
     onHideChat: () => void,
     onRestoreChat: () => void,
-    // should the below be included in the interface? It is present in EndChatPopup and without it being in here, it throws an error
-    // onCancelEndChat: (e: Event, toPrint: boolean | undefined) => void,
     onConfirmEndChat: () => void,
     onSizeToggle: () => void,
     onSoundToggle: () => void,
@@ -27,8 +25,6 @@ export const nullEventHandler: nullEventHandlerInterface = {
     onCloseChat: function (): void {},
     onHideChat: function (): void {},
     onRestoreChat: function (): void {},
-    // should this be added to the nullEventHandler?
-    // onCancelEndChat: function (e: Event, toPrint: boolean | undefined): void {},
     onConfirmEndChat: function (): void {},
     onSizeToggle: function (): void {},
     onSoundToggle: function (): void {},
@@ -42,15 +38,12 @@ export default class ChatContainer {
     container: HTMLElement
     closeMethod: string | null
     stopTypingTimeoutId: number | NodeJS.Timeout | undefined
-    // I think we only need NodeJS.Timeout if it runs in a node environment which I think this is just browser so we can remove it?
     isCustomerTyping: boolean;
     typingEventThresholdMillis: number;
     SDK: any;
-    // Should I leave this as any? I am unsure how to type the SDK.
     content: HTMLElement | null
     custInput: HTMLTextAreaElement | null
-    soundButton: any;
-    // soundButton comment below on soundButton will determine the answer to this one.
+    soundButton: Element | null
     transcript: Transcript;
     endChatPopup: EndChatPopup;
     inputBoxFocus: boolean;
@@ -58,7 +51,6 @@ export default class ChatContainer {
     eventHandler: nullEventHandlerInterface
 
     constructor(messageClasses: typeof import("../DefaultClasses"), containerHtml: string, SDK: any) {
-// the typeof import was inferred, are you in agreement that this is correct?
         this.container = document.createElement("div");
         this.container.id = "ciapiSkin";
         this.eventHandler = nullEventHandler;
@@ -73,8 +65,7 @@ export default class ChatContainer {
         this.container.insertAdjacentHTML("beforeend", containerHtml);
         this.content = this.container.querySelector<HTMLElement>("#ciapiSkinChatTranscript");
         this.custInput = this.container.querySelector<HTMLTextAreaElement>("#custMsg");
-        this.soundButton = this.container.querySelector(".sound-button")
-        // soundButton is probably going to be a HTMLElement but I cannot find it being used in the code base under 'sound-button'. However, we do use the variable soundButton. Should I leave it for the moment?
+        this.soundButton = this.container.querySelector<Element>(".sound-button")
         this._registerEventListeners();
         this.transcript = new Transcript(this.content, messageClasses);
         this.endChatPopup = new EndChatPopup(this.container.querySelector("#ciapiSkinContainer"), this);
@@ -154,7 +145,6 @@ export default class ChatContainer {
         const nuanceMessageData = linkEl.dataset.nuanceMessageData;
         const nuanceMessageText = linkEl.dataset.nuanceMessageText;
         const nuanceDatapass = linkEl.dataset.nuanceDatapass;
-        // Tricky to type these until we know the above typing.
 
         // Prevent defaults
         if (linkHref == "#" || linkHref == "") e.preventDefault();
@@ -169,7 +159,6 @@ export default class ChatContainer {
         } else if (!!nuanceMessageText) {
             this.SDK.sendMessage(nuanceMessageText);
         }
-        // This one is difficult, I am not sure of the typing and I cannot get it error free. Do you have any ideas on what the typing may be? I tried e:Event, casting linkEl as HTMLAnchorElement and linkHref as string | null | undefined but I get an error. I console logged linkEl and it gave an anchor tag so HTMLAnchorElement type.  In transcript, linkEl is an anchor tag.
 
         // Handle External Links
         if (linkHref != "#" && linkHref != "") {
@@ -195,8 +184,6 @@ export default class ChatContainer {
 
     processTranscriptEvent(e: any): void {
         this.processExternalAndResponsiveLinks(e);
-        // https://stackoverflow.com/questions/28900077/why-is-event-target-not-element-in-typescript
-        //  I did have e: Event and then tried to use instanceof in the if statement but it failed the unit tests so I have swapped it back to e: any. Do you have any ideas on what this could be?
         if(e.target){
         const nuanceMessageText: string = JSON.stringify(e.target?.dataset.nuanceMessageText);
             if (
@@ -247,9 +234,6 @@ export default class ChatContainer {
           console.log('DEBUG: ' + 'Elements not found' )
         }
       }
-      // 1) I have currently set the parameter to any. I was considering Event and then casting e.target as an Element but I was not sure it is an element. If it is a DOMEvent it is likely that it will be an Element. However, when I search the codebase for disablePreviousWidgets, it only shows in tests and the file I am currently working on.
-      
-      // 2) I have also set querySelectorAll() to Any.
 
     setEventHandler(eventHandler: nullEventHandlerInterface): void {
         this.eventHandler = eventHandler;
@@ -274,7 +258,6 @@ export default class ChatContainer {
             element.addEventListener("click", handler);
         }
     }
-    // What do you think of the typings of the above two methods. I am not getting errors and it seems to link up with the processKeypressEvent above and the below registerKeypressEventListener / registerEventListener(). When I console.log handler it was passing functions. The inference of VSCode wanted to pass an object containing all of the event listeners with this as HTMLElement and ev: MouseEvent
 
     _registerEventListeners(): void {
 
@@ -393,7 +376,6 @@ export default class ChatContainer {
         const endChatGiveFeedback = Array.from(
             document.querySelectorAll<HTMLElement>('.dialog')
         ).pop();
-        // I could not find dialog in the codebase other than in the tests. However, the tests suggest it will be a HTMLElement. We also use .focus on endChatGiveFeedback which does not exist on Element and that is the default returned by querySelectorAll. .focus is available on HTMLElement. What do you think?
 
         if (this.closeMethod === "Button") {
             const popupChatContainer: HTMLCollectionOf<Element> = document.getElementsByClassName("ci-api-popup");
@@ -491,4 +473,3 @@ export default class ChatContainer {
         page.attachTo(this.container.querySelector<HTMLElement>("#ciapiChatComponents"));
     }
 }
-// I have console logged page and typeof page and it is apparently an object but when I set page: {}. It gives me an error on attachTo which is Property 'attachTo' does not exist on type '{}'.ts(2339). I could not find info about attachTo on the MDN. Do you have any ideas?
