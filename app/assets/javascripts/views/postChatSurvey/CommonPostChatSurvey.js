@@ -17,6 +17,15 @@ export default class CommonPostChatSurvey {
         this.wrapper.querySelector("#submitPostChatSurvey").addEventListener(
             "click",
             (e) => {
+                e.preventDefault()
+                    this.onSubmitted(this);
+            }
+        );
+
+        this.wrapper.querySelector("#skipSurvey").addEventListener(
+            "click",
+            (e) => {
+                sessionStorage.setItem("surveySkipped", true);
                 this.onSubmitted(this);
             }
         );

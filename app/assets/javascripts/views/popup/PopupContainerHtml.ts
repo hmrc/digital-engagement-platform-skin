@@ -77,7 +77,7 @@ export function ContainerHtml(isEscalated) {
 <div id="ciapiSkinMinimised">
     <button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button">
         <h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2>
-        <div id="ciapiSkinExpandButton" role="button" tabindex="0"><i class="arrow up" draggable="false" role="button" type="button" aria-label="Expand chat window"></i></div>
+        <div id="ciapiSkinExpandButton" role="button"><i class="arrow up" draggable="false" role="button" type="button" aria-label="Expand chat window"></i></div>
     </button>
 </div>
 `}
