@@ -389,7 +389,7 @@ describe("ChatContainer", () => {
 
         chatContainer.onCancelEndChat();
 
-        expect(setAttribute).toBeCalledWith("tabindex", 0);
+        expect(setAttribute).toBeCalledWith("tabindex", '0');
         expect(setAttribute).toBeCalledTimes(5);
         expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
         expect(focus).toBeCalledTimes(1);
@@ -432,7 +432,7 @@ describe("ChatContainer", () => {
 
        chatContainer.onCancelEndChat();
 
-       expect(setAttribute).toBeCalledWith("tabindex", 0);
+       expect(setAttribute).toBeCalledWith("tabindex", '0');
        expect(setAttribute).toBeCalledTimes(5);
        expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
        expect(focus).toBeCalledTimes(1);
@@ -458,7 +458,7 @@ describe("ChatContainer", () => {
 
         chatContainer.onCancelEndChat();
 
-        expect(setAttribute).toBeCalledWith("tabindex", 0);
+        expect(setAttribute).toBeCalledWith("tabindex", '0');
         expect(setAttribute).toBeCalledTimes(5);
         expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
         expect(focus).toBeCalledTimes(1);
