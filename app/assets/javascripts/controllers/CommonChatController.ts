@@ -162,7 +162,7 @@ export default class CommonChatController {
     // Left this as any as I really do not know how to handle this.
     
 
-    _launchChat(obj: { type: string; state: string }): void {
+    _launchChat(obj: { type: string; state?: string }): void {
         console.log('OBJCCC', obj)
         if (this.container) {
             return;

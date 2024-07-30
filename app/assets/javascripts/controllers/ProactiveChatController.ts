@@ -11,7 +11,6 @@ export default class ProactiveChatController {
             state: obj.state,
             type: 'proactive'
         }
-        console.log('PROACTIVEOBJ', obj)
         this.commonChatController._launchChat(proactiveObj);
     }
 }
