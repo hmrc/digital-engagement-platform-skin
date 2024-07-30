@@ -435,8 +435,7 @@ export default class ChatContainer {
     }
 
     _focusOnNextAutomatonMessage(): void {
-        setTimeout(function(_: any): void {
-            //If I do not delete the parameter, it needs typed. However, it is not being read. What should I do?
+        setTimeout(function(): void {
             var lastAgentMessage = Array.from(
                 document.querySelectorAll<HTMLElement>('.ciapi-agent-message')
               ).pop();
