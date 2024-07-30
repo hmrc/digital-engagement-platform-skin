@@ -340,7 +340,6 @@ export default class Transcript {
 
         const buttonElements = controlData.text.map((text,idx) => {
             let listItemEl = document.createElement("li");
-
             let linkEl = document.createElement("a");
             linkEl.href = '#';
 
@@ -353,7 +352,6 @@ export default class Transcript {
                 'event': controlData.event.name,
                 'node': node.id,
             }
-
             linkEl.innerText = text;
             listItemEl.append(linkEl);
             return listItemEl;
@@ -422,7 +420,6 @@ export default class Transcript {
 
 
     getPrintTimeStamp(msgTimestamp) {
-
         let strTime = "";
 
         if (msgTimestamp != "") {

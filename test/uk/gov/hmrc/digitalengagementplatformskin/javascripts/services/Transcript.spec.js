@@ -200,4 +200,59 @@ describe("Transcript", () => {
 
         expect(msg).toBe("<this is ' test>");
     });
+
+    const dateString = "2024-01-01T00:00:00";
+    const timeStamp = Date.parse(dateString);
+
+    it('Print time stamp with parameter', () => {
+        const content = {
+            insertAdjacentHTML: jest.fn(),
+            scrollTo: jest.fn(),
+            scrollHeight: 314
+        }
+        const transcript = new Transcript(content, messageClasses);
+
+        const time = transcript.getPrintTimeStamp(timeStamp);
+
+        expect(time).toBe('12:00 AM')
+    })
+
+    it('Print time stamp with empty string', () => {
+        const content = {
+            insertAdjacentHTML: jest.fn(),
+            scrollTo: jest.fn(),
+            scrollHeight: 314
+        }
+        const transcript = new Transcript(content, messageClasses);
+
+        const time = transcript.getPrintTimeStamp('');
+
+        expect(time).toBe("");
+    })
+
+    it('Get timestamp prefix', () => {
+        const content = {
+            insertAdjacentHTML: jest.fn(),
+            scrollTo: jest.fn(),
+            scrollHeight: 314
+        }
+        const transcript = new Transcript(content, messageClasses);
+
+        const timestampPrefix = transcript._getTimestampPrefix(timeStamp)
+
+        expect(timestampPrefix).toBe('<span class=\"govuk-visually-hidden\">12:00 AM</span>')
+    })
+
+    it('Get Message time stamp prefix', () => {
+        const content = {
+            insertAdjacentHTML: jest.fn(),
+            scrollTo: jest.fn(),
+            scrollHeight: 314
+        }
+        const transcript = new Transcript(content, messageClasses);
+
+        const messageTimestampPrefix = transcript._getMsgTimestampPrefix(timeStamp, ' Automated message : ', 'h3')
+
+        expect(messageTimestampPrefix).toBe('<h3>12:00 AM Automated message : </h3>')
+    })
 });
