@@ -67,7 +67,7 @@ const digitalAssistantSurvey: Survey = {
 
 export default class CommonChatController {
     sdk: any
-    state: ChatStates.NullState
+    state: ChatStates.NullState | ChatStates.EngagedState
     minimised: boolean
     ended: boolean | string
     escalated: boolean
@@ -163,13 +163,11 @@ export default class CommonChatController {
     
 
     _launchChat(obj: { type: string; state?: string }): void {
-        console.log('OBJCCC', obj)
         if (this.container) {
             return;
         }
         try{
             this.type = obj.type
-            console.log('OBJTYPECCC', typeof obj.type)
             this._showChat();
             if (obj.state === 'missed') {
                 let msg: string = messages.unavilable
@@ -312,12 +310,13 @@ export default class CommonChatController {
 
     closeChat(): void {
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
-            if (this.state.escalated) {
+            if (this.state instanceof ChatStates.EngagedState && this.state.escalated) {
                 this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automatonWebchat, timestamp);
             } else {
                 this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automatonDA, timestamp);
             }
         }
+        // I could not get this method to run but had to add type checking in the if statement because .escalated is only on the EngagedState method. Are you happy with this or have any ideas how we can double check it still runs the if case? In theory it should still run fine. 
 
         if(this.ended){
             this.container.destroy();
@@ -492,7 +491,9 @@ export default class CommonChatController {
 
     onConfirmEndChat(): void {
         this.closeNuanceChat();
-        this.state.escalated = this.state.isEscalated();
+        if(this.state instanceof ChatStates.EngagedState){
+            this.state.escalated = this.state.isEscalated();
+        } 
 
         this._moveToClosingState();
 
@@ -501,7 +502,7 @@ export default class CommonChatController {
         if (this.hasBeenSurveyed()) {
             this.showEndChatPage(false);
         } else {
-            if (this.state.escalated) {
+            if (this.state instanceof ChatStates.EngagedState && this.state.escalated) {
                 this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automatonWebchat, timestamp);
                 this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
             } else {
@@ -512,7 +513,7 @@ export default class CommonChatController {
 
     }
 
-    onPostChatSurveyWebchatSubmitted(surveyPage: {}) {
+    onPostChatSurveyWebchatSubmitted(surveyPage: any) {
         const answers: Answers = {
             answers: [
                 {id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false},
@@ -532,8 +533,9 @@ export default class CommonChatController {
         this.showEndChatPage(true);
     }
 
-    onPostChatSurveyDigitalAssistantSubmitted(surveyPage: object): void {
-        console.log('SURVEYPAGEDA', surveyPage)
+    // VSCode infers surveyPage type as Object. However, this throws an error on .detach() with the error message Property 'detach' does not exist on type 'object'.ts(2339). From what I can tell the .detach method is being used on either the CommonPostChatSurvey.ts or the PostPCSPage.ts. Do you have any ideas what it may be? I have typed as any for the time being to get rid of the error.
+
+    onPostChatSurveyDigitalAssistantSubmitted(surveyPage: any): void {
         const answers: Answers = {
             answers: [
                 {id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false},
@@ -552,9 +554,9 @@ export default class CommonChatController {
         this.showEndChatPage(true);
     };
 
-    // Apparently .detach() will not work but it is jquery. I think parameter may have to be typed as jquery object but my understanding was that we had removed jquery?
+    // Same issue as the method above.
 
-    onSoundToggle() {
+    onSoundToggle(): void {
         let soundElement: HTMLElement | null = document.getElementById("toggleSound");
         let isActive: boolean | undefined = soundElement?.classList.contains("active");
 
@@ -571,7 +573,7 @@ export default class CommonChatController {
         sessionStorage.setItem("isActive", `${!isActive}`);
     }
 
-    onSizeToggle() {
+    onSizeToggle(): void {
         let container: HTMLElement | null = document.getElementById("ciapiSkinContainer");
         let isStandard: boolean | undefined = container?.classList.contains("ciapiSkinContainerStandardSize");
         let sizeButton: HTMLElement | null = document.getElementById('toggleSizeButton')
