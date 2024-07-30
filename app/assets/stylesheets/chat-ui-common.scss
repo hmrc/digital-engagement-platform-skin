@@ -168,6 +168,10 @@ $footer-top-border-height: 3px;
     clear: both;
 }
 
+.ciapi-agent-message ul li {
+    padding: 5px 0;
+}
+
 @media print {
     .govuk-grid-column-two-thirds {
         width: 100%;

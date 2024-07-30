@@ -1,13 +1,13 @@
 import CommonPostChatSurvey from "./CommonPostChatSurvey"
 
-const html = `
+export const html: string = `
 <div id="postChatSurvey">
   <h2 id="legend_give_feedback" tabindex="-1">Give feedback</h2>
 
   <p>We use your feedback to improve our services. These questions are optional.</p>
 
-  <div id="surveyPrintContainer">
-    <p>You can still <a href="javascript:void(0);" id="printPostChat">print your chat</a>.</p>
+  <div>
+    <p>You can still <a class="govuk-link" href="javascript:void(0);" id="printPostChat">print your chat</a>.</p>
   </div>
 
   <div class="govuk-grid-row">
@@ -49,14 +49,16 @@ const html = `
               <div class="govuk-radios__item">
                 <input class="govuk-radios__input" id="q2--3" name="q2-" type="radio"
                        value="Neither easy nor difficult">
-                <label class="govuk-label govuk-radios__label" for="q2--3">Neither easy nor difficult</label>
+                <label class="govuk-label govuk-radios__label" for="q2--3">Neither easy nor
+                  difficult</label>
               </div>
               <div class="govuk-radios__item">
                 <input class="govuk-radios__input" id="q2--4" name="q2-" type="radio" value="Difficult">
                 <label class="govuk-label govuk-radios__label" for="q2--4">Difficult</label>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q2--5" name="q2-" type="radio" value="Very difficult">
+                <input class="govuk-radios__input" id="q2--5" name="q2-" type="radio"
+                       value="Very difficult">
                 <label class="govuk-label govuk-radios__label" for="q2--5">Very difficult</label>
               </div>
             </div>
@@ -68,7 +70,8 @@ const html = `
             </legend>
             <div class="govuk-radios">
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q3-" name="q3-" type="radio" value="Very satisfied">
+                <input class="govuk-radios__input" id="q3-" name="q3-" type="radio"
+                       value="Very satisfied">
                 <label class="govuk-label govuk-radios__label" for="q3-">Very satisfied</label>
               </div>
               <div class="govuk-radios__item">
@@ -78,14 +81,17 @@ const html = `
               <div class="govuk-radios__item">
                 <input class="govuk-radios__input" id="q3--3" name="q3-" type="radio"
                        value="Neither satisfied nor dissatisfied">
-                <label class="govuk-label govuk-radios__label" for="q3--3">Neither satisfied nor dissatisfied</label>
+                <label class="govuk-label govuk-radios__label" for="q3--3">Neither satisfied nor
+                  dissatisfied</label>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q3--4" name="q3-" type="radio" value="Dissatisfied">
+                <input class="govuk-radios__input" id="q3--4" name="q3-" type="radio"
+                       value="Dissatisfied">
                 <label class="govuk-label govuk-radios__label" for="q3--4">Dissatisfied</label>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q3--5" name="q3-" type="radio" value="Very dissatisfied">
+                <input class="govuk-radios__input" id="q3--5" name="q3-" type="radio"
+                       value="Very dissatisfied">
                 <label class="govuk-label govuk-radios__label" for="q3--5">Very dissatisfied</label>
               </div>
             </div>
@@ -105,14 +111,15 @@ const html = `
               <div class="govuk-radios__item">
                 <input class="govuk-radios__input" id="q5-" name="q5-" type="radio"
                        value="Online webchat with HMRC adviser">
-                <label class="govuk-label govuk-radios__label" for="q5-">Online webchat with HMRC adviser</label>
+                <label class="govuk-label govuk-radios__label" for="q5-">Online webchat with HMRC
+                  adviser</label>
               </div>
 
               <div class="govuk-radios__item">
                 <input class="govuk-radios__input" id="q5--2" name="q5-" type="radio"
                        value="Social media messaging (such as, WhatsApp and Twitter)">
-                <label class="govuk-label govuk-radios__label" for="q5--2">Social media messaging (such as, WhatsApp and
-                  Twitter)</label>
+                <label class="govuk-label govuk-radios__label" for="q5--2">Social media messaging (such
+                  as, WhatsApp and Twitter)</label>
               </div>
 
               <div class="govuk-radios__item">
@@ -126,7 +133,8 @@ const html = `
                 <label class="govuk-label govuk-radios__label" for="q5--4">Other</label>
               </div>
 
-              <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-contact">
+              <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
+                   id="conditional-contact">
                 <div class="govuk-form-group">
                   <label class="govuk-label" for="q6-">Provide other contact option</label>
                   <textarea class="govuk-textarea" id="q6-" name="q6-" rows="5"></textarea>
@@ -135,7 +143,6 @@ const html = `
 
             </div>
           </fieldset>
-
         </div>
 
         <button id="submitPostChatSurvey" class="govuk-button">Submit</button>
@@ -146,8 +153,8 @@ const html = `
 </div>
 `
 
-export default class PostChatSurveyWebchat extends CommonPostChatSurvey {
-  constructor(onSubmitted) {
-    super(html, onSubmitted)
-}
+export default class PostChatSurveyDigitalAssistant extends CommonPostChatSurvey {
+  constructor(onSubmitted: (a:object) => void) {
+      super(html, onSubmitted)
+  }
 }

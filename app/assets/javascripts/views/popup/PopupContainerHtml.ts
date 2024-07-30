@@ -1,19 +1,20 @@
 'use strict';
 
 import { host } from "../../utils/HostUtils";
+import { messages } from "../../utils/Messages";
 
-export function ContainerHtml(isEscalated) {
-    let url = new URL(window.location.href).pathname.replaceAll("/", "%2F");
-    let sizeButton = `<button id='toggleSizeButton' role="button">Increase chat size</button>`
-    let container = `<div id="ciapiSkinContainer" class='ciapiSkinContainerStandardSize'>`
+export function ContainerHtml(isEscalated: boolean): string {
+    let url: string = new URL(window.location.href).pathname.replaceAll("/", "%2F");
+    let sizeButton: string = `<button id='toggleSizeButton' role="button">Increase chat size</button>`
+    let container: string = `<div id="ciapiSkinContainer" class='ciapiSkinContainerStandardSize'>`
     if (sessionStorage.getItem("isStandard") == "false") {
         container = `<div id="ciapiSkinContainer" class='ciapiSkinContainerLargerSize'>`;
-        sizeButton = `<button id='toggleSizeButton' role="button">Decrease chat size</button>`}
-    
+        sizeButton = `<button id='toggleSizeButton' role="button">Decrease chat size</button>`
+    }
 
-    let automatedMessage = "";
-    if (!isEscalated) { automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">You are currently chatting with a computer.</p>`}
-    let soundButton = `<button id="toggleSound" class="active"> Turn notification sound off </button>`;
+    let automatedMessage: string = "";
+    if (!isEscalated) { automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">${messages.computer}</p>`}
+    let soundButton: string = `<button id="toggleSound" class="active"> Turn notification sound off </button>`;
     if (sessionStorage.getItem("isActive") == "false") { soundButton = `<button id="toggleSound" class="inactive"> Turn notification sound on </button>`}
     
     return `

@@ -10,6 +10,7 @@ import PostChatSurveyWebchatService from '../services/PostChatSurveyWebchatServi
 import PostChatSurveyDigitalAssistantService from '../services/PostChatSurveyDigitalAssistantService'
 import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
 import PrintUtils from '../utils/PrintUtils'
+import { messages } from "../utils/Messages";
 
 const automatonDA = {
     id: "survey-13000304",
@@ -137,8 +138,7 @@ export default class CommonChatController {
             this.type = obj.type
             this._showChat();
             if (obj.state === 'missed') {
-                const contactLink = "<a href='https://www.gov.uk/contact'>Contact us</a> "
-                let msg = `Sorry, our virtual assistant is unavailable. Try again later. ${contactLink} if you need to speak to someone.`
+                let msg = messages.unavilable
                 this.container.getTranscript().addSystemMsg({msg: msg}, Date.now());
                 document.getElementById('ciapiSkinFooter').style.display = 'none'
             } else {
@@ -426,7 +426,7 @@ export default class CommonChatController {
 
     onAccessibilityStatement() {
         let url = new URL(window.location.href).pathname.replaceAll("/", "%2F");
-        window.open("https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend?referrerUrl=` + url + `-skin-hmrc", "_blank");
+        window.open("https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend?referrerUrl=" + url + "-skin-hmrc", "_blank");
     }
 
     onStartTyping() {
@@ -459,7 +459,6 @@ export default class CommonChatController {
                 this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automatonDA, timestamp);
                 this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
             }
-            window.GOVUKFrontend.initAll();
         }
 
     }

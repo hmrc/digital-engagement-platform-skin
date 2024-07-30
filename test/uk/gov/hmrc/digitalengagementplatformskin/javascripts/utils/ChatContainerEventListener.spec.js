@@ -3,6 +3,14 @@ import ChatContainer from '../../../../../../../app/assets/javascripts/utils/Cha
 import { ContainerHtml as EmbeddedContainerHtml } from '../../../../../../../app/assets/javascripts/views/embedded/EmbeddedContainerHtml';
 import { ContainerHtml as PopupContainerHtml } from '../../../../../../../app/assets/javascripts/views/popup/PopupContainerHtml';
 
+let mockSDK;
+
+beforeEach(() => {
+    mockSDK = {
+        sendVALinkMessage: jest.fn().mockImplementation()
+    };
+});
+
 afterEach(() => {
     jest.resetAllMocks();
 });
@@ -44,7 +52,7 @@ describe("ChatContainer Event Listeners", () => {
     });
 
     it("clicking the skip to bottom link fires the expected handler function", () => {
-        const chatContainer = new ChatContainer(null, EmbeddedContainerHtml, null);
+        const chatContainer = new ChatContainer(null, EmbeddedContainerHtml, mockSDK);
 
         jest.spyOn(chatContainer.eventHandler, 'onSkipToTopLink');
         chatContainer.container.querySelector('#skipToBottomLink').click()

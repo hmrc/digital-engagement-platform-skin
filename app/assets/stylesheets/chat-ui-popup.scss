@@ -3,7 +3,7 @@
 @import "system-message";
 @import "c2cbutton";
 @import "end-chat-popup";
-@import "lib/govuk-frontend/govuk/all";
+@import "lib/govuk-frontend/dist/govuk/all";
 @import 'chat-ui-common';
 
 $popup-width: 400px;
@@ -129,12 +129,6 @@ $page-height: calc(100% - 5px);
     }
 
     #printButton:focus {
-        background-color: #ffdd00;
-        text-decoration: underline;
-        color: black;
-    }
-
-    #returnToGovUk:focus {
         background-color: #ffdd00;
         text-decoration: underline;
         color: black;
@@ -603,10 +597,4 @@ $page-height: calc(100% - 5px);
   .up {
     transform: rotate(45deg);
     -webkit-transform: rotate(225deg);
-}
-
-#printPostChat:focus {
-  background-color: #ffdd00;
-  text-decoration: underline;
-  color: black;
 }
