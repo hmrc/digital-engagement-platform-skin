@@ -1,5 +1,21 @@
-const contactLink = "<a href='https://www.gov.uk/contact'>Contact us</a> "
-export const messages = {
+interface messageTypes {
+    computer: string,
+    outofhours: string
+    ready: string
+    busy: string
+    active: string
+    unavilable: string
+    agentMsgPrefix: string
+    customerMsgPrefix: string
+    systemMsgPrefix: string
+    automatedMsgPrefix: string
+    adviserExitedChat: string
+    agentLeftChat: string
+}
+
+const contactLink: string = "<a href='https://www.gov.uk/contact'>Contact us</a> "
+
+export const messages: messageTypes = {
     //PopupContainerHtml.js / EmbeddedContainerHtml
     computer: "You are currently chatting with a computer",
     //ReactiveChatController.js
