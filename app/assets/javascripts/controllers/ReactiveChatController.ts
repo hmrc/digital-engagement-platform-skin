@@ -3,6 +3,7 @@ import ClickToChatButton from '../utils/ClickToChatButton'
 import CommonChatController from './CommonChatController'
 import * as DisplayState from '../NuanceDisplayState'
 import { messages} from '../utils/Messages'
+import { ClickToChatObjectInterface } from '../utils/ClickToChatButtons'
 
 interface c2cDisplayStateMessagesInterface {
     [DisplayState.OutOfHours]: string
@@ -28,12 +29,12 @@ export default class ReactiveChatController {
         this.commonChatController = new CommonChatController();
     }
 
-    _clickToChatCallback() {
+    _clickToChatCallback(): (c2cIdx: any) => void {
         return (c2cIdx: any) => this._onC2CButtonClicked(c2cIdx)
     }
-    // Not sure on return type
+    // This appears to be a function which returns a function which returns void. Do you agree?
 
-    addC2CButton(c2cObj: { displayState: string }, divID: string, buttonClass: any): void {
+    addC2CButton(c2cObj: ClickToChatObjectInterface, divID: string, buttonClass: string): void {
         if (c2cObj.displayState == "ready") {
             this.c2cButtons.addButton(
                 c2cObj,
@@ -43,12 +44,12 @@ export default class ReactiveChatController {
         }
     }
 
-    _onC2CButtonClicked(c2cIdx: any) {
-        const reactiveObj= {
+    _onC2CButtonClicked(c2cIdx: any): void {
+        const reactiveObj: {type: string} = {
             type: 'reactive'
         }
         this.sdk = window.Inq.SDK;
-        this.sdk.onC2CClicked(c2cIdx, (_: any) => {
+        this.sdk.onC2CClicked(c2cIdx, () => {
             this.commonChatController._launchChat(reactiveObj);
         });
     }

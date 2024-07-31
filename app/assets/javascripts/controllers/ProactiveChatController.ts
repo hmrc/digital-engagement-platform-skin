@@ -14,4 +14,4 @@ export default class ProactiveChatController {
         this.commonChatController._launchChat(proactiveObj);
     }
 }
-// Cannot say with 100% certainty but using the console and reviewing the code it looks like state is either 'show' or 'missed'.
+// Cannot say with 100% certainty but using the console and reviewing the code it looks like state is either 'show' or 'missed'. Is this thorough enough?

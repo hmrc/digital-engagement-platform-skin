@@ -73,6 +73,7 @@ export default class CommonChatController {
     escalated: boolean
     type: string
     container: any
+     // I am unsure of the type of container. I have tried container?: ChatContainer | null and managed to get rid of all of the errors using '?' except one in launchChat because there is a return which returns if this.container is truthy so I do not think it runs the next method on this.container. The error I am getting is Property 'getTranscript' does not exist on type 'never'.ts(2339). Do you have any ideas?
     constructor() {
         this.sdk = null;
         this.state = new ChatStates.NullState();
@@ -94,20 +95,18 @@ export default class CommonChatController {
     getTextAreaValue(textArea: string): string {
         return (document.getElementById(textArea) as HTMLTextAreaElement).value
     }
-    // I have had to cast the above function but I have checked the code and think it is correct. Is this ok? I try to avoid casting where possible.
+    // I have had to cast the above function but I have checked the code and console and think it is correct. Is this ok? I try to avoid casting where possible.
 
-    getRadioId(radioGroup: string) {
+    getRadioId(radioGroup: string): string | undefined {
         var elements: NodeListOf<HTMLElement> = document.getElementsByName(radioGroup);
 
-        for (var i = 0, l = elements.length; i < l; i++) {
-
-           
+        for (var i: number = 0, l: number = elements.length; i < l; i++) {
             if ((elements[i] as HTMLInputElement).checked) {
                 return elements[i].id;
             }
         }
     }
-       // I have had to cast the above function but I have checked the code and think it is correct.
+       // I have had to cast the above function but I have checked the code and console and think it is correct.
 
     updateDav3DeskproRefererUrls(): void {
         let reportTechnicalIssueElement: HTMLCollectionOf<Element> = document.getElementsByClassName('hmrc-report-technical-issue');
@@ -119,7 +118,7 @@ export default class CommonChatController {
                 (reportTechnicalIssueElementZero).href = reportTechnicalIssueElementHref.concat("-dav3");
             }
         }
-          // I could not find this className in the skin code but the tests have it as an anchor tag and it is an anchor tag in the DOM using the inspect tool. Is this ok?
+          // I could not find this className in the code but the tests have it as an anchor tag and it is an anchor tag in the DOM using the inspect tool. Is this ok? As mentioned, casting is not that safe unless we are sure.
 
         let feedbackLinkElement: HTMLCollectionOf<Element> = document.getElementsByClassName('govuk-phase-banner__text');
 
@@ -150,17 +149,14 @@ export default class CommonChatController {
         if (!returnedValue) {
             returnedValue = "";
         }
-
         return returnedValue;
     }
     // Had to cast but used the console to check it was still working and appears to be fine.
 
-    getSdk() {
+    getSdk(): any {
         logger.debug("printing this.sdk.chatDisplayed",this.sdk.chatDisplayed)
         return this.sdk
     }
-    // Left this as any as I really do not know how to handle this.
-    
 
     _launchChat(obj: { type: string; state?: string }): void {
         if (this.container) {
@@ -176,7 +172,7 @@ export default class CommonChatController {
                 if(ciapiSkinFooter){
                     ciapiSkinFooter.style.display = 'none'
                 }
-                // Had to use a nested if statement to show that the ciapiSkinFooter was not null it would not let me used optional chaining symbol '?' with style. We could get rid of the nested if and use the '!' to say that it definitely will be present. The HTML is there so perhaps that is tidier than a nested if but probably not as safe according to TS. Although there is no if on the else to catch it if it is not truthy.
+                // Had to use a nested if statement to show that the ciapiSkinFooter was not null it would not let me use the optional chaining symbol '?' with style. We could get rid of the nested if and use the '!' to say that it definitely will be present. The HTML is there so perhaps that is tidier than a nested if but probably not as safe according to TS. Although there is no if on the else to catch it if it is not truthy.
                 
             } else {
                     this._displayOpenerScripts();
@@ -190,7 +186,6 @@ export default class CommonChatController {
                         "openerScripts": null,
                         "defaultAgentAlias": "HMRC"
                     });
-                    // Typed the above as any due to the sdk. However, inference is saying that it is { messages: never[] | undefined }. I am not too familiar with never but it is used where a function always throws an exception or never returns. Do you have any ideas?
         
                     this._removeAnimation();
         
@@ -201,7 +196,7 @@ export default class CommonChatController {
                     }
         
                     const existingErrorMessage: HTMLElement | null = document.getElementById("error-message")
-                    // Cannot find error-message in the codebase or using the inspect but it is a HTMLElement in the tests for the CommonChatController
+                    // Cannot find error-message in the codebase or using the inspect but it is a HTMLElement in the tests for the CommonChatController. getElementById always returns an element anyway or subclass e.g. HTMLElement
         
                     if (existingErrorMessage) {
                         existingErrorMessage.remove()
@@ -239,7 +234,7 @@ export default class CommonChatController {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 document.getElementsByTagName("body")[0].appendChild(this.container.element());
             }
-            // Had to extend the global window interface in index.d.tsto get the Inq to work. I have set it as any as when console logged it is returning a very complex object. It was not happy with only being typed {}. Do you have any ideas?
+            // Had to extend the global window interface in index.d.ts to get the Inq to work. I have set it as any as when console logged it is returning a very complex object. It was not happy with only being typed {}. Do you have any ideas?
 
             this.container.setEventHandler(this);
 
@@ -358,7 +353,7 @@ export default class CommonChatController {
         PrintUtils.removeElementsForPrint(elementList);
 
         if (document.getElementById("nuanMessagingFrame")?.classList.contains("ci-api-popup")) {
-            document.body.querySelectorAll('*').forEach(function(node) {
+            document.body.querySelectorAll('*').forEach(function(node: Element): void {
                 printList.forEach(function(item: string): void {
                     if (node.classList.contains(item)) {
                         node.classList.add("govuk-!-display-none-print");
@@ -379,9 +374,8 @@ export default class CommonChatController {
     _sendPostChatSurveyDigitalAssistant(sdk: any): PostChatSurveyDigitalAssistantService {
         return new PostChatSurveyDigitalAssistantService(sdk);
     }
-    // Two methods above are SDK. I console logged the second as it was DA. It is a very complex object, we can set the parameter to {} but as other SDK stuff is typed any it may not be actually checking it how we expect. Please let me know what you think?
 
-    onSkipToTopLink(e: Event) {
+    onSkipToTopLink(e: Event): void {
         e.preventDefault();
         document.getElementById("skipToTopLink")?.focus();
     }
@@ -405,7 +399,7 @@ export default class CommonChatController {
         this._moveToState(new ChatStates.NullState());
     }
 
-    nuanceFrameworkLoaded(w: Window & typeof globalThis) {
+    nuanceFrameworkLoaded(w: Window & typeof globalThis): void {
         logger.info("### framework loaded");
         this.sdk = w.Inq.SDK;
         if (this.sdk.isChatInProgress()) {
@@ -415,7 +409,9 @@ export default class CommonChatController {
             logger.info("************************************")
         }
     }
-    // Console log did not return 'w' and inference has it as w: { Inq: { SDK: any } }. I have looked in tests and it appears we pass through Window to this method. Obviously the parameter is called w and the inferred type on the test is Window & typeof globalThis. Should we go with this? I really am struggling to piece together how window is used here though.
+    // Console log did not return 'w' and inference has it as w: { Inq: { SDK: any } }. I have looked in tests and it appears we pass through Window to this method. Obviously the parameter is called w and the inferred type on the test is Window & typeof globalThis. Should we go with this? I really am struggling to piece together how window is used here though. 
+    
+    //I appreciate since I made this comment we said to leave anything SDK / Nunace related as any. Would you like it as any?
 
     _moveToClosingState(): void {
         this._moveToState(new ChatStates.ClosingState(() => this.closeChat()))
@@ -513,7 +509,7 @@ export default class CommonChatController {
 
     }
 
-    onPostChatSurveyWebchatSubmitted(surveyPage: any) {
+    onPostChatSurveyWebchatSubmitted(surveyPage: any): void {
         const answers: Answers = {
             answers: [
                 {id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false},
