@@ -4,27 +4,27 @@ const html: string = `
 <div id="postChatSurvey">
 
   <div class="govuk-error-summary" id="errorSummary" data-module="govuk-error-summary">
-    <div role="alert">
-      <h2 class="govuk-error-summary__title">
-        There is a problem
-      </h2>
-      <div class="govuk-error-summary__body">
-        <ul class="govuk-list govuk-error-summary__list">
-          <li id="errorQ1">
-            <a href="#q1-">Select if you could do what you needed</a>
-          </li>
-          <li id="errorQ2">
-            <a href="#q2-">Select how easy it was to do</a>
-          </li>
-          <li id="errorQ3">
-            <a href="#q3-">Select how you felt about the service</a>
-          </li>
-          <li id="errorQ5">
-            <a href="#q5-">Select how you prefer to contact HMRC</a>
-          </li>
-        </ul>
-      </div>
+  <div role="alert">
+    <h2 class="govuk-error-summary__title">
+      There is a problem
+    </h2>
+    <div class="govuk-error-summary__body">
+      <ul class="govuk-list govuk-error-summary__list">
+        <li id="errorQ1">
+          <a id="errorQ1a" href="#q1-">Select if you could do what you needed</a>
+        </li>
+        <li id="errorQ2">
+          <a id="errorQ2a" href="#q2-">Select how easy it was to do</a>
+        </li>
+        <li id="errorQ3">
+          <a id="errorQ3a" href="#q3-">Select how you felt about the service</a>
+        </li>
+        <li id="errorQ5">
+          <a id="errorQ5a" href="#q5-">Select how you prefer to contact HMRC</a>
+        </li>
+      </ul>
     </div>
+  </div>
   </div>
 
   <h2 class="govuk-heading-l" id="legend_give_feedback" tabindex="-1">Give feedback</h2>
@@ -33,7 +33,7 @@ const html: string = `
 
   <a class="govuk-link" href="javascript:void(0);" id="skipSurvey">I do not want to give feedback</a>
 
-  <div class="govuk-grid-row">
+  <div class="govuk-grid-row" id='surveyQuestionList'>
     <div class="govuk-grid-column-two-thirds">
 
       <form method='POST'>

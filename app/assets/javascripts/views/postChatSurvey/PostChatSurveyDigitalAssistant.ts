@@ -11,16 +11,16 @@ export const html: string = `
       <div class="govuk-error-summary__body">
         <ul class="govuk-list govuk-error-summary__list">
           <li id="errorQ1">
-            <a href="#q1-">Select if you could do what you needed</a>
+            <a id="errorQ1a" href="#q1-">Select if you could do what you needed</a>
           </li>
           <li id="errorQ2">
-            <a href="#q2-">Select how easy it was to do</a>
+            <a id="errorQ2a" href="#q2-">Select how easy it was to do</a>
           </li>
           <li id="errorQ3">
-            <a href="#q3-">Select how you felt about the service</a>
+            <a id="errorQ3a" href="#q3-">Select how you felt about the service</a>
           </li>
           <li id="errorQ5">
-            <a href="#q5-">Select how you prefer to contact HMRC</a>
+            <a id="errorQ5a" href="#q5-">Select how you prefer to contact HMRC</a>
           </li>
         </ul>
       </div>
@@ -33,7 +33,7 @@ export const html: string = `
 
   <a class="govuk-link" href="javascript:void(0);" id="skipSurvey">I do not want to give feedback</a>
 
-  <div class="govuk-grid-row">
+  <div class="govuk-grid-row" id='surveyQuestionList'>
     <div class="govuk-grid-column-two-thirds">
 
       <form method='POST'>
