@@ -7,11 +7,17 @@ import ChatContainer from '../utils/ChatContainer';
 import Transcript from './Transcript';
 
 interface MessageInterface { 
-    "external.app": string
-    isAgentMsg: boolean
-    messageData?: string;
+    "aeapi.join_transfer"?: any
+    chatFinalText?: string
+    "client.display.text"?: string;
+    "display.text"?: string;
+    "external.app"?: string
+    isAgentMsg?: boolean
+    messageData?: string | null
     messageText?: string; 
     messageTimestamp?: string;
+    state?: string;
+    "tc.mode"?: string
 }
 
 
@@ -66,12 +72,14 @@ export class ClosingState {
 // Customer is engaged in a chat.
 export class EngagedState {
     sdk: any;
-    container: ChatContainer | null | undefined;
+    container: ChatContainer 
     closeChat: () => void;
     escalated: boolean;
-    constructor(sdk: any, container: ChatContainer | null | undefined, previousMessages: any[], closeChat: () => void) {
+    constructor(sdk: any, container: ChatContainer, previousMessages: any[], closeChat: () => void) {
         this.sdk = sdk;
         this.container = container;
+        // James - Please can you check whether container is ever null or undefined? My findings are that it probably is not based on the ChatContainer.ts where container is a div and has the ID #ciapiSkin which I can see in the console when logging container. There is also the _launchChat method in the CommonChatController which seems to return if container is truthy. This is important because I have not put it as undefined | null and if it is the code below will need some complex tweaks.
+
         this.closeChat = closeChat;
         this.escalated = false;
 
@@ -130,7 +138,7 @@ export class EngagedState {
         document.querySelectorAll('.agent-joins-conference').forEach(e => e.remove());
     }
 
-    _processMessageYouTubeVideoData(msg: MessageInterface, messageTimeStamp: string) {
+    _processMessageYouTubeVideoData(msg: MessageInterface, messageTimeStamp?: string) {
         if(!msg.messageData){
             return
         }
@@ -139,30 +147,27 @@ export class EngagedState {
         if (jsonMessageData.widgetType === "youtube-video") {
             const embeddedVideoUrl: string = "https://www.youtube.com/embed/" + jsonMessageData.videoId
             const iframeVideo: string =  `<p>${msg.messageText}</p><span class="govuk-visually-hidden">embedded youtube video below with url</span><div class="iframe-wrap"><iframe title="Embedded YouTube Video" class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="${embeddedVideoUrl}"></iframe></div>`;
-            const transcript: Transcript | undefined = this.container?.getTranscript();
+            const transcript: Transcript | undefined = this.container.getTranscript();
             this._playSoundIfActive();
-            transcript?.addAutomatonMsg(iframeVideo, messageTimeStamp);
+            transcript.addAutomatonMsg(iframeVideo, messageTimeStamp);
         }
     }
 
     // How do you want youtubeURL handled, apparently it is not being used?
 
-    _mixAgentCommunicationMessage(msg: MessageInterface, transcript: { addAgentMsg: (msg: string, msgTimestamp: string) => void; } ) {
+    _mixAgentCommunicationMessage(msg: MessageInterface, transcript: Transcript ) {
         this._playSoundIfActive();
 
         this._removeAgentIsTyping();
-        transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
+            transcript.addAgentMsg(msg.messageText, msg.messageTimestamp);
     }
     // James - I have used the inference to set the above types and the console to check them. msg is correct based on the console but I cannot guarantee they will always be that type but I think it is likely. In terms of addAgentMsg, would I expect to see this in the console when logging transcript. I could not see this on the object but VSCode inference thinks it is correct. FYI, I have tweaked the argument names as VSCode called them arg0 and arg1 but we can see what they are in the method. Do you have any ideas please?
 
-    // Andy to check transcript?
-
-    _isMixAutomatonMessage(msg: MessageInterface): string | false {
+    _isMixAutomatonMessage(msg: MessageInterface): string | false | undefined {
         return msg.isAgentMsg && msg["external.app"]
     }
 
-    _extractQuickReplyData(msg: { messageData?: string | null }): null | {} {
-        console.log('MSG', msg)
+    _extractQuickReplyData(msg: MessageInterface): null | {} {
 
         if(!msg.messageData) return null
 
@@ -177,7 +182,7 @@ export class EngagedState {
         return null;
     }
 
-    _extractCloseChatEventData(msg: { messageData?: string; }): {} | null {
+    _extractCloseChatEventData(msg: MessageInterface): {} | null {
         
         if(!msg.messageData) return null
 
@@ -193,7 +198,7 @@ export class EngagedState {
     }
     // James - I think this is typed correctly with the exception of const messageDataAsObject: { command?: {event: {CloseChat: boolean}} }. I could not find command on the object which makes me think it must be a optional parameter depending on what has been received from Nuance. I have typed it as boolean based solely on the name so it would be nice to confirm this. Do you have any ideas so that I can confirm what we are receiving?
 
-    _extractYouTubeVideoData(msg: { messageData?: string; }): {} | null {
+    _extractYouTubeVideoData(msg: MessageInterface): {} | null {
         if(!msg.messageData) return null
 
         const messageDataAsObject: {widgetType: string} = JSON.parse(msg.messageData);
@@ -213,7 +218,8 @@ export class EngagedState {
         }
     }
 
-    _chatCommunicationMessage(msg: { messageText?: string; messageTimestamp?: string; messageData?: string; isAgentMsg?: boolean; chatFinalText?: string; "external.app"?: string; }, transcript?: Transcript): void {
+    _chatCommunicationMessage(msg: MessageInterface, transcript: Transcript): void {
+        console.log('TRANSCRIPT', transcript)
         const quickReplyData: {} | null = this._extractQuickReplyData(msg);
         const closeChatEventData: {} | null = this._extractCloseChatEventData(msg);
         const youTubeVideo: {} | null = this._extractYouTubeVideoData(msg);
@@ -224,9 +230,7 @@ export class EngagedState {
         } else if (closeChatEventData) {
             this.closeChat();
         } else if (youTubeVideo) {
-            if (msg.messageData) {
                 this._processMessageYouTubeVideoData(msg, msg.messageTimestamp);
-            }
         } else if (this._isMixAutomatonMessage(msg)){
             this._mixAgentCommunicationMessage(msg, transcript);
         } else if (msg.isAgentMsg) {
@@ -236,7 +240,7 @@ export class EngagedState {
         }
     }
 
-    _chatRoomMemberConnected(msg: { "client.display.text": string; "display.text": string; "aeapi.join_transfer"?: any; messageTimestamp: string; }, transcript: Transcript) {
+    _chatRoomMemberConnected(msg: MessageInterface, transcript: Transcript) {
         this.escalated = true;
         transcript.addSystemMsg(
             {
@@ -248,8 +252,7 @@ export class EngagedState {
     }
     // "aeapi.join_transfer" not on the object in the console.log so have left as any.
 
-    _chatActivityAndAgentTyping(msg: { "display.text": string; state: string; messageTimestamp?: string; }, transcript: Transcript) {
-        console.log('MSGCHATACTIVITY', msg)
+    _chatActivityAndAgentTyping(msg: MessageInterface, transcript: Transcript) {
         if(msg.state === MessageState.Agent_IsTyping) {
             if (msg["display.text"] == "Agent is typing...") {
                 transcript.addSystemMsg({msg: msg["display.text"], state: MessageState.Agent_IsTyping}, msg.messageTimestamp);
@@ -259,8 +262,7 @@ export class EngagedState {
         }
     }
 
-    _chatRoomMemberLost(msg: { "tc.mode": string; "display.text": string; messageTimestamp: string; }, transcript: Transcript) {
-        console.log('chatRoomMemberLost', msg)
+    _chatRoomMemberLost(msg: MessageInterface, transcript: Transcript) {
         if (msg["tc.mode"] === "transfer" && (msg["display.text"] === "Agent 'HMRC' loses connection" || msg["display.text"] === "Agent 'hmrcda' loses connection")) {
             logger.info("Message Suppressed")
         } else {
@@ -269,7 +271,6 @@ export class EngagedState {
     }
 
     _displayMessage(msg_in: { data: { "agent.alias"?: string; messageType?: string; "display.text"?: string; messageTimestamp?: string; messageText?: string; "thank_you_image_label"?: any; "client.display.text"?: string; state?: string }; }) {
-        console.log('displayMessage', msg_in)
         const msg = msg_in.data;
         logger.debug("---- Received message:", msg)
 
@@ -278,8 +279,8 @@ export class EngagedState {
             window.Agent_Name = msg["agent.alias"];
         }
 
-        const transcript = this.container?.getTranscript();
-
+        const transcript: Transcript = this.container.getTranscript();
+        // James - Is transcript ever undefined? I do not think it is based on the transcript being set on line 70 of the chat container?
         switch (msg.messageType) {
             case MessageType.Chat_Communication:
                 this._chatCommunicationMessage(msg, transcript);
@@ -291,16 +292,16 @@ export class EngagedState {
                 this._chatActivityAndAgentTyping(msg, transcript);
                 break;
             case MessageType.Chat_Exit:
-                transcript?.addSystemMsg({msg: (msg["display.text"] || messages.adviserExitedChat)}, msg.messageTimestamp);
+                transcript.addSystemMsg({msg: (msg["display.text"] || messages.adviserExitedChat)}, msg.messageTimestamp);
                 break;
             case MessageType.Chat_CommunicationQueue:
-                transcript?.addSystemMsg({msg: msg.messageText}, msg.messageTimestamp);
+                transcript.addSystemMsg({msg: msg.messageText}, msg.messageTimestamp);
                 break;
             case MessageType.Chat_NeedWait:
-                transcript?.addSystemMsg({msg: msg.messageText}, msg.messageTimestamp);
+                transcript.addSystemMsg({msg: msg.messageText}, msg.messageTimestamp);
                 break;
             case MessageType.Chat_Denied:
-                transcript?.addSystemMsg({msg: msg["thank_you_image_label"]}, msg.messageTimestamp);
+                transcript.addSystemMsg({msg: msg["thank_you_image_label"]}, msg.messageTimestamp);
                 break;
             case MessageType.ChatRoom_MemberLost:
                 this._chatRoomMemberLost(msg, transcript);
@@ -312,12 +313,12 @@ export class EngagedState {
                 if(msg["client.display.text"] == '') {
                     break;
                 } else {
-                    transcript?.addSystemMsg({msg: msg["client.display.text"]}, msg.messageTimestamp)
+                    transcript.addSystemMsg({msg: msg["client.display.text"]}, msg.messageTimestamp)
                     break;
                 }
             default:
                 if(msg.state === MessageState.Closed) {
-                    transcript?.addSystemMsg({msg: messages.agentLeftChat}, msg.messageTimestamp);
+                    transcript.addSystemMsg({msg: messages.agentLeftChat}, msg.messageTimestamp);
                 } else {
                     logger.debug("==== Unknown message:", msg);
                 }
