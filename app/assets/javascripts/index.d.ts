@@ -4,5 +4,6 @@ declare global {
   interface Window {
     chatId: number
     Agent_Name: string
+    agentId: any
   }
 }
