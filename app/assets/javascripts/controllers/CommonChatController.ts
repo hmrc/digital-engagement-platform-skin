@@ -73,7 +73,6 @@ export default class CommonChatController {
     escalated: boolean
     type: string
     container: any
-     // I am unsure of the type of container. I have tried container?: ChatContainer | null and managed to get rid of all of the errors using '?' except one in launchChat because there is a return which returns if this.container is truthy so I do not think it runs the next method on this.container. The error I am getting is Property 'getTranscript' does not exist on type 'never'.ts(2339). Do you have any ideas?
     constructor() {
         this.sdk = null;
         this.state = new ChatStates.NullState();
@@ -95,7 +94,6 @@ export default class CommonChatController {
     getTextAreaValue(textArea: string): string {
         return (document.getElementById(textArea) as HTMLTextAreaElement).value
     }
-    // I have had to cast the above function but I have checked the code and console and think it is correct. Is this ok? I try to avoid casting where possible.
 
     getRadioId(radioGroup: string): string | undefined {
         var elements: NodeListOf<HTMLElement> = document.getElementsByName(radioGroup);
@@ -106,7 +104,6 @@ export default class CommonChatController {
             }
         }
     }
-       // I have had to cast the above function but I have checked the code and console and think it is correct.
 
     updateDav3DeskproRefererUrls(): void {
         let reportTechnicalIssueElement: HTMLCollectionOf<Element> = document.getElementsByClassName('hmrc-report-technical-issue');
@@ -118,7 +115,6 @@ export default class CommonChatController {
                 (reportTechnicalIssueElementZero).href = reportTechnicalIssueElementHref.concat("-dav3");
             }
         }
-          // I could not find this className in the code but the tests have it as an anchor tag and it is an anchor tag in the DOM using the inspect tool. Is this ok? As mentioned, casting is not that safe unless we are sure.
 
         let feedbackLinkElement: HTMLCollectionOf<Element> = document.getElementsByClassName('govuk-phase-banner__text');
 
@@ -134,7 +130,6 @@ export default class CommonChatController {
             (accessibilityLinkElement[1] as HTMLAnchorElement).href = accessibilityLinkHref.concat("-dav3");
         }
     }
-// This is selecting the accessibility statement link from the footer. I have had to cast it but it is an anchor tag. I have checked using the inspect tool. 
 
     getRadioValue(radioGroup: string): string {
         var elements: NodeListOf<HTMLElement> = document.getElementsByName(radioGroup);
@@ -151,7 +146,6 @@ export default class CommonChatController {
         }
         return returnedValue;
     }
-    // Had to cast but used the console to check it was still working and appears to be fine.
 
     getSdk(): any {
         logger.debug("printing this.sdk.chatDisplayed",this.sdk.chatDisplayed)
@@ -172,7 +166,6 @@ export default class CommonChatController {
                 if(ciapiSkinFooter){
                     ciapiSkinFooter.style.display = 'none'
                 }
-                // Had to use a nested if statement to show that the ciapiSkinFooter was not null it would not let me use the optional chaining symbol '?' with style. We could get rid of the nested if and use the '!' to say that it definitely will be present. The HTML is there so perhaps that is tidier than a nested if but probably not as safe according to TS. Although there is no if on the else to catch it if it is not truthy.
                 
             } else {
                     this._displayOpenerScripts();
@@ -196,7 +189,6 @@ export default class CommonChatController {
                     }
         
                     const existingErrorMessage: HTMLElement | null = document.getElementById("error-message")
-                    // Cannot find error-message in the codebase or using the inspect but it is a HTMLElement in the tests for the CommonChatController. getElementById always returns an element anyway or subclass e.g. HTMLElement
         
                     if (existingErrorMessage) {
                         existingErrorMessage.remove()
@@ -234,7 +226,6 @@ export default class CommonChatController {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 document.getElementsByTagName("body")[0].appendChild(this.container.element());
             }
-            // Had to extend the global window interface in index.d.ts to get the Inq to work. I have set it as any as when console logged it is returning a very complex object. It was not happy with only being typed {}. Do you have any ideas?
 
             this.container.setEventHandler(this);
 
@@ -257,14 +248,13 @@ export default class CommonChatController {
         });
     }
 
-    _moveToChatEngagedState(previousMessages = []): void {
+    _moveToChatEngagedState(previousMessages: any = []): void {
         this._moveToState(new ChatStates.EngagedState(
             this.sdk,
             this.container,
             previousMessages,
             () => this.container.confirmEndChat()));
     }
-    // Previous messages is set to a default parameter. I console logged previousMessages and it gave me []. The inference wants to type it as never[]. However, I am not sure?
 
     _moveToState(state: ChatStates.NullState | ChatStates.EngagedState | ChatStates.ShownState | ChatStates.ClosingState): void {
         this.state = state;
@@ -285,7 +275,6 @@ export default class CommonChatController {
 
         return webchatOnlyElement.length > 0
     }
-    // There are 0 instances of this in the codebase. However, it is typed HTMLCollection... as this is what it will return if there were multiple elements with this className
 
     _moveToChatShownState(): void {
         this._moveToState(new ChatStates.ShownState(
@@ -311,7 +300,6 @@ export default class CommonChatController {
                 this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automatonDA, timestamp);
             }
         }
-        // I could not get this method to run but had to add type checking in the if statement because .escalated is only on the EngagedState method. Are you happy with this or have any ideas how we can double check it still runs the if case? In theory it should still run fine. 
 
         if(this.ended){
             this.container.destroy();
@@ -409,9 +397,6 @@ export default class CommonChatController {
             logger.info("************************************")
         }
     }
-    // Console log did not return 'w' and inference has it as w: { Inq: { SDK: any } }. I have looked in tests and it appears we pass through Window to this method. Obviously the parameter is called w and the inferred type on the test is Window & typeof globalThis. Should we go with this? I really am struggling to piece together how window is used here though. 
-    
-    //I appreciate since I made this comment we said to leave anything SDK / Nunace related as any. Would you like it as any?
 
     _moveToClosingState(): void {
         this._moveToState(new ChatStates.ClosingState(() => this.closeChat()))
@@ -529,8 +514,6 @@ export default class CommonChatController {
         this.showEndChatPage(true);
     }
 
-    // VSCode infers surveyPage type as Object. However, this throws an error on .detach() with the error message Property 'detach' does not exist on type 'object'.ts(2339). From what I can tell the .detach method is being used on either the CommonPostChatSurvey.ts or the PostPCSPage.ts. Do you have any ideas what it may be? I have typed as any for the time being to get rid of the error.
-
     onPostChatSurveyDigitalAssistantSubmitted(surveyPage: any): void {
         const answers: Answers = {
             answers: [
@@ -549,8 +532,6 @@ export default class CommonChatController {
         surveyPage.detach();
         this.showEndChatPage(true);
     };
-
-    // Same issue as the method above.
 
     onSoundToggle(): void {
         let soundElement: HTMLElement | null = document.getElementById("toggleSound");

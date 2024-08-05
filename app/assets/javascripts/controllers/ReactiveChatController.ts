@@ -32,7 +32,6 @@ export default class ReactiveChatController {
     _clickToChatCallback(): (c2cIdx: any) => void {
         return (c2cIdx: any) => this._onC2CButtonClicked(c2cIdx)
     }
-    // This appears to be a function which returns a function which returns void. Do you agree?
 
     addC2CButton(c2cObj: ClickToChatObjectInterface, divID: string, buttonClass: string): void {
         if (c2cObj.displayState == "ready") {
