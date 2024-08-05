@@ -1,13 +1,12 @@
 import CommonChatController from './CommonChatController'
 
 export default class ProactiveChatController {
-    commonChatController: CommonChatController;
     constructor() {
         this.commonChatController = new CommonChatController();
     }
 
-    launchProactiveChat(obj: {state: string}): void {
-        let proactiveObj: {state: string, type: string} = {
+    launchProactiveChat(obj) {
+        let proactiveObj = {
             state: obj.state,
             type: 'proactive'
         }
