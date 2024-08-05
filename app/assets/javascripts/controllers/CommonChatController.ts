@@ -29,6 +29,13 @@ interface Answers {
     }[];
 }
 
+interface QuestionCompleted {
+    Q1: boolean;
+    Q2: boolean;
+    Q3: boolean;
+    Q5: boolean;
+}
+
 const automatonDA: {id: string, name: string} = {
     id: "survey-13000304",
     name: "HMRC_PostChat_Guidance-CUI"
@@ -495,6 +502,8 @@ export default class CommonChatController {
     }
 
     onPostChatSurveyWebchatSubmitted(surveyPage: any): void {
+        let surveySkipped: string | null = sessionStorage.getItem("surveySkipped");
+        if(surveySkipped != "true") {
         const answers: Answers = {
             answers: [
                 {id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false},
@@ -505,33 +514,142 @@ export default class CommonChatController {
                 {id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true}
             ]
         };
-
-        var surveyWithAnswers = Object.assign(answers, webchatSurvey);
+        if(answers.answers[0].text != "" && answers.answers[1].text != "" && answers.answers[2].text != "" && answers.answers[4].text != "") {
+            document.cookie = "surveyed=true";
+            if(document.getElementById('errorSummary')) {
+                document.getElementById('errorSummary')!.style.display = 'none'
+            }
+            var surveyWithAnswers: Answers & Survey = Object.assign(answers, webchatSurvey);
+            this._sendPostChatSurveyWebchat(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonWebchat, timestamp);
+            this.showEndChatPage(true);
+            surveyPage.detach();
+        } else {
+            const errors: Promise<QuestionCompleted> = this.errorList(answers)
+            errors.then((resolve) => {
+              if(resolve.Q1 == false) {
+                  document.getElementById("errorQ1a")?.focus();
+              } else if(resolve.Q1 == true && resolve.Q2 == false) {
+                  document.getElementById("errorQ2a")?.focus();
+              } else if(resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == false) {
+                  document.getElementById("errorQ3a")?.focus();
+              } else if(resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q5 == false ) {
+                  document.getElementById("errorQ5a")?.focus();
+              }
+            }).catch((err: unknown): void => {
+              logger.error("!!!! Survey Error list got exception: ", err);
+            });
+        }
+    } else {
+        sessionStorage.removeItem("surveySkipped");
         document.cookie = "surveyed=true";
-
-        this._sendPostChatSurveyWebchat(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonWebchat, timestamp);
+        this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automatonWebchat, timestamp);
+        this.showEndChatPage(false);
         surveyPage.detach();
-        this.showEndChatPage(true);
+        }
     }
 
-    onPostChatSurveyDigitalAssistantSubmitted(surveyPage: any): void {
-        const answers: Answers = {
-            answers: [
-                {id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false},
-                {id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false},
-                {id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false},
-                {id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true},
-                {id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false},
-                {id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true}
-            ]
-        };
-
-        document.cookie = "surveyed=true";
-        var surveyWithAnswers = Object.assign(answers, digitalAssistantSurvey);
-        this._sendPostChatSurveyDigitalAssistant(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonDA, timestamp);
-        surveyPage.detach();
-        this.showEndChatPage(true);
+    onPostChatSurveyDigitalAssistantSubmitted(surveyPage: any) {
+        let surveySkipped: string | null = sessionStorage.getItem("surveySkipped");
+        if(surveySkipped != "true") {
+            const answers: Answers = {
+                answers: [
+                    {id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false},
+                    {id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false},
+                    {id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false},
+                    {id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true},
+                    {id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false},
+                    {id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true}
+                ]
+            };
+            if(answers.answers[0].text != "" && answers.answers[1].text != "" && answers.answers[2].text != "" && answers.answers[4].text != "") {
+                document.cookie = "surveyed=true";
+                if(document.getElementById('errorSummary')) {
+                    document.getElementById('errorSummary')!.style.display = 'none'
+                }
+                var surveyWithAnswers: Answers & Survey = Object.assign(answers, digitalAssistantSurvey);
+                this._sendPostChatSurveyDigitalAssistant(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonDA, timestamp);
+                this.showEndChatPage(true);
+                surveyPage.detach();
+            } else {
+                const errors: Promise<QuestionCompleted> = this.errorList(answers)
+                  errors.then((resolve) => {
+                    if(resolve.Q1 == false) {
+                        document.getElementById("errorQ1a")?.focus();
+                    } else if(resolve.Q1 == true && resolve.Q2 == false) {
+                        document.getElementById("errorQ2a")?.focus();
+                    } else if(resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == false) {
+                        document.getElementById("errorQ3a")?.focus();
+                    } else if(resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q5 == false ) {
+                        document.getElementById("errorQ5a")?.focus();
+                    }
+                  }).catch((err: unknown): void => {
+                    logger.error("!!!! Survey Error list got exception: ", err);
+                  });
+            }
+        } else {
+            document.cookie = "surveyed=true";
+            sessionStorage.removeItem("surveySkipped");
+            this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automatonDA, timestamp);
+            this.showEndChatPage(false);
+            surveyPage.detach();
+        }
     };
+
+    errorList(answers: Answers):  Promise<QuestionCompleted> {
+        return new Promise((resolve) => {
+            let questionCompleted: QuestionCompleted = {
+                "Q1": false,
+                "Q2": false,
+                "Q3": false,
+                "Q5": false
+            }
+            if(answers.answers[0].text == ""){
+                document.getElementById('errorSummary')!.style.display = 'block'
+                document.getElementById('errorQ1')!.style.display = 'block'
+                document.getElementById('needed-error')!.style.display = 'block'
+                document.getElementById('q1FormGroup')!.classList.add('govuk-form-group--error')
+            } else {
+                questionCompleted.Q1 = true
+                document.getElementById('errorQ1')!.style.display = 'none'
+                document.getElementById('needed-error')!.style.display = 'none'
+                document.getElementById('q1FormGroup')!.classList.remove('govuk-form-group--error')
+            }
+            if(answers.answers[1].text == ""){
+                document.getElementById('errorSummary')!.style.display = 'block'
+                document.getElementById('errorQ2')!.style.display = 'block'
+                document.getElementById('easy-error')!.style.display = 'block'
+                document.getElementById('q2FormGroup')!.classList.add('govuk-form-group--error')
+            } else {
+                questionCompleted.Q2 = true
+                document.getElementById('errorQ2')!.style.display = 'none'
+                document.getElementById('easy-error')!.style.display = 'none'
+                document.getElementById('q2FormGroup')!.classList.remove('govuk-form-group--error')
+            }
+            if(answers.answers[2].text == ""){
+                document.getElementById('errorSummary')!.style.display = 'block'
+                document.getElementById('errorQ3')!.style.display = 'block'
+                document.getElementById('service-error')!.style.display = 'block'
+                document.getElementById('q3FormGroup')!.classList.add('govuk-form-group--error')
+            } else {
+                questionCompleted.Q3 = true
+                document.getElementById('errorQ3')!.style.display = 'none'
+                document.getElementById('service-error')!.style.display = 'none'
+                document.getElementById('q3FormGroup')!.classList.remove('govuk-form-group--error')
+            }
+            if((answers.answers[4].text == "") || (answers.answers[4].text == "Other" && answers.answers[5].text == "")){
+                document.getElementById('errorSummary')!.style.display = 'block'
+                document.getElementById('errorQ5')!.style.display = 'block'
+                document.getElementById('contact-error')!.style.display = 'block'
+                document.getElementById('q5FormGroup')!.classList.add('govuk-form-group--error')
+            } else {
+                questionCompleted.Q5 = true
+                document.getElementById('errorQ5')!.style.display = 'none'
+                document.getElementById('contact-error')!.style.display = 'none'
+                document.getElementById('q5FormGroup')!.classList.remove('govuk-form-group--error')
+            }
+            resolve(questionCompleted);
+        })
+    }
 
     onSoundToggle(): void {
         let soundElement: HTMLElement | null = document.getElementById("toggleSound");
