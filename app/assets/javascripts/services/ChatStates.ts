@@ -19,7 +19,7 @@ interface MessageInterface {
     state?: string;
     "tc.mode"?: string
 }
-
+// James - I have added an interface here for the msg parameter. It is an object and I have marked all of the properties as optional because not all of them are used in every method and sometimes they are not present until the DA / Web chat responds with certain answers. Are you happy with this approach? it made the code a lot DRYer and probably safer but previously I had tried to state when parameters were optional or not.
 
 // State at start, before anything happens.
 export class NullState {
