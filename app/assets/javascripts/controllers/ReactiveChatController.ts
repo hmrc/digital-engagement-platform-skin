@@ -40,7 +40,6 @@ export default class ReactiveChatController {
                 new ClickToChatButton(document.getElementById(divID), buttonClass),
                 divID
             );
-        }
     }
 
     _onC2CButtonClicked(c2cIdx: any): void {

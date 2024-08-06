@@ -58,19 +58,6 @@ describe("ReactiveChatController", () => {
         expect(ClickToChatButton).toBeCalledTimes(1);
     });
 
-    it("addC2CButton does not create a new ClickToChatButton when displayState is busy", () => {
-        const reactiveChatController = new ReactiveChatController();
-        const c2cObj = {displayState: "busy"};
-        const divId = "div-id";
-        const buttonClass = "button-class";
-
-        let addC2CButtonSpy = jest.spyOn(reactiveChatController, 'addC2CButton');
-        reactiveChatController.addC2CButton(c2cObj, divId, buttonClass);
-
-        expect(addC2CButtonSpy).toHaveBeenCalledTimes(1);
-        expect(ClickToChatButton).toBeCalledTimes(0);
-    });
-
     it("attaches a callback function to the SDK onC2CClicked method", () => {
 
         const reactiveChatController = new ReactiveChatController();

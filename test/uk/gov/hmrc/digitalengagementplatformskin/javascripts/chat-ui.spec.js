@@ -41,7 +41,7 @@ describe("chat-ui", () => {
     expect(window.chatId).toBe(1);
   })
 
-  it("should call the relevant controllers with expected arguments, given a call to hookWindow", () => {
+  it("should call the relevant controllers with expected arguments, given a call to hookWindow and displayState set to ready", () => {
       window.Inq = {
         SDK : {
           getOpenerScripts: jest.fn(),
@@ -66,7 +66,7 @@ describe("chat-ui", () => {
 
       window.nuanceFrameworkLoaded();
       window.nuanceReactive_HMRC_CIAPI_Fixed_1({});
-      window.nuanceReactive_HMRC_CIAPI_Anchored_1({});
+      window.nuanceReactive_HMRC_CIAPI_Anchored_1(evt.c2c);
       window.nuanceProactive();
 
       expect(window.InqRegistry).toMatchObject( {
@@ -77,9 +77,49 @@ describe("chat-ui", () => {
       expect(reactiveChatAddC2CButton).toBeCalledTimes(2);
 
       expect(reactiveChatAddC2CButton).toBeCalledWith({}, "HMRC_CIAPI_Fixed_1", "fixed");
-      expect(reactiveChatAddC2CButton).lastCalledWith(evt, "HMRC_CIAPI_Anchored_1", "anchored");
+      expect(reactiveChatAddC2CButton).lastCalledWith(evt.c2c, "HMRC_CIAPI_Anchored_1", "anchored");
 
       expect(proactiveChatLaunch).toBeCalled();
+  });
+
+  it("should call the relevant controllers with expected arguments, given a call to hookWindow and displayState set to busy", () => {
+    window.Inq = {
+      SDK : {
+        getOpenerScripts: jest.fn(),
+        isChatInProgress: jest.fn(),
+        chatDisplayed: jest.fn()
+      }
+    };
+
+    let commonChatNuanceFrameworkLoaded = jest.spyOn(commonCC, 'nuanceFrameworkLoaded');
+    let reactiveChatAddC2CButton = jest.spyOn(reactiveCC, 'addC2CButton');
+    let proactiveChatLaunch = jest.spyOn(proactiveCC, 'launchProactiveChat');
+
+    hookWindow(window, commonCC, reactiveCC, proactiveCC);
+    const chatListenerFromWindow = window.InqRegistry.listeners[0];
+
+    const evt = {
+      c2c: {displayState: "busy"}
+    }
+
+    chatListenerFromWindow.onAnyEvent(evt);
+    chatListenerFromWindow.onC2CStateChanged(evt);
+
+    window.nuanceFrameworkLoaded();
+    window.nuanceReactive_HMRC_CIAPI_Fixed_1({});
+    window.nuanceReactive_HMRC_CIAPI_Anchored_1(evt.c2c);
+    window.nuanceProactive();
+
+    expect(window.InqRegistry).toMatchObject( {
+      "listeners" : [{"onAnyEvent": expect.any(Function), "onC2CStateChanged": expect.any(Function)}]
+    })
+
+    expect(commonChatNuanceFrameworkLoaded).toBeCalledTimes(1);
+    expect(reactiveChatAddC2CButton).toBeCalledTimes(1);
+
+    expect(reactiveChatAddC2CButton).toBeCalledWith({}, "HMRC_CIAPI_Fixed_1", "fixed");
+
+    expect(proactiveChatLaunch).toBeCalled();
   });
 
   it("should call console.error, given a function that throws is passed to safeHandler", () => {
