@@ -3,7 +3,7 @@ export {};
 declare global {
   interface Window {
     chatId: number
-    featureSwitchUrl: any
-    Inq: any
+    Agent_Name: string
+    agentId: any
   }
 }

@@ -1,14 +1,16 @@
 import * as logger from '../utils/logger';
 
 export default class PostChatSurveyDigitalAssistantService {
-    constructor(sdk) {
+    sdk: any;
+    constructor(sdk: any) {
         this.sdk = sdk;
     }
 
-    beginPostChatSurvey(survey, automaton, timestamp) {
-        const chatParams = this.sdk.getChatParams();
+    beginPostChatSurvey(survey: { id: string; questions: {id: string, text: string}[] }, automaton: { id: string; name: string; }, timestamp: number) {
+        // Andy check the above.
+        const chatParams: any = this.sdk.getChatParams();
 
-        const startedEvent = {
+        const startedEvent: {} = {
             _domain: "automaton",
             evt: "started",
             automatonType: "satisfactionSurvey",
@@ -47,7 +49,7 @@ export default class PostChatSurveyDigitalAssistantService {
             automatonOrigin: "richMedia"
         };
 
-        const contentSentToCustomerEvent = {
+        const contentSentToCustomerEvent: {} = {
             _domain: "automaton",
             evt: "contentSentToCustomer",
             unique_node_id: "node_1",
@@ -100,15 +102,17 @@ export default class PostChatSurveyDigitalAssistantService {
 
         try {
             this.sdk.logEventToDW({ eventList: [startedEvent, contentSentToCustomerEvent] });
-        } catch (e) {
+        } catch (e: unknown) {
             logger.error("!!!! logEventToDW got exception: ", e);
         }
     }
 
-    submitPostChatSurvey(survey, automaton, timestamp) {
+    submitPostChatSurvey(survey, automaton: { id: string; name: string }, timestamp: number) {
+        // James - VSCode seems to be inferring the survey parameter as correct but the code below is throwing an error because it does not like the fact that the questions id is string[]. It wants it to be string | number | undefined. Do you have any ideas?
+        console.log('SURVEY', survey)
         const chatParams = this.sdk.getChatParams();
 
-            const customerRespondedEvent = {
+            const customerRespondedEvent: {} = {
                 _domain: "automaton",
                 evt: "customerResponded",
                 automatonType: "satisfactionSurvey",
@@ -190,7 +194,7 @@ export default class PostChatSurveyDigitalAssistantService {
                 automatonOrigin: "richMedia"
             };
 
-            const endedEvent = {
+            const endedEvent: {} = {
                 _domain: "automaton",
                 evt: "ended",
                 automatonType: "satisfactionSurvey",
@@ -231,15 +235,15 @@ export default class PostChatSurveyDigitalAssistantService {
 
             try {
                 this.sdk.logEventToDW({ eventList: [customerRespondedEvent, endedEvent] });
-            } catch (e) {
+            } catch (e: unknown) {
                 logger.error("!!!! logEventToDW got exception: ", e);
             }
         }
 
-    closePostChatSurvey(automaton, timestamp) {
+    closePostChatSurvey(automaton: { id: string; name: string; }, timestamp: number) {
         const chatParams = this.sdk.getChatParams();
 
-        const endedEvent = {
+        const endedEvent: {} = {
             _domain: "automaton",
             evt: "ended",
             automatonType: "satisfactionSurvey",
@@ -259,7 +263,7 @@ export default class PostChatSurveyDigitalAssistantService {
 
         try {
             this.sdk.logEventToDW({ eventList: [endedEvent] });
-        } catch (e) {
+        } catch (e: unknown) {
             logger.error("!!!! logEventToDW got exception: ", e);
         }
     }
