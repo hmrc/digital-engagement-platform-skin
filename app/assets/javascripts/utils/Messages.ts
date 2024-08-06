@@ -11,9 +11,14 @@ interface messageTypes {
     automatedMsgPrefix: string
     adviserExitedChat: string
     agentLeftChat: string
+    agentBusy: string
+    queue1: string
+    queue2: string
+    adviserUnavailable: string
 }
 
 const contactLink: string = "<a href='https://www.gov.uk/contact'>Contact us</a> "
+const contactHMRCLink: string = "<a href='https://www.gov.uk/contact-hmrc' target=‘_blank’> other ways to contact HMRC</a>"
 
 export const messages: messageTypes = {
     //PopupContainerHtml.js / EmbeddedContainerHtml
@@ -33,4 +38,9 @@ export const messages: messageTypes = {
     //ChatStates
     adviserExitedChat: "Adviser exited chat",
     agentLeftChat: "Agent Left Chat.",
+    agentBusy: "All of our agents are currently busy. Please wait and an agent will be with you shortly",
+    queue1: "Thank you for your patience, the next available adviser will be with you shortly. You are ",
+    queue2: " in the queue",
+    adviserUnavailable: `I'm sorry, there are no advisers available right now. You can see ${contactHMRCLink}`
+
 };
