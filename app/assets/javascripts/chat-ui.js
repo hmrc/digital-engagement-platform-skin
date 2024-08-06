@@ -51,10 +51,12 @@ export function hookWindow(w, commonChatController, reactiveChatController, proa
     w.nuanceReactive_HMRC_CIAPI_Anchored_1 = safeHandler(
         function nuanceReactive_HMRC_CIAPI_Anchored_1(c2cObj) {  
             c2cObj.c2c = event.c2c
-            if (document.getElementById("tc-nuance-chat-container")) {
-                reactiveChatController.addC2CButton(c2cObj, "tc-nuance-chat-container", "anchored");
-            } else {
-                reactiveChatController.addC2CButton(c2cObj, "HMRC_CIAPI_Anchored_1", "anchored");
+            if (c2cObj.displayState == "ready") {
+                if (document.getElementById("tc-nuance-chat-container")) {
+                    reactiveChatController.addC2CButton(c2cObj, "tc-nuance-chat-container", "anchored");
+                } else {
+                    reactiveChatController.addC2CButton(c2cObj, "HMRC_CIAPI_Anchored_1", "anchored");
+                }
             }
         }
     );

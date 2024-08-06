@@ -23,13 +23,11 @@ export default class ReactiveChatController {
     }
 
     addC2CButton(c2cObj, divID, buttonClass) {
-        if (c2cObj.displayState == "ready") {
-            this.c2cButtons.addButton(
-                c2cObj,
-                new ClickToChatButton(document.getElementById(divID), buttonClass),
-                divID
-            );
-        }
+        this.c2cButtons.addButton(
+            c2cObj,
+            new ClickToChatButton(document.getElementById(divID), buttonClass),
+            divID
+        );
     }
 
     _onC2CButtonClicked(c2cIdx) {
