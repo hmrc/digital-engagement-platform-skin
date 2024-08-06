@@ -12,7 +12,10 @@ import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
 import PrintUtils from '../utils/PrintUtils'
 import { messages } from "../utils/Messages";
 
-interface Survey {
+type ChatStatesType = ChatStates.NullState | ChatStates.EngagedState | ChatStates.ClosingState | ChatStates.ShownState
+
+export type AutomatonType = { id: string, name: string }
+export interface Survey {
     id: string;
     questions: {
         id: string[];
@@ -21,7 +24,7 @@ interface Survey {
     }[];
 }
 
-interface Answers {
+export interface Answers {
     answers: {
         id: string | undefined;
         text: string;
@@ -36,12 +39,12 @@ interface QuestionCompleted {
     Q5: boolean;
 }
 
-const automatonDA: {id: string, name: string} = {
+const automatonDA: AutomatonType = {
     id: "survey-13000304",
     name: "HMRC_PostChat_Guidance-CUI"
 };
 
-const automatonWebchat: {id: string, name: string} = {
+const automatonWebchat: AutomatonType = {
     id: "survey-13000303",
     name: "HMRC_PostChat_Transactional-CUI"
 };
@@ -74,7 +77,7 @@ const digitalAssistantSurvey: Survey = {
 
 export default class CommonChatController {
     sdk: any
-    state: ChatStates.NullState | ChatStates.EngagedState
+    state: ChatStatesType
     minimised: boolean
     ended: boolean | string
     escalated: boolean
@@ -263,7 +266,7 @@ export default class CommonChatController {
             () => this.container.confirmEndChat()));
     }
 
-    _moveToState(state: ChatStates.NullState | ChatStates.EngagedState | ChatStates.ShownState | ChatStates.ClosingState): void {
+    _moveToState(state: ChatStatesType): void {
         this.state = state;
     }
 

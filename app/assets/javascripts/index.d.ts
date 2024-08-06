@@ -5,5 +5,7 @@ declare global {
     chatId: number
     Agent_Name: string
     agentId: any
+    featureSwitchUrl: any
+    Inq: any
   }
 }
