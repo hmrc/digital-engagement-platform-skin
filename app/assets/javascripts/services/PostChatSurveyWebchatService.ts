@@ -1,14 +1,17 @@
+import { Survey, AutomatonType, Answers } from '../controllers/CommonChatController';
 import * as logger from '../utils/logger';
 
 export default class PostChatSurveyWebchatService {
-    constructor(sdk) {
+    sdk: any;
+    constructor(sdk: any) {
         this.sdk = sdk;
     }
 
-    beginPostChatSurvey(survey, automaton, timestamp) {
-        const chatParams = this.sdk.getChatParams();
+    beginPostChatSurvey(survey: any, automaton: AutomatonType, timestamp: number): void {
+        // James - Same issue as the PostChatSurveyDA at this point. It should be typed as Survey rather than any. 
+        const chatParams: any = this.sdk.getChatParams();
 
-        const startedEvent = {
+        const startedEvent: {} = {
             _domain: "automaton",
             evt: "started",
             automatonType: "satisfactionSurvey",
@@ -47,7 +50,7 @@ export default class PostChatSurveyWebchatService {
             automatonOrigin: "richMedia"
         };
 
-        const contentSentToCustomerEvent = {
+        const contentSentToCustomerEvent: {} = {
             _domain: "automaton",
             evt: "contentSentToCustomer",
             unique_node_id: "node_1",
@@ -100,15 +103,16 @@ export default class PostChatSurveyWebchatService {
 
         try {
             this.sdk.logEventToDW({ eventList: [startedEvent, contentSentToCustomerEvent] });
-        } catch (e) {
+        } catch (e: unknown) {
             logger.error("!!!! logEventToDW got exception: ", e);
         }
     }
 
-    submitPostChatSurvey(survey, automaton, timestamp) {
-        const chatParams = this.sdk.getChatParams();
+    submitPostChatSurvey(survey: any, automaton: AutomatonType, timestamp: number): void {
+        // Same issue as the one on DA. Survey should be typed Answers & Survey.
+        const chatParams: any = this.sdk.getChatParams();
 
-        const customerRespondedEvent = {
+        const customerRespondedEvent: {} = {
             _domain: "automaton",
             evt: "customerResponded",
             automatonType: "satisfactionSurvey",
@@ -190,7 +194,7 @@ export default class PostChatSurveyWebchatService {
             automatonOrigin: "richMedia"
         };
 
-        const endedEvent = {
+        const endedEvent: {} = {
             _domain: "automaton",
             evt: "ended",
             automatonType: "satisfactionSurvey",
@@ -231,12 +235,13 @@ export default class PostChatSurveyWebchatService {
 
         try {
             this.sdk.logEventToDW({ eventList: [customerRespondedEvent, endedEvent] });
-        } catch (e) {
+        } catch (e: unknown) {
             logger.error("!!!! logEventToDW got exception: ", e);
         }
     }
 
-    closePostChatSurvey(automaton, timestamp) {
+    closePostChatSurvey(automaton: AutomatonType, timestamp: number): void {
+        // Automation name seems to be missing here. Should probably be typed optional. Andy to check. 
         const chatParams = this.sdk.getChatParams();
 
         const endedEvent = {
@@ -259,7 +264,7 @@ export default class PostChatSurveyWebchatService {
 
         try {
             this.sdk.logEventToDW({ eventList: [endedEvent] });
-        } catch (e) {
+        } catch (e: unknown) {
             logger.error("!!!! logEventToDW got exception: ", e);
         }
     }
