@@ -25,11 +25,11 @@ const chatParams = {
 const surveyWithOption = {
     id: 123456,
     questions: [
-        { id: "q1", text: "Were you able to do what you needed to do today?", freeform: false },
-        { id: "q2", text: "How easy was it to do what you needed to do today?", freeform: false },
-        { id: "q3", text: "Overall, how did you feel about the service you received today?", freeform: false },
-        { id: "q4", text: "Why did you give these scores?", freeform: true },
-        { id: "q5", text: "How would you prefer to get in touch with HMRC?", freeform: false },
+        { id: "q1", text: "Were you able to do what you needed?", freeform: false },
+        { id: "q2", text: "How easy was it?", freeform: false },
+        { id: "q3", text: "How did you feel about this service?", freeform: false },
+        { id: "q4", text: "Why did you give these scores? (Optional)", freeform: true },
+        { id: "q5", text: "How would you prefer to contact HMRC?", freeform: false },
         { id: "q6", text: "Provide other contact option?", freeform: true }
     ],
     answers: [
@@ -45,11 +45,11 @@ const surveyWithOption = {
 const surveyWithoutOption = {
     id: 123456,
     questions: [
-        { id: "q1", text: "Were you able to do what you needed to do today?", freeform: false },
-        { id: "q2", text: "How easy was it to do what you needed to do today?", freeform: false },
-        { id: "q3", text: "Overall, how did you feel about the service you received today?", freeform: false },
-        { id: "q4", text: "Why did you give these scores?", freeform: true },
-        { id: "q5", text: "How would you prefer to get in touch with HMRC?", freeform: false },
+        { id: "q1", text: "Were you able to do what you needed?", freeform: false },
+        { id: "q2", text: "How easy was it?", freeform: false },
+        { id: "q3", text: "How did you feel about this service?", freeform: false },
+        { id: "q4", text: "Why did you give these scores? (Optional)", freeform: true },
+        { id: "q5", text: "How would you prefer to contact HMRC?", freeform: false },
         { id: "q6", text: "Provide other contact option?", freeform: true }
     ],
     answers: [
