@@ -8,6 +8,7 @@ import Transcript from './Transcript';
 
 interface MessageInterface { 
     "aeapi.join_transfer"?: any
+    "agent.alias"?: string;
     chatFinalText?: string
     "client.display.text"?: string;
     "display.text"?: string;
@@ -16,8 +17,10 @@ interface MessageInterface {
     messageData?: string | null
     messageText?: string; 
     messageTimestamp?: string;
+    messageType?: string;
     state?: string;
-    "tc.mode"?: string
+    "tc.mode"?: string;
+    "thank_you_image_label"?: any; 
 }
 // James - I have added an interface here for the msg parameter. It is an object and I have marked all of the properties as optional because not all of them are used in every method and sometimes they are not present until the DA / Web chat responds with certain answers. Are you happy with this approach? it made the code a lot DRYer and probably safer but previously I had tried to state when parameters were optional or not.
 
@@ -76,6 +79,7 @@ export class EngagedState {
     closeChat: () => void;
     escalated: boolean;
     constructor(sdk: any, container: ChatContainer, previousMessages: any[], closeChat: () => void) {
+        console.log('PREVIOUSMESSAGES', previousMessages)
         this.sdk = sdk;
         this.container = container;
         // James - Please can you check whether container is ever null or undefined? My findings are that it probably is not based on the ChatContainer.ts where container is a div and has the ID #ciapiSkin which I can see in the console when logging container. There is also the _launchChat method in the CommonChatController which seems to return if container is truthy. This is important because I have not put it as undefined | null and if it is the code below will need some complex tweaks.
@@ -270,7 +274,7 @@ export class EngagedState {
         }
     }
 
-    _displayMessage(msg_in: { data: { "agent.alias"?: string; messageType?: string; "display.text"?: string; messageTimestamp?: string; messageText?: string; "thank_you_image_label"?: any; "client.display.text"?: string; state?: string }; }) {
+    _displayMessage(msg_in: { data: MessageInterface; }) {
         const msg = msg_in.data;
         logger.debug("---- Received message:", msg)
 
@@ -292,16 +296,16 @@ export class EngagedState {
                 this._chatActivityAndAgentTyping(msg, transcript);
                 break;
             case MessageType.Chat_Exit:
-                transcript.addSystemMsg({msg: (msg["display.text"] || messages.adviserExitedChat)}, msg.messageTimestamp);
+                transcript.addSystemMsg({msg: (msg["display.text"] || messages.adviserExitedChat)}, msg.messageTimestamp!);
                 break;
             case MessageType.Chat_CommunicationQueue:
-                transcript.addSystemMsg({msg: msg.messageText}, msg.messageTimestamp);
+                transcript.addSystemMsg({msg: msg.messageText}, msg.messageTimestamp!);
                 break;
             case MessageType.Chat_NeedWait:
-                transcript.addSystemMsg({msg: msg.messageText}, msg.messageTimestamp);
+                transcript.addSystemMsg({msg: msg.messageText}, msg.messageTimestamp!);
                 break;
             case MessageType.Chat_Denied:
-                transcript.addSystemMsg({msg: msg["thank_you_image_label"]}, msg.messageTimestamp);
+                transcript.addSystemMsg({msg: msg["thank_you_image_label"]}, msg.messageTimestamp!);
                 break;
             case MessageType.ChatRoom_MemberLost:
                 this._chatRoomMemberLost(msg, transcript);
@@ -313,12 +317,12 @@ export class EngagedState {
                 if(msg["client.display.text"] == '') {
                     break;
                 } else {
-                    transcript.addSystemMsg({msg: msg["client.display.text"]}, msg.messageTimestamp)
+                    transcript.addSystemMsg({msg: msg["client.display.text"]}, msg.messageTimestamp!)
                     break;
                 }
             default:
                 if(msg.state === MessageState.Closed) {
-                    transcript.addSystemMsg({msg: messages.agentLeftChat}, msg.messageTimestamp);
+                    transcript.addSystemMsg({msg: messages.agentLeftChat}, msg.messageTimestamp!);
                 } else {
                     logger.debug("==== Unknown message:", msg);
                 }
