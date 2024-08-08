@@ -2,8 +2,8 @@ import * as DisplayState from '../NuanceDisplayState'
 import * as logger from '../utils/logger';
 import ClickToChatButton from './ClickToChatButton';
 
-type  displayState = "chatactive" | "outofhours" | "ready" | "busy"
-interface ClickToChatObjectInterface {
+ type  displayState = "chatactive" | "outofhours" | "ready" | "busy"
+export interface ClickToChatObjectInterface {
     c2cIdx: any, 
     displayState: displayState,
     launchable: boolean
