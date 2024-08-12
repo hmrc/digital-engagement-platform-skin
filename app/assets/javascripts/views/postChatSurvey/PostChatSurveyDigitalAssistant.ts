@@ -155,7 +155,7 @@ export const html: string = `
               How would you prefer to contact HMRC?
             </legend>
             <p id="contact-error" class="govuk-error-message">
-              <span class="govuk-visually-hidden">Error:</span> Select how you felt about the service
+              <span class="govuk-visually-hidden">Error:</span> Select how you prefer to contact HMRC
             </p>
             <div class="govuk-radios" data-module="govuk-radios">
 
