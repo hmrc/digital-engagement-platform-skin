@@ -8,8 +8,6 @@ export default class PostChatSurveyDigitalAssistantService {
     beginPostChatSurvey(survey, automaton, timestamp) {
         const chatParams = this.sdk.getChatParams();
 
-        console.log(sessionStorage.agentId)
-
         const startedEvent = {
             _domain: "automaton",
             evt: "started",
