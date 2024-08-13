@@ -1,4 +1,4 @@
-import { Survey, AutomatonType, Answers } from '../controllers/CommonChatController';
+import { AutomatonType } from '../controllers/CommonChatController';
 import * as logger from '../utils/logger';
 
 export default class PostChatSurveyWebchatService {
@@ -241,10 +241,9 @@ export default class PostChatSurveyWebchatService {
     }
 
     closePostChatSurvey(automaton: AutomatonType, timestamp: number): void {
-        // Automation name seems to be missing here. Should probably be typed optional. Andy to check. 
-        const chatParams = this.sdk.getChatParams();
+        const chatParams: any = this.sdk.getChatParams();
 
-        const endedEvent = {
+        const endedEvent: {} = {
             _domain: "automaton",
             evt: "ended",
             automatonType: "satisfactionSurvey",
