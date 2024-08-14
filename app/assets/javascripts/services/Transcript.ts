@@ -63,10 +63,9 @@ export default class Transcript {
         if (msgObject.state === undefined) msgObject.state = "";
         if (msgObject.joinTransfer === undefined) msgObject.joinTransfer = "";
 
-        if (msgTimestamp) {
-            this._appendMessage(msgObject.msg, "", this.classes.System, this._getMsgTimestampPrefix(msgTimestamp, this.systemMsgPrefix, "h3"), false, true, msgObject.state, msgObject.joinTransfer);
-        }
+        this._appendMessage(msgObject.msg, "", this.classes.System, this._getMsgTimestampPrefix(msgTimestamp, this.systemMsgPrefix, "h3"), false, true, msgObject.state, msgObject.joinTransfer);
     }
+    // James - Adam logged in as an agent and msgTimestamp was either a string or undefined in the conole. However, if I use a conditional to check that msgTimestamp is truthy, it fails one of the unit tests because msgTimestamp is not passed through. How would you like me to handle this? I can add a conditional but the unit test will need updated. I cannot guarantee that Nuance will always pass the msgTimestamp argument which would change the functionality.
 
     addOpenerScript(msg: string): void {
 
