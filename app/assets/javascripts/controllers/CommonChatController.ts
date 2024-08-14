@@ -11,27 +11,9 @@ import PostChatSurveyDigitalAssistantService from '../services/PostChatSurveyDig
 import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
 import PrintUtils from '../utils/PrintUtils'
 import { messages } from "../utils/Messages";
+import { AutomatonType, Survey, Answers } from '../types'
 
 type ChatStatesType = ChatStates.NullState | ChatStates.EngagedState | ChatStates.ClosingState | ChatStates.ShownState
-
-export type AutomatonType = { id: string, name: string }
-export interface Survey {
-    id: string;
-    questions: {
-        id: string[];
-        text: string;
-        freeform: boolean;
-    }[];
-}
-
-export interface Answers {
-    answers: {
-        id: string | undefined;
-        text: string;
-        freeform: boolean;
-    }[];
-}
-
 interface QuestionCompleted {
     Q1: boolean;
     Q2: boolean;
@@ -93,12 +75,12 @@ export default class CommonChatController {
     }
 
     getFeatureSwitch(switchName: string): boolean {
-      //Feature switches are held by the frontend, so call to the frontend to retrieve the state of each switch. Url is set by the frontend on page load.
-      const http: XMLHttpRequest = new XMLHttpRequest();
-      http.open("GET", window.featureSwitchUrl + "/" + switchName, false);
-      http.send();
+        //Feature switches are held by the frontend, so call to the frontend to retrieve the state of each switch. Url is set by the frontend on page load.
+        const http: XMLHttpRequest = new XMLHttpRequest();
+        http.open("GET", window.featureSwitchUrl + "/" + switchName, false);
+        http.send();
 
-      return http.status === 204;
+        return http.status === 204;
     }
 
     getTextAreaValue(textArea: string): string {
@@ -158,7 +140,7 @@ export default class CommonChatController {
     }
 
     getSdk(): any {
-        logger.debug("printing this.sdk.chatDisplayed",this.sdk.chatDisplayed)
+        logger.debug("printing this.sdk.chatDisplayed", this.sdk.chatDisplayed)
         return this.sdk
     }
 
@@ -166,43 +148,43 @@ export default class CommonChatController {
         if (this.container) {
             return;
         }
-        try{
+        try {
             this.type = obj.type
             this._showChat();
             if (obj.state === 'missed') {
                 let msg: string = messages.unavilable
-                this.container.getTranscript().addSystemMsg({msg: msg}, Date.now());
+                this.container.getTranscript().addSystemMsg({ msg: msg }, Date.now());
                 let ciapiSkinFooter: HTMLElement | null = document.getElementById('ciapiSkinFooter')
-                if(ciapiSkinFooter){
+                if (ciapiSkinFooter) {
                     ciapiSkinFooter.style.display = 'none'
                 }
-                
+
             } else {
-                    this._displayOpenerScripts();
-        
-                    this.sdk.chatDisplayed({
-                        "customerName": "You",
-                        "previousMessagesCb": (resp: any) => this._moveToChatEngagedState(resp.messages),
-                        "disconnectCb": () => logger.info("%%%%%% disconnected %%%%%%"),
-                        "reConnectCb": () => logger.info("%%%%%% reconnected %%%%%%"),
-                        "failedCb": () => logger.info("%%%%%% failed %%%%%%"),
-                        "openerScripts": null,
-                        "defaultAgentAlias": "HMRC"
-                    });
-        
-                    this._removeAnimation();
-        
-                    let dav3Skin: HTMLElement | null = document.getElementById("ciapiSkin");
-        
-                    if (dav3Skin) {
-                        this.updateDav3DeskproRefererUrls();
-                    }
-        
-                    const existingErrorMessage: HTMLElement | null = document.getElementById("error-message")
-        
-                    if (existingErrorMessage) {
-                        existingErrorMessage.remove()
-                    }
+                this._displayOpenerScripts();
+
+                this.sdk.chatDisplayed({
+                    "customerName": "You",
+                    "previousMessagesCb": (resp: any) => this._moveToChatEngagedState(resp.messages),
+                    "disconnectCb": () => logger.info("%%%%%% disconnected %%%%%%"),
+                    "reConnectCb": () => logger.info("%%%%%% reconnected %%%%%%"),
+                    "failedCb": () => logger.info("%%%%%% failed %%%%%%"),
+                    "openerScripts": null,
+                    "defaultAgentAlias": "HMRC"
+                });
+
+                this._removeAnimation();
+
+                let dav3Skin: HTMLElement | null = document.getElementById("ciapiSkin");
+
+                if (dav3Skin) {
+                    this.updateDav3DeskproRefererUrls();
+                }
+
+                const existingErrorMessage: HTMLElement | null = document.getElementById("error-message")
+
+                if (existingErrorMessage) {
+                    existingErrorMessage.remove()
+                }
             }
         } catch (e: unknown) {
             logger.error("!!!! launchChat got exception: ", e);
@@ -313,11 +295,11 @@ export default class CommonChatController {
             }
         }
 
-        if(this.ended){
+        if (this.ended) {
             this.container.destroy();
             this.container = null;
             this._moveToChatNullState();
-            if(this.sdk && this.type != 'proactive'){
+            if (this.sdk && this.type != 'proactive') {
                 window.Inq.reinitChat();
             }
         } else {
@@ -329,7 +311,7 @@ export default class CommonChatController {
     onPrint(e: Event): boolean {
         e.preventDefault;
         const printDate: HTMLElement | null = document.getElementById("print-date")
-        if(printDate){
+        if (printDate) {
             printDate.innerHTML = PrintUtils.getPrintDate();
         }
 
@@ -345,16 +327,16 @@ export default class CommonChatController {
         ];
 
         const printList: string[] = [
-        "govuk-grid-row",
-        "govuk-grid-column-two-thirds",
-        "govuk-main-wrapper"
+            "govuk-grid-row",
+            "govuk-grid-column-two-thirds",
+            "govuk-main-wrapper"
         ];
 
         PrintUtils.removeElementsForPrint(elementList);
 
         if (document.getElementById("nuanMessagingFrame")?.classList.contains("ci-api-popup")) {
-            document.body.querySelectorAll('*').forEach(function(node: Element): void {
-                printList.forEach(function(item: string): void {
+            document.body.querySelectorAll('*').forEach(function (node: Element): void {
+                printList.forEach(function (item: string): void {
                     if (node.classList.contains(item)) {
                         node.classList.add("govuk-!-display-none-print");
                     }
@@ -381,7 +363,7 @@ export default class CommonChatController {
     }
 
     closeNuanceChat(): void {
-        if(this.sdk) {
+        if (this.sdk) {
             if (this.sdk.isChatInProgress()) {
                 this.sdk.closeChat();
             }
@@ -432,7 +414,7 @@ export default class CommonChatController {
     onHideChat(): void {
         if (!this.minimised) {
             this.container.minimise();
-            if(this.sdk) {
+            if (this.sdk) {
                 this.sdk.sendActivityMessage("minimize");
             }
             this.minimised = true;
@@ -442,14 +424,14 @@ export default class CommonChatController {
     onRestoreChat(): void {
         if (this.minimised) {
             this.container.restore();
-            if(this.sdk) {
+            if (this.sdk) {
                 this.sdk.sendActivityMessage("restore");
             }
             this.minimised = false;
-            try{
+            try {
                 document.getElementById("ciapiSkinHideButton")?.focus();
             } catch {
-                console.log('DEBUG: ' + 'Element not found' )
+                console.log('DEBUG: ' + 'Element not found')
             }
         }
     }
@@ -484,9 +466,9 @@ export default class CommonChatController {
 
     onConfirmEndChat(): void {
         this.closeNuanceChat();
-        if(this.state instanceof ChatStates.EngagedState){
+        if (this.state instanceof ChatStates.EngagedState) {
             this.state.escalated = this.state.isEscalated();
-        } 
+        }
 
         this._moveToClosingState();
 
@@ -508,67 +490,67 @@ export default class CommonChatController {
 
     onPostChatSurveyWebchatSubmitted(surveyPage: any): void {
         let surveySkipped: string | null = sessionStorage.getItem("surveySkipped");
-        if(surveySkipped != "true") {
-        const answers: Answers = {
-            answers: [
-                {id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false},
-                {id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false},
-                {id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false},
-                {id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true},
-                {id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false},
-                {id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true}
-            ]
-        };
-        if(answers.answers[0].text != "" && answers.answers[1].text != "" && answers.answers[2].text != "" && answers.answers[4].text != "") {
-            document.cookie = "surveyed=true";
-            if(document.getElementById('errorSummary')) {
-                document.getElementById('errorSummary')!.style.display = 'none'
+        if (surveySkipped != "true") {
+            const answers: Answers = {
+                answers: [
+                    { id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false },
+                    { id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false },
+                    { id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false },
+                    { id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true },
+                    { id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false },
+                    { id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true }
+                ]
+            };
+            if (answers.answers[0].text != "" && answers.answers[1].text != "" && answers.answers[2].text != "" && answers.answers[4].text != "") {
+                document.cookie = "surveyed=true";
+                if (document.getElementById('errorSummary')) {
+                    document.getElementById('errorSummary')!.style.display = 'none'
+                }
+                var surveyWithAnswers: Answers & Survey = Object.assign(answers, webchatSurvey);
+                this._sendPostChatSurveyWebchat(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonWebchat, timestamp);
+                this.showEndChatPage(true);
+                surveyPage.detach();
+            } else {
+                const errors: Promise<QuestionCompleted> = this.errorList(answers)
+                errors.then((resolve) => {
+                    if (resolve.Q1 == false) {
+                        document.getElementById("errorQ1a")?.focus();
+                    } else if (resolve.Q1 == true && resolve.Q2 == false) {
+                        document.getElementById("errorQ2a")?.focus();
+                    } else if (resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == false) {
+                        document.getElementById("errorQ3a")?.focus();
+                    } else if (resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q5 == false) {
+                        document.getElementById("errorQ5a")?.focus();
+                    }
+                }).catch((err: unknown): void => {
+                    logger.error("!!!! Survey Error list got exception: ", err);
+                });
             }
-            var surveyWithAnswers: Answers & Survey = Object.assign(answers, webchatSurvey);
-            this._sendPostChatSurveyWebchat(this.sdk).submitPostChatSurvey(surveyWithAnswers, automatonWebchat, timestamp);
-            this.showEndChatPage(true);
-            surveyPage.detach();
         } else {
-            const errors: Promise<QuestionCompleted> = this.errorList(answers)
-            errors.then((resolve) => {
-              if(resolve.Q1 == false) {
-                  document.getElementById("errorQ1a")?.focus();
-              } else if(resolve.Q1 == true && resolve.Q2 == false) {
-                  document.getElementById("errorQ2a")?.focus();
-              } else if(resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == false) {
-                  document.getElementById("errorQ3a")?.focus();
-              } else if(resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q5 == false ) {
-                  document.getElementById("errorQ5a")?.focus();
-              }
-            }).catch((err: unknown): void => {
-              logger.error("!!!! Survey Error list got exception: ", err);
-            });
-        }
-    } else {
-        sessionStorage.removeItem("surveySkipped");
-        document.cookie = "surveyed=true";
-        this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automatonWebchat, timestamp);
-        this.showEndChatPage(false);
-        surveyPage.detach();
+            sessionStorage.removeItem("surveySkipped");
+            document.cookie = "surveyed=true";
+            this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automatonWebchat, timestamp);
+            this.showEndChatPage(false);
+            surveyPage.detach();
         }
     }
 
     onPostChatSurveyDigitalAssistantSubmitted(surveyPage: any) {
         let surveySkipped: string | null = sessionStorage.getItem("surveySkipped");
-        if(surveySkipped != "true") {
+        if (surveySkipped != "true") {
             const answers: Answers = {
                 answers: [
-                    {id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false},
-                    {id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false},
-                    {id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false},
-                    {id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true},
-                    {id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false},
-                    {id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true}
+                    { id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false },
+                    { id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false },
+                    { id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false },
+                    { id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true },
+                    { id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false },
+                    { id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true }
                 ]
             };
-            if(answers.answers[0].text != "" && answers.answers[1].text != "" && answers.answers[2].text != "" && answers.answers[4].text != "") {
+            if (answers.answers[0].text != "" && answers.answers[1].text != "" && answers.answers[2].text != "" && answers.answers[4].text != "") {
                 document.cookie = "surveyed=true";
-                if(document.getElementById('errorSummary')) {
+                if (document.getElementById('errorSummary')) {
                     document.getElementById('errorSummary')!.style.display = 'none'
                 }
                 var surveyWithAnswers: Answers & Survey = Object.assign(answers, digitalAssistantSurvey);
@@ -577,19 +559,19 @@ export default class CommonChatController {
                 surveyPage.detach();
             } else {
                 const errors: Promise<QuestionCompleted> = this.errorList(answers)
-                  errors.then((resolve) => {
-                    if(resolve.Q1 == false) {
+                errors.then((resolve) => {
+                    if (resolve.Q1 == false) {
                         document.getElementById("errorQ1a")?.focus();
-                    } else if(resolve.Q1 == true && resolve.Q2 == false) {
+                    } else if (resolve.Q1 == true && resolve.Q2 == false) {
                         document.getElementById("errorQ2a")?.focus();
-                    } else if(resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == false) {
+                    } else if (resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == false) {
                         document.getElementById("errorQ3a")?.focus();
-                    } else if(resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q5 == false ) {
+                    } else if (resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q5 == false) {
                         document.getElementById("errorQ5a")?.focus();
                     }
-                  }).catch((err: unknown): void => {
+                }).catch((err: unknown): void => {
                     logger.error("!!!! Survey Error list got exception: ", err);
-                  });
+                });
             }
         } else {
             document.cookie = "surveyed=true";
@@ -600,7 +582,7 @@ export default class CommonChatController {
         }
     };
 
-    errorList(answers: Answers):  Promise<QuestionCompleted> {
+    errorList(answers: Answers): Promise<QuestionCompleted> {
         return new Promise((resolve) => {
             let questionCompleted: QuestionCompleted = {
                 "Q1": false,
@@ -608,7 +590,7 @@ export default class CommonChatController {
                 "Q3": false,
                 "Q5": false
             }
-            if(answers.answers[0].text == ""){
+            if (answers.answers[0].text == "") {
                 document.getElementById('errorSummary')!.style.display = 'block'
                 document.getElementById('errorQ1')!.style.display = 'block'
                 document.getElementById('needed-error')!.style.display = 'block'
@@ -619,7 +601,7 @@ export default class CommonChatController {
                 document.getElementById('needed-error')!.style.display = 'none'
                 document.getElementById('q1FormGroup')!.classList.remove('govuk-form-group--error')
             }
-            if(answers.answers[1].text == ""){
+            if (answers.answers[1].text == "") {
                 document.getElementById('errorSummary')!.style.display = 'block'
                 document.getElementById('errorQ2')!.style.display = 'block'
                 document.getElementById('easy-error')!.style.display = 'block'
@@ -630,7 +612,7 @@ export default class CommonChatController {
                 document.getElementById('easy-error')!.style.display = 'none'
                 document.getElementById('q2FormGroup')!.classList.remove('govuk-form-group--error')
             }
-            if(answers.answers[2].text == ""){
+            if (answers.answers[2].text == "") {
                 document.getElementById('errorSummary')!.style.display = 'block'
                 document.getElementById('errorQ3')!.style.display = 'block'
                 document.getElementById('service-error')!.style.display = 'block'
@@ -641,7 +623,7 @@ export default class CommonChatController {
                 document.getElementById('service-error')!.style.display = 'none'
                 document.getElementById('q3FormGroup')!.classList.remove('govuk-form-group--error')
             }
-            if((answers.answers[4].text == "") || (answers.answers[4].text == "Other" && answers.answers[5].text == "")){
+            if ((answers.answers[4].text == "") || (answers.answers[4].text == "Other" && answers.answers[5].text == "")) {
                 document.getElementById('errorSummary')!.style.display = 'block'
                 document.getElementById('errorQ5')!.style.display = 'block'
                 document.getElementById('contact-error')!.style.display = 'block'
@@ -665,7 +647,7 @@ export default class CommonChatController {
             soundElement.classList.add("inactive");
             soundElement.innerHTML = "Turn notification sound on";
 
-        } else if (!isActive && soundElement){
+        } else if (!isActive && soundElement) {
             soundElement.classList.remove("inactive");
             soundElement.classList.add("active");
             soundElement.innerHTML = "Turn notification sound off";
@@ -683,7 +665,7 @@ export default class CommonChatController {
             container.classList.add("ciapiSkinContainerLargerSize");
             sizeButton.innerHTML = "Decrease chat size";
 
-        } else if(!isStandard && container && sizeButton){
+        } else if (!isStandard && container && sizeButton) {
             container.classList.remove("ciapiSkinContainerLargerSize");
             container.classList.add("ciapiSkinContainerStandardSize");
             sizeButton.innerHTML = "Increase chat size";

@@ -2,6 +2,7 @@ import * as MessageState from '../NuanceMessageState';
 import * as logger from '../utils/logger';
 import { messages } from '../utils/Messages';
 import { Agent, Customer, System, Opener } from '../DefaultClasses';
+import { QuickReplyData } from '../types';
 
 type Classes = typeof import("../DefaultClasses");
 
@@ -16,7 +17,7 @@ export default class Transcript {
     transitions: any
     // James - This is set to any but relates to a comment below in handleRichMediaClickEvent and is explained there.
 
-    constructor(content: HTMLElement | null, classes: Classes, msgPrefix: undefined) {
+    constructor(content: HTMLElement | null, classes: Classes, msgPrefix?: undefined) {
         // James - msgPrefix is declared but the value is never read. Can we delete it?
         this.content = content;
         this.classes = classes;
@@ -312,7 +313,8 @@ export default class Transcript {
         }
     }
 
-    addQuickReply(quickReplyData: { nodes: { controls: { id: string; type: string; text: string[]; values: string[]; event: { name: string } }[], id: string }[]; transitions: { name: string, from: string, trigger: string }[] }, messageText: string, messageTimestamp: string): null | undefined {
+    addQuickReply(quickReplyData: QuickReplyData, messageText: string, messageTimestamp: string): null | undefined {
+        console.log('QUICKREPLYDATA', quickReplyData)
         // James - I have gotten these from using the console. However, I cannot guarantee that they will always be these types. What do you think? Probably true of a lot of this ticket.
         try {
             if (!quickReplyData.nodes) return null;

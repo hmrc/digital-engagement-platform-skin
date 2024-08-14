@@ -1,5 +1,5 @@
 import * as logger from '../utils/logger';
-import { AutomatonType } from '../controllers/CommonChatController';
+import { AutomatonType } from '../types';
 export default class PostChatSurveyDigitalAssistantService {
     sdk: any;
     constructor(sdk: any) {

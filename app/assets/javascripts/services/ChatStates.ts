@@ -5,6 +5,7 @@ import { host } from '../utils/HostUtils';
 import { messages } from '../utils/Messages';
 import ChatContainer from '../utils/ChatContainer';
 import Transcript from './Transcript';
+import { QuickReplyData } from '../types';
 
 interface MessageInterface {
     "aeapi.join_transfer"?: any
@@ -170,11 +171,11 @@ export class EngagedState {
         return msg.isAgentMsg && msg["external.app"]
     }
 
-    _extractQuickReplyData(msg: MessageInterface): null | {} {
+    _extractQuickReplyData(msg: MessageInterface): null | QuickReplyData {
 
         if (!msg.messageData) return null
 
-        const messageDataAsObject: { widgetType: string } = JSON.parse(msg.messageData);
+        const messageDataAsObject: QuickReplyData = JSON.parse(msg.messageData);
 
         if (messageDataAsObject &&
             messageDataAsObject.widgetType &&
@@ -201,10 +202,10 @@ export class EngagedState {
     }
     // James - I think this is typed correctly with the exception of const messageDataAsObject: { command?: {event: {CloseChat: boolean}} }. I could not find command on the object which makes me think it must be a optional parameter depending on what has been received from Nuance. I have typed it as boolean based solely on the name so it would be nice to confirm this. Do you have any ideas so that I can confirm what we are receiving?
 
-    _extractYouTubeVideoData(msg: MessageInterface): {} | null {
+    _extractYouTubeVideoData(msg: MessageInterface): QuickReplyData | null {
         if (!msg.messageData) return null
 
-        const messageDataAsObject: { widgetType: string } = JSON.parse(msg.messageData);
+        const messageDataAsObject: QuickReplyData = JSON.parse(msg.messageData);
 
         if (messageDataAsObject &&
             messageDataAsObject.widgetType &&
@@ -222,8 +223,7 @@ export class EngagedState {
     }
 
     _chatCommunicationMessage(msg: MessageInterface, transcript: Transcript): void {
-        const quickReplyData: {} | null = this._extractQuickReplyData(msg);
-        // James - This is saying that it is not assignable to type null | {} but the extractQuickReplyData definitely returns null | {}. Do you have any ideas how to fix this error?
+        const quickReplyData: QuickReplyData | null = this._extractQuickReplyData(msg);
         const closeChatEventData: {} | null = this._extractCloseChatEventData(msg);
         const youTubeVideo: {} | null = this._extractYouTubeVideoData(msg);
 

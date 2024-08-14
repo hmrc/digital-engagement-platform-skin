@@ -1,4 +1,4 @@
-import { AutomatonType } from '../controllers/CommonChatController';
+import { AutomatonType } from "../types";
 import * as logger from '../utils/logger';
 
 export default class PostChatSurveyWebchatService {
