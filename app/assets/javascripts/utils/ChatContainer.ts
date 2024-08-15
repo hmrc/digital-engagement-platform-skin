@@ -268,6 +268,7 @@ export default class ChatContainer {
         this._registerEventListener("#ciapiSkinSendButton", (_: Event): void => {
             this.eventHandler.onSend();
             this.inputBoxFocus = false;
+            document.getElementById("custMsg")?.focus();
         });
 
         this._registerEventListener("#hamburgerMenu", (_: Event): void => {
