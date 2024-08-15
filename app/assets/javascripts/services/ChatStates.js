@@ -26,6 +26,7 @@ export class ShownState {
     onSend(text) {
         logger.info(">>> not connected: engage request");
         this.engageRequest(text);
+        document.getElementById("custMsg").focus();
     }
 
     onClickedClose() {
@@ -67,6 +68,7 @@ export class EngagedState {
     onSend(text) {
         logger.info(">>> connected: send message");
         this.sdk.sendMessage(text);
+        document.getElementById("custMsg").focus();
     }
 
     onClickedClose() {
