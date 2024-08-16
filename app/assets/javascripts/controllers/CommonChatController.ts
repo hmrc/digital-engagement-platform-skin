@@ -695,6 +695,8 @@ export default class CommonChatController {
         newMessageSentDiv.setAttribute('aria-live', 'polite')
         document.body.appendChild(newMessageSentDiv)
         newMessageSentDiv!.textContent = message
-        document.getElementById("custMsg")?.focus()
+        // setTimeout(() => {
+        document.getElementById("custMsg")?.focus();
+        // }, 5000)
     }
 };
