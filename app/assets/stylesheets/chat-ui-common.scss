@@ -231,3 +231,8 @@ $footer-top-border-height: 3px;
         display: inline-block;
     }
 }
+
+#sentMessage {
+    position: absolute;
+    left: -9999px
+}
