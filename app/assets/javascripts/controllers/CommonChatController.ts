@@ -410,10 +410,14 @@ export default class CommonChatController {
     }
 
     onSend(): void {
-        const text: string = this.container.currentInputText().trim();
-        this.container.clearCurrentInputText();
-        if (text !== "")
+        let text: string = this.container.currentInputText();
+        const alphaNumericSpecial = /\S/
+
+        if(alphaNumericSpecial.test(text) == true) {
+            text = text.trim()
             this.state.onSend(text);
+            this.container.clearCurrentInputText();
+        }
     }
 
     onCloseChat(): void {
