@@ -689,10 +689,12 @@ export default class CommonChatController {
     onMessageSentNotification() {
         const message = 'The message has been sent'
         let messageSentDiv = document.getElementById('sentMessage')
-        messageSentDiv!.textContent = message
-        document.getElementById("custMsg")?.focus();
-        setTimeout(function () {
-            messageSentDiv!.textContent = ''
-        }, 4000)
+        messageSentDiv?.parentNode?.removeChild(messageSentDiv)
+        const newMessageSentDiv = document.createElement('div')
+        newMessageSentDiv.id = 'sentMessage'
+        newMessageSentDiv.setAttribute('aria-live', 'polite')
+        document.body.appendChild(newMessageSentDiv)
+        newMessageSentDiv!.textContent = message
+        document.getElementById("custMsg")?.focus()
     }
 };
