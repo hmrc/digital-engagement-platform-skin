@@ -686,17 +686,15 @@ export default class CommonChatController {
         sessionStorage.setItem("isStandard", `${!isStandard}`);
     }
 
-    onMessageSentNotification() {
-        const message = 'The message has been sent'
-        let messageSentDiv = document.getElementById('sentMessage')
+    onMessageSentNotification(): void {
+        const message: string = 'The message has been sent'
+        document.getElementById("custMsg")?.focus();
+        let messageSentDiv: HTMLElement | null = document.getElementById('sentMessage')
         messageSentDiv?.parentNode?.removeChild(messageSentDiv)
-        const newMessageSentDiv = document.createElement('div')
+        let newMessageSentDiv: HTMLDivElement = document.createElement('div')
         newMessageSentDiv.id = 'sentMessage'
         newMessageSentDiv.setAttribute('aria-live', 'polite')
         document.body.appendChild(newMessageSentDiv)
-        newMessageSentDiv!.textContent = message
-        // setTimeout(() => {
-        document.getElementById("custMsg")?.focus();
-        // }, 5000)
+        newMessageSentDiv.textContent = message
     }
 };
