@@ -21,6 +21,7 @@ describe("ChatContainer Event Listeners", () => {
         const chatContainer = new ChatContainer(null, EmbeddedContainerHtml, null);
 
         jest.spyOn(chatContainer.eventHandler, 'onSend');
+        chatContainer.container.querySelector('#ciapiSkinSendButton').disabled = false
         chatContainer.container.querySelector('#ciapiSkinSendButton').click()
 
         expect(chatContainer.eventHandler.onSend).toBeCalledTimes(1);

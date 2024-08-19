@@ -209,7 +209,7 @@ export default class ChatContainer {
     processKeypressEvent(e: KeyboardEvent): void {
 
         const custMsg = this.container.querySelector<HTMLTextAreaElement>('#custMsg');
-        const sendButton = this.container.querySelector<HTMLTextAreaElement>('#ciapiSkinSendButton');
+        const sendButton = this.container.querySelector<HTMLButtonElement>('#ciapiSkinSendButton');
         const alphaNumericSpecial = /\S/
         const enterKey: number = 13;
             
@@ -229,14 +229,11 @@ export default class ChatContainer {
                 this.inputBoxFocus = true;
             }
         }
-
-        if(custMsg) {
-            this._resetStopTypingTimeout();
-
+        this._resetStopTypingTimeout();
         if(!this.isCustomerTyping) {
             this.startTyping(this.eventHandler); 
         }
-        }
+        
     }
 
     disablePreviousWidgets(e: any): void {
