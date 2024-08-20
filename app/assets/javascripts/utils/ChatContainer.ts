@@ -212,23 +212,24 @@ export default class ChatContainer {
         const sendButton = this.container.querySelector<HTMLButtonElement>('#ciapiSkinSendButton');
         const alphaNumericSpecial = /\S/
         const enterKey: number = 13;
-            
-        if(alphaNumericSpecial.test(custMsg!.value) == true) {
-            sendButton!.disabled = false;
-            sendButton!.ariaDisabled = "false";
-            if (e.which == enterKey) {
-                this.eventHandler.onSend();
-                e.preventDefault();
-                this.inputBoxFocus = true;
+
+            if(alphaNumericSpecial.test(custMsg!.value) == true) {
+                sendButton!.disabled = false;
+                sendButton!.ariaDisabled = "false";
+                if (e.which == enterKey) {
+                    this.eventHandler.onSend();
+                    e.preventDefault();
+                    this.inputBoxFocus = true;
+                }
+            } else {
+                sendButton!.disabled = true;
+                sendButton!.ariaDisabled = "true";
+                if (e.which == enterKey) {
+                    e.preventDefault();
+                    this.inputBoxFocus = true;
+                }
             }
-        } else {
-            sendButton!.disabled = true;
-            sendButton!.ariaDisabled = "true";
-            if (e.which == enterKey) {
-                e.preventDefault();
-                this.inputBoxFocus = true;
-            }
-        }
+        
         this._resetStopTypingTimeout();
         if(!this.isCustomerTyping) {
             this.startTyping(this.eventHandler); 
