@@ -272,9 +272,7 @@ describe("ChatContainer", () => {
         jest.spyOn(global, 'setTimeout');
         jest.spyOn(global, 'clearTimeout');
 
-        let customerInputHtml = document.createElement("textarea");
-        customerInputHtml.setAttribute("id", "custMsg");
-        customerInputHtml.value = "How many times did the batmobile catch a flat?";
+        let customerInputHtml = "<textarea id='custMsg'>'Hello there</textarea><button id='ciapiSkinSendButton' disabled aria-disabled='true'>Send message</button>'"
 
         chatContainer = new ChatContainer(null, customerInputHtml, mockSDK);
         chatContainer.eventHandler = nullEventHandler;
