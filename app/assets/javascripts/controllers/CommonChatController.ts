@@ -411,7 +411,7 @@ export default class CommonChatController {
 
     onSend(): void {
         let text: string = this.container.currentInputText();
-        const alphaNumericSpecial = /\S/
+        const alphaNumericSpecial: RegExp = /\S/
 
         if(alphaNumericSpecial.test(text) == true) {
             text = text.trim()

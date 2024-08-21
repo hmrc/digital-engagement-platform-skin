@@ -210,7 +210,7 @@ export default class ChatContainer {
 
         const custMsg = this.container.querySelector<HTMLTextAreaElement>('#custMsg');
         const sendButton = this.container.querySelector<HTMLButtonElement>('#ciapiSkinSendButton');
-        const alphaNumericSpecial = /\S/
+        const alphaNumericSpecial: RegExp = /\S/
         const enterKey: number = 13;
 
             if(alphaNumericSpecial.test(custMsg!.value) == true) {
