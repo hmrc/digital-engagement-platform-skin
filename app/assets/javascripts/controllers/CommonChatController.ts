@@ -687,7 +687,7 @@ export default class CommonChatController {
     }
 
     onMessageSentNotification(): void {
-        const message: string = 'The message has been sent'
+        const message: string = messages.messageSent
         document.getElementById("custMsg")?.focus();
         let messageSentDiv: HTMLElement | null = document.getElementById('sentMessage')
         messageSentDiv?.parentNode?.removeChild(messageSentDiv)
