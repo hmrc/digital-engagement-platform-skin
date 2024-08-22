@@ -693,6 +693,7 @@ export default class CommonChatController {
         messageSentDiv?.parentNode?.removeChild(messageSentDiv)
         let newMessageSentDiv: HTMLDivElement = document.createElement('div')
         newMessageSentDiv.id = 'sentMessage'
+        newMessageSentDiv.className = 'govuk-visually-hidden'
         newMessageSentDiv.setAttribute('aria-live', 'polite')
         document.body.appendChild(newMessageSentDiv)
         newMessageSentDiv.textContent = message
