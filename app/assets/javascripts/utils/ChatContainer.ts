@@ -209,20 +209,35 @@ export default class ChatContainer {
     }
 
     processKeypressEvent(e: KeyboardEvent): void {
+
+        const custMsg = this.container.querySelector<HTMLTextAreaElement>('#custMsg');
+        const sendButton = this.container.querySelector<HTMLButtonElement>('#ciapiSkinSendButton');
+        const alphaNumericSpecial: RegExp = /\S/
+        const enterKey: number = 13;
+
+        if (alphaNumericSpecial.test(custMsg!.value) == true) {
+            sendButton!.disabled = false;
+            sendButton!.ariaDisabled = "false";
+            if (e.which == enterKey) {
+                this.eventHandler.onSend();
+                e.preventDefault();
+                this.inputBoxFocus = true;
+            }
+        } else {
+            sendButton!.disabled = true;
+            sendButton!.ariaDisabled = "true";
+            if (e.which == enterKey) {
+                e.preventDefault();
+                this.inputBoxFocus = true;
+            }
+        }
+
         this._resetStopTypingTimeout();
 
         if (!this.isCustomerTyping) {
             this.startTyping(this.eventHandler);
         }
 
-        const enterKey: number = 13;
-        if (e.which == enterKey) {
-            this.eventHandler.onSend();
-            e.preventDefault();
-            this.inputBoxFocus = true;
-        } else {
-            this.inputBoxFocus = false;
-        }
     }
 
     disablePreviousWidgets(e: any): void {
@@ -250,6 +265,7 @@ export default class ChatContainer {
     _registerKeypressEventListener(selector: string, handler: (e: KeyboardEvent) => void): void {
         const element = this.container.querySelector<HTMLTextAreaElement>(selector);
         if (element) {
+            element.addEventListener("keyup", handler);
             element.addEventListener("keypress", handler);
         }
     }

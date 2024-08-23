@@ -272,7 +272,9 @@ describe("ChatContainer", () => {
         jest.spyOn(global, 'setTimeout');
         jest.spyOn(global, 'clearTimeout');
 
-        chatContainer = new ChatContainer(null, null, mockSDK);
+        let customerInputHtml = "<textarea id='custMsg'>'Hello there</textarea><button id='ciapiSkinSendButton' disabled aria-disabled='true'>Send message</button>'"
+
+        chatContainer = new ChatContainer(null, customerInputHtml, mockSDK);
         chatContainer.eventHandler = nullEventHandler;
 
         let resetStopTypingTimeoutSpy = jest.spyOn(chatContainer, '_resetStopTypingTimeout');
