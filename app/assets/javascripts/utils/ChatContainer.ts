@@ -10,6 +10,7 @@ interface nullEventHandlerInterface {
     onHideChat: () => void,
     onRestoreChat: () => void,
     onConfirmEndChat: () => void,
+    onMessageSentNotification: () => void,
     onSizeToggle: () => void,
     onSoundToggle: () => void,
     onStartTyping: () => void,
@@ -19,19 +20,20 @@ interface nullEventHandlerInterface {
 }
 
 export const nullEventHandler: nullEventHandlerInterface = {
-    onSend: function (): void {},
-    onShowHamburger: function (): void {},
-    onAccessibilityStatement: function (): void {},
-    onCloseChat: function (): void {},
-    onHideChat: function (): void {},
-    onRestoreChat: function (): void {},
-    onConfirmEndChat: function (): void {},
-    onSizeToggle: function (): void {},
-    onSoundToggle: function (): void {},
-    onStartTyping: function (): void {},
-    onStopTyping: function (): void {},
-    onSkipToTopLink: function (): void {},
-    onPrint: function (): void {}
+    onSend: function (): void { },
+    onShowHamburger: function (): void { },
+    onAccessibilityStatement: function (): void { },
+    onCloseChat: function (): void { },
+    onHideChat: function (): void { },
+    onRestoreChat: function (): void { },
+    onConfirmEndChat: function (): void { },
+    onMessageSentNotification: function (): void { },
+    onSizeToggle: function (): void { },
+    onSoundToggle: function (): void { },
+    onStartTyping: function (): void { },
+    onStopTyping: function (): void { },
+    onSkipToTopLink: function (): void { },
+    onPrint: function (): void { }
 };
 
 export default class ChatContainer {
@@ -102,13 +104,13 @@ export default class ChatContainer {
     }
 
     currentInputText(): string | undefined {
-        if(this.custInput){
+        if (this.custInput) {
             return this.custInput.value;
         }
     }
 
     clearCurrentInputText(): void {
-        if(this.custInput){
+        if (this.custInput) {
             this.custInput.value = "";
         }
     }
@@ -118,7 +120,7 @@ export default class ChatContainer {
     }
 
     destroy(): void {
-        if(this.container.parentElement){
+        if (this.container.parentElement) {
             this.container.parentElement.removeChild(this.container);
         }
     }
@@ -128,7 +130,7 @@ export default class ChatContainer {
         try {
             document.getElementById("ciapiSkinRestoreButton")?.setAttribute("tabindex", '0');
         } catch {
-            console.log('DEBUG: ' + 'Elements not found' )
+            console.log('DEBUG: ' + 'Elements not found')
         }
     }
 
@@ -140,7 +142,7 @@ export default class ChatContainer {
         const linkEl: any = e.target
         const linkHref: string | null | undefined = linkEl?.getAttribute("href");
 
-        if(!linkHref) return null; // stop clicks on the container from triggering the following code
+        if (!linkHref) return null; // stop clicks on the container from triggering the following code
 
         const nuanceMessageData = linkEl.dataset.nuanceMessageData;
         const nuanceMessageText = linkEl.dataset.nuanceMessageText;
@@ -174,9 +176,9 @@ export default class ChatContainer {
         // Handle Datapass
         if (!!nuanceDatapass) {
             const datapass: {} | null = sanitiseAndParseJsonData(e.target.dataset.nuanceDatapass);
-            if (datapass){
+            if (datapass) {
                 this.SDK.sendDataPass(datapass);
-            }    
+            }
         }
 
         this.disablePreviousWidgets(e);
@@ -184,10 +186,10 @@ export default class ChatContainer {
 
     processTranscriptEvent(e: any): void {
         this.processExternalAndResponsiveLinks(e);
-        if(e.target){
-        const nuanceMessageText: string = JSON.stringify(e.target?.dataset.nuanceMessageText);
+        if (e.target) {
+            const nuanceMessageText: string = JSON.stringify(e.target?.dataset.nuanceMessageText);
             if (
-            e.target && e.target.tagName && e.target.tagName.toLowerCase() === "a" &&
+                e.target && e.target.tagName && e.target.tagName.toLowerCase() === "a" &&
                 !!e.target.dataset
             ) {
                 this.SDK.sendVALinkMessage(e, null, null, null);
@@ -203,8 +205,8 @@ export default class ChatContainer {
                     this._focusOnNextAutomatonMessage();
                 }
             }
+        }
     }
-}
 
     processKeypressEvent(e: KeyboardEvent): void {
 
@@ -213,47 +215,48 @@ export default class ChatContainer {
         const alphaNumericSpecial: RegExp = /\S/
         const enterKey: number = 13;
 
-            if(alphaNumericSpecial.test(custMsg!.value) == true) {
-                sendButton!.disabled = false;
-                sendButton!.ariaDisabled = "false";
-                if (e.which == enterKey) {
-                    this.eventHandler.onSend();
-                    e.preventDefault();
-                    this.inputBoxFocus = true;
-                }
-            } else {
-                sendButton!.disabled = true;
-                sendButton!.ariaDisabled = "true";
-                if (e.which == enterKey) {
-                    e.preventDefault();
-                    this.inputBoxFocus = true;
-                }
+        if (alphaNumericSpecial.test(custMsg!.value) == true) {
+            sendButton!.disabled = false;
+            sendButton!.ariaDisabled = "false";
+            if (e.which == enterKey) {
+                this.eventHandler.onSend();
+                e.preventDefault();
+                this.inputBoxFocus = true;
             }
-        
-        this._resetStopTypingTimeout();
-        if(!this.isCustomerTyping) {
-            this.startTyping(this.eventHandler); 
+        } else {
+            sendButton!.disabled = true;
+            sendButton!.ariaDisabled = "true";
+            if (e.which == enterKey) {
+                e.preventDefault();
+                this.inputBoxFocus = true;
+            }
         }
-        
+
+        this._resetStopTypingTimeout();
+
+        if (!this.isCustomerTyping) {
+            this.startTyping(this.eventHandler);
+        }
+
     }
 
     disablePreviousWidgets(e: any): void {
         // Disable quick-reply widgets
         try {
-            if((e.target).getAttribute('href') == "#") {
+            if ((e.target).getAttribute('href') == "#") {
                 let qrWidgets = document.querySelectorAll<any>(".quick-reply-widget");
                 !!qrWidgets && qrWidgets.forEach(widget => widget.disable());
             }
         } catch {
-          console.log('DEBUG: ' + 'Elements not found' )
+            console.log('DEBUG: ' + 'Elements not found')
         }
-      }
+    }
 
     setEventHandler(eventHandler: nullEventHandlerInterface): void {
         this.eventHandler = eventHandler;
     }
 
-    _processCloseButtonEvent(_:Event): void {
+    _processCloseButtonEvent(_: Event): void {
         this.closeMethod = "Button";
 
         this.eventHandler.onCloseChat();
@@ -267,7 +270,7 @@ export default class ChatContainer {
         }
     }
 
-    _registerEventListener(selector:string, handler: (e: Event) => void): void {
+    _registerEventListener(selector: string, handler: (e: Event) => void): void {
         const element = this.container.querySelector<HTMLElement>(selector);
         if (element) {
             element.addEventListener("click", handler);
@@ -282,6 +285,7 @@ export default class ChatContainer {
 
         this._registerEventListener("#ciapiSkinSendButton", (_: Event): void => {
             this.eventHandler.onSend();
+            this.eventHandler.onMessageSentNotification()
             this.inputBoxFocus = false;
         });
 
@@ -339,15 +343,15 @@ export default class ChatContainer {
             element.tabIndex = -1;
         });
 
-       const styleList: string[] = [
-           "ciapiSkinCloseButton",
-           "printButton",
-           "toggleSound"
-       ];
+        const styleList: string[] = [
+            "ciapiSkinCloseButton",
+            "printButton",
+            "toggleSound"
+        ];
 
-       styleList.forEach(function(item: string): void {
-           document.getElementById(item)?.setAttribute("style", "display: none;");
-       });
+        styleList.forEach(function (item: string): void {
+            document.getElementById(item)?.setAttribute("style", "display: none;");
+        });
 
         let endChatNonFocusable: NodeListOf<HTMLElement> = document.querySelectorAll<HTMLElement>('a[href]:not([id="printLink"]), iframe, button:not([id="cancelEndChat"]):not([id="confirmEndChat"])');
 
@@ -379,7 +383,7 @@ export default class ChatContainer {
             "toggleSound"
         ];
 
-        styleList.forEach(function(item: string): void {
+        styleList.forEach(function (item: string): void {
             document.getElementById(item)?.setAttribute("style", "display: '';");
         });
 
@@ -421,7 +425,7 @@ export default class ChatContainer {
         } else {
             endChatGiveFeedback?.focus();
         }
-        if(toPrint){
+        if (toPrint) {
             this.eventHandler.onPrint(e);
         }
         this.closeMethod = null
@@ -437,12 +441,12 @@ export default class ChatContainer {
                 document.getElementById("ciapiSkinCloseButton")?.setAttribute("tabindex", '0');
                 document.getElementById("accessibility-statement-link")?.setAttribute("tabindex", '0');
             } catch {
-                console.log('DEBUG: ' + 'Elements not found' )
+                console.log('DEBUG: ' + 'Elements not found')
             }
 
             let transcriptHeading: HTMLElement | null = document.getElementById("ciapiSkinHeader");
 
-            if(transcriptHeading){
+            if (transcriptHeading) {
                 transcriptHeading.style.height = "auto";
                 transcriptHeading.style.width = "auto";
             }
@@ -450,38 +454,38 @@ export default class ChatContainer {
     }
 
     _focusOnNextAutomatonMessage(): void {
-        setTimeout(function(): void {
+        setTimeout(function (): void {
             var lastAgentMessage = Array.from(
                 document.querySelectorAll<HTMLElement>('.ciapi-agent-message')
-              ).pop();
+            ).pop();
             lastAgentMessage?.focus();
         }, 1000);
     }
 
     onConfirmEndChat(): void {
-      this.endChatPopup.hide();
-              this.eventHandler.onConfirmEndChat();
-              this._removeSkinHeadingElements();
+        this.endChatPopup.hide();
+        this.eventHandler.onConfirmEndChat();
+        this._removeSkinHeadingElements();
 
-              const endChatNonFocusable: NodeListOf<HTMLElement> = document.querySelectorAll<HTMLElement>('a[href], iframe, button');
-              endChatNonFocusable.forEach(function (element: HTMLElement): void {
-                  element.removeAttribute("tabindex");
-              });
+        const endChatNonFocusable: NodeListOf<HTMLElement> = document.querySelectorAll<HTMLElement>('a[href], iframe, button');
+        endChatNonFocusable.forEach(function (element: HTMLElement): void {
+            element.removeAttribute("tabindex");
+        });
 
-              document.getElementById("endChatPopup")?.setAttribute("style", "display: none;");
+        document.getElementById("endChatPopup")?.setAttribute("style", "display: none;");
 
-              if((document.getElementById("legend_give_feedback") != null || document.getElementById("legend_give_feedback") != undefined)) {
-                  document.getElementById("legend_give_feedback")?.focus();
-              }
+        if ((document.getElementById("legend_give_feedback") != null || document.getElementById("legend_give_feedback") != undefined)) {
+            document.getElementById("legend_give_feedback")?.focus();
+        }
     }
 
     showPage(page: any) {
         const ciapiSkinChatTranscript = this.container.querySelector<HTMLElement>("#ciapiSkinChatTranscript")
-        if(ciapiSkinChatTranscript){
+        if (ciapiSkinChatTranscript) {
             ciapiSkinChatTranscript.style.display = "none";
         }
         const ciapiSkinFooter = this.container.querySelector<HTMLElement>("#ciapiSkinFooter")
-        if(ciapiSkinFooter){
+        if (ciapiSkinFooter) {
             ciapiSkinFooter.style.display = "none";
         }
         page.attachTo(this.container.querySelector<HTMLElement>("#ciapiChatComponents"));
