@@ -18,7 +18,6 @@ export default class Transcript {
     // James - This is set to any but relates to a comment below in handleRichMediaClickEvent and is explained there.
 
     constructor(content: HTMLElement | null, classes: Classes, msgPrefix?: undefined) {
-        // James - msgPrefix is declared but the value is never read. Can we delete it?
         this.content = content;
         this.classes = classes;
         this.agentMsgPrefix = messages.agentMsgPrefix;
@@ -28,12 +27,10 @@ export default class Transcript {
     }
 
     addAgentMsg(msg: string, msgTimestamp: string, agent?: undefined): void {
-        // James - agent is declared but the value is not read. Should we remove it?
         this._appendMessage(msg, msgTimestamp, this.classes.Agent, this._getMsgTimestampPrefix(msgTimestamp, this.agentMsgPrefix, "h3"), false, false);
     }
 
     addCustomerMsg(msg: string, msgTimestamp: string, agent?: undefined): void {
-        // James - agent is declared but the value is not read. Should we remove it?
         this._appendMessage(msg, msgTimestamp, this.classes.Customer, this._getMsgTimestampPrefix(msgTimestamp, this.customerMsgPrefix, "h2"), true, false);
     }
 
@@ -53,17 +50,13 @@ export default class Transcript {
             }
         }
     }
-    // James - The issue is around lastCustomerMessageHeight being null within the if statement. I cannot easily get around this. My understanding is that 'id' comes from Nuance so I cannot tell if it will ever be undefined. My assumption is that it may. Possible options:
-    // 1) I have added an if statement to return early if it is null and used the bang on lastCustomerMessageHeight to tell it that it will always be there otherwise it would have returned. The last bit of code in the loop and conditional requires this variable so I think it is fine to have an early return otherwise.
-    // 2) We can get rid of the early return and use (lastCustomerMessageHeight || 0 + 25) + 'px' but this will give us 25px if it is undefined. This may be unexpected behaviour. 
-    // What do you think?
 
     addSystemMsg(msgObject: { msg: string | undefined; joinTransfer?: string | undefined; state?: string | undefined }, msgTimestamp: string | undefined): void {
         if (msgObject.msg === undefined) msgObject.msg = "";
         if (msgObject.state === undefined) msgObject.state = "";
         if (msgObject.joinTransfer === undefined) msgObject.joinTransfer = "";
 
-        this._appendMessage(msgObject.msg, "", this.classes.System, this._getMsgTimestampPrefix(msgTimestamp, this.systemMsgPrefix, "h3"), false, true, msgObject.state, msgObject.joinTransfer);
+        this._appendMessage(msgObject.msg, "", this.classes.System, this._getMsgTimestampPrefix(msgTimestamp!, this.systemMsgPrefix, "h3"), false, true, msgObject.state, msgObject.joinTransfer);
     }
     // James - Adam logged in as an agent and msgTimestamp was either a string or undefined in the conole. However, if I use a conditional to check that msgTimestamp is truthy, it fails one of the unit tests because msgTimestamp is not passed through. How would you like me to handle this? I can add a conditional but the unit test will need updated. I cannot guarantee that Nuance will always pass the msgTimestamp argument which would change the functionality.
 
@@ -89,7 +82,6 @@ export default class Transcript {
             this.createSkipLink("skipToTopWithOutScroll");
         }
     }
-    // I have added chatContainer to the if statement and the && to check that it is truthy. I do not think it changes the behaviour of the conditional but I would be grateful if you could double check please? I did this to get rid of the errors stating that chatContainer could be null. If you do not like this method, I could probably use the ! after the chatContainer variable because we know the element is in the HTML.
 
     createSkipLink(className: string): void {
 
@@ -152,13 +144,6 @@ export default class Transcript {
             }
         }
     }
-    //I am not sure what the type of that is, do you have any ideas? In the console it is showing a complex object and I did not think the inference was right.
-
-    // Please can I check whether you think I have typed message class correctly? The inference said it was any but in the console it looked like it should be defaultClasses although I have not specified which parts it is. From the console it looked like agent, customer, opener although it is difficult to tell. 
-
-    // Can isVirtualAssistance and isSystemMsg be removed? They are declared but never read.
-
-    // Had to do a bit of a refactor of the code, are you happy that functionality is the same?
 
     addAutomatonMsg(automatonData: string | HTMLDivElement, msgTimestamp: string, isQuickReply?: boolean): void {
         var id: string = "liveAutomatedMsgId" + (Math.random() * 100);
@@ -288,7 +273,7 @@ export default class Transcript {
         if (!isSystemMsg) {
             printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
             printOuterTimeStamp.innerHTML = this._getTimestampPrefix(msgTimestamp) + printMessageSuffix!.outerHTML + msgDiv + printTimeStamp.outerHTML;
-            // I have used the bang here as it works but TS is throwing an error because printMessageSuffix is used before it is assigned. This is because it is created / assigned within if statements. Are you happy with the bang and is this a refactor ticket?
+
         } else {
             printOuterTimeStamp.innerHTML = this._getTimestampPrefix(msgTimestamp) + msgDiv + printTimeStamp.outerHTML;
         }
@@ -313,7 +298,6 @@ export default class Transcript {
     }
 
     addQuickReply(quickReplyData: QuickReplyData, messageText: string, messageTimestamp: string): null | undefined {
-        console.log('QUICKREPLYDATA', quickReplyData)
         // James - I have gotten these from using the console. However, I cannot guarantee that they will always be these types. What do you think? Probably true of a lot of this ticket.
         try {
             if (!quickReplyData.nodes) return null;
