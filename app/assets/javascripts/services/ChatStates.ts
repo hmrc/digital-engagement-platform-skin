@@ -23,7 +23,6 @@ interface MessageInterface {
     "tc.mode"?: string;
     "thank_you_image_label"?: any;
 }
-// James - I have added an interface here for the msg parameter. It is an object and I have marked all of the properties as optional because not all of them are used in every method and sometimes they are not present until the DA / Web chat responds with certain answers. Are you happy with this approach? It makes the code a lot DRYer but previously I had tried to state when parameters were optional in the method itself. However, this did look a touch untidy. Putting them as optional also means that I have had to use the ! at points to say that a parameter will be there in a method. This is the balance I am striking although I appreciate seems a bit contradictory making it optional and then using the ! to say it is there.
 
 // State at start, before anything happens.
 export class NullState {
@@ -55,7 +54,6 @@ export class ShownState {
         this.closeChat();
     }
 }
-// James - Do you mind double checking the typing above please? I typed these through searching for ShownState and looking in the CommonChatController file. I used the console to type text: string.
 
 // In the process of closing (post-chat survey, etc.)
 export class ClosingState {
@@ -82,9 +80,6 @@ export class EngagedState {
     constructor(sdk: any, container: ChatContainer, previousMessages: [], closeChat: () => void) {
         this.sdk = sdk;
         this.container = container;
-        // James - Please can you check whether container is ever null or undefined? My findings are that it probably is not based on the ChatContainer.ts where container is a div and has the ID #ciapiSkin which I can see in the console when logging container. There is also the _launchChat method in the CommonChatController which seems to return if container is truthy. This is important because I have not put it as undefined | null and if it is the code below will need some complex tweaks.
-
-        // James - I have typed previousMessages as an array. When I first console log it, it gives me an empty array. However, if you interact with the DA and refresh the page, it will give you an array of complex objects in the console. It was throwing errors if I did {}[]. What do you think?
 
         this.closeChat = closeChat;
         this.escalated = false;
@@ -158,8 +153,6 @@ export class EngagedState {
         }
     }
 
-    // How do you want youtubeURL handled, apparently it is not being used?
-
     _mixAgentCommunicationMessage(msg: MessageInterface, transcript: Transcript): void {
         this._playSoundIfActive();
 
@@ -190,7 +183,7 @@ export class EngagedState {
 
         if (!msg.messageData) return null
 
-        const messageDataAsObject: { command?: { event: { CloseChat: boolean } } } = JSON.parse(msg.messageData);
+        const messageDataAsObject: { command?: { event: { CloseChat: any } } } = JSON.parse(msg.messageData);
 
         if (messageDataAsObject &&
             messageDataAsObject.command &&
@@ -200,7 +193,6 @@ export class EngagedState {
 
         return null;
     }
-    // James - I think this is typed correctly with the exception of const messageDataAsObject: { command?: {event: {CloseChat: boolean}} }. I could not find command on the object which makes me think it must be a optional parameter depending on what has been received from Nuance. I have typed it as boolean based solely on the name so it would be nice to confirm this. Do you have any ideas so that I can confirm what we are receiving?
 
     _extractYouTubeVideoData(msg: MessageInterface): QuickReplyData | null {
         if (!msg.messageData) return null
@@ -253,7 +245,6 @@ export class EngagedState {
             msg.messageTimestamp
         );
     }
-    // James - "aeapi.join_transfer" not on the object in the console.log so have left as any on the interface. Do you have any ideas?
 
     _chatActivityAndAgentTyping(msg: MessageInterface, transcript: Transcript): void {
         if (msg.state === MessageState.Agent_IsTyping) {
@@ -283,7 +274,6 @@ export class EngagedState {
         }
 
         const transcript: Transcript = this.container.getTranscript();
-        // James - Is transcript ever undefined? I do not think it is based on the transcript being set on line 70 of the chat container?
         switch (msg.messageType) {
             case MessageType.Chat_Communication:
                 this._chatCommunicationMessage(msg, transcript);

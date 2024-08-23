@@ -240,7 +240,6 @@ export default class CommonChatController {
             }
         });
     }
-    // I do not like touching the SDK but I used the console in Transcript and it gives the 'Hello, I’m HMRC’s digital assistant. Tell me in a few words what you’d like help with, without giving me any personal information.' I used the console here and it gives us ['Hello, I’m HMRC’s digital assistant. &amp;lt;div c…me any personal information. &amp;lt;/div&amp;gt;'] which is type string[]. Are you happy for this changed? Only thing I am not sure on is whether there is only ever a string in the array but I cannot envisage it being a number or boolean. - Andy to check webchat.
 
     _moveToChatEngagedState(previousMessages: any = []): void {
         this._moveToState(new ChatStates.EngagedState(
