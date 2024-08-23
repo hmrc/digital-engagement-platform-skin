@@ -7,10 +7,8 @@ export default class PostChatSurveyDigitalAssistantService {
     }
 
     beginPostChatSurvey(survey: any, automaton: AutomatonType, timestamp: number): void {
-        // James - I have typed survey as any for the time being. However, it is almost certainly of type Survey which has an interface in the CommonChatController.ts and has been imported into this file. The same information is typed as Survey in the CommonChatController so this method should be receiving it. The issue is that we are getting errors below on approx lines 65 to 69 because encodeURIComponent cannot accept string[] and only string, number or boolean. A fix is putting [0] after id to say that it is the first element of the array. I am not sure why digitalAssistantSurvey has been set up like this id: ["question1"]. I am reluctant to fiddle with the code for this reason. Do you have any thoughts? If we leave this as any it may be disjointed with CommonChatController.
         const chatParams: any = this.sdk.getChatParams();
 
-        // James - for the below objects, we can create interfaces but I do not think it is necessarily sensibe. However, typing them as just {} is losing the typing of the properties. What do you think?
         const startedEvent: {} = {
             _domain: "automaton",
             evt: "started",
@@ -110,7 +108,7 @@ export default class PostChatSurveyDigitalAssistantService {
 
     submitPostChatSurvey(survey: any, automaton: AutomatonType, timestamp: number): void {
         const chatParams = this.sdk.getChatParams();
-        // James - survey is almost certainly Answers & Survey as typed in CommonChatController when the method's name is searched. You will see this is the type we are passing through. However, we are getting the same error as above due to encodeURIComponent expecting a string | number | boolean and receiving string[]. How would you like me to proceed? As stated above we can add [0] but I do not fully understand everything that may happen with this code.
+
         const customerRespondedEvent: {} = {
             _domain: "automaton",
             evt: "customerResponded",

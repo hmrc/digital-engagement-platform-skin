@@ -8,7 +8,6 @@ export default class PostChatSurveyWebchatService {
     }
 
     beginPostChatSurvey(survey: any, automaton: AutomatonType, timestamp: number): void {
-        // James - Same issue as the PostChatSurveyDA at this point. It should be typed as Survey rather than any. 
         const chatParams: any = this.sdk.getChatParams();
 
         const startedEvent: {} = {
@@ -109,7 +108,6 @@ export default class PostChatSurveyWebchatService {
     }
 
     submitPostChatSurvey(survey: any, automaton: AutomatonType, timestamp: number): void {
-        // Same issue as the one on DA. Survey should be typed Answers & Survey.
         const chatParams: any = this.sdk.getChatParams();
 
         const customerRespondedEvent: {} = {
