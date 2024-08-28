@@ -23,11 +23,11 @@ gulp.task('clean:node_modules', function () {
 
 gulp.task('bundle', (done) => {
     return rollup({
-      input: './app/assets/javascripts/hmrcChatSkin.js',
+      input: './app/assets/javascripts/hmrcChatSkin.ts',
       format: 'iife',
       sourcemap: false
     })
-    .pipe(source('hmrcChatSkin.js', './app/assets/javascripts/'))
+    .pipe(source('hmrcChatSkin.ts', './app/assets/javascripts/'))
     .pipe(buffer())
     .pipe(babel({
        "presets": [

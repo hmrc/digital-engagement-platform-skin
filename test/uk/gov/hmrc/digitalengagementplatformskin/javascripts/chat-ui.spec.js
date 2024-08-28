@@ -84,7 +84,7 @@ describe("chat-ui", () => {
 
   it("should call console.error, given a function that throws is passed to safeHandler", () => {
     let explodeyFunction = () => { throw 'kaboom'; }
-    let safeFn = safeHandler(explodeyFunction, 'hello');
+    let safeFn = safeHandler(explodeyFunction);
     console.error = jest.fn();
 
     safeFn();

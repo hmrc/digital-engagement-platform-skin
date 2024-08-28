@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './hmrcChatSkin.js',
+  entry: './hmrcChatSkin.ts',
   context: path.resolve(__dirname, 'app/assets/javascripts'),
   devtool: 'inline-source-map',
   module: {
@@ -37,7 +37,7 @@ module.exports = {
     modules: [path.resolve(__dirname, 'node_modules'), 'node_modules'],
   },
   output: {
-    filename: 'hmrcChatSkin.js',
+    filename: 'hmrcChatSkin.ts',
     path: path.resolve(__dirname, './app/assets/javascripts/bundle'),
   },
 };
