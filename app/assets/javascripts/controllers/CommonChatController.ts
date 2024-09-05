@@ -299,20 +299,6 @@ export default class CommonChatController {
         });
     }
 
-    _closeMenu(): void {
-        // const hamburgerMenu: HTMLElement | null = document.getElementById('hambgurgerMenu')
-
-        // I'm using "click" but it works with any event
-        document.addEventListener('click', event => {
-            console.log('hello there')
-            if (!(<HTMLElement> event.target).matches('#hambgurgerMenu')) { 
-                // this.closeMenu()
-            } else {
-                // this.closeMenu()
-            }
-        })
-    }
-
     closeChat(): void {
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
             if (this.state instanceof ChatStates.EngagedState && this.state.escalated) {
@@ -380,8 +366,6 @@ export default class CommonChatController {
     _sendPostChatSurveyWebchat(sdk: any): PostChatSurveyWebchatService {
         return new PostChatSurveyWebchatService(sdk);
     }
-
-    
 
     _sendPostChatSurveyDigitalAssistant(sdk: any): PostChatSurveyDigitalAssistantService {
         return new PostChatSurveyDigitalAssistantService(sdk);
