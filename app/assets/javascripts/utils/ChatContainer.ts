@@ -5,6 +5,7 @@ import { sanitiseAndParseJsonData } from './JsonUtils';
 interface nullEventHandlerInterface {
     onSend: () => void,
     onShowHamburger: () => void,
+    onMsgClick: () => void,
     onAccessibilityStatement: () => void,
     onCloseChat: () => void,
     onHideChat: () => void,
@@ -22,6 +23,7 @@ interface nullEventHandlerInterface {
 export const nullEventHandler: nullEventHandlerInterface = {
     onSend: function (): void { },
     onShowHamburger: function (): void { },
+    onMsgClick: function (): void { },
     onAccessibilityStatement: function (): void { },
     onCloseChat: function (): void { },
     onHideChat: function (): void { },
@@ -291,6 +293,10 @@ export default class ChatContainer {
 
         this._registerEventListener("#hamburgerMenu", (_: Event): void => {
             this.eventHandler.onShowHamburger();
+        });
+
+        this._registerEventListener("#custMsg", (_: Event): void => {
+            this.eventHandler.onMsgClick();
         });
 
         this._registerEventListener("#ciapiSkinCloseButton", (e: Event): void => {
