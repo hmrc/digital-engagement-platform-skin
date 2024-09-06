@@ -322,6 +322,7 @@ export default class CommonChatController {
     }
 
     onPrint(e: Event): boolean {
+        this.closeMenu()
         e.preventDefault;
         const printDate: HTMLElement | null = document.getElementById("print-date")
         if (printDate) {
@@ -465,8 +466,13 @@ export default class CommonChatController {
     }
 
     onAccessibilityStatement(): void {
+        this.closeMenu()
         let url: string = new URL(window.location.href).pathname.replaceAll("/", "%2F");
         window.open("https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend?referrerUrl=" + url + "-skin-hmrc", "_blank");
+    }
+
+    onMsgClick(): void{
+        this.closeMenu()
     }
 
     onStartTyping(): void {
@@ -481,8 +487,14 @@ export default class CommonChatController {
         return document.cookie.includes("surveyed=true")
     }
 
+    closeMenu(): void {
+        document.getElementById("hamburgerMenu")?.setAttribute("aria-expanded", "false");
+        document.getElementById("hamburgerList")?.classList.remove("show");
+    }
+
     onConfirmEndChat(): void {
         this.closeNuanceChat();
+        this.closeMenu()
         if (this.state instanceof ChatStates.EngagedState) {
             this.state.escalated = this.state.isEscalated();
         }
@@ -670,6 +682,7 @@ export default class CommonChatController {
             soundElement.innerHTML = "Turn notification sound off";
         }
         sessionStorage.setItem("isActive", `${!isActive}`);
+        this.closeMenu()
     }
 
     onSizeToggle(): void {
@@ -688,6 +701,7 @@ export default class CommonChatController {
             sizeButton.innerHTML = "Increase chat size";
         }
         sessionStorage.setItem("isStandard", `${!isStandard}`);
+        this.closeMenu()
     }
 
     onMessageSentNotification(): void {
