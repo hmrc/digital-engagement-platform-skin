@@ -14,8 +14,7 @@ export default class Transcript {
     customerMsgPrefix: string;
     systemMsgPrefix: string;
     automatedMsgPrefix: string;
-    transitions: any
-    // James - This is set to any but relates to a comment below in handleRichMediaClickEvent and is explained there.
+    transitions?: { from: string, name: string, to: { sendMessage: { [key: string]: string } }, trigger: string }[]
 
     constructor(content: HTMLElement | null, classes: Classes, msgPrefix?: undefined) {
         this.content = content;
@@ -51,14 +50,14 @@ export default class Transcript {
         }
     }
 
-    addSystemMsg(msgObject: { msg: string | undefined; joinTransfer?: string | undefined; state?: string | undefined }, msgTimestamp: string | undefined): void {
+    addSystemMsg(msgObject: { msg?: string; joinTransfer?: string; state?: string }, msgTimestamp?: string): void {
         if (msgObject.msg === undefined) msgObject.msg = "";
         if (msgObject.state === undefined) msgObject.state = "";
         if (msgObject.joinTransfer === undefined) msgObject.joinTransfer = "";
+        if (msgTimestamp === undefined) msgTimestamp = '';
 
-        this._appendMessage(msgObject.msg, "", this.classes.System, this._getMsgTimestampPrefix(msgTimestamp!, this.systemMsgPrefix, "h3"), false, true, msgObject.state, msgObject.joinTransfer);
+        this._appendMessage(msgObject.msg, "", this.classes.System, this._getMsgTimestampPrefix(msgTimestamp, this.systemMsgPrefix, "h3"), false, true, msgObject.state, msgObject.joinTransfer);
     }
-    // James - Adam logged in as an agent and msgTimestamp was either a string or undefined in the conole. However, if I use a conditional to check that msgTimestamp is truthy, it fails one of the unit tests because msgTimestamp is not passed through. How would you like me to handle this? I can add a conditional but the unit test will need updated. I cannot guarantee that Nuance will always pass the msgTimestamp argument which would change the functionality.
 
     addOpenerScript(msg: string): void {
 
@@ -298,7 +297,6 @@ export default class Transcript {
     }
 
     addQuickReply(quickReplyData: QuickReplyData, messageText: string, messageTimestamp: string): null | undefined {
-        // James - I have gotten these from using the console. However, I cannot guarantee that they will always be these types. What do you think? Probably true of a lot of this ticket.
         try {
             if (!quickReplyData.nodes) return null;
 
@@ -312,7 +310,6 @@ export default class Transcript {
             nodeContainer.classList.add(initialNode.id);
 
             let renderedControl: HTMLUListElement | HTMLLIElement[];
-            // James - Based on the code in this method and the one below, do you think that renderedControl can only be HTMLUListElement? I think the <li>s are handled by the if in the switch case below. However, if I remove HTMLLIElement[] it does not like it because renderedControl is set as the output of createQuickReplyButtonAsLinks() which can be either.
             let divContainerQrw: any
 
             if (messageText.includes('<ul class="quick-reply-widget"')) {
@@ -322,7 +319,7 @@ export default class Transcript {
                     links.forEach(link => link.parentElement && (link.parentElement.innerText = link.text));
                 }
             }
-            // James - I am getting an error for the typing of divContainerQrw so I have set it as any. The error is that Property 'disable' does not exist on type 'Element'.ts(2339). However, to get divContainerQrw we are using getElementsByClassName() which returns a HTMLCollection but the [0] makes it a singular element / HTMLElement / type of HTMLElement. Using the inspect tool, this is a <ul> element containing <li> elements. I have tried using Element, HTMLElement and HTMLUListElement but that gets the same error as above plus another error. Do you have any ideas? I also tried console logging it and I am getting multiple undefined consoles.
+
 
             for (let i: number = 0; i < Object.keys(initialNode.controls).length; i++) {
                 let control: { id: string; type: string; text: string[]; values: string[]; event: { name: string } } = initialNode.controls[i];
@@ -331,7 +328,6 @@ export default class Transcript {
                     case "QuickReplyButton":
                         if (messageText.includes('<ul class="quick-reply-widget"')) {
                             divContainerQrw.append(...<[]>this.createQuickReplyButtonAsLinks(initialNode, control, messageText));
-                            // James - I believe this if statement handles if it is an array of <li>s. The if statement is the same as the one in the below method where it returns an <li> array. In order to spread the return value of createQuickReplyButtonAsLinks(), it should return an array. Therefore, I have had to cast it as an array. If you think it may receive qrContainer which is a <ul> we could change the return statement to return [qrContainer] so I do not have to cast it and it is the correct type. What do you think? Personally I think the UL is handled in the else below
                         } else {
                             renderedControl = this.createQuickReplyButtonAsLinks(initialNode, control, messageText);
                         }
@@ -342,14 +338,10 @@ export default class Transcript {
 
             if (!messageText.includes('<ul class="quick-reply-widget"')) {
                 divContainer.append(renderedControl! as HTMLUListElement);
-                // James - Do you mind taking a look at this code please? I have had to cast it. My understanding is that this will be a HTMLUListElement because the <li>s are handled in the if case of the switch above meaning the <ul> is handled by the else above and then onto this if statement.
-
-                // James - I have used the ! as this was working so I do not think it is an issue. However, TS is throwing the error: Variable 'renderedControl' is used before being assigned.ts(2454). This is because it is assigned in the else case in the switch case above. I think TS is telling us that in theory this could run before it is assigned. This may be one to look at during the refactor?
             }
 
             if (!!quickReplyData.transitions) {
                 let quickReplyWidget: any = divContainer.getElementsByClassName("quick-reply-widget")[0]
-                // James - This is inferred to be an element based on the getElementsByClassName function which returns HTMLCollection. Using the inspect tool I can see that quick-reply-widget is a <ul>. However, when I typed it as HTMLUListElement it is throwing an error: Property 'transitions' does not exist on type 'HTMLUListElement'.ts(2339). We are trying to set the transitions property as what is passed through as a parameter. Do you have any ideas? 
                 quickReplyWidget.transitions = quickReplyData.transitions;
                 quickReplyWidget.addEventListener('click', this.handleRichMediaClickEvent);
             }
@@ -368,15 +360,13 @@ export default class Transcript {
         qrContainer.classList.add('quick-reply-widget');
 
         qrContainer.disable = function (): void {
-            // James - Typed qrContainer as any due to getting the following error when qrContainer is typed as HTMLUListElement: Property 'disable' does not exist on type 'HTMLUListElement'.ts(2339). However, surely it has to be a HTMLUListElement as we can see it is creating a <ul>. Any thoughts?
             let links: NodeListOf<HTMLAnchorElement> = this.querySelectorAll('a[href="#"]');
             links.forEach(link => link.parentElement && (link.parentElement.innerText = link.text));
         }
-        // James - Are you happy with the refactor? I have used the && to check if link.parentElement is truthy in the forEach. It will do the second half of the statement if true. This gets rid of the null error.
 
         const buttonElements: HTMLLIElement[] | undefined = controlData.text.map((text: string, idx: number): HTMLLIElement => {
             let listItemEl: HTMLLIElement = document.createElement("li");
-            let linkEl: HTMLAnchorElement = document.createElement("a");
+            let linkEl: any = document.createElement("a");
             linkEl.href = '#';
 
             let prefix: string = `#${node.id}.${controlData.id}`;
@@ -388,7 +378,6 @@ export default class Transcript {
                 'event': controlData.event?.name,
                 'node': node.id,
             }
-            // linkEl is creating an <a> which should be of type HTMLAnchorElement. However, it is throwing an error: Property 'richMediaContext' does not exist on type 'HTMLAnchorElement'.ts(2339). Do you have any ideas? 
 
             linkEl.innerText = text;
             listItemEl.append(linkEl);
@@ -404,34 +393,28 @@ export default class Transcript {
     }
 
     handleRichMediaClickEvent(event: any): void {
-        // James - event is a large and very complex object not of type Event. To get it to run in the console you need to ask 'where is my' inside the DA and then click on one of the links. What is your opinion on typing this?
         event.preventDefault();
 
-        let targetEl: any = event.target;
-        // James - I have console logged this element and it is a <a> element. However, it will not allow me to type it as HTMLAnchorElement. It throws the error: Property 'richMediaContext' does not exist on type 'HTMLAnchorElement'.ts(2339)
+        let targetEl = event.target;
         let targetElContext = targetEl.richMediaContext;
-        // James - provides an object which is based on quick reply data from the methods above. Do you have any ideas on how to type this? 
         if (!targetElContext) return;
 
-        let transition: { from: string, name: string, to: { sendMessage: { [key: string]: string } }, trigger: string } =
+        let transition =
             this
-                .transitions
-                .find((transition: { from: string, name: string, to: { sendMessage: { [key: string]: string } }, trigger: string }) => transition.from == targetElContext.node && transition.trigger == targetElContext.event);
-        // James - this should ideally be typed at the top of the file instead of any however it is not initialised so throws an error. If we type it at the top, we would not need to type this twice. This could be one for the refactor tickets? This relates to transitions at the top of the file which is typed as any.
+                .transitions!
+                .find((transition) => transition.from == targetElContext.node && transition.trigger == targetElContext.event);
 
-        if (!!transition.to && !!transition.to.sendMessage) {
+        if (!!transition && !!transition.to && !!transition.to.sendMessage) {
             let datapassDef: { [key: string]: string } = transition.to.sendMessage;
 
             let richContentMessageData: { [key: string]: string } = {};
-            // James - I believe this is correct but not 100% sure, if you look at the below foreach, it is setting the key of the empty object to a string. Therefore it should be an object of string value pairs. Do you mind confirming?
 
             Object.entries(datapassDef).forEach(([key, value], index) => {
                 richContentMessageData[key] = (value.substr(0, 1) == '#') ? targetElContext[value] : value;
             });
-            // James - index is not being used, can it be deleted?
 
+            // @ts-ignore
             Inq.SDK.sendRichContentMessage(richContentMessageData.displayText, richContentMessageData);
-            // James - not sure where Inq comes from. Do you have any ideas?
         }
     }
 
