@@ -42,7 +42,7 @@ export function ContainerHtml(isEscalated: boolean): string {
                     name="comments"></textarea>
                 </div>
                 <div id="ciapiSend">
-                    <button id="ciapiSkinSendButton" class="govuk-button" data-module="govuk-button">Send Message</button>
+                    <button id="ciapiSkinSendButton" disabled aria-disabled="true" class="govuk-button" data-module="govuk-button">Send Message</button>
                 </div>
             </div>
             <div id="ciapiClose">

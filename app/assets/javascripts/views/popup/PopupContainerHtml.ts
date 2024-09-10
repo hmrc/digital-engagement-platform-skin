@@ -13,10 +13,10 @@ export function ContainerHtml(isEscalated: boolean): string {
     }
 
     let automatedMessage: string = "";
-    if (!isEscalated) { automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">${messages.computer}</p>`}
+    if (!isEscalated) { automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">${messages.computer}</p>` }
     let soundButton: string = `<button id="toggleSound" class="active"> Turn notification sound off </button>`;
-    if (sessionStorage.getItem("isActive") == "false") { soundButton = `<button id="toggleSound" class="inactive"> Turn notification sound on </button>`}
-    
+    if (sessionStorage.getItem("isActive") == "false") { soundButton = `<button id="toggleSound" class="inactive"> Turn notification sound on </button>` }
+
     return `
 <div id="printDetails" class="print-only govuk-!-padding-top-8 govuk-!-padding-bottom-8">
 <p class="govuk-body print-only">Chat ID: <span id="chat-id"></span></p>
@@ -67,7 +67,7 @@ export function ContainerHtml(isEscalated: boolean): string {
                 cols="50"
                 name="comments"></textarea></div>
             <div id="ciapiSend">
-                <button id="ciapiSkinSendButton" class="govuk-button" data-module="govuk-button">Send message</button>
+                <button id="ciapiSkinSendButton" disabled aria-disabled="true" class="govuk-button" data-module="govuk-button">Send message</button>
             </div>
         </div>
         <!-- at the moment, the below URL is hardcoded. in the future this should be a properly encoded URL and have the correct chat passed in as a parameter -->

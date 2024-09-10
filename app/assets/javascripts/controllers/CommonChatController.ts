@@ -36,11 +36,11 @@ const timestamp: number = Date.now();
 const webchatSurvey: Survey = {
     id: "13000303",
     questions: [
-        { id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false },
-        { id: ["question2"], text: "How easy was it to do what you needed to do today?", freeform: false },
-        { id: ["question3"], text: "Overall, how did you feel about the service you received today?", freeform: false },
-        { id: ["question4"], text: "Why did you give these scores?", freeform: true },
-        { id: ["question5"], text: "How would you prefer to get in touch with HMRC??", freeform: false },
+        { id: ["question1"], text: "Were you able to do what you needed?", freeform: false },
+        { id: ["question2"], text: "How easy was it?", freeform: false },
+        { id: ["question3"], text: "How did you feel about this service?", freeform: false },
+        { id: ["question4"], text: "Why did you give these scores? (Optional)", freeform: true },
+        { id: ["question5"], text: "How would you prefer to contact HMRC?", freeform: false },
         { id: ["question6"], text: "Provide other contact option", freeform: true }
     ]
 };
@@ -48,11 +48,11 @@ const webchatSurvey: Survey = {
 const digitalAssistantSurvey: Survey = {
     id: "13000304",
     questions: [
-        { id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false },
-        { id: ["question2"], text: "How easy was it to do what you needed to do today?", freeform: false },
-        { id: ["question3"], text: "Overall, how did you feel about the service you received today?", freeform: false },
-        { id: ["question4"], text: "Why did you give these scores?", freeform: true },
-        { id: ["question5"], text: "How would you prefer to get in touch with HMRC?", freeform: false },
+        { id: ["question1"], text: "Were you able to do what you needed?", freeform: false },
+        { id: ["question2"], text: "How easy was it?", freeform: false },
+        { id: ["question3"], text: "How did you feel about this service?", freeform: false },
+        { id: ["question4"], text: "Why did you give these scores? (Optional)", freeform: true },
+        { id: ["question5"], text: "How would you prefer to contact HMRC?", freeform: false },
         { id: ["question6"], text: "Provide other contact option", freeform: true }
     ]
 }
@@ -308,6 +308,7 @@ export default class CommonChatController {
     }
 
     onPrint(e: Event): boolean {
+        this.closeMenu()
         e.preventDefault;
         const printDate: HTMLElement | null = document.getElementById("print-date")
         if (printDate) {
@@ -396,10 +397,14 @@ export default class CommonChatController {
     }
 
     onSend(): void {
-        const text: string = this.container.currentInputText().trim();
-        this.container.clearCurrentInputText();
-        if (text !== "")
+        let text: string = this.container.currentInputText();
+        const alphaNumericSpecial: RegExp = /\S/
+
+        if(alphaNumericSpecial.test(text) == true) {
+            text = text.trim()
             this.state.onSend(text);
+            this.container.clearCurrentInputText();
+        }
     }
 
     onCloseChat(): void {
@@ -447,8 +452,13 @@ export default class CommonChatController {
     }
 
     onAccessibilityStatement(): void {
+        this.closeMenu()
         let url: string = new URL(window.location.href).pathname.replaceAll("/", "%2F");
         window.open("https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend?referrerUrl=" + url + "-skin-hmrc", "_blank");
+    }
+
+    onMsgClick(): void{
+        this.closeMenu()
     }
 
     onStartTyping(): void {
@@ -463,8 +473,14 @@ export default class CommonChatController {
         return document.cookie.includes("surveyed=true")
     }
 
+    closeMenu(): void {
+        document.getElementById("hamburgerMenu")?.setAttribute("aria-expanded", "false");
+        document.getElementById("hamburgerList")?.classList.remove("show");
+    }
+
     onConfirmEndChat(): void {
         this.closeNuanceChat();
+        this.closeMenu()
         if (this.state instanceof ChatStates.EngagedState) {
             this.state.escalated = this.state.isEscalated();
         }
@@ -652,6 +668,7 @@ export default class CommonChatController {
             soundElement.innerHTML = "Turn notification sound off";
         }
         sessionStorage.setItem("isActive", `${!isActive}`);
+        this.closeMenu()
     }
 
     onSizeToggle(): void {
@@ -670,5 +687,19 @@ export default class CommonChatController {
             sizeButton.innerHTML = "Increase chat size";
         }
         sessionStorage.setItem("isStandard", `${!isStandard}`);
+        this.closeMenu()
+    }
+
+    onMessageSentNotification(): void {
+        const message: string = messages.messageSent
+        document.getElementById("custMsg")?.focus();
+        let messageSentDiv: HTMLElement | null = document.getElementById('sentMessage')
+        messageSentDiv?.parentNode?.removeChild(messageSentDiv)
+        let newMessageSentDiv: HTMLDivElement = document.createElement('div')
+        newMessageSentDiv.id = 'sentMessage'
+        newMessageSentDiv.className = 'govuk-visually-hidden'
+        newMessageSentDiv.setAttribute('aria-live', 'polite')
+        document.body.appendChild(newMessageSentDiv)
+        newMessageSentDiv.textContent = message
     }
 };

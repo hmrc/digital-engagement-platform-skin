@@ -5,11 +5,13 @@ import { sanitiseAndParseJsonData } from './JsonUtils';
 interface nullEventHandlerInterface {
     onSend: () => void,
     onShowHamburger: () => void,
+    onMsgClick: () => void,
     onAccessibilityStatement: () => void,
     onCloseChat: () => void,
     onHideChat: () => void,
     onRestoreChat: () => void,
     onConfirmEndChat: () => void,
+    onMessageSentNotification: () => void,
     onSizeToggle: () => void,
     onSoundToggle: () => void,
     onStartTyping: () => void,
@@ -21,11 +23,13 @@ interface nullEventHandlerInterface {
 export const nullEventHandler: nullEventHandlerInterface = {
     onSend: function (): void { },
     onShowHamburger: function (): void { },
+    onMsgClick: function (): void { },
     onAccessibilityStatement: function (): void { },
     onCloseChat: function (): void { },
     onHideChat: function (): void { },
     onRestoreChat: function (): void { },
     onConfirmEndChat: function (): void { },
+    onMessageSentNotification: function (): void { },
     onSizeToggle: function (): void { },
     onSoundToggle: function (): void { },
     onStartTyping: function (): void { },
@@ -213,14 +217,34 @@ export default class ChatContainer {
             this.startTyping(this.eventHandler);
         }
 
+        const custMsg = this.container.querySelector<HTMLTextAreaElement>('#custMsg');
+        const sendButton = this.container.querySelector<HTMLButtonElement>('#ciapiSkinSendButton');
+        const alphaNumericSpecial: RegExp = /\S/
         const enterKey: number = 13;
-        if (e.which == enterKey) {
-            this.eventHandler.onSend();
-            e.preventDefault();
-            this.inputBoxFocus = true;
+
+        if (alphaNumericSpecial.test(custMsg!.value) == true) {
+            sendButton!.disabled = false;
+            sendButton!.ariaDisabled = "false";
+            if (e.which == enterKey) {
+                this.eventHandler.onSend();
+                e.preventDefault();
+                this.inputBoxFocus = true;
+            }
         } else {
-            this.inputBoxFocus = false;
+            sendButton!.disabled = true;
+            sendButton!.ariaDisabled = "true";
+            if (e.which == enterKey) {
+                e.preventDefault();
+                this.inputBoxFocus = true;
+            }
         }
+
+        this._resetStopTypingTimeout();
+
+        if (!this.isCustomerTyping) {
+            this.startTyping(this.eventHandler);
+        }
+
     }
 
     disablePreviousWidgets(e: any): void {
@@ -248,6 +272,7 @@ export default class ChatContainer {
     _registerKeypressEventListener(selector: string, handler: (e: KeyboardEvent) => void): void {
         const element = this.container.querySelector<HTMLTextAreaElement>(selector);
         if (element) {
+            element.addEventListener("keyup", handler);
             element.addEventListener("keypress", handler);
         }
     }
@@ -267,11 +292,16 @@ export default class ChatContainer {
 
         this._registerEventListener("#ciapiSkinSendButton", (_: Event): void => {
             this.eventHandler.onSend();
+            this.eventHandler.onMessageSentNotification()
             this.inputBoxFocus = false;
         });
 
         this._registerEventListener("#hamburgerMenu", (_: Event): void => {
             this.eventHandler.onShowHamburger();
+        });
+
+        this._registerEventListener("#custMsg", (_: Event): void => {
+            this.eventHandler.onMsgClick();
         });
 
         this._registerEventListener("#ciapiSkinCloseButton", (e: Event): void => {

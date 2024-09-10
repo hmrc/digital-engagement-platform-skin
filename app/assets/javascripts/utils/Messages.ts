@@ -5,6 +5,7 @@ interface messageTypes {
     busy: string
     active: string
     unavilable: string
+    messageSent: string
     agentMsgPrefix: string
     customerMsgPrefix: string
     systemMsgPrefix: string
@@ -25,6 +26,7 @@ export const messages: messageTypes = {
     active: "In progress",
     //CommonChatController.js
     unavilable: `Sorry, our virtual assistant is unavailable. Try again later. ${contactLink} if you need to speak to someone.`,
+    messageSent: 'The message has been sent',
     //Transcript.js
     agentMsgPrefix: " Adviser said :",
     customerMsgPrefix: " You said : ",
