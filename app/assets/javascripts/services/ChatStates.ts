@@ -225,7 +225,9 @@ export class EngagedState {
         } else if (closeChatEventData) {
             this.closeChat();
         } else if (youTubeVideo) {
-            this._processMessageYouTubeVideoData(msg, msg.messageTimestamp!);
+            if (msg.messageData) {
+                this._processMessageYouTubeVideoData(msg, msg.messageTimestamp!);
+            }
         } else if (this._isMixAutomatonMessage(msg)) {
             this._mixAgentCommunicationMessage(msg, transcript);
         } else if (msg.isAgentMsg) {
