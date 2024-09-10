@@ -444,7 +444,6 @@ export default class Transcript {
             chatContainer?.scrollTo({ top: chatContainer.scrollHeight, left: 0, behavior: "smooth" });
         }
     }
-    // James - Do you think this is just Agent within default classes or other types?
 
     getPrintTimeStamp(msgTimestamp: string): string {
         let strTime: string = "";
