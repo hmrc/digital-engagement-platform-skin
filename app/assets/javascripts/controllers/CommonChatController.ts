@@ -400,7 +400,7 @@ export default class CommonChatController {
         let text: string = this.container.currentInputText();
         const alphaNumericSpecial: RegExp = /\S/
 
-        if(alphaNumericSpecial.test(text) == true) {
+        if (alphaNumericSpecial.test(text) == true) {
             text = text.trim()
             this.state.onSend(text);
             this.container.clearCurrentInputText();
@@ -457,7 +457,7 @@ export default class CommonChatController {
         window.open("https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend?referrerUrl=" + url + "-skin-hmrc", "_blank");
     }
 
-    onMsgClick(): void{
+    onMsgClick(): void {
         this.closeMenu()
     }
 
