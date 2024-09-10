@@ -33,7 +33,7 @@ beforeEach(() => {
 
     chatContainer = new ChatContainer(null, document.createElement("div"), null);
     mockSDK = {
-        sendRichContentMessage : jest.fn().mockImplementation(),
+        sendRichContentMessage: jest.fn().mockImplementation(),
         sendMessage: jest.fn().mockImplementation(),
         sendDataPass: jest.fn().mockImplementation(),
         sendVALinkMessage: jest.fn().mockImplementation()
@@ -107,13 +107,13 @@ describe("ChatContainer", () => {
         chatContainer = new ChatContainer(null, null, mockSDK);
 
         const responsiveLinkEvent = {
-            target : {
+            target: {
                 dataset: {
                     "nuanceMessageText": "Northern Ireland",
                     "nuanceMessageData":
                         "{'nvaaType':'formattedLink','selectedItemId':'LOCATION','selectedItemValue':'northern_ireland'}"
                 },
-                getAttribute : jest.fn().mockReturnValue("#")
+                getAttribute: jest.fn().mockReturnValue("#")
             },
             preventDefault: jest.fn()
         }
@@ -147,12 +147,12 @@ describe("ChatContainer", () => {
         const focusOnNextAutomatonMessageSpy = jest.spyOn(chatContainer, '_focusOnNextAutomatonMessage')
 
         const responsiveLinkEvent = {
-            target : {
+            target: {
                 tagName: "a",
                 dataset: {
                     vtzJump: {}
                 },
-                getAttribute : jest.fn().mockReturnValue("#"),
+                getAttribute: jest.fn().mockReturnValue("#"),
             },
             preventDefault: jest.fn()
         }
@@ -167,12 +167,12 @@ describe("ChatContainer", () => {
         chatContainer = new ChatContainer(null, null, mockSDK);
 
         const responsiveLinkEvent = {
-            target : {
+            target: {
                 tagName: "a",
                 dataset: {
                     "nuanceMessageText": "end this chat and give feedback"
                 },
-                getAttribute : jest.fn().mockReturnValue("#"),
+                getAttribute: jest.fn().mockReturnValue("#"),
                 className: "dialog"
             },
             preventDefault: jest.fn()
@@ -192,11 +192,11 @@ describe("ChatContainer", () => {
         sanitiseAndParseJsonData = jest.spyOn(JsonUtils, 'sanitiseAndParseJsonData');
 
         const responsiveLinkEvent = {
-            target : {
+            target: {
                 dataset: {
                     "nuanceMessageText": "Northern Ireland"
                 },
-                getAttribute : jest.fn().mockReturnValue("#")
+                getAttribute: jest.fn().mockReturnValue("#")
             },
             preventDefault: jest.fn()
         }
@@ -213,17 +213,17 @@ describe("ChatContainer", () => {
         expect(firstArgToSendMessage).toBe("Northern Ireland");
     })
 
- it("Mix: process external links, send datapass", () => {
+    it("Mix: process external links, send datapass", () => {
         chatContainer = new ChatContainer(null, null, mockSDK);
 
         const externalLinkEvent = {
-            target : {
+            target: {
                 dataset: {
                     "nuanceMessageText": "Where do you live?",
                     "nuanceDatapass": "{'testDataPass': 'worked'}",
                     "target": "_blank"
                 },
-                getAttribute : jest.fn().mockReturnValue("https://www.gov.uk/government/organisations/hm-revenue-customs")
+                getAttribute: jest.fn().mockReturnValue("https://www.gov.uk/government/organisations/hm-revenue-customs")
             },
             preventDefault: jest.fn()
         }
@@ -240,7 +240,7 @@ describe("ChatContainer", () => {
         const firstCallToSendDataPass = mockSDK.sendDataPass.mock.calls[0][0];
         const secondCallToSendDataPass = mockSDK.sendDataPass.mock.calls[1][0];
 
-        expect(firstCallToSendDataPass).toMatchObject({"ndepVaEvent": "{\"data\":{\"address\":\"https://www.gov.uk/government/organisations/hm-revenue-customs\"},\"event\":\"linkClicked\"}"});
+        expect(firstCallToSendDataPass).toMatchObject({ "ndepVaEvent": "{\"data\":{\"address\":\"https://www.gov.uk/government/organisations/hm-revenue-customs\"},\"event\":\"linkClicked\"}" });
         expect(secondCallToSendDataPass).toMatchObject({ testDataPass: 'worked' });
     });
 
@@ -249,13 +249,13 @@ describe("ChatContainer", () => {
 
         const invalidJson = "{'testDataPass': worked'}"//missing ' before worked
         const externalLinkEventWithInvalidJson = {
-            target : {
+            target: {
                 dataset: {
                     "nuanceMessageText": "Where do you live?",
                     "nuanceDatapass": invalidJson,
                     "target": "_blank"
                 },
-                getAttribute : jest.fn().mockReturnValue("https://www.gov.uk/government/organisations/hm-revenue-customs")
+                getAttribute: jest.fn().mockReturnValue("https://www.gov.uk/government/organisations/hm-revenue-customs")
             },
             preventDefault: jest.fn()
         }
@@ -288,7 +288,7 @@ describe("ChatContainer", () => {
 
         chatContainer.processKeypressEvent(keypressEvent);
 
-        expect(resetStopTypingTimeoutSpy).toBeCalledTimes(1);
+        expect(resetStopTypingTimeoutSpy).toBeCalledTimes(2);
         expect(startTypingSpy).toBeCalledTimes(1);
         expect(chatContainer.eventHandler.onStartTyping).toBeCalledTimes(1);
         expect(chatContainer.eventHandler.onSend).toBeCalledTimes(1);
@@ -323,8 +323,8 @@ describe("ChatContainer", () => {
     it("Returns null given a call to processExternalAndResponsiveLinks where there is no href link attribute", () => {
 
         const responsiveLinkEvent = {
-            target : {
-                getAttribute : jest.fn(() => { return null; } )
+            target: {
+                getAttribute: jest.fn(() => { return null; })
             }
         }
 
@@ -341,11 +341,11 @@ describe("ChatContainer", () => {
         const removeAttribute = jest.fn();
 
         document.getElementById = jest.fn()
-                                  .mockReturnValueOnce({setAttribute})
-                                  .mockReturnValueOnce({setAttribute})
-                                  .mockReturnValueOnce({setAttribute})
-                                  .mockReturnValueOnce({removeAttribute})
-                                  .mockReturnValueOnce({focus});
+            .mockReturnValueOnce({ setAttribute })
+            .mockReturnValueOnce({ setAttribute })
+            .mockReturnValueOnce({ setAttribute })
+            .mockReturnValueOnce({ removeAttribute })
+            .mockReturnValueOnce({ focus });
 
         chatContainer = new ChatContainer(null, eventContainer, mockSDK);
 
@@ -377,12 +377,12 @@ describe("ChatContainer", () => {
 
         document.getElementById =
             jest.fn()
-                .mockReturnValueOnce({setAttribute})
-                .mockReturnValueOnce({setAttribute})
-                .mockReturnValueOnce({setAttribute})
-                .mockReturnValueOnce({setAttribute})
-                .mockReturnValueOnce({setAttribute})
-                .mockReturnValueOnce({focus});
+                .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ focus });
 
         const documentHtml = setupDocumentforCancelEndChatTests();
 
@@ -404,41 +404,41 @@ describe("ChatContainer", () => {
     });
 
     it("onCancelEndChat behaves as expected given the chatContainer's closeMethod is set to Link", () => {
-       const focus = jest.fn();
-       const setAttribute = jest.fn();
-       const removeAttribute = jest.fn();
-       const lastFeedbackMessage = jest.fn();
-       const lastEndChatMessage = jest.fn();
+        const focus = jest.fn();
+        const setAttribute = jest.fn();
+        const removeAttribute = jest.fn();
+        const lastFeedbackMessage = jest.fn();
+        const lastEndChatMessage = jest.fn();
 
-       document.getElementById =
-           jest.fn()
-               .mockReturnValueOnce({setAttribute})
-               .mockReturnValueOnce({setAttribute})
-               .mockReturnValueOnce({setAttribute})
-               .mockReturnValueOnce({setAttribute})
-               .mockReturnValueOnce({setAttribute});
+        document.getElementById =
+            jest.fn()
+                .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ setAttribute });
 
-       document.querySelectorAll =
-           jest.fn()
-               .mockReturnValueOnce([{removeAttribute}])
-               .mockReturnValueOnce({lastFeedbackMessage})
-               .mockReturnValueOnce({lastEndChatMessage})
-               .mockReturnValueOnce([{focus}]);
+        document.querySelectorAll =
+            jest.fn()
+                .mockReturnValueOnce([{ removeAttribute }])
+                .mockReturnValueOnce({ lastFeedbackMessage })
+                .mockReturnValueOnce({ lastEndChatMessage })
+                .mockReturnValueOnce([{ focus }]);
 
 
-       const documentHtml = setupDocumentforCancelEndChatTests();
+        const documentHtml = setupDocumentforCancelEndChatTests();
 
-       chatContainer = new ChatContainer(null, documentHtml, null);
-       chatContainer.closeMethod = "Link";
-       chatContainer.endChatFeedback = false;
+        chatContainer = new ChatContainer(null, documentHtml, null);
+        chatContainer.closeMethod = "Link";
+        chatContainer.endChatFeedback = false;
 
-       chatContainer.onCancelEndChat();
+        chatContainer.onCancelEndChat();
 
-       expect(setAttribute).toBeCalledWith("tabindex", '0');
-       expect(setAttribute).toBeCalledTimes(5);
-       expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
-       expect(focus).toBeCalledTimes(1);
-   });
+        expect(setAttribute).toBeCalledWith("tabindex", '0');
+        expect(setAttribute).toBeCalledTimes(5);
+        expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
+        expect(focus).toBeCalledTimes(1);
+    });
 
     it("onCancelEndChat behaves as expected given the chatContainer's closeMethod is set to Message", () => {
         const focus = jest.fn();
@@ -446,12 +446,12 @@ describe("ChatContainer", () => {
 
         document.getElementById =
             jest.fn()
-                .mockReturnValueOnce({setAttribute})
-                .mockReturnValueOnce({setAttribute})
-                .mockReturnValueOnce({setAttribute})
-                .mockReturnValueOnce({setAttribute})
-                .mockReturnValueOnce({setAttribute})
-                .mockReturnValueOnce({focus});
+                .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ focus });
 
         const documentHtml = setupDocumentforCancelEndChatTests();
 
@@ -488,8 +488,8 @@ describe("ChatContainer", () => {
         const focus = jest.fn()
 
         document.querySelectorAll = jest.fn()
-            .mockReturnValueOnce([{focus}])
-            .mockReturnValueOnce([{focus}])
+            .mockReturnValueOnce([{ focus }])
+            .mockReturnValueOnce([{ focus }])
 
         chatContainer._focusOnNextAutomatonMessage()
 
@@ -506,9 +506,9 @@ describe("ChatContainer", () => {
         focusDiv.id = 'legend_give_feedback'
 
         document.getElementById = jest.fn()
-                                    .mockReturnValueOnce({setAttribute})
-                                    .mockReturnValueOnce({setAttribute})
-                                    .mockReturnValueOnce({focus});
+            .mockReturnValueOnce({ setAttribute })
+            .mockReturnValueOnce({ setAttribute })
+            .mockReturnValueOnce({ focus });
 
         chatContainer._removeSkinHeadingElements = jest.fn();
         chatContainer.onConfirmEndChat();
@@ -542,8 +542,8 @@ describe("ChatContainer", () => {
         const widget = { disable };
 
         const responsiveLinkEvent = {
-            target : {
-                getAttribute : jest.fn().mockReturnValue("#"),
+            target: {
+                getAttribute: jest.fn().mockReturnValue("#"),
             }
         }
 

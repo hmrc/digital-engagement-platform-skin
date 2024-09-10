@@ -11,24 +11,9 @@ import PostChatSurveyDigitalAssistantService from '../services/PostChatSurveyDig
 import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
 import PrintUtils from '../utils/PrintUtils'
 import { messages } from "../utils/Messages";
+import { AutomatonType, Survey, Answers } from '../types'
 
-interface Survey {
-    id: string;
-    questions: {
-        id: string[];
-        text: string;
-        freeform: boolean;
-    }[];
-}
-
-interface Answers {
-    answers: {
-        id: string | undefined;
-        text: string;
-        freeform: boolean;
-    }[];
-}
-
+type ChatStatesType = ChatStates.NullState | ChatStates.EngagedState | ChatStates.ClosingState | ChatStates.ShownState
 interface QuestionCompleted {
     Q1: boolean;
     Q2: boolean;
@@ -36,12 +21,12 @@ interface QuestionCompleted {
     Q5: boolean;
 }
 
-const automatonDA: { id: string, name: string } = {
+const automatonDA: AutomatonType = {
     id: "survey-13000304",
     name: "HMRC_PostChat_Guidance-CUI"
 };
 
-const automatonWebchat: { id: string, name: string } = {
+const automatonWebchat: AutomatonType = {
     id: "survey-13000303",
     name: "HMRC_PostChat_Transactional-CUI"
 };
@@ -74,7 +59,7 @@ const digitalAssistantSurvey: Survey = {
 
 export default class CommonChatController {
     sdk: any
-    state: ChatStates.NullState | ChatStates.EngagedState
+    state: ChatStatesType
     minimised: boolean
     ended: boolean | string
     escalated: boolean
@@ -245,7 +230,8 @@ export default class CommonChatController {
     _displayOpenerScripts(): void {
         this.sdk = window.Inq.SDK;
 
-        this.sdk.getOpenerScripts((openerScripts: any) => {
+        this.sdk.getOpenerScripts((openerScripts: string[]) => {
+            console.log('openerScripts', openerScripts, Array.isArray(openerScripts))
             if (openerScripts == null)
                 return;
 
@@ -263,7 +249,7 @@ export default class CommonChatController {
             () => this.container.confirmEndChat()));
     }
 
-    _moveToState(state: ChatStates.NullState | ChatStates.EngagedState | ChatStates.ShownState | ChatStates.ClosingState): void {
+    _moveToState(state: ChatStatesType): void {
         this.state = state;
     }
 

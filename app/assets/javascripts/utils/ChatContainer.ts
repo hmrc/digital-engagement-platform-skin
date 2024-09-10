@@ -211,6 +211,11 @@ export default class ChatContainer {
     }
 
     processKeypressEvent(e: KeyboardEvent): void {
+        this._resetStopTypingTimeout();
+
+        if (!this.isCustomerTyping) {
+            this.startTyping(this.eventHandler);
+        }
 
         const custMsg = this.container.querySelector<HTMLTextAreaElement>('#custMsg');
         const sendButton = this.container.querySelector<HTMLButtonElement>('#ciapiSkinSendButton');

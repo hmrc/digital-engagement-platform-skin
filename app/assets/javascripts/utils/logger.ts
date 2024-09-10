@@ -22,7 +22,7 @@ export const debug = (info: string, obj?: {}): void =>  {
     } 
 }
 
-export const error = (info: string, obj: unknown): void =>  {
+export const error = (info: string, obj?: unknown): void =>  {
     if(envChecker() == 'dev'){
         if(obj){
             console.error('ERROR: ' + info, obj)

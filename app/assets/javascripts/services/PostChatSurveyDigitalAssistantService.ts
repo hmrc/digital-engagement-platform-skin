@@ -1,14 +1,15 @@
 import * as logger from '../utils/logger';
-
-export default class PostChatSurveyWebchatService {
-    constructor(sdk) {
+import { AutomatonType } from '../types';
+export default class PostChatSurveyDigitalAssistantService {
+    sdk: any;
+    constructor(sdk: any) {
         this.sdk = sdk;
     }
 
-    beginPostChatSurvey(survey, automaton, timestamp) {
-        const chatParams = this.sdk.getChatParams();
+    beginPostChatSurvey(survey: any, automaton: AutomatonType, timestamp: number): void {
+        const chatParams: any = this.sdk.getChatParams();
 
-        const startedEvent = {
+        const startedEvent: {} = {
             _domain: "automaton",
             evt: "started",
             automatonType: "satisfactionSurvey",
@@ -18,57 +19,7 @@ export default class PostChatSurveyWebchatService {
             clientTimestamp: timestamp,
             chatID: chatParams.chatID,
             customerID: chatParams.thisCustomerID,
-            agentID: window.agentId,
-            custID: chatParams.thisCustomerID,
-            incAssignmentID: chatParams.sessionID,
-            sessionID: chatParams.sessionID,
-            visitorAttributes: chatParams.getVisitorAttributes(),
-            automatonAttributes: "",
-            siteID: Number(chatParams.siteID),
-            clientID: Number(chatParams.siteID),
-            pageID: Number(chatParams.launchPageId),
-            businessUnitID: chatParams.businessUnitID,
-            businessRuleID: Number(chatParams.brID),
-            busUnitID: chatParams.businessUnitID,
-            BRName: chatParams.chatTitle,
-            agentGroupID: chatParams.agId,
-            availableAgentAttributes: chatParams.agentAttributes,
-            brAttributes: chatParams.ruleAttributes,
-            countryCode: chatParams.countryCode,
-            regionCode: chatParams.regionCode,
-            deviceType: chatParams.deviceType,
-            operatingSystemType: chatParams.operatingSystemType,
-            browserType: chatParams.browserType,
-            browserVersion: chatParams.browserVersion,
-            preAssigned: this.sdk.isConnected() && !window.agentId,
-            surveyId: Number(survey.id),
-            automatonID: automaton.id,
-            automatonName: automaton.name,
-            automatonOrigin: "richMedia"
-        };
-
-        const contentSentToCustomerEvent = {
-            _domain: "automaton",
-            evt: "contentSentToCustomer",
-            unique_node_id: "node_1",
-            "custom.decisiontree.nodeID": encodeURIComponent("HMRC_PostChat_Guidance - Initial"),
-            "custom.decisiontree.questions": escape(encodeURIComponent(survey.questions[0].text)) + encodeURIComponent(",") +
-                escape(encodeURIComponent(survey.questions[1].text)) + encodeURIComponent(",") +
-                escape(encodeURIComponent(survey.questions[2].text)) + encodeURIComponent(",") +
-                escape(encodeURIComponent(survey.questions[3].text)) + encodeURIComponent(",") +
-                escape(encodeURIComponent(survey.questions[4].text)) + encodeURIComponent(",") +
-                escape(encodeURIComponent(survey.questions[5].text)),
-            "custom.decisiontree.questionIDs": escape(encodeURIComponent(survey.questions[0].id)) + encodeURIComponent(",") +
-                escape(encodeURIComponent(survey.questions[1].id)) + encodeURIComponent(",") +
-                escape(encodeURIComponent(survey.questions[2].id)) + encodeURIComponent(",") +
-                escape(encodeURIComponent(survey.questions[3].id)) + encodeURIComponent(",") +
-                escape(encodeURIComponent(survey.questions[4].id)) + encodeURIComponent(",") +
-                escape(encodeURIComponent(survey.questions[5].id)),
-            clientTimestamp: timestamp,
-            automatonType: "satisfactionSurvey",
-            chatID: chatParams.chatID,
-            customerID: chatParams.thisCustomerID,
-            agentID: window.agentId,
+            agentID: sessionStorage.agentId,
             custID: chatParams.thisCustomerID,
             incAssignmentID: chatParams.sessionID,
             sessionID: chatParams.sessionID,
@@ -96,19 +47,69 @@ export default class PostChatSurveyWebchatService {
             automatonName: automaton.name,
             automatonOrigin: "richMedia"
         };
+
+        const contentSentToCustomerEvent: {} = {
+            _domain: "automaton",
+            evt: "contentSentToCustomer",
+            unique_node_id: "node_1",
+            "custom.decisiontree.nodeID": encodeURIComponent("HMRC_PostChat_Guidance - Initial"),
+            "custom.decisiontree.questions": escape(encodeURIComponent(survey.questions[0].text)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.questions[1].text)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.questions[2].text)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.questions[3].text)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.questions[4].text)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.questions[5].text)),
+            "custom.decisiontree.questionIDs": escape(encodeURIComponent(survey.questions[0].id)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.questions[1].id)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.questions[2].id)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.questions[3].id)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.questions[4].id)) + encodeURIComponent(",") +
+                escape(encodeURIComponent(survey.questions[5].id)),
+            clientTimestamp: timestamp,
+            automatonType: "satisfactionSurvey",
+            chatID: chatParams.chatID,
+            customerID: chatParams.thisCustomerID,
+            agentID: sessionStorage.agentId,
+            custID: chatParams.thisCustomerID,
+            incAssignmentID: chatParams.sessionID,
+            sessionID: chatParams.sessionID,
+            visitorAttributes: chatParams.getVisitorAttributes(),
+            automatonAttributes: "",
+            siteID: Number(chatParams.siteID),
+            clientID: Number(chatParams.siteID),
+            pageID: Number(chatParams.launchPageId),
+            businessUnitID: chatParams.businessUnitID,
+            businessRuleID: Number(chatParams.brID),
+            busUnitID: chatParams.businessUnitID,
+            BRName: chatParams.chatTitle,
+            agentGroupID: chatParams.agId,
+            availableAgentAttributes: chatParams.agentAttributes,
+            brAttributes: chatParams.ruleAttributes,
+            countryCode: chatParams.countryCode,
+            regionCode: chatParams.regionCode,
+            deviceType: chatParams.deviceType,
+            operatingSystemType: chatParams.operatingSystemType,
+            browserType: chatParams.browserType,
+            browserVersion: chatParams.browserVersion,
+            preAssigned: this.sdk.isConnected() && !sessionStorage.agentId,
+            surveyId: Number(survey.id),
+            automatonID: automaton.id,
+            automatonName: automaton.name,
+            automatonOrigin: "richMedia"
+        };
         logger.info("== beginPostChatSurvey ==");
 
         try {
             this.sdk.logEventToDW({ eventList: [startedEvent, contentSentToCustomerEvent] });
-        } catch (e) {
+        } catch (e: unknown) {
             logger.error("!!!! logEventToDW got exception: ", e);
         }
     }
 
-    submitPostChatSurvey(survey, automaton, timestamp) {
+    submitPostChatSurvey(survey: any, automaton: AutomatonType, timestamp: number): void {
         const chatParams = this.sdk.getChatParams();
 
-        const customerRespondedEvent = {
+        const customerRespondedEvent: {} = {
             _domain: "automaton",
             evt: "customerResponded",
             automatonType: "satisfactionSurvey",
@@ -118,7 +119,7 @@ export default class PostChatSurveyWebchatService {
             pageID: Number(chatParams.launchPageId),
             sessionID: chatParams.sessionID,
             chatID: chatParams.chatID,
-            agentID: window.agentId,
+            agentID: sessionStorage.agentId,
             automatonName: automaton.name,
             custID: chatParams.thisCustomerID,
             preAssigned: this.sdk.isConnected() && !chatParams.agentID,
@@ -190,7 +191,7 @@ export default class PostChatSurveyWebchatService {
             automatonOrigin: "richMedia"
         };
 
-        const endedEvent = {
+        const endedEvent: {} = {
             _domain: "automaton",
             evt: "ended",
             automatonType: "satisfactionSurvey",
@@ -200,7 +201,7 @@ export default class PostChatSurveyWebchatService {
             pageID: Number(chatParams.launchPageId),
             sessionID: chatParams.sessionID,
             chatID: chatParams.chatID,
-            agentID: window.agentId,
+            agentID: sessionStorage.agentId,
             automatonName: automaton.name,
             preAssigned: this.sdk.isConnected() && !chatParams.agentID,
             automatonID: automaton.id,
@@ -231,15 +232,15 @@ export default class PostChatSurveyWebchatService {
 
         try {
             this.sdk.logEventToDW({ eventList: [customerRespondedEvent, endedEvent] });
-        } catch (e) {
+        } catch (e: unknown) {
             logger.error("!!!! logEventToDW got exception: ", e);
         }
     }
 
-    closePostChatSurvey(automaton, timestamp) {
-        const chatParams = this.sdk.getChatParams();
+    closePostChatSurvey(automaton: AutomatonType, timestamp: number): void {
+        const chatParams: any = this.sdk.getChatParams();
 
-        const endedEvent = {
+        const endedEvent: {} = {
             _domain: "automaton",
             evt: "ended",
             automatonType: "satisfactionSurvey",
@@ -259,7 +260,7 @@ export default class PostChatSurveyWebchatService {
 
         try {
             this.sdk.logEventToDW({ eventList: [endedEvent] });
-        } catch (e) {
+        } catch (e: unknown) {
             logger.error("!!!! logEventToDW got exception: ", e);
         }
     }

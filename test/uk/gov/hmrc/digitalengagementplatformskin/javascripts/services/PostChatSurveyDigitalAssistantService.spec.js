@@ -79,7 +79,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
 
         const timestamp = Date.now();
 
-        window.agentId = "MIX";
+        sessionStorage.agentId = "MIX";
 
         const expectedStartedEvent = {
             _domain: "automaton",
@@ -126,7 +126,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
             unique_node_id: "node_1",
             "custom.decisiontree.nodeID": "HMRC_PostChat_Guidance%20-%20Initial",
             "custom.decisiontree.questions":
-            "Were%2520you%2520able%2520to%2520do%2520what%2520you%2520needed%253F%2CHow%2520easy%2520was%2520it%253F%2CHow%2520did%2520you%2520feel%2520about%2520this%2520service%253F%2CWhy%2520did%2520you%2520give%2520these%2520scores%253F%2520%28Optional%29%2CHow%2520would%2520you%2520prefer%2520to%2520contact%2520HMRC%253F%2CProvide%2520other%2520contact%2520option%253F",
+                "Were%2520you%2520able%2520to%2520do%2520what%2520you%2520needed%253F%2CHow%2520easy%2520was%2520it%253F%2CHow%2520did%2520you%2520feel%2520about%2520this%2520service%253F%2CWhy%2520did%2520you%2520give%2520these%2520scores%253F%2520%28Optional%29%2CHow%2520would%2520you%2520prefer%2520to%2520contact%2520HMRC%253F%2CProvide%2520other%2520contact%2520option%253F",
             "custom.decisiontree.questionIDs": "q1%2Cq2%2Cq3%2Cq4%2Cq5%2Cq6",
             clientTimestamp: timestamp,
             automatonType: "satisfactionSurvey",
@@ -191,7 +191,7 @@ describe("PostChatSurveyDigitalAssistantService", () => {
             "custom.decisiontree.nodeID": "HMRC_PostChat_Guidance%20-%20Initial",
             "custom.decisiontree.questionIDs": "q1%2Cq2%2Cq3%2Cq4%2Cq5%2Cq6",
             "custom.decisiontree.questions":
-            "Were%2520you%2520able%2520to%2520do%2520what%2520you%2520needed%253F%2CHow%2520easy%2520was%2520it%253F%2CHow%2520did%2520you%2520feel%2520about%2520this%2520service%253F%2CWhy%2520did%2520you%2520give%2520these%2520scores%253F%2520%28Optional%29%2CHow%2520would%2520you%2520prefer%2520to%2520contact%2520HMRC%253F%2CProvide%2520other%2520contact%2520option%253F",
+                "Were%2520you%2520able%2520to%2520do%2520what%2520you%2520needed%253F%2CHow%2520easy%2520was%2520it%253F%2CHow%2520did%2520you%2520feel%2520about%2520this%2520service%253F%2CWhy%2520did%2520you%2520give%2520these%2520scores%253F%2520%28Optional%29%2CHow%2520would%2520you%2520prefer%2520to%2520contact%2520HMRC%253F%2CProvide%2520other%2520contact%2520option%253F",
             "custom.decisiontree.answers": "Yes%2COK%2CGood%2Ctext%2520area%2520text%2Cother%2Cby%2520letter",
             "custom.decisiontree.answerIDs": "Yes%2COK%2CGood%2Ctext%2520area%2520text%2Cother%2Cby%2520letter",
             "custom.decisiontree.answerTypes": "0,0,0,1,0,1",
@@ -277,108 +277,108 @@ describe("PostChatSurveyDigitalAssistantService", () => {
     });
 
     it("sends event for submitting a post chat survey without other option populated", () => {
-            const sdk = {
-                getChatParams: () => { return chatParams; },
-                isConnected: () => { return true; },
-                logEventToDW: jest.fn()
-            };
+        const sdk = {
+            getChatParams: () => { return chatParams; },
+            isConnected: () => { return true; },
+            logEventToDW: jest.fn()
+        };
 
-            window.agentId = "MIX";
+        window.agentId = "MIX";
 
-            const service = new PostChatSurveyDigitalAssistantService(sdk);
-            const timestamp = Date.now();
+        const service = new PostChatSurveyDigitalAssistantService(sdk);
+        const timestamp = Date.now();
 
-            const expectedCustomerRespondedEvent = {
-                _domain: "automaton",
-                evt: "customerResponded",
-                unique_node_id: "node_1",
-                "custom.decisiontree.nodeID": "HMRC_PostChat_Guidance%20-%20Initial",
-                "custom.decisiontree.questionIDs": "q1%2Cq2%2Cq3%2Cq4%2Cq5%2Cq6",
-                "custom.decisiontree.questions":
+        const expectedCustomerRespondedEvent = {
+            _domain: "automaton",
+            evt: "customerResponded",
+            unique_node_id: "node_1",
+            "custom.decisiontree.nodeID": "HMRC_PostChat_Guidance%20-%20Initial",
+            "custom.decisiontree.questionIDs": "q1%2Cq2%2Cq3%2Cq4%2Cq5%2Cq6",
+            "custom.decisiontree.questions":
                 "Were%2520you%2520able%2520to%2520do%2520what%2520you%2520needed%253F%2CHow%2520easy%2520was%2520it%253F%2CHow%2520did%2520you%2520feel%2520about%2520this%2520service%253F%2CWhy%2520did%2520you%2520give%2520these%2520scores%253F%2520%28Optional%29%2CHow%2520would%2520you%2520prefer%2520to%2520contact%2520HMRC%253F%2CProvide%2520other%2520contact%2520option%253F",
-                "custom.decisiontree.answers": "Yes%2COK%2CGood%2Ctext%2520area%2520text%2Cother",
-                "custom.decisiontree.answerIDs": "Yes%2COK%2CGood%2Ctext%2520area%2520text%2Cother",
-                "custom.decisiontree.answerTypes": "0,0,0,1,0,1",
-                clientTimestamp: timestamp,
-                automatonType: "satisfactionSurvey",
-                automatonID: "AutomatonID",
-                automatonName: "AutomatonName",
-                automatonOrigin: "richMedia",
-                chatID: "ChatID",
-                customerID: "ThisCustomerID",
-                agentID: "MIX",
-                custID: "ThisCustomerID",
-                incAssignmentID: "SessionID",
-                sessionID: "SessionID",
-                visitorAttributes: "VisitorAttributes",
-                automatonAttributes: "",
-                siteID: 123459,
-                clientID: 123459,
-                pageID: 123458,
-                businessUnitID: "BusinessUnitID",
-                businessRuleID: 123456,
-                busUnitID: "BusinessUnitID",
-                BRName: "ChatTitle",
-                agentGroupID: "AgId",
-                availableAgentAttributes: "AgentAttributes",
-                brAttributes: "RuleAttributes",
-                countryCode: "CountryCode",
-                regionCode: "RegionCode",
-                deviceType: "DeviceType",
-                operatingSystemType: "OperatingSystemType",
-                browserType: "BrowserType",
-                browserVersion: "BrowserVersion",
-                preAssigned: false,
-                surveyId: 123456
-            };
+            "custom.decisiontree.answers": "Yes%2COK%2CGood%2Ctext%2520area%2520text%2Cother",
+            "custom.decisiontree.answerIDs": "Yes%2COK%2CGood%2Ctext%2520area%2520text%2Cother",
+            "custom.decisiontree.answerTypes": "0,0,0,1,0,1",
+            clientTimestamp: timestamp,
+            automatonType: "satisfactionSurvey",
+            automatonID: "AutomatonID",
+            automatonName: "AutomatonName",
+            automatonOrigin: "richMedia",
+            chatID: "ChatID",
+            customerID: "ThisCustomerID",
+            agentID: "MIX",
+            custID: "ThisCustomerID",
+            incAssignmentID: "SessionID",
+            sessionID: "SessionID",
+            visitorAttributes: "VisitorAttributes",
+            automatonAttributes: "",
+            siteID: 123459,
+            clientID: 123459,
+            pageID: 123458,
+            businessUnitID: "BusinessUnitID",
+            businessRuleID: 123456,
+            busUnitID: "BusinessUnitID",
+            BRName: "ChatTitle",
+            agentGroupID: "AgId",
+            availableAgentAttributes: "AgentAttributes",
+            brAttributes: "RuleAttributes",
+            countryCode: "CountryCode",
+            regionCode: "RegionCode",
+            deviceType: "DeviceType",
+            operatingSystemType: "OperatingSystemType",
+            browserType: "BrowserType",
+            browserVersion: "BrowserVersion",
+            preAssigned: false,
+            surveyId: 123456
+        };
 
-            const expectedEndedEvent = {
-                _domain: "automaton",
-                evt: "ended",
-                automatonType: "satisfactionSurvey",
-                "automaton.outcomeType": "Completed",
-                clientTimestamp: timestamp,
-                "automaton.outcome": "User has submitted postchat feedback.",
-                automatonID: "AutomatonID",
-                automatonName: "AutomatonName",
-                automatonOrigin: "richMedia",
-                chatID: "ChatID",
-                customerID: "ThisCustomerID",
-                agentID: "MIX",
-                custID: "ThisCustomerID",
-                incAssignmentID: "SessionID",
-                sessionID: "SessionID",
-                visitorAttributes: "VisitorAttributes",
-                automatonAttributes: "",
-                siteID: 123459,
-                clientID: 123459,
-                pageID: 123458,
-                businessUnitID: "BusinessUnitID",
-                businessRuleID: 123456,
-                busUnitID: "BusinessUnitID",
-                BRName: "ChatTitle",
-                agentGroupID: "AgId",
-                availableAgentAttributes: "AgentAttributes",
-                brAttributes: "RuleAttributes",
-                countryCode: "CountryCode",
-                regionCode: "RegionCode",
-                deviceType: "DeviceType",
-                operatingSystemType: "OperatingSystemType",
-                browserType: "BrowserType",
-                browserVersion: "BrowserVersion",
-                preAssigned: false,
-                surveyId: 123456
-            };
+        const expectedEndedEvent = {
+            _domain: "automaton",
+            evt: "ended",
+            automatonType: "satisfactionSurvey",
+            "automaton.outcomeType": "Completed",
+            clientTimestamp: timestamp,
+            "automaton.outcome": "User has submitted postchat feedback.",
+            automatonID: "AutomatonID",
+            automatonName: "AutomatonName",
+            automatonOrigin: "richMedia",
+            chatID: "ChatID",
+            customerID: "ThisCustomerID",
+            agentID: "MIX",
+            custID: "ThisCustomerID",
+            incAssignmentID: "SessionID",
+            sessionID: "SessionID",
+            visitorAttributes: "VisitorAttributes",
+            automatonAttributes: "",
+            siteID: 123459,
+            clientID: 123459,
+            pageID: 123458,
+            businessUnitID: "BusinessUnitID",
+            businessRuleID: 123456,
+            busUnitID: "BusinessUnitID",
+            BRName: "ChatTitle",
+            agentGroupID: "AgId",
+            availableAgentAttributes: "AgentAttributes",
+            brAttributes: "RuleAttributes",
+            countryCode: "CountryCode",
+            regionCode: "RegionCode",
+            deviceType: "DeviceType",
+            operatingSystemType: "OperatingSystemType",
+            browserType: "BrowserType",
+            browserVersion: "BrowserVersion",
+            preAssigned: false,
+            surveyId: 123456
+        };
 
-            service.submitPostChatSurvey(surveyWithoutOption, automaton, timestamp);
+        service.submitPostChatSurvey(surveyWithoutOption, automaton, timestamp);
 
-            expect(sdk.logEventToDW).toHaveBeenCalledWith({
-                eventList: [
-                    expectedCustomerRespondedEvent,
-                    expectedEndedEvent
-                ]
-            });
+        expect(sdk.logEventToDW).toHaveBeenCalledWith({
+            eventList: [
+                expectedCustomerRespondedEvent,
+                expectedEndedEvent
+            ]
         });
+    });
 
     it("sends event for closing digital assistant and not submitting post chat survey", () => {
         const sdk = {
