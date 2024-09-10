@@ -16,7 +16,8 @@ export default class Transcript {
     automatedMsgPrefix: string;
     transitions?: { from: string, name: string, to: { sendMessage: { [key: string]: string } }, trigger: string }[]
 
-    constructor(content: HTMLElement | null, classes: Classes, msgPrefix?: undefined) {
+    // constructor(content: HTMLElement | null, classes: Classes, msgPrefix?: undefined){ * See bottom of the document.
+    constructor(content: HTMLElement | null, classes: Classes) {
         this.content = content;
         this.classes = classes;
         this.agentMsgPrefix = messages.agentMsgPrefix;
@@ -25,11 +26,13 @@ export default class Transcript {
         this.automatedMsgPrefix = messages.automatedMsgPrefix;
     }
 
-    addAgentMsg(msg: string, msgTimestamp: string, agent?: undefined): void {
+    //     addAgentMsg(msg: string, msgTimestamp: string, agent?: undefined): void { * See bottom of the document
+    addAgentMsg(msg: string, msgTimestamp: string): void {
         this._appendMessage(msg, msgTimestamp, this.classes.Agent, this._getMsgTimestampPrefix(msgTimestamp, this.agentMsgPrefix, "h3"), false, false);
     }
 
-    addCustomerMsg(msg: string, msgTimestamp: string, agent?: undefined): void {
+    // addCustomerMsg(msg: string, msgTimestamp: string, agent?: undefined): void { * See bottom of the document
+    addCustomerMsg(msg: string, msgTimestamp: string): void {
         this._appendMessage(msg, msgTimestamp, this.classes.Customer, this._getMsgTimestampPrefix(msgTimestamp, this.customerMsgPrefix, "h2"), true, false);
     }
 
@@ -116,7 +119,8 @@ export default class Transcript {
         return text;
     }
 
-    appendMessageInLiveRegion(msg: string, id: string, msg_type: string, isVirtualAssistance: undefined, that: any, msg_class: DefaultClassesType, isSystemMsg: undefined, isCustomerMsg: boolean, isQuickReply: boolean | undefined): void {
+    // appendMessageInLiveRegion(msg: string, id: string, msg_type: string, isVirtualAssistance: undefined, that: any, msg_class: DefaultClassesType, isSystemMsg: undefined, isCustomerMsg: boolean, isQuickReply: boolean | undefined): void { * See bottom of the document.
+    appendMessageInLiveRegion(msg: string, id: string, msg_type: string, that: any, msg_class: DefaultClassesType, isCustomerMsg: boolean, isQuickReply: boolean | undefined): void {
         if (document.getElementById(id)) {
             let idElement = document.getElementById(id)
             if (isQuickReply && idElement) {
@@ -409,7 +413,8 @@ export default class Transcript {
 
             let richContentMessageData: { [key: string]: string } = {};
 
-            Object.entries(datapassDef).forEach(([key, value], index) => {
+            // Object.entries(datapassDef).forEach(([key, value], index) => { * See bottom of the document
+            Object.entries(datapassDef).forEach(([key, value]) => {
                 richContentMessageData[key] = (value.substr(0, 1) == '#') ? targetElContext[value] : value;
             });
 
@@ -481,3 +486,5 @@ export default class Transcript {
         return msgTimestampPrefix.outerHTML;
     }
 }
+
+// * This means that the line has a warning in it for a paramter not being used. Did not want to delete the parameter in case we need it in the future.
