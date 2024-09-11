@@ -2,24 +2,25 @@ import * as DisplayState from '../NuanceDisplayState'
 import * as logger from '../utils/logger';
 import ClickToChatButton from './ClickToChatButton';
 
- type  displayState = "chatactive" | "outofhours" | "ready" | "busy"
+type displayState = "chatactive" | "outofhours" | "ready" | "busy"
 export interface ClickToChatObjectInterface {
-    c2cIdx: any, 
+    c2cIdx: any,
     displayState: displayState,
     launchable: boolean
+    c2c?: any
 }
 
 export default class ClickToChatButtons {
     buttons: any
     onClicked: (c2cIdx: any) => void;
     displayStateMessages: { outofhours: string; ready: string; busy: string; chatactive: string; }
-    
+
     constructor(onClicked: (c2cIdx: any) => void, displayStateMessages: { outofhours: string; ready: string; busy: string; chatactive: string; }) {
         this.buttons = {};
         this.onClicked = onClicked;
         this.displayStateMessages = displayStateMessages;
     }
-    
+
     addButton(c2cObj: ClickToChatObjectInterface, button: ClickToChatButton, divID: string): void {
         if (!document.getElementById("ciapiSkinContainer")) {
             this.buttons[c2cObj.c2cIdx] = button;
@@ -37,7 +38,7 @@ export default class ClickToChatButtons {
             this._updateButton(c2cObj, this.buttons[c2cId], document.getElementById("tc-nuance-chat-container"));
         }
     }
-    
+
     _getDisplayStateText(displayState: displayState): string {
         return (this.displayStateMessages)[displayState] || ("Unknown display state: " + displayState);
     }
@@ -55,8 +56,8 @@ export default class ClickToChatButtons {
         const div: HTMLElement | undefined = button.replaceChild(innerHTML, hmrcSkin);
 
         if (c2cObj.launchable) {
-            if(div){
-                div.onclick = function(this: any): void {
+            if (div) {
+                div.onclick = function (this: any): void {
                     logger.debug('c2cObj', this);
                     this.onClicked(c2cObj.c2cIdx);
                 }.bind(this);
