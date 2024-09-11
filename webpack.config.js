@@ -37,7 +37,7 @@ module.exports = {
     modules: [path.resolve(__dirname, 'node_modules'), 'node_modules'],
   },
   output: {
-    filename: 'hmrcChatSkin.ts',
+    filename: 'hmrcChatSkin.js',
     path: path.resolve(__dirname, './app/assets/javascripts/bundle'),
   },
 };
