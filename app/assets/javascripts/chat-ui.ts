@@ -1,7 +1,7 @@
 import CommonChatController from './controllers/CommonChatController';
 import ProactiveChatController from './controllers/ProactiveChatController';
 import ReactiveChatController from './controllers/ReactiveChatController';
-import { ClickToChatObjectInterface } from './utils/ClickToChatButtons';
+import { ClickToChatObjectInterface } from './types';
 import * as logger from './utils/logger';
 
 let event: { c2c?: any; };
