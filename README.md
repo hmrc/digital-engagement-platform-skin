@@ -50,7 +50,7 @@ jest --coverage
 
 ## JavaScript Build Tool: Webpack
 
-Webpack is used to bundle the various JS files in to one file: `app/assets/javascripts/bundle/hmrcChatSkin.js`
+Webpack is used to bundle the various JS files in to one file: `app/assets/javascripts/bundle/hmrcChatSkin.ts`
 
 To create the bundle manually you must install `webpack` and `webpack-cli` globally:
 ```
