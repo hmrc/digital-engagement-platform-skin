@@ -143,7 +143,7 @@ export class EngagedState {
             return
         }
         const jsonMessageData: { videoId: string, widgetType: string } = JSON.parse(msg.messageData);
-        // const youtubeURL: string = "https://www.youtube.com/watch?v=" + jsonMessageData.videoId - Embedded youtube videos have been removed but keeping the code in case we need it.
+        // const youtubeURL: string = "https://www.youtube.com/watch?v=" + jsonMessageData.videoId ** Embedded youtube videos have been removed but keeping the code in case we need it.
         if (jsonMessageData.widgetType === "youtube-video") {
             const embeddedVideoUrl: string = "https://www.youtube.com/embed/" + jsonMessageData.videoId
             const iframeVideo: string = `<p>${msg.messageText}</p><span class="govuk-visually-hidden">embedded youtube video below with url</span><div class="iframe-wrap"><iframe title="Embedded YouTube Video" class="video-message" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="${embeddedVideoUrl}"></iframe></div>`;
