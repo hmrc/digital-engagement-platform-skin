@@ -1,3 +1,3 @@
 
-export const Agent_IsTyping = 'agentIsTyping';
-export const Closed = 'closed';
+export const Agent_IsTyping: string = 'agentIsTyping';
+export const Closed: string = 'closed';
