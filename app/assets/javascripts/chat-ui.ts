@@ -41,13 +41,13 @@ export function hookWindow(w: any, commonChatController: CommonChatController, r
     };
 
     w.nuanceFrameworkLoaded = safeHandler(
-        function nuanceFrameworkLoaded() {
+        function nuanceFrameworkLoaded(): void {
             commonChatController.nuanceFrameworkLoaded(w);
         }
     );
 
     w.nuanceReactive_HMRC_CIAPI_Fixed_1 = safeHandler(
-        function nuanceReactive_HMRC_CIAPI_Fixed_1(c2cObj: ClickToChatObjectInterface) {
+        function nuanceReactive_HMRC_CIAPI_Fixed_1(c2cObj: ClickToChatObjectInterface): void {
             reactiveChatController.addC2CButton(c2cObj, "HMRC_CIAPI_Fixed_1", "fixed");
         }
     );
