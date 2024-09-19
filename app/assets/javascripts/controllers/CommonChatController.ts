@@ -231,7 +231,6 @@ export default class CommonChatController {
         this.sdk = window.Inq.SDK;
 
         this.sdk.getOpenerScripts((openerScripts: string[]) => {
-            console.log('openerScripts', openerScripts, Array.isArray(openerScripts))
             if (openerScripts == null)
                 return;
 
@@ -400,7 +399,7 @@ export default class CommonChatController {
         let text: string = this.container.currentInputText();
         const alphaNumericSpecial: RegExp = /\S/
 
-        if(alphaNumericSpecial.test(text) == true) {
+        if (alphaNumericSpecial.test(text) == true) {
             text = text.trim()
             this.state.onSend(text);
             this.container.clearCurrentInputText();
@@ -457,7 +456,7 @@ export default class CommonChatController {
         window.open("https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend?referrerUrl=" + url + "-skin-hmrc", "_blank");
     }
 
-    onMsgClick(): void{
+    onMsgClick(): void {
         this.closeMenu()
     }
 
