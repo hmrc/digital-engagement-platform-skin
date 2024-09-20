@@ -25,6 +25,8 @@ export interface Answers {
 export interface ClickToChatObjectInterface {
     c2cIdx: any,
     displayState: displayState,
+    isAsyncEngagement?: boolean
     launchable: boolean
     c2c?: any
+    roleID?: number
 }
