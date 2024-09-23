@@ -292,6 +292,9 @@ export default class ChatContainer {
 
         this._registerEventListener("#ciapiSkinSendButton", (_: Event): void => {
             this.eventHandler.onSend();
+            const sendButton = this.container.querySelector<HTMLButtonElement>('#ciapiSkinSendButton');
+            sendButton!.disabled = true;
+            sendButton!.ariaDisabled = "true";
             this.eventHandler.onMessageSentNotification()
             this.inputBoxFocus = false;
         });
