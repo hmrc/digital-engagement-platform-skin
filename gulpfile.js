@@ -18,28 +18,28 @@ gulp.task('jest', function () {
 });
 
 gulp.task('clean:node_modules', function () {
-  return del(['node_modules'], {force: true});
+  return del(['node_modules'], { force: true });
 });
 
 gulp.task('bundle', (done) => {
-    return rollup({
-      input: './app/assets/javascripts/hmrcChatSkin.js',
-      format: 'iife',
-      sourcemap: false
-    })
-    .pipe(source('hmrcChatSkin.js', './app/assets/javascripts/'))
+  return rollup({
+    input: './app/assets/javascripts/hmrcChatSkin.ts',
+    format: 'iife',
+    sourcemap: false
+  })
+    .pipe(source('hmrcChatSkin.ts', './app/assets/javascripts/'))
     .pipe(buffer())
     .pipe(babel({
-       "presets": [
-         [
-           "@babel/preset-env",
-           {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
             "targets": "ie >= 11"
-           }
-         ]
-       ]
-	}))
-	.pipe(uglify())
+          }
+        ]
+      ]
+    }))
+    .pipe(uglify())
     .pipe(gulp.dest('./app/assets/javascripts/bundle'));
-    done();
+  done();
 });
