@@ -11,7 +11,6 @@ interface nullEventHandlerInterface {
     onHideChat: () => void,
     onRestoreChat: () => void,
     onConfirmEndChat: () => void,
-    onScreenReaderMessageSentNotification: () => void,
     onSizeToggle: () => void,
     onSoundToggle: () => void,
     onStartTyping: () => void,
@@ -29,7 +28,6 @@ export const nullEventHandler: nullEventHandlerInterface = {
     onHideChat: function (): void { },
     onRestoreChat: function (): void { },
     onConfirmEndChat: function (): void { },
-    onScreenReaderMessageSentNotification: function (): void { },
     onSizeToggle: function (): void { },
     onSoundToggle: function (): void { },
     onStartTyping: function (): void { },
@@ -288,7 +286,6 @@ export default class ChatContainer {
 
         this._registerKeypressEventListener("#custMsg", (e: KeyboardEvent): void => {
             this.processKeypressEvent(e)
-            this.eventHandler.onScreenReaderMessageSentNotification()
         });
 
         this._registerEventListener("#ciapiSkinSendButton", (_: Event): void => {
@@ -296,7 +293,6 @@ export default class ChatContainer {
             const sendButton = this.container.querySelector<HTMLButtonElement>('#ciapiSkinSendButton');
             sendButton!.disabled = true;
             sendButton!.ariaDisabled = "true";
-            this.eventHandler.onScreenReaderMessageSentNotification()
             this.inputBoxFocus = false;
         });
 

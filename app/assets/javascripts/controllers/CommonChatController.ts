@@ -402,6 +402,7 @@ export default class CommonChatController {
         if (alphaNumericSpecial.test(text) == true) {
             text = text.trim()
             this.state.onSend(text);
+            this.onScreenReaderMessageSentNotification()
             this.container.clearCurrentInputText();
         }
     }
