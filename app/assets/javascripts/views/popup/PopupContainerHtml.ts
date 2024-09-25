@@ -68,6 +68,7 @@ export function ContainerHtml(isEscalated: boolean): string {
                 name="comments"></textarea></div>
             <div id="ciapiSend">
                 <button id="ciapiSkinSendButton" disabled aria-disabled="true" class="govuk-button" data-module="govuk-button">Send message</button>
+                <div id="liveRegion" aria-live="polite"></div>
             </div>
         </div>
         <!-- at the moment, the below URL is hardcoded. in the future this should be a properly encoded URL and have the correct chat passed in as a parameter -->

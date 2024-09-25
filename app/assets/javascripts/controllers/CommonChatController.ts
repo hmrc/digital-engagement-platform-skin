@@ -692,13 +692,13 @@ export default class CommonChatController {
     onMessageSentNotification(): void {
         const message: string = messages.messageSent
         document.getElementById("custMsg")?.focus();
-        let messageSentDiv: HTMLElement | null = document.getElementById('sentMessage')
-        messageSentDiv?.parentNode?.removeChild(messageSentDiv)
-        let newMessageSentDiv: HTMLDivElement = document.createElement('div')
-        newMessageSentDiv.id = 'sentMessage'
-        newMessageSentDiv.className = 'govuk-visually-hidden'
-        newMessageSentDiv.setAttribute('aria-live', 'polite')
-        document.body.appendChild(newMessageSentDiv)
-        newMessageSentDiv.textContent = message
+        let liveRegion: HTMLElement | null = document.getElementById('liveRegion')
+        if (liveRegion) {
+            liveRegion.textContent = message
+            liveRegion.className = 'govuk-visually-hidden'
+            setTimeout(() => {
+                liveRegion!.textContent = ''
+            }, 100)
+        }
     }
 };
