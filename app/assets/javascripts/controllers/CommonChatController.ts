@@ -689,15 +689,14 @@ export default class CommonChatController {
         this.closeMenu()
     }
 
-    onMessageSentNotification(): void {
+    onScreenReaderMessageSentNotification(): void {
         const message: string = messages.messageSent
         document.getElementById("custMsg")?.focus();
-        let liveRegion: HTMLElement | null = document.getElementById('liveRegion')
-        if (liveRegion) {
-            liveRegion.textContent = message
-            liveRegion.className = 'govuk-visually-hidden'
+        let sentMessageNotification: HTMLElement | null = document.getElementById('sentMessageNotification')
+        if (sentMessageNotification) {
+            sentMessageNotification.textContent = message
             setTimeout(() => {
-                liveRegion!.textContent = ''
+                sentMessageNotification!.textContent = ''
             }, 100)
         }
     }
