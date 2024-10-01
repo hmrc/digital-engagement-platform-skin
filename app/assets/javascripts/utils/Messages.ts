@@ -16,12 +16,14 @@ interface messageTypes {
 
 const contactLink: string = "<a href='https://www.gov.uk/contact'>Contact us</a> "
 
+const adviserReadyAnchorElement = `<a href="#" class="govuk-link" click="event.preventDefault();">Speak to an adviser now</a>`
+
 export const messages: messageTypes = {
     //PopupContainerHtml.js / EmbeddedContainerHtml
     computer: "You are currently chatting with a computer",
     //ReactiveChatController.js
     outofhours: "Out of hours",
-    ready: "Ask HMRC a question",
+    ready: `Advisers are available to chat. ${adviserReadyAnchorElement}`,
     busy: "All advisers are busy",
     active: "In progress",
     //CommonChatController.js

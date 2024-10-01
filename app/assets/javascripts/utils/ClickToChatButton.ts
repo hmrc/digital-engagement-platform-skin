@@ -15,11 +15,11 @@ export default class ClickToChatButton {
             buttonDiv?.setAttribute("class", "c2cButton");
         }
 
-        if(buttonDiv){
+        if (buttonDiv) {
             buttonDiv.innerHTML = innerHTML;
         }
 
-        if(this.parentElement && buttonDiv){
+        if (this.parentElement && buttonDiv) {
             this.parentElement.innerHTML = "";
             this.parentElement.appendChild(buttonDiv);
         }

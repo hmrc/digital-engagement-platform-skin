@@ -39,13 +39,19 @@ export default class ClickToChatButtons {
     }
 
     _updateButton(c2cObj: ClickToChatObjectInterface, button: ClickToChatButton, hmrcSkin: boolean | HTMLElement | null): void {
-        const buttonText: string = this._getDisplayStateText(c2cObj.displayState);
+        let buttonText: string = this._getDisplayStateText(c2cObj.displayState);
         let innerHTML: string = ``
 
         if (hmrcSkin) {
-            innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
-        } else {
+            // Original code below
+            //innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
+
+            // Andy's amendment:
             innerHTML = `<div class="${button.buttonClass} ${c2cObj.displayState}">${buttonText}</div>`;
+            console.log('HMRC SKIN true innerHTML', innerHTML)
+        } else {
+            innerHTML = `<div class="${c2cObj.displayState}">${buttonText}</div>`;
+            console.log('HMRC SKIN false innerHTML', innerHTML)
         }
 
         const div: HTMLElement | undefined = button.replaceChild(innerHTML, hmrcSkin);
