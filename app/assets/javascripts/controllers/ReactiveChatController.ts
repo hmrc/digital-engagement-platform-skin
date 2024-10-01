@@ -44,5 +44,6 @@ export default class ReactiveChatController {
         this.sdk.onC2CClicked(c2cIdx, () => {
             this.commonChatController._launchChat(reactiveObj);
         });
+        this.c2cButtons.updateC2CButtonsToInProgress()
     }
 }
