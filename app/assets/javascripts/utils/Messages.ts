@@ -24,7 +24,7 @@ export const messages: messageTypes = {
     //ReactiveChatController.js
     outofhours: "Out of hours",
     ready: `Advisers are available to chat. ${adviserReadyAnchorElement}`,
-    busy: "All advisers are busy",
+    busy: "All of our advisers are busy. When an adviser is available, a ‘speak with an adviser’ link will appear. You do not need to refresh the page.",
     active: "In progress",
     //CommonChatController.js
     unavilable: `Sorry, our virtual assistant is unavailable. Try again later. ${contactLink} if you need to speak to someone.`,

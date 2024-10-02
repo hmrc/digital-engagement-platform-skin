@@ -19,6 +19,7 @@ export default class ClickToChatButtons {
     addButton(c2cObj: ClickToChatObjectInterface, button: ClickToChatButton, divID: string): void {
         if (!document.getElementById("ciapiSkinContainer")) {
             this.buttons[c2cObj.c2cIdx] = button;
+            console.log("thisbuttons", this.buttons.length())
             this._updateButton(c2cObj, button, divID === "tc-nuance-chat-container");
         }
     }

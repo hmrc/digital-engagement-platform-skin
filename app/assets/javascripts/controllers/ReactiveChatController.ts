@@ -39,6 +39,19 @@ export default class ReactiveChatController {
                 new ClickToChatButton(document.getElementById(divID), buttonClass),
                 divID
             );
+        } else if (c2cObj.displayState == "outofhours") {
+            this.c2cButtons.addButton(
+                c2cObj,
+                new ClickToChatButton(document.getElementById(divID), buttonClass),
+                divID
+            );
+        }
+        else if (c2cObj.displayState == "chatactive") {
+            this.c2cButtons.addButton(
+                c2cObj,
+                new ClickToChatButton(document.getElementById(divID), buttonClass),
+                divID
+            );
         }
     }
 

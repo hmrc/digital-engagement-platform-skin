@@ -48,6 +48,8 @@ export function hookWindow(w: any, commonChatController: CommonChatController, r
 
     w.nuanceReactive_HMRC_CIAPI_Fixed_1 = safeHandler(
         function nuanceReactive_HMRC_CIAPI_Fixed_1(c2cObj: ClickToChatObjectInterface): void {
+            console.log("ZZZZ", c2cObj)
+            console.log("STATUS:"+ c2cObj.displayState)
             reactiveChatController.addC2CButton(c2cObj, "HMRC_CIAPI_Fixed_1", "fixed");
         }
     );
@@ -55,6 +57,7 @@ export function hookWindow(w: any, commonChatController: CommonChatController, r
     w.nuanceReactive_HMRC_CIAPI_Anchored_1 = safeHandler(
         function nuanceReactive_HMRC_CIAPI_Anchored_1(c2cObj: ClickToChatObjectInterface): void {
             c2cObj.c2c = event.c2c
+            console.log("STATUS:"+ c2cObj.displayState)
             if (document.getElementById("tc-nuance-chat-container")) {
                 reactiveChatController.addC2CButton(c2cObj, "tc-nuance-chat-container", "anchored");
             } else {
