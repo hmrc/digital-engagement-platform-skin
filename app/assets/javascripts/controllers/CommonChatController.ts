@@ -145,7 +145,6 @@ export default class CommonChatController {
     }
 
     _launchChat(obj: { type: string; state?: string }): void {
-        console.log("XXX state: "+ this.state)
         if (this.container) {
             return;
         }

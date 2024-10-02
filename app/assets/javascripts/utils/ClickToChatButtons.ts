@@ -19,7 +19,6 @@ export default class ClickToChatButtons {
     addButton(c2cObj: ClickToChatObjectInterface, button: ClickToChatButton, divID: string): void {
         if (!document.getElementById("ciapiSkinContainer")) {
             this.buttons[c2cObj.c2cIdx] = button;
-            console.log("thisbuttons", this.buttons.length())
             this._updateButton(c2cObj, button, divID === "tc-nuance-chat-container");
         }
     }
@@ -48,6 +47,7 @@ export default class ClickToChatButtons {
             //innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
 
             // Andy's amendment:
+
             innerHTML = `<div class="${button.buttonClass} ${c2cObj.displayState}">${buttonText}</div>`;
             console.log('HMRC SKIN true innerHTML', innerHTML)
         } else {
