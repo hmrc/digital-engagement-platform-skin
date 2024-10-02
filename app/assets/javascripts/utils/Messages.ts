@@ -25,7 +25,7 @@ export const messages: messageTypes = {
     outofhours: "Out of hours",
     ready: `Advisers are available to chat. ${adviserReadyAnchorElement}`,
     busy: "All of our advisers are busy. When an adviser is available, a ‘speak with an adviser’ link will appear. You do not need to refresh the page.",
-    active: "In progress",
+    active: "You are in a webchat. If you cannot access it, you may have another chat window open.",
     //CommonChatController.js
     unavilable: `Sorry, our virtual assistant is unavailable. Try again later. ${contactLink} if you need to speak to someone.`,
     messageSent: 'The message has been sent',

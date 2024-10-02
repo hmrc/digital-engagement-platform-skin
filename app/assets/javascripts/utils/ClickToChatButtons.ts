@@ -44,13 +44,14 @@ export default class ClickToChatButtons {
 
         if (hmrcSkin) {
             // Original code below
-            //innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
+            innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
 
             // Andy's amendment:
 
-            innerHTML = `<div class="${button.buttonClass} ${c2cObj.displayState}">${buttonText}</div>`;
+            // innerHTML = `<div class="${button.buttonClass} ${c2cObj.displayState}">${buttonText}</div>`;
             console.log('HMRC SKIN true innerHTML', innerHTML)
         } else {
+            // innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
             innerHTML = `<div class="${c2cObj.displayState}">${buttonText}</div>`;
             console.log('HMRC SKIN false innerHTML', innerHTML)
         }
