@@ -19,7 +19,7 @@ export default class ClickToChatButtons {
     addButton(c2cObj: ClickToChatObjectInterface, button: ClickToChatButton, divID: string): void {
         if (!document.getElementById("ciapiSkinContainer")) {
             this.buttons[c2cObj.c2cIdx] = button;
-            this._updateButton(c2cObj, button, divID === "tc-nuance-chat-container");
+            this._updateButton(c2cObj, button, button.buttonClass === "anchored");
         }
     }
 
@@ -30,7 +30,8 @@ export default class ClickToChatButtons {
                 displayState: DisplayState.ChatActive,
                 launchable: false
             };
-            this._updateButton(c2cObj, this.buttons[c2cId], document.getElementById("tc-nuance-chat-container"));
+            const button = this.buttons[c2cId]
+            this._updateButton(c2cObj, button, button.buttonClass === "anchored");
         }
     }
 
