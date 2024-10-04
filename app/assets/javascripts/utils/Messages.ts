@@ -22,7 +22,7 @@ export const messages: messageTypes = {
     //PopupContainerHtml.js / EmbeddedContainerHtml
     computer: "You are currently chatting with a computer",
     //ReactiveChatController.js
-    outofhours: "Out of hours",
+    outofhours: "Webchat is now closed.",
     ready: `Advisers are available to chat. ${adviserReadyAnchorElement}`,
     busy: "All of our advisers are busy. When an adviser is available, a ‘speak with an adviser’ link will appear. You do not need to refresh the page.",
     active: "You are in a webchat. If you cannot access it, you may have another chat window open.",

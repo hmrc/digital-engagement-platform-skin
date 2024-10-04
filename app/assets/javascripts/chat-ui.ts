@@ -57,12 +57,15 @@ export function hookWindow(w: any, commonChatController: CommonChatController, r
     w.nuanceReactive_HMRC_CIAPI_Anchored_1 = safeHandler(
         function nuanceReactive_HMRC_CIAPI_Anchored_1(c2cObj: ClickToChatObjectInterface): void {
             c2cObj.c2c = event.c2c
-            console.log("STATUS:"+ c2cObj.displayState)
-            if (document.getElementById("tc-nuance-chat-container")) {
-                reactiveChatController.addC2CButton(c2cObj, "tc-nuance-chat-container", "anchored");
-            } else {
-                reactiveChatController.addC2CButton(c2cObj, "HMRC_CIAPI_Anchored_1", "anchored");
-            }
+            if (c2cObj.displayState == "ready") {
+                //TODO - DEP-6534, look into updating the tag for this Anchored scenario.
+                console.log("STATUS:"+ c2cObj.displayState)
+                if (document.getElementById("tc-nuance-chat-container")) {
+                    reactiveChatController.addC2CButton(c2cObj, "tc-nuance-chat-container", "anchored");
+                } else {
+                    reactiveChatController.addC2CButton(c2cObj, "HMRC_CIAPI_Anchored_1", "anchored");
+                }
+        }
         }
     );
 

@@ -30,7 +30,7 @@ export default class ClickToChatButtons {
                 displayState: DisplayState.ChatActive,
                 launchable: false
             };
-            const button = this.buttons[c2cId]
+            const button: ClickToChatButton = this.buttons[c2cId]
             this._updateButton(c2cObj, button, button.buttonClass === "anchored");
         }
     }
@@ -39,25 +39,19 @@ export default class ClickToChatButtons {
         return (this.displayStateMessages)[displayState] || ("Unknown display state: " + displayState);
     }
 
-    _updateButton(c2cObj: ClickToChatObjectInterface, button: ClickToChatButton, hmrcSkin: boolean | HTMLElement | null): void {
+    _updateButton(c2cObj: ClickToChatObjectInterface, button: ClickToChatButton, isAnchored: boolean): void {
         let buttonText: string = this._getDisplayStateText(c2cObj.displayState);
         let innerHTML: string = ``
 
-        if (hmrcSkin) {
-            // Original code below
+        if (isAnchored) {
             innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
-
-            // Andy's amendment:
-
-            // innerHTML = `<div class="${button.buttonClass} ${c2cObj.displayState}">${buttonText}</div>`;
             console.log('HMRC SKIN true innerHTML', innerHTML)
         } else {
-            // innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
             innerHTML = `<div class="${c2cObj.displayState}">${buttonText}</div>`;
             console.log('HMRC SKIN false innerHTML', innerHTML)
         }
 
-        const div: HTMLElement | undefined = button.replaceChild(innerHTML, hmrcSkin);
+        const div: HTMLElement | undefined = button.replaceChild(innerHTML, isAnchored);
 
         if (c2cObj.launchable) {
             if (div) {

@@ -6,15 +6,16 @@ export default class ClickToChatButton {
         this.buttonClass = buttonClass;
     }
 
-    replaceChild(innerHTML: string, hmrcSkin: boolean | HTMLElement | null): HTMLElement | undefined {
+    replaceChild(innerHTML: string, isAnchored: boolean): HTMLElement | undefined {
         const buttonDiv: HTMLElement | undefined = this.parentElement?.ownerDocument.createElement("div");
-        if (hmrcSkin) {
+        if (isAnchored) {
             buttonDiv?.setAttribute("class", "minimised");
             buttonDiv?.setAttribute("id", "ciapiSkin");
         } else {
             buttonDiv?.setAttribute("class", "c2cButton");
         }
 
+        //TODO - look into removing these ifs
         if (buttonDiv) {
             buttonDiv.innerHTML = innerHTML;
         }
