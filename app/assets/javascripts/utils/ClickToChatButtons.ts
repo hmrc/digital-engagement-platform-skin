@@ -31,7 +31,7 @@ export default class ClickToChatButtons {
                 launchable: false
             };
             const button: ClickToChatButton = this.buttons[c2cId]
-            this._updateButton(c2cObj, button, button.buttonClass === "anchored");
+            this._updateButton(c2cObj, button, button.buttonClass === "anchored"); //TODO: related to DEP-6534 - bug in the anchored scenario - no displayState message on screen.
         }
     }
 
