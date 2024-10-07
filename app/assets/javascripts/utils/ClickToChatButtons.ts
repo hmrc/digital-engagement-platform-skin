@@ -40,7 +40,7 @@ export default class ClickToChatButtons {
     }
 
     _updateButton(c2cObj: ClickToChatObjectInterface, button: ClickToChatButton, isAnchored: boolean): void {
-        let buttonText: string = this._getDisplayStateText(c2cObj.displayState);
+        const buttonText: string = this._getDisplayStateText(c2cObj.displayState);
         let innerHTML: string = ``
 
         if (isAnchored) {
