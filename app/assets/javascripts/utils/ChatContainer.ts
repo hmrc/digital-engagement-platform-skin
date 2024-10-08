@@ -11,7 +11,6 @@ interface nullEventHandlerInterface {
     onHideChat: () => void,
     onRestoreChat: () => void,
     onConfirmEndChat: () => void,
-    onMessageSentNotification: () => void,
     onSizeToggle: () => void,
     onSoundToggle: () => void,
     onStartTyping: () => void,
@@ -29,7 +28,6 @@ export const nullEventHandler: nullEventHandlerInterface = {
     onHideChat: function (): void { },
     onRestoreChat: function (): void { },
     onConfirmEndChat: function (): void { },
-    onMessageSentNotification: function (): void { },
     onSizeToggle: function (): void { },
     onSoundToggle: function (): void { },
     onStartTyping: function (): void { },
@@ -295,7 +293,6 @@ export default class ChatContainer {
             const sendButton = this.container.querySelector<HTMLButtonElement>('#ciapiSkinSendButton');
             sendButton!.disabled = true;
             sendButton!.ariaDisabled = "true";
-            this.eventHandler.onMessageSentNotification()
             this.inputBoxFocus = false;
         });
 
