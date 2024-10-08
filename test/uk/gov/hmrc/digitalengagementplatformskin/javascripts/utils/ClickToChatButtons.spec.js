@@ -75,7 +75,7 @@ describe("ClickToChatButtons", () => {
       
 
         expect(button.replaceChild).toHaveBeenNthCalledWith(1, '<div class="outofhours">OutOfHoursText</div>', false);
-        expect(button.replaceChild).toHaveBeenNthCalledWith(2, '<div class="chatactive">ChatActiveText</div>', null);
+        expect(button.replaceChild).toHaveBeenNthCalledWith(2, '<div class="chatactive">ChatActiveText</div>', false);
     });
 
     it("returns message for unknown state", () => {
