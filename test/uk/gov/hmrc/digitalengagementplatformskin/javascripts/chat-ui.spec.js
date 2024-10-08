@@ -66,7 +66,7 @@ describe("chat-ui", () => {
 
     window.nuanceFrameworkLoaded();
     window.nuanceReactive_HMRC_CIAPI_Fixed_1({});
-    window.nuanceReactive_HMRC_CIAPI_Anchored_1({});
+    window.nuanceReactive_HMRC_CIAPI_Anchored_1(evt.c2c);
     window.nuanceProactive();
 
     expect(window.InqRegistry).toMatchObject({
@@ -77,7 +77,7 @@ describe("chat-ui", () => {
     expect(reactiveChatAddC2CButton).toBeCalledTimes(2);
 
     expect(reactiveChatAddC2CButton).toBeCalledWith({}, "HMRC_CIAPI_Fixed_1", "fixed");
-    expect(reactiveChatAddC2CButton).lastCalledWith(evt, "HMRC_CIAPI_Anchored_1", "anchored");
+    expect(reactiveChatAddC2CButton).lastCalledWith(evt.c2c, "HMRC_CIAPI_Anchored_1", "anchored");
 
     expect(proactiveChatLaunch).toBeCalled();
   });

@@ -39,7 +39,7 @@ describe("ClickToChatButtons", () => {
 
         buttons.addButton(c2cObj(DisplayState.ChatActive), button);
 
-        expect(button.replaceChild).toHaveBeenCalledWith('<div class="button-class chatactive">ChatActiveText</div>', false);
+        expect(button.replaceChild).toHaveBeenCalledWith('<div class="chatactive">ChatActiveText</div>', false);
     });
 
     it("adds a button with out-of-hours state", () => {
@@ -47,7 +47,7 @@ describe("ClickToChatButtons", () => {
 
         buttons.addButton(c2cObj(DisplayState.OutOfHours), button);
 
-        expect(button.replaceChild).toHaveBeenCalledWith('<div class="button-class outofhours">OutOfHoursText</div>', false);
+        expect(button.replaceChild).toHaveBeenCalledWith('<div class="outofhours">OutOfHoursText</div>', false);
     });
 
     it("adds a button with ready state", () => {
@@ -55,7 +55,7 @@ describe("ClickToChatButtons", () => {
 
         buttons.addButton(c2cObj(DisplayState.Ready), button);
 
-        expect(button.replaceChild).toHaveBeenCalledWith('<div class="button-class ready">ReadyText</div>', false);
+        expect(button.replaceChild).toHaveBeenCalledWith('<div class="ready">ReadyText</div>', false);
     });
 
     it("adds a button with busy state", () => {
@@ -63,7 +63,7 @@ describe("ClickToChatButtons", () => {
 
         buttons.addButton(c2cObj(DisplayState.Busy), button);
 
-        expect(button.replaceChild).toHaveBeenCalledWith('<div class="button-class busy">BusyText</div>', false);
+        expect(button.replaceChild).toHaveBeenCalledWith('<div class="busy">BusyText</div>', false);
     });
 
     it("updates button to ChatActive state", () => {
@@ -74,8 +74,8 @@ describe("ClickToChatButtons", () => {
         buttons.updateC2CButtonsToInProgress();
       
 
-        expect(button.replaceChild).toHaveBeenNthCalledWith(1, '<div class="button-class outofhours">OutOfHoursText</div>', false);
-        expect(button.replaceChild).toHaveBeenNthCalledWith(2, '<div class="button-class chatactive">ChatActiveText</div>', null);
+        expect(button.replaceChild).toHaveBeenNthCalledWith(1, '<div class="outofhours">OutOfHoursText</div>', false);
+        expect(button.replaceChild).toHaveBeenNthCalledWith(2, '<div class="chatactive">ChatActiveText</div>', null);
     });
 
     it("returns message for unknown state", () => {

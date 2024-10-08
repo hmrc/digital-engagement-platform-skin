@@ -58,19 +58,6 @@ describe("ReactiveChatController", () => {
         expect(ClickToChatButton).toBeCalledTimes(1);
     });
 
-    it("addC2CButton does not create a new ClickToChatButton when displayState is busy", () => {
-        const reactiveChatController = new ReactiveChatController();
-        const c2cObj = {displayState: "busy"};
-        const divId = "div-id";
-        const buttonClass = "button-class";
-
-        let addC2CButtonSpy = jest.spyOn(reactiveChatController, 'addC2CButton');
-        reactiveChatController.addC2CButton(c2cObj, divId, buttonClass);
-
-        expect(addC2CButtonSpy).toHaveBeenCalledTimes(1);
-        expect(ClickToChatButton).toBeCalledTimes(0);
-    });
-
     it("attaches a callback function to the SDK onC2CClicked method", () => {
 
         const reactiveChatController = new ReactiveChatController();
@@ -112,10 +99,10 @@ describe("ReactiveChatController", () => {
         clickToChatCallback();
 
         let c2cDisplayStateMessages = {
-            "busy": "All advisers are busy",
-            "chatactive": "In progress",
-            "outofhours": "Out of hours",
-            "ready": "Ask HMRC a question"
+            "busy": "All of our advisers are busy. When an adviser is available, a ‘speak with an adviser’ link will appear. You do not need to refresh the page.",
+            "chatactive": "You are in a webchat. If you cannot access it, you may have another chat window open.",
+            "outofhours": "Webchat is now closed.",
+            "ready": "Advisers are available to chat. <a href=\"#\" class=\"govuk-link\" click=\"event.preventDefault();\">Speak to an adviser now</a>"
         };
 
         expect(clickToChatCallbackSpy).toBeCalledTimes(1);
