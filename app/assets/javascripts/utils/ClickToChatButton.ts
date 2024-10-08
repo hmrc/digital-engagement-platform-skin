@@ -11,11 +11,9 @@ export default class ClickToChatButton {
         if (isAnchored) {
             buttonDiv?.setAttribute("class", "minimised");
             buttonDiv?.setAttribute("id", "ciapiSkin");
-        } else {
-            buttonDiv?.setAttribute("class", "c2cButton");
-        }
+        } 
 
-        //TODO - look into removing these ifs
+        //null checks on buttonDiv and parentElement
         if (buttonDiv) {
             buttonDiv.innerHTML = innerHTML;
         }
