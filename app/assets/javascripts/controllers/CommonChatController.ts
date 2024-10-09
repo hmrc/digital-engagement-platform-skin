@@ -402,6 +402,7 @@ export default class CommonChatController {
         if (alphaNumericSpecial.test(text) == true) {
             text = text.trim()
             this.state.onSend(text);
+            this.onScreenReaderMessageSentNotification()
             this.container.clearCurrentInputText();
         }
     }
@@ -689,16 +690,15 @@ export default class CommonChatController {
         this.closeMenu()
     }
 
-    onMessageSentNotification(): void {
+    onScreenReaderMessageSentNotification(): void {
         const message: string = messages.messageSent
         document.getElementById("custMsg")?.focus();
-        let messageSentDiv: HTMLElement | null = document.getElementById('sentMessage')
-        messageSentDiv?.parentNode?.removeChild(messageSentDiv)
-        let newMessageSentDiv: HTMLDivElement = document.createElement('div')
-        newMessageSentDiv.id = 'sentMessage'
-        newMessageSentDiv.className = 'govuk-visually-hidden'
-        newMessageSentDiv.setAttribute('aria-live', 'polite')
-        document.body.appendChild(newMessageSentDiv)
-        newMessageSentDiv.textContent = message
+        let sentMessageNotification: HTMLElement | null = document.getElementById('sentMessageNotification')
+        if (sentMessageNotification) {
+            sentMessageNotification.textContent = message
+            setTimeout(() => {
+                sentMessageNotification!.textContent = ''
+            }, 100)
+        }
     }
 };
