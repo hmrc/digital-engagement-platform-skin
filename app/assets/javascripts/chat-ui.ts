@@ -65,7 +65,7 @@ export function hookWindow(w: any, commonChatController: CommonChatController, r
                 } else {
                     reactiveChatController.addC2CButton(c2cObj, "HMRC_CIAPI_Anchored_1", "anchored");
                 }
-        }
+            }
         }
     );
 

@@ -78,8 +78,6 @@ describe("chat-ui", () => {
 
     expect(reactiveChatAddC2CButton).toBeCalledWith({}, "HMRC_CIAPI_Fixed_1", "fixed");
     expect(reactiveChatAddC2CButton).lastCalledWith(evt.c2c, "HMRC_CIAPI_Anchored_1", "anchored");
-<<<<<<< HEAD
-=======
 
     expect(proactiveChatLaunch).toBeCalled();
   });
@@ -120,7 +118,6 @@ describe("chat-ui", () => {
     expect(reactiveChatAddC2CButton).toBeCalledTimes(1);
 
     expect(reactiveChatAddC2CButton).toBeCalledWith({}, "HMRC_CIAPI_Fixed_1", "fixed");
->>>>>>> main
 
     expect(proactiveChatLaunch).toBeCalled();
   });
