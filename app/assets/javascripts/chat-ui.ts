@@ -58,7 +58,6 @@ export function hookWindow(w: any, commonChatController: CommonChatController, r
         function nuanceReactive_HMRC_CIAPI_Anchored_1(c2cObj: ClickToChatObjectInterface): void {
             c2cObj.c2c = event.c2c
             if (c2cObj.displayState == "ready") {
-                //TODO - DEP-6534, look into updating the tag for this Anchored scenario.
                 console.log("STATUS:"+ c2cObj.displayState)
                 if (document.getElementById("tc-nuance-chat-container")) {
                     reactiveChatController.addC2CButton(c2cObj, "tc-nuance-chat-container", "anchored");
