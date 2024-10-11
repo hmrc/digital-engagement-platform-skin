@@ -19,6 +19,9 @@ export const html: string = `
           <li id="errorQ3">
             <a id="errorQ3a" href="#q3-">Select how you felt about the service</a>
           </li>
+          <li id="errorQ4">
+            <a id="errorQ4a" href="#q4-">Provide a reason for giving these scores</a>
+          </li>
           <li id="errorQ5">
             <a id="errorQ5a" href="#q5-">Select how you prefer to contact HMRC</a>
           </li>
@@ -42,7 +45,7 @@ export const html: string = `
 
           <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question1">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              Were you able to do what you needed?
+              Were you able to do what you needed to do today?
             </legend>
             <p id="needed-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> Select if you could do what you needed
@@ -103,7 +106,7 @@ export const html: string = `
 
           <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question3">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              How did you feel about this service?
+              Overall, how do you feel about the service you received today?
             </legend>
             <p id="service-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> Select how you felt about the service
@@ -142,8 +145,11 @@ export const html: string = `
         <div id ='q4FormGroup' class="govuk-form-group">
 
           <label class="govuk-label govuk-label--m" for="q4-">
-            Why did you give these scores? (Optional)
+            Why did you give these scores?
           </label>
+          <p id="score-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> Provide a reason for giving these scores
+            </p>
           <textarea class="govuk-textarea" id="q4-" name="q4-" rows="5"></textarea>
 
         </div>
@@ -152,7 +158,7 @@ export const html: string = `
 
           <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question5">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              How would you prefer to contact HMRC?
+              If you had not used webchat today, how else would you have contacted us?
             </legend>
             <p id="contact-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> Select how you prefer to contact HMRC
