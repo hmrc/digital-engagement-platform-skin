@@ -517,7 +517,7 @@ export default class CommonChatController {
                     { id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true }
                 ]
             };
-            if (answers.answers[0].text != "" && answers.answers[1].text != "" && answers.answers[2].text != "" && answers.answers[4].text != "") {
+            if (answers.answers[0].text != "" && answers.answers[1].text != "" && answers.answers[2].text != "" && answers.answers[3].text != "" && answers.answers[4].text != "") {
                 document.cookie = "surveyed=true";
                 if (document.getElementById('errorSummary')) {
                     document.getElementById('errorSummary')!.style.display = 'none'
@@ -566,7 +566,7 @@ export default class CommonChatController {
                     { id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true }
                 ]
             };
-            if (answers.answers[0].text != "" && answers.answers[1].text != "" && answers.answers[2].text != "" && answers.answers[4].text != "") {
+            if (answers.answers[0].text != "" && answers.answers[1].text != "" && answers.answers[2].text != "" && answers.answers[3].text != "" && answers.answers[4].text != "") {
                 document.cookie = "surveyed=true";
                 if (document.getElementById('errorSummary')) {
                     document.getElementById('errorSummary')!.style.display = 'none'
