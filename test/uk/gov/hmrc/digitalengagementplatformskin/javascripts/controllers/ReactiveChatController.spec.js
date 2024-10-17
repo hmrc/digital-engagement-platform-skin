@@ -43,6 +43,7 @@ describe("ReactiveChatController", () => {
 
         expect(sdk.onC2CClicked).toHaveBeenCalledTimes(1);
         expect(_onC2CButtonClickedSpy).toBeCalledTimes(1);
+        expect(reactiveChatController.c2cButtons.updateC2CButtonsToInProgress).toBeCalledTimes(1);
     });
 
     it("addC2CButton creates a new ClickToChatButton when displayState is ready", () => {
@@ -80,6 +81,7 @@ describe("ReactiveChatController", () => {
         expect(onC2CClickedFunction).toBeCalledWith(c2cIdx, expect.any(Function));
 
         expect(commonChatController._launchChat).toBeCalled();
+        expect(reactiveChatController.c2cButtons.updateC2CButtonsToInProgress).toBeCalled();
     });
 
 
@@ -107,6 +109,7 @@ describe("ReactiveChatController", () => {
 
         expect(clickToChatCallbackSpy).toBeCalledTimes(1);
         expect(onC2CButtonClickedSpy).toBeCalledTimes(1);
+        expect(reactiveChatController.c2cButtons.updateC2CButtonsToInProgress).toBeCalledTimes(1);
 
         expect(ClickToChatButtons).toBeCalledWith(expect.any(Function), c2cDisplayStateMessages);
     });
