@@ -37,24 +37,24 @@ const timestamp: number = Date.now();
 const webchatSurvey: Survey = {
     id: "13000303",
     questions: [
-        { id: ["question1"], text: "Were you able to do what you needed?", freeform: false },
+        { id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false },
         { id: ["question2"], text: "How easy was it?", freeform: false },
-        { id: ["question3"], text: "How did you feel about this service?", freeform: false },
-        { id: ["question4"], text: "Why did you give these scores? (Optional)", freeform: true },
-        { id: ["question5"], text: "How would you prefer to contact HMRC?", freeform: false },
-        { id: ["question6"], text: "Provide other contact option", freeform: true }
+        { id: ["question3"], text: "Overall, how did you feel about the service you received today?", freeform: false },
+        { id: ["question4"], text: "Why did you give these scores?", freeform: true },
+        { id: ["question5"], text: "If you had not used webchat today, how else would you have contacted us?", freeform: false },
+        { id: ["question6"], text: "Select how you prefer to contact HMRC", freeform: true }
     ]
 };
 
 const digitalAssistantSurvey: Survey = {
     id: "13000304",
     questions: [
-        { id: ["question1"], text: "Were you able to do what you needed?", freeform: false },
+        { id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false },
         { id: ["question2"], text: "How easy was it?", freeform: false },
-        { id: ["question3"], text: "How did you feel about this service?", freeform: false },
-        { id: ["question4"], text: "Why did you give these scores? (Optional)", freeform: true },
-        { id: ["question5"], text: "How would you prefer to contact HMRC?", freeform: false },
-        { id: ["question6"], text: "Provide other contact option", freeform: true }
+        { id: ["question3"], text: "Overall, how did you feel about the service you received today?", freeform: false },
+        { id: ["question4"], text: "Why did you give these scores?", freeform: true },
+        { id: ["question5"], text: "If you had not used webchat today, how else would you have contacted us?", freeform: false },
+        { id: ["question6"], text: "Select how you prefer to contact HMRC", freeform: true }
     ]
 }
 

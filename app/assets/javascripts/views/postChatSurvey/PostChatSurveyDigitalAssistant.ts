@@ -106,7 +106,7 @@ export const html: string = `
 
           <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question3">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              Overall, how do you feel about the service you received today?
+              Overall, how did you feel about the service you received today?
             </legend>
             <p id="service-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> Select how you felt about the service
