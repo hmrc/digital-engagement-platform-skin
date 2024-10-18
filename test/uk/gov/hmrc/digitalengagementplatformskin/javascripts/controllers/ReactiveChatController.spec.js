@@ -43,6 +43,7 @@ describe("ReactiveChatController", () => {
 
         expect(sdk.onC2CClicked).toHaveBeenCalledTimes(1);
         expect(_onC2CButtonClickedSpy).toBeCalledTimes(1);
+        expect(reactiveChatController.c2cButtons.updateC2CButtonsToInProgress).toBeCalledTimes(1);
     });
 
     it("addC2CButton creates a new ClickToChatButton when displayState is ready", () => {
@@ -80,6 +81,7 @@ describe("ReactiveChatController", () => {
         expect(onC2CClickedFunction).toBeCalledWith(c2cIdx, expect.any(Function));
 
         expect(commonChatController._launchChat).toBeCalled();
+        expect(reactiveChatController.c2cButtons.updateC2CButtonsToInProgress).toBeCalled();
     });
 
 
@@ -99,14 +101,15 @@ describe("ReactiveChatController", () => {
         clickToChatCallback();
 
         let c2cDisplayStateMessages = {
-            "busy": "All advisers are busy",
-            "chatactive": "In progress",
-            "outofhours": "Out of hours",
-            "ready": "Ask HMRC a question"
+            "busy": "All of our advisers are busy. When an adviser is available, a ‘speak with an adviser’ link will appear. You do not need to refresh the page.",
+            "chatactive": "You are in a webchat. If you cannot access it, you may have another chat window open.",
+            "outofhours": "Webchat is now closed.",
+            "ready": "Advisers are available to chat. <a href=\"#\" class=\"govuk-link\" click=\"event.preventDefault();\">Speak to an adviser now</a>"
         };
 
         expect(clickToChatCallbackSpy).toBeCalledTimes(1);
         expect(onC2CButtonClickedSpy).toBeCalledTimes(1);
+        expect(reactiveChatController.c2cButtons.updateC2CButtonsToInProgress).toBeCalledTimes(1);
 
         expect(ClickToChatButtons).toBeCalledWith(expect.any(Function), c2cDisplayStateMessages);
     });
