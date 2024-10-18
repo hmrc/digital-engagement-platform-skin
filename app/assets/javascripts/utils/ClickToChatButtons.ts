@@ -45,10 +45,8 @@ export default class ClickToChatButtons {
 
         if (isAnchored) {
             innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
-            console.log('HMRC SKIN true innerHTML', innerHTML)
         } else {
             innerHTML = `<div class="${c2cObj.displayState}">${buttonText}</div>`;
-            console.log('HMRC SKIN false innerHTML', innerHTML)
         }
 
         const div: HTMLElement | undefined = button.replaceChild(innerHTML, isAnchored);

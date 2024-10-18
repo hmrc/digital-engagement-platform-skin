@@ -27,7 +27,6 @@ export default class ReactiveChatController {
     }
 
     addC2CButton(c2cObj: ClickToChatObjectInterface, divID: string, buttonClass: string): void {
-        console.log('C2C ADDButton', c2cObj)
         this.c2cButtons.addButton(
             c2cObj,
             new ClickToChatButton(document.getElementById(divID), buttonClass),
