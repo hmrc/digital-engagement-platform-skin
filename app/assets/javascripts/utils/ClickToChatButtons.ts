@@ -42,9 +42,12 @@ export default class ClickToChatButtons {
     _updateButton(c2cObj: ClickToChatObjectInterface, button: ClickToChatButton, isAnchored: boolean): void {
         const buttonText: string = this._getDisplayStateText(c2cObj.displayState);
         let innerHTML: string = ``
-
         if (isAnchored) {
-            innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
+            if (c2cObj.displayState !== 'ready') {
+                innerHTML = ''
+            } else {
+                innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
+            }
         } else {
             innerHTML = `<div class="${c2cObj.displayState}">${buttonText}</div>`;
         }
