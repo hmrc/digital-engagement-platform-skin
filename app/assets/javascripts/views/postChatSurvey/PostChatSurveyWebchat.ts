@@ -68,7 +68,7 @@ const html: string = `
 
           <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question2">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              How easy was it?
+              How easy was it for you to do what you needed to do today?
             </legend>
             <p id="easy-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> Select how easy it was to do
@@ -145,7 +145,7 @@ const html: string = `
         <div id ='q4FormGroup' class="govuk-form-group">
 
           <label class="govuk-label govuk-label--m" for="q4-">
-            Why did you give these scores?
+            Why did you give this answer?
           </label>
           <p id="score-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> Provide a reason for giving these scores
@@ -158,7 +158,7 @@ const html: string = `
 
           <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question5">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-            If you had not used webchat today, how else would you have contacted us?
+            If you had not used Webchat today, how else would you have contacted us?
             </legend>
             <p id="contact-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> Select how you prefer to contact HMRC
