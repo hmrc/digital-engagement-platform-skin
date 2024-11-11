@@ -104,7 +104,19 @@ const html: string = `
 
         <div id ='q3FormGroup' class="govuk-form-group">
 
-          <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question3">
+        <label class="govuk-label govuk-label--m" for="q3-">
+          Why did you give this answer?
+        </label>
+        <p id="score-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Provide a reason for giving these scores
+          </p>
+        <textarea class="govuk-textarea" id="q3-" name="q3-" rows="5"></textarea>
+
+      </div>
+
+        <div id ='q4FormGroup' class="govuk-form-group">
+
+          <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question4">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
               Overall, how did you feel about the service you received today?
             </legend>
@@ -113,45 +125,33 @@ const html: string = `
             </p>
             <div class="govuk-radios">
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q3-" name="q3-" type="radio"
+                <input class="govuk-radios__input" id="q4-" name="q4-" type="radio"
                        value="Very satisfied">
-                <label class="govuk-label govuk-radios__label" for="q3-">Very satisfied</label>
+                <label class="govuk-label govuk-radios__label" for="q4-">Very satisfied</label>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q3--2" name="q3-" type="radio" value="Satisfied">
-                <label class="govuk-label govuk-radios__label" for="q3--2">Satisfied</label>
+                <input class="govuk-radios__input" id="q4--2" name="q4-" type="radio" value="Satisfied">
+                <label class="govuk-label govuk-radios__label" for="q4--2">Satisfied</label>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q3--3" name="q3-" type="radio"
+                <input class="govuk-radios__input" id="q4--3" name="q4-" type="radio"
                        value="Neither satisfied nor dissatisfied">
-                <label class="govuk-label govuk-radios__label" for="q3--3">Neither satisfied nor
+                <label class="govuk-label govuk-radios__label" for="q4--3">Neither satisfied nor
                   dissatisfied</label>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q3--4" name="q3-" type="radio"
+                <input class="govuk-radios__input" id="q4--4" name="q4-" type="radio"
                        value="Dissatisfied">
-                <label class="govuk-label govuk-radios__label" for="q3--4">Dissatisfied</label>
+                <label class="govuk-label govuk-radios__label" for="q4--4">Dissatisfied</label>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q3--5" name="q3-" type="radio"
+                <input class="govuk-radios__input" id="q4--5" name="q4-" type="radio"
                        value="Very dissatisfied">
-                <label class="govuk-label govuk-radios__label" for="q3--5">Very dissatisfied</label>
+                <label class="govuk-label govuk-radios__label" for="q4--5">Very dissatisfied</label>
               </div>
             </div>
           </fieldset>
         
-        </div>
-
-        <div id ='q4FormGroup' class="govuk-form-group">
-
-          <label class="govuk-label govuk-label--m" for="q4-">
-            Why did you give this answer?
-          </label>
-          <p id="score-error" class="govuk-error-message">
-              <span class="govuk-visually-hidden">Error:</span> Provide a reason for giving these scores
-            </p>
-          <textarea class="govuk-textarea" id="q4-" name="q4-" rows="5"></textarea>
-
         </div>
 
         <div id ='q5FormGroup' class="govuk-form-group">
