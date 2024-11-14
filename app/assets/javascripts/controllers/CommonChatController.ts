@@ -150,6 +150,12 @@ export default class CommonChatController {
             return;
         }
         try {
+            
+            if (obj.state === 'disabled'){
+                console.log("Already a chat active")
+                return
+            }
+
             this.type = obj.type
             this._showChat();
             if (obj.state === 'missed') {

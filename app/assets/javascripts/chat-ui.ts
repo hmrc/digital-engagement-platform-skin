@@ -71,4 +71,11 @@ export function hookWindow(w: any, commonChatController: CommonChatController, r
             proactiveChatController.launchProactiveChat(obj);
         }
     );
+
+    w.nuanceRestoreReactive = safeHandler(
+        function nuanceRestoreReactive(): void {
+            logger.debug("### nuanceRestoreReactive")
+            commonChatController._launchChat({type: 'reactive'})
+        }
+    );
 }
