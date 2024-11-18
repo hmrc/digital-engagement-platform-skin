@@ -110,6 +110,9 @@ export const html: string = `
         <p id="score-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Provide a reason for giving these scores
           </p>
+          <div id="whyGiveScore-hint" class="govuk-hint">
+            Please do not enter personal information such as your National Insurance number, Unique Tax Reference or address or telephone number in this box. Please note we are unable to reply to comments individually but we do use your feedback to help improve our services.
+          </div>
         <textarea class="govuk-textarea" id="q3-" name="q3-" rows="5"></textarea>
 
       </div>
