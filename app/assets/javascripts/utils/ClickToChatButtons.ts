@@ -44,9 +44,9 @@ export default class ClickToChatButtons {
         let innerHTML: string = ``
 
         if (isAnchored) {
-            innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
+            innerHTML = `<div class="webchat-only" id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
         } else {
-            innerHTML = `<div class="${c2cObj.displayState}">${buttonText}</div>`;
+            innerHTML = `<div class="${c2cObj.displayState} webchat-only">${buttonText}</div>`;
         }
 
         const div: HTMLElement | undefined = button.replaceChild(innerHTML, isAnchored);
