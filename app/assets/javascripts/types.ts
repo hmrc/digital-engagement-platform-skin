@@ -21,6 +21,8 @@ export interface Answers {
     }[];
 }
 
+export type StateType = 'show' | 'missed' | 'disabled'
+
 // ClickToChatButtons:
 export interface ClickToChatObjectInterface {
     c2cIdx: any,

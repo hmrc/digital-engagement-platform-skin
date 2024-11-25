@@ -3,7 +3,7 @@ import ClickToChatButton from '../utils/ClickToChatButton'
 import CommonChatController from './CommonChatController'
 import * as DisplayState from '../NuanceDisplayState'
 import { messages } from '../utils/Messages'
-import { ClickToChatObjectInterface } from '../types'
+import { ClickToChatObjectInterface, StateType } from '../types'
 
 const c2cDisplayStateMessages = {
     [DisplayState.OutOfHours]: messages.outofhours,
@@ -35,12 +35,12 @@ export default class ReactiveChatController {
     }
 
     _onC2CButtonClicked(c2cIdx: any): void {
-        const reactiveObj: { type: string, state?: string } = {
-            type: 'reactive'
+        const reactiveObj: { type: string, state?: StateType } = {
+            type: 'reactive',
         }
         this.sdk = window.Inq.SDK;
-        this.sdk.onC2CClicked(c2cIdx, (state: any) => {
-            reactiveObj.state = state.state
+        this.sdk.onC2CClicked(c2cIdx, (stateObj: { state: StateType }) => {
+            reactiveObj.state = stateObj.state
             this.commonChatController._launchChat(reactiveObj);
         });
         this.c2cButtons.updateC2CButtonsToInProgress()

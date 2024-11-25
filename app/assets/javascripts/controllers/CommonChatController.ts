@@ -11,7 +11,7 @@ import PostChatSurveyDigitalAssistantService from '../services/PostChatSurveyDig
 import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
 import PrintUtils from '../utils/PrintUtils'
 import { messages } from "../utils/Messages";
-import { AutomatonType, Survey, Answers } from '../types'
+import { AutomatonType, Survey, Answers, StateType } from '../types'
 
 type ChatStatesType = ChatStates.NullState | ChatStates.EngagedState | ChatStates.ClosingState | ChatStates.ShownState
 interface QuestionCompleted {
@@ -145,14 +145,12 @@ export default class CommonChatController {
         return this.sdk
     }
 
-    _launchChat(obj: { type: string; state?: string }): void {
+    _launchChat(obj: { type: string; state?: StateType }): void {
         if (this.container) {
             return;
         }
         try {
-            
-            if (obj.state === 'disabled'){
-                console.log("Already a chat active")
+            if (obj.state === 'disabled') {
                 return
             }
 
@@ -543,7 +541,7 @@ export default class CommonChatController {
                         document.getElementById("errorQ3a")?.focus();
                     } else if (resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q4 == false) {
                         document.getElementById("errorQ4a")?.focus();
-                    }  else if (resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q4 == true && resolve.Q5 == false) {
+                    } else if (resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q4 == true && resolve.Q5 == false) {
                         document.getElementById("errorQ5a")?.focus();
                     }
                 }).catch((err: unknown): void => {
@@ -592,7 +590,7 @@ export default class CommonChatController {
                         document.getElementById("errorQ3a")?.focus();
                     } else if (resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q4 == false) {
                         document.getElementById("errorQ4a")?.focus();
-                    }  else if (resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q4 == true && resolve.Q5 == false) {
+                    } else if (resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q4 == true && resolve.Q5 == false) {
                         document.getElementById("errorQ5a")?.focus();
                     }
                 }).catch((err: unknown): void => {
