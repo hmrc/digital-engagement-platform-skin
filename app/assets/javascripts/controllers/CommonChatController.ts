@@ -455,7 +455,7 @@ export default class CommonChatController {
     onAccessibilityStatement(): void {
         this.closeMenu()
         let url: string = new URL(window.location.href).pathname.replaceAll("/", "%2F");
-        window.open("https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend?referrerUrl=" + url + "-skin-hmrc", "_blank");
+        window.open("https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend-hmrc-chatskin?referrerUrl=" + url + "-skin-hmrc", "_blank");
     }
 
     onMsgClick(): void {
