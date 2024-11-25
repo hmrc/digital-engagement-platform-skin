@@ -76,7 +76,7 @@ describe("ReactiveChatController", () => {
         reactiveChatController._onC2CButtonClicked(c2cIdx);
 
         // call the second argument (the callback) of onC2CClicked
-        onC2CClickedFunction.mock.calls[0][1]();
+        onC2CClickedFunction.mock.calls[0][1](c2cIdx, { state: 'show' });
 
         expect(onC2CClickedFunction).toBeCalledWith(c2cIdx, expect.any(Function));
 
