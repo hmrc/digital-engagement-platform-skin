@@ -38,10 +38,10 @@ const webchatSurvey: Survey = {
     id: "13000303",
     questions: [
         { id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false },
-        { id: ["question2"], text: "How easy was it?", freeform: false },
-        { id: ["question3"], text: "Overall, how did you feel about the service you received today?", freeform: false },
-        { id: ["question4"], text: "Why did you give these scores?", freeform: true },
-        { id: ["question5"], text: "If you had not used webchat today, how else would you have contacted us?", freeform: false },
+        { id: ["question2"], text: "How easy was it for you to do what you needed to do today?", freeform: false },
+        { id: ["question3"], text: "Why did you give this answer?", freeform: true },
+        { id: ["question4"], text: "Overall, how did you feel about the service you received today?", freeform: false },
+        { id: ["question5"], text: "If you had not used Webchat today, how else would you have contacted us?", freeform: false },
         { id: ["question6"], text: "Select how you prefer to contact HMRC", freeform: true }
     ]
 };
@@ -50,10 +50,10 @@ const digitalAssistantSurvey: Survey = {
     id: "13000304",
     questions: [
         { id: ["question1"], text: "Were you able to do what you needed to do today?", freeform: false },
-        { id: ["question2"], text: "How easy was it?", freeform: false },
-        { id: ["question3"], text: "Overall, how did you feel about the service you received today?", freeform: false },
-        { id: ["question4"], text: "Why did you give these scores?", freeform: true },
-        { id: ["question5"], text: "If you had not used webchat today, how else would you have contacted us?", freeform: false },
+        { id: ["question2"], text: "How easy was it for you to do what you needed to do today?", freeform: false },
+        { id: ["question3"], text: "Why did you give this answer?", freeform: true },
+        { id: ["question4"], text: "Overall, how did you feel about the service you received today?", freeform: false },
+        { id: ["question5"], text: "If you had not used Webchat today, how else would you have contacted us?", freeform: false },
         { id: ["question6"], text: "Select how you prefer to contact HMRC", freeform: true }
     ]
 }
@@ -460,7 +460,7 @@ export default class CommonChatController {
     onAccessibilityStatement(): void {
         this.closeMenu()
         let url: string = new URL(window.location.href).pathname.replaceAll("/", "%2F");
-        window.open("https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend?referrerUrl=" + url + "-skin-hmrc", "_blank");
+        window.open("https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend-hmrc-chatskin?referrerUrl=" + url + "-skin-hmrc", "_blank");
     }
 
     onMsgClick(): void {
@@ -516,8 +516,8 @@ export default class CommonChatController {
                 answers: [
                     { id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false },
                     { id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false },
-                    { id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false },
-                    { id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true },
+                    { id: "q3-", text: this.getTextAreaValue("q3-"), freeform: true },
+                    { id: this.getRadioId("q4-"), text: this.getRadioValue("q4-"), freeform: false },
                     { id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false },
                     { id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true }
                 ]
@@ -565,8 +565,8 @@ export default class CommonChatController {
                 answers: [
                     { id: this.getRadioId("q1-"), text: this.getRadioValue("q1-"), freeform: false },
                     { id: this.getRadioId("q2-"), text: this.getRadioValue("q2-"), freeform: false },
-                    { id: this.getRadioId("q3-"), text: this.getRadioValue("q3-"), freeform: false },
-                    { id: "q4-", text: this.getTextAreaValue("q4-"), freeform: true },
+                    { id: "q3-", text: this.getTextAreaValue("q3-"), freeform: true },
+                    { id: this.getRadioId("q4-"), text: this.getRadioValue("q4-"), freeform: false },
                     { id: this.getRadioId("q5-"), text: this.getRadioValue("q5-"), freeform: false },
                     { id: "q6-", text: this.getTextAreaValue("q6-"), freeform: true }
                 ]
