@@ -11,11 +11,12 @@ export default class ClickToChatButton {
         if (isAnchored) {
             buttonDiv?.setAttribute("class", "minimised");
             buttonDiv?.setAttribute("id", "ciapiSkin");
-        } 
+        }
 
         //null checks on buttonDiv and parentElement
         if (buttonDiv) {
             buttonDiv.innerHTML = innerHTML;
+            buttonDiv.classList.add('webchat-only')
         }
 
         if (this.parentElement && buttonDiv) {
