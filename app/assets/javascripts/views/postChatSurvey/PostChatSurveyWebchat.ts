@@ -68,7 +68,7 @@ const html: string = `
 
           <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question2">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              How easy was it?
+              How easy was it for you to do what you needed to do today?
             </legend>
             <p id="easy-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> Select how easy it was to do
@@ -104,7 +104,22 @@ const html: string = `
 
         <div id ='q3FormGroup' class="govuk-form-group">
 
-          <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question3">
+        <label class="govuk-label govuk-label--m" for="q3-">
+          Why did you give this answer?
+        </label>
+        <p id="score-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Provide a reason for giving these scores
+        </p>
+        <div id="whyGiveScore-hint" class="govuk-hint">
+          Please do not enter personal information such as your National Insurance number, Unique Tax Reference or address or telephone number in this box. Please note we are unable to reply to comments individually but we do use your feedback to help improve our services.
+        </div>
+        <textarea class="govuk-textarea" id="q3-" name="q3-" rows="5"></textarea>
+
+      </div>
+
+        <div id ='q4FormGroup' class="govuk-form-group">
+
+          <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question4">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
               Overall, how did you feel about the service you received today?
             </legend>
@@ -113,52 +128,40 @@ const html: string = `
             </p>
             <div class="govuk-radios">
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q3-" name="q3-" type="radio"
+                <input class="govuk-radios__input" id="q4-" name="q4-" type="radio"
                        value="Very satisfied">
-                <label class="govuk-label govuk-radios__label" for="q3-">Very satisfied</label>
+                <label class="govuk-label govuk-radios__label" for="q4-">Very satisfied</label>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q3--2" name="q3-" type="radio" value="Satisfied">
-                <label class="govuk-label govuk-radios__label" for="q3--2">Satisfied</label>
+                <input class="govuk-radios__input" id="q4--2" name="q4-" type="radio" value="Satisfied">
+                <label class="govuk-label govuk-radios__label" for="q4--2">Satisfied</label>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q3--3" name="q3-" type="radio"
+                <input class="govuk-radios__input" id="q4--3" name="q4-" type="radio"
                        value="Neither satisfied nor dissatisfied">
-                <label class="govuk-label govuk-radios__label" for="q3--3">Neither satisfied nor
+                <label class="govuk-label govuk-radios__label" for="q4--3">Neither satisfied nor
                   dissatisfied</label>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q3--4" name="q3-" type="radio"
+                <input class="govuk-radios__input" id="q4--4" name="q4-" type="radio"
                        value="Dissatisfied">
-                <label class="govuk-label govuk-radios__label" for="q3--4">Dissatisfied</label>
+                <label class="govuk-label govuk-radios__label" for="q4--4">Dissatisfied</label>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="q3--5" name="q3-" type="radio"
+                <input class="govuk-radios__input" id="q4--5" name="q4-" type="radio"
                        value="Very dissatisfied">
-                <label class="govuk-label govuk-radios__label" for="q3--5">Very dissatisfied</label>
+                <label class="govuk-label govuk-radios__label" for="q4--5">Very dissatisfied</label>
               </div>
             </div>
           </fieldset>
         
         </div>
 
-        <div id ='q4FormGroup' class="govuk-form-group">
-
-          <label class="govuk-label govuk-label--m" for="q4-">
-            Why did you give these scores?
-          </label>
-          <p id="score-error" class="govuk-error-message">
-              <span class="govuk-visually-hidden">Error:</span> Provide a reason for giving these scores
-            </p>
-          <textarea class="govuk-textarea" id="q4-" name="q4-" rows="5"></textarea>
-
-        </div>
-
         <div id ='q5FormGroup' class="govuk-form-group">
 
           <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question5">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-            If you had not used webchat today, how else would you have contacted us?
+            If you had not used Webchat today, how else would you have contacted us?
             </legend>
             <p id="contact-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> Select how you prefer to contact HMRC
