@@ -151,6 +151,7 @@ export default class CommonChatController {
         }
         try {
             if (obj.state === 'disabled') {
+                logger.debug("state is disabled - chat is already active")
                 return
             }
 
