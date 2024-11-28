@@ -1,7 +1,7 @@
 import CommonChatController from './controllers/CommonChatController';
 import ProactiveChatController from './controllers/ProactiveChatController';
 import ReactiveChatController from './controllers/ReactiveChatController';
-import { ClickToChatObjectInterface } from './types';
+import { ClickToChatObjectInterface, StateType } from './types';
 import * as logger from './utils/logger';
 
 let event: { c2c?: any; };
@@ -66,9 +66,16 @@ export function hookWindow(w: any, commonChatController: CommonChatController, r
     );
 
     w.nuanceProactive = safeHandler(
-        function nuanceProactive(obj: { state: string }): void {
+        function nuanceProactive(obj: { state: StateType }): void {
             logger.debug("### PROACTIVE", obj)
             proactiveChatController.launchProactiveChat(obj);
+        }
+    );
+
+    w.nuanceRestoreReactive = safeHandler(
+        function nuanceRestoreReactive(): void {
+            logger.debug("### nuanceRestoreReactive")
+            commonChatController._launchChat({ type: 'reactive' })
         }
     );
 }

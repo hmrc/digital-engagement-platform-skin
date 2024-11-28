@@ -11,7 +11,7 @@ import PostChatSurveyDigitalAssistantService from '../services/PostChatSurveyDig
 import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
 import PrintUtils from '../utils/PrintUtils'
 import { messages } from "../utils/Messages";
-import { AutomatonType, Survey, Answers } from '../types'
+import { AutomatonType, Survey, Answers, StateType } from '../types'
 
 type ChatStatesType = ChatStates.NullState | ChatStates.EngagedState | ChatStates.ClosingState | ChatStates.ShownState
 interface QuestionCompleted {
@@ -145,11 +145,16 @@ export default class CommonChatController {
         return this.sdk
     }
 
-    _launchChat(obj: { type: string; state?: string }): void {
+    _launchChat(obj: { type: string; state?: StateType }): void {
         if (this.container) {
             return;
         }
         try {
+            if (obj.state === 'disabled') {
+                logger.debug("state is disabled - chat is already active")
+                return
+            }
+
             this.type = obj.type
             this._showChat();
             if (obj.state === 'missed') {

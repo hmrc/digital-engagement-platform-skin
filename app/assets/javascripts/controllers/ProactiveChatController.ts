@@ -1,3 +1,4 @@
+import { StateType } from '../types';
 import CommonChatController from './CommonChatController'
 
 export default class ProactiveChatController {
@@ -6,9 +7,9 @@ export default class ProactiveChatController {
         this.commonChatController = new CommonChatController();
     }
 
-    launchProactiveChat(obj: { state?: string }): void {
-        let proactiveObj: { state?: string, type: string } = {
-            state: obj?.state,
+    launchProactiveChat(obj: { state: StateType }): void {
+        let proactiveObj: { state: StateType, type: string } = {
+            state: obj.state,
             type: 'proactive'
         }
         this.commonChatController._launchChat(proactiveObj);
