@@ -537,7 +537,7 @@ export default class CommonChatController {
                         document.getElementById("errorQ3a")?.focus();
                     } else if (resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q4 == false) {
                         document.getElementById("errorQ4a")?.focus();
-                    }  else if (resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q4 == true && resolve.Q5 == false) {
+                    } else if (resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q4 == true && resolve.Q5 == false) {
                         document.getElementById("errorQ5a")?.focus();
                     }
                 }).catch((err: unknown): void => {
@@ -586,7 +586,7 @@ export default class CommonChatController {
                         document.getElementById("errorQ3a")?.focus();
                     } else if (resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q4 == false) {
                         document.getElementById("errorQ4a")?.focus();
-                    }  else if (resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q4 == true && resolve.Q5 == false) {
+                    } else if (resolve.Q1 == true && resolve.Q2 == true && resolve.Q3 == true && resolve.Q4 == true && resolve.Q5 == false) {
                         document.getElementById("errorQ5a")?.focus();
                     }
                 }).catch((err: unknown): void => {
