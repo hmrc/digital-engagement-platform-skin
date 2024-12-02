@@ -448,16 +448,12 @@ export default class CommonChatController {
 
     onShowMenu(): void {
         let isHidden: string | null | undefined = document.getElementById("menuButton")?.getAttribute("aria-expanded");
-        let menuArrow: HTMLElement | null = document.getElementById("menuArrow")
-        console.log('ISEXPANDED', isHidden)
         if (isHidden == "true") {
+            this.onToggleMenuArrow(isHidden)
             isHidden = "false"
-            menuArrow?.classList.remove("menuArrowUp");
-            menuArrow?.classList.add("down");
         } else {
+            this.onToggleMenuArrow(isHidden)
             isHidden = "true"
-            menuArrow?.classList.remove("down");
-            menuArrow?.classList.add("menuArrowUp");
         }
         document.getElementById("menuButton")?.setAttribute("aria-expanded", isHidden);
         document.getElementById("menuList")?.classList.toggle("show");
@@ -488,6 +484,7 @@ export default class CommonChatController {
     closeMenu(): void {
         document.getElementById("menuButton")?.setAttribute("aria-expanded", "false");
         document.getElementById("menuList")?.classList.remove("show");
+        this.onToggleMenuArrow('true')
     }
 
     onConfirmEndChat(): void {
@@ -727,6 +724,17 @@ export default class CommonChatController {
             setTimeout(() => {
                 sentMessageNotification!.textContent = ''
             }, 100)
+        }
+    }
+
+    onToggleMenuArrow(isMenuHidden: string | null | undefined): void {
+        let menuArrow: HTMLElement | null = document.getElementById("menuArrow")
+        if (isMenuHidden == "true") {
+            menuArrow?.classList.remove("menuArrowUp");
+            menuArrow?.classList.add("down");
+        } else {
+            menuArrow?.classList.remove("down");
+            menuArrow?.classList.add("menuArrowUp");
         }
     }
 };
