@@ -447,20 +447,20 @@ export default class CommonChatController {
     }
 
     onShowHamburger(): void {
-        let isHidden: string | null | undefined = document.getElementById("hamburgerMenu")?.getAttribute("aria-expanded");
-        let menuArrow: HTMLElement | null = document.getElementById("arrowMenu")
+        let isHidden: string | null | undefined = document.getElementById("menuButton")?.getAttribute("aria-expanded");
+        let menuArrow: HTMLElement | null = document.getElementById("menuArrow")
         console.log('ISEXPANDED', isHidden)
         if (isHidden == "true") {
             isHidden = "false"
-            menuArrow?.classList.remove("arrowMenuUp");
+            menuArrow?.classList.remove("menuArrowUp");
             menuArrow?.classList.add("down");
         } else {
             isHidden = "true"
             menuArrow?.classList.remove("down");
-            menuArrow?.classList.add("arrowMenuUp");
+            menuArrow?.classList.add("menuArrowUp");
         }
-        document.getElementById("hamburgerMenu")?.setAttribute("aria-expanded", isHidden);
-        document.getElementById("hamburgerList")?.classList.toggle("show");
+        document.getElementById("menuButton")?.setAttribute("aria-expanded", isHidden);
+        document.getElementById("menuList")?.classList.toggle("show");
     }
 
     onAccessibilityStatement(): void {
@@ -486,8 +486,8 @@ export default class CommonChatController {
     }
 
     closeMenu(): void {
-        document.getElementById("hamburgerMenu")?.setAttribute("aria-expanded", "false");
-        document.getElementById("hamburgerList")?.classList.remove("show");
+        document.getElementById("menuButton")?.setAttribute("aria-expanded", "false");
+        document.getElementById("menuList")?.classList.remove("show");
     }
 
     onConfirmEndChat(): void {

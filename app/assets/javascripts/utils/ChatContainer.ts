@@ -296,7 +296,7 @@ export default class ChatContainer {
             this.inputBoxFocus = false;
         });
 
-        this._registerEventListener("#hamburgerMenu", (_: Event): void => {
+        this._registerEventListener("#menuButton", (_: Event): void => {
             this.eventHandler.onShowHamburger();
         });
 
@@ -348,7 +348,7 @@ export default class ChatContainer {
             this.closeMethod = "Message"
         }
 
-        let endChatNonFocusableContainer: NodeListOf<HTMLElement> = this.container.querySelectorAll<HTMLElement>('input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]):not([id="hamburgerMenu"]):not([id=ciapiSkinHideButton]), #ciapiSkinChatTranscript');
+        let endChatNonFocusableContainer: NodeListOf<HTMLElement> = this.container.querySelectorAll<HTMLElement>('input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]):not([id="menuButton"]):not([id=ciapiSkinHideButton]), #ciapiSkinChatTranscript');
 
         endChatNonFocusableContainer.forEach(function (element: HTMLElement): void {
             element.tabIndex = -1;

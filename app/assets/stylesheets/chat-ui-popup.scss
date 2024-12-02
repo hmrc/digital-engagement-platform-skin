@@ -606,13 +606,13 @@ $page-height: calc(100% - 5px);
   color: white;
 }
 
-#hamburgerMenu{
+#menuButton{
     display: flex;
     align-items: center;
     height: 100%;
 }
 
-#arrowMenu {
+#menuArrow {
     margin-left: 0.5rem;
     border: solid white;
     border-width: 0 0.125rem 0.125rem 0;
@@ -620,7 +620,7 @@ $page-height: calc(100% - 5px);
     padding: 0.25rem;
   }
 
-  .arrowMenuUp {
+  .menuArrowUp {
     transform: rotate(45deg);
     -webkit-transform: rotate(225deg);
     margin-top: 0.75rem
