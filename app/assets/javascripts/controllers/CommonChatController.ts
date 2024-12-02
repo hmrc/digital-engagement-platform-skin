@@ -447,13 +447,19 @@ export default class CommonChatController {
     }
 
     onShowHamburger(): void {
-        let x: string | null | undefined = document.getElementById("hamburgerMenu")?.getAttribute("aria-expanded");
-        if (x == "true") {
-            x = "false"
+        let isHidden: string | null | undefined = document.getElementById("hamburgerMenu")?.getAttribute("aria-expanded");
+        let menuArrow: HTMLElement | null = document.getElementById("arrowMenu")
+        console.log('ISEXPANDED', isHidden)
+        if (isHidden == "true") {
+            isHidden = "false"
+            menuArrow?.classList.remove("arrowMenuUp");
+            menuArrow?.classList.add("down");
         } else {
-            x = "true"
+            isHidden = "true"
+            menuArrow?.classList.remove("down");
+            menuArrow?.classList.add("arrowMenuUp");
         }
-        document.getElementById("hamburgerMenu")?.setAttribute("aria-expanded", x);
+        document.getElementById("hamburgerMenu")?.setAttribute("aria-expanded", isHidden);
         document.getElementById("hamburgerList")?.classList.toggle("show");
     }
 
