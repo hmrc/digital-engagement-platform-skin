@@ -30,7 +30,7 @@ export function ContainerHtml(isEscalated: boolean): string {
     <div class="dropdown">
         <button id="hamburgerMenu" class="dropbtn" draggable="false" role="button" type="button" aria-expanded="false" aria-controls="hamburgerList" aria-label="Hamburger Menu">
             <div class="menuText govuk-heading-s govuk-!-font-size-19">Menu</div>
-             <div id="menuExpandIcon" tabindex="0"><i class="arrow down" draggable="false" aria-label="Expand menu options"></i></div>
+            <div id="menuExpandIcon" tabindex="0"><i id="arrowMenu" class="down" draggable="false" aria-label="Expand menu options"></i></div>
         </button>
         <div id="hamburgerList" class="dropdown-content">
             <button id="ciapiSkinCloseButton" role="button" tabindex="0" > End chat </button>

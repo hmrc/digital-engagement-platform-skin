@@ -611,3 +611,11 @@ $page-height: calc(100% - 5px);
     align-items: center;
     height: 100%;
 }
+
+#arrowMenu {
+    margin-left: 10px;
+    border: solid white;
+    border-width: 0 1.5px 1.5px 0;
+    display: inline-block;
+    padding: 4px;
+  }
