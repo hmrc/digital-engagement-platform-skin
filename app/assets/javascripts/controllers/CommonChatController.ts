@@ -417,7 +417,7 @@ export default class CommonChatController {
         const popupChatContainer: HTMLCollectionOf<Element> = document.getElementsByClassName("ci-api-popup");
         this.state.onClickedClose();
         if (popupChatContainer.length > 0) {
-            this.onShowMenu();
+            this.onMenuClick();
         }
     }
 
@@ -446,8 +446,8 @@ export default class CommonChatController {
         }
     }
 
-    onShowMenu(): void {
-        let isHidden: string | null | undefined = document.getElementById("menuButton")?.getAttribute("aria-expanded");
+    onMenuClick(): void {
+        let isHidden: string = document.getElementById("menuButton")?.getAttribute("aria-expanded")!;
         if (isHidden == "true") {
             this.onToggleMenuArrow(isHidden)
             isHidden = "false"
@@ -727,8 +727,8 @@ export default class CommonChatController {
         }
     }
 
-    onToggleMenuArrow(isMenuHidden: string | null | undefined): void {
-        let menuArrow: HTMLElement | null = document.getElementById("menuArrow")
+    onToggleMenuArrow(isMenuHidden: string): void {
+        const menuArrow: HTMLElement = document.getElementById("menuArrow")!;
         if (isMenuHidden == "true") {
             menuArrow?.classList.remove("menuArrowUp");
             menuArrow?.classList.add("down");
