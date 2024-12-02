@@ -522,7 +522,7 @@ $page-height: calc(100% - 5px);
 
   .dropbtn:focus {
     background-color: #ffdd00;
-    .menuText {
+    #menuText {
         color: black;
       }
     #menuArrow{
@@ -586,16 +586,16 @@ $page-height: calc(100% - 5px);
     -webkit-transform: rotate(225deg);
 }
 
-.menuText{
-  margin-bottom: 0;
-  color: white;
-}
-
 #menuButton{
     display: flex;
     align-items: center;
     height: 100%;
 }
+
+#menuText{
+    margin-bottom: 0;
+    color: white;
+  }
 
 #menuArrow {
     margin-left: 8px;
@@ -605,7 +605,7 @@ $page-height: calc(100% - 5px);
     padding: 4px;
   }
 
-  .menuArrowUp {
+.menuArrowUp {
     transform: rotate(45deg);
     -webkit-transform: rotate(225deg);
     margin-top: 0.75rem

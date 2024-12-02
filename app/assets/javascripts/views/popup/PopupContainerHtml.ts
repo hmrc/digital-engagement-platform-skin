@@ -29,8 +29,8 @@ export function ContainerHtml(isEscalated: boolean): string {
 
     <div class="dropdown">
         <button id="menuButton" class="dropbtn" draggable="false" role="button" type="button" aria-expanded="false" aria-controls="menuList" aria-label="Menu">
-            <div class="menuText govuk-heading-s govuk-!-font-size-19">Menu</div>
-            <div><i id="menuArrow" class="menuArrow down"></i></div>
+            <div id="menuText" class="govuk-heading-s govuk-!-font-size-19">Menu</div>
+            <div><i id="menuArrow" class="down"></i></div>
         </button>
         <div id="menuList" class="dropdown-content">
             <button id="ciapiSkinCloseButton" role="button" tabindex="0" > End chat </button>
