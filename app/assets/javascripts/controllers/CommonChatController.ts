@@ -417,7 +417,7 @@ export default class CommonChatController {
         const popupChatContainer: HTMLCollectionOf<Element> = document.getElementsByClassName("ci-api-popup");
         this.state.onClickedClose();
         if (popupChatContainer.length > 0) {
-            this.onShowHamburger();
+            this.onShowMenu();
         }
     }
 
@@ -446,7 +446,7 @@ export default class CommonChatController {
         }
     }
 
-    onShowHamburger(): void {
+    onShowMenu(): void {
         let isHidden: string | null | undefined = document.getElementById("menuButton")?.getAttribute("aria-expanded");
         let menuArrow: HTMLElement | null = document.getElementById("menuArrow")
         console.log('ISEXPANDED', isHidden)

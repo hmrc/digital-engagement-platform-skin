@@ -4,7 +4,7 @@ import { sanitiseAndParseJsonData } from './JsonUtils';
 
 interface nullEventHandlerInterface {
     onSend: () => void,
-    onShowHamburger: () => void,
+    onShowMenu: () => void,
     onMsgClick: () => void,
     onAccessibilityStatement: () => void,
     onCloseChat: () => void,
@@ -21,7 +21,7 @@ interface nullEventHandlerInterface {
 
 export const nullEventHandler: nullEventHandlerInterface = {
     onSend: function (): void { },
-    onShowHamburger: function (): void { },
+    onShowMenu: function (): void { },
     onMsgClick: function (): void { },
     onAccessibilityStatement: function (): void { },
     onCloseChat: function (): void { },
@@ -297,7 +297,7 @@ export default class ChatContainer {
         });
 
         this._registerEventListener("#menuButton", (_: Event): void => {
-            this.eventHandler.onShowHamburger();
+            this.eventHandler.onShowMenu();
         });
 
         this._registerEventListener("#custMsg", (_: Event): void => {
@@ -410,7 +410,7 @@ export default class ChatContainer {
         if (this.closeMethod === "Button") {
             const popupChatContainer: HTMLCollectionOf<Element> = document.getElementsByClassName("ci-api-popup");
             if (popupChatContainer.length > 0) {
-                this.eventHandler.onShowHamburger();
+                this.eventHandler.onShowMenu();
             }
             document.getElementById("ciapiSkinCloseButton")?.focus();
         } else if (this.closeMethod === "Link") {
