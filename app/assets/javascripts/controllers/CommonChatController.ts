@@ -447,7 +447,7 @@ export default class CommonChatController {
     }
 
     onMenuClick(): void {
-        let isHidden: string = document.getElementById("menuButton")?.getAttribute("aria-expanded")!;
+        let isHidden: string = document.getElementById("menuButton")!.getAttribute("aria-expanded")!;
         if (isHidden == "true") {
             this.onToggleMenuArrow(isHidden)
             isHidden = "false"
@@ -455,8 +455,8 @@ export default class CommonChatController {
             this.onToggleMenuArrow(isHidden)
             isHidden = "true"
         }
-        document.getElementById("menuButton")?.setAttribute("aria-expanded", isHidden);
-        document.getElementById("menuList")?.classList.toggle("show");
+        document.getElementById("menuButton")!.setAttribute("aria-expanded", isHidden);
+        document.getElementById("menuList")!.classList.toggle("show");
     }
 
     onAccessibilityStatement(): void {
