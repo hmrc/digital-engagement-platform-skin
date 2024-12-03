@@ -35,13 +35,9 @@ export interface ClickToChatObjectInterface {
 
 
 
-export interface StartedEventPCSInterface {
+export interface PCSBase {
     _domain: "automaton",
-    evt: "started",
     automatonType: "satisfactionSurvey",
-    automatonStartedBy: "survey,survey",
-    startedIn: "chat",
-    type: "satisfactionSurvey",
     clientTimestamp: number
     chatID: string
     customerID: string
@@ -72,4 +68,19 @@ export interface StartedEventPCSInterface {
     automatonID: string
     automatonName: string
     automatonOrigin: "richMedia"
+}
+
+export interface StartedEvent extends PCSBase {
+    evt: "started",
+    automatonStartedBy: "survey,survey",
+    startedIn: "chat",
+    type: "satisfactionSurvey",
+}
+
+export interface ContentSentToCustomerEvent extends PCSBase {
+    evt: "contentSentToCustomer",
+    unique_node_id: "node_1",
+    "custom.decisiontree.nodeID": string
+    "custom.decisiontree.questions": string
+    "custom.decisiontree.questionIDs": string
 }
