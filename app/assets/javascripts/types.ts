@@ -95,3 +95,9 @@ export interface CustomerRespondedEvent extends PCSBase {
     "custom.decisiontree.answers": string
     "custom.decisiontree.answerTypes": string
 }
+
+export interface EndedEvent extends PCSBase {
+    evt: "ended"
+    "automaton.outcomeType": string
+    "automaton.outcome": string
+}
