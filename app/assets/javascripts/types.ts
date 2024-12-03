@@ -71,16 +71,27 @@ export interface PCSBase {
 }
 
 export interface StartedEvent extends PCSBase {
-    evt: "started",
-    automatonStartedBy: "survey,survey",
-    startedIn: "chat",
-    type: "satisfactionSurvey",
+    evt: "started"
+    automatonStartedBy: "survey,survey"
+    startedIn: "chat"
+    type: "satisfactionSurvey"
 }
 
 export interface ContentSentToCustomerEvent extends PCSBase {
-    evt: "contentSentToCustomer",
-    unique_node_id: "node_1",
+    evt: "contentSentToCustomer"
+    unique_node_id: "node_1"
     "custom.decisiontree.nodeID": string
     "custom.decisiontree.questions": string
     "custom.decisiontree.questionIDs": string
+}
+
+export interface CustomerRespondedEvent extends PCSBase {
+    evt: "customerResponded"
+    unique_node_id: "node_1"
+    "custom.decisiontree.nodeID": string
+    "custom.decisiontree.questionIDs": string
+    "custom.decisiontree.questions": string
+    "custom.decisiontree.answerIDs": string
+    "custom.decisiontree.answers": string
+    "custom.decisiontree.answerTypes": string
 }

@@ -1,5 +1,5 @@
 import * as logger from '../utils/logger';
-import { AutomatonType, StartedEvent, ContentSentToCustomerEvent } from '../types';
+import { AutomatonType, StartedEvent, ContentSentToCustomerEvent, CustomerRespondedEvent } from '../types';
 export default class PostChatSurveyDigitalAssistantService {
     sdk: any;
     constructor(sdk: any) {
@@ -109,7 +109,7 @@ export default class PostChatSurveyDigitalAssistantService {
     submitPostChatSurvey(survey: any, automaton: AutomatonType, timestamp: number): void {
         const chatParams = this.sdk.getChatParams();
 
-        const customerRespondedEvent: {} = {
+        const customerRespondedEvent: CustomerRespondedEvent = {
             _domain: "automaton",
             evt: "customerResponded",
             automatonType: "satisfactionSurvey",
