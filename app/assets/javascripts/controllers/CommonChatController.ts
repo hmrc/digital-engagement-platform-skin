@@ -730,11 +730,11 @@ export default class CommonChatController {
     onToggleMenuArrow(isMenuHidden: string): void {
         const menuArrow: HTMLElement = document.getElementById("menuArrow")!;
         if (isMenuHidden == "true") {
-            menuArrow?.classList.remove("menuArrowUp");
-            menuArrow?.classList.add("down");
+            menuArrow.classList.remove("menuArrowUp");
+            menuArrow.classList.add("down");
         } else {
-            menuArrow?.classList.remove("down");
-            menuArrow?.classList.add("menuArrowUp");
+            menuArrow.classList.remove("down");
+            menuArrow.classList.add("menuArrowUp");
         }
     }
 };
