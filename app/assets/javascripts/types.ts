@@ -32,3 +32,44 @@ export interface ClickToChatObjectInterface {
     c2c?: any
     roleID?: number
 }
+
+
+
+export interface StartedEventPCSInterface {
+    _domain: "automaton",
+    evt: "started",
+    automatonType: "satisfactionSurvey",
+    automatonStartedBy: "survey,survey",
+    startedIn: "chat",
+    type: "satisfactionSurvey",
+    clientTimestamp: number
+    chatID: string
+    customerID: string
+    agentID: string
+    custID: string
+    incAssignmentID: string
+    sessionID: string
+    visitorAttributes: string
+    automatonAttributes: ""
+    siteID: number
+    clientID: number
+    pageID: number
+    businessUnitID: string
+    businessRuleID: number
+    busUnitID: string
+    BRName: string
+    agentGroupID: string
+    availableAgentAttributes: string
+    brAttributes: string
+    countryCode: string
+    regionCode: string
+    deviceType: string
+    operatingSystemType: string
+    browserType: string
+    browserVersion: string
+    preAssigned: boolean
+    surveyId: number
+    automatonID: string
+    automatonName: string
+    automatonOrigin: "richMedia"
+}
