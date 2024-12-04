@@ -417,7 +417,7 @@ export default class CommonChatController {
         const popupChatContainer: HTMLCollectionOf<Element> = document.getElementsByClassName("ci-api-popup");
         this.state.onClickedClose();
         if (popupChatContainer.length > 0) {
-            this.onShowHamburger();
+            this.onMenuClick();
         }
     }
 
@@ -446,15 +446,15 @@ export default class CommonChatController {
         }
     }
 
-    onShowHamburger(): void {
-        let x: string | null | undefined = document.getElementById("hamburgerMenu")?.getAttribute("aria-expanded");
+    onMenuClick(): void {
+        let x: string | null | undefined = document.getElementById("menuButton")?.getAttribute("aria-expanded");
         if (x == "true") {
             x = "false"
         } else {
             x = "true"
         }
-        document.getElementById("hamburgerMenu")?.setAttribute("aria-expanded", x);
-        document.getElementById("hamburgerList")?.classList.toggle("show");
+        document.getElementById("menuButton")?.setAttribute("aria-expanded", x);
+        document.getElementById("menuList")?.classList.toggle("show");
     }
 
     onAccessibilityStatement(): void {
@@ -480,8 +480,8 @@ export default class CommonChatController {
     }
 
     closeMenu(): void {
-        document.getElementById("hamburgerMenu")?.setAttribute("aria-expanded", "false");
-        document.getElementById("hamburgerList")?.classList.remove("show");
+        document.getElementById("menuButton")?.setAttribute("aria-expanded", "false");
+        document.getElementById("menuList")?.classList.remove("show");
     }
 
     onConfirmEndChat(): void {

@@ -4,7 +4,7 @@ import { sanitiseAndParseJsonData } from './JsonUtils';
 
 interface nullEventHandlerInterface {
     onSend: () => void,
-    onShowHamburger: () => void,
+    onMenuClick: () => void,
     onMsgClick: () => void,
     onAccessibilityStatement: () => void,
     onCloseChat: () => void,
@@ -21,7 +21,7 @@ interface nullEventHandlerInterface {
 
 export const nullEventHandler: nullEventHandlerInterface = {
     onSend: function (): void { },
-    onShowHamburger: function (): void { },
+    onMenuClick: function (): void { },
     onMsgClick: function (): void { },
     onAccessibilityStatement: function (): void { },
     onCloseChat: function (): void { },
@@ -296,8 +296,8 @@ export default class ChatContainer {
             this.inputBoxFocus = false;
         });
 
-        this._registerEventListener("#hamburgerMenu", (_: Event): void => {
-            this.eventHandler.onShowHamburger();
+        this._registerEventListener("#menuButton", (_: Event): void => {
+            this.eventHandler.onMenuClick();
         });
 
         this._registerEventListener("#custMsg", (_: Event): void => {
@@ -348,7 +348,7 @@ export default class ChatContainer {
             this.closeMethod = "Message"
         }
 
-        let endChatNonFocusableContainer: NodeListOf<HTMLElement> = this.container.querySelectorAll<HTMLElement>('input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]):not([id="hamburgerMenu"]):not([id=ciapiSkinHideButton]), #ciapiSkinChatTranscript');
+        let endChatNonFocusableContainer: NodeListOf<HTMLElement> = this.container.querySelectorAll<HTMLElement>('input, textarea, button:not([id="cancelEndChat"]):not([id="confirmEndChat"]):not([id="menuButton"]):not([id=ciapiSkinHideButton]), #ciapiSkinChatTranscript');
 
         endChatNonFocusableContainer.forEach(function (element: HTMLElement): void {
             element.tabIndex = -1;
@@ -410,7 +410,7 @@ export default class ChatContainer {
         if (this.closeMethod === "Button") {
             const popupChatContainer: HTMLCollectionOf<Element> = document.getElementsByClassName("ci-api-popup");
             if (popupChatContainer.length > 0) {
-                this.eventHandler.onShowHamburger();
+                this.eventHandler.onMenuClick();
             }
             document.getElementById("ciapiSkinCloseButton")?.focus();
         } else if (this.closeMethod === "Link") {
