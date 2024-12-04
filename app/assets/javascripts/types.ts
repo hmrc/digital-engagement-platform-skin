@@ -101,3 +101,7 @@ export interface EndedEvent extends PCSBase {
     "automaton.outcomeType": string
     "automaton.outcome": string
 }
+
+export interface EndedEventPCS {
+
+} 
