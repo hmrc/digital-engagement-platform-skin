@@ -28,12 +28,10 @@ export function ContainerHtml(isEscalated: boolean): string {
     <div id="titleBar" class="govuk-!-display-none-print">
 
     <div class="dropdown">
-        <button id="hamburgerMenu" class="dropbtn" draggable="false" role="button" type="button" aria-expanded="false" aria-controls="hamburgerList" aria-label="Hamburger Menu">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
+        <button id="menuButton" class="dropbtn" draggable="false" role="button" type="button" aria-expanded="false" aria-controls="menuList" aria-label="Menu">
+            <div id="menuText" class="govuk-heading-s govuk-!-font-size-19">Menu</div>
         </button>
-        <div id="hamburgerList" class="dropdown-content">
+        <div id="menuList" class="dropdown-content">
             <button id="ciapiSkinCloseButton" role="button" tabindex="0" > End chat </button>
             <button id="printButton" role="button" tabindex="0" > Print chat </button>
             ` + sizeButton + `
