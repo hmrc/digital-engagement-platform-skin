@@ -460,7 +460,22 @@ export default class CommonChatController {
     onAccessibilityStatement(): void {
         this.closeMenu()
         let url: string = new URL(window.location.href).pathname.replaceAll("/", "%2F");
-        window.open("https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend-hmrc-chatskin?referrerUrl=" + url + "-skin-hmrc", "_blank");
+        let env: string = this.envChecker();
+        window.open("https://www." + env + ".tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend-hmrc-chatskin?referrerUrl=" + url + "-skin-hmrc", "_blank");
+    }
+
+    envChecker(): string {
+        let env: string;
+        let url: string = window.location.href;
+
+        if(url.includes('qa') || (url.includes('localhost'))){
+            env = 'qa'
+        } else if (url.includes('staging')){
+            env = 'staging'
+        } else {
+            env = ''
+        }
+        return env;
     }
 
     onMsgClick(): void {
