@@ -1,4 +1,4 @@
-import { AutomatonType } from "../types";
+import { AutomatonType, BeginPCSStartedEvent } from "../types";
 import * as logger from '../utils/logger';
 
 export default class PostChatSurveyWebchatService {
@@ -10,7 +10,7 @@ export default class PostChatSurveyWebchatService {
     beginPostChatSurvey(survey: any, automaton: AutomatonType, timestamp: number): void {
         const chatParams: any = this.sdk.getChatParams();
 
-        const startedEvent: {} = {
+        const startedEvent: BeginPCSStartedEvent = {
             _domain: "automaton",
             evt: "started",
             automatonType: "satisfactionSurvey",
