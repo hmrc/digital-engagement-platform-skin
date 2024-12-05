@@ -33,8 +33,6 @@ export interface ClickToChatObjectInterface {
     roleID?: number
 }
 
-
-
 export interface PCSBase {
     _domain: "automaton",
     automatonType: "satisfactionSurvey",
@@ -70,14 +68,14 @@ export interface PCSBase {
     automatonOrigin: "richMedia"
 }
 
-export interface StartedEvent extends PCSBase {
+export interface BeginPCSStartedEvent extends PCSBase {
     evt: "started"
     automatonStartedBy: "survey,survey"
     startedIn: "chat"
     type: "satisfactionSurvey"
 }
 
-export interface ContentSentToCustomerEvent extends PCSBase {
+export interface BeginPCSContentSentToCustomerEvent extends PCSBase {
     evt: "contentSentToCustomer"
     unique_node_id: "node_1"
     "custom.decisiontree.nodeID": string
@@ -85,7 +83,7 @@ export interface ContentSentToCustomerEvent extends PCSBase {
     "custom.decisiontree.questionIDs": string
 }
 
-export interface CustomerRespondedEvent extends PCSBase {
+export interface SubmitPCSCustomerRespondedEvent extends PCSBase {
     evt: "customerResponded"
     unique_node_id: "node_1"
     "custom.decisiontree.nodeID": string
@@ -96,12 +94,25 @@ export interface CustomerRespondedEvent extends PCSBase {
     "custom.decisiontree.answerTypes": string
 }
 
-export interface EndedEvent extends PCSBase {
+export interface SubmitPCSEndedEvent extends PCSBase {
     evt: "ended"
-    "automaton.outcomeType": string
-    "automaton.outcome": string
+    "automaton.outcomeType": "Completed"
+    "automaton.outcome": "User has submitted postchat feedback."
 }
 
-export interface EndedEventPCS {
-
+export interface ClosePCSEndedEvent {
+    _domain: "automaton"
+    evt: "ended"
+    automatonType: "satisfactionSurvey"
+    siteID: number
+    customerID: string
+    incAssignmentID: string
+    pageID: number
+    sessionID: string
+    chatID: string
+    preAssigned: boolean
+    automatonID: string
+    "automaton.outcomeType": "Refused"
+    clientTimestamp: number
+    automatonOrigin: "richMedia"
 } 
