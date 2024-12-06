@@ -1,4 +1,4 @@
-import { AutomatonType, BeginPCSContentSentToCustomerEvent, BeginPCSStartedEvent } from "../types";
+import { AutomatonType, BeginPCSContentSentToCustomerEvent, BeginPCSStartedEvent, SubmitPCSCustomerRespondedEvent } from "../types";
 import * as logger from '../utils/logger';
 
 export default class PostChatSurveyWebchatService {
@@ -110,7 +110,7 @@ export default class PostChatSurveyWebchatService {
     submitPostChatSurvey(survey: any, automaton: AutomatonType, timestamp: number): void {
         const chatParams: any = this.sdk.getChatParams();
 
-        const customerRespondedEvent: {} = {
+        const customerRespondedEvent: SubmitPCSCustomerRespondedEvent = {
             _domain: "automaton",
             evt: "customerResponded",
             automatonType: "satisfactionSurvey",
