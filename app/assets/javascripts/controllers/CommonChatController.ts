@@ -553,7 +553,7 @@ export default class CommonChatController {
         } else {
             sessionStorage.removeItem("surveySkipped");
             document.cookie = "surveyed=true";
-            this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automatonWebchat, timestamp);
+            this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automatonWebchat, timestamp);
             this.showEndChatPage(false);
             surveyPage.detach();
         }
