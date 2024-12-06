@@ -99,8 +99,6 @@ export default class PostChatSurveyDigitalAssistantService {
         };
         logger.info("== beginPostChatSurvey ==");
 
-        console.log('RAN DA CODE')
-
         try {
             this.sdk.logEventToDW({ eventList: [startedEvent, contentSentToCustomerEvent] });
         } catch (e: unknown) {

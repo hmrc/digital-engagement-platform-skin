@@ -1,4 +1,4 @@
-import { AutomatonType, BeginPCSStartedEvent } from "../types";
+import { AutomatonType, BeginPCSContentSentToCustomerEvent, BeginPCSStartedEvent } from "../types";
 import * as logger from '../utils/logger';
 
 export default class PostChatSurveyWebchatService {
@@ -49,7 +49,7 @@ export default class PostChatSurveyWebchatService {
             automatonOrigin: "richMedia"
         };
 
-        const contentSentToCustomerEvent: {} = {
+        const contentSentToCustomerEvent: BeginPCSContentSentToCustomerEvent = {
             _domain: "automaton",
             evt: "contentSentToCustomer",
             unique_node_id: "node_1",

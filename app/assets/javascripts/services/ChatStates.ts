@@ -90,7 +90,6 @@ export class EngagedState {
     }
 
     isEscalated(): boolean {
-        console.log('ISESCALATEDCHATSTATES', this.escalated)
         return this.escalated;
     }
 
