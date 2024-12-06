@@ -1,4 +1,4 @@
-import { AutomatonType } from "../types";
+import { AutomatonType, BeginPCSContentSentToCustomerEvent, BeginPCSStartedEvent, ClosePCSEndedEvent, SubmitPCSCustomerRespondedEvent, SubmitPCSEndedEvent } from "../types";
 import * as logger from '../utils/logger';
 
 export default class PostChatSurveyWebchatService {
@@ -10,7 +10,7 @@ export default class PostChatSurveyWebchatService {
     beginPostChatSurvey(survey: any, automaton: AutomatonType, timestamp: number): void {
         const chatParams: any = this.sdk.getChatParams();
 
-        const startedEvent: {} = {
+        const startedEvent: BeginPCSStartedEvent = {
             _domain: "automaton",
             evt: "started",
             automatonType: "satisfactionSurvey",
@@ -49,7 +49,7 @@ export default class PostChatSurveyWebchatService {
             automatonOrigin: "richMedia"
         };
 
-        const contentSentToCustomerEvent: {} = {
+        const contentSentToCustomerEvent: BeginPCSContentSentToCustomerEvent = {
             _domain: "automaton",
             evt: "contentSentToCustomer",
             unique_node_id: "node_1",
@@ -110,7 +110,7 @@ export default class PostChatSurveyWebchatService {
     submitPostChatSurvey(survey: any, automaton: AutomatonType, timestamp: number): void {
         const chatParams: any = this.sdk.getChatParams();
 
-        const customerRespondedEvent: {} = {
+        const customerRespondedEvent: SubmitPCSCustomerRespondedEvent = {
             _domain: "automaton",
             evt: "customerResponded",
             automatonType: "satisfactionSurvey",
@@ -192,7 +192,7 @@ export default class PostChatSurveyWebchatService {
             automatonOrigin: "richMedia"
         };
 
-        const endedEvent: {} = {
+        const endedEvent: SubmitPCSEndedEvent = {
             _domain: "automaton",
             evt: "ended",
             automatonType: "satisfactionSurvey",
@@ -241,7 +241,7 @@ export default class PostChatSurveyWebchatService {
     closePostChatSurvey(automaton: AutomatonType, timestamp: number): void {
         const chatParams: any = this.sdk.getChatParams();
 
-        const endedEvent: {} = {
+        const endedEvent: ClosePCSEndedEvent = {
             _domain: "automaton",
             evt: "ended",
             automatonType: "satisfactionSurvey",

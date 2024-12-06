@@ -250,6 +250,7 @@ export class EngagedState {
     }
 
     _chatActivityAndAgentTyping(msg: MessageInterface, transcript: Transcript): void {
+        this.escalated = true
         if (msg.state === MessageState.Agent_IsTyping) {
             if (msg["display.text"] == "Agent is typing...") {
                 transcript.addSystemMsg({ msg: msg["display.text"], state: MessageState.Agent_IsTyping }, msg.messageTimestamp);
