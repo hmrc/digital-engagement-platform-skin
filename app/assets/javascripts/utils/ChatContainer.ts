@@ -364,7 +364,7 @@ export default class ChatContainer {
             document.getElementById(item)?.setAttribute("style", "display: none;");
         });
 
-        let endChatNonFocusable: NodeListOf<HTMLElement> = document.querySelectorAll<HTMLElement>('a[href]:not([id="printLink"]), iframe, button:not([id="cancelEndChat"]):not([id="confirmEndChat"])');
+        let endChatNonFocusable: NodeListOf<HTMLElement> = document.querySelectorAll<HTMLElement>('a[href]:not([id="printOrSaveLink"]), iframe, button:not([id="cancelEndChat"]):not([id="confirmEndChat"])');
 
         endChatNonFocusable.forEach(function (element: HTMLElement): void {
             element.tabIndex = -1;
