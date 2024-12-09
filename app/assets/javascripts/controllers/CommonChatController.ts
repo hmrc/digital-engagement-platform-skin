@@ -506,19 +506,20 @@ export default class CommonChatController {
             this.state.escalated = this.state.isEscalated();
         }
 
-        this._moveToClosingState();
-
         this.ended = 'true'
 
         if (this.hasBeenSurveyed()) {
+            this._moveToClosingState();
             this.showEndChatPage(false);
         } else {
             if (this.state instanceof ChatStates.EngagedState && this.state.escalated) {
                 this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automatonWebchat, timestamp);
                 this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
+                this._moveToClosingState();
             } else {
                 this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automatonDA, timestamp);
                 this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
+                this._moveToClosingState();
             }
         }
 
@@ -567,7 +568,7 @@ export default class CommonChatController {
         } else {
             sessionStorage.removeItem("surveySkipped");
             document.cookie = "surveyed=true";
-            this._sendPostChatSurveyDigitalAssistant(this.sdk).closePostChatSurvey(automatonWebchat, timestamp);
+            this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automatonWebchat, timestamp);
             this.showEndChatPage(false);
             surveyPage.detach();
         }

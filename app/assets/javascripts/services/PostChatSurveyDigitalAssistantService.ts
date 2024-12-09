@@ -1,5 +1,5 @@
 import * as logger from '../utils/logger';
-import { AutomatonType } from '../types';
+import { AutomatonType, BeginPCSStartedEvent, SubmitPCSEndedEvent, ClosePCSEndedEvent, BeginPCSContentSentToCustomerEvent, SubmitPCSCustomerRespondedEvent } from '../types';
 export default class PostChatSurveyDigitalAssistantService {
     sdk: any;
     constructor(sdk: any) {
@@ -9,7 +9,7 @@ export default class PostChatSurveyDigitalAssistantService {
     beginPostChatSurvey(survey: any, automaton: AutomatonType, timestamp: number): void {
         const chatParams: any = this.sdk.getChatParams();
 
-        const startedEvent: {} = {
+        const startedEvent: BeginPCSStartedEvent = {
             _domain: "automaton",
             evt: "started",
             automatonType: "satisfactionSurvey",
@@ -48,7 +48,7 @@ export default class PostChatSurveyDigitalAssistantService {
             automatonOrigin: "richMedia"
         };
 
-        const contentSentToCustomerEvent: {} = {
+        const contentSentToCustomerEvent: BeginPCSContentSentToCustomerEvent = {
             _domain: "automaton",
             evt: "contentSentToCustomer",
             unique_node_id: "node_1",
@@ -109,7 +109,7 @@ export default class PostChatSurveyDigitalAssistantService {
     submitPostChatSurvey(survey: any, automaton: AutomatonType, timestamp: number): void {
         const chatParams = this.sdk.getChatParams();
 
-        const customerRespondedEvent: {} = {
+        const customerRespondedEvent: SubmitPCSCustomerRespondedEvent = {
             _domain: "automaton",
             evt: "customerResponded",
             automatonType: "satisfactionSurvey",
@@ -191,7 +191,7 @@ export default class PostChatSurveyDigitalAssistantService {
             automatonOrigin: "richMedia"
         };
 
-        const endedEvent: {} = {
+        const endedEvent: SubmitPCSEndedEvent = {
             _domain: "automaton",
             evt: "ended",
             automatonType: "satisfactionSurvey",
@@ -240,7 +240,7 @@ export default class PostChatSurveyDigitalAssistantService {
     closePostChatSurvey(automaton: AutomatonType, timestamp: number): void {
         const chatParams: any = this.sdk.getChatParams();
 
-        const endedEvent: {} = {
+        const endedEvent: ClosePCSEndedEvent = {
             _domain: "automaton",
             evt: "ended",
             automatonType: "satisfactionSurvey",
