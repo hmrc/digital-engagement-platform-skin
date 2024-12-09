@@ -11,7 +11,7 @@ const html: string = `
         <p>You can:</p>
         <ul>
         
-        <li id='printOption'><a class="govuk-link" href='#' id='printPostChat'>print your chat</a></li>
+        <li id='printOption'><a class="govuk-link" href='#' id='printPostChat'>print or save your chat</a></li>
             <li><a class="govuk-link" id='returnToGovUk' href="http://www.gov.uk">return to GOV.UK</a></li>
             <li>close this window</li>
         </ul>
@@ -23,7 +23,7 @@ const html: string = `
 `
 
 const nullEventHandler = {
-    onPrint: function (_:Event) {}
+    onPrint: function (_: Event) { }
 };
 
 export default class PostPCSPage {
@@ -34,8 +34,8 @@ export default class PostPCSPage {
     showThanks: boolean
     eventHandler: typeof nullEventHandler
     content: HTMLElement | null
-    
-    
+
+
     constructor(showThanks: boolean) {
         this.showThanks = showThanks;
         this.container = document.createElement("div");
@@ -51,11 +51,11 @@ export default class PostPCSPage {
         this.wrapper.insertAdjacentHTML("beforeend", html);
 
         const ciapiSkinHeader: HTMLElement | null = document.getElementById("ciapiSkinHeader")
-        if(ciapiSkinHeader){
+        if (ciapiSkinHeader) {
             try {
                 ciapiSkinHeader.style.display = "none"
             } catch {
-                console.log('DEBUG: ' + 'Elements not found' )
+                console.log('DEBUG: ' + 'Elements not found')
             }
         }
 
@@ -63,7 +63,7 @@ export default class PostPCSPage {
         if (!this.showThanks && endpageThanks) {
             endpageThanks.style.display = 'none';
         }
-        
+
         container?.appendChild(this.wrapper);
 
         let isAndroidAndChrome: boolean
@@ -74,10 +74,10 @@ export default class PostPCSPage {
         }
 
         let printContainer: HTMLElement | null = document.getElementById("printOption")
-        if(printContainer) {
+        if (printContainer) {
             printContainer.style.display = isAndroidAndChrome ? "none" : "";
         }
-        
+
         const element = this.wrapper.querySelector<HTMLElement>('#printPostChat');
         if (element) {
             element.addEventListener("click", (e: MouseEvent): void => {
@@ -96,50 +96,50 @@ export default class PostPCSPage {
                 if (document.getElementById("nuanMessagingFrame")?.classList.contains("ci-api-popup")) {
                     elementList.push("govuk-grid-column-two-thirds")
                 }
-          
+
                 PrintUtils.removeElementsForPrint(elementList);
 
-                const endPageWrapper= this.container?.querySelector<HTMLElement>('#endPage')
+                const endPageWrapper = this.container?.querySelector<HTMLElement>('#endPage')
                 const skinChatTranscript = this.container?.querySelector<HTMLElement>("#ciapiSkinChatTranscript");
 
-                if(endPageWrapper){
+                if (endPageWrapper) {
                     endPageWrapper.style.display = 'none'
                 }
-                if(skinChatTranscript){
+                if (skinChatTranscript) {
                     skinChatTranscript.style.display = ''
                 }
 
                 let printDate = document.getElementById("print-date")
-                if(printDate){
+                if (printDate) {
                     printDate.innerHTML = PrintUtils.getPrintDate();
                 }
 
                 document.getElementById("postPCSPageWrapper")?.classList.add("govuk-!-display-none-print")
 
                 window.print();
-                    this.eventHandler.onPrint(e);      
-                    e.preventDefault();
-                })
+                this.eventHandler.onPrint(e);
+                e.preventDefault();
+            })
 
-                    window.addEventListener("afterprint", (_) => {});
-                    onafterprint = (e: Event): void => {
-                        e.preventDefault();
-                        const endPageWrapper = this.container?.querySelector<HTMLElement>('#endPage')
-                        const skinChatTranscript = this.container?.querySelector<HTMLElement>("#ciapiSkinChatTranscript");
+            window.addEventListener("afterprint", (_) => { });
+            onafterprint = (e: Event): void => {
+                e.preventDefault();
+                const endPageWrapper = this.container?.querySelector<HTMLElement>('#endPage')
+                const skinChatTranscript = this.container?.querySelector<HTMLElement>("#ciapiSkinChatTranscript");
 
-                        if(endPageWrapper){
-                            endPageWrapper.style.display = ''
-                        }
+                if (endPageWrapper) {
+                    endPageWrapper.style.display = ''
+                }
 
-                        if(skinChatTranscript){
-                            skinChatTranscript.style.display = 'none'
-                        }
-                    };
+                if (skinChatTranscript) {
+                    skinChatTranscript.style.display = 'none'
+                }
+            };
         }
     }
 
     detach(): void {
-        if(this.wrapper){
+        if (this.wrapper) {
             this.container?.removeChild(this.wrapper)
         }
     }

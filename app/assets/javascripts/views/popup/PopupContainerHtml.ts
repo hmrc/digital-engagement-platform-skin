@@ -33,7 +33,7 @@ export function ContainerHtml(isEscalated: boolean): string {
         </button>
         <div id="menuList" class="dropdown-content">
             <button id="ciapiSkinCloseButton" role="button" tabindex="0" > End chat </button>
-            <button id="printButton" role="button" tabindex="0" > Print chat </button>
+            <button id="printButton" role="button" tabindex="0" > Print or save your chat </button>
             ` + sizeButton + `
             ` + soundButton + `
             <button id='accessibility-statement-link' role="button" >Accessibility statement (opens in a new tab)</button>
