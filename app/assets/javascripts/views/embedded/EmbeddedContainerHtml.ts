@@ -17,7 +17,7 @@ export function ContainerHtml(isEscalated: boolean): string {
     <div id="ciapiSkinHeader" class="govuk-!-display-none-print">
         <div id="print">
             <button id="printButton" class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                Print chat
+                Print or save your chat
             </button>
         </div>
         <div id="sound">
