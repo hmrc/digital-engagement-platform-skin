@@ -23,7 +23,7 @@ const html: string = `
 `
 
 const nullEventHandler = {
-    onPrint: function (_: Event) { }
+    onPrintOrSave: function (_: Event) { }
 };
 
 export default class PostPCSPage {
@@ -117,7 +117,7 @@ export default class PostPCSPage {
                 document.getElementById("postPCSPageWrapper")?.classList.add("govuk-!-display-none-print")
 
                 window.print();
-                this.eventHandler.onPrint(e);
+                this.eventHandler.onPrintOrSave(e);
                 e.preventDefault();
             })
 

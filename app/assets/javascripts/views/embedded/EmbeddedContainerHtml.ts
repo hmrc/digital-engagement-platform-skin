@@ -16,7 +16,7 @@ export function ContainerHtml(isEscalated: boolean): string {
 <div id="ciapiSkinContainer">
     <div id="ciapiSkinHeader" class="govuk-!-display-none-print">
         <div id="print">
-            <button id="printButton" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+            <button id="printOrSaveButton" class="govuk-button govuk-button--secondary" data-module="govuk-button">
                 Print or save your chat
             </button>
         </div>

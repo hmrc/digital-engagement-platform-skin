@@ -33,16 +33,16 @@ describe("ChatContainer Event Listeners", () => {
 
         document.getElementById =
             jest.fn()
-                .mockReturnValueOnce({setAttribute})
-                .mockReturnValueOnce({setAttribute})
-                .mockReturnValueOnce({setAttribute});
+                .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ setAttribute });
 
         jest.spyOn(chatContainer.eventHandler, 'onCloseChat');
         chatContainer.container.querySelector('#ciapiSkinCloseButton').click()
 
         expect(chatContainer.eventHandler.onCloseChat).toBeCalledTimes(1);
     });
-    
+
     it("clicking the hide button fires the expected handler function", () => {
         const chatContainer = new ChatContainer(null, PopupContainerHtml, null);
 
@@ -80,7 +80,7 @@ describe("ChatContainer Event Listeners", () => {
         chatContainer
             .container
             .querySelector('#custMsg')
-            .dispatchEvent(new KeyboardEvent('keypress', {'key': fKey}));
+            .dispatchEvent(new KeyboardEvent('keypress', { 'key': fKey }));
 
         expect(chatContainer.processKeypressEvent).toBeCalledTimes(1);
     });
@@ -88,10 +88,10 @@ describe("ChatContainer Event Listeners", () => {
     it("clicking the print button fires the expected handler function", () => {
         const chatContainer = new ChatContainer(null, EmbeddedContainerHtml, null);
 
-        jest.spyOn(chatContainer.eventHandler, 'onPrint');
-        chatContainer.container.querySelector('#printButton').click()
+        jest.spyOn(chatContainer.eventHandler, 'onPrintOrSave');
+        chatContainer.container.querySelector('#printOrSaveButton').click()
 
-        expect(chatContainer.eventHandler.onPrint).toBeCalledTimes(1);
+        expect(chatContainer.eventHandler.onPrintOrSave).toBeCalledTimes(1);
     });
 
     it("clicking the sound toggle fires the expected handler function", () => {

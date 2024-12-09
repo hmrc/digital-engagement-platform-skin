@@ -312,7 +312,7 @@ export default class CommonChatController {
         }
     }
 
-    onPrint(e: Event): boolean {
+    onPrintOrSave(e: Event): boolean {
         this.closeMenu()
         e.preventDefault;
         const printDate: HTMLElement | null = document.getElementById("print-date")
@@ -468,9 +468,9 @@ export default class CommonChatController {
         let env: string;
         let url: string = window.location.href;
 
-        if(url.includes('qa') || (url.includes('localhost'))){
+        if (url.includes('qa') || (url.includes('localhost'))) {
             env = 'qa'
-        } else if (url.includes('staging')){
+        } else if (url.includes('staging')) {
             env = 'staging'
         } else {
             env = ''

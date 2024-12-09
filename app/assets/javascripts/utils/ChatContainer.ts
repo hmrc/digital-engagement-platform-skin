@@ -16,7 +16,7 @@ interface nullEventHandlerInterface {
     onStartTyping: () => void,
     onStopTyping: () => void,
     onSkipToTopLink: (e: Event) => void,
-    onPrint: (e: Event) => void,
+    onPrintOrSave: (e: Event) => void,
 }
 
 export const nullEventHandler: nullEventHandlerInterface = {
@@ -33,7 +33,7 @@ export const nullEventHandler: nullEventHandlerInterface = {
     onStartTyping: function (): void { },
     onStopTyping: function (): void { },
     onSkipToTopLink: function (): void { },
-    onPrint: function (): void { }
+    onPrintOrSave: function (): void { }
 };
 
 export default class ChatContainer {
@@ -328,8 +328,8 @@ export default class ChatContainer {
             this.processTranscriptEvent(e);
         });
 
-        this._registerEventListener("#printButton", (e: Event): void => {
-            this.eventHandler.onPrint(e);
+        this._registerEventListener("#printOrSaveButton", (e: Event): void => {
+            this.eventHandler.onPrintOrSave(e);
             e.preventDefault();
         });
 
@@ -356,7 +356,7 @@ export default class ChatContainer {
 
         const styleList: string[] = [
             "ciapiSkinCloseButton",
-            "printButton",
+            "printOrSaveButton",
             "toggleSound"
         ];
 
@@ -390,7 +390,7 @@ export default class ChatContainer {
 
         const styleList: string[] = [
             "ciapiSkinCloseButton",
-            "printButton",
+            "printOrSaveButton",
             "toggleSound"
         ];
 
@@ -437,7 +437,7 @@ export default class ChatContainer {
             endChatGiveFeedback?.focus();
         }
         if (toPrint) {
-            this.eventHandler.onPrint(e);
+            this.eventHandler.onPrintOrSave(e);
         }
         this.closeMethod = null
     }
