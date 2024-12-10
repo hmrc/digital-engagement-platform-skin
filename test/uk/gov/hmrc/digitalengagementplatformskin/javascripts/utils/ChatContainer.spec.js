@@ -470,7 +470,7 @@ describe("ChatContainer", () => {
         document.body.innerHTML = ContainerHtml;
         chatContainer = new ChatContainer(null, ContainerHtml, null);
 
-        expect(document.contains(document.getElementById("print"))).toBe(true);
+        expect(document.contains(document.getElementById("printOrSaveDiv"))).toBe(true);
         expect(document.contains(document.getElementById("sound"))).toBe(true);
 
         chatContainer._removeSkinHeadingElements();

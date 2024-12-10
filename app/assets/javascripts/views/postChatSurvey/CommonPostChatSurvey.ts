@@ -46,11 +46,11 @@ export default class CommonPostChatSurvey {
             }
         )
 
-        this.wrapper.querySelector<HTMLElement>("#printPostChat")?.addEventListener(
+        this.wrapper.querySelector<HTMLElement>("#printOrSavePostChat")?.addEventListener(
             "click",
             (e: Event): void => {
                 e.preventDefault;
-                this.onPrintPostChatSurvey(this);
+                this.onPrintOrSavePostChatSurvey(this);
             }
         );
 
@@ -82,7 +82,7 @@ export default class CommonPostChatSurvey {
         }
     }
 
-    onPrintPostChatSurvey(e: any): boolean {
+    onPrintOrSavePostChatSurvey(e: any): boolean {
         e.preventDefault;
 
         this.showTranscriptAndSurvey(true, false);

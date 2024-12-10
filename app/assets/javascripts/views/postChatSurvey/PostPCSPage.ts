@@ -11,7 +11,7 @@ const html: string = `
         <p>You can:</p>
         <ul>
         
-        <li id='printOption'><a class="govuk-link" href='#' id='printPostChat'>print or save chat</a></li>
+        <li id='printOrSaveOption'><a class="govuk-link" href='#' id='printOrSavePostChat'>print or save chat</a></li>
             <li><a class="govuk-link" id='returnToGovUk' href="http://www.gov.uk">return to GOV.UK</a></li>
             <li>close this window</li>
         </ul>
@@ -73,12 +73,12 @@ export default class PostPCSPage {
             isAndroidAndChrome = false
         }
 
-        let printContainer: HTMLElement | null = document.getElementById("printOption")
+        let printContainer: HTMLElement | null = document.getElementById("printOrSaveOption")
         if (printContainer) {
             printContainer.style.display = isAndroidAndChrome ? "none" : "";
         }
 
-        const element = this.wrapper.querySelector<HTMLElement>('#printPostChat');
+        const element = this.wrapper.querySelector<HTMLElement>('#printOrSavePostChat');
         if (element) {
             element.addEventListener("click", (e: MouseEvent): void => {
                 let elementList = [
