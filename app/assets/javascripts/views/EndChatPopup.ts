@@ -12,8 +12,8 @@ export const popupHtml: string = `
         Return to chat
       </button>
 
-      <div id="surveyPrintContainer">
-    <p><a class="govuk-link" href="#" id="printOrSaveLink">Print or save your chat</a></p>
+      <div id="surveyPrintOrSaveContainer">
+    <p><a class="govuk-link" href="#" id="printOrSaveLink">Print or save chat</a></p>
   </div>
 
     </div>
@@ -48,7 +48,7 @@ export default class Popup {
             this.onConfirmEndChat(e)
         });
 
-        this.wrapper.querySelector<HTMLElement>("#surveyPrintContainer")?.addEventListener("click", (e: Event): void => {
+        this.wrapper.querySelector<HTMLElement>("#surveyPrintOrSaveContainer")?.addEventListener("click", (e: Event): void => {
             this.endChatPrint(e)
         });
 

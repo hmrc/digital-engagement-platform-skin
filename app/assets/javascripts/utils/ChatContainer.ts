@@ -443,8 +443,8 @@ export default class ChatContainer {
     }
 
     _removeSkinHeadingElements(): void {
-        if (document.contains(document.getElementById("print")) && document.contains(document.getElementById("sound"))) {
-            document.getElementById("print")?.remove();
+        if (document.contains(document.getElementById("printOrSaveDiv")) && document.contains(document.getElementById("sound"))) {
+            document.getElementById("printOrSaveDiv")?.remove();
             document.getElementById("sound")?.remove();
 
             try {

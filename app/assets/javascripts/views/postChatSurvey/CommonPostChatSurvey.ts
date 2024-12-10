@@ -4,7 +4,7 @@ export default class CommonPostChatSurvey {
     html: string
     container: HTMLElement | undefined
     wrapper: HTMLElement | undefined
-    onSubmitted: (a:object) => void
+    onSubmitted: (a: object) => void
 
     constructor(html: string, onSubmitted: (a: object) => void) {
         this.html = html;
@@ -20,7 +20,7 @@ export default class CommonPostChatSurvey {
 
         this.wrapper.querySelector<HTMLElement>("#submitPostChatSurvey")?.addEventListener(
             "click",
-            (e:Event): void => {
+            (e: Event): void => {
                 e.preventDefault();
                 this.onSubmitted(this);
             }
@@ -28,7 +28,7 @@ export default class CommonPostChatSurvey {
 
         this.wrapper.querySelector<HTMLElement>("#skipSurvey")?.addEventListener(
             "click",
-            (_:Event): void => {
+            (_: Event): void => {
                 sessionStorage.setItem("surveySkipped", "true");
                 this.onSubmitted(this);
             }
@@ -36,8 +36,8 @@ export default class CommonPostChatSurvey {
 
         this.wrapper.querySelector<HTMLElement>('#question5')?.addEventListener(
             "click",
-            (_:Event): void => {
-                if((document.getElementById('q5--4') as HTMLInputElement).checked){
+            (_: Event): void => {
+                if ((document.getElementById('q5--4') as HTMLInputElement).checked) {
                     document.getElementById("conditional-contact")?.classList.remove("govuk-radios__conditional--hidden")
                 } else {
                     (document.getElementById("q6-") as HTMLTextAreaElement).value = "";
@@ -54,7 +54,7 @@ export default class CommonPostChatSurvey {
             }
         );
 
-        window.addEventListener('afterprint', (_:Event): void => {
+        window.addEventListener('afterprint', (_: Event): void => {
             this.showTranscriptAndSurvey(false, true)
         });
 
@@ -65,33 +65,33 @@ export default class CommonPostChatSurvey {
             isAndroidAndChrome = false
         }
 
-        let printContainer: HTMLElement | null = document.getElementById("surveyPrintContainer")
-        if(printContainer){
+        let printContainer: HTMLElement | null = document.getElementById("surveyPrintOrSaveContainer")
+        if (printContainer) {
             printContainer.style.display = isAndroidAndChrome ? "none" : "";
         }
     }
 
     showTranscriptAndSurvey(showTranscript: boolean, showSurvey: boolean): void {
         let transcript: HTMLElement | null = document.getElementById("ciapiSkinChatTranscript");
-        if(transcript){
+        if (transcript) {
             transcript.style.display = showTranscript ? "" : "none";
         }
         let postChatSurvey: HTMLElement | null = document.getElementById("postChatSurveyWrapper");
-        if(postChatSurvey){
+        if (postChatSurvey) {
             postChatSurvey.style.display = showSurvey ? "" : "none";
         }
     }
 
     onPrintPostChatSurvey(e: any): boolean {
         e.preventDefault;
-  
+
         this.showTranscriptAndSurvey(true, false);
-    
+
         let printDate: HTMLElement | null = document.getElementById("print-date")
-        if(printDate){
+        if (printDate) {
             printDate.innerHTML = PrintUtils.getPrintDate();
         }
-  
+
         let elementList = [
             "app-related-items",
             "govuk-back-link",
@@ -109,16 +109,16 @@ export default class CommonPostChatSurvey {
                 elementList.push("govuk-grid-column-two-thirds")
             }
         }
-  
+
         PrintUtils.removeElementsForPrint(elementList);
-  
+
         window.print()
-  
+
         return false;
     }
 
     detach(): void {
-        if(this.wrapper){
+        if (this.wrapper) {
             this.container?.removeChild(this.wrapper)
         }
     }
