@@ -73,9 +73,9 @@ export default class PostPCSPage {
             isAndroidAndChrome = false
         }
 
-        let printContainer: HTMLElement | null = document.getElementById("printOrSaveOption")
-        if (printContainer) {
-            printContainer.style.display = isAndroidAndChrome ? "none" : "";
+        let printOrSaveContainer: HTMLElement | null = document.getElementById("printOrSaveOption")
+        if (printOrSaveContainer) {
+            printOrSaveContainer.style.display = isAndroidAndChrome ? "none" : "";
         }
 
         const element = this.wrapper.querySelector<HTMLElement>('#printOrSavePostChat');
