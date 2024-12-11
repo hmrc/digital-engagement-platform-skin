@@ -13,7 +13,7 @@ export const popupHtml: string = `
       </button>
 
       <div id="surveyPrintContainer">
-    <p><a class="govuk-link" href="#" id="printLink">Print chat</a></p>
+    <p><a class="govuk-link" href="#" id="printLink">Print or save chat</a></p>
   </div>
 
     </div>
@@ -38,7 +38,7 @@ export default class Popup {
             this.onCancelEndChat(e)
         });
 
-        this.wrapper.addEventListener("keydown",(e: KeyboardEvent): void => {
+        this.wrapper.addEventListener("keydown", (e: KeyboardEvent): void => {
             if (e.key === "Escape") {
                 this.onCancelEndChat(e)
             }
@@ -79,7 +79,7 @@ export default class Popup {
     }
 
     _setDisplay(state: string): void {
-        if(this.wrapper){
+        if (this.wrapper) {
             this.wrapper.style.display = state;
         }
     }
