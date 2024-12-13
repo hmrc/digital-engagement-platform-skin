@@ -178,6 +178,22 @@ export default class CommonChatController {
                     "defaultAgentAlias": "HMRC"
                 });
 
+                if(obj.type === 'reactive') {
+                    this.sdk.autoEngage('chat started', null ,(resp: { httpStatus: number }) => {
+                            logger.debug("++++ ENGAGED ++++ ->", resp);
+                            if (resp.httpStatus == 200) {
+                                this._moveToChatEngagedState();
+                            } else {
+                                let msg: string = messages.unavilable
+                                this.container.getTranscript().addSystemMsg({ msg: msg }, Date.now());
+                                let ciapiSkinFooter: HTMLElement | null = document.getElementById('ciapiSkinFooter')
+                                if (ciapiSkinFooter) {
+                                    ciapiSkinFooter.style.display = 'none'
+                                }
+                            }
+                    })
+                }
+
                 this._removeAnimation();
 
                 let dav3Skin: HTMLElement | null = document.getElementById("ciapiSkin");
@@ -235,7 +251,7 @@ export default class CommonChatController {
 
     _displayOpenerScripts(): void {
         this.sdk = window.Inq.SDK;
-
+        
         this.sdk.getOpenerScripts((openerScripts: string[]) => {
             if (openerScripts == null)
                 return;
@@ -243,7 +259,9 @@ export default class CommonChatController {
             for (var openerScript of openerScripts) {
                 this.container.getTranscript().addOpenerScript(openerScript);
             }
+            
         });
+        
     }
 
     _moveToChatEngagedState(previousMessages: any = []): void {
