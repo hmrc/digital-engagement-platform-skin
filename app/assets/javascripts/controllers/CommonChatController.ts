@@ -251,15 +251,12 @@ export default class CommonChatController {
 
     _displayOpenerScripts(): void {
         this.sdk = window.Inq.SDK;
-        
         this.sdk.getOpenerScripts((openerScripts: string[]) => {
             if (openerScripts == null)
                 return;
-
             for (var openerScript of openerScripts) {
                 this.container.getTranscript().addOpenerScript(openerScript);
             }
-            
         });
         
     }
