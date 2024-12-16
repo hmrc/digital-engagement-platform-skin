@@ -3,7 +3,7 @@
 @import "system-message";
 @import "c2cbutton";
 @import "end-chat-popup";
-@import "lib/govuk-frontend/dist/govuk/all";
+@import "lib/govuk-frontend/dist/govuk/base";
 @import 'chat-ui-common';
 
 $popup-width: 400px;
@@ -198,7 +198,9 @@ $page-height: calc(100% - 5px);
 
     div {
         margin-bottom: 0px;
-        @extend .govuk-body;
+        @include govuk-text-colour;
+        @include govuk-font($size: 19);
+        margin-top: 0px;
     }
 
     .info {
