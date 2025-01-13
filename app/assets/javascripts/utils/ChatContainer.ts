@@ -377,6 +377,7 @@ export default class ChatContainer {
     }
 
     onCancelEndChat(e: Event, toPrint: boolean | undefined): void {
+        this.eventHandler.onCloseChat();
         const ciapiSkinContainer = document.querySelector<HTMLElement>("#ciapiSkinContainer");
         const endChatNonFocusableContainer: NodeListOf<HTMLElement> | undefined = ciapiSkinContainer?.querySelectorAll<HTMLElement>('input, textarea');
         endChatNonFocusableContainer?.forEach(function (element: HTMLElement): void {
