@@ -306,6 +306,7 @@ export default class CommonChatController {
     }
 
     closeChat(): void {
+        this.closeMenu()
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
             if (this.state instanceof ChatStates.EngagedState && this.state.escalated) {
                 this._sendPostChatSurveyWebchat(this.sdk).closePostChatSurvey(automatonWebchat, timestamp);
