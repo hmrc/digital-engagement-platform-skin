@@ -8,6 +8,7 @@ interface nullEventHandlerInterface {
     onMsgClick: () => void,
     onAccessibilityStatement: () => void,
     onCloseChat: () => void,
+    closeMenu: () => void,
     onHideChat: () => void,
     onRestoreChat: () => void,
     onConfirmEndChat: () => void,
@@ -25,6 +26,7 @@ export const nullEventHandler: nullEventHandlerInterface = {
     onMsgClick: function (): void { },
     onAccessibilityStatement: function (): void { },
     onCloseChat: function (): void { },
+    closeMenu: function (): void { },
     onHideChat: function (): void { },
     onRestoreChat: function (): void { },
     onConfirmEndChat: function (): void { },
@@ -262,6 +264,7 @@ export default class ChatContainer {
     }
 
     _processCloseButtonEvent(_: Event): void {
+        this.eventHandler.closeMenu();
         this.closeMethod = "Button";
 
         this.eventHandler.onCloseChat();
@@ -377,6 +380,7 @@ export default class ChatContainer {
     }
 
     onCancelEndChat(e: Event, toPrint: boolean | undefined): void {
+        this.eventHandler.onCloseChat();
         const ciapiSkinContainer = document.querySelector<HTMLElement>("#ciapiSkinContainer");
         const endChatNonFocusableContainer: NodeListOf<HTMLElement> | undefined = ciapiSkinContainer?.querySelectorAll<HTMLElement>('input, textarea');
         endChatNonFocusableContainer?.forEach(function (element: HTMLElement): void {
