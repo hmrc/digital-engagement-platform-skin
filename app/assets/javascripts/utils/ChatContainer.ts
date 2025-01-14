@@ -210,6 +210,14 @@ export default class ChatContainer {
         }
     }
 
+    processTabKeypressEvent(e: KeyboardEvent): void {
+        const tabKey: number = 9;
+        if (e.which == tabKey){
+            this.eventHandler.closeMenu();
+        }
+    }
+
+
     processKeypressEvent(e: KeyboardEvent): void {
         this._resetStopTypingTimeout();
 
@@ -272,9 +280,14 @@ export default class ChatContainer {
 
     _registerKeypressEventListener(selector: string, handler: (e: KeyboardEvent) => void): void {
         const element = this.container.querySelector<HTMLTextAreaElement>(selector);
+        const tabbedElement = this.container.querySelector<HTMLElement>(selector);
         if (element) {
             element.addEventListener("keyup", handler);
             element.addEventListener("keypress", handler);
+        }
+        if (tabbedElement) {
+            tabbedElement.addEventListener("keyup", handler);
+            tabbedElement.addEventListener("keypress", handler);
         }
     }
 
@@ -289,6 +302,10 @@ export default class ChatContainer {
 
         this._registerKeypressEventListener("#custMsg", (e: KeyboardEvent): void => {
             this.processKeypressEvent(e)
+        });
+
+        this._registerKeypressEventListener("#ciapiSkinHideButton", (e: KeyboardEvent): void => {
+            this.processTabKeypressEvent(e)
         });
 
         this._registerEventListener("#ciapiSkinSendButton", (_: Event): void => {
