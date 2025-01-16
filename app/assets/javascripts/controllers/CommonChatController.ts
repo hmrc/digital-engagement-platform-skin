@@ -208,7 +208,7 @@ export default class CommonChatController {
                     existingErrorMessage.remove()
                 }
             }
-            document.getElementById("menuButton")?.focus();
+            document.getElementById("custMsg")?.focus();
         } catch (e: unknown) {
             logger.error("!!!! launchChat got exception: ", e);
         }
