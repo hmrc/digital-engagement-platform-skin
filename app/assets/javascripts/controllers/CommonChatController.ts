@@ -445,6 +445,7 @@ export default class CommonChatController {
                 this.sdk.sendActivityMessage("minimize");
             }
             this.minimised = true;
+            document.getElementById("ciapiSkinRestoreButton")?.focus();
         }
     }
 
