@@ -178,7 +178,18 @@ export default class CommonChatController {
                     "defaultAgentAlias": "HMRC"
                 });
 
-                if(obj.type === 'reactive') {
+                let urlPermittedforAutoEngage = false
+                const url = window.location.href
+
+                if (url.includes('ask-hmrc/chat/payment-problems?payment-plan-chat') || 
+                    url.includes('ask-hmrc/webchat/national-clearance-hub') || 
+                    url.includes('ask-hmrc/webchat/personal-transport-unit-enquiries') || 
+                    url.includes('ask-hmrc/webchat/help-for-users-with-additional-needs')
+                    ){
+                    urlPermittedforAutoEngage = true
+                }
+
+                if(urlPermittedforAutoEngage) {
                     this.sdk.autoEngage('chat started', null ,(resp: { httpStatus: number }) => {
                             logger.debug("++++ ENGAGED ++++ ->", resp);
                             if (resp.httpStatus == 200) {
