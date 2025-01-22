@@ -1,19 +1,9 @@
 'use strict';
 
-import { host } from "../../utils/HostUtils";
 import { messages } from "../../utils/Messages";
 
 export function ContainerHtml(isEscalated: boolean): string {
-    let automatedMessage: string = "";
-    //if (!isEscalated) { automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">${messages.computer}</p>` }
-    
-    let bannerMessage: string = "";
-    if (!isEscalated) {
-        bannerMessage = messages.computer
-        //automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">${messages.computer}</p>`
-    } else {
-        bannerMessage = messages.advisor
-    }
+    let bannerMessage: string = messages.computer;
     let soundButton: string = `<button id="toggleSound" class="govuk-button govuk-button--secondary active" data-module="govuk-button"> Turn notification sound off </button>`;
     if (sessionStorage.getItem("isActive") == "false") { soundButton = `<button id="toggleSound" class="govuk-button govuk-button--secondary inactive" data-module="govuk-button"> Turn notification sound on </button>` }
     return `

@@ -1,6 +1,5 @@
 'use strict';
 
-import { host } from "../../utils/HostUtils";
 import { messages } from "../../utils/Messages";
 
 export function ContainerHtml(isEscalated: boolean): string {
@@ -12,14 +11,7 @@ export function ContainerHtml(isEscalated: boolean): string {
         sizeButton = `<button id='toggleSizeButton' role="button">Decrease chat size</button>`
     }
 
-    let automatedMessage: string = "";
     let bannerMessage: string = messages.computer;
-    // if (!isEscalated) {
-    //     bannerMessage = messages.computer
-    //     //automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">${messages.computer}</p>`
-    // } else {
-    //     bannerMessage = messages.advisor
-    // }
     let soundButton: string = `<button id="toggleSound" class="active"> Turn notification sound off </button>`;
     if (sessionStorage.getItem("isActive") == "false") { soundButton = `<button id="toggleSound" class="inactive"> Turn notification sound on </button>` }
 
