@@ -461,6 +461,7 @@ export default class ChatContainer {
             this.eventHandler.onPrint(e);
         }
         this.closeMethod = null
+        document.getElementById("custMsg")?.focus();
     }
 
     _removeSkinHeadingElements(): void {
