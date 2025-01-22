@@ -2,6 +2,7 @@ import CommonChatController from './controllers/CommonChatController';
 import ProactiveChatController from './controllers/ProactiveChatController';
 import ReactiveChatController from './controllers/ReactiveChatController';
 import { ClickToChatObjectInterface, StateType } from './types';
+import { messages } from "../javascripts/utils/Messages";
 import * as logger from './utils/logger';
 
 let event: { c2c?: any; };
@@ -23,8 +24,14 @@ export const chatListener = {
         logger.debug("Chat any event:", evt);
         window.chatId = evt.chatID;
     },
-    onAgentAssigned: function (evt: { agentID: any }) {
+    onAgentAssigned: function (evt: { agentID: any, agentAlias: string}) {
         logger.debug("### Agent Assigned");
+        let systemMessageBanner: HTMLElement | null = document.getElementById('systemMessageBanner')
+        if(evt.agentAlias !== "hmrcda") {
+            systemMessageBanner!.textContent = messages.advisor
+        } else {
+            systemMessageBanner!.textContent = messages.computer
+        }
         if (!!evt.agentID) {
             sessionStorage.agentId = evt.agentID;
         }

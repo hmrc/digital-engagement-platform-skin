@@ -16,7 +16,6 @@ export default class ClickToChatButton {
         //null checks on buttonDiv and parentElement
         if (buttonDiv) {
             buttonDiv.innerHTML = innerHTML;
-            buttonDiv.classList.add('webchat-only')
         }
 
         if (this.parentElement && buttonDiv) {

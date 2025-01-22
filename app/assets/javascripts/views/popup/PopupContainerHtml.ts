@@ -13,9 +13,13 @@ export function ContainerHtml(isEscalated: boolean): string {
     }
 
     let automatedMessage: string = "";
-    if (!isEscalated) {
-        automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">${messages.computer}</p>`
-    }
+    let bannerMessage: string = messages.computer;
+    // if (!isEscalated) {
+    //     bannerMessage = messages.computer
+    //     //automatedMessage = `<p id="info" class="info govuk-!-display-none-print"><img src="` + host + `/engagement-platform-skin/assets/media/digital-assistant.svg" alt="">${messages.computer}</p>`
+    // } else {
+    //     bannerMessage = messages.advisor
+    // }
     let soundButton: string = `<button id="toggleSound" class="active"> Turn notification sound off </button>`;
     if (sessionStorage.getItem("isActive") == "false") { soundButton = `<button id="toggleSound" class="inactive"> Turn notification sound on </button>` }
 
@@ -51,8 +55,9 @@ export function ContainerHtml(isEscalated: boolean): string {
          </div>
     </div>
     <div id="ciapiChatComponents">
+    <div id="systemMessageBanner">` + bannerMessage + `</div>
         <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript print-overflow-visible" role="region" tabindex="0" aria-label="chat transcript">
-            <div id="skipToBottom"><a id="skipToBottomLink" href="#" class="govuk-skip-link">Skip to bottom of conversation</a></div>` + automatedMessage + `
+            <div id="skipToBottom"><a id="skipToBottomLink" href="#" class="govuk-skip-link">Skip to bottom of conversation</a></div>
         </div>
         <div id="ciapiSkinFooter" class="govuk-!-display-none-print">
             <label class="govuk-label" for="custMsg">Enter a message</label>

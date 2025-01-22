@@ -377,7 +377,8 @@ export default class ChatContainer {
         const styleList: string[] = [
             "ciapiSkinCloseButton",
             "printButton",
-            "toggleSound"
+            "toggleSound",
+            "systemMessageBanner"
         ];
 
         styleList.forEach(function (item: string): void {
@@ -412,7 +413,8 @@ export default class ChatContainer {
         const styleList: string[] = [
             "ciapiSkinCloseButton",
             "printButton",
-            "toggleSound"
+            "toggleSound",
+            "systemMessageBanner"
         ];
 
         styleList.forEach(function (item: string): void {
