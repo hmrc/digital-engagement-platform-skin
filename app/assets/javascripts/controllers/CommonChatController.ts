@@ -442,11 +442,7 @@ export default class CommonChatController {
     }
 
     onCloseChat(): void {
-        const popupChatContainer: HTMLCollectionOf<Element> = document.getElementsByClassName("ci-api-popup");
         this.state.onClickedClose();
-        if (popupChatContainer.length > 0) {
-            this.onMenuClick();
-        }
     }
 
     onHideChat(): void {
