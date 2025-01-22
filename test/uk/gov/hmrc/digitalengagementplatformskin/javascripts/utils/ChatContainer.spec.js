@@ -344,6 +344,7 @@ describe("ChatContainer", () => {
             .mockReturnValueOnce({ setAttribute })
             .mockReturnValueOnce({ setAttribute })
             .mockReturnValueOnce({ setAttribute })
+            .mockReturnValueOnce({ setAttribute })
             .mockReturnValueOnce({ removeAttribute })
             .mockReturnValueOnce({ focus });
 
@@ -382,6 +383,7 @@ describe("ChatContainer", () => {
                 .mockReturnValueOnce({ setAttribute })
                 .mockReturnValueOnce({ setAttribute })
                 .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ setAttribute })
                 .mockReturnValueOnce({ focus });
 
         const documentHtml = setupDocumentforCancelEndChatTests();
@@ -392,7 +394,7 @@ describe("ChatContainer", () => {
         chatContainer.onCancelEndChat();
 
         expect(setAttribute).toBeCalledWith("tabindex", '0');
-        expect(setAttribute).toBeCalledTimes(5);
+        expect(setAttribute).toBeCalledTimes(6);
         expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
         expect(focus).toBeCalledTimes(1);
 
@@ -416,6 +418,7 @@ describe("ChatContainer", () => {
                 .mockReturnValueOnce({ setAttribute })
                 .mockReturnValueOnce({ setAttribute })
                 .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ setAttribute })
                 .mockReturnValueOnce({ setAttribute });
 
         document.querySelectorAll =
@@ -435,7 +438,7 @@ describe("ChatContainer", () => {
         chatContainer.onCancelEndChat();
 
         expect(setAttribute).toBeCalledWith("tabindex", '0');
-        expect(setAttribute).toBeCalledTimes(5);
+        expect(setAttribute).toBeCalledTimes(6);
         expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
         expect(focus).toBeCalledTimes(1);
     });
@@ -451,6 +454,7 @@ describe("ChatContainer", () => {
                 .mockReturnValueOnce({ setAttribute })
                 .mockReturnValueOnce({ setAttribute })
                 .mockReturnValueOnce({ setAttribute })
+                .mockReturnValueOnce({ setAttribute })
                 .mockReturnValueOnce({ focus });
 
         const documentHtml = setupDocumentforCancelEndChatTests();
@@ -461,7 +465,7 @@ describe("ChatContainer", () => {
         chatContainer.onCancelEndChat();
 
         expect(setAttribute).toBeCalledWith("tabindex", '0');
-        expect(setAttribute).toBeCalledTimes(5);
+        expect(setAttribute).toBeCalledTimes(6);
         expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
         expect(focus).toBeCalledTimes(1);
     });

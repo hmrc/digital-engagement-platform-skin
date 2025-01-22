@@ -12,7 +12,6 @@ import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
 import PrintUtils from '../utils/PrintUtils'
 import { messages } from "../utils/Messages";
 import { AutomatonType, Survey, Answers, StateType } from '../types'
-import { sys } from '../../../../node_modules/typescript/lib/typescript'
 
 type ChatStatesType = ChatStates.NullState | ChatStates.EngagedState | ChatStates.ClosingState | ChatStates.ShownState
 interface QuestionCompleted {
