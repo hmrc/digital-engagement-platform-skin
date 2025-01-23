@@ -520,6 +520,7 @@ export default class CommonChatController {
     }
 
     closeMenu(): void {
+        document.getElementById("custMsg")?.focus();
         document.getElementById("menuButton")?.setAttribute("aria-expanded", "false");
         document.getElementById("menuList")?.classList.remove("show");
     }
