@@ -24,14 +24,8 @@ export const chatListener = {
         logger.debug("Chat any event:", evt);
         window.chatId = evt.chatID;
     },
-    onAgentAssigned: function (evt: { agentID: any, agentAlias: string}) {
+    onAgentAssigned: function (evt: { agentID: any, agentAlias: string }) {
         logger.debug("### Agent Assigned");
-        let systemMessageBanner: HTMLElement | null = document.getElementById('systemMessageBanner')
-        if(evt.agentAlias !== "hmrcda") {
-            systemMessageBanner!.textContent = messages.advisor
-        } else {
-            systemMessageBanner!.textContent = messages.computer
-        }
         if (!!evt.agentID) {
             sessionStorage.agentId = evt.agentID;
         }
