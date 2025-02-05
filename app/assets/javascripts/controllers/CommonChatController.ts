@@ -445,9 +445,6 @@ export default class CommonChatController {
     onCloseChat(): void {
         this.state.onClickedClose();
         document.getElementById("systemMessageBanner")!.style.display = 'none'
-        if (popupChatContainer.length > 0) {
-            this.onMenuClick();
-        }
     }
 
     onHideChat(): void {
