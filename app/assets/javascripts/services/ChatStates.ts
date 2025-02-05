@@ -278,7 +278,7 @@ export class EngagedState {
             window.Agent_Name = msg["agent.alias"];
             if (systemMessageBanner) {
                 if (msg["agent.alias"] !== "hmrcda") {
-                    systemMessageBanner.textContent = messages.advisor
+                    systemMessageBanner.textContent = messages.adviser
                 } else {
                     systemMessageBanner.textContent = messages.computer
                 }

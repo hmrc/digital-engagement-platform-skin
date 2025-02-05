@@ -56,6 +56,8 @@ $footer-top-border-height: 3px;
     text-align: left!important;
 }
 
+
+
 @media screen and (max-width: 320px) {
     #print .govuk-button--secondary {
         padding: 0.3em 0em;
@@ -69,10 +71,17 @@ $footer-top-border-height: 3px;
 
 #systemMessageBanner {
     width: 100%;
-    color: white;
-    background-color: #d53880;
+    border-bottom: 1px solid black;
+    color: black;
+    background-color: #cce9ff;
     text-align: center;
     padding: 5px 0;
+}
+
+@media screen and (max-width: 500px) { 
+    #systemMessageBanner {
+        padding: 2px 0;
+    }
 }
 
 
