@@ -1,5 +1,6 @@
 interface messageTypes {
     computer: string,
+    adviser: string,
     outofhours: string
     ready: string
     busy: string
@@ -25,7 +26,8 @@ const adviserReadyAnchorElement = `<a href="#" class="govuk-link" click="event.p
 
 export const messages: messageTypes = {
     //PopupContainerHtml.js / EmbeddedContainerHtml
-    computer: "You are currently chatting with a computer",
+    computer: "You're speaking with a computer",
+    adviser: "You're speaking with an adviser",
     //ReactiveChatController.js
     outofhours: "Webchat is now closed.",
     ready: `Advisers are available to chat. ${adviserReadyAnchorElement}`,

@@ -444,6 +444,7 @@ export default class CommonChatController {
 
     onCloseChat(): void {
         this.state.onClickedClose();
+        document.getElementById("systemMessageBanner")!.style.display = 'none'
     }
 
     onHideChat(): void {

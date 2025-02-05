@@ -23,7 +23,7 @@ export const chatListener = {
         logger.debug("Chat any event:", evt);
         window.chatId = evt.chatID;
     },
-    onAgentAssigned: function (evt: { agentID: any }) {
+    onAgentAssigned: function (evt: { agentID: any, agentAlias: string }) {
         logger.debug("### Agent Assigned");
         if (!!evt.agentID) {
             sessionStorage.agentId = evt.agentID;
