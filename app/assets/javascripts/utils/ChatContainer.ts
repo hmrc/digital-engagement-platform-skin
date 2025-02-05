@@ -431,10 +431,6 @@ export default class ChatContainer {
         ).pop();
 
         if (this.closeMethod === "Button") {
-            const popupChatContainer: HTMLCollectionOf<Element> = document.getElementsByClassName("ci-api-popup");
-            if (popupChatContainer.length > 0) {
-                this.eventHandler.onMenuClick();
-            }
             document.getElementById("ciapiSkinCloseButton")?.focus();
         } else if (this.closeMethod === "Link") {
             const lastFeedbackMessage = Array.from(
@@ -463,6 +459,7 @@ export default class ChatContainer {
             this.eventHandler.onPrint(e);
         }
         this.closeMethod = null
+        document.getElementById("custMsg")?.focus();
     }
 
     _removeSkinHeadingElements(): void {

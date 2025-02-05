@@ -342,6 +342,7 @@ export default class CommonChatController {
 
     onPrint(e: Event): boolean {
         this.closeMenu()
+        document.getElementById("custMsg")?.focus();
         e.preventDefault;
         const printDate: HTMLElement | null = document.getElementById("print-date")
         if (printDate) {
@@ -442,7 +443,6 @@ export default class CommonChatController {
     }
 
     onCloseChat(): void {
-        const popupChatContainer: HTMLCollectionOf<Element> = document.getElementsByClassName("ci-api-popup");
         this.state.onClickedClose();
         document.getElementById("systemMessageBanner")!.style.display = 'none'
         if (popupChatContainer.length > 0) {
@@ -488,6 +488,7 @@ export default class CommonChatController {
     }
 
     onAccessibilityStatement(): void {
+        document.getElementById("custMsg")?.focus();
         this.closeMenu()
         let url: string = new URL(window.location.href).pathname.replaceAll("/", "%2F");
         let env: string = this.envChecker();
@@ -737,6 +738,7 @@ export default class CommonChatController {
         }
         sessionStorage.setItem("isActive", `${!isActive}`);
         this.closeMenu()
+        document.getElementById("custMsg")?.focus();
     }
 
     onSizeToggle(): void {
@@ -756,6 +758,7 @@ export default class CommonChatController {
         }
         sessionStorage.setItem("isStandard", `${!isStandard}`);
         this.closeMenu()
+        document.getElementById("custMsg")?.focus();
     }
 
     onScreenReaderMessageSentNotification(): void {
