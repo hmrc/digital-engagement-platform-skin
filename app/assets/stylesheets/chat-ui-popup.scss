@@ -198,8 +198,6 @@ $page-height: calc(100% - 5px);
 
     div {
         margin-bottom: 0px;
-        @include govuk-text-colour;
-        @include govuk-font($size: 19);
         margin-top: 0px;
     }
 
