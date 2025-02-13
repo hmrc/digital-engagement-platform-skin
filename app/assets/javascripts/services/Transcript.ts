@@ -52,6 +52,9 @@ export default class Transcript {
 
     addSystemMsg(msgObject: { msg?: string; joinTransfer?: string; state?: string }, msgTimestamp?: string): void {
         if (msgObject.msg === undefined) msgObject.msg = "";
+        if (msgObject.msg === "Agent 'hmrcda' exits chat") {
+            msgObject.msg = 'Your chat has ended.'
+        }
         if (msgObject.state === undefined) msgObject.state = "";
         if (msgObject.joinTransfer === undefined) msgObject.joinTransfer = "";
         if (msgTimestamp === undefined) msgTimestamp = '';
