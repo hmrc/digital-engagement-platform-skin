@@ -39,11 +39,44 @@ describe("Transcript", () => {
 
         const transcript = new Transcript(content, messageClasses);
 
-        transcript.addSystemMsg({msg: "System Message"});
+        transcript.addSystemMsg({ msg: "System Message" });
 
         expect(content.appendChild).toBeCalledTimes(1);
         expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
         expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
+    });
+
+
+    it("appends correct system message when passed Agent 'hmrcda' exits chat", () => {
+        const content = {
+            insertAdjacentHTML: jest.fn(),
+            appendChild: jest.fn(),
+            scrollTo: jest.fn(),
+            scrollHeight: 42,
+        };
+
+        const transcript = new Transcript(content, messageClasses);
+        const spyOnappendMessage = jest.spyOn(transcript, "_appendMessage")
+        transcript.addSystemMsg({ msg: "Agent 'hmrcda' exits chat" });
+
+        expect(spyOnappendMessage.mock.calls[0][0] === 'Your chat has ended.').toBe(true)
+        expect(spyOnappendMessage.mock.calls[0][0] !== "Agent 'hmrcda' exits chat").toBe(true)
+    });
+
+    it("appends correct system message when not passed 'hmrcda' exits the chat", () => {
+        const content = {
+            insertAdjacentHTML: jest.fn(),
+            appendChild: jest.fn(),
+            scrollTo: jest.fn(),
+            scrollHeight: 42,
+        };
+
+        const transcript = new Transcript(content, messageClasses);
+        const spyOnappendMessage = jest.spyOn(transcript, "_appendMessage")
+        transcript.addSystemMsg({ msg: "Agent 'Andrew' exits chat" });
+
+        expect(spyOnappendMessage.mock.calls[0][0] === "Agent 'Andrew' exits chat").toBe(true)
+        expect(spyOnappendMessage.mock.calls[0][0] !== 'Your chat has ended.').toBe(true)
     });
 
     it("appends opener scripts", () => {
@@ -183,7 +216,7 @@ describe("Transcript", () => {
         document.body.appendChild(div);
 
         transcript.appendMessageInLiveRegion("Some agent message", "test", "testmsg", this);
-        
+
         expect(document.getElementById("test").innerHTML).toBe("<div class=\"govuk-visually-hidden\">testmsg</div> Some agent message");
     });
 
