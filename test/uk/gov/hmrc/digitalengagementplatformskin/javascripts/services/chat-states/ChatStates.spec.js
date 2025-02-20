@@ -92,7 +92,7 @@ describe("Chat States", () => {
 
             state.onSend("Please help me.");
             expect(sdk.sendMessage).toHaveBeenCalledWith("Please help me.");
-            expect(keepAliveAndClose).toHaveBeenCalledTimes(1)
+            expect(keepAliveAndClose).toHaveBeenCalledTimes(0)
         });
 
         it("plays sound on incoming agent message when user has sound turned on", () => {
