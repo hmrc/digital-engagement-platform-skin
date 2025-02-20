@@ -97,7 +97,7 @@ export class EngagedState {
         logger.info(">>> connected: send message");
         
         // keep alive
-        if (window.location.href.includes('business-account/epaye/statements/2024-25')) {
+        if (window.location.href.includes('personal-account')) {
             this.keepAliveAndClose();
         }   
         this.sdk.sendMessage(text);
@@ -118,7 +118,7 @@ export class EngagedState {
     keepAliveAndClose = () => {
         // cleanup();
         // setupDialogTimer();
-        this.ajaxGet("epaye/keepAlive", () => {});
+        this.ajaxGet("/personal-account/keep-alive", () => {});
         // broadcastSessionActivity();
       };
 
