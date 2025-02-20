@@ -95,32 +95,8 @@ export class EngagedState {
 
     onSend(text: string): void {
         logger.info(">>> connected: send message");
-        
-        // keep alive
-        if (window.location.href.includes('personal-account')) {
-            this.keepAliveAndClose();
-        }   
         this.sdk.sendMessage(text);
-
     }
-
-    ajaxGet(url: any, success: any) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
-        xhr.onreadystatechange = () => {
-          if (xhr.readyState > 3 && xhr.status === 200) success(xhr.responseText);
-        };
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-        xhr.send();
-        return xhr;
-      }
-
-    keepAliveAndClose = () => {
-        // cleanup();
-        // setupDialogTimer();
-        this.ajaxGet("/personal-account/keep-alive", () => {});
-        // broadcastSessionActivity();
-      };
 
     onClickedClose(): void {
         this.closeChat();
