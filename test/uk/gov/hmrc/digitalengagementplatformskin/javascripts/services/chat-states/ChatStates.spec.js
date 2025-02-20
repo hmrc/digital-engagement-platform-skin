@@ -88,9 +88,11 @@ describe("Chat States", () => {
             const [sdk, container] = createEngagedStateDependencies();
 
             const state = new ChatStates.EngagedState(sdk, container, [], jest.fn());
+            const keepAliveAndClose = jest.spyOn(state, 'keepAliveAndClose');
 
             state.onSend("Please help me.");
             expect(sdk.sendMessage).toHaveBeenCalledWith("Please help me.");
+            expect(keepAliveAndClose).toHaveBeenCalledTimes(0)
         });
 
         it("plays sound on incoming agent message when user has sound turned on", () => {
