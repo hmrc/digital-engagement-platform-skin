@@ -97,7 +97,9 @@ export class EngagedState {
         logger.info(">>> connected: send message");
         
         // keep alive
-        this.keepAliveAndClose();
+        if (window.location.href.includes('business-account/epaye/statements/2024-25')) {
+            this.keepAliveAndClose();
+        }   
         this.sdk.sendMessage(text);
 
     }
