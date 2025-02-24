@@ -194,7 +194,8 @@ export default class CommonChatController {
                 if (url.includes('ask-hmrc/chat/payment-problems?payment-plan-chat') ||
                     url.includes('ask-hmrc/webchat/national-clearance-hub') ||
                     url.includes('ask-hmrc/webchat/personal-transport-unit-enquiries') ||
-                    url.includes('ask-hmrc/webchat/help-for-users-with-additional-needs')
+                    url.includes('ask-hmrc/webchat/help-for-users-with-additional-needs') ||
+                    this.isIVRWebchatOnly()
                 ) {
                     urlPermittedforAutoEngage = true
                 }
