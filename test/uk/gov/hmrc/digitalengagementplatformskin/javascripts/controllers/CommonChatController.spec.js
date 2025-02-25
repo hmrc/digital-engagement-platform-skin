@@ -1116,7 +1116,7 @@ describe("CommonChatController", () => {
     expect(commonChatController.isIVRWebchatOnly()).toBe(true)
   });
 
-  it("Tests functionality of isIVRWebchatOnly when class of ivr-webchat does not exist", () => {
+  it("Tests functionality of isIVRWebchatOnly when class of dav4IVRWebchat does not exist", () => {
     document.body.innerHTML = `
     <div></div>
     `
