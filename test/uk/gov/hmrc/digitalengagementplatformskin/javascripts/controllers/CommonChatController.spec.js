@@ -52,7 +52,7 @@ describe("CommonChatController", () => {
 
   let commonChatController
 
-  const event = { preventDefault: () => {} };
+  const event = { preventDefault: () => { } };
 
   afterEach(() => {
     document.getElementsByTagName('html')[0].innerHTML = '';
@@ -70,29 +70,29 @@ describe("CommonChatController", () => {
   });
 
   it("gets the correct sdk", () => {
-  	const sdk = {
-		getOpenerScripts: jest.fn().mockReturnValue(null),
-		chatDisplayed: jest.fn()
-	}
-	commonChatController.sdk = sdk
+    const sdk = {
+      getOpenerScripts: jest.fn().mockReturnValue(null),
+      chatDisplayed: jest.fn()
+    }
+    commonChatController.sdk = sdk
 
-	expect(commonChatController.getSdk()).toBe(sdk)
+    expect(commonChatController.getSdk()).toBe(sdk)
   })
 
   it("launches a reactive chat", () => {
 
 
-    let spy = jest.spyOn(commonChatController, 'updateDav3DeskproRefererUrls').mockImplementation(() => {});
+    let spy = jest.spyOn(commonChatController, 'updateDav3DeskproRefererUrls').mockImplementation(() => { });
     const sdk = {
-        getOpenerScripts: jest.fn().mockReturnValue(null),
-        chatDisplayed: jest.fn()
+      getOpenerScripts: jest.fn().mockReturnValue(null),
+      chatDisplayed: jest.fn()
     }
 
     window.Inq = {
-        SDK: sdk
+      SDK: sdk
     };
 
-    commonChatController._launchChat({state: 'show'});
+    commonChatController._launchChat({ state: 'show' });
 
     expect(sdk.getOpenerScripts).toHaveBeenCalledTimes(1);
     expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1);
@@ -101,19 +101,19 @@ describe("CommonChatController", () => {
   it("launch chat returns undefined given a defined container", () => {
 
 
-    let spy = jest.spyOn(commonChatController, 'updateDav3DeskproRefererUrls').mockImplementation(() => {});
+    let spy = jest.spyOn(commonChatController, 'updateDav3DeskproRefererUrls').mockImplementation(() => { });
     const sdk = {
-        getOpenerScripts: jest.fn().mockReturnValue(null),
-        chatDisplayed: jest.fn()
+      getOpenerScripts: jest.fn().mockReturnValue(null),
+      chatDisplayed: jest.fn()
     }
 
     window.Inq = {
-        SDK: sdk
+      SDK: sdk
     };
 
     commonChatController._showChat();
 
-    expect(commonChatController._launchChat({state: 'show'})).toBe(undefined)
+    expect(commonChatController._launchChat({ state: 'show' })).toBe(undefined)
 
   });
 
@@ -124,23 +124,23 @@ describe("CommonChatController", () => {
     console.log = jest.fn();
 
     const sdk = {
-        getOpenerScripts: jest.fn().mockReturnValue(null),
-        chatDisplayed: jest.fn()
+      getOpenerScripts: jest.fn().mockReturnValue(null),
+      chatDisplayed: jest.fn()
     }
 
     window.Inq = {
-      SDK : sdk
+      SDK: sdk
     }
 
     commonChatController._displayOpenerScripts();
-    commonChatController._launchChat({state: 'show'});
+    commonChatController._launchChat({ state: 'show' });
 
     let firstCallObject = sdk.chatDisplayed.mock.calls[0][0]
 
     firstCallObject.failedCb();
     firstCallObject.reConnectCb();
     firstCallObject.disconnectCb();
-    firstCallObject.previousMessagesCb({messages: ["fake message"]});
+    firstCallObject.previousMessagesCb({ messages: ["fake message"] });
 
     expect(moveToChatEngagedStateMock).toBeCalledWith(["fake message"]);
     expect(console.log).toHaveBeenCalledWith("INFO: %%%%%% disconnected %%%%%%");
@@ -152,42 +152,42 @@ describe("CommonChatController", () => {
     expect(firstCallObject.openerScripts).toBe(null);
   });
 
-it("removes existingErrorMessage", () => {
+  it("removes existingErrorMessage", () => {
 
 
-  document.body.innerHTML += '<div id="error-message"> </div>'
+    document.body.innerHTML += '<div id="error-message"> </div>'
 
-  commonChatController._launchChat({state: 'show'});
+    commonChatController._launchChat({ state: 'show' });
 
-  const existingErrorMessage = document.getElementById("error-message")
+    const existingErrorMessage = document.getElementById("error-message")
 
-  expect(existingErrorMessage).toBe(null)
-});
+    expect(existingErrorMessage).toBe(null)
+  });
 
-it("catches an exception in the launchChat function", () => {
-  console.error = jest.fn();
+  it("catches an exception in the launchChat function", () => {
+    console.error = jest.fn();
 
-  let showChatMock = commonChatController._showChat = jest.fn(() => {throw new Error("test")});
+    let showChatMock = commonChatController._showChat = jest.fn(() => { throw new Error("test") });
 
-  commonChatController._launchChat({state: 'show'});
+    commonChatController._launchChat({ state: 'show' });
 
-  expect(console.error).toBeCalledWith("ERROR: !!!! launchChat got exception: ", new Error("test"))
-});
+    expect(console.error).toBeCalledWith("ERROR: !!!! launchChat got exception: ", new Error("test"))
+  });
 
-it("catches an exception in the showChat function", () => {
-  console.error = jest.fn();
+  it("catches an exception in the showChat function", () => {
+    console.error = jest.fn();
 
-  let chatShownStateMock = commonChatController._moveToChatShownState = jest.fn(() => {throw new Error("test")});
+    let chatShownStateMock = commonChatController._moveToChatShownState = jest.fn(() => { throw new Error("test") });
 
-  commonChatController._showChat();
+    commonChatController._showChat();
 
-  expect(console.error).toBeCalledWith("ERROR: !!!! _showChat got exception: ", new Error("test"))
-});
+    expect(console.error).toBeCalledWith("ERROR: !!!! _showChat got exception: ", new Error("test"))
+  });
 
   it("updateDav3DeskproRefererUrls will get the three deskpro URLs url,", () => {
 
     var html =
-    `<a class="hmrc-report-technical-issue"
+      `<a class="hmrc-report-technical-issue"
       href="https://testURL;service=digital-engagement-platform-frontend&amp;referrerUrl=https%3A%2F%2FtestURL">
       Is this page not working properly? (opens in new tab)
     </a>
@@ -276,18 +276,18 @@ it("catches an exception in the showChat function", () => {
 
     let confirmEndChatSpy = jest.fn()
     commonChatController.container = {
-      confirmEndChat : confirmEndChatSpy
+      confirmEndChat: confirmEndChatSpy
     }
 
     let chatStatesSpy = jest.spyOn(ChatStates, 'EngagedState').mockImplementation();
 
-      window.Inq = {
-          SDK: {
+    window.Inq = {
+      SDK: {
         getMessages: jest.fn().mockReturnValue("messages"),
       }
-      };
+    };
 
-      commonChatController._moveToChatEngagedState();
+    commonChatController._moveToChatEngagedState();
 
     let engagedChatStateCloseChatFunctionArgumentIndex = 3
     chatStatesSpy.mock.calls[0][engagedChatStateCloseChatFunctionArgumentIndex]()
@@ -297,106 +297,106 @@ it("catches an exception in the showChat function", () => {
   })
 
   it("closeChat is called when the post survey chat wrapper is open with escalation and no embedded div", () => {
-  	var html = `
+    var html = `
 		<div id="postChatSurveyWrapper">
 			<p>Fake post chat survey</p>
 		</div>
 	  `;
 
-		const sdk = {
-			getMessages: jest.fn()
-		};
-		const container = {
-			destroy: jest.fn()
-		};
-		const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
-		const fakeSurvey = new PostChatSurveyWebchatService(sdk);
+    const sdk = {
+      getMessages: jest.fn()
+    };
+    const container = {
+      destroy: jest.fn()
+    };
+    const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
+    const fakeSurvey = new PostChatSurveyWebchatService(sdk);
 
-		state.escalated = true;
-		commonChatController.state = state
-		commonChatController.container = container
-		document.body.innerHTML = html;
-		var surveySpy = jest.spyOn(commonChatController, "_sendPostChatSurveyWebchat").mockImplementation(() => fakeSurvey)
-		var closeSpy = jest.spyOn(fakeSurvey, "closePostChatSurvey").mockImplementation()
-		var nullSpy = jest.spyOn(commonChatController, "_moveToChatNullState").mockImplementation()
-		var destroySpy = jest.spyOn(container, "destroy")
+    state.escalated = true;
+    commonChatController.state = state
+    commonChatController.container = container
+    document.body.innerHTML = html;
+    var surveySpy = jest.spyOn(commonChatController, "_sendPostChatSurveyWebchat").mockImplementation(() => fakeSurvey)
+    var closeSpy = jest.spyOn(fakeSurvey, "closePostChatSurvey").mockImplementation()
+    var nullSpy = jest.spyOn(commonChatController, "_moveToChatNullState").mockImplementation()
+    var destroySpy = jest.spyOn(container, "destroy")
     var showEndChatSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation()
-		commonChatController.closeChat()
+    commonChatController.closeChat()
 
-		expect(surveySpy).toBeCalledTimes(1);
-		expect(closeSpy).toBeCalledTimes(1);
-		expect(nullSpy).toBeCalledTimes(0);
-		expect(destroySpy).toBeCalledTimes(0);
+    expect(surveySpy).toBeCalledTimes(1);
+    expect(closeSpy).toBeCalledTimes(1);
+    expect(nullSpy).toBeCalledTimes(0);
+    expect(destroySpy).toBeCalledTimes(0);
     expect(showEndChatSpy).toBeCalledTimes(1);
-		expect(commonChatController.container).not.toBe(null);
+    expect(commonChatController.container).not.toBe(null);
   })
 
-	it("closeChat is called when the post survey chat wrapper is open without escalation or an embedded div", () => {
-		var html = `
+  it("closeChat is called when the post survey chat wrapper is open without escalation or an embedded div", () => {
+    var html = `
 		<div id="postChatSurveyWrapper">
 			<p>Fake post chat survey</p>
 		</div>
 	  `;
 
-		const sdk = {
-			getMessages: jest.fn()
-		};
-		const container = {
-			destroy: jest.fn()
-		};
-		const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
-		const fakeSurvey = new PostChatSurveyDigitalAssistantService(sdk);
+    const sdk = {
+      getMessages: jest.fn()
+    };
+    const container = {
+      destroy: jest.fn()
+    };
+    const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
+    const fakeSurvey = new PostChatSurveyDigitalAssistantService(sdk);
 
-		commonChatController.state = state
-		commonChatController.container = container
-		document.body.innerHTML = html;
-		var surveySpy = jest.spyOn(commonChatController, "_sendPostChatSurveyDigitalAssistant").mockImplementation(() => fakeSurvey)
-		var closeSpy = jest.spyOn(fakeSurvey, "closePostChatSurvey").mockImplementation()
-		var nullSpy = jest.spyOn(commonChatController, "_moveToChatNullState").mockImplementation()
-		var destroySpy = jest.spyOn(container, "destroy")
+    commonChatController.state = state
+    commonChatController.container = container
+    document.body.innerHTML = html;
+    var surveySpy = jest.spyOn(commonChatController, "_sendPostChatSurveyDigitalAssistant").mockImplementation(() => fakeSurvey)
+    var closeSpy = jest.spyOn(fakeSurvey, "closePostChatSurvey").mockImplementation()
+    var nullSpy = jest.spyOn(commonChatController, "_moveToChatNullState").mockImplementation()
+    var destroySpy = jest.spyOn(container, "destroy")
     var showEndChatSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation()
-		commonChatController.closeChat()
+    commonChatController.closeChat()
 
-		expect(surveySpy).toBeCalledTimes(1);
-		expect(closeSpy).toBeCalledTimes(1);
-		expect(nullSpy).toBeCalledTimes(0);
-		expect(destroySpy).toBeCalledTimes(0);
+    expect(surveySpy).toBeCalledTimes(1);
+    expect(closeSpy).toBeCalledTimes(1);
+    expect(nullSpy).toBeCalledTimes(0);
+    expect(destroySpy).toBeCalledTimes(0);
     expect(showEndChatSpy).toBeCalledTimes(1);
-		expect(commonChatController.container).not.toBe(null);
-	})
+    expect(commonChatController.container).not.toBe(null);
+  })
 
-	it("closeChat is called when the post survey chat wrapper is not open but with an embedded nuance div", () => {
-		var html = `
+  it("closeChat is called when the post survey chat wrapper is not open but with an embedded nuance div", () => {
+    var html = `
 		<div id="nuanMessagingFrame">
 			<p>Fake nuance message frame</p>
 		</div>
 	  `;
 
-		const sdk = {
-			getMessages: jest.fn()
-		};
-		const container = {
-			destroy: jest.fn()
-		};
-		const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
-		const fakeSurvey = new PostChatSurveyDigitalAssistantService(sdk);
+    const sdk = {
+      getMessages: jest.fn()
+    };
+    const container = {
+      destroy: jest.fn()
+    };
+    const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
+    const fakeSurvey = new PostChatSurveyDigitalAssistantService(sdk);
 
-		commonChatController.state = state
-		commonChatController.container = container
-		document.body.innerHTML = html;
-		var surveyDigitalSpy = jest.spyOn(commonChatController, "_sendPostChatSurveyDigitalAssistant")
-		var surveyWebchatSpy = jest.spyOn(commonChatController, "_sendPostChatSurveyWebchat")
-		var nullSpy = jest.spyOn(commonChatController, "_moveToChatNullState").mockImplementation()
-		var destroySpy = jest.spyOn(container, "destroy")
-		var endPageSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation()
-		commonChatController.closeChat()
+    commonChatController.state = state
+    commonChatController.container = container
+    document.body.innerHTML = html;
+    var surveyDigitalSpy = jest.spyOn(commonChatController, "_sendPostChatSurveyDigitalAssistant")
+    var surveyWebchatSpy = jest.spyOn(commonChatController, "_sendPostChatSurveyWebchat")
+    var nullSpy = jest.spyOn(commonChatController, "_moveToChatNullState").mockImplementation()
+    var destroySpy = jest.spyOn(container, "destroy")
+    var endPageSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation()
+    commonChatController.closeChat()
 
-		expect(surveyDigitalSpy).toBeCalledTimes(0);
-		expect(surveyWebchatSpy).toBeCalledTimes(0);
-		expect(nullSpy).toBeCalledTimes(0);
-		expect(endPageSpy).toBeCalledTimes(1);
-		expect(destroySpy).toBeCalledTimes(0);
-	})
+    expect(surveyDigitalSpy).toBeCalledTimes(0);
+    expect(surveyWebchatSpy).toBeCalledTimes(0);
+    expect(nullSpy).toBeCalledTimes(0);
+    expect(endPageSpy).toBeCalledTimes(1);
+    expect(destroySpy).toBeCalledTimes(0);
+  })
 
   it("getRadioValue returns an empty string if given radiogroup is not found", () => {
     var html = `
@@ -550,13 +550,13 @@ it("catches an exception in the showChat function", () => {
     const mockChatEnded = document.getElementById('heading_chat_ended');
     const mockContainer = {
       _removeSkinHeadingElements: jest.fn(),
-      showPage:jest.fn()
+      showPage: jest.fn()
     }
 
     commonChatController.container = mockContainer;
     commonChatController.closeNuanceChat = jest.fn();
 
-    
+
 
     let removeSkinHeadingElementsSpy = jest.spyOn(commonChatController.container, '_removeSkinHeadingElements');
     let showPageSpy = jest.spyOn(commonChatController.container, 'showPage');
@@ -566,7 +566,7 @@ it("catches an exception in the showChat function", () => {
 
     const sdk = {
       _removeSkinHeadingElements: jest.fn(),
-      showPage:jest.fn()
+      showPage: jest.fn()
     };
 
     window.Inq = {
@@ -645,8 +645,8 @@ it("catches an exception in the showChat function", () => {
     var closeNuanceSpy = jest.spyOn(commonChatController, "closeNuanceChat").mockImplementation();
     var closingStateSpy = jest.spyOn(commonChatController, "_moveToClosingState").mockImplementation();
     var showEndChatPageSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation();
-    
-    const sdk = {getMessages: jest.fn()};
+
+    const sdk = { getMessages: jest.fn() };
     const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
 
     commonChatController.state = state;
@@ -669,14 +669,14 @@ it("catches an exception in the showChat function", () => {
     var showEndChatPageSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation();
     var showPageMock = jest.fn();
 
-    const sdk = {getMessages: jest.fn()};
+    const sdk = { getMessages: jest.fn() };
     const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
     const fakeSurvey = new PostChatSurveyWebchatService(sdk);
-    const container = {showPage: showPageMock};
+    const container = { showPage: showPageMock };
 
     var sendWebchatSurveySpy = jest.spyOn(commonChatController, "_sendPostChatSurveyWebchat").mockImplementation(() => fakeSurvey);
     var beginWebchatSurveySpy = jest.spyOn(fakeSurvey, "beginPostChatSurvey").mockImplementation();
-  
+
     state.escalated = true;
 
     commonChatController.container = container;
@@ -701,14 +701,14 @@ it("catches an exception in the showChat function", () => {
     var showEndChatPageSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation();
     var showPageMock = jest.fn();
 
-    const sdk = {getMessages: jest.fn()};
+    const sdk = { getMessages: jest.fn() };
     const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
     const fakeSurvey = new PostChatSurveyDigitalAssistantService(sdk);
-    const container = {showPage: showPageMock};
+    const container = { showPage: showPageMock };
 
     var sendAssistantSurveySpy = jest.spyOn(commonChatController, "_sendPostChatSurveyDigitalAssistant").mockImplementation(() => fakeSurvey);
     var beginAssistantSurveySpy = jest.spyOn(fakeSurvey, "beginPostChatSurvey").mockImplementation();
-  
+
     state.escalated = false;
 
     commonChatController.container = container;
@@ -732,17 +732,17 @@ it("catches an exception in the showChat function", () => {
     var showEndChatPageSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation();
     var detachMock = jest.fn();
 
-    commonChatController.getRadioId = jest.fn(() => "radioId"); 
+    commonChatController.getRadioId = jest.fn(() => "radioId");
     commonChatController.getRadioValue = jest.fn(() => "radioValue");
     commonChatController.getTextAreaValue = jest.fn(() => "textAreaValue");
 
-    const sdk = {getMessages: jest.fn()};
+    const sdk = { getMessages: jest.fn() };
     const fakeSurvey = new PostChatSurveyWebchatService(sdk);
-    const mockSurveyPage = {detach: detachMock};
+    const mockSurveyPage = { detach: detachMock };
 
     var sendWebchatSurveySpy = jest.spyOn(commonChatController, "_sendPostChatSurveyWebchat").mockImplementation(() => fakeSurvey);
     var submitDigitalAssistantSurveySpy = jest.spyOn(fakeSurvey, "submitPostChatSurvey").mockImplementation();
-     
+
     commonChatController.onPostChatSurveyWebchatSubmitted(mockSurveyPage);
 
     expect(sendWebchatSurveySpy).toBeCalledTimes(1);
@@ -759,19 +759,19 @@ it("catches an exception in the showChat function", () => {
     var showEndChatPageSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation();
     var detachMock = jest.fn();
 
-    commonChatController.getRadioId = jest.fn(() => "radioId"); 
+    commonChatController.getRadioId = jest.fn(() => "radioId");
     commonChatController.getRadioValue = jest.fn(() => "radioValue");
     commonChatController.getTextAreaValue = jest.fn(() => "textAreaValue");
 
-    const sdk = {getMessages: jest.fn()};
+    const sdk = { getMessages: jest.fn() };
     const fakeSurvey = new PostChatSurveyWebchatService(sdk);
-    const mockSurveyPage = {detach: detachMock};
+    const mockSurveyPage = { detach: detachMock };
 
     var sendDigitalAssistantSurveySpy = jest.spyOn(commonChatController, "_sendPostChatSurveyDigitalAssistant").mockImplementation(() => fakeSurvey);
     var submitWebchatSurveySpy = jest.spyOn(fakeSurvey, "submitPostChatSurvey").mockImplementation();
-     
+
     commonChatController.onPostChatSurveyDigitalAssistantSubmitted(mockSurveyPage);
-    
+
     expect(sendDigitalAssistantSurveySpy).toBeCalledTimes(1);
     expect(submitWebchatSurveySpy).toBeCalledTimes(1);
     expect(showEndChatPageSpy).toBeCalledTimes(1);
@@ -862,17 +862,17 @@ it("catches an exception in the showChat function", () => {
     expect(spy).toBeCalledTimes(1);
   });
 
-//  it("onCloseChat calls onClickedClose", () => {
-//    const sdk = {
-//      getMessages: jest.fn()
-//    };
-//    const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
-//    commonChatController.state = state;
-//    const spy = jest.spyOn(state, 'onClickedClose');
-//
-//    commonChatController.onCloseChat();
-//    expect(spy).toBeCalledTimes(1);
-//  });
+  //  it("onCloseChat calls onClickedClose", () => {
+  //    const sdk = {
+  //      getMessages: jest.fn()
+  //    };
+  //    const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
+  //    commonChatController.state = state;
+  //    const spy = jest.spyOn(state, 'onClickedClose');
+  //
+  //    commonChatController.onCloseChat();
+  //    expect(spy).toBeCalledTimes(1);
+  //  });
 
   it("_displayOpenerScripts retrieves the opener scripts and adds them to the transcript", () => {
     const [sdk, container] = createDisplayOpenerScriptsDependencies();
@@ -925,16 +925,16 @@ it("catches an exception in the showChat function", () => {
   });
 
   it("_engageChat engages the chat correctly", () => {
-  	var engageChatMock = jest.fn();
-  	const sdk = {
-		getOpenerScripts: jest.fn().mockReturnValue(null),
-		chatDisplayed: jest.fn(),
-		engageChat: engageChatMock
-	}
-	commonChatController.sdk = sdk;
+    var engageChatMock = jest.fn();
+    const sdk = {
+      getOpenerScripts: jest.fn().mockReturnValue(null),
+      chatDisplayed: jest.fn(),
+      engageChat: engageChatMock
+    }
+    commonChatController.sdk = sdk;
 
-  	commonChatController._engageChat("text");
-  	expect(engageChatMock).toBeCalledTimes(1);
+    commonChatController._engageChat("text");
+    expect(engageChatMock).toBeCalledTimes(1);
   })
 
   it("removeElementsForPrint should remove elements", () => {
@@ -986,7 +986,7 @@ it("catches an exception in the showChat function", () => {
 
   it("onPrint should remove elements on popup", () => {
 
-      var html = `
+    var html = `
         <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
             <div class="govuk-grid-row govuk-body">
                 <div class="govuk-grid-column-two-thirds"></div>
@@ -997,19 +997,19 @@ it("catches an exception in the showChat function", () => {
         <p id="print-date" class="govuk-body print-only"></p>
         </div>
       `;
-      document.body.innerHTML = html;
-      const evt = { preventDefault: jest.fn() }
+    document.body.innerHTML = html;
+    const evt = { preventDefault: jest.fn() }
 
-      expect(document.querySelector("div.govuk-grid-row").classList.contains("govuk-!-display-none-print")).toBe(false);
-      expect(document.querySelector("div.govuk-grid-column-two-thirds").classList.contains("govuk-!-display-none-print")).toBe(false);
-      expect(document.querySelector("main.govuk-main-wrapper").classList.contains("govuk-!-display-none-print")).toBe(false);
+    expect(document.querySelector("div.govuk-grid-row").classList.contains("govuk-!-display-none-print")).toBe(false);
+    expect(document.querySelector("div.govuk-grid-column-two-thirds").classList.contains("govuk-!-display-none-print")).toBe(false);
+    expect(document.querySelector("main.govuk-main-wrapper").classList.contains("govuk-!-display-none-print")).toBe(false);
 
-      commonChatController.onPrint(evt);
+    commonChatController.onPrint(evt);
 
-      expect(document.querySelector("div.govuk-grid-row").classList.contains("govuk-!-display-none-print")).toBe(true);
-      expect(document.querySelector("div.govuk-grid-column-two-thirds").classList.contains("govuk-!-display-none-print")).toBe(true);
-      expect(document.querySelector("main.govuk-main-wrapper").classList.contains("govuk-!-display-none-print")).toBe(true);
-    });
+    expect(document.querySelector("div.govuk-grid-row").classList.contains("govuk-!-display-none-print")).toBe(true);
+    expect(document.querySelector("div.govuk-grid-column-two-thirds").classList.contains("govuk-!-display-none-print")).toBe(true);
+    expect(document.querySelector("main.govuk-main-wrapper").classList.contains("govuk-!-display-none-print")).toBe(true);
+  });
 
   it("onPrint returns a print window", () => {
 
@@ -1107,5 +1107,19 @@ it("catches an exception in the showChat function", () => {
 
     expect(document.getElementById("custMsg")).not.toContain("Testing 123");
     expect(sdk.sendMessage).toHaveBeenCalledTimes(1);
+  });
+
+  it("Tests functionality of isIVRWebchatOnly when class of dav4IVRWebchat exists", () => {
+    document.body.innerHTML = `
+    <div class="dav4IVRWebchat"></div>
+    `
+    expect(commonChatController.isIVRWebchatOnly()).toBe(true)
+  });
+
+  it("Tests functionality of isIVRWebchatOnly when class of ivr-webchat does not exist", () => {
+    document.body.innerHTML = `
+    <div></div>
+    `
+    expect(commonChatController.isIVRWebchatOnly()).toBe(false)
   });
 });
