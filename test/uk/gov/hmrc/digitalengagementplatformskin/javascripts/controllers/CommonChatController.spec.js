@@ -1122,4 +1122,41 @@ describe("CommonChatController", () => {
     `
     expect(commonChatController.isIVRWebchatOnly()).toBe(false)
   });
+
+  it("Tests functionality of _launchChat when state is missed but it is not an IVR webchat", () => {
+    const sdk = {
+      getOpenerScripts: jest.fn().mockReturnValue(null),
+      chatDisplayed: jest.fn()
+    }
+
+    window.Inq = {
+      SDK: sdk
+    };
+
+    document.body.innerHTML = `
+    <div id="ciapiSkinFooter" class="govuk-!-display-none-print">
+      <label class="govuk-label" for="custMsg">Enter a message</label>
+      <div id="ciapiInput">
+      <textarea
+          id="custMsg"
+          class="govuk-textarea"
+          role="textbox"
+          aria-label="Enter a message "s
+          placeholder=""
+          rows="5"
+          cols="50"
+          name="comments"></textarea></div>
+      <div id="ciapiSend">
+          <button id="ciapiSkinSendButton" disabled aria-disabled="true" class="govuk-button" data-module="govuk-button">Send message</button>
+          <div id="sentMessageNotification" aria-live="polite" class="govuk-visually-hidden"></div>
+      </div>
+    </div>`
+
+    let showChatSpy = jest.spyOn(commonChatController, '_showChat');
+    commonChatController._launchChat({ state: 'missed' });
+    let ciapiSkinFooter = document.getElementById('ciapiSkinFooter')
+
+    expect(showChatSpy).toBeCalledTimes(1);
+    expect(ciapiSkinFooter.style.display).toBe('none')
+  });
 });
