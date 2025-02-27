@@ -862,20 +862,20 @@ describe("CommonChatController", () => {
     expect(spy).toBeCalledTimes(1);
   });
 
-    it("onCloseChat calls onClickedClose", () => {
-      const sdk = {
-        getMessages: jest.fn()
-      };
+  it("onCloseChat calls onClickedClose", () => {
+    const sdk = {
+      getMessages: jest.fn()
+    };
 
-      document.body.innerHTML = `<div id="systemMessageBanner"></div>`
+    document.body.innerHTML = `<div id="systemMessageBanner"></div>`
 
-      const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
-      commonChatController.state = state;
-      const spy = jest.spyOn(state, 'onClickedClose');
+    const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
+    commonChatController.state = state;
+    const spy = jest.spyOn(state, 'onClickedClose');
 
-      commonChatController.onCloseChat();
-      expect(spy).toBeCalledTimes(1);
-    });
+    commonChatController.onCloseChat();
+    expect(spy).toBeCalledTimes(1);
+  });
 
   it("_displayOpenerScripts retrieves the opener scripts and adds them to the transcript", () => {
     const [sdk, container] = createDisplayOpenerScriptsDependencies();
@@ -1140,18 +1140,20 @@ describe("CommonChatController", () => {
     <div id="ciapiSkinFooter" class="govuk-!-display-none-print">
       <label class="govuk-label" for="custMsg">Enter a message</label>
       <div id="ciapiInput">
-      <textarea
+        <textarea
           id="custMsg"
           class="govuk-textarea"
           role="textbox"
-          aria-label="Enter a message "s
+          aria-label="Enter a message "
           placeholder=""
           rows="5"
           cols="50"
-          name="comments"></textarea></div>
+          name="comments">
+        </textarea>
+      </div>
       <div id="ciapiSend">
-          <button id="ciapiSkinSendButton" disabled aria-disabled="true" class="govuk-button" data-module="govuk-button">Send message</button>
-          <div id="sentMessageNotification" aria-live="polite" class="govuk-visually-hidden"></div>
+        <button id="ciapiSkinSendButton" disabled aria-disabled="true" class="govuk-button" data-module="govuk-button">Send message</button>
+        <div id="sentMessageNotification" aria-live="polite" class="govuk-visually-hidden"></div>
       </div>
     </div>`
 
