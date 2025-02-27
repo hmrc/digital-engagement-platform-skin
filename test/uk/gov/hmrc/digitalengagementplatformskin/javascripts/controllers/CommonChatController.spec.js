@@ -1152,11 +1152,62 @@ describe("CommonChatController", () => {
       </div>
     </div>`
 
-    let showChatSpy = jest.spyOn(commonChatController, '_showChat');
+    const isIVRWebchatOnlySpy = jest.spyOn(commonChatController, 'isIVRWebchatOnly')
+    const showChatSpy = jest.spyOn(commonChatController, '_showChat');
     commonChatController._launchChat({ state: 'missed' });
-    let ciapiSkinFooter = document.getElementById('ciapiSkinFooter')
+    const ciapiSkinFooter = document.getElementById('ciapiSkinFooter')
 
+    expect(isIVRWebchatOnlySpy).toBeCalled()
+    expect(isIVRWebchatOnlySpy).toHaveReturnedWith(false)
     expect(showChatSpy).toBeCalledTimes(1);
     expect(ciapiSkinFooter.style.display).toBe('none')
   });
+
+  it("Tests functionality of _launchChat when state is missed and it is an IVR webchat", () => {
+    const sdk = {
+      getOpenerScripts: jest.fn().mockReturnValue(null),
+      chatDisplayed: jest.fn(),
+    }
+
+    window.Inq = {
+      SDK: sdk
+    };
+
+    document.body.innerHTML = `<div class="dav4IVRWebchat"></div>`
+
+    const isIVRWebchatOnlySpy = jest.spyOn(commonChatController, 'isIVRWebchatOnly')
+    const showChatSpy = jest.spyOn(commonChatController, '_showChat');
+    const launchChat = commonChatController._launchChat({ state: 'missed' });
+
+    expect(isIVRWebchatOnlySpy).toBeCalled()
+    expect(isIVRWebchatOnlySpy).toHaveReturnedWith(true)
+    expect(showChatSpy).toBeCalledTimes(0);
+    expect(launchChat).toBeUndefined()
+  });
+
+  it("Tests functionality of _launchChat when state is show and it is an IVR webchat", () => {
+    const sdk = {
+      getOpenerScripts: jest.fn().mockReturnValue(null),
+      chatDisplayed: jest.fn(),
+      autoEngage: jest.fn()
+    }
+
+    window.Inq = {
+      SDK: sdk
+    };
+
+    document.body.innerHTML = `<div class="dav4IVRWebchat"></div>`
+
+    const isIVRWebchatOnlySpy = jest.spyOn(commonChatController, 'isIVRWebchatOnly')
+    const showChatSpy = jest.spyOn(commonChatController, '_showChat');
+    const showDisplayOpenerScripts = jest.spyOn(commonChatController, '_displayOpenerScripts')
+    commonChatController._launchChat({ state: 'show' });
+
+    expect(isIVRWebchatOnlySpy).toBeCalled()
+    expect(isIVRWebchatOnlySpy).toHaveReturnedWith(true)
+    expect(showChatSpy).toBeCalledTimes(1);
+    expect(showDisplayOpenerScripts).toBeCalledTimes(1)
+    expect(sdk.autoEngage).toHaveBeenCalledTimes(1)
+  });
+
 });

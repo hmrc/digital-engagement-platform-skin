@@ -146,7 +146,7 @@ export default class CommonChatController {
     }
 
     isIVRWebchatOnly(): boolean {
-        let ivrWebchatElement: HTMLCollectionOf<Element> = document.getElementsByClassName("dav4IVRWebchat");
+        const ivrWebchatElement: HTMLCollectionOf<Element> = document.getElementsByClassName("dav4IVRWebchat");
         return ivrWebchatElement.length > 0
     }
 
