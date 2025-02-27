@@ -175,8 +175,8 @@ export default class CommonChatController {
                 }
 
             } else {
-                this._displayOpenerScripts();
                 this._showChat();
+                this._displayOpenerScripts();
 
                 this.sdk.chatDisplayed({
                     "customerName": "You",
