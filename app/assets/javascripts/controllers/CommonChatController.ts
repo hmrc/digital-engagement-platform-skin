@@ -145,6 +145,11 @@ export default class CommonChatController {
         return this.sdk
     }
 
+    isIVRWebchatOnly(): boolean {
+        const ivrWebchatElement: HTMLCollectionOf<Element> = document.getElementsByClassName("dav4IVRWebchat");
+        return ivrWebchatElement.length > 0
+    }
+
     _launchChat(obj: { type: string; state?: StateType }): void {
         if (this.container) {
             return;
@@ -156,16 +161,21 @@ export default class CommonChatController {
             }
 
             this.type = obj.type
-            this._showChat();
             if (obj.state === 'missed') {
-                let msg: string = messages.unavilable
-                this.container.getTranscript().addSystemMsg({ msg: msg }, Date.now());
-                let ciapiSkinFooter: HTMLElement | null = document.getElementById('ciapiSkinFooter')
-                if (ciapiSkinFooter) {
-                    ciapiSkinFooter.style.display = 'none'
+                if (this.isIVRWebchatOnly()) {
+                    return
+                } else {
+                    this._showChat();
+                    let msg: string = messages.unavilable
+                    this.container.getTranscript().addSystemMsg({ msg: msg }, Date.now());
+                    let ciapiSkinFooter: HTMLElement | null = document.getElementById('ciapiSkinFooter')
+                    if (ciapiSkinFooter) {
+                        ciapiSkinFooter.style.display = 'none'
+                    }
                 }
 
             } else {
+                this._showChat();
                 this._displayOpenerScripts();
 
                 this.sdk.chatDisplayed({
@@ -181,27 +191,28 @@ export default class CommonChatController {
                 let urlPermittedforAutoEngage = false
                 const url = window.location.href
 
-                if (url.includes('ask-hmrc/chat/payment-problems?payment-plan-chat') || 
-                    url.includes('ask-hmrc/webchat/national-clearance-hub') || 
-                    url.includes('ask-hmrc/webchat/personal-transport-unit-enquiries') || 
-                    url.includes('ask-hmrc/webchat/help-for-users-with-additional-needs')
-                    ){
+                if (url.includes('ask-hmrc/chat/payment-problems?payment-plan-chat') ||
+                    url.includes('ask-hmrc/webchat/national-clearance-hub') ||
+                    url.includes('ask-hmrc/webchat/personal-transport-unit-enquiries') ||
+                    url.includes('ask-hmrc/webchat/help-for-users-with-additional-needs') ||
+                    this.isIVRWebchatOnly()
+                ) {
                     urlPermittedforAutoEngage = true
                 }
 
-                if(urlPermittedforAutoEngage) {
-                    this.sdk.autoEngage('chat started', null ,(resp: { httpStatus: number }) => {
-                            logger.debug("++++ ENGAGED ++++ ->", resp);
-                            if (resp.httpStatus == 200) {
-                                this._moveToChatEngagedState();
-                            } else {
-                                let msg: string = messages.unavilable
-                                this.container.getTranscript().addSystemMsg({ msg: msg }, Date.now());
-                                let ciapiSkinFooter: HTMLElement | null = document.getElementById('ciapiSkinFooter')
-                                if (ciapiSkinFooter) {
-                                    ciapiSkinFooter.style.display = 'none'
-                                }
+                if (urlPermittedforAutoEngage) {
+                    this.sdk.autoEngage('chat started', null, (resp: { httpStatus: number }) => {
+                        logger.debug("++++ ENGAGED ++++ ->", resp);
+                        if (resp.httpStatus == 200) {
+                            this._moveToChatEngagedState();
+                        } else {
+                            let msg: string = messages.unavilable
+                            this.container.getTranscript().addSystemMsg({ msg: msg }, Date.now());
+                            let ciapiSkinFooter: HTMLElement | null = document.getElementById('ciapiSkinFooter')
+                            if (ciapiSkinFooter) {
+                                ciapiSkinFooter.style.display = 'none'
                             }
+                        }
                     })
                 }
 
@@ -270,7 +281,7 @@ export default class CommonChatController {
                 this.container.getTranscript().addOpenerScript(openerScript);
             }
         });
-        
+
     }
 
     _moveToChatEngagedState(previousMessages: any = []): void {
@@ -496,9 +507,9 @@ export default class CommonChatController {
         let env: string;
         let url: string = window.location.href;
 
-        if(url.includes('qa') || (url.includes('localhost'))){
+        if (url.includes('qa') || (url.includes('localhost'))) {
             env = 'qa.'
-        } else if (url.includes('staging')){
+        } else if (url.includes('staging')) {
             env = 'staging.'
         } else {
             env = ''
