@@ -274,9 +274,11 @@ export class EngagedState {
 
         // the agent.alias property will only exist on an agent message, and not on a customer message
         let systemMessageBanner: HTMLElement | null = document.getElementById('systemMessageBanner')
-        if (msg && msg["agent.alias"]) {
-            window.Agent_Name = msg["agent.alias"];
-            if (systemMessageBanner) {
+        if (systemMessageBanner) {
+            if (Number(msg.queueDepth) > 0) {
+                systemMessageBanner.textContent = messages.queue
+            } else if (msg && msg["agent.alias"]) {
+                window.Agent_Name = msg["agent.alias"];
                 if (msg["agent.alias"] !== "hmrcda") {
                     systemMessageBanner.textContent = messages.adviser
                 } else {
