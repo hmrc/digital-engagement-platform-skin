@@ -40,24 +40,41 @@ export default class ClickToChatButtons {
     }
 
     _updateButton(c2cObj: ClickToChatObjectInterface, button: ClickToChatButton, isAnchored: boolean): void {
-        const buttonText: string = this._getDisplayStateText(c2cObj.displayState);
+        const divText: string = this._getDisplayStateText(c2cObj.displayState);
         let innerHTML: string = ``
+        let headingElement: string = ''
+        let buttonElement: string = ''
+
+        if (c2cObj.displayState === 'busy') {
+            headingElement = `<h2 class="govuk-heading-m">Advisers are busy</h2>`
+            buttonElement = `<button disabled aria-disabled="true" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">Speak to an adviser</button>`
+
+        } else if (c2cObj.displayState === 'ready') {
+            headingElement = `<h2 class="govuk-heading-m">Advisers are available</h2>`
+            buttonElement = `<button id='clickableButton' aria-disabled="false" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">Speak to an adviser</button>`
+
+        } else if (c2cObj.displayState === 'outofhours') {
+            headingElement = `<h2 class="govuk-heading-m">${divText}</h2>`
+            buttonElement = ``
+        }
 
         if (isAnchored) {
             innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
         } else {
-            innerHTML = `<div class="${c2cObj.displayState}">${buttonText}</div>`;
+            innerHTML = `${headingElement}<div class="${c2cObj.displayState}">${divText}</div>${buttonElement}`;
         }
 
         const div: HTMLElement | undefined = button.replaceChild(innerHTML, isAnchored);
-
-        if (c2cObj.launchable) {
-            if (div) {
-                div.onclick = function (this: any): void {
-                    logger.debug('c2cObj', this);
-                    this.onClicked(c2cObj.c2cIdx);
-                }.bind(this);
-            }
+        const divElement: HTMLDivElement | null | undefined = div?.querySelector('.outofhours')
+        if (c2cObj.displayState === 'outofhours' && divElement) {
+            divElement.remove()
+        }
+        const clickableButton: HTMLButtonElement | null | undefined = div?.querySelector('#clickableButton')
+        if (clickableButton) {
+            clickableButton.onclick = function (this: any): void {
+                logger.debug('c2cObj', this);
+                this.onClicked(c2cObj.c2cIdx);
+            }.bind(this);
         }
     }
 }

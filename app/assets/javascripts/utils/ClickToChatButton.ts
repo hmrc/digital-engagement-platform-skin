@@ -11,6 +11,8 @@ export default class ClickToChatButton {
         if (isAnchored) {
             buttonDiv?.setAttribute("class", "minimised");
             buttonDiv?.setAttribute("id", "ciapiSkin");
+        } else {
+            buttonDiv?.setAttribute("class", "c2cButton");
         }
 
         //null checks on buttonDiv and parentElement

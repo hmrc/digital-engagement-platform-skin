@@ -7,6 +7,8 @@
 
 .c2cButton .fixed.ready {
   background-color: #00703c;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
 .c2cButton .fixed.ready:hover {
@@ -17,7 +19,9 @@
 .c2cButton .fixed.busy,
 .c2cButton .fixed.outofhours,
 .c2cButton .fixed.chatactive {
-  background-color: grey;
+  background-color: #00703c;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .c2cButton .anchored {
