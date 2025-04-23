@@ -3,8 +3,12 @@ interface messageTypes {
     adviser: string,
     outofhours: string
     ready: string
+    readyHeading: string
     busy: string
+    busyHeading: string
     active: string
+    c2cButton: string
+    doNotRefresh: string
     unavilable: string
     messageSent: string
     agentMsgPrefix: string
@@ -29,7 +33,11 @@ export const messages: messageTypes = {
     //ReactiveChatController.js
     outofhours: "Webchat is now closed.",
     ready: `You may join a queue before you’re connected to an adviser.`,
-    busy: "All of our advisers are busy. When an adviser is available, you’ll be able to select the ‘speak to an adviser’ button. <p>You do not need to refresh the page.</p>",
+    readyHeading: "Advisers are available",
+    busy: "All of our advisers are busy. When an adviser is available, you’ll be able to select the ‘speak to an adviser’ button.",
+    doNotRefresh: "You do not need to refresh the page.",
+    busyHeading: "Advisers are busy",
+    c2cButton: "Speak to an adviser",
     active: "If you cannot access webchat, you may already have it open on another page.",
     //CommonChatController.js
     unavilable: `Sorry, our virtual assistant is unavailable. Try again later. ${contactLink} if you need to speak to someone.`,

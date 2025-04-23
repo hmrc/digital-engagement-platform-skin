@@ -2,6 +2,7 @@ import * as DisplayState from '../NuanceDisplayState'
 import * as logger from '../utils/logger';
 import ClickToChatButton from './ClickToChatButton';
 import { ClickToChatObjectInterface } from '../types';
+import { messages } from './Messages';
 
 export type displayState = "chatactive" | "outofhours" | "ready" | "busy"
 
@@ -40,32 +41,36 @@ export default class ClickToChatButtons {
     }
 
     _updateButton(c2cObj: ClickToChatObjectInterface, button: ClickToChatButton, isAnchored: boolean): void {
-        const divText: string = this._getDisplayStateText(c2cObj.displayState);
-        let innerHTML: string = ``
+        console.log('isAnchored', isAnchored)
+        const displayStateText: string = this._getDisplayStateText(c2cObj.displayState);
+        let innerHTML: string = ''
         let headingElement: string = ''
         let buttonElement: string = ''
 
         if (c2cObj.displayState === 'busy') {
-            headingElement = `<h2 class="govuk-heading-m">Advisers are busy</h2>`
-            buttonElement = `<button disabled aria-disabled="true" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">Speak to an adviser</button>`
+            headingElement = `<h2 class="govuk-heading-m">${messages.busyHeading}</h2>`
+            buttonElement = `<button disabled aria-disabled="true" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`
 
         } else if (c2cObj.displayState === 'ready') {
-            headingElement = `<h2 class="govuk-heading-m">Advisers are available</h2>`
-            buttonElement = `<button id='clickableButton' aria-disabled="false" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">Speak to an adviser</button>`
+            headingElement = `<h2 class="govuk-heading-m">${messages.readyHeading}</h2>`
+            buttonElement = `<button id='clickableButton' aria-disabled="false" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`
 
         } else if (c2cObj.displayState === 'outofhours') {
-            headingElement = `<h2 class="govuk-heading-m">${divText}</h2>`
-            buttonElement = ``
+            headingElement = `<h2 class="govuk-heading-m">${displayStateText}</h2>`
         }
 
         if (isAnchored) {
             innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
         } else {
-            innerHTML = `${headingElement}<div class="${c2cObj.displayState}">${divText}</div>${buttonElement}`;
+            innerHTML = `${headingElement}<div class="${c2cObj.displayState}"><p>${displayStateText}</p>${c2cObj.displayState === 'busy' ? `<p>${messages.doNotRefresh}</p>` : ""}</div>${buttonElement}`;
         }
 
+        // Could change the if statement.
         const div: HTMLElement | undefined = button.replaceChild(innerHTML, isAnchored);
+        console.log('DIV', div)
         const divElement: HTMLDivElement | null | undefined = div?.querySelector('.outofhours')
+        console.log('divElement', divElement)
+        // If we keep this code should we also check whether anchored?
         if (c2cObj.displayState === 'outofhours' && divElement) {
             divElement.remove()
         }

@@ -3,12 +3,13 @@
   padding: 10px;
   color: #fff;
   text-align: center;
+  margin-bottom: 0px;
 }
 
 .c2cButton .fixed.ready {
   background-color: #00703c;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  font-weight: 600;
+  margin-bottom: 0px;
 }
 
 .c2cButton .fixed.ready:hover {
@@ -20,8 +21,27 @@
 .c2cButton .fixed.outofhours,
 .c2cButton .fixed.chatactive {
   background-color: #00703c;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 640px) {
+  .c2cButton .fixed.ready {
+    margin-top: 0px;
+  }
+  .c2cButton .fixed.busy {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .c2cButton .fixed.ready {
+    margin-top: 1rem;
+  }
+  .c2cButton .fixed.busy {
+    margin-top: 12px;
+    margin-bottom: 0px;
+  }
 }
 
 .c2cButton .anchored {
