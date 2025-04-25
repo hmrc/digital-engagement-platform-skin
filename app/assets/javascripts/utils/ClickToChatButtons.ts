@@ -90,4 +90,5 @@ export default class ClickToChatButtons {
             }
         }
     }
+    console.log('GPG key')
 }
