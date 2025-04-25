@@ -41,7 +41,6 @@ export default class ClickToChatButtons {
     }
 
     _updateButton(c2cObj: ClickToChatObjectInterface, button: ClickToChatButton, isAnchored: boolean): void {
-        console.log('isAnchored', isAnchored)
         const displayStateText: string = this._getDisplayStateText(c2cObj.displayState);
         let innerHTML: string = ''
         let headingElement: string = ''
@@ -67,19 +66,28 @@ export default class ClickToChatButtons {
 
         // Could change the if statement.
         const div: HTMLElement | undefined = button.replaceChild(innerHTML, isAnchored);
-        console.log('DIV', div)
-        const divElement: HTMLDivElement | null | undefined = div?.querySelector('.outofhours')
-        console.log('divElement', divElement)
-        // If we keep this code should we also check whether anchored?
-        if (c2cObj.displayState === 'outofhours' && divElement) {
-            divElement.remove()
+
+        if (c2cObj.displayState === 'outofhours' && !isAnchored) {
+            const divElement: HTMLDivElement | null | undefined = div?.querySelector('.outofhours')
+            divElement?.remove()
         }
-        const clickableButton: HTMLButtonElement | null | undefined = div?.querySelector('#clickableButton')
-        if (clickableButton) {
-            clickableButton.onclick = function (this: any): void {
-                logger.debug('c2cObj', this);
-                this.onClicked(c2cObj.c2cIdx);
-            }.bind(this);
+        if (c2cObj.launchable) {
+            if (isAnchored) {
+                if (div) {
+                    div.onclick = function (this: any): void {
+                        logger.debug('c2cObj', this);
+                        this.onClicked(c2cObj.c2cIdx);
+                    }.bind(this);
+                }
+            } else {
+                const clickableButton: HTMLButtonElement | null | undefined = div?.querySelector('#clickableButton')
+                if (clickableButton) {
+                    clickableButton.onclick = function (this: any): void {
+                        logger.debug('c2cObj', this);
+                        this.onClicked(c2cObj.c2cIdx);
+                    }.bind(this);
+                }
+            }
         }
     }
 }
