@@ -3,8 +3,12 @@ interface messageTypes {
     adviser: string,
     outofhours: string
     ready: string
+    readyHeading: string
     busy: string
+    busyHeading: string
     active: string
+    c2cButton: string
+    doNotRefresh: string
     unavilable: string
     messageSent: string
     agentMsgPrefix: string
@@ -22,17 +26,19 @@ interface messageTypes {
 const contactLink: string = "<a href='https://www.gov.uk/contact'>Contact us</a> "
 const contactHMRCLink: string = "<a href='https://www.gov.uk/contact-hmrc' target=‘_blank’> other ways to contact HMRC</a>"
 
-const adviserReadyAnchorElement = `<a href="#" class="govuk-link" click="event.preventDefault();">Speak to an adviser now</a>`
-
 export const messages: messageTypes = {
     //PopupContainerHtml.js / EmbeddedContainerHtml
     computer: "You're speaking with a computer",
     adviser: "You're speaking with an adviser",
     //ReactiveChatController.js
     outofhours: "Webchat is now closed.",
-    ready: `Advisers are available to chat. ${adviserReadyAnchorElement}`,
-    busy: "All of our advisers are busy. When an adviser is available, a ‘speak with an adviser’ link will appear. You do not need to refresh the page.",
-    active: "You are in a webchat. If you cannot access it, you may have another chat window open.",
+    ready: `You may join a queue before you’re connected to an adviser.`,
+    readyHeading: "Advisers are available",
+    busy: "All of our advisers are busy. When an adviser is available, you’ll be able to select the ‘speak to an adviser’ button.",
+    doNotRefresh: "You do not need to refresh the page.",
+    busyHeading: "Advisers are busy",
+    c2cButton: "Speak to an adviser",
+    active: "If you cannot access webchat, you may already have it open on another page.",
     //CommonChatController.js
     unavilable: `Sorry, our virtual assistant is unavailable. Try again later. ${contactLink} if you need to speak to someone.`,
     messageSent: 'The message has been sent',
