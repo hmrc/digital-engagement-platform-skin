@@ -46,22 +46,27 @@ export default class ClickToChatButtons {
         let headingElement: string = ''
         let buttonElement: string = ''
 
-        if (c2cObj.displayState === 'busy') {
+        if (c2cObj.displayState === 'busy' && !isAnchored) {
             headingElement = `<h2 class="govuk-heading-m">${messages.busyHeading}</h2>`
             buttonElement = `<button disabled aria-disabled="true" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`
 
-        } else if (c2cObj.displayState === 'ready') {
+        } else if (c2cObj.displayState === 'ready' && !isAnchored) {
             headingElement = `<h2 class="govuk-heading-m">${messages.readyHeading}</h2>`
             buttonElement = `<button id='clickableButton' aria-disabled="false" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`
 
-        } else if (c2cObj.displayState === 'outofhours') {
+        } else if (c2cObj.displayState === 'outofhours' && !isAnchored) {
             headingElement = `<h2 class="govuk-heading-m">${displayStateText}</h2>`
         }
 
         if (isAnchored) {
             innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
         } else {
-            innerHTML = `${headingElement}<div class="${c2cObj.displayState}"><p>${displayStateText}</p>${c2cObj.displayState === 'busy' ? `<p>${messages.doNotRefresh}</p>` : ""}</div>${buttonElement}`;
+            innerHTML = `
+            ${headingElement}
+            <div class="${c2cObj.displayState}">
+                <p>${displayStateText}</p>
+            </div>
+            ${buttonElement}`;
         }
 
         const div: HTMLElement | undefined = button.replaceChild(innerHTML, isAnchored);

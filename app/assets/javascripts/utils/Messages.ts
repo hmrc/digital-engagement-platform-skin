@@ -8,7 +8,6 @@ interface messageTypes {
     busyHeading: string
     active: string
     c2cButton: string
-    doNotRefresh: string
     unavilable: string
     messageSent: string
     agentMsgPrefix: string
@@ -34,11 +33,10 @@ export const messages: messageTypes = {
     outofhours: "Webchat is now closed.",
     ready: `You may join a queue before you’re connected to an adviser.`,
     readyHeading: "Advisers are available",
-    busy: "All of our advisers are busy. When an adviser is available, you’ll be able to select the ‘speak to an adviser’ button.",
-    doNotRefresh: "You do not need to refresh the page.",
+    busy: "When an adviser is available, you’ll be able to select the ‘speak to an adviser’ button.",
     busyHeading: "Advisers are busy",
     c2cButton: "Speak to an adviser",
-    active: "If you cannot access webchat, you may already have it open on another page.",
+    active: "You're connected to webchat. If the chat does not pop up, it might be open on another page.",
     //CommonChatController.js
     unavilable: `Sorry, our virtual assistant is unavailable. Try again later. ${contactLink} if you need to speak to someone.`,
     messageSent: 'The message has been sent',
