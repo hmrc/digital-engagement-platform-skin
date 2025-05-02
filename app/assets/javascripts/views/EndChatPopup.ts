@@ -9,7 +9,7 @@ export const popupHtml: string = `
             </button>
 
       <button id="cancelEndChat" class="govuk-button govuk-!-margin-right-1 govuk-button--secondary">
-        Return to chat
+        No, return to chat
       </button>
 
       <div id="surveyPrintContainer">
