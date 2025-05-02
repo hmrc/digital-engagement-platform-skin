@@ -3,7 +3,7 @@
 import { messages } from "../../utils/Messages";
 
 export function ContainerHtml(isEscalated: boolean): string {
-    let bannerMessage: string = messages.computer;
+    let bannerMessage: string = messages.chatLoading;
     let soundButton: string = `<button id="toggleSound" class="govuk-button govuk-button--secondary active" data-module="govuk-button"> Turn notification sound off </button>`;
     if (sessionStorage.getItem("isActive") == "false") { soundButton = `<button id="toggleSound" class="govuk-button govuk-button--secondary inactive" data-module="govuk-button"> Turn notification sound on </button>` }
     return `

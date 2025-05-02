@@ -1,6 +1,7 @@
 interface messageTypes {
     computer: string,
     adviser: string,
+    chatLoading: string,
     outofhours: string
     ready: string
     busy: string
@@ -28,6 +29,7 @@ export const messages: messageTypes = {
     //PopupContainerHtml.js / EmbeddedContainerHtml
     computer: "You're speaking with a computer",
     adviser: "You're speaking with an adviser",
+    chatLoading: "Chat is connecting...",
     //ReactiveChatController.js
     outofhours: "Webchat is now closed.",
     ready: `Advisers are available to chat. ${adviserReadyAnchorElement}`,
