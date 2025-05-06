@@ -101,10 +101,10 @@ describe("ReactiveChatController", () => {
         clickToChatCallback();
 
         let c2cDisplayStateMessages = {
-            "busy": "All of our advisers are busy. When an adviser is available, a ‘speak with an adviser’ link will appear. You do not need to refresh the page.",
-            "chatactive": "You are in a webchat. If you cannot access it, you may have another chat window open.",
+            "busy": "When an adviser is available, you’ll be able to select the ‘speak to an adviser’ button.",
+            "chatactive": "You're connected to webchat. If the chat does not pop up, it might be open on another page.",
             "outofhours": "Webchat is now closed.",
-            "ready": "Advisers are available to chat. <a href=\"#\" class=\"govuk-link\" click=\"event.preventDefault();\">Speak to an adviser now</a>"
+            "ready": `You may join a queue before you’re connected to an adviser.`
         };
 
         expect(clickToChatCallbackSpy).toBeCalledTimes(1);

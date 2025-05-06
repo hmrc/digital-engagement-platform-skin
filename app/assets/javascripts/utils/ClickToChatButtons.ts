@@ -43,38 +43,22 @@ export default class ClickToChatButtons {
     _updateButton(c2cObj: ClickToChatObjectInterface, button: ClickToChatButton, isAnchored: boolean): void {
         const displayStateText: string = this._getDisplayStateText(c2cObj.displayState);
         let innerHTML: string = ''
-        let headingElement: string = ''
-        let buttonElement: string = ''
-
-        if (c2cObj.displayState === 'busy' && !isAnchored) {
-            headingElement = `<h2 class="govuk-heading-m">${messages.busyHeading}</h2>`
-            buttonElement = `<button disabled aria-disabled="true" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`
-
-        } else if (c2cObj.displayState === 'ready' && !isAnchored) {
-            headingElement = `<h2 class="govuk-heading-m">${messages.readyHeading}</h2>`
-            buttonElement = `<button id='clickableButton' aria-disabled="false" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`
-
-        } else if (c2cObj.displayState === 'outofhours' && !isAnchored) {
-            headingElement = `<h2 class="govuk-heading-m">${displayStateText}</h2>`
-        }
 
         if (isAnchored) {
             innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
         } else {
-            innerHTML = `
-            ${headingElement}
-            <div class="${c2cObj.displayState}">
-                <p>${displayStateText}</p>
-            </div>
-            ${buttonElement}`;
+            if (c2cObj.displayState === 'busy') {
+                innerHTML = `<h2 class="govuk-heading-m">${messages.busyHeading}</h2><div class="${c2cObj.displayState}">${displayStateText}</div><button disabled aria-disabled="true" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`
+            } else if (c2cObj.displayState === 'ready') {
+                innerHTML = `<h2 class="govuk-heading-m">${messages.readyHeading}</h2><div class="${c2cObj.displayState}">${displayStateText}</div><button id="clickableButton" aria-disabled="false" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`
+            } else if (c2cObj.displayState === 'outofhours') {
+                innerHTML = `<h2 class="govuk-heading-m ${c2cObj.displayState}">${displayStateText}</h2>`
+            } else {
+                innerHTML = `<div class="${c2cObj.displayState}">${displayStateText}</div>`
+            }
         }
 
         const div: HTMLElement | undefined = button.replaceChild(innerHTML, isAnchored);
-
-        if (c2cObj.displayState === 'outofhours' && !isAnchored) {
-            const divElement: HTMLDivElement | null | undefined = div?.querySelector('.outofhours')
-            divElement?.remove()
-        }
 
         if (c2cObj.launchable) {
             if (isAnchored) {
