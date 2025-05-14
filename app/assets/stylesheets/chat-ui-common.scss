@@ -230,13 +230,14 @@ $footer-top-border-height: 3px;
     }
     .print-float-right {
         float: right;
-        margin-bottom: .2em;
+        // margin-top: 1em;
+        // margin-bottom: 0.2em;
     }
     .print-float-left {
         clear: both;
         display: inline-block;
         width: 30em;
-        margin-bottom: .2em;
+        // margin-bottom: 0.2em;
     }
     .govuk-header__container {
         border-bottom: none;
@@ -247,4 +248,8 @@ $footer-top-border-height: 3px;
     .govuk-header__content {
         display: inline-block;
     }
+    // .govuk-body, #cui-messaging-container, .govuk-body-m  {
+    //     margin-bottom: 10px;
+    // }
 }
+

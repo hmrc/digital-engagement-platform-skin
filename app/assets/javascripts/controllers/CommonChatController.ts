@@ -380,7 +380,7 @@ export default class CommonChatController {
         let printingIframeDoc: Document | undefined = printingIframe.contentDocument || printingIframe.contentWindow?.document;
         let transcriptElementClone = document.getElementById('ciapiSkinChatTranscript')?.cloneNode(true) as HTMLElement
 
-        selectedElements = transcriptElementClone?.querySelectorAll('.ciapi-agent-message, .ciapi-customer-message, .print-only, ciapi-customer-container')
+        selectedElements = transcriptElementClone?.querySelectorAll('.timestamp-outer')
 
         const selectedHTML = Array.from(selectedElements).map(e => `<div>${e.outerHTML}</div>`).join('')
         printingIframeDoc?.open();
@@ -437,11 +437,10 @@ export default class CommonChatController {
                 printingIframeDoc?.head.appendChild(clone)
             })
 
-
             setTimeout(() => {
                 printWindow.focus()
                 printWindow.print()
-            }, 100)
+            }, 200)
         }
 
 
