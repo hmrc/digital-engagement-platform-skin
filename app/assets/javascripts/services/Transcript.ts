@@ -181,7 +181,7 @@ export default class Transcript {
         if (popupChatContainer.length > 0) {
             printTimeStamp.className = "print-only govuk-body popup-print-float-left print-timestamp";
         } else {
-            printTimeStamp.className = "print-only govuk-body print-float-left";
+            printTimeStamp.className = "print-only govuk-body print-float-left print-timestamp";
         }
 
         printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);

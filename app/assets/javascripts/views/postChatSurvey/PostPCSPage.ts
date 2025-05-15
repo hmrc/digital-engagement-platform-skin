@@ -120,7 +120,6 @@ export default class PostPCSPage {
                 document.getElementById("postPCSPageWrapper")?.classList.add("govuk-!-display-none-print")
 
                 this.commonchatcontroller.onPrint(e)
-                // this.eventHandler.onPrint(e);
                 e.preventDefault();
             })
 
