@@ -606,27 +606,29 @@ $page-height: calc(100% - 5px);
     }
     .timestamp-outer{
         margin-bottom: 3em;
-        border: 1px solid red;
     }
-    .print-float-right {
-        margin-top: 0em;
-        margin-bottom: 0.2em;
-    }
-    .print-float-left {
-        margin-top: 0em;
-        margin-bottom: 0.2em;
-    }
-    .ciapi-customer-message {
-        margin-bottom: 2em;
-        padding: 0px;
-    }
-    .ciapi-agent-message {
-        // margin-bottom: 1em;
-        padding: 0;
-        margin: 0;
-    }
+    // .print-float-right {
+    //     margin-top: 0em;
+    //     margin-bottom: 0.2em;
+    // }
+    // .print-float-left {
+    //     margin-top: 0em;
+    //     margin-bottom: 0.2em;
+    // }
+    // .ciapi-customer-message {
+    //     margin-bottom: 2em;
+    //     padding: 0px;
+    // }
+    // .ciapi-agent-message {
+    //     // margin-bottom: 1em;
+    //     padding: 0;
+    //     margin: 0;
+    // }
 
-    .timestamp-outer * {
-        border: 1px solid green;
-    }
+    // .timestamp-outer * {
+    //     border: 1px solid green;
+    // }
+    // .govuk-body  {
+    //     margin-bottom: 0em;
+    // }
 }

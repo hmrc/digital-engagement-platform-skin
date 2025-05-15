@@ -382,6 +382,7 @@ export default class CommonChatController {
 
         selectedElements = transcriptElementClone?.querySelectorAll('.timestamp-outer')
 
+
         const selectedHTML = Array.from(selectedElements).map(e => `<div>${e.outerHTML}</div>`).join('')
         printingIframeDoc?.open();
         printingIframeDoc?.write(`
