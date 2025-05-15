@@ -378,17 +378,17 @@ export default class CommonChatController {
         let selectedElements: NodeListOf<Element>
 
         let printingIframeDoc: Document | undefined = printingIframe.contentDocument || printingIframe.contentWindow?.document;
+        let chatID = document.getElementById('chat-id')
         let transcriptElementClone = document.getElementById('ciapiSkinChatTranscript')?.cloneNode(true) as HTMLElement
 
         selectedElements = transcriptElementClone?.querySelectorAll('.timestamp-outer')
-
 
         const selectedHTML = Array.from(selectedElements).map(e => `<div>${e.outerHTML}</div>`).join('')
         printingIframeDoc?.open();
         printingIframeDoc?.write(`
         <html>
             <head>
-                <link rel="stylesheet" type="text/css" href="../../assets/stylesheets/chat-ui-popup.css">
+                <link rel="stylesheet" type="text/css" href="/">
             </head>
             <body>
                 <header class="govuk-header print-gov-header" data-module="govuk-header">
@@ -421,7 +421,7 @@ export default class CommonChatController {
                         </div>
                     </div>
                 </header>
-                <p class='govuk-body'>Chat ID: </p>
+                <p class='govuk-body'>Chat ID: ${chatID?.innerHTML}</p>
                 <p class='govuk-body'>${printDate?.innerHTML}</p>
                 ${selectedHTML}
             </body>
@@ -434,8 +434,8 @@ export default class CommonChatController {
             if (!printWindow) return
             const styles = document.querySelectorAll('style, link[rel="stylesheet"]')
             styles.forEach(style => {
-                const clone = style.cloneNode(true)
-                printingIframeDoc?.head.appendChild(clone)
+                const styleClone = style.cloneNode(true)
+                printingIframeDoc?.head.appendChild(styleClone)
             })
 
             setTimeout(() => {
@@ -443,46 +443,6 @@ export default class CommonChatController {
                 printWindow.print()
             }, 200)
         }
-
-
-
-
-
-
-
-
-
-        // const elementList: string[] = [
-        //     "app-related-items",
-        //     "govuk-back-link",
-        //     "govuk-phase-banner",
-        //     "hmrc-report-technical-issue",
-        //     "govuk-footer",
-        //     "govuk-heading-xl",
-        //     "hmrc-user-research-banner",
-        //     "cbanner-govuk-cookie-banner",
-        // ];
-
-        // const printList: string[] = [
-        //     "govuk-grid-row",
-        //     "govuk-grid-column-two-thirds",
-        //     "govuk-main-wrapper"
-        // ];
-
-        // PrintUtils.removeElementsForPrint(elementList);
-
-        // if (document.getElementById("nuanMessagingFrame")?.classList.contains("ci-api-popup")) {
-        //     document.body.querySelectorAll('*').forEach(function (node: Element): void {
-        //         printList.forEach(function (item: string): void {
-        //             if (node.classList.contains(item)) {
-        //                 node.classList.add("govuk-!-display-none-print");
-        //             }
-        //         });
-        //     });
-        // }
-
-        // window.print();
-
         return false;
     }
 

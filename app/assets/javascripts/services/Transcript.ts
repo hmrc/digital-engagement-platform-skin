@@ -179,7 +179,7 @@ export default class Transcript {
         var printTimeStamp: HTMLParagraphElement = document.createElement("p");
 
         if (popupChatContainer.length > 0) {
-            printTimeStamp.className = "print-only govuk-body popup-print-float-left";
+            printTimeStamp.className = "print-only govuk-body popup-print-float-left print-timestamp";
         } else {
             printTimeStamp.className = "print-only govuk-body print-float-left";
         }
