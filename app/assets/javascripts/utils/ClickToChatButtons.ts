@@ -50,7 +50,7 @@ export default class ClickToChatButtons {
             if (c2cObj.displayState === 'busy') {
                 innerHTML = `<h2 class="govuk-heading-m">${messages.busyHeading}</h2><div class="${c2cObj.displayState}">${displayStateText}</div><button disabled aria-disabled="true" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`
             } else if (c2cObj.displayState === 'ready') {
-                innerHTML = `<h2 class="govuk-heading-m">${messages.readyHeading}</h2><div class="${c2cObj.displayState}">${displayStateText}</div><button id="clickableButton" aria-disabled="false" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`
+                innerHTML = `<h2 class="govuk-heading-m">${messages.readyHeading}</h2><div class="${c2cObj.displayState}">${displayStateText}</div><button id="startChatButton" aria-disabled="false" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`
             } else if (c2cObj.displayState === 'outofhours') {
                 innerHTML = `<h2 class="govuk-heading-m ${c2cObj.displayState}">${displayStateText}</h2>`
             } else {
@@ -69,9 +69,9 @@ export default class ClickToChatButtons {
                     }.bind(this);
                 }
             } else {
-                const clickableButton: HTMLButtonElement | null | undefined = div?.querySelector('#clickableButton')
-                if (clickableButton) {
-                    clickableButton.onclick = function (this: any): void {
+                const startChatButton: HTMLButtonElement | null | undefined = div?.querySelector('#startChatButton')
+                if (startChatButton) {
+                    startChatButton.onclick = function (this: any): void {
                         logger.debug('c2cObj', this);
                         this.onClicked(c2cObj.c2cIdx);
                     }.bind(this);

@@ -3,6 +3,7 @@ import CommonChatController from '../../../../../../../app/assets/javascripts/co
 import ClickToChatButtons from '../../../../../../../app/assets/javascripts/utils/ClickToChatButtons'
 import ClickToChatButton from '../../../../../../../app/assets/javascripts/utils/ClickToChatButton'
 import { _onC2CButtonClicked } from '../../../../../../../app/assets/javascripts/controllers/ReactiveChatController'
+import { messages } from '../../../../../../../app/assets/javascripts/utils/Messages'
 
 jest.mock('../../../../../../../app/assets/javascripts/utils/ClickToChatButtons')
 jest.mock('../../../../../../../app/assets/javascripts/utils/ClickToChatButton')
@@ -101,10 +102,10 @@ describe("ReactiveChatController", () => {
         clickToChatCallback();
 
         let c2cDisplayStateMessages = {
-            "busy": "When an adviser is available, you’ll be able to select the ‘speak to an adviser’ button.",
-            "chatactive": "You're connected to webchat. If the chat does not pop up, it might be open on another page.",
-            "outofhours": "Webchat is now closed.",
-            "ready": `You may join a queue before you’re connected to an adviser.`
+            "busy": `${messages.busy}`,
+            "chatactive": `${messages.active}`,
+            "outofhours": `${messages.outofhours}`,
+            "ready": `${messages.ready}`
         };
 
         expect(clickToChatCallbackSpy).toBeCalledTimes(1);

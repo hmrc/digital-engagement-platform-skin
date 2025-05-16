@@ -30,7 +30,7 @@ export const messages: messageTypes = {
     computer: "You're speaking with a computer",
     adviser: "You're speaking with an adviser",
     //ReactiveChatController.js
-    outofhours: "Webchat is now closed.",
+    outofhours: "Webchat is closed.",
     ready: `You may join a queue before you’re connected to an adviser.`,
     readyHeading: "Advisers are available",
     busy: "When an adviser is available, you’ll be able to select the ‘speak to an adviser’ button.",
