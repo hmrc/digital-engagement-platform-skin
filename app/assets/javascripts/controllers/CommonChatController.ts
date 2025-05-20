@@ -355,19 +355,19 @@ export default class CommonChatController {
     onPrint(e: Event): boolean {
         this.closeMenu()
         document.getElementById("custMsg")?.focus();
-
         e.preventDefault;
-        const printDate: HTMLElement | null = document.getElementById("print-date")
-        if (printDate) {
-            printDate.innerHTML = PrintUtils.getPrintDate();
-        }
 
-        let existingPrintIframe = document.getElementById("printIframe") as HTMLIFrameElement | null
+        let existingPrintIframe: HTMLElement | null = document.getElementById("printIframe")
         if (existingPrintIframe) {
             document.body.removeChild(existingPrintIframe);
         }
 
-        let printingIframe = document.createElement("iframe") as HTMLIFrameElement
+        let printDate: HTMLElement | null = document.getElementById("print-date")
+        if (printDate) {
+            printDate.innerHTML = PrintUtils.getPrintDate();
+        }
+
+        let printingIframe: HTMLIFrameElement = document.createElement("iframe")
         printingIframe.id = "printIframe";
         printingIframe.style.position = "absolute";
         printingIframe.style.width = "0";
@@ -375,20 +375,17 @@ export default class CommonChatController {
         printingIframe.style.border = "none";
         printingIframe.style.visibility = "hidden"
         document.body.appendChild(printingIframe);
-        let selectedElements: NodeListOf<Element>
 
-        let printingIframeDoc: Document | undefined = printingIframe.contentDocument || printingIframe.contentWindow?.document;
-        let chatID = document.getElementById('chat-id')
-        let transcriptElementClone = document.getElementById('ciapiSkinChatTranscript')?.cloneNode(true) as HTMLElement
+        const chatID: HTMLElement | null = document.getElementById('chat-id')
+        const htmlElements: NodeListOf<HTMLDivElement> = document.querySelectorAll('.timestamp-outer')
+        const styleElements: NodeListOf<HTMLElement> = document.querySelectorAll('style, link[rel="stylesheet"]')
+        const htmlString: string = Array.from(htmlElements).map(el => el.outerHTML).join('')
+        const styleString: string = Array.from(styleElements).map(el => el.outerHTML).join('')
 
-        selectedElements = transcriptElementClone?.querySelectorAll('.timestamp-outer')
-
-        const selectedHTML = Array.from(selectedElements).map(e => `<div>${e.outerHTML}</div>`).join('')
-        printingIframeDoc?.open();
-        printingIframeDoc?.write(`
+        const printingIframeHTML = `
         <html>
             <head>
-                <link rel="stylesheet" type="text/css" href="/">
+                ${styleString}
             </head>
             <body>
                 <header class="govuk-header print-gov-header" data-module="govuk-header">
@@ -423,25 +420,19 @@ export default class CommonChatController {
                 </header>
                 <p class='govuk-body'>Chat ID: ${chatID?.innerHTML}</p>
                 <p class='govuk-body'>${printDate?.innerHTML}</p>
-                ${selectedHTML}
+                ${htmlString}
             </body>
-        </html>`);
+        </html>`
 
-        printingIframeDoc?.close();
-
+        printingIframe.srcdoc = printingIframeHTML
         printingIframe.onload = () => {
-            const printWindow = printingIframe.contentWindow
-            if (!printWindow) return
-            const styles = document.querySelectorAll('style, link[rel="stylesheet"]')
-            styles.forEach(style => {
-                const styleClone = style.cloneNode(true)
-                printingIframeDoc?.head.appendChild(styleClone)
-            })
-
+            const printWindow: Window | null = printingIframe.contentWindow
+            if (!printWindow) {
+                return
+            }
             setTimeout(() => {
-                printWindow.focus()
                 printWindow.print()
-            }, 200)
+            }, 100)
         }
         return false;
     }
