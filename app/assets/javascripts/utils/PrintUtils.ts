@@ -10,13 +10,13 @@ export default class PrintUtils {
         return d.getDate() + " " + monthNames[d.getMonth()] + " " + d.getUTCFullYear();
     }
 
-    static removeElementsForPrint(listOfElements: string[]): void {
-        listOfElements.forEach(function (item: string): void {
-            if (document.getElementsByClassName(item)[0]) {
-                document.getElementsByClassName(item)[0].classList.add("govuk-!-display-none-print")
-            }
-        });
-    }
+    // static removeElementsForPrint(listOfElements: string[]): void {
+    //     listOfElements.forEach(function (item: string): void {
+    //         if (document.getElementsByClassName(item)[0]) {
+    //             document.getElementsByClassName(item)[0].classList.add("govuk-!-display-none-print")
+    //         }
+    //     });
+    // }
 }
 
 
