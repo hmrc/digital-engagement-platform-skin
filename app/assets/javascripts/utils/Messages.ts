@@ -33,7 +33,7 @@ export const messages: messageTypes = {
     outofhours: "Webchat is closed.",
     ready: `You may join a queue before you’re connected to an adviser.`,
     readyHeading: "Advisers are available",
-    busy: "When an adviser is available, you’ll be able to select the ‘speak to an adviser’ button.",
+    busy: "When an adviser is available, you’ll be able to select the ‘Speak to an adviser’ button.",
     busyHeading: "Advisers are busy",
     c2cButton: "Speak to an adviser",
     active: "You're connected to webchat. If the chat does not pop up, it might be open on another page.",
