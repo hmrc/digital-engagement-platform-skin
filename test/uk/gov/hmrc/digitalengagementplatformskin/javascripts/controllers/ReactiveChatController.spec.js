@@ -3,6 +3,7 @@ import CommonChatController from '../../../../../../../app/assets/javascripts/co
 import ClickToChatButtons from '../../../../../../../app/assets/javascripts/utils/ClickToChatButtons'
 import ClickToChatButton from '../../../../../../../app/assets/javascripts/utils/ClickToChatButton'
 import { _onC2CButtonClicked } from '../../../../../../../app/assets/javascripts/controllers/ReactiveChatController'
+import { messages } from '../../../../../../../app/assets/javascripts/utils/Messages'
 
 jest.mock('../../../../../../../app/assets/javascripts/utils/ClickToChatButtons')
 jest.mock('../../../../../../../app/assets/javascripts/utils/ClickToChatButton')
@@ -101,10 +102,10 @@ describe("ReactiveChatController", () => {
         clickToChatCallback();
 
         let c2cDisplayStateMessages = {
-            "busy": "All of our advisers are busy. When an adviser is available, a ‘speak with an adviser’ link will appear. You do not need to refresh the page.",
-            "chatactive": "You are in a webchat. If you cannot access it, you may have another chat window open.",
-            "outofhours": "Webchat is now closed.",
-            "ready": "Advisers are available to chat. <a href=\"#\" class=\"govuk-link\" click=\"event.preventDefault();\">Speak to an adviser now</a>"
+            "busy": `${messages.busy}`,
+            "chatactive": `${messages.active}`,
+            "outofhours": `${messages.outofhours}`,
+            "ready": `${messages.ready}`
         };
 
         expect(clickToChatCallbackSpy).toBeCalledTimes(1);
