@@ -100,8 +100,6 @@ export default class PostPCSPage {
                     elementList.push("govuk-grid-column-two-thirds")
                 }
 
-                //PrintUtils.removeElementsForPrint(elementList);
-
                 const endPageWrapper = this.container?.querySelector<HTMLElement>('#endPage')
                 const skinChatTranscript = this.container?.querySelector<HTMLElement>("#ciapiSkinChatTranscript");
 

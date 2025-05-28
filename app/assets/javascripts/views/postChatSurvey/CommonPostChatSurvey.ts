@@ -1,5 +1,3 @@
-//import PrintUtils from "../../utils/PrintUtils"
-
 export default class CommonPostChatSurvey {
     html: string
     container: HTMLElement | undefined
@@ -46,14 +44,6 @@ export default class CommonPostChatSurvey {
             }
         )
 
-        // this.wrapper.querySelector<HTMLElement>("#printPostChat")?.addEventListener(
-        //     "click",
-        //     (e: Event): void => {
-        //         e.preventDefault;
-        //         this.onPrintPostChatSurvey(this);
-        //     }
-        // );
-
         window.addEventListener('afterprint', (_: Event): void => {
             this.showTranscriptAndSurvey(false, true)
         });
@@ -81,42 +71,6 @@ export default class CommonPostChatSurvey {
             postChatSurvey.style.display = showSurvey ? "" : "none";
         }
     }
-
-    // onPrintPostChatSurvey(e: any): boolean {
-    //     console.log('POSTCHATSURVEY METHDO')
-    //     e.preventDefault;
-
-    //     this.showTranscriptAndSurvey(true, false);
-
-    //     let printDate: HTMLElement | null = document.getElementById("print-date")
-    //     if (printDate) {
-    //         printDate.innerHTML = PrintUtils.getPrintDate();
-    //     }
-
-    //     let elementList = [
-    //         "app-related-items",
-    //         "govuk-back-link",
-    //         "govuk-phase-banner",
-    //         "hmrc-report-technical-issue",
-    //         "govuk-footer",
-    //         "govuk-heading-xl",
-    //         "hmrc-user-research-banner",
-    //         "cbanner-govuk-cookie-banner",
-    //         "postChatSurveyWrapper"
-    //     ];
-
-    //     if (document.getElementById("nuanMessagingFrame")) {
-    //         if (document.getElementById("nuanMessagingFrame")?.classList.contains("ci-api-popup")) {
-    //             elementList.push("govuk-grid-column-two-thirds")
-    //         }
-    //     }
-
-    //     // PrintUtils.removeElementsForPrint(elementList);
-
-    //     window.print()
-
-    //     return false;
-    // }
 
     detach(): void {
         if (this.wrapper) {
