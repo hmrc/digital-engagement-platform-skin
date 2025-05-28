@@ -418,8 +418,8 @@ export default class CommonChatController {
                         </div>
                     </div>
                 </header>
-                <p class='govuk-body'>Chat ID: ${chatID?.innerHTML}</p>
-                <p class='govuk-body'>${printDate?.innerHTML}</p>
+                <p class='govuk-body'>Chat ID: ${chatID?.outerHTML}</p>
+                <p class='govuk-body'>${printDate?.outerHTML}</p>
                 ${htmlString}
             </body>
         </html>`
