@@ -199,7 +199,9 @@ $footer-top-border-height: 3px;
     .ciapi-customer-container {
         display: flow-root;
         padding-bottom: 10px !important;
+        width: 100%;
     }
+
     .print-overflow-visible {
         overflow: visible;
         border-bottom: 0;
