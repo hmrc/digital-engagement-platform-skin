@@ -430,9 +430,7 @@ export default class CommonChatController {
             if (!printWindow) {
                 return
             }
-            setTimeout(() => {
-                printWindow.print()
-            }, 100)
+            requestAnimationFrame(() => printWindow.print())
         }
         return false;
     }
