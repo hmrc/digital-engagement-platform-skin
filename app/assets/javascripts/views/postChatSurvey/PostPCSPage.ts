@@ -1,4 +1,3 @@
-import PrintUtils from "../../utils/PrintUtils"
 import CommonChatController from "../../controllers/CommonChatController";
 
 const html: string = `
