@@ -198,7 +198,6 @@ $footer-top-border-height: 3px;
 
     .ciapi-customer-container {
         display: flow-root;
-        padding-bottom: 10px !important;
         width: 100%;
     }
 
@@ -236,11 +235,11 @@ $footer-top-border-height: 3px;
     }
 
     .print-float-left {
-      padding: 0 !important;
-      margin-bottom: 1em  !important;
+      padding: 0;
+      margin-bottom: 1em;
     }
 
     .print-timestamp {
-        margin: -1em 0 0 0 !important;
+        margin: -1em 0 0 0;
       }
 }
