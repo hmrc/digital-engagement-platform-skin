@@ -29,8 +29,8 @@ const adviserReadyAnchorElement = `<a href="#" class="govuk-link" click="event.p
 export const messages: messageTypes = {
     //PopupContainerHtml.js / EmbeddedContainerHtml
     computer: "You're speaking with a digital assistant",
-    adviser: "You're speaking in a webchat with an adviser",
-    queue: "You're currently in a queue to speak with an adviser",
+    adviser: "You're chatting with an adviser",
+    queue: "You're in a queue to chat with an adviser",
     chatLoading: "Chat is connecting...",
     //ReactiveChatController.js
     outofhours: "Webchat is now closed.",
