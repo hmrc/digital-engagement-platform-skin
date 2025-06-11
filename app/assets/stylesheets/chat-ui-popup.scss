@@ -599,3 +599,10 @@ $page-height: calc(100% - 5px);
     margin-bottom: 0;
     color: white;
   }
+
+  @media print{
+    .popup-print-float-right, .popup-print-float-left {
+        padding: 0;
+        margin-bottom: 1em;
+      }
+}
