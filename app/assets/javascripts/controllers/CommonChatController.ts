@@ -352,7 +352,7 @@ export default class CommonChatController {
         }
     }
 
-    onPrint(e: Event): boolean {
+    onPrint(e: Event): void {
         this.closeMenu()
         document.getElementById("custMsg")?.focus();
         e.preventDefault;
@@ -432,7 +432,6 @@ export default class CommonChatController {
             }
             requestAnimationFrame(() => printWindow.print())
         }
-        return false;
     }
 
     _sendPostChatSurveyWebchat(sdk: any): PostChatSurveyWebchatService {
