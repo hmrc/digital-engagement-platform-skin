@@ -27,7 +27,6 @@ export const chatListener = {
             if (systemMessageBanner && evt.rule["name"]) {
                 if (evt.rule["name"].includes("-LC-")) {
                     sessionStorage.setItem("isAutoEngage", "true")
-                    systemMessageBanner.textContent = messages.adviser
                 } else if (!systemMessageBanner.textContent?.includes("adviser")) {
                     sessionStorage.setItem("isAutoEngage", "false")
                     systemMessageBanner.textContent = messages.computer
