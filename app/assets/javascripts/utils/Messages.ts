@@ -1,6 +1,8 @@
 interface messageTypes {
     computer: string,
     adviser: string,
+    chatLoading: string,
+    queue: string
     outofhours: string
     ready: string
     readyHeading: string
@@ -27,8 +29,10 @@ const contactHMRCLink: string = "<a href='https://www.gov.uk/contact-hmrc' targe
 
 export const messages: messageTypes = {
     //PopupContainerHtml.js / EmbeddedContainerHtml
-    computer: "You're speaking with a computer",
-    adviser: "You're speaking with an adviser",
+    computer: "You're speaking with a digital assistant",
+    adviser: "You're chatting with an adviser",
+    queue: "You're in a queue to chat with an adviser",
+    chatLoading: "Chat is connecting...",
     //ReactiveChatController.js
     outofhours: "Webchat is closed.",
     ready: `You may join a queue before you’re connected to an adviser.`,

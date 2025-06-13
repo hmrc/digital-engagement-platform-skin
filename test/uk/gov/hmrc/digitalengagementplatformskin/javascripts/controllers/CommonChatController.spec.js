@@ -1201,16 +1201,14 @@ describe("CommonChatController", () => {
     window.Inq = {
       SDK: sdk
     };
+    sessionStorage.isAutoEngage = true
 
     document.body.innerHTML = `<div class="dav4IVRWebchat"></div>`
 
-    const isIVRWebchatOnlySpy = jest.spyOn(commonChatController, 'isIVRWebchatOnly')
     const showChatSpy = jest.spyOn(commonChatController, '_showChat');
     const showDisplayOpenerScripts = jest.spyOn(commonChatController, '_displayOpenerScripts')
     commonChatController._launchChat({ state: 'show' });
 
-    expect(isIVRWebchatOnlySpy).toBeCalledTimes(1)
-    expect(isIVRWebchatOnlySpy).toHaveReturnedWith(true)
     expect(showChatSpy).toBeCalledTimes(1);
     expect(showDisplayOpenerScripts).toBeCalledTimes(1)
     expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1)

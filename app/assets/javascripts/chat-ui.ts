@@ -1,6 +1,7 @@
 import CommonChatController from './controllers/CommonChatController';
 import ProactiveChatController from './controllers/ProactiveChatController';
 import ReactiveChatController from './controllers/ReactiveChatController';
+import { messages } from '../javascripts/utils/Messages';
 import { ClickToChatObjectInterface, StateType } from './types';
 import * as logger from './utils/logger';
 
@@ -16,11 +17,22 @@ export function safeHandler(f: any) {
 };
 
 export const chatListener = {
-    onAnyEvent: function (evt: { c2c?: any; chatID: string }) {
+    onAnyEvent: function (evt: { c2c?: any; chatID: string; rule?: {name: string} }) {
         if (evt.c2c) {
             event = evt
         }
         logger.debug("Chat any event:", evt);
+        if (evt.rule) {
+            let systemMessageBanner: HTMLElement | null = document.getElementById('systemMessageBanner')
+            if (systemMessageBanner && evt.rule["name"]) {
+                if (evt.rule["name"].includes("-LC-")) {
+                    sessionStorage.setItem("isAutoEngage", "true")
+                } else if (!systemMessageBanner.textContent?.includes("adviser")) {
+                    sessionStorage.setItem("isAutoEngage", "false")
+                    systemMessageBanner.textContent = messages.computer
+                }
+            }
+        }
         window.chatId = evt.chatID;
     },
     onAgentAssigned: function (evt: { agentID: any, agentAlias: string }) {

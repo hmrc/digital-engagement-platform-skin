@@ -283,6 +283,10 @@ export class EngagedState {
                     systemMessageBanner.textContent = messages.computer
                 }
             }
+        } else if (msg["queueDepth"]){
+            if (systemMessageBanner) {
+                systemMessageBanner.textContent = messages.queue
+            }
         }
 
         const transcript: Transcript = this.container.getTranscript();

@@ -11,7 +11,7 @@ export function ContainerHtml(isEscalated: boolean): string {
         sizeButton = `<button id='toggleSizeButton' role="button">Decrease chat size</button>`
     }
 
-    let bannerMessage: string = messages.computer;
+    let bannerMessage: string = messages.chatLoading;
     let soundButton: string = `<button id="toggleSound" class="active"> Turn notification sound off </button>`;
     if (sessionStorage.getItem("isActive") == "false") { soundButton = `<button id="toggleSound" class="inactive"> Turn notification sound on </button>` }
 
