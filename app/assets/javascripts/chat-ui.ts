@@ -17,7 +17,7 @@ export function safeHandler(f: any) {
 };
 
 export const chatListener = {
-    onAnyEvent: function (evt: { c2c?: any; chatID: string; rule?: any }) {
+    onAnyEvent: function (evt: { c2c?: any; chatID: string; rule?: {name: string} }) {
         if (evt.c2c) {
             event = evt
         }

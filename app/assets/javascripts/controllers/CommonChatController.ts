@@ -188,7 +188,7 @@ export default class CommonChatController {
                     "defaultAgentAlias": "HMRC"
                 });
 
-                let urlPermittedforAutoEngage = sessionStorage.getItem("isAutoEngage")
+                let urlPermittedforAutoEngage: string | null = sessionStorage.getItem("isAutoEngage")
 
                 if (urlPermittedforAutoEngage == "true") {
                     this.sdk.autoEngage('chat started', null, (resp: { httpStatus: number }) => {

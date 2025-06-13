@@ -1191,30 +1191,28 @@ describe("CommonChatController", () => {
     expect(showDisplayOpenerScripts).toBeCalledTimes(0)
   });
 
-  // it("Tests functionality of _launchChat when state is show and it is an IVR webchat", () => {
-  //   const sdk = {
-  //     getOpenerScripts: jest.fn().mockReturnValue(null),
-  //     chatDisplayed: jest.fn(),
-  //     autoEngage: jest.fn()
-  //   }
+  it("Tests functionality of _launchChat when state is show and it is an IVR webchat", () => {
+    const sdk = {
+      getOpenerScripts: jest.fn().mockReturnValue(null),
+      chatDisplayed: jest.fn(),
+      autoEngage: jest.fn()
+    }
 
-  //   window.Inq = {
-  //     SDK: sdk
-  //   };
+    window.Inq = {
+      SDK: sdk
+    };
+    sessionStorage.isAutoEngage = true
 
-  //   document.body.innerHTML = `<div class="dav4IVRWebchat"></div>`
+    document.body.innerHTML = `<div class="dav4IVRWebchat"></div>`
 
-  //   const isIVRWebchatOnlySpy = jest.spyOn(commonChatController, 'isIVRWebchatOnly')
-  //   const showChatSpy = jest.spyOn(commonChatController, '_showChat');
-  //   const showDisplayOpenerScripts = jest.spyOn(commonChatController, '_displayOpenerScripts')
-  //   commonChatController._launchChat({ state: 'show' });
+    const showChatSpy = jest.spyOn(commonChatController, '_showChat');
+    const showDisplayOpenerScripts = jest.spyOn(commonChatController, '_displayOpenerScripts')
+    commonChatController._launchChat({ state: 'show' });
 
-  //   expect(isIVRWebchatOnlySpy).toBeCalledTimes(1)
-  //   expect(isIVRWebchatOnlySpy).toHaveReturnedWith(true)
-  //   expect(showChatSpy).toBeCalledTimes(1);
-  //   expect(showDisplayOpenerScripts).toBeCalledTimes(1)
-  //   expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1)
-  //   expect(sdk.autoEngage).toHaveBeenCalledTimes(1)
-  // });
+    expect(showChatSpy).toBeCalledTimes(1);
+    expect(showDisplayOpenerScripts).toBeCalledTimes(1)
+    expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1)
+    expect(sdk.autoEngage).toHaveBeenCalledTimes(1)
+  });
 
 });
