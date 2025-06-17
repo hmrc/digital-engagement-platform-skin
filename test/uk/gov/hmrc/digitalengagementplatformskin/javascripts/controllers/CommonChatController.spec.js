@@ -940,136 +940,103 @@ describe("CommonChatController", () => {
     expect(engageChatMock).toBeCalledTimes(1);
   })
 
-  it("removeElementsForPrint should remove elements", () => {
 
-    var html = `
-      <a id="back-link" class="govuk-back-link">Back</a>
-      <a id="hmrc-report-technical-issue" hreflang="en" class="govuk-link hmrc-report-technical-issue ">Is this page not working properly? (opens in new tab)</a>
-      <footer id="govuk-footer" class="govuk-footer " role="contentinfo">
-        <div class="govuk-width-container banner__text">
-          <div class="govuk-footer__meta">
-            <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
-              <h2 class="govuk-visually-hidden">Support links</h2>
-              <ul class="govuk-footer__inline-list">
-                <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="/help/cookies">Cookies</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </footer>
-      <h1 id="govuk-heading-xl" class="heading-margin-top govuk-heading-xl">Ask HMRC online</h1>
-      <div id="hmrc-user-research-banner" class="hmrc-user-research-banner" data-module="hmrc-user-research-banner">
-      <div class="hmrc-user-research-banner__container govuk-width-container">
-        <div class="hmrc-user-research-banner__text">
-          <div class="hmrc-user-research-banner__title govuk-!-font-weight-bold">Help improve our digital assistant</div>
-            <a class="govuk-link hmrc-user-research-banner__link">Please take part in our short survey (opens in new window or tab)</a>
-          </div>
-          <button class="govuk-link hmrc-user-research-banner__close">No thanks</button>
-        </div>
+  it("include elements for printing using onPrint", () => {
+
+    document.head.innerHTML = `
+    <style id="style1">.print-only { display: none; }</style>
+    <style id="style2">.timestamp-outer { clear: both; }</style>
+    `
+    document.body.innerHTML = `
+    <div class="contact">
+        <p>Telephone:<br><strong>0300 200 3600</strong></p>
+        <p>Outside UK:<br><strong>+44 161 930 8445</strong></p>
+    </div>
+
+    <p>Opening times:</p>
+    <p>Our phone line opening hours are:</p>
+    <p>Monday to Friday: 8am to 6pm</p>
+    <p>Closed weekends and bank holidays.</p>
+
+    <div id="ciapiSkinContainer" class="ciapiSkinContainerStandardSize">
+    <div id="titleBar" class="govuk-!-display-none-print">
+
+    <div class="dropdown">
+        <button id="menuButton" class="dropbtn" draggable="false" role="button" type="button" aria-expanded="false" aria-controls="menuList" aria-label="Menu">
+            <div id="menuText" class="govuk-heading-s govuk-!-font-size-19">Menu</div>
+        </button>
+    
+    <div id="menuList" class="dropdown-content">
+        <button id="ciapiSkinCloseButton" role="button" tabindex="0"> End chat </button>
+        <button id="printButton" role="button" tabindex="0"> Print or save chat </button>
+        <button id="toggleSizeButton" role="button">Increase chat size</button>
+        <button id="toggleSound" class="active"> Turn notification sound off </button>
+        <button id="accessibility-statement-link" role="button">Accessibility statement (opens in a new tab)</button>
+    </div>
+    </div>
+  
+    <div id="ciapiSkinTitleBar">
+        <h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC</h2>
+    </div>
+
+    <span id="chat-id">4055229913802606</span>
+    <p id="print-date" class="govuk-body print-only"></p>
+   
+    <div id="ciapiChatComponents">
+      <div id="systemMessageBanner">You're speaking with a computer</div>
+          <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript print-overflow-visible" role="region" tabindex="0" aria-label="chat transcript">
+              <div id="skipToBottom"><a id="skipToBottomLink" href="#" class="govuk-skip-link">Skip to bottom of conversation</a></div>
+          <div class="timestamp-outer"><span class="govuk-visually-hidden">1:40 PM</span><h3 class="print-only print-float-left govuk-!-font-weight-bold govuk-body">HMRC said: </h3><div class="ciapi-agent-container"><div class="govuk-body ciapi-agent-message" tabindex="-1" id="liveMsgId9.654247787119152" aria-live="polite"><div class="govuk-visually-hidden"><h3>1:40 PM Automated message : </h3></div> Hello, I’m HMRC’s digital assistant. <div class="govuk-!-margin-top-static-5"> Tell me in a few words what you’d like help with, without giving me any personal information. </div></div></div><p class="print-only govuk-body popup-print-float-left" aria-hidden="true">1:40 PM</p></div>
+          <div class="timestamp-outer"><span class="govuk-visually-hidden">1:55 PM</span><h2 class="print-only popup-print-float-right govuk-!-font-weight-bold govuk-body">You said: </h2><div class="ciapi-customer-container" style="padding-bottom: 68px;"><div class="govuk-body ciapi-customer-message" id="liveMsgId61.54920466263988"><div class="govuk-visually-hidden"><h2>1:55 PM You said : </h2></div> Hi</div></div><p class="print-only govuk-body popup-print-float-right print-timestamp-right" aria-hidden="true">1:55 PM</p></div>
+          <div class="timestamp-outer"><span class="govuk-visually-hidden">1:55 PM</span><h3 class="print-only print-float-left govuk-!-font-weight-bold govuk-body">hmrcda said: </h3><div class="ciapi-agent-container"><div class="govuk-body ciapi-agent-message" tabindex="-1" id="liveMsgId88.72243571679525" aria-live="polite"><div class="govuk-visually-hidden"><h3>1:55 PM Adviser said :</h3></div> Hello</div></div><p class="print-only govuk-body popup-print-float-left" aria-hidden="true">1:55 PM</p></div>
+          <div class="timestamp-outer"><span class="govuk-visually-hidden">1:55 PM</span><h2 class="print-only popup-print-float-right govuk-!-font-weight-bold govuk-body">You said: </h2><div class="ciapi-customer-container" style="padding-bottom: 68px;"><div class="govuk-body ciapi-customer-message" id="liveMsgId41.3914917731497"><div class="govuk-visually-hidden"><h2>1:55 PM You said : </h2></div> tell me about self assessment</div></div><p class="print-only govuk-body popup-print-float-right print-timestamp-right" aria-hidden="true">1:55 PM</p></div>
+          <div class="timestamp-outer"><span class="govuk-visually-hidden">1:55 PM</span><h3 class="print-only print-float-left govuk-!-font-weight-bold govuk-body">hmrcda said: </h3><div class="ciapi-agent-container"><div class="govuk-body ciapi-agent-message" tabindex="-1" id="liveMsgId19.826521566796284" aria-live="polite"><div class="govuk-visually-hidden"><h3>1:55 PM Adviser said :</h3></div> Self Assessment is a system we use to collect Income Tax. <br><br>Tax is usually paid through wages and pensions, but people and businesses with other income must report it in a tax return.<br><br>Find out more about <a href="https://www.gov.uk/self-assessment-tax-returns" rel="noopener noreferrer" target="_blank">Self Assessment tax returns (opens in a new tab)</a>. </div></div><p class="print-only govuk-body popup-print-float-left" aria-hidden="true">1:55 PM</p></div>
+          <div class="timestamp-outer"><span class="govuk-visually-hidden">1:55 PM</span><h2 class="print-only popup-print-float-right govuk-!-font-weight-bold govuk-body">You said: </h2><div class="ciapi-customer-container" style="padding-bottom: 68px;"><div class="govuk-body ciapi-customer-message" id="liveMsgId22.14072214444012"><div class="govuk-visually-hidden"><h2>1:55 PM You said : </h2></div> where is my</div></div><p class="print-only govuk-body popup-print-float-right print-timestamp-right" aria-hidden="true">1:55 PM</p></div>
+          <div class="timestamp-outer"><span class="govuk-visually-hidden">1:55 PM</span><h2 class="print-only popup-print-float-left govuk-!-font-weight-bold govuk-body">hmrcda said: </h2><div class="ciapi-agent-container" aria-live="polite"><div class="govuk-body ciapi-agent-message" tabindex="-1" id="liveAutomatedMsgId31.49975961060609"><div>What is your question about?<ul class="quick-reply-widget"><li>Child Benefit</li><li>PAYE</li><li>Self Assessment</li><li>Something else</li></ul></div></div></div><p class="print-only govuk-body popup-print-float-left">1:55 PM</p></div>
+          <div class="timestamp-outer"><span class="govuk-visually-hidden">1:55 PM</span><h2 class="print-only popup-print-float-right govuk-!-font-weight-bold govuk-body">You said: </h2><div class="ciapi-customer-container" style="padding-bottom: 68px;"><div class="govuk-body ciapi-customer-message" id="liveMsgId28.173483911535957"><div class="govuk-visually-hidden"><h2>1:55 PM You said : </h2></div> Child Benefit</div></div><p class="print-only govuk-body popup-print-float-right print-timestamp-right" aria-hidden="true">1:55 PM</p></div>
+          <div class="timestamp-outer"><span class="govuk-visually-hidden">1:55 PM</span><h3 class="print-only print-float-left govuk-!-font-weight-bold govuk-body">hmrcda said: </h3><div class="ciapi-agent-container"><div class="govuk-body ciapi-agent-message" tabindex="-1" id="liveMsgId53.26504190009273" aria-live="polite"><div class="govuk-visually-hidden"><h3>1:55 PM Adviser said :</h3></div> You can <a href="https://www.gov.uk/guidance/check-when-you-can-expect-a-reply-from-hmrc" target="blank">check when can you expect a reply from HMRC (opens in a new tab)</a>.</div></div><p class="print-only govuk-body popup-print-float-left" aria-hidden="true">1:55 PM</p></div><div id="skipToTop" class="skipToTopWithScroll govuk-!-padding-top-2"><a id="skipToTopLink" href="#" class="govuk-skip-link">Skip to top of conversation</a></div>
       </div>
-    `;
-    document.body.innerHTML = html;
+    </div>
+        
+    <div id="ciapiSkinFooter" class="govuk-!-display-none-print">
+      <label class="govuk-label" for="custMsg">Enter a message</label>
+      <div id="ciapiInput">
+        <textarea id="custMsg" class="govuk-textarea" role="textbox" aria-label="Enter a message " placeholder="" rows="5" cols="50" name="comments"></textarea>
+      </div>
+      <div id="ciapiSend">
+        <button id="ciapiSkinSendButton" aria-disabled="true" class="govuk-button" data-module="govuk-button" disabled="">Send message</button>
+        <div id="sentMessageNotification" aria-live="polite" class="govuk-visually-hidden"></div>
+      </div>
+      </div>
+    </div>
+    </div>`
 
-    const elementList = [
-      "govuk-back-link",
-      "hmrc-report-technical-issue",
-      "govuk-footer",
-      "govuk-heading-xl",
-      "hmrc-user-research-banner",
-    ];
 
-    PrintUtils.removeElementsForPrint(elementList);
-
-    expect(document.getElementById("back-link").classList.contains("govuk-!-display-none-print")).toBe(true);
-    expect(document.getElementById("hmrc-report-technical-issue").classList.contains("govuk-!-display-none-print")).toBe(true);
-    expect(document.getElementById("govuk-footer").classList.contains("govuk-!-display-none-print")).toBe(true);
-    expect(document.getElementById("govuk-heading-xl").classList.contains("govuk-!-display-none-print")).toBe(true);
-    expect(document.getElementById("hmrc-user-research-banner").classList.contains("govuk-!-display-none-print")).toBe(true);
-  });
-
-  it("onPrint should remove elements on popup", () => {
-
-    var html = `
-        <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-            <div class="govuk-grid-row govuk-body">
-                <div class="govuk-grid-column-two-thirds"></div>
-            </div>
-        </main>
-        <div id="nuanMessagingFrame" class="ci-api-popup"><iframe id="inqChatStage" title="Chat Window" name="10006719" src="https://www.qa.tax.service.gov.uk/engagement-platform/nuance/hmrc-uk-nuance.html?IFRAME&amp;nuance-frame-ac=0" style="z-index:9999999; display: none;overflow: hidden; position: absolute; height: 1px; width: 1px; left: 0px; top: 0px; border-style: none; border-width: 0px;"></iframe><div id="ciapiSkin">
-        <p class="govuk-body print-only">Chat ID: <span id="chat-id">388262275535576909</span></p>
-        <p id="print-date" class="govuk-body print-only"></p>
-        </div>
-      `;
-    document.body.innerHTML = html;
     const evt = { preventDefault: jest.fn() }
+    commonChatController.onPrint(evt)
+    const printingIframe = document.getElementById('printIframe')
+    expect(printingIframe).not.toBeNull()
 
-    expect(document.querySelector("div.govuk-grid-row").classList.contains("govuk-!-display-none-print")).toBe(false);
-    expect(document.querySelector("div.govuk-grid-column-two-thirds").classList.contains("govuk-!-display-none-print")).toBe(false);
-    expect(document.querySelector("main.govuk-main-wrapper").classList.contains("govuk-!-display-none-print")).toBe(false);
-
-    commonChatController.onPrint(evt);
-
-    expect(document.querySelector("div.govuk-grid-row").classList.contains("govuk-!-display-none-print")).toBe(true);
-    expect(document.querySelector("div.govuk-grid-column-two-thirds").classList.contains("govuk-!-display-none-print")).toBe(true);
-    expect(document.querySelector("main.govuk-main-wrapper").classList.contains("govuk-!-display-none-print")).toBe(true);
-  });
-
-  it("onPrint returns a print window", () => {
-
-    const html = `
-      <p id="print-date" class="govuk-body print-only"></p>
-      <a id="back-link" class="govuk-back-link">Back</a>
-      <a id="hmrc-report-technical-issue" hreflang="en" class="govuk-link hmrc-report-technical-issue ">Is this page not working properly? (opens in new tab)</a>
-      <footer id="govuk-footer" class="govuk-footer " role="contentinfo">
-        <div class="govuk-width-container ">
-          <div class="govuk-footer__meta">
-            <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
-              <h2 class="govuk-visually-hidden">Support links</h2>
-              <ul class="govuk-footer__inline-list">
-                <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="/help/cookies">Cookies</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </footer>
-      <h1 id="govuk-heading-xl" class="heading-margin-top govuk-heading-xl">Ask HMRC online</h1>
-      <div id="hmrc-user-research-banner" class="hmrc-user-research-banner" data-module="hmrc-user-research-banner">
-      <div class="hmrc-user-research-banner__container govuk-width-container">
-        <div class="hmrc-user-research-banner__text">
-          <div class="hmrc-user-research-banner__title govuk-!-font-weight-bold">Help improve our digital assistant</div>
-            <a class="govuk-link hmrc-user-research-banner__link">Please take part in our short survey (opens in new window or tab)</a>
-          </div>
-          <button class="govuk-link hmrc-user-research-banner__close">No thanks</button>
-        </div>
-      </div>
-      <div id="nuanMessagingFrame"><iframe id="inqChatStage" title="Chat Window" name="10006719" src="https://www.qa.tax.service.gov.uk/engagement-platform/nuance/hmrc-uk-nuance.html?IFRAME&amp;nuance-frame-ac=0" style="z-index:9999999; display: none;overflow: hidden; position: absolute; height: 1px; width: 1px; left: 0px; top: 0px; border-style: none; border-width: 0px;"></iframe><div id="ciapiSkin">
-      <p class="govuk-body print-only">Chat ID: <span id="chat-id">388262275535576909</span></p>
-      <p id="print-date" class="govuk-body print-only"></p>
-      </div>
-      <div id="ciapiSkinContainer">
-          <div id="ciapiSkinHeader" class="govuk-!-display-none-print">
-            <div id="print">
-              <button id="printButton" class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                Print chat
-              </button>
-            </div>
-            <div id="sound">
-              <button id="toggleSound" class="govuk-button govuk-button--secondary active" data-module="govuk-button">
-                Turn notification sound off
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-    document.body.innerHTML = html;
-    const evt = { preventDefault: jest.fn() }
-
-    commonChatController.onPrint(evt);
-
-    expect(document.getElementById("govuk-back-link")).toBe(null);
-    expect(document.getElementById("nuanMessagingFrame")).not.toBe(null);
-  });
+    const parser = new DOMParser();
+    const virtualIframe = parser.parseFromString(printingIframe.srcdoc, 'text/html')
+    const htmlElements = virtualIframe.querySelectorAll(".timestamp-outer")
+    const styleElements = virtualIframe.querySelectorAll('style, link[rel="stylesheet"]')
+    const chatID = virtualIframe.getElementById('chat-id')
+    const printDate = virtualIframe.getElementById('print-date')
+    const contactInfo = virtualIframe.querySelector('.contact')
+    const footerDA = virtualIframe.getElementById('ciapiSkinFooter')
+    expect(chatID.outerHTML).toBe(`<span id="chat-id">4055229913802606</span>`)
+    expect(printDate.outerHTML).toBe(`<p id="print-date" class="govuk-body print-only">${PrintUtils.getPrintDate()}</p>`)
+    expect(htmlElements.length).toBe(9)
+    expect(htmlElements[0].outerHTML).toBe(`<div class="timestamp-outer"><span class="govuk-visually-hidden">1:40 PM</span><h3 class="print-only print-float-left govuk-!-font-weight-bold govuk-body">HMRC said: </h3><div class="ciapi-agent-container"><div class="govuk-body ciapi-agent-message" tabindex="-1" id="liveMsgId9.654247787119152" aria-live="polite"><div class="govuk-visually-hidden"><h3>1:40 PM Automated message : </h3></div> Hello, I’m HMRC’s digital assistant. <div class="govuk-!-margin-top-static-5"> Tell me in a few words what you’d like help with, without giving me any personal information. </div></div></div><p class="print-only govuk-body popup-print-float-left" aria-hidden="true">1:40 PM</p></div>`)
+    expect(htmlElements[3].outerHTML).toBe(`<div class="timestamp-outer"><span class="govuk-visually-hidden">1:55 PM</span><h2 class="print-only popup-print-float-right govuk-!-font-weight-bold govuk-body">You said: </h2><div class="ciapi-customer-container" style="padding-bottom: 68px;"><div class="govuk-body ciapi-customer-message" id="liveMsgId41.3914917731497"><div class="govuk-visually-hidden"><h2>1:55 PM You said : </h2></div> tell me about self assessment</div></div><p class="print-only govuk-body popup-print-float-right print-timestamp-right" aria-hidden="true">1:55 PM</p></div>`)
+    expect(htmlElements[4].outerHTML).toBe(`<div class="timestamp-outer"><span class="govuk-visually-hidden">1:55 PM</span><h3 class="print-only print-float-left govuk-!-font-weight-bold govuk-body">hmrcda said: </h3><div class="ciapi-agent-container"><div class="govuk-body ciapi-agent-message" tabindex="-1" id="liveMsgId19.826521566796284" aria-live="polite"><div class="govuk-visually-hidden"><h3>1:55 PM Adviser said :</h3></div> Self Assessment is a system we use to collect Income Tax. <br><br>Tax is usually paid through wages and pensions, but people and businesses with other income must report it in a tax return.<br><br>Find out more about <a href="https://www.gov.uk/self-assessment-tax-returns" rel="noopener noreferrer" target="_blank">Self Assessment tax returns (opens in a new tab)</a>. </div></div><p class="print-only govuk-body popup-print-float-left" aria-hidden="true">1:55 PM</p></div>`)
+    expect(styleElements.length).toBe(2)
+    expect(styleElements[0].outerHTML).toBe(`<style id="style1">.print-only { display: none; }</style>`)
+    expect(styleElements[1].outerHTML).toBe(`<style id="style2">.timestamp-outer { clear: both; }</style>`)
+    expect(contactInfo).toBeNull()
+    expect(footerDA).toBeNull()
+  })
 
   it("_moveToChatNullState should move to a Null state", () => {
 

@@ -12,6 +12,7 @@ import PostPCSPage from '../views/postChatSurvey/PostPCSPage'
 import PrintUtils from '../utils/PrintUtils'
 import { messages } from "../utils/Messages";
 import { AutomatonType, Survey, Answers, StateType } from '../types'
+import { host } from '../utils/HostUtils';
 
 type ChatStatesType = ChatStates.NullState | ChatStates.EngagedState | ChatStates.ClosingState | ChatStates.ShownState
 interface QuestionCompleted {
@@ -341,47 +342,65 @@ export default class CommonChatController {
         }
     }
 
-    onPrint(e: Event): boolean {
+    onPrint(e: Event): void {
         this.closeMenu()
         document.getElementById("custMsg")?.focus();
         e.preventDefault;
-        const printDate: HTMLElement | null = document.getElementById("print-date")
+
+        let existingPrintIframe: HTMLElement | null = document.getElementById("printIframe")
+        if (existingPrintIframe) {
+            document.body.removeChild(existingPrintIframe);
+        }
+
+        let printDate: HTMLElement | null = document.getElementById("print-date")
         if (printDate) {
             printDate.innerHTML = PrintUtils.getPrintDate();
         }
 
-        const elementList: string[] = [
-            "app-related-items",
-            "govuk-back-link",
-            "govuk-phase-banner",
-            "hmrc-report-technical-issue",
-            "govuk-footer",
-            "govuk-heading-xl",
-            "hmrc-user-research-banner",
-            "cbanner-govuk-cookie-banner",
-        ];
+        let printingIframe: HTMLIFrameElement = document.createElement("iframe")
+        printingIframe.id = "printIframe";
+        printingIframe.style.position = "absolute";
+        printingIframe.style.width = "0";
+        printingIframe.style.height = "0";
+        printingIframe.style.border = "none";
+        printingIframe.style.visibility = "hidden"
+        document.body.appendChild(printingIframe);
 
-        const printList: string[] = [
-            "govuk-grid-row",
-            "govuk-grid-column-two-thirds",
-            "govuk-main-wrapper"
-        ];
+        const chatID: HTMLElement | null = document.getElementById('chat-id')
+        const htmlElements: NodeListOf<HTMLDivElement> = document.querySelectorAll('.timestamp-outer')
+        const styleElements: NodeListOf<HTMLElement> = document.querySelectorAll('style, link[rel="stylesheet"]')
+        const htmlString: string = Array.from(htmlElements).map(el => el.outerHTML).join('')
+        const styleString: string = Array.from(styleElements).map(el => el.outerHTML).join('')
 
-        PrintUtils.removeElementsForPrint(elementList);
+        const printingIframeHTML = `
+        <html>
+            <head>
+                ${styleString}
+            </head>
+            <body>
+                <header class="govuk-header print-gov-header" data-module="govuk-header">
+                    <div class="govuk-header__container govuk-width-container">
+                        <div class="govuk-header__logo">
+                            <a href="#" class="govuk-header__link govuk-header__link--homepage">
+                                <img src="` + host + `/engagement-platform-skin/assets/media/crown.svg" alt='crown logo'>
+                            </a>
+                        </div>
+                    </div>
+                </header>
+                <p class='govuk-body'>Chat ID: ${chatID?.outerHTML}</p>
+                <p class='govuk-body'>${printDate?.outerHTML}</p>
+                ${htmlString}
+            </body>
+        </html>`
 
-        if (document.getElementById("nuanMessagingFrame")?.classList.contains("ci-api-popup")) {
-            document.body.querySelectorAll('*').forEach(function (node: Element): void {
-                printList.forEach(function (item: string): void {
-                    if (node.classList.contains(item)) {
-                        node.classList.add("govuk-!-display-none-print");
-                    }
-                });
-            });
+        printingIframe.srcdoc = printingIframeHTML
+        printingIframe.onload = () => {
+            const printWindow: Window | null = printingIframe.contentWindow
+            if (!printWindow) {
+                return
+            }
+            requestAnimationFrame(() => printWindow.print())
         }
-
-        window.print();
-
-        return false;
     }
 
     _sendPostChatSurveyWebchat(sdk: any): PostChatSurveyWebchatService {
@@ -754,7 +773,7 @@ export default class CommonChatController {
             container.classList.add("ciapiSkinContainerStandardSize");
             sizeButton.innerHTML = "Increase chat size";
         }
-        sessionStorage.setItem("isStandard", `${!isStandard}`);
+        sessionStorage.setItem("isStandard", `${!isStandard} `);
         this.closeMenu()
         document.getElementById("custMsg")?.focus();
     }

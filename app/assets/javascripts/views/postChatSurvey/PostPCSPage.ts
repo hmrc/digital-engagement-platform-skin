@@ -1,4 +1,4 @@
-import PrintUtils from "../../utils/PrintUtils"
+import CommonChatController from "../../controllers/CommonChatController";
 
 const html: string = `
 <div id="endPage">
@@ -34,6 +34,7 @@ export default class PostPCSPage {
     showThanks: boolean
     eventHandler: typeof nullEventHandler
     content: HTMLElement | null
+    commonchatcontroller: CommonChatController
 
 
     constructor(showThanks: boolean) {
@@ -42,6 +43,7 @@ export default class PostPCSPage {
         this.container.id = "ciapiSkin";
         this.eventHandler = nullEventHandler;
         this.content = this.container.querySelector("#endPage");
+        this.commonchatcontroller = new CommonChatController()
     }
 
     attachTo(container: HTMLElement): void {
@@ -81,43 +83,19 @@ export default class PostPCSPage {
         const element = this.wrapper.querySelector<HTMLElement>('#printPostChat');
         if (element) {
             element.addEventListener("click", (e: MouseEvent): void => {
-                let elementList = [
-                    "app-related-items",
-                    "govuk-back-link",
-                    "govuk-phase-banner",
-                    "hmrc-report-technical-issue",
-                    "govuk-footer",
-                    "govuk-heading-xl",
-                    "hmrc-user-research-banner",
-                    "cbanner-govuk-cookie-banner",
-                    "postChatSurveyWrapper"
-                ];
-
-                if (document.getElementById("nuanMessagingFrame")?.classList.contains("ci-api-popup")) {
-                    elementList.push("govuk-grid-column-two-thirds")
-                }
-
-                PrintUtils.removeElementsForPrint(elementList);
 
                 const endPageWrapper = this.container?.querySelector<HTMLElement>('#endPage')
                 const skinChatTranscript = this.container?.querySelector<HTMLElement>("#ciapiSkinChatTranscript");
 
                 if (endPageWrapper) {
-                    endPageWrapper.style.display = 'none'
+                    endPageWrapper.style.display = ''
                 }
                 if (skinChatTranscript) {
-                    skinChatTranscript.style.display = ''
-                }
-
-                let printDate = document.getElementById("print-date")
-                if (printDate) {
-                    printDate.innerHTML = PrintUtils.getPrintDate();
+                    skinChatTranscript.style.display = 'none'
                 }
 
                 document.getElementById("postPCSPageWrapper")?.classList.add("govuk-!-display-none-print")
-
-                window.print();
-                this.eventHandler.onPrint(e);
+                this.commonchatcontroller.onPrint(e)
                 e.preventDefault();
             })
 
