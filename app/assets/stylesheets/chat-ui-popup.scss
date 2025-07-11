@@ -113,7 +113,7 @@ $page-height: calc(100% - 5px);
     color: white;
     cursor: pointer;
     &:hover {
-        background-color: #003078 !important;
+        background-color: #505a5f !important;
     }
 }
 
@@ -347,7 +347,7 @@ $page-height: calc(100% - 5px);
     position: fixed;
     bottom: 0px;
     right: 0px;
-    background-color: #1d70b8;
+    background-color: #0b0c0c;
     #ciapiSkinRestoreButton {
         z-index: 1000;
         width: 100%;
@@ -392,7 +392,7 @@ $page-height: calc(100% - 5px);
 }
 
 #ciapiSkinMinimised:hover {
-    background-color: #003078;
+    background-color: #505a5f;
 }
 
 #postChatSurveyWrapper {
@@ -526,7 +526,7 @@ $page-height: calc(100% - 5px);
   
   /* Dropdown button on hover & focus */
   .dropbtn:hover {
-    background-color: #003078;
+    background-color: #505a5f;
   }
 
   .dropbtn:focus {
