@@ -13,6 +13,7 @@ import PrintUtils from '../utils/PrintUtils'
 import { messages } from "../utils/Messages";
 import { AutomatonType, Survey, Answers, StateType } from '../types'
 import { host } from '../utils/HostUtils';
+import SessionActivityService from '../utils/session-activity-service'
 
 type ChatStatesType = ChatStates.NullState | ChatStates.EngagedState | ChatStates.ClosingState | ChatStates.ShownState
 interface QuestionCompleted {
@@ -469,7 +470,7 @@ export default class CommonChatController {
         // cleanup();
         // setupDialogTimer();
         this.ajaxGet("/ask-hmrc/test-only/keep-alive", () => { });
-        // broadcastSessionActivity();
+        this.broadcastSessionActivity();
     };
 
     ajaxGet(url: any, success: any) {
@@ -477,12 +478,16 @@ export default class CommonChatController {
         xhr.open('GET', url);
         xhr.onreadystatechange = () => {
             if (xhr.readyState > 3 && xhr.status === 200) success(xhr.responseText);
-            console.log('CONDITION true')
         };
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr.send();
         return xhr;
     }
+
+    broadcastSessionActivity = () => {
+        const sessionActivityService = new SessionActivityService(window.BroadcastChannel);
+        sessionActivityService.logActivity();
+    };
 
     onCloseChat(): void {
         this.state.onClickedClose();
