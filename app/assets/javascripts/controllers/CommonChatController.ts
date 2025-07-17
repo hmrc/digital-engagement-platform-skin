@@ -68,6 +68,7 @@ export default class CommonChatController {
     escalated: boolean
     type: string
     container: any
+    cleanupFunctions: any
     constructor() {
         this.sdk = null;
         this.state = new ChatStates.NullState();
@@ -75,6 +76,7 @@ export default class CommonChatController {
         this.ended = false;
         this.escalated = false;
         this.type = '';
+        this.cleanupFunctions = [];
     }
 
     getFeatureSwitch(switchName: string): boolean {
@@ -466,8 +468,8 @@ export default class CommonChatController {
         //}
     }
 
-    keepAliveAndClose = () => {
-        // cleanup();
+    keepAliveAndClose() {
+        this.cleanup();
         // setupDialogTimer();
         this.ajaxGet("/ask-hmrc/test-only/keep-alive", () => { });
         this.broadcastSessionActivity();
@@ -484,7 +486,14 @@ export default class CommonChatController {
         return xhr;
     }
 
-    broadcastSessionActivity = () => {
+    cleanup() {
+        while (this.cleanupFunctions.length > 0) {
+            const fn = this.cleanupFunctions.shift();
+            fn();
+        }
+    };
+
+    broadcastSessionActivity() {
         const sessionActivityService = new SessionActivityService(window.BroadcastChannel);
         sessionActivityService.logActivity();
     };
