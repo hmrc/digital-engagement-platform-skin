@@ -3,13 +3,14 @@ export default class SessionActivityService {
 
     constructor(BrowserBroadcastChannel: any) {
         this.activityChannel = BrowserBroadcastChannel && new BrowserBroadcastChannel('session-activity');
+
+        // this.activityChannel = window.BroadcastChannel('session-activity')
     }
 
     logActivity() {
         if (this.activityChannel) {
             const event = { timestamp: Date.now() };
             this.activityChannel.postMessage(event);
-            console.log('EVENT SAS', event)
         }
     }
 }

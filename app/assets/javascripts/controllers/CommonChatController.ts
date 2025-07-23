@@ -470,7 +470,6 @@ export default class CommonChatController {
 
     keepAliveAndClose() {
         this.cleanup();
-        // setupDialogTimer();
         this.ajaxGet("/ask-hmrc/test-only/keep-alive", () => { });
         this.broadcastSessionActivity();
     };
@@ -486,6 +485,7 @@ export default class CommonChatController {
         return xhr;
     }
 
+    // Do we need this, I do not think it is doing anything because from what I can tell we are not adding anything to the cleanupFunctions array therefore this loop will never run?
     cleanup() {
         while (this.cleanupFunctions.length > 0) {
             const fn = this.cleanupFunctions.shift();
