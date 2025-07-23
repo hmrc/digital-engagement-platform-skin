@@ -463,14 +463,14 @@ export default class CommonChatController {
             this.onScreenReaderMessageSentNotification()
             this.container.clearCurrentInputText();
         }
-        //if (window.location.href.includes('personal-account')) {
-        this.keepAliveAndClose();
-        //}
+        // For testing purposes only delete when finished
+        if (window.location.href.includes('qa')) {
+            this.keepAliveAndClose();
+        }
     }
 
     keepAliveAndClose() {
-        this.cleanup();
-        this.ajaxGet("/ask-hmrc/test-only/keep-alive", () => { });
+        this.ajaxGet("/business-account/epaye/keep-alive", () => { });
         this.broadcastSessionActivity();
     };
 
@@ -484,14 +484,6 @@ export default class CommonChatController {
         xhr.send();
         return xhr;
     }
-
-    // Do we need this, I do not think it is doing anything because from what I can tell we are not adding anything to the cleanupFunctions array therefore this loop will never run?
-    cleanup() {
-        while (this.cleanupFunctions.length > 0) {
-            const fn = this.cleanupFunctions.shift();
-            fn();
-        }
-    };
 
     broadcastSessionActivity() {
         const sessionActivityService = new SessionActivityService(window.BroadcastChannel);

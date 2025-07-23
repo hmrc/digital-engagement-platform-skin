@@ -4,7 +4,7 @@ export default class SessionActivityService {
     constructor(BrowserBroadcastChannel: any) {
         this.activityChannel = BrowserBroadcastChannel && new BrowserBroadcastChannel('session-activity');
 
-        // this.activityChannel = window.BroadcastChannel('session-activity')
+        this.activityChannel = new window.BroadcastChannel('session-activity')
     }
 
     logActivity() {
