@@ -68,7 +68,6 @@ export default class CommonChatController {
     escalated: boolean
     type: string
     container: any
-    cleanupFunctions: any
     constructor() {
         this.sdk = null;
         this.state = new ChatStates.NullState();
@@ -76,7 +75,6 @@ export default class CommonChatController {
         this.ended = false;
         this.escalated = false;
         this.type = '';
-        this.cleanupFunctions = [];
     }
 
     getFeatureSwitch(switchName: string): boolean {
