@@ -1,6 +1,5 @@
 export default class SessionActivityService {
     activityChannel: BroadcastChannel
-    //passing the constructor function (window.Broadcast) so this should expect the constructor not an instance of it
     constructor(BrowserBroadcastChannel: typeof BroadcastChannel) {
         this.activityChannel = BrowserBroadcastChannel && new BrowserBroadcastChannel('session-activity');
 

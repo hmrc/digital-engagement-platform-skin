@@ -474,8 +474,7 @@ export default class CommonChatController {
     }
 
     authenticatedServiceCheck(): void {
-        //const url: string = window.location.href
-        const url: string = '/business-account/keep-alive'
+        const url: string = window.location.href
         const authenticatedService = (Object.keys(authenticatedServiceEndpointsMap) as AuthenticatedServices[]).find(service => url.includes(`/${service}`))
         if (authenticatedService) {
             this.keepAliveAndClose(authenticatedService);
@@ -483,7 +482,7 @@ export default class CommonChatController {
     }
 
     keepAliveAndClose(authenticatedService: AuthenticatedServices): void {
-        const keepAliveEndpoint = authenticatedServiceEndpointsMap[authenticatedService]
+        const keepAliveEndpoint: string = authenticatedServiceEndpointsMap[authenticatedService]
         this.ajaxGet(keepAliveEndpoint, (_) => { });
         this.broadcastSessionActivity();
     };
