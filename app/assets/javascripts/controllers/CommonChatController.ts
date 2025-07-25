@@ -34,6 +34,15 @@ const automatonWebchat: AutomatonType = {
     name: "HMRC_PostChat_Transactional-CUI"
 };
 
+type AuthenticatedServices = 'business-account' | 'business-account/epaye' | 'personal-account' | 'check-income-tax'
+
+const authenticatedServiceEndpointsMap: Record<AuthenticatedServices, string> = {
+    'business-account/epaye': '/business-account/epaye/keep-alive',
+    'business-account': '/business-account/keep-alive',
+    'personal-account': '/personal-account/keep-alive',
+    'check-income-tax': '/check-income-tax/keep-alive'
+}
+
 const timestamp: number = Date.now();
 
 const webchatSurvey: Survey = {
@@ -461,19 +470,26 @@ export default class CommonChatController {
             this.onScreenReaderMessageSentNotification()
             this.container.clearCurrentInputText();
         }
-        // For testing purposes only delete when finished
-        if (window.location.href.includes('qa')) {
-            this.keepAliveAndClose();
+        this.authenticatedServiceCheck()
+    }
+
+    authenticatedServiceCheck(): void {
+        //const url: string = window.location.href
+        const url: string = '/business-account/keep-alive'
+        const authenticatedService = (Object.keys(authenticatedServiceEndpointsMap) as AuthenticatedServices[]).find(service => url.includes(`/${service}`))
+        if (authenticatedService) {
+            this.keepAliveAndClose(authenticatedService);
         }
     }
 
-    keepAliveAndClose() {
-        this.ajaxGet("/business-account/epaye/keep-alive", () => { });
+    keepAliveAndClose(authenticatedService: AuthenticatedServices): void {
+        const keepAliveEndpoint = authenticatedServiceEndpointsMap[authenticatedService]
+        this.ajaxGet(keepAliveEndpoint, (_) => { });
         this.broadcastSessionActivity();
     };
 
-    ajaxGet(url: any, success: any) {
-        const xhr = new XMLHttpRequest();
+    ajaxGet(url: string, success: (responseText: string) => void): XMLHttpRequest {
+        const xhr: XMLHttpRequest = new XMLHttpRequest();
         xhr.open('GET', url);
         xhr.onreadystatechange = () => {
             if (xhr.readyState > 3 && xhr.status === 200) success(xhr.responseText);
@@ -483,7 +499,7 @@ export default class CommonChatController {
         return xhr;
     }
 
-    broadcastSessionActivity() {
+    broadcastSessionActivity(): void {
         const sessionActivityService = new SessionActivityService(window.BroadcastChannel);
         sessionActivityService.logActivity();
     };
