@@ -34,10 +34,11 @@ const automatonWebchat: AutomatonType = {
     name: "HMRC_PostChat_Transactional-CUI"
 };
 
-type AuthenticatedServices = 'business-account' | 'business-account/epaye' | 'personal-account' | 'check-income-tax'
+const authenticatedServices = ['business-account', 'epaye', 'personal-account', 'check-income-tax'] as const;
+type AuthenticatedServices = typeof authenticatedServices[number];
 
 const authenticatedServiceEndpointsMap: Record<AuthenticatedServices, string> = {
-    'business-account/epaye': '/business-account/epaye/keep-alive',
+    'epaye': '/business-account/epaye/keep-alive',
     'business-account': '/business-account/keep-alive',
     'personal-account': '/personal-account/keep-alive',
     'check-income-tax': '/check-income-tax/keep-alive'
@@ -77,6 +78,7 @@ export default class CommonChatController {
     escalated: boolean
     type: string
     container: any
+    sessionActivityService: SessionActivityService
     constructor() {
         this.sdk = null;
         this.state = new ChatStates.NullState();
@@ -84,6 +86,7 @@ export default class CommonChatController {
         this.ended = false;
         this.escalated = false;
         this.type = '';
+        this.sessionActivityService = new SessionActivityService(window.BroadcastChannel);
     }
 
     getFeatureSwitch(switchName: string): boolean {
@@ -475,13 +478,13 @@ export default class CommonChatController {
 
     authenticatedServiceCheck(): void {
         const url: string = window.location.href
-        const authenticatedService = (Object.keys(authenticatedServiceEndpointsMap) as AuthenticatedServices[]).find(service => url.includes(`/${service}`))
+        const authenticatedService = authenticatedServices.find(service => url.includes(`/${service}`))
         if (authenticatedService) {
-            this.keepAliveAndClose(authenticatedService);
+            this.keepAlive(authenticatedService);
         }
     }
 
-    keepAliveAndClose(authenticatedService: AuthenticatedServices): void {
+    keepAlive(authenticatedService: AuthenticatedServices): void {
         const keepAliveEndpoint: string = authenticatedServiceEndpointsMap[authenticatedService]
         this.ajaxGet(keepAliveEndpoint, (_) => { });
         this.broadcastSessionActivity();
@@ -499,8 +502,7 @@ export default class CommonChatController {
     }
 
     broadcastSessionActivity(): void {
-        const sessionActivityService = new SessionActivityService(window.BroadcastChannel);
-        sessionActivityService.logActivity();
+        this.sessionActivityService.logActivity();
     };
 
     onCloseChat(): void {
