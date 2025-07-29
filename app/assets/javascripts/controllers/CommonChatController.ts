@@ -480,11 +480,11 @@ export default class CommonChatController {
         const url: string = window.location.href
         const authenticatedService = authenticatedServices.find(service => url.includes(`/${service}`))
         if (authenticatedService) {
-            this.keepAlive(authenticatedService);
+            this.keepSessionAlive(authenticatedService);
         }
     }
 
-    keepAlive(authenticatedService: AuthenticatedServices): void {
+    keepSessionAlive(authenticatedService: AuthenticatedServices): void {
         const keepAliveEndpoint: string = authenticatedServiceEndpointsMap[authenticatedService]
         this.ajaxGet(keepAliveEndpoint, (_) => { });
         this.broadcastSessionActivity();
