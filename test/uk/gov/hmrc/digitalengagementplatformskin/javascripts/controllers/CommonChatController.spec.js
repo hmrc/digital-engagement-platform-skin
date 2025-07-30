@@ -1182,4 +1182,55 @@ describe("CommonChatController", () => {
     expect(sdk.autoEngage).toHaveBeenCalledTimes(1)
   });
 
+  it("Tests functionality of authenticatedServiceCheck when the URL includes business-account", () => {
+    delete window.location
+    window.location = {
+      href: 'https://www.tax.service.gov.uk/business-account'
+    }
+    const keepSessionAliveSpy = jest.spyOn(commonChatController, 'keepSessionAlive')
+    commonChatController.authenticatedServiceCheck()
+    expect(keepSessionAliveSpy).toHaveBeenCalledWith('business-account')
+  });
+
+  it("Tests functionality of authenticatedServiceCheck when the URL includes business-account", () => {
+    delete window.location
+    window.location = {
+      href: 'https://www.tax.service.gov.uk/personal-account'
+    }
+    const keepSessionAliveSpy = jest.spyOn(commonChatController, 'keepSessionAlive')
+    commonChatController.authenticatedServiceCheck()
+    expect(keepSessionAliveSpy).toHaveBeenCalledWith('personal-account')
+  });
+
+  it("Tests functionality of authenticatedServiceCheck when the URL includes epaye", () => {
+    delete window.location
+    window.location = {
+      href: 'https://www.tax.service.gov.uk/business-account/epaye/statements/2020-21'
+    }
+    const keepSessionAliveSpy = jest.spyOn(commonChatController, 'keepSessionAlive')
+    commonChatController.authenticatedServiceCheck()
+    expect(keepSessionAliveSpy).toHaveBeenCalledWith('epaye')
+  });
+
+  it("Tests functionality of authenticatedServiceCheck when the URL includes check-income-tax", () => {
+    delete window.location
+    window.location = {
+      href: 'https://www.tax.service.gov.uk/check-income-tax'
+    }
+    const keepSessionAliveSpy = jest.spyOn(commonChatController, 'keepSessionAlive')
+    commonChatController.authenticatedServiceCheck()
+    expect(keepSessionAliveSpy).toHaveBeenCalledWith('check-income-tax')
+  });
+
+  it("Tests functionality of authenticatedServiceCheck when the URL does not include an authenticated service", () => {
+    delete window.location
+    window.location = {
+      href: 'https://www.tax.service.gov.uk/test-endpoint'
+    }
+    const keepSessionAliveSpy = jest.spyOn(commonChatController, 'keepSessionAlive')
+    commonChatController.authenticatedServiceCheck()
+    expect(keepSessionAliveSpy).not.toBeCalled()
+  });
+
+
 });

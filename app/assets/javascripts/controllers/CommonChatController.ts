@@ -34,7 +34,7 @@ const automatonWebchat: AutomatonType = {
     name: "HMRC_PostChat_Transactional-CUI"
 };
 
-const authenticatedServices = ['business-account', 'epaye', 'personal-account', 'check-income-tax'] as const;
+const authenticatedServices = ['epaye', 'business-account', 'personal-account', 'check-income-tax'] as const;
 type AuthenticatedServices = typeof authenticatedServices[number];
 
 const authenticatedServiceEndpointsMap: Record<AuthenticatedServices, string> = {
