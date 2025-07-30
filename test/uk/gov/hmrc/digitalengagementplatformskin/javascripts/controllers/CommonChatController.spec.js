@@ -1232,5 +1232,36 @@ describe("CommonChatController", () => {
     expect(keepSessionAliveSpy).not.toBeCalled()
   });
 
+  it("Tests functionality of keepSessionAlive when business-account is an argument", () => {
+    const ajaxGetSpy = jest.spyOn(commonChatController, 'ajaxGet')
+    const broadcastSessionActivitySpy = jest.spyOn(commonChatController, 'broadcastSessionActivity')
+    commonChatController.keepSessionAlive('business-account')
+    expect(ajaxGetSpy).toHaveBeenCalledWith('/business-account/keep-alive', expect.any(Function))
+    expect(broadcastSessionActivitySpy).toBeCalledTimes(1)
+  });
+
+  it("Tests functionality of keepSessionAlive when personal-account is an argument", () => {
+    const ajaxGetSpy = jest.spyOn(commonChatController, 'ajaxGet')
+    const broadcastSessionActivitySpy = jest.spyOn(commonChatController, 'broadcastSessionActivity')
+    commonChatController.keepSessionAlive('personal-account')
+    expect(ajaxGetSpy).toHaveBeenCalledWith('/personal-account/keep-alive', expect.any(Function))
+    expect(broadcastSessionActivitySpy).toBeCalledTimes(1)
+  });
+
+  it("Tests functionality of keepSessionAlive when epaye is an argument", () => {
+    const ajaxGetSpy = jest.spyOn(commonChatController, 'ajaxGet')
+    const broadcastSessionActivitySpy = jest.spyOn(commonChatController, 'broadcastSessionActivity')
+    commonChatController.keepSessionAlive('epaye')
+    expect(ajaxGetSpy).toHaveBeenCalledWith('/business-account/epaye/keep-alive', expect.any(Function))
+    expect(broadcastSessionActivitySpy).toBeCalledTimes(1)
+  });
+
+  it("Tests functionality of keepSessionAlive when check-income-tax is an argument", () => {
+    const ajaxGetSpy = jest.spyOn(commonChatController, 'ajaxGet')
+    const broadcastSessionActivitySpy = jest.spyOn(commonChatController, 'broadcastSessionActivity')
+    commonChatController.keepSessionAlive('check-income-tax')
+    expect(ajaxGetSpy).toHaveBeenCalledWith('/check-income-tax/keep-alive', expect.any(Function))
+    expect(broadcastSessionActivitySpy).toBeCalledTimes(1)
+  });
 
 });
