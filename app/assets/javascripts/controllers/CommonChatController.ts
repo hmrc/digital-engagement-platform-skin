@@ -498,13 +498,11 @@ export default class CommonChatController {
         };
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr.send();
-        console.log('AJAXSEND', xhr.send())
         return xhr;
     }
 
     broadcastSessionActivity(): void {
         this.sessionActivityService.logActivity();
-        console.log('BCA')
     };
 
     onCloseChat(): void {
