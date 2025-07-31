@@ -151,6 +151,10 @@ export default class CommonChatController {
         return ivrWebchatElement.length > 0
     }
 
+    isOnDepFrontendService(): boolean {
+        return this.isIVRWebchatOnly() || document.URL.includes("/ask-hmrc")
+    }
+
     _launchChat(obj: { type: string; state?: StateType }): void {
         if (this.container) {
             return;
@@ -211,7 +215,7 @@ export default class CommonChatController {
 
                 let dav3Skin: HTMLElement | null = document.getElementById("ciapiSkin");
 
-                if (dav3Skin) {
+                if (dav3Skin && this.isOnDepFrontendService()) {
                     this.updateDav3DeskproRefererUrls();
                 }
 
