@@ -1264,4 +1264,43 @@ describe("CommonChatController", () => {
     expect(broadcastSessionActivitySpy).toBeCalledTimes(1)
   });
 
+  it("Tests functionality of ajaxGet when status is 200 and readyState is greater than 3", () => {
+    const successCallback = jest.fn();
+    const xhrMockObj = {
+      open: jest.fn(),
+      send: jest.fn(),
+      setRequestHeader: jest.fn(),
+      readyState: 4,
+      status: 200,
+      responseText: 'success',
+    };
+
+    window.XMLHttpRequest = jest.fn(() => xhrMockObj);
+    commonChatController.ajaxGet('/business-account/keep-alive', successCallback);
+    xhrMockObj.onreadystatechange()
+    expect(xhrMockObj.open).toBeCalledWith('GET', '/business-account/keep-alive');
+    expect(xhrMockObj.setRequestHeader).toBeCalledWith('X-Requested-With', 'XMLHttpRequest');
+    expect(xhrMockObj.send).toBeCalledTimes(1)
+    expect(successCallback).toBeCalledWith(xhrMockObj.responseText)
+  });
+
+  it("Tests functionality of ajaxGet when status is 404 and readyState is less than 4", () => {
+    const successCallback = jest.fn();
+    const xhrMockObj = {
+      open: jest.fn(),
+      send: jest.fn(),
+      setRequestHeader: jest.fn(),
+      readyState: 1,
+      status: 404,
+      responseText: 'success',
+    };
+
+    window.XMLHttpRequest = jest.fn(() => xhrMockObj);
+    commonChatController.ajaxGet('/business-account/keep-alive', successCallback);
+    xhrMockObj.onreadystatechange()
+    expect(xhrMockObj.open).toBeCalledWith('GET', '/business-account/keep-alive');
+    expect(xhrMockObj.setRequestHeader).toBeCalledWith('X-Requested-With', 'XMLHttpRequest');
+    expect(xhrMockObj.send).toBeCalledTimes(1)
+    expect(successCallback).not.toBeCalled()
+  });
 });
