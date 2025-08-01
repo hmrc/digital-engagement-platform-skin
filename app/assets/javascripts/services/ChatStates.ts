@@ -278,8 +278,6 @@ export class EngagedState {
 
     _displayMessage(msg_in: { data: MessageInterface; }): void {
         const msg: MessageInterface = msg_in.data;
-        console.log(">>>>_displayMessage")
-
         logger.debug("---- Received message:", msg)
 
         // the agent.alias property will only exist on an agent message, and not on a customer message
