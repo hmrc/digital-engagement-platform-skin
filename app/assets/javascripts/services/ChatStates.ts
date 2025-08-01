@@ -121,7 +121,6 @@ export class EngagedState {
             } else {
                 isActive = false;
             }
-
             return isActive;
         }
     }
