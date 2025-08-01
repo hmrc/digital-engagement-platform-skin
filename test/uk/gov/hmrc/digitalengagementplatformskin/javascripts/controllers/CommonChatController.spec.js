@@ -1182,4 +1182,125 @@ describe("CommonChatController", () => {
     expect(sdk.autoEngage).toHaveBeenCalledTimes(1)
   });
 
+  it("Tests functionality of authenticatedServiceCheck when the URL includes business-account", () => {
+    delete window.location
+    window.location = {
+      href: 'https://www.tax.service.gov.uk/business-account'
+    }
+    const keepSessionAliveSpy = jest.spyOn(commonChatController, 'keepSessionAlive').mockImplementation(() => { })
+    commonChatController.authenticatedServiceCheck()
+    expect(keepSessionAliveSpy).toHaveBeenCalledWith('business-account')
+  });
+
+  it("Tests functionality of authenticatedServiceCheck when the URL includes business-account", () => {
+    delete window.location
+    window.location = {
+      href: 'https://www.tax.service.gov.uk/personal-account'
+    }
+    const keepSessionAliveSpy = jest.spyOn(commonChatController, 'keepSessionAlive').mockImplementation(() => { })
+    commonChatController.authenticatedServiceCheck()
+    expect(keepSessionAliveSpy).toHaveBeenCalledWith('personal-account')
+  });
+
+  it("Tests functionality of authenticatedServiceCheck when the URL includes epaye", () => {
+    delete window.location
+    window.location = {
+      href: 'https://www.tax.service.gov.uk/business-account/epaye/statements/2020-21'
+    }
+    const keepSessionAliveSpy = jest.spyOn(commonChatController, 'keepSessionAlive').mockImplementation(() => { })
+    commonChatController.authenticatedServiceCheck()
+    expect(keepSessionAliveSpy).toHaveBeenCalledWith('epaye')
+  });
+
+  it("Tests functionality of authenticatedServiceCheck when the URL includes check-income-tax", () => {
+    delete window.location
+    window.location = {
+      href: 'https://www.tax.service.gov.uk/check-income-tax'
+    }
+    const keepSessionAliveSpy = jest.spyOn(commonChatController, 'keepSessionAlive').mockImplementation(() => { })
+    commonChatController.authenticatedServiceCheck()
+    expect(keepSessionAliveSpy).toHaveBeenCalledWith('check-income-tax')
+  });
+
+  it("Tests functionality of authenticatedServiceCheck when the URL does not include an authenticated service", () => {
+    delete window.location
+    window.location = {
+      href: 'https://www.tax.service.gov.uk/test-endpoint'
+    }
+    const keepSessionAliveSpy = jest.spyOn(commonChatController, 'keepSessionAlive').mockImplementation(() => { })
+    commonChatController.authenticatedServiceCheck()
+    expect(keepSessionAliveSpy).not.toBeCalled()
+  });
+
+  it("Tests functionality of keepSessionAlive when business-account is an argument", () => {
+    const ajaxGetSpy = jest.spyOn(commonChatController, 'ajaxGet').mockImplementation(() => { })
+    const broadcastSessionActivitySpy = jest.spyOn(commonChatController, 'broadcastSessionActivity').mockImplementation(() => { })
+    commonChatController.keepSessionAlive('business-account')
+    expect(ajaxGetSpy).toHaveBeenCalledWith('/business-account/keep-alive', expect.any(Function))
+    expect(broadcastSessionActivitySpy).toBeCalledTimes(1)
+  });
+
+  it("Tests functionality of keepSessionAlive when personal-account is an argument", () => {
+    const ajaxGetSpy = jest.spyOn(commonChatController, 'ajaxGet').mockImplementation(() => { })
+    const broadcastSessionActivitySpy = jest.spyOn(commonChatController, 'broadcastSessionActivity').mockImplementation(() => { })
+    commonChatController.keepSessionAlive('personal-account')
+    expect(ajaxGetSpy).toHaveBeenCalledWith('/personal-account/keep-alive', expect.any(Function))
+    expect(broadcastSessionActivitySpy).toBeCalledTimes(1)
+  });
+
+  it("Tests functionality of keepSessionAlive when epaye is an argument", () => {
+    const ajaxGetSpy = jest.spyOn(commonChatController, 'ajaxGet').mockImplementation(() => { })
+    const broadcastSessionActivitySpy = jest.spyOn(commonChatController, 'broadcastSessionActivity').mockImplementation(() => { })
+    commonChatController.keepSessionAlive('epaye')
+    expect(ajaxGetSpy).toHaveBeenCalledWith('/business-account/epaye/keep-alive', expect.any(Function))
+    expect(broadcastSessionActivitySpy).toBeCalledTimes(1)
+  });
+
+  it("Tests functionality of keepSessionAlive when check-income-tax is an argument", () => {
+    const ajaxGetSpy = jest.spyOn(commonChatController, 'ajaxGet').mockImplementation(() => { })
+    const broadcastSessionActivitySpy = jest.spyOn(commonChatController, 'broadcastSessionActivity').mockImplementation(() => { })
+    commonChatController.keepSessionAlive('check-income-tax')
+    expect(ajaxGetSpy).toHaveBeenCalledWith('/check-income-tax/keep-alive', expect.any(Function))
+    expect(broadcastSessionActivitySpy).toBeCalledTimes(1)
+  });
+
+  it("Tests functionality of ajaxGet when status is 200 and readyState is greater than 3", () => {
+    const successCallback = jest.fn();
+    const xhrMockObj = {
+      open: jest.fn(),
+      send: jest.fn(),
+      setRequestHeader: jest.fn(),
+      readyState: 4,
+      status: 200,
+      responseText: 'success',
+    };
+
+    window.XMLHttpRequest = jest.fn(() => xhrMockObj);
+    commonChatController.ajaxGet('/business-account/keep-alive', successCallback);
+    xhrMockObj.onreadystatechange()
+    expect(xhrMockObj.open).toBeCalledWith('GET', '/business-account/keep-alive');
+    expect(xhrMockObj.setRequestHeader).toBeCalledWith('X-Requested-With', 'XMLHttpRequest');
+    expect(xhrMockObj.send).toBeCalledTimes(1)
+    expect(successCallback).toBeCalledWith(xhrMockObj.responseText)
+  });
+
+  it("Tests functionality of ajaxGet when status is 404 and readyState is less than 4", () => {
+    const successCallback = jest.fn();
+    const xhrMockObj = {
+      open: jest.fn(),
+      send: jest.fn(),
+      setRequestHeader: jest.fn(),
+      readyState: 1,
+      status: 404,
+      responseText: 'success',
+    };
+
+    window.XMLHttpRequest = jest.fn(() => xhrMockObj);
+    commonChatController.ajaxGet('/business-account/keep-alive', successCallback);
+    xhrMockObj.onreadystatechange()
+    expect(xhrMockObj.open).toBeCalledWith('GET', '/business-account/keep-alive');
+    expect(xhrMockObj.setRequestHeader).toBeCalledWith('X-Requested-With', 'XMLHttpRequest');
+    expect(xhrMockObj.send).toBeCalledTimes(1)
+    expect(successCallback).not.toBeCalled()
+  });
 });
