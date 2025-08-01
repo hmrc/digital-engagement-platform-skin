@@ -103,25 +103,24 @@ export class EngagedState {
     }
 
     _displayPreviousMessages(messages: []): void {
+        sessionStorage.setItem("suppressNotificationSound", "true")
         for (const message of messages) {
             this._displayMessage(message);
         }
     }
 
     _isSoundActive(): boolean {
-        let soundElement: HTMLElement | null = document.getElementById("toggleSound");
-        let isActive: boolean | null = null;
-
-        if (soundElement != null) {
-            isActive = soundElement.classList.contains("active");
+        if ((sessionStorage.getItem("isActive") == "true") && (sessionStorage.getItem("suppressNotificationSound") == "false")){
+            return true
         } else {
-            isActive = false;
+            return false
         }
-
-        return isActive;
     }
 
     _getMessages(): void {
+        if (sessionStorage.getItem("suppressNotificationSound") == "true"){
+            sessionStorage.setItem("suppressNotificationSound", "false")
+        }
         this.sdk.getMessages((msg_in: { data: MessageInterface; }) => this._displayMessage(msg_in));
     }
 
@@ -270,6 +269,7 @@ export class EngagedState {
 
     _displayMessage(msg_in: { data: MessageInterface; }): void {
         const msg: MessageInterface = msg_in.data;
+        console.log(">>>>>>>_displayMessage")
         logger.debug("---- Received message:", msg)
 
         // the agent.alias property will only exist on an agent message, and not on a customer message
