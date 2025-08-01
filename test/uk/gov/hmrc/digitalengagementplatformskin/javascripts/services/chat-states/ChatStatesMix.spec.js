@@ -13,7 +13,6 @@ describe("Mix: Chat States", () => {
             let chatContainer = document.createElement("button");
             chatContainer.setAttribute("id", "toggleSound");
             chatContainer.setAttribute("class", "active");
-			sessionStorage.isActive = true
             document.body.appendChild(chatContainer);
 
             const isSoundActive = jest.spyOn(state, '_isSoundActive');

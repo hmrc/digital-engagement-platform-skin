@@ -6,7 +6,6 @@ describe("Chat States", () => {
 
   afterEach(() => {
     document.getElementsByTagName('html')[0].innerHTML = '';
-    sessionStorage.clear()
   });
 
     describe("NullState", () => {
@@ -101,7 +100,6 @@ describe("Chat States", () => {
             let chatContainer = document.createElement("button");
             chatContainer.setAttribute("id", "toggleSound");
             chatContainer.setAttribute("class", "active");
-            sessionStorage.isActive = true
             document.body.appendChild(chatContainer);
 
             const isSoundActive = jest.spyOn(state, '_isSoundActive');

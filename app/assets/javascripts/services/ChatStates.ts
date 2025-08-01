@@ -110,10 +110,19 @@ export class EngagedState {
     }
 
     _isSoundActive(): boolean {
-        if ((sessionStorage.getItem("isActive") == "true") && (sessionStorage.getItem("suppressNotificationSound") == "false")){
-            return true
-        } else {
+        if (sessionStorage.getItem("suppressNotificationSound") == "true"){
             return false
+        } else {
+            let soundElement: HTMLElement | null = document.getElementById("toggleSound");
+            let isActive: boolean | null = null;
+
+            if (soundElement != null) {
+                isActive = soundElement.classList.contains("active");
+            } else {
+                isActive = false;
+            }
+
+            return isActive;
         }
     }
 
@@ -269,6 +278,8 @@ export class EngagedState {
 
     _displayMessage(msg_in: { data: MessageInterface; }): void {
         const msg: MessageInterface = msg_in.data;
+        console.log(">>>>_displayMessage")
+
         logger.debug("---- Received message:", msg)
 
         // the agent.alias property will only exist on an agent message, and not on a customer message
