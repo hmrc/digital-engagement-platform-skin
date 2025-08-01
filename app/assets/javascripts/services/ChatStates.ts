@@ -110,10 +110,18 @@ export class EngagedState {
     }
 
     _isSoundActive(): boolean {
-        if ((sessionStorage.getItem("isActive") == "true") && (sessionStorage.getItem("suppressNotificationSound") == "false")){
-            return true
-        } else {
+        if (sessionStorage.getItem("suppressNotificationSound") == "true"){
             return false
+        } else {
+            let soundElement: HTMLElement | null = document.getElementById("toggleSound");
+            let isActive: boolean | null = null;
+
+            if (soundElement != null) {
+                isActive = soundElement.classList.contains("active");
+            } else {
+                isActive = false;
+            }
+            return isActive;
         }
     }
 
