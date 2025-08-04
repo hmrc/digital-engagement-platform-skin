@@ -490,7 +490,7 @@ export default class CommonChatController {
         this.broadcastSessionActivity();
     };
 
-    ajaxGet(url: string, success: (responseText: string) => void): XMLHttpRequest {
+    ajaxGet(url: string, success: (param: string) => void): XMLHttpRequest {
         const xhr: XMLHttpRequest = new XMLHttpRequest();
         xhr.open('GET', url);
         xhr.onreadystatechange = () => {

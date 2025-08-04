@@ -1183,53 +1183,57 @@ describe("CommonChatController", () => {
   });
 
   it("Tests functionality of authenticatedServiceCheck when the URL includes business-account", () => {
-    delete window.location
-    window.location = {
+    delete global.window.location
+    global.window.location = {
       href: 'https://www.tax.service.gov.uk/business-account'
     }
     const keepSessionAliveSpy = jest.spyOn(commonChatController, 'keepSessionAlive').mockImplementation(() => { })
     commonChatController.authenticatedServiceCheck()
     expect(keepSessionAliveSpy).toHaveBeenCalledWith('business-account')
+    expect(keepSessionAliveSpy).toHaveBeenCalledTimes(1)
   });
 
   it("Tests functionality of authenticatedServiceCheck when the URL includes business-account", () => {
-    delete window.location
-    window.location = {
+    delete global.window.location
+    global.window.location = {
       href: 'https://www.tax.service.gov.uk/personal-account'
     }
     const keepSessionAliveSpy = jest.spyOn(commonChatController, 'keepSessionAlive').mockImplementation(() => { })
     commonChatController.authenticatedServiceCheck()
     expect(keepSessionAliveSpy).toHaveBeenCalledWith('personal-account')
+    expect(keepSessionAliveSpy).toHaveBeenCalledTimes(1)
   });
 
   it("Tests functionality of authenticatedServiceCheck when the URL includes epaye", () => {
-    delete window.location
-    window.location = {
+    delete global.window.location
+    global.window.location = {
       href: 'https://www.tax.service.gov.uk/business-account/epaye/statements/2020-21'
     }
     const keepSessionAliveSpy = jest.spyOn(commonChatController, 'keepSessionAlive').mockImplementation(() => { })
     commonChatController.authenticatedServiceCheck()
     expect(keepSessionAliveSpy).toHaveBeenCalledWith('epaye')
+    expect(keepSessionAliveSpy).toHaveBeenCalledTimes(1)
   });
 
   it("Tests functionality of authenticatedServiceCheck when the URL includes check-income-tax", () => {
-    delete window.location
-    window.location = {
+    delete global.window.location
+    global.window.location = {
       href: 'https://www.tax.service.gov.uk/check-income-tax'
     }
     const keepSessionAliveSpy = jest.spyOn(commonChatController, 'keepSessionAlive').mockImplementation(() => { })
     commonChatController.authenticatedServiceCheck()
     expect(keepSessionAliveSpy).toHaveBeenCalledWith('check-income-tax')
+    expect(keepSessionAliveSpy).toHaveBeenCalledTimes(1)
   });
 
   it("Tests functionality of authenticatedServiceCheck when the URL does not include an authenticated service", () => {
-    delete window.location
-    window.location = {
+    delete global.window.location
+    global.window.location = {
       href: 'https://www.tax.service.gov.uk/test-endpoint'
     }
     const keepSessionAliveSpy = jest.spyOn(commonChatController, 'keepSessionAlive').mockImplementation(() => { })
     commonChatController.authenticatedServiceCheck()
-    expect(keepSessionAliveSpy).not.toBeCalled()
+    expect(keepSessionAliveSpy).toHaveBeenCalledTimes(0)
   });
 
   it("Tests functionality of keepSessionAlive when business-account is an argument", () => {
@@ -1237,6 +1241,7 @@ describe("CommonChatController", () => {
     const broadcastSessionActivitySpy = jest.spyOn(commonChatController, 'broadcastSessionActivity').mockImplementation(() => { })
     commonChatController.keepSessionAlive('business-account')
     expect(ajaxGetSpy).toHaveBeenCalledWith('/business-account/keep-alive', expect.any(Function))
+    expect(ajaxGetSpy).toBeCalledTimes(1)
     expect(broadcastSessionActivitySpy).toBeCalledTimes(1)
   });
 
@@ -1245,6 +1250,7 @@ describe("CommonChatController", () => {
     const broadcastSessionActivitySpy = jest.spyOn(commonChatController, 'broadcastSessionActivity').mockImplementation(() => { })
     commonChatController.keepSessionAlive('personal-account')
     expect(ajaxGetSpy).toHaveBeenCalledWith('/personal-account/keep-alive', expect.any(Function))
+    expect(ajaxGetSpy).toBeCalledTimes(1)
     expect(broadcastSessionActivitySpy).toBeCalledTimes(1)
   });
 
@@ -1253,6 +1259,7 @@ describe("CommonChatController", () => {
     const broadcastSessionActivitySpy = jest.spyOn(commonChatController, 'broadcastSessionActivity').mockImplementation(() => { })
     commonChatController.keepSessionAlive('epaye')
     expect(ajaxGetSpy).toHaveBeenCalledWith('/business-account/epaye/keep-alive', expect.any(Function))
+    expect(ajaxGetSpy).toBeCalledTimes(1)
     expect(broadcastSessionActivitySpy).toBeCalledTimes(1)
   });
 
@@ -1261,6 +1268,7 @@ describe("CommonChatController", () => {
     const broadcastSessionActivitySpy = jest.spyOn(commonChatController, 'broadcastSessionActivity').mockImplementation(() => { })
     commonChatController.keepSessionAlive('check-income-tax')
     expect(ajaxGetSpy).toHaveBeenCalledWith('/check-income-tax/keep-alive', expect.any(Function))
+    expect(ajaxGetSpy).toBeCalledTimes(1)
     expect(broadcastSessionActivitySpy).toBeCalledTimes(1)
   });
 
@@ -1272,16 +1280,19 @@ describe("CommonChatController", () => {
       setRequestHeader: jest.fn(),
       readyState: 4,
       status: 200,
-      responseText: 'success',
+      responseText: 'response',
     };
 
-    window.XMLHttpRequest = jest.fn(() => xhrMockObj);
+    window.XMLHttpRequest = jest.fn().mockImplementation(() => xhrMockObj)
     commonChatController.ajaxGet('/business-account/keep-alive', successCallback);
     xhrMockObj.onreadystatechange()
     expect(xhrMockObj.open).toBeCalledWith('GET', '/business-account/keep-alive');
+    expect(xhrMockObj.open).toBeCalledTimes(1)
     expect(xhrMockObj.setRequestHeader).toBeCalledWith('X-Requested-With', 'XMLHttpRequest');
+    expect(xhrMockObj.setRequestHeader).toBeCalledTimes(1)
     expect(xhrMockObj.send).toBeCalledTimes(1)
     expect(successCallback).toBeCalledWith(xhrMockObj.responseText)
+    expect(successCallback).toBeCalledTimes(1)
   });
 
   it("Tests functionality of ajaxGet when status is 404 and readyState is less than 4", () => {
@@ -1292,15 +1303,17 @@ describe("CommonChatController", () => {
       setRequestHeader: jest.fn(),
       readyState: 1,
       status: 404,
-      responseText: 'success',
+      responseText: 'response',
     };
 
-    window.XMLHttpRequest = jest.fn(() => xhrMockObj);
+    window.XMLHttpRequest = jest.fn().mockImplementation(() => xhrMockObj)
     commonChatController.ajaxGet('/business-account/keep-alive', successCallback);
     xhrMockObj.onreadystatechange()
     expect(xhrMockObj.open).toBeCalledWith('GET', '/business-account/keep-alive');
+    expect(xhrMockObj.open).toBeCalledTimes(1)
     expect(xhrMockObj.setRequestHeader).toBeCalledWith('X-Requested-With', 'XMLHttpRequest');
+    expect(xhrMockObj.setRequestHeader).toBeCalledTimes(1)
     expect(xhrMockObj.send).toBeCalledTimes(1)
-    expect(successCallback).not.toBeCalled()
+    expect(successCallback).toBeCalledTimes(0)
   });
 });
