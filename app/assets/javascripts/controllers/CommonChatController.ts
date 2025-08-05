@@ -34,6 +34,7 @@ const automatonWebchat: AutomatonType = {
     name: "HMRC_PostChat_Transactional-CUI"
 };
 
+// Order is important that EPAYE goes before business-account because business-account is also contained inside EPAYE URL. Work pending to abstract into a utils folder and improve logic.
 const authenticatedServices = ['epaye', 'business-account', 'personal-account', 'check-income-tax'] as const;
 type AuthenticatedServices = typeof authenticatedServices[number];
 
