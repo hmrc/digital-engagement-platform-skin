@@ -13,7 +13,7 @@ import PrintUtils from '../utils/PrintUtils'
 import { messages } from "../utils/Messages";
 import { AutomatonType, Survey, Answers, StateType } from '../types'
 import { host } from '../utils/HostUtils';
-import SessionActivityService from '../utils/Session-Activity-Service'
+import SessionActivityService from '../utils/SessionActivityService'
 
 type ChatStatesType = ChatStates.NullState | ChatStates.EngagedState | ChatStates.ClosingState | ChatStates.ShownState
 interface QuestionCompleted {

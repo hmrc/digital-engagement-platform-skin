@@ -1,4 +1,4 @@
-import SessionActivityService from "../../../../../../../app/assets/javascripts/utils/Session-Activity-Service";
+import SessionActivityService from "../../../../../../../app/assets/javascripts/utils/SessionActivityService";
 
 describe('/components/timeout-dialog/session-activity-service', () => {
     let testScope; // an object which is reset between test runs
