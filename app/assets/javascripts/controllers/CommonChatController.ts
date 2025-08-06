@@ -13,6 +13,7 @@ import PrintUtils from '../utils/PrintUtils'
 import { messages } from "../utils/Messages";
 import { AutomatonType, Survey, Answers, StateType } from '../types'
 import { host } from '../utils/HostUtils';
+import SessionActivityService from '../utils/SessionActivityService'
 
 type ChatStatesType = ChatStates.NullState | ChatStates.EngagedState | ChatStates.ClosingState | ChatStates.ShownState
 interface QuestionCompleted {
@@ -32,6 +33,17 @@ const automatonWebchat: AutomatonType = {
     id: "survey-13000303",
     name: "HMRC_PostChat_Transactional-CUI"
 };
+
+// Order is important that EPAYE goes before business-account because business-account is also contained inside EPAYE URL. Work pending to abstract into a utils folder and improve logic.
+const authenticatedServices = ['epaye', 'business-account', 'personal-account', 'check-income-tax'] as const;
+type AuthenticatedServices = typeof authenticatedServices[number];
+
+const authenticatedServiceEndpointsMap: Record<AuthenticatedServices, string> = {
+    'epaye': '/business-account/epaye/keep-alive',
+    'business-account': '/business-account/keep-alive',
+    'personal-account': '/personal-account/keep-alive',
+    'check-income-tax': '/check-income-tax/keep-alive'
+}
 
 const timestamp: number = Date.now();
 
@@ -67,6 +79,7 @@ export default class CommonChatController {
     escalated: boolean
     type: string
     container: any
+    sessionActivityService: SessionActivityService
     constructor() {
         this.sdk = null;
         this.state = new ChatStates.NullState();
@@ -74,6 +87,7 @@ export default class CommonChatController {
         this.ended = false;
         this.escalated = false;
         this.type = '';
+        this.sessionActivityService = new SessionActivityService(window.BroadcastChannel);
     }
 
     getFeatureSwitch(switchName: string): boolean {
@@ -464,7 +478,37 @@ export default class CommonChatController {
             this.onScreenReaderMessageSentNotification()
             this.container.clearCurrentInputText();
         }
+        this.authenticatedServiceCheck()
     }
+
+    authenticatedServiceCheck(): void {
+        const url: string = window.location.href
+        const authenticatedService = authenticatedServices.find(service => url.includes(`/${service}`))
+        if (authenticatedService) {
+            this.keepSessionAlive(authenticatedService);
+        }
+    }
+
+    keepSessionAlive(authenticatedService: AuthenticatedServices): void {
+        const keepAliveEndpoint: string = authenticatedServiceEndpointsMap[authenticatedService]
+        this.ajaxGet(keepAliveEndpoint, (_) => { });
+        this.broadcastSessionActivity();
+    };
+
+    ajaxGet(url: string, success: (param: string) => void): XMLHttpRequest {
+        const xhr: XMLHttpRequest = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState > 3 && xhr.status === 200) success(xhr.responseText);
+        };
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.send();
+        return xhr;
+    }
+
+    broadcastSessionActivity(): void {
+        this.sessionActivityService.logActivity();
+    };
 
     onCloseChat(): void {
         this.state.onClickedClose();
