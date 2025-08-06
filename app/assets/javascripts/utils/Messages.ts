@@ -16,8 +16,7 @@ interface messageTypes {
     customerMsgPrefix: string
     systemMsgPrefix: string
     automatedMsgPrefix: string
-    adviserExitedChat1: string
-    adviserExitedChat2: string
+    adviserExitedChat: string
     agentLeftChat: string
     agentBusy: string
     queue1: string
@@ -51,8 +50,7 @@ export const messages: messageTypes = {
     systemMsgPrefix: " System message : ",
     automatedMsgPrefix: " Automated message : ",
     //ChatStates
-    adviserExitedChat1: "Adviser ",
-    adviserExitedChat2: " has left the chat.",
+    adviserExitedChat: "Adviser has left the chat.",
     agentLeftChat: "Agent Left Chat.",
     agentBusy: "All of our advisers are busy. An adviser will be with you soon.",
     queue1: "You’re number ",

@@ -301,7 +301,7 @@ export class EngagedState {
                 this._chatActivityAndAgentTyping(msg, transcript);
                 break;
             case MessageType.Chat_Exit:
-                transcript.addSystemMsg({ msg: (msg["display.text"] || messages.adviserExitedChat1 + msg["display.text"]?.split("'")[1] + messages.adviserExitedChat2)}, msg.messageTimestamp!);
+                transcript.addSystemMsg({ msg: (msg["display.text"] || messages.adviserExitedChat)}, msg.messageTimestamp!);
                 break;
             case MessageType.Chat_CommunicationQueue:
                 transcript.addSystemMsg({ msg: (msg.messageText || messages.agentBusy) }, msg.messageTimestamp);
@@ -327,7 +327,7 @@ export class EngagedState {
                 }
             default:
                 if (msg.state === MessageState.Closed) {
-                    transcript.addSystemMsg({ msg: messages.adviserExitedChat1 + msg["display.text"]?.split("'")[1] + messages.adviserExitedChat2 }, msg.messageTimestamp!);
+                    transcript.addSystemMsg({ msg: messages.adviserExitedChat }, msg.messageTimestamp!);
                 } else {
                     logger.debug("==== Unknown message:", msg);
                 }

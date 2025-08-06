@@ -301,7 +301,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Adviser Jay has left the chat."}, "test");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Adviser has left the chat."}, "test");
         });
 
         it("reports unknown message to console log", () => {
