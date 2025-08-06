@@ -16,7 +16,8 @@ interface messageTypes {
     customerMsgPrefix: string
     systemMsgPrefix: string
     automatedMsgPrefix: string
-    adviserExitedChat: string
+    adviserExitedChat1: string
+    adviserExitedChat2: string
     agentLeftChat: string
     agentBusy: string
     queue1: string
@@ -50,10 +51,11 @@ export const messages: messageTypes = {
     systemMsgPrefix: " System message : ",
     automatedMsgPrefix: " Automated message : ",
     //ChatStates
-    adviserExitedChat: "Adviser exited chat",
+    adviserExitedChat1: "Adviser ",
+    adviserExitedChat2: " has left the chat.",
     agentLeftChat: "Agent Left Chat.",
-    agentBusy: "All of our agents are currently busy. Please wait and an agent will be with you shortly",
-    queue1: "Thank you for your patience, the next available adviser will be with you shortly. You are ",
-    queue2: " in the queue",
-    adviserUnavailable: `I'm sorry, there are no advisers available right now. You can see ${contactHMRCLink}`
+    agentBusy: "All of our advisers are busy. An adviser will be with you soon.",
+    queue1: "You’re number ",
+    queue2: " in the queue to chat with an adviser.",
+    adviserUnavailable: `There are no advisers available right now. Contact HMRC a different way ${contactHMRCLink}`
 };
