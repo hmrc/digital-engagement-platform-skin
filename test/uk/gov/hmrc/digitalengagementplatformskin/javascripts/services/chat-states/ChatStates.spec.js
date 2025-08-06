@@ -295,12 +295,13 @@ describe("Chat States", () => {
             const message = {
                 data: {
                     state: "closed",
-                    messageTimestamp: "test"
+                    messageTimestamp: "test",
+                    "display.text": "Adviser 'Jay' exits chat"
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent Left Chat."}, "test");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Adviser Jay has left the chat."}, "test");
         });
 
         it("reports unknown message to console log", () => {
@@ -495,7 +496,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent 'Jay' exits chat"}, "1627651338000");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Adviser Jay has left the chat."}, "1627651338000");
         });
 
         it("reports chat exit in transcript when from digital assistant", () => {
@@ -508,13 +509,14 @@ describe("Chat States", () => {
                 data: {
                     "state": "closed",
                     "messageType": "chat.exit",
+                    "display.text": "Agent 'Jay' exits chat",
                     "engagementID": "388260685642079244",
                     "messageTimestamp": "1628001005000"
                 }
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Adviser exited chat"}, "1628001005000");
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Adviser Jay has left the chat."}, "1628001005000");
         });
 
         it("does not report HMRC loses connection ", () => {

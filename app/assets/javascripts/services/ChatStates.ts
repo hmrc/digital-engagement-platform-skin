@@ -307,7 +307,7 @@ export class EngagedState {
                 transcript.addSystemMsg({ msg: (msg.messageText || messages.agentBusy) }, msg.messageTimestamp);
                 break;
             case MessageType.Chat_NeedWait:
-                transcript.addSystemMsg({ msg: (messages.queue1 + msg["queueDepth"] + messages.queue2) }, msg.messageTimestamp);
+                transcript.addSystemMsg({ msg: (msg.messageText || messages.queue1 + msg["queueDepth"] + messages.queue2) }, msg.messageTimestamp);
                 break;
             case MessageType.Chat_Denied:
                 transcript.addSystemMsg({ msg: (msg["thank_you_image_label"] || messages.adviserUnavailable) }, msg.messageTimestamp);
