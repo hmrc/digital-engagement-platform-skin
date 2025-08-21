@@ -10,13 +10,14 @@ interface TimerTypes {
 export const TimerUtils: TimerTypes = {
     intervalId: null,
     businessAreaTitle: document.title,
-    displayingBusinessAreaName: false,
+    displayingBusinessAreaName: true,
     updatedPageTitle: '',
 
     updateAndTogglePageTitle(newPageTitleText: string) {
         if (this.updatedPageTitle !== newPageTitleText) {
             this.updatedPageTitle = newPageTitleText
             document.title = newPageTitleText
+            this.displayingBusinessAreaName = false
         }
 
         if (!TimerUtils.intervalId && this.updatedPageTitle) {
