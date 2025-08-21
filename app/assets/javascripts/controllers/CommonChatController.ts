@@ -14,6 +14,7 @@ import { messages } from "../utils/Messages";
 import { AutomatonType, Survey, Answers, StateType } from '../types'
 import { host } from '../utils/HostUtils';
 import SessionActivityService from '../utils/SessionActivityService'
+import { TimerUtils } from '../utils/TimerUtils'
 
 type ChatStatesType = ChatStates.NullState | ChatStates.EngagedState | ChatStates.ClosingState | ChatStates.ShownState
 interface QuestionCompleted {
@@ -440,6 +441,7 @@ export default class CommonChatController {
                 this.sdk.closeChat();
             }
         }
+        TimerUtils.stopTogglingPageTitle()
     }
 
     showEndChatPage(showThanks: boolean): void {

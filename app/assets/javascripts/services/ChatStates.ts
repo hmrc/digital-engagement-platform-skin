@@ -6,6 +6,7 @@ import { messages } from '../utils/Messages';
 import ChatContainer from '../utils/ChatContainer';
 import Transcript from './Transcript';
 import { QuickReplyData } from '../types';
+import { TimerUtils } from '../utils/TimerUtils';
 
 interface MessageInterface {
     "aeapi.join_transfer"?: any
@@ -110,7 +111,7 @@ export class EngagedState {
     }
 
     _isSoundActive(): boolean {
-        if (sessionStorage.getItem("suppressNotificationSound") == "true"){
+        if (sessionStorage.getItem("suppressNotificationSound") == "true") {
             return false
         } else {
             let soundElement: HTMLElement | null = document.getElementById("toggleSound");
@@ -126,7 +127,7 @@ export class EngagedState {
     }
 
     _getMessages(): void {
-        if (sessionStorage.getItem("suppressNotificationSound") == "true"){
+        if (sessionStorage.getItem("suppressNotificationSound") == "true") {
             sessionStorage.setItem("suppressNotificationSound", "false")
         }
         this.sdk.getMessages((msg_in: { data: MessageInterface; }) => this._displayMessage(msg_in));
@@ -290,7 +291,7 @@ export class EngagedState {
                     systemMessageBanner.textContent = messages.computer
                 }
             }
-        } else if (msg["queueDepth"]){
+        } else if (msg["queueDepth"]) {
             if (systemMessageBanner) {
                 systemMessageBanner.textContent = messages.queue
             }
@@ -309,6 +310,7 @@ export class EngagedState {
                 break;
             case MessageType.Chat_Exit:
                 transcript.addSystemMsg({ msg: (msg["display.text"] || messages.adviserExitedChat) }, msg.messageTimestamp!);
+                TimerUtils.stopTogglingPageTitle()
                 break;
             case MessageType.Chat_CommunicationQueue:
                 transcript.addSystemMsg({ msg: (msg.messageText || messages.agentBusy) }, msg.messageTimestamp);

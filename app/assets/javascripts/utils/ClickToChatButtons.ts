@@ -3,6 +3,7 @@ import * as logger from '../utils/logger';
 import ClickToChatButton from './ClickToChatButton';
 import { ClickToChatObjectInterface } from '../types';
 import { messages } from './Messages';
+import { TimerUtils } from './TimerUtils';
 
 export type displayState = "chatactive" | "outofhours" | "ready" | "busy"
 
@@ -10,19 +11,11 @@ export default class ClickToChatButtons {
     buttons: any
     onClicked: (c2cIdx: any) => void;
     displayStateMessages: { outofhours: string; ready: string; busy: string; chatactive: string; }
-    businessAreaTitle: string
-    intervalId: NodeJS.Timer | null
-    displayingBusinessAreaName: boolean
-    updatedDocumentTitle: string
 
     constructor(onClicked: (c2cIdx: any) => void, displayStateMessages: { outofhours: string; ready: string; busy: string; chatactive: string; }) {
         this.buttons = {};
         this.onClicked = onClicked;
         this.displayStateMessages = displayStateMessages;
-        this.businessAreaTitle = document.title
-        this.intervalId = null
-        this.displayingBusinessAreaName = false
-        this.updatedDocumentTitle = ''
     }
 
     addButton(c2cObj: ClickToChatObjectInterface, button: ClickToChatButton, divID: string): void {
@@ -48,27 +41,6 @@ export default class ClickToChatButtons {
         return (this.displayStateMessages)[displayState] || ("Unknown display state: " + displayState);
     }
 
-    updatePageTitle(displayStateText: string) {
-        document.title = displayStateText
-        this.updatedDocumentTitle = displayStateText
-        if (!this.intervalId) {
-            this.intervalId = setInterval(() => {
-                if (displayStateText) {
-                    document.title = !this.displayingBusinessAreaName ? this.businessAreaTitle : this.updatedDocumentTitle
-                    this.displayingBusinessAreaName = !this.displayingBusinessAreaName
-                }
-            }, 2000)
-        }
-    }
-
-    // stopPageTitleUpdating() {
-    //     if (this.intervalId) {
-    //         clearInterval(this.intervalId)
-    //         this.intervalId = null
-    //         document.title = this.businessAreaTitle
-    //     }
-    // }
-
     _updateButton(c2cObj: ClickToChatObjectInterface, button: ClickToChatButton, isAnchored: boolean): void {
         const displayStateText: string = this._getDisplayStateText(c2cObj.displayState);
         let innerHTML: string = ''
@@ -78,16 +50,16 @@ export default class ClickToChatButtons {
         } else {
             if (c2cObj.displayState === 'busy') {
                 innerHTML = `<h2 class="govuk-heading-m">${messages.busyHeading}</h2><div class="${c2cObj.displayState}">${displayStateText}</div><button disabled aria-disabled="true" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`
-                this.updatePageTitle(messages.busyHeading)
+                TimerUtils.updateAndTogglePageTitle(messages.busyHeading)
             } else if (c2cObj.displayState === 'ready') {
                 innerHTML = `<h2 class="govuk-heading-m">${messages.readyHeading}</h2><div class="${c2cObj.displayState}">${displayStateText}</div><button id="startChatButton" aria-disabled="false" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`
-                this.updatePageTitle(messages.readyHeading)
+                TimerUtils.updateAndTogglePageTitle(messages.readyHeading)
             } else if (c2cObj.displayState === 'outofhours') {
                 innerHTML = `<h2 class="govuk-heading-m ${c2cObj.displayState}">${displayStateText}</h2>`
-                this.updatePageTitle(displayStateText)
+                TimerUtils.updateAndTogglePageTitle(displayStateText)
             } else {
                 innerHTML = `<div class="${c2cObj.displayState}">${displayStateText}</div>`
-                this.updatePageTitle(displayStateText)
+                TimerUtils.updateAndTogglePageTitle(displayStateText)
             }
         }
 
