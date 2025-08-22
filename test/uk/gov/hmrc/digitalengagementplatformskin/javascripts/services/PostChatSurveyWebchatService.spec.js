@@ -29,7 +29,7 @@ const surveyWithOption = {
         { id: "q2", text: "How easy was it for you to do what you needed to do today?", freeform: false },
         { id: "q3", text: "Why did you give this answer?", freeform: true },
         { id: "q4", text: "Overall, how did you feel about the service you received today?", freeform: false },
-        { id: "q5", text: "If you had not used Webchat today, how else would you have contacted us?", freeform: false },
+        { id: "q5", text: "If you had not used webchat, how would you have contacted us?", freeform: false },
         { id: "q6", text: "Select how you prefer to contact HMRC", freeform: true }
     ],
     answers: [
@@ -49,7 +49,7 @@ const surveyWithoutOption = {
         { id: "q2", text: "How easy was it for you to do what you needed to do today?", freeform: false },
         { id: "q3", text: "Why did you give this answer?", freeform: true },
         { id: "q4", text: "Overall, how did you feel about the service you received today?", freeform: false },
-        { id: "q5", text: "If you had not used Webchat today, how else would you have contacted us?", freeform: false },
+        { id: "q5", text: "If you had not used webchat, how would you have contacted us?", freeform: false },
         { id: "q6", text: "Select how you prefer to contact HMRC", freeform: true }
     ],
     answers: [
