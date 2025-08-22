@@ -7,7 +7,7 @@ interface TimerTypes {
     stopTogglingPageTitle: () => void
 }
 
-export const TimerUtils: TimerTypes = {
+export const timerUtils: TimerTypes = {
     intervalId: null,
     businessAreaTitle: document.title,
     displayingBusinessAreaName: true,
