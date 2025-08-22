@@ -20,19 +20,19 @@ export const TimerUtils: TimerTypes = {
             this.displayingBusinessAreaName = false
         }
 
-        if (!TimerUtils.intervalId && this.updatedPageTitle) {
-            TimerUtils.intervalId = setInterval(() => {
-                document.title = this.displayingBusinessAreaName ? this.updatedPageTitle : TimerUtils.businessAreaTitle
+        if (!this.intervalId && this.updatedPageTitle) {
+            this.intervalId = setInterval(() => {
+                document.title = this.displayingBusinessAreaName ? this.updatedPageTitle : this.businessAreaTitle
                 this.displayingBusinessAreaName = !this.displayingBusinessAreaName
             }, 2000)
         }
     },
 
     stopTogglingPageTitle() {
-        if (TimerUtils.intervalId) {
-            clearInterval(TimerUtils.intervalId)
-            TimerUtils.intervalId = null
-            document.title = TimerUtils.businessAreaTitle
+        if (this.intervalId) {
+            clearInterval(this.intervalId)
+            this.intervalId = null
+            document.title = this.businessAreaTitle
         }
     }
 }
