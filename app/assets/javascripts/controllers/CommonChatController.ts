@@ -54,7 +54,7 @@ const webchatSurvey: Survey = {
         { id: ["question2"], text: "How easy was it for you to do what you needed to do today?", freeform: false },
         { id: ["question3"], text: "Why did you give this answer?", freeform: true },
         { id: ["question4"], text: "Overall, how did you feel about the service you received today?", freeform: false },
-        { id: ["question5"], text: "If you had not used Webchat today, how else would you have contacted us?", freeform: false },
+        { id: ["question5"], text: "If you had not used webchat, how would you have contacted us?", freeform: false },
         { id: ["question6"], text: "Select how you prefer to contact HMRC", freeform: true }
     ]
 };
@@ -66,7 +66,7 @@ const digitalAssistantSurvey: Survey = {
         { id: ["question2"], text: "How easy was it for you to do what you needed to do today?", freeform: false },
         { id: ["question3"], text: "Why did you give this answer?", freeform: true },
         { id: ["question4"], text: "Overall, how did you feel about the service you received today?", freeform: false },
-        { id: ["question5"], text: "If you had not used Webchat today, how else would you have contacted us?", freeform: false },
+        { id: ["question5"], text: "If you had not used the digital assistant, how would you have contacted us?", freeform: false },
         { id: ["question6"], text: "Select how you prefer to contact HMRC", freeform: true }
     ]
 }
@@ -214,6 +214,7 @@ export default class CommonChatController {
                         logger.debug("++++ ENGAGED ++++ ->", resp);
                         if (resp.httpStatus == 200) {
                             this._moveToChatEngagedState();
+                            this.escalated = true
                         } else {
                             let msg: string = messages.unavilable
                             this.container.getTranscript().addSystemMsg({ msg: msg }, Date.now());
@@ -608,7 +609,7 @@ export default class CommonChatController {
             this._moveToClosingState();
             this.showEndChatPage(false);
         } else {
-            if (this.state instanceof ChatStates.EngagedState && this.state.escalated) {
+            if (this.state instanceof ChatStates.EngagedState && this.state.escalated || (sessionStorage.getItem("isAutoEngage")) == 'true') {
                 this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automatonWebchat, timestamp);
                 this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
                 this._moveToClosingState();
