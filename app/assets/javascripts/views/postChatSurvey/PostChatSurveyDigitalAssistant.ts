@@ -161,7 +161,7 @@ export const html: string = `
 
           <fieldset class="govuk-fieldset govuk-!-margin-bottom-5" id="question5">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              If you had not used Webchat today, how else would you have contacted us?
+              If you had not used the digital assistant, how would you have contacted us?
             </legend>
             <p id="contact-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> Select how you prefer to contact HMRC
@@ -170,16 +170,16 @@ export const html: string = `
 
               <div class="govuk-radios__item">
                 <input class="govuk-radios__input" id="q5-" name="q5-" type="radio"
-                       value="Online webchat with HMRC adviser">
-                <label class="govuk-label govuk-radios__label" for="q5-">Online webchat with HMRC
-                  adviser</label>
+                       value="Webchat with HMRC adviser">
+                <label class="govuk-label govuk-radios__label" for="q5-">
+                Webchat with HMRC adviser
+                </label>
               </div>
 
               <div class="govuk-radios__item">
                 <input class="govuk-radios__input" id="q5--2" name="q5-" type="radio"
-                       value="Social media messaging (such as, WhatsApp and Twitter)">
-                <label class="govuk-label govuk-radios__label" for="q5--2">Social media messaging (such
-                  as, WhatsApp and Twitter)</label>
+                       value="Social media messaging, for example X (previously Twitter)">
+                <label class="govuk-label govuk-radios__label" for="q5--2">Social media messaging, for example X (previously Twitter)</label>
               </div>
 
               <div class="govuk-radios__item">
