@@ -33,6 +33,7 @@ export const timerUtils: TimerTypes = {
             clearInterval(this.intervalId)
             this.intervalId = null
             document.title = this.businessAreaTitle
+            this.displayingBusinessAreaName = true
         }
     }
 }
