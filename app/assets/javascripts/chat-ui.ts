@@ -26,7 +26,12 @@ export const chatListener = {
             let systemMessageBanner: HTMLElement | null = document.getElementById('systemMessageBanner')
             if (systemMessageBanner && evt.rule["name"]) {
                 if (evt.rule["name"].includes("-LC-")) {
-                    sessionStorage.setItem("isAutoEngage", "true")
+                    if((evt.rule["name"] !== "HMRC-C-LC-CIAPI-GOVGCN-O-P-Embedded-T0")){ //
+                        sessionStorage.setItem("isAutoEngage", "true")
+                    }else {
+                        sessionStorage.setItem("isAutoEngage", "false")                  //For the exception of trade tariff, no auto engage and hide the banner, ask if we want banner back after connecting
+                        systemMessageBanner.style.display = 'none' 
+                    }                                                                    //
                 } else if (!systemMessageBanner.textContent?.includes("adviser")) {
                     sessionStorage.setItem("isAutoEngage", "false")
                     systemMessageBanner.textContent = messages.computer
