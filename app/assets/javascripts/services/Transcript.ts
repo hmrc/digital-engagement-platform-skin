@@ -15,6 +15,7 @@ export default class Transcript {
     systemMsgPrefix: string;
     automatedMsgPrefix: string;
     transitions?: { from: string, name: string, to: { sendMessage: { [key: string]: string } }, trigger: string }[]
+    customerMsgCount: number
 
     constructor(content: HTMLElement | null, classes: Classes, msgPrefix?: undefined) {
         this.content = content;
@@ -23,6 +24,7 @@ export default class Transcript {
         this.customerMsgPrefix = messages.customerMsgPrefix;
         this.systemMsgPrefix = messages.systemMsgPrefix;
         this.automatedMsgPrefix = messages.automatedMsgPrefix;
+        this.customerMsgCount = 1
     }
 
     addAgentMsg(msg: string, msgTimestamp: string, agent?: undefined): void {
@@ -204,7 +206,6 @@ export default class Transcript {
     }
 
     _appendMessage(msg: string, msgTimestamp: string, msg_class: DefaultClassesType, msg_type: string, isCustomerMsg: boolean, isSystemMsg: boolean, state?: string | undefined, joinTransfer?: string | undefined): void {
-
         var id: string = "liveMsgId" + (Math.random() * 100);
 
         var printOuterTimeStamp: HTMLDivElement = document.createElement("div");
@@ -212,8 +213,9 @@ export default class Transcript {
         const popupChatContainer: HTMLCollectionOf<Element> = document.getElementsByClassName("ci-api-popup");
 
         if (isCustomerMsg == true) {
-            var msgDiv: string = `<div class=${msg_class?.Outer}><div class= "msg-opacity govuk-body ${msg_class?.Inner}" id=${id}></div></div>`;
+            var msgDiv: string = `<div class=${msg_class?.Outer}><div class= "msg-opacity govuk-body ${msg_class?.Inner}" data-testid="customerMsgNumber${this.customerMsgCount}" id=${id}></div></div>`;
             var printMessageSuffix: HTMLHeadingElement = document.createElement("h2");
+            this.customerMsgCount++
 
             if (popupChatContainer.length > 0) {
                 printMessageSuffix.className = "print-only popup-print-float-right govuk-!-font-weight-bold govuk-body";
