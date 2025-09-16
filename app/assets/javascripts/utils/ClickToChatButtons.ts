@@ -59,7 +59,7 @@ export default class ClickToChatButtons {
                 timerUtils.updateAndTogglePageTitle(displayStateText)
             } else {
                 innerHTML = `<div class="${c2cObj.displayState}">${displayStateText}</div>`
-                timerUtils.updateAndTogglePageTitle(displayStateText)
+                timerUtils.stopTogglingPageTitle()
             }
         }
 

@@ -1,9 +1,11 @@
+import { messages } from "./Messages"
 interface TimerTypes {
     intervalId: NodeJS.Timer | null
     businessAreaTitle: string
     displayingBusinessAreaName: boolean
     updatedPageTitle: string
     updateAndTogglePageTitle: (newPageTitleText: string) => void
+    updateAndTogglePageTitleOnce: () => void
     stopTogglingPageTitle: () => void
 }
 
@@ -26,6 +28,13 @@ export const timerUtils: TimerTypes = {
                 this.displayingBusinessAreaName = !this.displayingBusinessAreaName
             }, 2000)
         }
+    },
+
+    updateAndTogglePageTitleOnce() {
+        document.title = messages.adviser
+        setInterval(() => {
+            document.title = this.businessAreaTitle
+        }, 2000);
     },
 
     stopTogglingPageTitle() {

@@ -79,6 +79,7 @@ export class EngagedState {
     container: ChatContainer
     closeChat: () => void;
     escalated: boolean;
+    isUserQueued: boolean
     constructor(sdk: any, container: ChatContainer, previousMessages: [], closeChat: () => void) {
         this.sdk = sdk;
         this.container = container;
@@ -88,6 +89,7 @@ export class EngagedState {
 
         this._displayPreviousMessages(previousMessages);
         this._getMessages();
+        this.isUserQueued = false
     }
 
     isEscalated(): boolean {
@@ -287,6 +289,10 @@ export class EngagedState {
             if (systemMessageBanner) {
                 if (msg["agent.alias"] !== "hmrcda") {
                     systemMessageBanner.textContent = messages.adviser
+                    if (this.isUserQueued) {
+                        timerUtils.updateAndTogglePageTitleOnce()
+                    }
+                    this.isUserQueued = false
                 } else {
                     systemMessageBanner.textContent = messages.computer
                 }
@@ -294,6 +300,7 @@ export class EngagedState {
         } else if (msg["queueDepth"]) {
             if (systemMessageBanner) {
                 systemMessageBanner.textContent = messages.queue
+                this.isUserQueued = true
             }
         }
 
