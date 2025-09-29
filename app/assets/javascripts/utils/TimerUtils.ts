@@ -1,5 +1,5 @@
 import { messages } from "./Messages"
-interface TimerTypes {
+interface TimerUtils {
     intervalId: NodeJS.Timer | null
     businessAreaTitle: string
     displayingBusinessAreaName: boolean
@@ -9,7 +9,7 @@ interface TimerTypes {
     stopTogglingPageTitle: () => void
 }
 
-export const timerUtils: TimerTypes = {
+export const timerUtils: TimerUtils = {
     intervalId: null,
     businessAreaTitle: document.title,
     displayingBusinessAreaName: true,
@@ -18,7 +18,7 @@ export const timerUtils: TimerTypes = {
     updateAndTogglePageTitle(newPageTitleText: string) {
         if (this.updatedPageTitle !== newPageTitleText) {
             this.updatedPageTitle = newPageTitleText
-            document.title = newPageTitleText
+            document.title = this.updatedPageTitle
             this.displayingBusinessAreaName = false
         }
 
@@ -32,7 +32,7 @@ export const timerUtils: TimerTypes = {
 
     updateAndTogglePageTitleOnce() {
         document.title = messages.adviser
-        setInterval(() => {
+        setTimeout(() => {
             document.title = this.businessAreaTitle
         }, 2000);
     },
