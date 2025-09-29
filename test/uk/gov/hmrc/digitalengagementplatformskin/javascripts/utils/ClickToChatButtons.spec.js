@@ -36,6 +36,10 @@ function c2cObj(displayState, launchable = false) {
 }
 
 describe("ClickToChatButtons", () => {
+    afterEach(() => {
+        jest.clearAllMocks()
+    });
+    
     it("adds a button with active state", () => {
         const [, buttons, button] = setup();
         const stopTogglingPageTitleSpy = jest.spyOn(timerUtils, 'stopTogglingPageTitle').mockImplementation(() => {});
