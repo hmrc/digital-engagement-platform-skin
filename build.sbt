@@ -50,7 +50,6 @@ lazy val microservice = Project(appName, file("."))
   )
   .configs(IntegrationTest)
   .settings(integrationTestSettings(): _*)
-  .settings(resolvers += Resolver.jcenterRepo)
   .settings(scoverageSettings)
 
 // add development mode run hook which starts webpack file watcher (./project/WebpackRunHook.scala)
