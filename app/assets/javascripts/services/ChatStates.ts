@@ -317,7 +317,6 @@ export class EngagedState {
                 break;
             case MessageType.Chat_Exit:
                 transcript.addSystemMsg({ msg: (msg["display.text"] || messages.adviserExitedChat) }, msg.messageTimestamp!);
-                timerUtils.stopTogglingPageTitle()
                 break;
             case MessageType.Chat_CommunicationQueue:
                 transcript.addSystemMsg({ msg: (msg.messageText || messages.agentBusy) }, msg.messageTimestamp);

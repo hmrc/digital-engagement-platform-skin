@@ -442,7 +442,6 @@ export default class CommonChatController {
                 this.sdk.closeChat();
             }
         }
-        timerUtils.stopTogglingPageTitle()
     }
 
     showEndChatPage(showThanks: boolean): void {
