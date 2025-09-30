@@ -529,8 +529,7 @@ describe("CommonChatController", () => {
     commonChatController.nuanceFrameworkLoaded(window);
     commonChatController.closeNuanceChat();
 
-   //expect(sdk.closeChat).toBeCalledTimes(1);
-    expect(stopTogglingPageTitleSpy).toHaveBeenCalledTimes(1);
+    expect(sdk.closeChat).toBeCalledTimes(1);
   });
 
   it("onSkipToTopLink should focus on the skipToTopLink", () => {
