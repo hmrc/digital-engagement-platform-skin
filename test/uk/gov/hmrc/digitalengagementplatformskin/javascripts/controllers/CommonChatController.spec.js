@@ -3,7 +3,6 @@ import PostChatSurveyWebchatService from '../../../../../../../app/assets/javasc
 import PostChatSurveyDigitalAssistantService from '../../../../../../../app/assets/javascripts/services/PostChatSurveyDigitalAssistantService'
 import * as ChatStates from '../../../../../../../app/assets/javascripts/services/ChatStates'
 import PrintUtils from '../../../../../../../app/assets/javascripts/utils/PrintUtils';
-import { timerUtils } from '../../../../../../../app/assets/javascripts/utils/TimerUtils';
 
 
 function createDisplayOpenerScriptsDependencies() {
@@ -515,7 +514,6 @@ describe("CommonChatController", () => {
   it("closeNuanceChat sends closeChat to nuance if chat is in progress ", () => {
     const html = `<div id="error-message" class="chat-in-progress"></div>`;
     document.body.innerHTML = html;
-    const stopTogglingPageTitleSpy = jest.spyOn(timerUtils, 'stopTogglingPageTitle').mockImplementation(() => {});
 
     const sdk = {
       isChatInProgress: jest.fn().mockReturnValue(true),
