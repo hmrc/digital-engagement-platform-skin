@@ -1,6 +1,6 @@
 import SessionActivityService from "../../../../../../../app/assets/javascripts/utils/SessionActivityService";
 
-describe('/components/timeout-dialog/session-activity-service', () => {
+describe('session-activity-service', () => {
     let testScope; // an object which is reset between test runs
     const mockBroadcastChannel = {
         postMessage: jest.fn(),

@@ -6,6 +6,7 @@ import { messages } from '../utils/Messages';
 import ChatContainer from '../utils/ChatContainer';
 import Transcript from './Transcript';
 import { QuickReplyData } from '../types';
+import { timerUtils } from '../utils/TimerUtils';
 
 interface MessageInterface {
     "aeapi.join_transfer"?: any
@@ -78,6 +79,7 @@ export class EngagedState {
     container: ChatContainer
     closeChat: () => void;
     escalated: boolean;
+    isUserQueued: boolean
     constructor(sdk: any, container: ChatContainer, previousMessages: [], closeChat: () => void) {
         this.sdk = sdk;
         this.container = container;
@@ -87,6 +89,7 @@ export class EngagedState {
 
         this._displayPreviousMessages(previousMessages);
         this._getMessages();
+        this.isUserQueued = false
     }
 
     isEscalated(): boolean {
@@ -110,7 +113,7 @@ export class EngagedState {
     }
 
     _isSoundActive(): boolean {
-        if (sessionStorage.getItem("suppressNotificationSound") == "true"){
+        if (sessionStorage.getItem("suppressNotificationSound") == "true") {
             return false
         } else {
             let soundElement: HTMLElement | null = document.getElementById("toggleSound");
@@ -126,7 +129,7 @@ export class EngagedState {
     }
 
     _getMessages(): void {
-        if (sessionStorage.getItem("suppressNotificationSound") == "true"){
+        if (sessionStorage.getItem("suppressNotificationSound") == "true") {
             sessionStorage.setItem("suppressNotificationSound", "false")
         }
         this.sdk.getMessages((msg_in: { data: MessageInterface; }) => this._displayMessage(msg_in));
@@ -286,13 +289,18 @@ export class EngagedState {
             if (systemMessageBanner) {
                 if (msg["agent.alias"] !== "hmrcda") {
                     systemMessageBanner.textContent = messages.adviser
+                    if (this.isUserQueued) {
+                        timerUtils.updateAndTogglePageTitleOnce()
+                    }
+                    this.isUserQueued = false
                 } else {
                     systemMessageBanner.textContent = messages.computer
                 }
             }
-        } else if (msg["queueDepth"]){
+        } else if (msg["queueDepth"]) {
             if (systemMessageBanner) {
                 systemMessageBanner.textContent = messages.queue
+                this.isUserQueued = true
             }
         }
 
@@ -308,7 +316,7 @@ export class EngagedState {
                 this._chatActivityAndAgentTyping(msg, transcript);
                 break;
             case MessageType.Chat_Exit:
-                transcript.addSystemMsg({ msg: (msg["display.text"] || messages.adviserExitedChat)}, msg.messageTimestamp!);
+                transcript.addSystemMsg({ msg: (msg["display.text"] || messages.adviserExitedChat) }, msg.messageTimestamp!);
                 break;
             case MessageType.Chat_CommunicationQueue:
                 transcript.addSystemMsg({ msg: (msg.messageText || messages.agentBusy) }, msg.messageTimestamp);

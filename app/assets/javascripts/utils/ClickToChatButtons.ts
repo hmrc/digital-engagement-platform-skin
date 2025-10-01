@@ -3,6 +3,7 @@ import * as logger from '../utils/logger';
 import ClickToChatButton from './ClickToChatButton';
 import { ClickToChatObjectInterface } from '../types';
 import { messages } from './Messages';
+import { timerUtils } from './TimerUtils';
 
 export type displayState = "chatactive" | "outofhours" | "ready" | "busy"
 
@@ -49,12 +50,16 @@ export default class ClickToChatButtons {
         } else {
             if (c2cObj.displayState === 'busy') {
                 innerHTML = `<h2 class="govuk-heading-m">${messages.busyHeading}</h2><div class="${c2cObj.displayState}">${displayStateText}</div><button disabled aria-disabled="true" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`
+                timerUtils.updateAndTogglePageTitle(messages.busyHeading)
             } else if (c2cObj.displayState === 'ready') {
                 innerHTML = `<h2 class="govuk-heading-m">${messages.readyHeading}</h2><div class="${c2cObj.displayState}">${displayStateText}</div><button id="startChatButton" aria-disabled="false" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`
+                timerUtils.updateAndTogglePageTitle(messages.readyHeading)
             } else if (c2cObj.displayState === 'outofhours') {
                 innerHTML = `<h2 class="govuk-heading-m ${c2cObj.displayState}">${displayStateText}</h2>`
+                timerUtils.updateAndTogglePageTitle(displayStateText)
             } else {
                 innerHTML = `<div class="${c2cObj.displayState}">${displayStateText}</div>`
+                timerUtils.stopTogglingPageTitle()
             }
         }
 
