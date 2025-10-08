@@ -170,6 +170,7 @@ export default class CommonChatController {
     }
 
     _launchChat(obj: { type: string; state?: StateType }): void {
+        sessionStorage.setItem("ignoreChatClosedEvent", "false")
         if (this.container) {
             return;
         }
@@ -339,6 +340,7 @@ export default class CommonChatController {
     }
 
     closeChat(): void {
+        console.log(">>>>>>::closeChat called ")
         this.closeMenu()
         if (document.body.contains(document.getElementById("postChatSurveyWrapper"))) {
             if (this.state instanceof ChatStates.EngagedState && this.state.escalated) {
@@ -597,6 +599,10 @@ export default class CommonChatController {
     }
 
     onConfirmEndChat(): void {
+                
+        logger.info(">>>>>>::onConfirmEndChat called ")
+        sessionStorage.setItem("ignoreChatClosedEvent", "true")
+
         this.closeNuanceChat();
         this.closeMenu()
         if (this.state instanceof ChatStates.EngagedState) {

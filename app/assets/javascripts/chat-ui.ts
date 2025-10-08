@@ -17,7 +17,7 @@ export function safeHandler(f: any) {
 };
 
 export const chatListener = {
-    onAnyEvent: function (evt: { c2c?: any; chatID: string; rule?: {name: string} }) {
+    onAnyEvent: function (evt: { c2c?: any; chatID: string; rule?: {name: string}; evtType?: string }) {
         if (evt.c2c) {
             event = evt
         }
@@ -38,6 +38,15 @@ export const chatListener = {
                 }
             }
         }
+
+        if (evt.evtType === "CLOSED"){
+            if (sessionStorage.getItem("ignoreChatClosedEvent") !== "true"){
+                // close chat window
+                logger.info(">>>> some close chat window method")
+                document.getElementById("tc-nuance-chat-container")?.remove();
+            }
+        }
+
         window.chatId = evt.chatID;
     },
     onAgentAssigned: function (evt: { agentID: any, agentAlias: string }) {
