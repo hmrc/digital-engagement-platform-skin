@@ -170,6 +170,7 @@ export default class CommonChatController {
     }
 
     _launchChat(obj: { type: string; state?: StateType }): void {
+        sessionStorage.setItem("ignoreChatClosedEvent", "false")
         if (this.container) {
             return;
         }

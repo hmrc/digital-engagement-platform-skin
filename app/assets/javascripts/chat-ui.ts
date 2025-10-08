@@ -43,6 +43,7 @@ export const chatListener = {
             if (sessionStorage.getItem("ignoreChatClosedEvent") !== "true"){
                 // close chat window
                 logger.info(">>>> some close chat window method")
+                document.getElementById("tc-nuance-chat-container")?.remove();
             }
         }
 
