@@ -42,8 +42,9 @@ export const chatListener = {
         if (evt.evtType === "CLOSED"){
             if (sessionStorage.getItem("ignoreChatClosedEvent") !== "true"){
                 // close chat window
+                sessionStorage.setItem("ignoreChatClosedEvent", "true")
                 logger.info(">>>> some close chat window method")
-                document.getElementById("tc-nuance-chat-container")?.remove();
+                window.Inq.SDK.closeChat()
             }
         }
 
