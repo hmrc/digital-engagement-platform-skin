@@ -5,7 +5,7 @@ import { messages } from '../javascripts/utils/Messages';
 import { ClickToChatObjectInterface, StateType } from './types';
 import * as logger from './utils/logger';
 
-let event: { c2c?: any; };
+let event: { c2c?: any; rule?: {name: string}; evtType?: string };
 export function safeHandler(f: any) {
     return function () {
         try {
@@ -102,7 +102,11 @@ export function hookWindow(w: any, commonChatController: CommonChatController, r
     w.nuanceRestoreReactive = safeHandler(
         function nuanceRestoreReactive(): void {
             logger.debug("### nuanceRestoreReactive")
-            commonChatController._launchChat({ type: 'reactive' })
+            if((event.rule["name"] === "HMRC-C-LC-CIAPI-TES-O-R-DTS-Anchored-C2C") && event.evtType === "SHOWN" && window.location.href.includes("/personal-account")){ 
+                window.Inq.SDK.closeChat();
+            } else {
+                commonChatController._launchChat({ type: 'reactive' })
+            }
         }
     );
 }
