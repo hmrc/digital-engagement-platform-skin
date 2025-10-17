@@ -102,8 +102,10 @@ export function hookWindow(w: any, commonChatController: CommonChatController, r
     w.nuanceRestoreReactive = safeHandler(
         function nuanceRestoreReactive(): void {
             logger.debug("### nuanceRestoreReactive")
-            if(event.rule && (event.rule["name"] === "HMRC-C-LC-CIAPI-TES-O-R-DTS-Anchored-C2C") && event.evtType === "SHOWN" && window.location.href.includes("/personal-account")){ 
-                logger.debug("### restore event in here ###")
+            logger.debug("### event before restore reactive ###", event)
+            if(event.rule && (event.rule["name"] === "HMRC-VA-CIAPI-PersonalTaxAccount-R-DTS-Anchored-C2C") && event.evtType === "SHOWN" && window.location.href.includes("/personal-account")){ 
+                logger.debug("### restore conditions met ###")
+                // "HMRC-C-LC-CIAPI-TES-O-R-DTS-Anchored-C2C"
                 window.Inq.SDK.closeChat();
             } else {
                 commonChatController._launchChat({ type: 'reactive' })
