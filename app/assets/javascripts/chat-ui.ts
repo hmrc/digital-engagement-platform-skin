@@ -5,7 +5,7 @@ import { messages } from '../javascripts/utils/Messages';
 import { ClickToChatObjectInterface, StateType } from './types';
 import * as logger from './utils/logger';
 
-let event: { c2c?: any; };
+let event: { c2c?: any; rule?: {name: string}; evtType?: string };
 export function safeHandler(f: any) {
     return function () {
         try {
@@ -17,7 +17,7 @@ export function safeHandler(f: any) {
 };
 
 export const chatListener = {
-    onAnyEvent: function (evt: { c2c?: any; chatID: string; rule?: {name: string} }) {
+    onAnyEvent: function (evt: { c2c?: any; chatID: string; rule?: {name: string}; evtType?: string }) {
         if (evt.c2c) {
             event = evt
         }
@@ -38,6 +38,16 @@ export const chatListener = {
                 }
             }
         }
+
+        if (evt.evtType === "CLOSED"){
+            if (sessionStorage.getItem("ignoreChatClosedEvent") !== "true"){
+                // close chat window
+                sessionStorage.setItem("ignoreChatClosedEvent", "true")
+                logger.info(">>>> some close chat window method")
+                window.Inq.SDK.closeChat()
+            }
+        }
+
         window.chatId = evt.chatID;
     },
     onAgentAssigned: function (evt: { agentID: any, agentAlias: string }) {
@@ -92,7 +102,14 @@ export function hookWindow(w: any, commonChatController: CommonChatController, r
     w.nuanceRestoreReactive = safeHandler(
         function nuanceRestoreReactive(): void {
             logger.debug("### nuanceRestoreReactive")
-            commonChatController._launchChat({ type: 'reactive' })
+            logger.debug("### event before restore reactive ###", event)
+            if(event.rule && (event.rule["name"] === "HMRC-VA-CIAPI-PersonalTaxAccount-R-DTS-Anchored-C2C") && event.evtType === "SHOWN" && window.location.href.includes("/personal-account")){ 
+                logger.debug("### restore conditions met ###")
+                // "HMRC-C-LC-CIAPI-TES-O-R-DTS-Anchored-C2C"
+                window.Inq.SDK.closeChat();
+            } else {
+                commonChatController._launchChat({ type: 'reactive' })
+            }
         }
     );
 }
