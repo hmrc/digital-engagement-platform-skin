@@ -84,6 +84,7 @@ export function hookWindow(w: any, commonChatController: CommonChatController, r
             c2cObj.c2c = event.c2c
             if (c2cObj.displayState == "ready") {
                 if (document.getElementById("tc-nuance-chat-container")) {
+                    logger.debug("### nuanceReactive_HMRC_CIAPI_Anchored_1 method called ...")
                     reactiveChatController.addC2CButton(c2cObj, "tc-nuance-chat-container", "anchored");
                 } else {
                     reactiveChatController.addC2CButton(c2cObj, "HMRC_CIAPI_Anchored_1", "anchored");
