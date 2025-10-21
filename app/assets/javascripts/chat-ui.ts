@@ -45,6 +45,7 @@ export const chatListener = {
                 sessionStorage.setItem("ignoreChatClosedEvent", "true")
                 logger.info(">>>> some close chat window method")
                 window.Inq.SDK.closeChat()
+                window.location.reload()
             }
         }
 
