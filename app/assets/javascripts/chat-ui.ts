@@ -42,10 +42,16 @@ export const chatListener = {
         if (evt.evtType === "CLOSED"){
             if (sessionStorage.getItem("ignoreChatClosedEvent") !== "true"){
                 // close chat window
-                sessionStorage.setItem("ignoreChatClosedEvent", "true")
+                // sessionStorage.setItem("ignoreChatClosedEvent", "true")
                 logger.info(">>>> some close chat window method")
                 window.Inq.SDK.closeChat()
-                window.location.reload()
+                let container = document.getElementById("ciapiSkin")
+                if (container){
+                    let parent = container.parentElement
+                    parent?.removeChild(container)
+                }
+                // window.Inq.reinitChat()
+                logger.info(">>> ran the chat destroy method")
             }
         }
 
@@ -104,14 +110,7 @@ export function hookWindow(w: any, commonChatController: CommonChatController, r
     w.nuanceRestoreReactive = safeHandler(
         function nuanceRestoreReactive(): void {
             logger.debug("### nuanceRestoreReactive")
-            logger.debug("### event before restore reactive ###", event)
-            if(event.rule && (event.rule["name"] === "HMRC-VA-CIAPI-PersonalTaxAccount-R-DTS-Anchored-C2C") && event.evtType === "SHOWN" && window.location.href.includes("/personal-account")){ 
-                logger.debug("### restore conditions met ###")
-                // "HMRC-C-LC-CIAPI-TES-O-R-DTS-Anchored-C2C"
-                window.Inq.SDK.closeChat();
-            } else {
-                commonChatController._launchChat({ type: 'reactive' })
-            }
+            commonChatController._launchChat({ type: 'reactive' })
         }
     );
 }
