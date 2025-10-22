@@ -5,7 +5,7 @@ import { messages } from '../javascripts/utils/Messages';
 import { ClickToChatObjectInterface, StateType } from './types';
 import * as logger from './utils/logger';
 
-let event: { c2c?: any; rule?: {name: string}; evtType?: string };
+let event: { c2c?: any; };
 export function safeHandler(f: any) {
     return function () {
         try {
@@ -42,16 +42,15 @@ export const chatListener = {
         if (evt.evtType === "CLOSED"){
             if (sessionStorage.getItem("ignoreChatClosedEvent") !== "true"){
                 // close chat window
-                // sessionStorage.setItem("ignoreChatClosedEvent", "true")
-                logger.info(">>>> some close chat window method")
-                window.Inq.SDK.closeChat()
+                logger.info(">>>> flag is false, closing the chat window")
+                // window.Inq.SDK.closeChat()
                 let container = document.getElementById("ciapiSkin")
                 if (container){
                     let parent = container.parentElement
                     parent?.removeChild(container)
                 }
                 // window.Inq.reinitChat()
-                logger.info(">>> ran the chat destroy method")
+                logger.info(">>> closed the chat window")
             }
         }
 
