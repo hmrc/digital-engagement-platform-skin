@@ -43,7 +43,7 @@ export const chatListener = {
             if (sessionStorage.getItem("ignoreChatClosedEvent") !== "true"){
                 // close chat window
                 logger.info(">>>> flag is false, closing the chat window")
-                // window.Inq.SDK.closeChat()
+                window.Inq.SDK.closeChat()
                 let container = document.getElementById("ciapiSkin")
                 if (container){
                     let parent = container.parentElement
