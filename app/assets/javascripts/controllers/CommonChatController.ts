@@ -202,8 +202,9 @@ export default class CommonChatController {
                 this.sdk.chatDisplayed({
                     "customerName": "You",
                     "previousMessagesCb": (resp: any) => {
-                        if (this.container.element()){
-                            //TODO if hidden, set to visible
+                        if (this.container.element().style.visibility = "hidden"){
+                            this.container.element().style.visibility = "visible"
+
                         }
                         this._moveToChatEngagedState(resp.messages)},
                     "disconnectCb": () => logger.info("%%%%%% disconnected %%%%%%"),
@@ -273,7 +274,7 @@ export default class CommonChatController {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 popupDiv.appendChild(this.container.element());
                 if (hideContainerOnStart){
-                    //TODO set visibility
+                    this.container.element().style.visibility = "hidden"
                 }
             } else if (embeddedDiv) {
                 this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
@@ -282,7 +283,7 @@ export default class CommonChatController {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 document.getElementsByTagName("body")[0].appendChild(this.container.element());
                 if (hideContainerOnStart){
-                    //TODO set visibility
+                    this.container.element().style.visibility = "hidden"
                 }
             }
 
