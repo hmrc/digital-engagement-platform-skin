@@ -169,7 +169,7 @@ export default class CommonChatController {
         return this.isIVRWebchatOnly() || document.URL.includes("/ask-hmrc")
     }
 
-    _launchChat(obj: { type: string; state?: StateType }): void {
+    _launchChat(obj: { type: string; state?: StateType }, hideContainerOnStart: boolean): void {
         sessionStorage.setItem("ignoreChatClosedEvent", "false")
         if (this.container) {
             logger.debug(">>> Returning", this.container)
@@ -186,7 +186,7 @@ export default class CommonChatController {
                 if (this.isIVRWebchatOnly()) {
                     return
                 } else {
-                    this._showChat();
+                    this._showChat(hideContainerOnStart);
                     let msg: string = messages.unavilable
                     this.container.getTranscript().addSystemMsg({ msg: msg }, Date.now());
                     let ciapiSkinFooter: HTMLElement | null = document.getElementById('ciapiSkinFooter')
@@ -196,12 +196,16 @@ export default class CommonChatController {
                 }
 
             } else {
-                this._showChat();
+                this._showChat(hideContainerOnStart);
                 this._displayOpenerScripts();
 
                 this.sdk.chatDisplayed({
                     "customerName": "You",
-                    "previousMessagesCb": (resp: any) => this._moveToChatEngagedState(resp.messages),
+                    "previousMessagesCb": (resp: any) => {
+                        if (this.container.element()){
+                            //TODO if hidden, set to visible
+                        }
+                        this._moveToChatEngagedState(resp.messages)},
                     "disconnectCb": () => logger.info("%%%%%% disconnected %%%%%%"),
                     "reConnectCb": () => logger.info("%%%%%% reconnected %%%%%%"),
                     "failedCb": () => logger.info("%%%%%% failed %%%%%%"),
@@ -259,7 +263,7 @@ export default class CommonChatController {
         }
     }
 
-    _showChat(): void {
+    _showChat(hideContainerOnStart: boolean): void {
         const embeddedDiv: HTMLElement | null = this._getEmbeddedDiv();
         const popupDiv: HTMLElement | null = this._getPopupDiv();
         const webchatOnly: boolean = this._isWebchatOnly();
@@ -268,12 +272,18 @@ export default class CommonChatController {
             if (popupDiv) {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 popupDiv.appendChild(this.container.element());
+                if (hideContainerOnStart){
+                    //TODO set visibility
+                }
             } else if (embeddedDiv) {
                 this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 embeddedDiv.appendChild(this.container.element());
             } else {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 document.getElementsByTagName("body")[0].appendChild(this.container.element());
+                if (hideContainerOnStart){
+                    //TODO set visibility
+                }
             }
 
             this.container.setEventHandler(this);
