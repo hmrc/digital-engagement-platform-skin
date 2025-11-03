@@ -41,7 +41,7 @@ describe("Transcript", () => {
 
         transcript.addSystemMsg({ msg: "System Message" });
 
-        expect(content.appendChild).toBeCalledTimes(1);
+        expect(content.appendChild).toHaveBeenCalledTimes(1);
         expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
         expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
     });
@@ -91,7 +91,7 @@ describe("Transcript", () => {
 
         transcript.addOpenerScript("An Opener Script");
 
-        expect(content.appendChild).toBeCalledTimes(1);
+        expect(content.appendChild).toHaveBeenCalledTimes(1);
         expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
         expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
     });
@@ -108,7 +108,7 @@ describe("Transcript", () => {
 
         transcript.addAgentMsg("Some agent message");
 
-        expect(content.appendChild).toBeCalledTimes(1);
+        expect(content.appendChild).toHaveBeenCalledTimes(1);
         expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
         expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
     });
@@ -125,7 +125,7 @@ describe("Transcript", () => {
 
         transcript.addCustomerMsg("Some customer message");
 
-        expect(content.appendChild).toBeCalledTimes(1);
+        expect(content.appendChild).toHaveBeenCalledTimes(1);
         expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
         expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
     });
@@ -142,7 +142,7 @@ describe("Transcript", () => {
 
         transcript._appendMessage("test1", "time", messageClasses.Customer, "test3", true);
 
-        expect(content.appendChild).toBeCalledTimes(1);
+        expect(content.appendChild).toHaveBeenCalledTimes(1);
         expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
         expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
     });
@@ -159,7 +159,7 @@ describe("Transcript", () => {
 
         transcript._appendMessage("test1", "time", messageClasses.Agent, "test3", false);
 
-        expect(content.appendChild).toBeCalledTimes(1);
+        expect(content.appendChild).toHaveBeenCalledTimes(1);
         expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
         expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
     });
@@ -175,7 +175,7 @@ describe("Transcript", () => {
 
         transcript.addAutomatonMsg("I'm not a real person");
 
-        expect(content.appendChild).toBeCalledTimes(1);
+        expect(content.appendChild).toHaveBeenCalledTimes(1);
         expect(messageClasses.Timestamp.Outer).toContain("timestamp-outer");
         expect(content.appendChild).toHaveBeenCalledWith(expect.any(Element));
     });

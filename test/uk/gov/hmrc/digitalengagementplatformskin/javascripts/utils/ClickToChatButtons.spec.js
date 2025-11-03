@@ -113,7 +113,7 @@ describe("ClickToChatButtons", () => {
 
         testButton.click();
 
-        expect(onClicked).toBeCalledTimes(1);
-        expect(onClicked).toBeCalledWith("c2cId");
+        expect(onClicked).toHaveBeenCalledTimes(1);
+        expect(onClicked).toHaveBeenCalledWith("c2cId");
     });
 });

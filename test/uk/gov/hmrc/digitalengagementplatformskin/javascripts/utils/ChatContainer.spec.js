@@ -86,21 +86,21 @@ describe("ChatContainer", () => {
 
         let spy = jest.spyOn(chatContainer.container.parentElement, 'removeChild').mockImplementation();
         chatContainer.destroy();
-        expect(spy).toBeCalledWith(chatContainer.container);
+        expect(spy).toHaveBeenCalledWith(chatContainer.container);
     });
 
     it("minimise adds a minimize class to the container", () => {
         chatContainer.container = document.createElement("div")
         let spy = jest.spyOn(chatContainer.container.classList, 'add').mockImplementation();
         chatContainer.minimise();
-        expect(spy).toBeCalledWith('minimised');
+        expect(spy).toHaveBeenCalledWith('minimised');
     });
 
     it("restore removes a minimize class from the container", () => {
         chatContainer.container = document.createElement("div")
         let spy = jest.spyOn(chatContainer.container.classList, 'remove').mockImplementation();
         chatContainer.restore();
-        expect(spy).toBeCalledWith('minimised');
+        expect(spy).toHaveBeenCalledWith('minimised');
     });
 
     it("Mix: process responsive links, send rich content message", () => {
@@ -123,13 +123,13 @@ describe("ChatContainer", () => {
 
         chatContainer.processTranscriptEvent(responsiveLinkEvent);
 
-        expect(processTranscriptEvent).toBeCalledTimes(1);
-        expect(sanitiseAndParseJsonData).toBeCalledTimes(1);
+        expect(processTranscriptEvent).toHaveBeenCalledTimes(1);
+        expect(sanitiseAndParseJsonData).toHaveBeenCalledTimes(1);
 
         const firstArgToSendRichContentMessage = mockSDK.sendRichContentMessage.mock.calls[0][0];
         const secondArgToSendRichContentMessage = mockSDK.sendRichContentMessage.mock.calls[0][1];
 
-        expect(mockSDK.sendMessage).toBeCalledTimes(0);
+        expect(mockSDK.sendMessage).toHaveBeenCalledTimes(0);
         expect(firstArgToSendRichContentMessage).toBe("Northern Ireland");
 
         expect(secondArgToSendRichContentMessage)
@@ -159,7 +159,7 @@ describe("ChatContainer", () => {
 
         chatContainer.processTranscriptEvent(responsiveLinkEvent);
 
-        expect(mockSDK.sendVALinkMessage).toBeCalledWith(responsiveLinkEvent, null, null, null);
+        expect(mockSDK.sendVALinkMessage).toHaveBeenCalledWith(responsiveLinkEvent, null, null, null);
         expect(focusOnNextAutomatonMessageSpy).toHaveBeenCalledTimes(1);
     });
 
@@ -180,7 +180,7 @@ describe("ChatContainer", () => {
 
         chatContainer.processTranscriptEvent(responsiveLinkEvent);
 
-        expect(mockSDK.sendVALinkMessage).toBeCalledWith(responsiveLinkEvent, null, null, null);
+        expect(mockSDK.sendVALinkMessage).toHaveBeenCalledWith(responsiveLinkEvent, null, null, null);
         expect(chatContainer.closeMethod).toBe("Link");
     });
 
@@ -203,11 +203,11 @@ describe("ChatContainer", () => {
 
         chatContainer.processTranscriptEvent(responsiveLinkEvent);
 
-        expect(processTranscriptEvent).toBeCalledTimes(1);
-        expect(mockSDK.sendMessage).toBeCalledTimes(1);
+        expect(processTranscriptEvent).toHaveBeenCalledTimes(1);
+        expect(mockSDK.sendMessage).toHaveBeenCalledTimes(1);
 
-        expect(mockSDK.sendRichContentMessage).toBeCalledTimes(0);
-        expect(sanitiseAndParseJsonData).toBeCalledTimes(0);
+        expect(mockSDK.sendRichContentMessage).toHaveBeenCalledTimes(0);
+        expect(sanitiseAndParseJsonData).toHaveBeenCalledTimes(0);
 
         const firstArgToSendMessage = mockSDK.sendMessage.mock.calls[0][0];
         expect(firstArgToSendMessage).toBe("Northern Ireland");
@@ -233,10 +233,10 @@ describe("ChatContainer", () => {
 
         chatContainer.processTranscriptEvent(externalLinkEvent);
 
-        expect(processTranscriptEvent).toBeCalledTimes(1);
-        expect(sanitiseAndParseJsonData).toBeCalledTimes(1);
+        expect(processTranscriptEvent).toHaveBeenCalledTimes(1);
+        expect(sanitiseAndParseJsonData).toHaveBeenCalledTimes(1);
 
-        expect(mockSDK.sendDataPass).toBeCalledTimes(2);
+        expect(mockSDK.sendDataPass).toHaveBeenCalledTimes(2);
         const firstCallToSendDataPass = mockSDK.sendDataPass.mock.calls[0][0];
         const secondCallToSendDataPass = mockSDK.sendDataPass.mock.calls[1][0];
 
@@ -264,7 +264,7 @@ describe("ChatContainer", () => {
 
         chatContainer.processTranscriptEvent(externalLinkEventWithInvalidJson);
 
-        expect(sanitiseAndParseJsonData).toBeCalledTimes(1);
+        expect(sanitiseAndParseJsonData).toHaveBeenCalledTimes(1);
     });
 
     it("Mix: process keypress", () => {
@@ -288,14 +288,14 @@ describe("ChatContainer", () => {
 
         chatContainer.processKeypressEvent(keypressEvent);
 
-        expect(resetStopTypingTimeoutSpy).toBeCalledTimes(2);
-        expect(startTypingSpy).toBeCalledTimes(1);
-        expect(chatContainer.eventHandler.onStartTyping).toBeCalledTimes(1);
-        expect(chatContainer.eventHandler.onSend).toBeCalledTimes(1);
+        expect(resetStopTypingTimeoutSpy).toHaveBeenCalledTimes(2);
+        expect(startTypingSpy).toHaveBeenCalledTimes(1);
+        expect(chatContainer.eventHandler.onStartTyping).toHaveBeenCalledTimes(1);
+        expect(chatContainer.eventHandler.onSend).toHaveBeenCalledTimes(1);
         expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 3000, nullEventHandler);
 
         chatContainer.processKeypressEvent(keypressEvent); // send second keypress to call clearTimeout for previous setTimeout call
-        expect(clearTimeout).toBeCalled();
+        expect(clearTimeout).toHaveBeenCalled();
     });
 
 
@@ -352,9 +352,9 @@ describe("ChatContainer", () => {
 
         chatContainer.confirmEndChat();
 
-        expect(chatContainer.endChatPopup.show).toBeCalled();
-        expect(document.getElementById).toBeCalledWith("endChatPopup");
-        expect(focus).toBeCalledTimes(1);
+        expect(chatContainer.endChatPopup.show).toHaveBeenCalled();
+        expect(document.getElementById).toHaveBeenCalledWith("endChatPopup");
+        expect(focus).toHaveBeenCalledTimes(1);
     });
 
     function setupDocumentforCancelEndChatTests() {
@@ -393,10 +393,10 @@ describe("ChatContainer", () => {
 
         chatContainer.onCancelEndChat();
 
-        expect(setAttribute).toBeCalledWith("tabindex", '0');
-        expect(setAttribute).toBeCalledTimes(6);
-        expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
-        expect(focus).toBeCalledTimes(1);
+        expect(setAttribute).toHaveBeenCalledWith("tabindex", '0');
+        expect(setAttribute).toHaveBeenCalledTimes(6);
+        expect(chatContainer.endChatPopup.hide).toHaveBeenCalledTimes(1);
+        expect(focus).toHaveBeenCalledTimes(1);
 
         document
             .querySelector("#ciapiSkin")
@@ -437,10 +437,10 @@ describe("ChatContainer", () => {
 
         chatContainer.onCancelEndChat();
 
-        expect(setAttribute).toBeCalledWith("tabindex", '0');
-        expect(setAttribute).toBeCalledTimes(6);
-        expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
-        expect(focus).toBeCalledTimes(1);
+        expect(setAttribute).toHaveBeenCalledWith("tabindex", '0');
+        expect(setAttribute).toHaveBeenCalledTimes(6);
+        expect(chatContainer.endChatPopup.hide).toHaveBeenCalledTimes(1);
+        expect(focus).toHaveBeenCalledTimes(1);
     });
 
     it("onCancelEndChat behaves as expected given the chatContainer's closeMethod is set to Message", () => {
@@ -464,10 +464,10 @@ describe("ChatContainer", () => {
 
         chatContainer.onCancelEndChat();
 
-        expect(setAttribute).toBeCalledWith("tabindex", '0');
-        expect(setAttribute).toBeCalledTimes(6);
-        expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
-        expect(focus).toBeCalledTimes(1);
+        expect(setAttribute).toHaveBeenCalledWith("tabindex", '0');
+        expect(setAttribute).toHaveBeenCalledTimes(6);
+        expect(chatContainer.endChatPopup.hide).toHaveBeenCalledTimes(1);
+        expect(focus).toHaveBeenCalledTimes(1);
     });
 
     it("removeSkinHeadingElements removes heading elements and sets transcript style properties", () => {
@@ -500,7 +500,7 @@ describe("ChatContainer", () => {
         jest.advanceTimersByTime(1001);
 
         expect(setTimeout).toHaveBeenCalledTimes(1);
-        expect(focus).toBeCalledTimes(1); // TODO this is called twice when run individually, not sure why
+        expect(focus).toHaveBeenCalledTimes(1); // TODO this is called twice when run individually, not sure why
     });
 
     it("onConfirmEndChat calls the expected methods, and focuses the legend_give_feedback element", () => {
@@ -517,9 +517,9 @@ describe("ChatContainer", () => {
         chatContainer._removeSkinHeadingElements = jest.fn();
         chatContainer.onConfirmEndChat();
 
-        expect(chatContainer.endChatPopup.hide).toBeCalledTimes(1);
-        expect(focus).toBeCalledTimes(1);
-        expect(chatContainer._removeSkinHeadingElements).toBeCalledTimes(1);
+        expect(chatContainer.endChatPopup.hide).toHaveBeenCalledTimes(1);
+        expect(focus).toHaveBeenCalledTimes(1);
+        expect(chatContainer._removeSkinHeadingElements).toHaveBeenCalledTimes(1);
     });
 
     it("showPage attaches the ciapiChatComponents to the page, and sets the transcript and footer style displays to none", () => {
@@ -538,7 +538,7 @@ describe("ChatContainer", () => {
 
         expect(chatContainer.container.querySelector("#ciapiSkinChatTranscript").style.display).toBe("none");
         expect(chatContainer.container.querySelector("#ciapiSkinFooter").style.display).toBe("none");
-        expect(attachTo).toBeCalledWith(containerHtmlElement.querySelector("#ciapiChatComponents"));
+        expect(attachTo).toHaveBeenCalledWith(containerHtmlElement.querySelector("#ciapiChatComponents"));
     });
 
     it("disablePreviousWidgets disables elements with the quick-reply-widget class", () => {
@@ -554,6 +554,6 @@ describe("ChatContainer", () => {
         document.querySelectorAll = jest.fn().mockReturnValueOnce([widget]);
         chatContainer.disablePreviousWidgets(responsiveLinkEvent);
 
-        expect(disable).toBeCalledTimes(1);
+        expect(disable).toHaveBeenCalledTimes(1);
     })
 })
