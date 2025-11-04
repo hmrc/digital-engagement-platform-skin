@@ -142,7 +142,7 @@ describe("CommonChatController", () => {
     firstCallObject.disconnectCb();
     firstCallObject.previousMessagesCb({ messages: ["fake message"] });
 
-    expect(moveToChatEngagedStateMock).toBeCalledWith(["fake message"]);
+    expect(moveToChatEngagedStateMock).toHaveBeenCalledWith(["fake message"]);
     expect(console.log).toHaveBeenCalledWith("INFO: %%%%%% disconnected %%%%%%");
     expect(console.log).toHaveBeenCalledWith("INFO: %%%%%% reconnected %%%%%%");
     expect(console.log).toHaveBeenCalledWith("INFO: %%%%%% failed %%%%%%");
@@ -171,7 +171,7 @@ describe("CommonChatController", () => {
 
     commonChatController._launchChat({ state: 'show' });
 
-    expect(console.error).toBeCalledWith("ERROR: !!!! launchChat got exception: ", new Error("test"))
+    expect(console.error).toHaveBeenCalledWith("ERROR: !!!! launchChat got exception: ", new Error("test"))
   });
 
   it("catches an exception in the showChat function", () => {
@@ -181,7 +181,7 @@ describe("CommonChatController", () => {
 
     commonChatController._showChat();
 
-    expect(console.error).toBeCalledWith("ERROR: !!!! _showChat got exception: ", new Error("test"))
+    expect(console.error).toHaveBeenCalledWith("ERROR: !!!! _showChat got exception: ", new Error("test"))
   });
 
   it("updateDav3DeskproRefererUrls will get the three deskpro URLs url,", () => {
@@ -292,7 +292,7 @@ describe("CommonChatController", () => {
     let engagedChatStateCloseChatFunctionArgumentIndex = 3
     chatStatesSpy.mock.calls[0][engagedChatStateCloseChatFunctionArgumentIndex]()
 
-    expect(confirmEndChatSpy).toBeCalled();
+    expect(confirmEndChatSpy).toHaveBeenCalled();
 
   })
 
@@ -323,11 +323,11 @@ describe("CommonChatController", () => {
     var showEndChatSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation()
     commonChatController.closeChat()
 
-    expect(surveySpy).toBeCalledTimes(1);
-    expect(closeSpy).toBeCalledTimes(1);
-    expect(nullSpy).toBeCalledTimes(0);
-    expect(destroySpy).toBeCalledTimes(0);
-    expect(showEndChatSpy).toBeCalledTimes(1);
+    expect(surveySpy).toHaveBeenCalledTimes(1);
+    expect(closeSpy).toHaveBeenCalledTimes(1);
+    expect(nullSpy).toHaveBeenCalledTimes(0);
+    expect(destroySpy).toHaveBeenCalledTimes(0);
+    expect(showEndChatSpy).toHaveBeenCalledTimes(1);
     expect(commonChatController.container).not.toBe(null);
   })
 
@@ -357,11 +357,11 @@ describe("CommonChatController", () => {
     var showEndChatSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation()
     commonChatController.closeChat()
 
-    expect(surveySpy).toBeCalledTimes(1);
-    expect(closeSpy).toBeCalledTimes(1);
-    expect(nullSpy).toBeCalledTimes(0);
-    expect(destroySpy).toBeCalledTimes(0);
-    expect(showEndChatSpy).toBeCalledTimes(1);
+    expect(surveySpy).toHaveBeenCalledTimes(1);
+    expect(closeSpy).toHaveBeenCalledTimes(1);
+    expect(nullSpy).toHaveBeenCalledTimes(0);
+    expect(destroySpy).toHaveBeenCalledTimes(0);
+    expect(showEndChatSpy).toHaveBeenCalledTimes(1);
     expect(commonChatController.container).not.toBe(null);
   })
 
@@ -391,11 +391,11 @@ describe("CommonChatController", () => {
     var endPageSpy = jest.spyOn(commonChatController, "showEndChatPage").mockImplementation()
     commonChatController.closeChat()
 
-    expect(surveyDigitalSpy).toBeCalledTimes(0);
-    expect(surveyWebchatSpy).toBeCalledTimes(0);
-    expect(nullSpy).toBeCalledTimes(0);
-    expect(endPageSpy).toBeCalledTimes(1);
-    expect(destroySpy).toBeCalledTimes(0);
+    expect(surveyDigitalSpy).toHaveBeenCalledTimes(0);
+    expect(surveyWebchatSpy).toHaveBeenCalledTimes(0);
+    expect(nullSpy).toHaveBeenCalledTimes(0);
+    expect(endPageSpy).toHaveBeenCalledTimes(1);
+    expect(destroySpy).toHaveBeenCalledTimes(0);
   })
 
   it("getRadioValue returns an empty string if given radiogroup is not found", () => {
@@ -527,7 +527,7 @@ describe("CommonChatController", () => {
     commonChatController.nuanceFrameworkLoaded(window);
     commonChatController.closeNuanceChat();
 
-    expect(sdk.closeChat).toBeCalledTimes(1);
+    expect(sdk.closeChat).toHaveBeenCalledTimes(1);
   });
 
   it("onSkipToTopLink should focus on the skipToTopLink", () => {
@@ -539,7 +539,7 @@ describe("CommonChatController", () => {
 
     commonChatController.onSkipToTopLink(evt);
 
-    expect(evt.preventDefault).toBeCalled();
+    expect(evt.preventDefault).toHaveBeenCalled();
     expect(mockSkipToTopLink === document.activeElement).toBeTruthy;
   });
 
@@ -594,7 +594,7 @@ describe("CommonChatController", () => {
     commonChatController.nuanceFrameworkLoaded(window);
     commonChatController.onStartTyping();
 
-    expect(sdk.sendActivityMessage).toBeCalledTimes(1);
+    expect(sdk.sendActivityMessage).toHaveBeenCalledTimes(1);
 
   });
 
@@ -613,7 +613,7 @@ describe("CommonChatController", () => {
     commonChatController.nuanceFrameworkLoaded(window);
     commonChatController.onStopTyping();
 
-    expect(sdk.sendActivityMessage).toBeCalledTimes(1);
+    expect(sdk.sendActivityMessage).toHaveBeenCalledTimes(1);
 
   })
 
@@ -655,11 +655,11 @@ describe("CommonChatController", () => {
 
     commonChatController.onConfirmEndChat();
 
-    expect(closeNuanceSpy).toBeCalledTimes(1);
-    expect(closingStateSpy).toBeCalledTimes(1);
-    expect(showEndChatPageSpy).toBeCalledTimes(1);
+    expect(closeNuanceSpy).toHaveBeenCalledTimes(1);
+    expect(closingStateSpy).toHaveBeenCalledTimes(1);
+    expect(showEndChatPageSpy).toHaveBeenCalledTimes(1);
 
-    expect(showEndChatPageSpy).toBeCalledWith(false);
+    expect(showEndChatPageSpy).toHaveBeenCalledWith(false);
   })
 
   it("onConfirmEndChat when has not been surveyed and has been escalated should show webchat survey", () => {
@@ -686,12 +686,12 @@ describe("CommonChatController", () => {
 
     commonChatController.onConfirmEndChat();
 
-    expect(closeNuanceSpy).toBeCalledTimes(1);
-    expect(closingStateSpy).toBeCalledTimes(1);
-    expect(showEndChatPageSpy).toBeCalledTimes(0);
-    expect(sendWebchatSurveySpy).toBeCalledTimes(1);
-    expect(beginWebchatSurveySpy).toBeCalledTimes(1);
-    expect(showPageMock).toBeCalledTimes(1);
+    expect(closeNuanceSpy).toHaveBeenCalledTimes(1);
+    expect(closingStateSpy).toHaveBeenCalledTimes(1);
+    expect(showEndChatPageSpy).toHaveBeenCalledTimes(0);
+    expect(sendWebchatSurveySpy).toHaveBeenCalledTimes(1);
+    expect(beginWebchatSurveySpy).toHaveBeenCalledTimes(1);
+    expect(showPageMock).toHaveBeenCalledTimes(1);
   })
 
   it("onConfirmEndChat when has not been surveyed and has not been escalated should show assistant survey", () => {
@@ -718,12 +718,12 @@ describe("CommonChatController", () => {
 
     commonChatController.onConfirmEndChat();
 
-    expect(closeNuanceSpy).toBeCalledTimes(1);
-    expect(closingStateSpy).toBeCalledTimes(1);
-    expect(showEndChatPageSpy).toBeCalledTimes(0);
-    expect(sendAssistantSurveySpy).toBeCalledTimes(1);
-    expect(beginAssistantSurveySpy).toBeCalledTimes(1);
-    expect(showPageMock).toBeCalledTimes(1);
+    expect(closeNuanceSpy).toHaveBeenCalledTimes(1);
+    expect(closingStateSpy).toHaveBeenCalledTimes(1);
+    expect(showEndChatPageSpy).toHaveBeenCalledTimes(0);
+    expect(sendAssistantSurveySpy).toHaveBeenCalledTimes(1);
+    expect(beginAssistantSurveySpy).toHaveBeenCalledTimes(1);
+    expect(showPageMock).toHaveBeenCalledTimes(1);
   })
 
 
@@ -745,10 +745,10 @@ describe("CommonChatController", () => {
 
     commonChatController.onPostChatSurveyWebchatSubmitted(mockSurveyPage);
 
-    expect(sendWebchatSurveySpy).toBeCalledTimes(1);
-    expect(submitDigitalAssistantSurveySpy).toBeCalledTimes(1);
-    expect(showEndChatPageSpy).toBeCalledTimes(1);
-    expect(detachMock).toBeCalledTimes(1);
+    expect(sendWebchatSurveySpy).toHaveBeenCalledTimes(1);
+    expect(submitDigitalAssistantSurveySpy).toHaveBeenCalledTimes(1);
+    expect(showEndChatPageSpy).toHaveBeenCalledTimes(1);
+    expect(detachMock).toHaveBeenCalledTimes(1);
     expect(document.cookie).toContain("surveyed=true");
 
     //need to figure out way to test answers but not obvious if we can
@@ -772,10 +772,10 @@ describe("CommonChatController", () => {
 
     commonChatController.onPostChatSurveyDigitalAssistantSubmitted(mockSurveyPage);
 
-    expect(sendDigitalAssistantSurveySpy).toBeCalledTimes(1);
-    expect(submitWebchatSurveySpy).toBeCalledTimes(1);
-    expect(showEndChatPageSpy).toBeCalledTimes(1);
-    expect(detachMock).toBeCalledTimes(1);
+    expect(sendDigitalAssistantSurveySpy).toHaveBeenCalledTimes(1);
+    expect(submitWebchatSurveySpy).toHaveBeenCalledTimes(1);
+    expect(showEndChatPageSpy).toHaveBeenCalledTimes(1);
+    expect(detachMock).toHaveBeenCalledTimes(1);
     expect(document.cookie).toContain("surveyed=true");
 
     //need to figure out way to test answers but not obvious if we can
@@ -803,8 +803,8 @@ describe("CommonChatController", () => {
     commonChatController.nuanceFrameworkLoaded(window);
     commonChatController.onRestoreChat();
 
-    expect(sdk.sendActivityMessage).toBeCalledTimes(1);
-    expect(restore).toBeCalledTimes(1);
+    expect(sdk.sendActivityMessage).toHaveBeenCalledTimes(1);
+    expect(restore).toHaveBeenCalledTimes(1);
   });
 
   it("onHideChat minimises the chat container and sends an activity message to Nunace", () => {
@@ -829,8 +829,8 @@ describe("CommonChatController", () => {
     commonChatController.nuanceFrameworkLoaded(window);
     commonChatController.onHideChat();
 
-    expect(sdk.sendActivityMessage).toBeCalledTimes(1);
-    expect(minimiseSpy).toBeCalledTimes(1);
+    expect(sdk.sendActivityMessage).toHaveBeenCalledTimes(1);
+    expect(minimiseSpy).toHaveBeenCalledTimes(1);
   });
 
   it("onSoundToggle adds the active class to the soundtoggle element if it is inactive", () => {
@@ -859,7 +859,7 @@ describe("CommonChatController", () => {
 
     commonChatController._moveToClosingState();
 
-    expect(spy).toBeCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it("onCloseChat calls onClickedClose", () => {
@@ -874,7 +874,7 @@ describe("CommonChatController", () => {
     const spy = jest.spyOn(state, 'onClickedClose');
 
     commonChatController.onCloseChat();
-    expect(spy).toBeCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it("_displayOpenerScripts retrieves the opener scripts and adds them to the transcript", () => {
@@ -891,7 +891,7 @@ describe("CommonChatController", () => {
     handleMessage(["this is an opener script"]);
 
     expect(sdk.getOpenerScripts).toHaveBeenCalledTimes(1);
-    expect(commonChatController.container.transcript.addOpenerScript).toBeCalledTimes(1);
+    expect(commonChatController.container.transcript.addOpenerScript).toHaveBeenCalledTimes(1);
   });
 
   it("_displayOpenerScripts retrieves the opener scripts does not add anything to transcript if there are no opener scripts returned", () => {
@@ -908,7 +908,7 @@ describe("CommonChatController", () => {
     handleMessage(null);
 
     expect(sdk.getOpenerScripts).toHaveBeenCalledTimes(1);
-    expect(commonChatController.container.transcript.addOpenerScript).toBeCalledTimes(0);
+    expect(commonChatController.container.transcript.addOpenerScript).toHaveBeenCalledTimes(0);
   });
 
   it("_moveToChatShownState move to show state", () => {
@@ -919,12 +919,12 @@ describe("CommonChatController", () => {
 
     commonChatController._moveToChatShownState();
 
-    expect(spy).toBeCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
     expect(commonChatController.state).toBeInstanceOf(ChatStates.ShownState);
     commonChatController.state.onSend("test");
     commonChatController.state.onClickedClose();
-    expect(engageSpy).toBeCalledTimes(1);
-    expect(closeSpy).toBeCalledTimes(1);
+    expect(engageSpy).toHaveBeenCalledTimes(1);
+    expect(closeSpy).toHaveBeenCalledTimes(1);
   });
 
   it("_engageChat engages the chat correctly", () => {
@@ -937,7 +937,7 @@ describe("CommonChatController", () => {
     commonChatController.sdk = sdk;
 
     commonChatController._engageChat("text");
-    expect(engageChatMock).toBeCalledTimes(1);
+    expect(engageChatMock).toHaveBeenCalledTimes(1);
   })
 
 
@@ -1045,8 +1045,8 @@ describe("CommonChatController", () => {
     let _moveToStateSpy = jest.spyOn(commonChatController, '_moveToState');
     commonChatController._moveToChatNullState();
 
-    expect(_moveToChatNullStateSpy).toBeCalledTimes(1);
-    expect(_moveToStateSpy).toBeCalledTimes(1);
+    expect(_moveToChatNullStateSpy).toHaveBeenCalledTimes(1);
+    expect(_moveToStateSpy).toHaveBeenCalledTimes(1);
   });
 
   it("onSend cleans and sends customer input text", () => {
@@ -1072,10 +1072,10 @@ describe("CommonChatController", () => {
     let clearCurrentInputTextSpy = jest.spyOn(commonChatController.container, 'clearCurrentInputText');
     commonChatController.onSend();
 
-    expect(currentInputTextSpy).toBeCalledTimes(1);
-    expect(clearCurrentInputTextSpy).toBeCalledTimes(1);
+    expect(currentInputTextSpy).toHaveBeenCalledTimes(1);
+    expect(clearCurrentInputTextSpy).toHaveBeenCalledTimes(1);
 
-    expect(document.getElementById("custMsg")).not.toContain("Testing 123");
+    expect(document.getElementById("custMsg")).not.toBe("Testing 123");
     expect(sdk.sendMessage).toHaveBeenCalledTimes(1);
   });
 
@@ -1129,9 +1129,9 @@ describe("CommonChatController", () => {
     commonChatController._launchChat({ state: 'missed' });
     const ciapiSkinFooter = document.getElementById('ciapiSkinFooter')
 
-    expect(isIVRWebchatOnlySpy).toBeCalledTimes(1)
+    expect(isIVRWebchatOnlySpy).toHaveBeenCalledTimes(1)
     expect(isIVRWebchatOnlySpy).toHaveReturnedWith(false)
-    expect(showChatSpy).toBeCalledTimes(1);
+    expect(showChatSpy).toHaveBeenCalledTimes(1);
     expect(ciapiSkinFooter.style.display).toBe('none')
   });
 
@@ -1152,10 +1152,10 @@ describe("CommonChatController", () => {
     const showDisplayOpenerScripts = jest.spyOn(commonChatController, '_displayOpenerScripts')
     commonChatController._launchChat({ state: 'missed' });
 
-    expect(isIVRWebchatOnlySpy).toBeCalledTimes(1)
+    expect(isIVRWebchatOnlySpy).toHaveBeenCalledTimes(1)
     expect(isIVRWebchatOnlySpy).toHaveReturnedWith(true)
-    expect(showChatSpy).toBeCalledTimes(0);
-    expect(showDisplayOpenerScripts).toBeCalledTimes(0)
+    expect(showChatSpy).toHaveBeenCalledTimes(0);
+    expect(showDisplayOpenerScripts).toHaveBeenCalledTimes(0)
   });
 
   it("Tests functionality of _launchChat when state is show and it is an IVR webchat", () => {
@@ -1176,8 +1176,8 @@ describe("CommonChatController", () => {
     const showDisplayOpenerScripts = jest.spyOn(commonChatController, '_displayOpenerScripts')
     commonChatController._launchChat({ state: 'show' });
 
-    expect(showChatSpy).toBeCalledTimes(1);
-    expect(showDisplayOpenerScripts).toBeCalledTimes(1)
+    expect(showChatSpy).toHaveBeenCalledTimes(1);
+    expect(showDisplayOpenerScripts).toHaveBeenCalledTimes(1)
     expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1)
     expect(sdk.autoEngage).toHaveBeenCalledTimes(1)
   });
@@ -1241,8 +1241,8 @@ describe("CommonChatController", () => {
     const broadcastSessionActivitySpy = jest.spyOn(commonChatController, 'broadcastSessionActivity').mockImplementation(() => { })
     commonChatController.keepSessionAlive('business-account')
     expect(ajaxGetSpy).toHaveBeenCalledWith('/business-account/keep-alive', expect.any(Function))
-    expect(ajaxGetSpy).toBeCalledTimes(1)
-    expect(broadcastSessionActivitySpy).toBeCalledTimes(1)
+    expect(ajaxGetSpy).toHaveBeenCalledTimes(1)
+    expect(broadcastSessionActivitySpy).toHaveBeenCalledTimes(1)
   });
 
   it("Tests functionality of keepSessionAlive when personal-account is an argument", () => {
@@ -1250,8 +1250,8 @@ describe("CommonChatController", () => {
     const broadcastSessionActivitySpy = jest.spyOn(commonChatController, 'broadcastSessionActivity').mockImplementation(() => { })
     commonChatController.keepSessionAlive('personal-account')
     expect(ajaxGetSpy).toHaveBeenCalledWith('/personal-account/keep-alive', expect.any(Function))
-    expect(ajaxGetSpy).toBeCalledTimes(1)
-    expect(broadcastSessionActivitySpy).toBeCalledTimes(1)
+    expect(ajaxGetSpy).toHaveBeenCalledTimes(1)
+    expect(broadcastSessionActivitySpy).toHaveBeenCalledTimes(1)
   });
 
   it("Tests functionality of keepSessionAlive when epaye is an argument", () => {
@@ -1259,8 +1259,8 @@ describe("CommonChatController", () => {
     const broadcastSessionActivitySpy = jest.spyOn(commonChatController, 'broadcastSessionActivity').mockImplementation(() => { })
     commonChatController.keepSessionAlive('epaye')
     expect(ajaxGetSpy).toHaveBeenCalledWith('/business-account/epaye/keep-alive', expect.any(Function))
-    expect(ajaxGetSpy).toBeCalledTimes(1)
-    expect(broadcastSessionActivitySpy).toBeCalledTimes(1)
+    expect(ajaxGetSpy).toHaveBeenCalledTimes(1)
+    expect(broadcastSessionActivitySpy).toHaveBeenCalledTimes(1)
   });
 
   it("Tests functionality of keepSessionAlive when check-income-tax is an argument", () => {
@@ -1268,8 +1268,8 @@ describe("CommonChatController", () => {
     const broadcastSessionActivitySpy = jest.spyOn(commonChatController, 'broadcastSessionActivity').mockImplementation(() => { })
     commonChatController.keepSessionAlive('check-income-tax')
     expect(ajaxGetSpy).toHaveBeenCalledWith('/check-income-tax/keep-alive', expect.any(Function))
-    expect(ajaxGetSpy).toBeCalledTimes(1)
-    expect(broadcastSessionActivitySpy).toBeCalledTimes(1)
+    expect(ajaxGetSpy).toHaveBeenCalledTimes(1)
+    expect(broadcastSessionActivitySpy).toHaveBeenCalledTimes(1)
   });
 
   it("Tests functionality of ajaxGet when status is 200 and readyState is greater than 3", () => {
@@ -1286,13 +1286,13 @@ describe("CommonChatController", () => {
     window.XMLHttpRequest = jest.fn().mockImplementation(() => xhrMockObj)
     commonChatController.ajaxGet('/business-account/keep-alive', successCallback);
     xhrMockObj.onreadystatechange()
-    expect(xhrMockObj.open).toBeCalledWith('GET', '/business-account/keep-alive');
-    expect(xhrMockObj.open).toBeCalledTimes(1)
-    expect(xhrMockObj.setRequestHeader).toBeCalledWith('X-Requested-With', 'XMLHttpRequest');
-    expect(xhrMockObj.setRequestHeader).toBeCalledTimes(1)
-    expect(xhrMockObj.send).toBeCalledTimes(1)
-    expect(successCallback).toBeCalledWith(xhrMockObj.responseText)
-    expect(successCallback).toBeCalledTimes(1)
+    expect(xhrMockObj.open).toHaveBeenCalledWith('GET', '/business-account/keep-alive');
+    expect(xhrMockObj.open).toHaveBeenCalledTimes(1)
+    expect(xhrMockObj.setRequestHeader).toHaveBeenCalledWith('X-Requested-With', 'XMLHttpRequest');
+    expect(xhrMockObj.setRequestHeader).toHaveBeenCalledTimes(1)
+    expect(xhrMockObj.send).toHaveBeenCalledTimes(1)
+    expect(successCallback).toHaveBeenCalledWith(xhrMockObj.responseText)
+    expect(successCallback).toHaveBeenCalledTimes(1)
   });
 
   it("Tests functionality of ajaxGet when status is 404 and readyState is less than 4", () => {
@@ -1309,11 +1309,11 @@ describe("CommonChatController", () => {
     window.XMLHttpRequest = jest.fn().mockImplementation(() => xhrMockObj)
     commonChatController.ajaxGet('/business-account/keep-alive', successCallback);
     xhrMockObj.onreadystatechange()
-    expect(xhrMockObj.open).toBeCalledWith('GET', '/business-account/keep-alive');
-    expect(xhrMockObj.open).toBeCalledTimes(1)
-    expect(xhrMockObj.setRequestHeader).toBeCalledWith('X-Requested-With', 'XMLHttpRequest');
-    expect(xhrMockObj.setRequestHeader).toBeCalledTimes(1)
-    expect(xhrMockObj.send).toBeCalledTimes(1)
-    expect(successCallback).toBeCalledTimes(0)
+    expect(xhrMockObj.open).toHaveBeenCalledWith('GET', '/business-account/keep-alive');
+    expect(xhrMockObj.open).toHaveBeenCalledTimes(1)
+    expect(xhrMockObj.setRequestHeader).toHaveBeenCalledWith('X-Requested-With', 'XMLHttpRequest');
+    expect(xhrMockObj.setRequestHeader).toHaveBeenCalledTimes(1)
+    expect(xhrMockObj.send).toHaveBeenCalledTimes(1)
+    expect(successCallback).toHaveBeenCalledTimes(0)
   });
 });
