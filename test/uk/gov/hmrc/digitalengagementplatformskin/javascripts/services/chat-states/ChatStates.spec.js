@@ -120,8 +120,8 @@ describe("Chat States", () => {
 
             handleMessage(message);
 
-            expect(isSoundActive).toBeCalledTimes(1);
-            expect(playMessageRecievedSound).toBeCalledTimes(1);
+            expect(isSoundActive).toHaveBeenCalledTimes(1);
+            expect(playMessageRecievedSound).toHaveBeenCalledTimes(1);
         });
 
         it("does not play sound on incoming agent message when user has sound turned off", () => {
@@ -149,8 +149,8 @@ describe("Chat States", () => {
 
             handleMessage(message);
 
-            expect(isSoundActive).toBeCalledTimes(1);
-            expect(playMessageRecievedSound).toBeCalledTimes(0);
+            expect(isSoundActive).toHaveBeenCalledTimes(1);
+            expect(playMessageRecievedSound).toHaveBeenCalledTimes(0);
         });
 
         it("does not play sound on incoming agent message if there is no sound element", () => {
@@ -173,8 +173,8 @@ describe("Chat States", () => {
 
             handleMessage(message);
 
-            expect(isSoundActive).toBeCalledTimes(1);
-            expect(playMessageRecievedSound).toBeCalledTimes(0);
+            expect(isSoundActive).toHaveBeenCalledTimes(1);
+            expect(playMessageRecievedSound).toHaveBeenCalledTimes(0);
         });
 
         it("sends agent messages to the transcript", () => {
@@ -318,7 +318,7 @@ describe("Chat States", () => {
 
             
             handleMessage(message);
-            expect(console.log).toBeCalledWith("DEBUG: ==== Unknown message:", {});
+            expect(console.log).toHaveBeenCalledWith("DEBUG: ==== Unknown message:", {});
         });
 
         it("send previous messages to the transcript", () => {
@@ -427,7 +427,7 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(agentIsTypingSpy).toBeCalledTimes(1);
+            expect(agentIsTypingSpy).toHaveBeenCalledTimes(1);
             expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent is typing...", state: "agentIsTyping"}, "1627651337000");
         });
 
@@ -464,7 +464,7 @@ describe("Chat States", () => {
             handleMessage(message);
 
             expect(document.body.innerHTML).toBe("");
-            expect(agentStoppedTypingSpy).toBeCalledTimes(1);
+            expect(agentStoppedTypingSpy).toHaveBeenCalledTimes(1);
         });
 
         it("reports chat exit in transcript", () => {
@@ -543,8 +543,8 @@ describe("Chat States", () => {
             };
 
             handleMessage(message);
-            expect(container.transcript.addSystemMsg).toBeCalledTimes(0);
-            expect(chatRoomMemberLostSpy).toBeCalledTimes(1);
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledTimes(0);
+            expect(chatRoomMemberLostSpy).toHaveBeenCalledTimes(1);
         });
 
         it("reports agent has been lost", () => {
@@ -570,8 +570,8 @@ describe("Chat States", () => {
 
             handleMessage(message);
             expect(container.transcript.addSystemMsg).toHaveBeenCalledWith({msg: "Agent 'JoeBloggs' loses connection"}, "1627654612000");
-            expect(container.transcript.addSystemMsg).toBeCalledTimes(1);
-            expect(chatRoomMemberLostSpy).toBeCalledTimes(1);
+            expect(container.transcript.addSystemMsg).toHaveBeenCalledTimes(1);
+            expect(chatRoomMemberLostSpy).toHaveBeenCalledTimes(1);
         });
 
         it("removes agent joins conference", () => {
@@ -604,7 +604,7 @@ describe("Chat States", () => {
             handleMessage(message);
 
             expect(document.body.innerHTML).toBe("");
-            expect(transferResponseSpy).toBeCalledTimes(1);
+            expect(transferResponseSpy).toHaveBeenCalledTimes(1);
         });
 
         it("reports chat system messages", () => {
@@ -671,9 +671,9 @@ describe("Chat States", () => {
 
             handleMessage(message);
 
-            expect(chatCommunicationMessageSpy).toBeCalledTimes(1);
-            expect(extractQuickReplyDataSpy).toBeCalledTimes(1)
-            expect(container.transcript.addQuickReply).toBeCalledTimes(1);
+            expect(chatCommunicationMessageSpy).toHaveBeenCalledTimes(1);
+            expect(extractQuickReplyDataSpy).toHaveBeenCalledTimes(1)
+            expect(container.transcript.addQuickReply).toHaveBeenCalledTimes(1);
 
             const firstArgToTranscriptAddQuickReply =
                 container.transcript.addQuickReply.mock.calls[0][0];
@@ -762,10 +762,10 @@ describe("Chat States", () => {
 
             handleMessage(message);
 
-            expect(chatCommunicationMessageSpy).toBeCalledTimes(1);
-            expect(extractQuickReplyYouTubeVideoDataSpy).toBeCalledTimes(1)
-            expect(processYouTubeMessageDataSpy).toBeCalledTimes(1);
-            expect(playSoundIfActiveSpy).toBeCalledTimes(1)
+            expect(chatCommunicationMessageSpy).toHaveBeenCalledTimes(1);
+            expect(extractQuickReplyYouTubeVideoDataSpy).toHaveBeenCalledTimes(1)
+            expect(processYouTubeMessageDataSpy).toHaveBeenCalledTimes(1);
+            expect(playSoundIfActiveSpy).toHaveBeenCalledTimes(1)
 
             const firstArgToTranscriptAddAutomatonMsg = container.transcript.addAutomatonMsg.mock.calls[0][0];
 

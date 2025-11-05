@@ -8,7 +8,7 @@ describe("PrintUtils", () => {
     
         PrintUtils.getPrintDate();
     
-        expect(getPrintDateSpy).toBeCalledTimes(1);
+        expect(getPrintDateSpy).toHaveBeenCalledTimes(1);
       });
 
 });

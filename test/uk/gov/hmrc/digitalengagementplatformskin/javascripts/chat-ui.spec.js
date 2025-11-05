@@ -36,8 +36,8 @@ describe("chat-ui", () => {
     chatListenerFromWindow.onAnyEvent(evt);
     chatListenerFromWindow.onC2CStateChanged(evt);
 
-    expect(onAnyEventSpy).toBeCalledTimes(1);
-    expect(onC2CSpy).toBeCalledTimes(1);
+    expect(onAnyEventSpy).toHaveBeenCalledTimes(1);
+    expect(onC2CSpy).toHaveBeenCalledTimes(1);
     expect(window.chatId).toBe(1);
   })
 
@@ -73,13 +73,13 @@ describe("chat-ui", () => {
       "listeners": [{ "onAnyEvent": expect.any(Function), "onC2CStateChanged": expect.any(Function) }]
     })
 
-    expect(commonChatNuanceFrameworkLoaded).toBeCalledTimes(1);
-    expect(reactiveChatAddC2CButton).toBeCalledTimes(2);
+    expect(commonChatNuanceFrameworkLoaded).toHaveBeenCalledTimes(1);
+    expect(reactiveChatAddC2CButton).toHaveBeenCalledTimes(2);
 
-    expect(reactiveChatAddC2CButton).toBeCalledWith({}, "HMRC_CIAPI_Fixed_1", "fixed");
-    expect(reactiveChatAddC2CButton).lastCalledWith(evt.c2c, "HMRC_CIAPI_Anchored_1", "anchored");
+    expect(reactiveChatAddC2CButton).toHaveBeenCalledWith({}, "HMRC_CIAPI_Fixed_1", "fixed");
+    expect(reactiveChatAddC2CButton).toHaveBeenLastCalledWith(evt.c2c, "HMRC_CIAPI_Anchored_1", "anchored");
 
-    expect(proactiveChatLaunch).toBeCalled();
+    expect(proactiveChatLaunch).toHaveBeenCalled();
   });
 
   it("should call the relevant controllers with expected arguments, given a call to hookWindow and displayState set to busy", () => {
@@ -114,12 +114,12 @@ describe("chat-ui", () => {
       "listeners": [{ "onAnyEvent": expect.any(Function), "onC2CStateChanged": expect.any(Function) }]
     })
 
-    expect(commonChatNuanceFrameworkLoaded).toBeCalledTimes(1);
-    expect(reactiveChatAddC2CButton).toBeCalledTimes(1);
+    expect(commonChatNuanceFrameworkLoaded).toHaveBeenCalledTimes(1);
+    expect(reactiveChatAddC2CButton).toHaveBeenCalledTimes(1);
 
-    expect(reactiveChatAddC2CButton).toBeCalledWith({}, "HMRC_CIAPI_Fixed_1", "fixed");
+    expect(reactiveChatAddC2CButton).toHaveBeenCalledWith({}, "HMRC_CIAPI_Fixed_1", "fixed");
 
-    expect(proactiveChatLaunch).toBeCalled();
+    expect(proactiveChatLaunch).toHaveBeenCalled();
   });
 
   it("should call sdk closeChat and close the chat window if a CLOSED event is received", () => {

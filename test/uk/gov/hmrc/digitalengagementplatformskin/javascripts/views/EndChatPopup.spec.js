@@ -71,7 +71,7 @@ describe('EndChatPopup', () => {
         
         endChatPopup.show();
 
-        expect(endChatPopupSpy).toBeCalledWith("block");
+        expect(endChatPopupSpy).toHaveBeenCalledWith("block");
         expect(wrapper.style.display).toBe("block");
     });
 });

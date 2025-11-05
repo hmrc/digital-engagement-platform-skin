@@ -34,9 +34,9 @@ describe("Mix: Chat States", () => {
 
             handleMessage(message);
 
-            expect(isSoundActive).toBeCalledTimes(1);
-            expect(playMessageRecievedSound).toBeCalledTimes(1);
-            expect(isMixAutomatonMessage).toBeCalledTimes(1);
+            expect(isSoundActive).toHaveBeenCalledTimes(1);
+            expect(playMessageRecievedSound).toHaveBeenCalledTimes(1);
+            expect(isMixAutomatonMessage).toHaveBeenCalledTimes(1);
         });
     });
 
@@ -72,8 +72,8 @@ describe("Mix: Chat States", () => {
 
 			handleMessage(message);
 
-			expect(isCommunicationEventMessage).toBeCalledTimes(1);
-			expect(closeChat).toBeCalledTimes(1);
+			expect(isCommunicationEventMessage).toHaveBeenCalledTimes(1);
+			expect(closeChat).toHaveBeenCalledTimes(1);
 		})
 	});
 });
