@@ -149,8 +149,8 @@ describe("chat-ui", () => {
     expect(window.InqRegistry).toMatchObject({
       "listeners": [{ "onAnyEvent": expect.any(Function), "onC2CStateChanged": expect.any(Function) }]
     })
-    expect(sdk.closeChat).toBeCalledTimes(1);
-    expect(spy).toBeCalledWith(chatWindow);
+    expect(sdk.closeChat).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith(chatWindow);
 
   })
 

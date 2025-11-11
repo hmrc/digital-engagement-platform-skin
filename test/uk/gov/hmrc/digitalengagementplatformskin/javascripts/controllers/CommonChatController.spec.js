@@ -1182,6 +1182,39 @@ describe("CommonChatController", () => {
     expect(sdk.autoEngage).toHaveBeenCalledTimes(1)
   });
 
+  // it("Tests functionality of _launchChat when hideContainerOnStart is true and chat is popup", () => {
+  //   const sdk = {
+  //     getOpenerScripts: jest.fn().mockReturnValue(null),
+  //     chatDisplayed: jest.fn(),
+  //     autoEngage: jest.fn()
+  //   }
+
+  //   window.Inq = {
+  //     SDK: sdk
+  //   };
+
+  //   let chatContainer = document.createElement("div");
+  //   chatContainer.setAttribute("id", "tc-nuance-chat-container");
+  //   document.body.appendChild(chatContainer);
+
+  //   const container = {
+  //     element: jest.fn().mockReturnValue(chatContainer)
+  //   };
+  //   // commonChatController.container = container
+
+
+  //   const showChatSpy = jest.spyOn(commonChatController, '_showChat');
+  //   const showDisplayOpenerScripts = jest.spyOn(commonChatController, '_displayOpenerScripts')
+  //   commonChatController._launchChat({ state: 'show' }, true);
+
+  //   // expect(showChatSpy).toHaveBeenCalledTimes(1);
+  //   // expect(showDisplayOpenerScripts).toHaveBeenCalledTimes(1)
+  //   // expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1)
+  //   expect(commonChatController.container.element()).toHaveBeenCalledTimes(3)
+  //   console.log("XXX" + commonChatController.container)
+  // });
+
+
   it("Tests functionality of authenticatedServiceCheck when the URL includes business-account", () => {
     delete global.window.location
     global.window.location = {

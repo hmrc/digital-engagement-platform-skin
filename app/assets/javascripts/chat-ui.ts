@@ -41,16 +41,14 @@ export const chatListener = {
 
         if (evt.evtType === "CLOSED"){
             if (sessionStorage.getItem("ignoreChatClosedEvent") !== "true"){
-                // close chat window
-                logger.info(">>>> flag is false, closing the chat window")
+                logger.debug("### ignoreChatClosedEvent flag false, closing the chat window")
                 window.Inq.SDK.closeChat()
                 let container = document.getElementById("ciapiSkin")
                 if (container){
                     let parent = container.parentElement
                     parent?.removeChild(container)
                 }
-                // window.Inq.reinitChat()
-                logger.info(">>> closed the chat window")
+                logger.debug("### chat window closed")
             }
         }
 
@@ -81,16 +79,17 @@ export function hookWindow(w: any, commonChatController: CommonChatController, r
 
     w.nuanceReactive_HMRC_CIAPI_Fixed_1 = safeHandler(
         function nuanceReactive_HMRC_CIAPI_Fixed_1(c2cObj: ClickToChatObjectInterface): void {
+            logger.debug("### nuanceReactive_HMRC_CIAPI_Fixed_1")
             reactiveChatController.addC2CButton(c2cObj, "HMRC_CIAPI_Fixed_1", "fixed");
         }
     );
 
     w.nuanceReactive_HMRC_CIAPI_Anchored_1 = safeHandler(
         function nuanceReactive_HMRC_CIAPI_Anchored_1(c2cObj: ClickToChatObjectInterface): void {
+            logger.debug("### nuanceReactive_HMRC_CIAPI_Anchored_1")
             c2cObj.c2c = event.c2c
             if (c2cObj.displayState == "ready") {
                 if (document.getElementById("tc-nuance-chat-container")) {
-                    logger.debug("### nuanceReactive_HMRC_CIAPI_Anchored_1 method called ...")
                     reactiveChatController.addC2CButton(c2cObj, "tc-nuance-chat-container", "anchored");
                 } else {
                     reactiveChatController.addC2CButton(c2cObj, "HMRC_CIAPI_Anchored_1", "anchored");
