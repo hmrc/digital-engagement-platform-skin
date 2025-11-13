@@ -202,7 +202,7 @@ export default class CommonChatController {
                 this.sdk.chatDisplayed({
                     "customerName": "You",
                     "previousMessagesCb": (resp: any) => {
-                        if (this.container.element().style.visibility = "hidden"){
+                        if (this.container.element().style.visibility === "hidden"){
                             this.container.element().style.visibility = "visible"
 
                         }
