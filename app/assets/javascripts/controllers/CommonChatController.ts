@@ -197,6 +197,8 @@ export default class CommonChatController {
                 this._showChat();
                 this._displayOpenerScripts();
 
+                logger.debug("=== Calling chatDisplayed ===")
+
                 this.sdk.chatDisplayed({
                     "customerName": "You",
                     "previousMessagesCb": (resp: any) => this._moveToChatEngagedState(resp.messages),
