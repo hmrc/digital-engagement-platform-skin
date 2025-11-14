@@ -1182,37 +1182,42 @@ describe("CommonChatController", () => {
     expect(sdk.autoEngage).toHaveBeenCalledTimes(1)
   });
 
-  // it("Tests functionality of _launchChat when hideContainerOnStart is true and chat is popup", () => {
-  //   const sdk = {
-  //     getOpenerScripts: jest.fn().mockReturnValue(null),
-  //     chatDisplayed: jest.fn(),
-  //     autoEngage: jest.fn()
-  //   }
+  it("Tests functionality of _launchChat when hideContainerOnStart is true and chat is popup", () => {
+    
+    console.log = jest.fn();
+    
+    const sdk = {
+      getOpenerScripts: jest.fn().mockReturnValue(null),
+      chatDisplayed: jest.fn(),
+      autoEngage: jest.fn(),
+      getMessages: jest.fn()
+    }
 
-  //   window.Inq = {
-  //     SDK: sdk
-  //   };
+    window.Inq = {
+      SDK: sdk
+    };
 
-  //   let chatContainer = document.createElement("div");
-  //   chatContainer.setAttribute("id", "tc-nuance-chat-container");
-  //   document.body.appendChild(chatContainer);
+    const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
+    commonChatController.state = state;
 
-  //   const container = {
-  //     element: jest.fn().mockReturnValue(chatContainer)
-  //   };
-  //   // commonChatController.container = container
+    const showChatSpy = jest.spyOn(commonChatController, '_showChat');
+    const showDisplayOpenerScripts = jest.spyOn(commonChatController, '_displayOpenerScripts')
+    commonChatController._launchChat({ state: 'show' }, true);
 
+    const chatDisplayedArgs = sdk.chatDisplayed.mock.calls[0][0];
 
-  //   const showChatSpy = jest.spyOn(commonChatController, '_showChat');
-  //   const showDisplayOpenerScripts = jest.spyOn(commonChatController, '_displayOpenerScripts')
-  //   commonChatController._launchChat({ state: 'show' }, true);
+    const mockElement = { style: { visibility: "hidden" } };
+    commonChatController.container.element = () => mockElement;
 
-  //   // expect(showChatSpy).toHaveBeenCalledTimes(1);
-  //   // expect(showDisplayOpenerScripts).toHaveBeenCalledTimes(1)
-  //   // expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1)
-  //   expect(commonChatController.container.element()).toHaveBeenCalledTimes(3)
-  //   console.log("XXX" + commonChatController.container)
-  // });
+    chatDisplayedArgs.previousMessagesCb({ messages: [] });
+
+    expect(showChatSpy).toHaveBeenCalledTimes(1);
+    expect(showDisplayOpenerScripts).toHaveBeenCalledTimes(1)
+    expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1)
+
+    expect(console.log).toHaveBeenCalledWith("INFO: ### making chat container visible");
+    expect(mockElement.style.visibility).toBe('visible')
+  });
 
 
   it("Tests functionality of authenticatedServiceCheck when the URL includes business-account", () => {
