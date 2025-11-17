@@ -1215,7 +1215,7 @@ describe("CommonChatController", () => {
     expect(showDisplayOpenerScripts).toHaveBeenCalledTimes(1)
     expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1)
 
-    expect(console.log).toHaveBeenCalledWith("INFO: ### making chat container visible");
+    expect(console.log).toHaveBeenCalledWith("DEBUG: ### making chat container visible", undefined);
     expect(mockElement.style.visibility).toBe('visible')
   });
 

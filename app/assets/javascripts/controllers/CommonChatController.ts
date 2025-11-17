@@ -204,7 +204,7 @@ export default class CommonChatController {
                     "previousMessagesCb": (resp: any) => {
                         if (this.container.element().style.visibility === "hidden"){
                             this.container.element().style.visibility = "visible"
-                            logger.info("### making chat container visible")
+                            logger.debug("### making chat container visible")
                         }
                         this._moveToChatEngagedState(resp.messages)},
                     "disconnectCb": () => logger.info("%%%%%% disconnected %%%%%%"),
