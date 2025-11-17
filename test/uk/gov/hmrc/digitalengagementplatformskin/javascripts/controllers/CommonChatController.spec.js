@@ -1197,6 +1197,10 @@ describe("CommonChatController", () => {
       SDK: sdk
     };
 
+    let embeddedContainer = document.createElement("div");
+    embeddedContainer.setAttribute("id", "tc-nuance-chat-container");
+    document.body.appendChild(embeddedContainer);
+
     const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
     commonChatController.state = state;
 
@@ -1218,6 +1222,130 @@ describe("CommonChatController", () => {
     expect(console.log).toHaveBeenCalledWith("DEBUG: ### making chat container visible", undefined);
     expect(mockElement.style.visibility).toBe('visible')
   });
+
+  it("Tests functionality of _launchChat when hideContainerOnStart is false and chat is popup", () => {
+    
+    console.log = jest.fn();
+    
+    const sdk = {
+      getOpenerScripts: jest.fn().mockReturnValue(null),
+      chatDisplayed: jest.fn(),
+      autoEngage: jest.fn(),
+      getMessages: jest.fn()
+    }
+
+    window.Inq = {
+      SDK: sdk
+    };
+
+    let embeddedContainer = document.createElement("div");
+    embeddedContainer.setAttribute("id", "tc-nuance-chat-container");
+    document.body.appendChild(embeddedContainer);
+
+    const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
+    commonChatController.state = state;
+
+    const showChatSpy = jest.spyOn(commonChatController, '_showChat');
+    const showDisplayOpenerScripts = jest.spyOn(commonChatController, '_displayOpenerScripts')
+    commonChatController._launchChat({ state: 'show' }, false);
+
+    const chatDisplayedArgs = sdk.chatDisplayed.mock.calls[0][0];
+
+    const mockElement = { style: { visibility: null } };
+    commonChatController.container.element = () => mockElement;
+
+    chatDisplayedArgs.previousMessagesCb({ messages: [] });
+
+    expect(showChatSpy).toHaveBeenCalledTimes(1);
+    expect(showDisplayOpenerScripts).toHaveBeenCalledTimes(1)
+    expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1)
+
+    expect(console.log).not.toHaveBeenCalledWith("DEBUG: ### making chat container visible", undefined);
+    expect(mockElement.style.visibility).toBeNull
+  });
+
+  it("Tests functionality of _launchChat when hideContainerOnStart is false and chat is embedded", () => {
+    
+    console.log = jest.fn();
+    
+    const sdk = {
+      getOpenerScripts: jest.fn().mockReturnValue(null),
+      chatDisplayed: jest.fn(),
+      autoEngage: jest.fn(),
+      getMessages: jest.fn()
+    }
+
+    window.Inq = {
+      SDK: sdk
+    };
+
+    let embeddedContainer = document.createElement("div");
+    embeddedContainer.setAttribute("id", "nuanMessagingFrame");
+    document.body.appendChild(embeddedContainer);
+
+    const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
+    commonChatController.state = state;
+
+    const showChatSpy = jest.spyOn(commonChatController, '_showChat');
+    const showDisplayOpenerScripts = jest.spyOn(commonChatController, '_displayOpenerScripts')
+    commonChatController._launchChat({ state: 'show' }, false);
+
+    const chatDisplayedArgs = sdk.chatDisplayed.mock.calls[0][0];
+
+    const mockElement = { style: { visibility: null } };
+    commonChatController.container.element = () => mockElement;
+
+    chatDisplayedArgs.previousMessagesCb({ messages: [] });
+
+    expect(showChatSpy).toHaveBeenCalledTimes(1);
+    expect(showDisplayOpenerScripts).toHaveBeenCalledTimes(1)
+    expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1)
+
+    expect(console.log).not.toHaveBeenCalledWith("DEBUG: ### making chat container visible", undefined);
+    expect(mockElement.style.visibility).toBeNull
+  });
+
+  it("Tests functionality of _launchChat when hideContainerOnStart is true and chat is embedded", () => {
+    
+    console.log = jest.fn();
+    
+    const sdk = {
+      getOpenerScripts: jest.fn().mockReturnValue(null),
+      chatDisplayed: jest.fn(),
+      autoEngage: jest.fn(),
+      getMessages: jest.fn()
+    }
+
+    window.Inq = {
+      SDK: sdk
+    };
+
+    let embeddedContainer = document.createElement("div");
+    embeddedContainer.setAttribute("id", "nuanMessagingFrame");
+    document.body.appendChild(embeddedContainer);
+
+    const state = new ChatStates.EngagedState(sdk, jest.fn(), [], jest.fn());
+    commonChatController.state = state;
+
+    const showChatSpy = jest.spyOn(commonChatController, '_showChat');
+    const showDisplayOpenerScripts = jest.spyOn(commonChatController, '_displayOpenerScripts')
+    commonChatController._launchChat({ state: 'show' }, true);
+
+    const chatDisplayedArgs = sdk.chatDisplayed.mock.calls[0][0];
+
+    const mockElement = { style: { visibility: null } };
+    commonChatController.container.element = () => mockElement;
+
+    chatDisplayedArgs.previousMessagesCb({ messages: [] });
+
+    expect(showChatSpy).toHaveBeenCalledTimes(1);
+    expect(showDisplayOpenerScripts).toHaveBeenCalledTimes(1)
+    expect(sdk.chatDisplayed).toHaveBeenCalledTimes(1)
+
+    expect(console.log).not.toHaveBeenCalledWith("DEBUG: ### making chat container visible", undefined);
+    expect(mockElement.style.visibility).toBeNull
+  });
+
 
 
   it("Tests functionality of authenticatedServiceCheck when the URL includes business-account", () => {
