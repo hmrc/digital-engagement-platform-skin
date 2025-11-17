@@ -18,6 +18,7 @@ beforeEach(() => {
 
 afterEach(() => {
   windowSpy.mockRestore();
+  sessionStorage.clear()
 });
 
 describe("chat-ui", () => {
@@ -136,7 +137,7 @@ describe("chat-ui", () => {
     chatWindow.setAttribute("id", "ciapiSkin")
     chatWindowParent.appendChild(chatWindow)
     document.body.appendChild(chatWindowParent)
-    let spy = jest.spyOn(chatWindow.parentElement, 'removeChild').mockImplementation();
+    let removeChildSpy = jest.spyOn(chatWindow.parentElement, 'removeChild').mockImplementation();
 
 
     hookWindow(window, commonCC, reactiveCC, proactiveCC);
@@ -150,8 +151,38 @@ describe("chat-ui", () => {
       "listeners": [{ "onAnyEvent": expect.any(Function), "onC2CStateChanged": expect.any(Function) }]
     })
     expect(sdk.closeChat).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledWith(chatWindow);
+    expect(removeChildSpy).toHaveBeenCalledWith(chatWindow);
+  })
 
+  it("should not call sdk closeChat or close the chat window if a CLOSED event is received AND ignoreChatClosedEvent flag is true", () => {
+    const sdk = {
+      closeChat: jest.fn()
+  };
+    window.Inq = {
+      SDK: sdk
+    };
+    sessionStorage.ignoreChatClosedEvent = "true"
+    let chatWindowParent = document.createElement("div")
+    chatWindowParent.setAttribute("id", "tc-nuance-chat-container")
+    let chatWindow = document.createElement("div")
+    chatWindow.setAttribute("id", "ciapiSkin")
+    chatWindowParent.appendChild(chatWindow)
+    document.body.appendChild(chatWindowParent)
+    let removeChildSpy = jest.spyOn(chatWindow.parentElement, 'removeChild').mockImplementation();
+
+
+    hookWindow(window, commonCC, reactiveCC, proactiveCC);
+    const chatListenerFromWindow = window.InqRegistry.listeners[0];
+
+    const evt = {
+      evtType: "CLOSED"
+    }
+    chatListenerFromWindow.onAnyEvent(evt);
+    expect(window.InqRegistry).toMatchObject({
+      "listeners": [{ "onAnyEvent": expect.any(Function), "onC2CStateChanged": expect.any(Function) }]
+    })
+    expect(sdk.closeChat).toHaveBeenCalledTimes(0);
+    expect(removeChildSpy).not.toHaveBeenCalledWith(chatWindow);
   })
 
   it("should call console.error, given a function that throws is passed to safeHandler", () => {
