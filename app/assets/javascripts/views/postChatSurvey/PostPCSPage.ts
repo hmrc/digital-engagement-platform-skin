@@ -1,4 +1,6 @@
 import CommonChatController from "../../controllers/CommonChatController";
+import { StateType } from "../../types";
+import * as logger from '../../utils/logger';
 
 const html: string = `
 <div id="endPage">
@@ -11,8 +13,9 @@ const html: string = `
         <p>You can:</p>
         <ul>
         
-        <li id='printOption'><a class="govuk-link" href='#' id='printPostChat'>print or save chat</a></li>
+            <li id='printOption'><a class="govuk-link" href='#' id='printPostChat'>print or save chat</a></li>
             <li><a class="govuk-link" id='returnToGovUk' href="http://www.gov.uk">return to GOV.UK</a></li>
+            <li id="newChatSession" class="govuk-link">launch a new chat session</li> 
             <li>close this window</li>
         </ul>
     </div>
@@ -35,15 +38,19 @@ export default class PostPCSPage {
     eventHandler: typeof nullEventHandler
     content: HTMLElement | null
     commonchatcontroller: CommonChatController
+    type: string
 
 
-    constructor(showThanks: boolean) {
+    constructor(showThanks: boolean, type: string) {
         this.showThanks = showThanks;
         this.container = document.createElement("div");
         this.container.id = "ciapiSkin";
         this.eventHandler = nullEventHandler;
         this.content = this.container.querySelector("#endPage");
-        this.commonchatcontroller = new CommonChatController()
+        this.commonchatcontroller = new CommonChatController();
+        this.type = type;
+
+        logger.debug("Chat type here in PostPCSPage: ", this.type);
     }
 
     attachTo(container: HTMLElement): void {
@@ -113,6 +120,24 @@ export default class PostPCSPage {
                     skinChatTranscript.style.display = 'none'
                 }
             };
+        }
+
+        const newChatSessionElement = this.wrapper.querySelector<HTMLElement>('#newChatSession');
+
+        if (newChatSessionElement) {
+            newChatSessionElement.addEventListener("click", (_: MouseEvent): void => {
+                if (container){
+                    let parent = container.parentElement
+                    logger.debug(">>>>>>>> Closing current chat window <<<<<<<<<")
+                    parent?.removeChild(container)
+
+                    const chatObj: { type: string, state?: StateType } = {
+                                type: this.type,
+                                state: 'show'
+                            }
+                    this.commonchatcontroller._launchChat(chatObj);
+                }
+            });
         }
     }
 
