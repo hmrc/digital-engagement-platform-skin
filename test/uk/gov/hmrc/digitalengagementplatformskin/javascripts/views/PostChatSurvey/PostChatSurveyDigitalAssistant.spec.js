@@ -15,13 +15,13 @@ describe("PostChatSurveyDigitalAssistant", () => {
     it("attachTo method appends a post chat survey wrapper to the container", () => {
         let spy = jest.spyOn(container, 'appendChild').mockImplementation();
         PCSDigitalAssistant.attachTo(container);
-        expect(spy).toBeCalledTimes(1);
+        expect(spy).toHaveBeenCalledTimes(1);
     })
 
     it("detach method removes a wrapper from the container", () => {
         PCSDigitalAssistant.attachTo(container);
         let spy = jest.spyOn(container, 'removeChild').mockImplementation();
         PCSDigitalAssistant.detach();
-        expect(spy).toBeCalledTimes(1);
+        expect(spy).toHaveBeenCalledTimes(1);
     })
 })

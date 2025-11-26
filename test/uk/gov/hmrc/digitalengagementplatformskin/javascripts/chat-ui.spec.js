@@ -18,6 +18,7 @@ beforeEach(() => {
 
 afterEach(() => {
   windowSpy.mockRestore();
+  sessionStorage.clear()
 });
 
 describe("chat-ui", () => {
@@ -36,8 +37,8 @@ describe("chat-ui", () => {
     chatListenerFromWindow.onAnyEvent(evt);
     chatListenerFromWindow.onC2CStateChanged(evt);
 
-    expect(onAnyEventSpy).toBeCalledTimes(1);
-    expect(onC2CSpy).toBeCalledTimes(1);
+    expect(onAnyEventSpy).toHaveBeenCalledTimes(1);
+    expect(onC2CSpy).toHaveBeenCalledTimes(1);
     expect(window.chatId).toBe(1);
   })
 
@@ -73,13 +74,13 @@ describe("chat-ui", () => {
       "listeners": [{ "onAnyEvent": expect.any(Function), "onC2CStateChanged": expect.any(Function) }]
     })
 
-    expect(commonChatNuanceFrameworkLoaded).toBeCalledTimes(1);
-    expect(reactiveChatAddC2CButton).toBeCalledTimes(2);
+    expect(commonChatNuanceFrameworkLoaded).toHaveBeenCalledTimes(1);
+    expect(reactiveChatAddC2CButton).toHaveBeenCalledTimes(2);
 
-    expect(reactiveChatAddC2CButton).toBeCalledWith({}, "HMRC_CIAPI_Fixed_1", "fixed");
-    expect(reactiveChatAddC2CButton).lastCalledWith(evt.c2c, "HMRC_CIAPI_Anchored_1", "anchored");
+    expect(reactiveChatAddC2CButton).toHaveBeenCalledWith({}, "HMRC_CIAPI_Fixed_1", "fixed");
+    expect(reactiveChatAddC2CButton).toHaveBeenLastCalledWith(evt.c2c, "HMRC_CIAPI_Anchored_1", "anchored");
 
-    expect(proactiveChatLaunch).toBeCalled();
+    expect(proactiveChatLaunch).toHaveBeenCalled();
   });
 
   it("should call the relevant controllers with expected arguments, given a call to hookWindow and displayState set to busy", () => {
@@ -114,13 +115,75 @@ describe("chat-ui", () => {
       "listeners": [{ "onAnyEvent": expect.any(Function), "onC2CStateChanged": expect.any(Function) }]
     })
 
-    expect(commonChatNuanceFrameworkLoaded).toBeCalledTimes(1);
-    expect(reactiveChatAddC2CButton).toBeCalledTimes(1);
+    expect(commonChatNuanceFrameworkLoaded).toHaveBeenCalledTimes(1);
+    expect(reactiveChatAddC2CButton).toHaveBeenCalledTimes(1);
 
-    expect(reactiveChatAddC2CButton).toBeCalledWith({}, "HMRC_CIAPI_Fixed_1", "fixed");
+    expect(reactiveChatAddC2CButton).toHaveBeenCalledWith({}, "HMRC_CIAPI_Fixed_1", "fixed");
 
-    expect(proactiveChatLaunch).toBeCalled();
+    expect(proactiveChatLaunch).toHaveBeenCalled();
   });
+
+  it("should call sdk closeChat and close the chat window if a CLOSED event is received", () => {
+    const sdk = {
+      closeChat: jest.fn()
+  };
+    window.Inq = {
+      SDK: sdk
+    };
+    sessionStorage.ignoreChatClosedEvent = "false"
+    let chatWindowParent = document.createElement("div")
+    chatWindowParent.setAttribute("id", "tc-nuance-chat-container")
+    let chatWindow = document.createElement("div")
+    chatWindow.setAttribute("id", "ciapiSkin")
+    chatWindowParent.appendChild(chatWindow)
+    document.body.appendChild(chatWindowParent)
+    let removeChildSpy = jest.spyOn(chatWindow.parentElement, 'removeChild').mockImplementation();
+
+
+    hookWindow(window, commonCC, reactiveCC, proactiveCC);
+    const chatListenerFromWindow = window.InqRegistry.listeners[0];
+
+    const evt = {
+      evtType: "CLOSED"
+    }
+    chatListenerFromWindow.onAnyEvent(evt);
+    expect(window.InqRegistry).toMatchObject({
+      "listeners": [{ "onAnyEvent": expect.any(Function), "onC2CStateChanged": expect.any(Function) }]
+    })
+    expect(sdk.closeChat).toHaveBeenCalledTimes(1);
+    expect(removeChildSpy).toHaveBeenCalledWith(chatWindow);
+  })
+
+  it("should not call sdk closeChat or close the chat window if a CLOSED event is received AND ignoreChatClosedEvent flag is true", () => {
+    const sdk = {
+      closeChat: jest.fn()
+  };
+    window.Inq = {
+      SDK: sdk
+    };
+    sessionStorage.ignoreChatClosedEvent = "true"
+    let chatWindowParent = document.createElement("div")
+    chatWindowParent.setAttribute("id", "tc-nuance-chat-container")
+    let chatWindow = document.createElement("div")
+    chatWindow.setAttribute("id", "ciapiSkin")
+    chatWindowParent.appendChild(chatWindow)
+    document.body.appendChild(chatWindowParent)
+    let removeChildSpy = jest.spyOn(chatWindow.parentElement, 'removeChild').mockImplementation();
+
+
+    hookWindow(window, commonCC, reactiveCC, proactiveCC);
+    const chatListenerFromWindow = window.InqRegistry.listeners[0];
+
+    const evt = {
+      evtType: "CLOSED"
+    }
+    chatListenerFromWindow.onAnyEvent(evt);
+    expect(window.InqRegistry).toMatchObject({
+      "listeners": [{ "onAnyEvent": expect.any(Function), "onC2CStateChanged": expect.any(Function) }]
+    })
+    expect(sdk.closeChat).toHaveBeenCalledTimes(0);
+    expect(removeChildSpy).not.toHaveBeenCalledWith(chatWindow);
+  })
 
   it("should call console.error, given a function that throws is passed to safeHandler", () => {
     let explodeyFunction = () => { throw 'kaboom'; }

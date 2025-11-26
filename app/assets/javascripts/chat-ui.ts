@@ -17,7 +17,7 @@ export function safeHandler(f: any) {
 };
 
 export const chatListener = {
-    onAnyEvent: function (evt: { c2c?: any; chatID: string; rule?: {name: string} }) {
+    onAnyEvent: function (evt: { c2c?: any; chatID: string; rule?: {name: string}; evtType?: string }) {
         if (evt.c2c) {
             event = evt
         }
@@ -38,6 +38,20 @@ export const chatListener = {
                 }
             }
         }
+
+        if (evt.evtType === "CLOSED"){
+            if (sessionStorage.getItem("ignoreChatClosedEvent") !== "true"){
+                logger.debug("### ignoreChatClosedEvent flag false, closing the chat window")
+                window.Inq.SDK.closeChat()
+                let container = document.getElementById("ciapiSkin")
+                if (container){
+                    let parent = container.parentElement
+                    parent?.removeChild(container)
+                }
+                logger.debug("### chat window closed")
+            }
+        }
+
         window.chatId = evt.chatID;
         logger.debug("Chat ID here:", window.chatId);
     },
@@ -66,12 +80,14 @@ export function hookWindow(w: any, commonChatController: CommonChatController, r
 
     w.nuanceReactive_HMRC_CIAPI_Fixed_1 = safeHandler(
         function nuanceReactive_HMRC_CIAPI_Fixed_1(c2cObj: ClickToChatObjectInterface): void {
+            logger.debug("### nuanceReactive_HMRC_CIAPI_Fixed_1")
             reactiveChatController.addC2CButton(c2cObj, "HMRC_CIAPI_Fixed_1", "fixed");
         }
     );
 
     w.nuanceReactive_HMRC_CIAPI_Anchored_1 = safeHandler(
         function nuanceReactive_HMRC_CIAPI_Anchored_1(c2cObj: ClickToChatObjectInterface): void {
+            logger.debug("### nuanceReactive_HMRC_CIAPI_Anchored_1")
             c2cObj.c2c = event.c2c
             if (c2cObj.displayState == "ready") {
                 if (document.getElementById("tc-nuance-chat-container")) {
@@ -93,7 +109,7 @@ export function hookWindow(w: any, commonChatController: CommonChatController, r
     w.nuanceRestoreReactive = safeHandler(
         function nuanceRestoreReactive(): void {
             logger.debug("### nuanceRestoreReactive")
-            commonChatController._launchChat({ type: 'reactive' })
+            commonChatController._launchChat({ type: 'reactive' }, true)
         }
     );
 }

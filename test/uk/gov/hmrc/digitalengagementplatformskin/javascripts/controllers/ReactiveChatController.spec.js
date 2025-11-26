@@ -43,8 +43,8 @@ describe("ReactiveChatController", () => {
         reactiveChatController._onC2CButtonClicked();
 
         expect(sdk.onC2CClicked).toHaveBeenCalledTimes(1);
-        expect(_onC2CButtonClickedSpy).toBeCalledTimes(1);
-        expect(reactiveChatController.c2cButtons.updateC2CButtonsToInProgress).toBeCalledTimes(1);
+        expect(_onC2CButtonClickedSpy).toHaveBeenCalledTimes(1);
+        expect(reactiveChatController.c2cButtons.updateC2CButtonsToInProgress).toHaveBeenCalledTimes(1);
     });
 
     it("addC2CButton creates a new ClickToChatButton when displayState is ready", () => {
@@ -57,7 +57,7 @@ describe("ReactiveChatController", () => {
         reactiveChatController.addC2CButton(c2cObj, divId, buttonClass);
 
         expect(addC2CButtonSpy).toHaveBeenCalledTimes(1);
-        expect(ClickToChatButton).toBeCalledTimes(1);
+        expect(ClickToChatButton).toHaveBeenCalledTimes(1);
     });
 
     it("attaches a callback function to the SDK onC2CClicked method", () => {
@@ -79,10 +79,10 @@ describe("ReactiveChatController", () => {
         // call the second argument (the callback) of onC2CClicked
         onC2CClickedFunction.mock.calls[0][1](c2cIdx, { state: 'show' });
 
-        expect(onC2CClickedFunction).toBeCalledWith(c2cIdx, expect.any(Function));
+        expect(onC2CClickedFunction).toHaveBeenCalledWith(c2cIdx, expect.any(Function));
 
-        expect(commonChatController._launchChat).toBeCalled();
-        expect(reactiveChatController.c2cButtons.updateC2CButtonsToInProgress).toBeCalled();
+        expect(commonChatController._launchChat).toHaveBeenCalled();
+        expect(reactiveChatController.c2cButtons.updateC2CButtonsToInProgress).toHaveBeenCalled();
     });
 
 
@@ -108,11 +108,11 @@ describe("ReactiveChatController", () => {
             "ready": `${messages.ready}`
         };
 
-        expect(clickToChatCallbackSpy).toBeCalledTimes(1);
-        expect(onC2CButtonClickedSpy).toBeCalledTimes(1);
-        expect(reactiveChatController.c2cButtons.updateC2CButtonsToInProgress).toBeCalledTimes(1);
+        expect(clickToChatCallbackSpy).toHaveBeenCalledTimes(1);
+        expect(onC2CButtonClickedSpy).toHaveBeenCalledTimes(1);
+        expect(reactiveChatController.c2cButtons.updateC2CButtonsToInProgress).toHaveBeenCalledTimes(1);
 
-        expect(ClickToChatButtons).toBeCalledWith(expect.any(Function), c2cDisplayStateMessages);
+        expect(ClickToChatButtons).toHaveBeenCalledWith(expect.any(Function), c2cDisplayStateMessages);
     });
 
 });
