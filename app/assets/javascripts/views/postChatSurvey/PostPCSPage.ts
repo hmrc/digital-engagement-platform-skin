@@ -1,5 +1,4 @@
 import CommonChatController from "../../controllers/CommonChatController";
-import { StateType } from "../../types";
 import * as logger from '../../utils/logger';
 
 const html: string = `
