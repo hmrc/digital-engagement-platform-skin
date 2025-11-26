@@ -38,19 +38,16 @@ export default class PostPCSPage {
     eventHandler: typeof nullEventHandler
     content: HTMLElement | null
     commonchatcontroller: CommonChatController
-    type: string
 
 
-    constructor(showThanks: boolean, type: string) {
+    constructor(showThanks: boolean, commonchatcontroller: CommonChatController) {
         this.showThanks = showThanks;
         this.container = document.createElement("div");
         this.container.id = "ciapiSkin";
         this.eventHandler = nullEventHandler;
         this.content = this.container.querySelector("#endPage");
-        this.commonchatcontroller = new CommonChatController();
-        this.type = type;
+        this.commonchatcontroller = commonchatcontroller;
 
-        logger.debug("Chat type here in PostPCSPage: ", this.type);
     }
 
     attachTo(container: HTMLElement): void {
@@ -126,16 +123,14 @@ export default class PostPCSPage {
 
         if (newChatSessionElement) {
             newChatSessionElement.addEventListener("click", (_: MouseEvent): void => {
-                if (container){
-                    let parent = container.parentElement
-                    logger.debug(">>>>>>>> Closing current chat window <<<<<<<<<")
-                    parent?.removeChild(container)
+                if (this.container) {
 
-                    const chatObj: { type: string, state?: StateType } = {
-                                type: this.type,
-                                state: 'show'
-                            }
-                    this.commonchatcontroller._launchChat(chatObj);
+                    logger.debug(">>>>>>>> Closing current chat window <<<<<<<<<", this.commonchatcontroller.container);
+
+                    this.commonchatcontroller.container.destroy();
+                    this.commonchatcontroller.container = null;
+
+                    window.Inq.reinit();
                 }
             });
         }

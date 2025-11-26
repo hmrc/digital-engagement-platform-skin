@@ -17,61 +17,62 @@ export function ContainerHtml(isEscalated: boolean): string {
 
     return `
 <div id="printDetails" class="print-only govuk-!-padding-top-8 govuk-!-padding-bottom-8">
-<p class="govuk-body print-only">Chat ID: <span id="chat-id"></span></p>
-<p id="print-date" class="govuk-body print-only"></p>
+    <p class="govuk-body print-only">Chat ID: <span id="chat-id"></span></p>
+    <p id="print-date" class="govuk-body print-only"></p>
 </div>
+
 ` + container + `
     <div id="titleBar" class="govuk-!-display-none-print">
 
-    <div class="dropdown">
-        <button id="menuButton" class="dropbtn" draggable="false" role="button" type="button" aria-expanded="false" aria-controls="menuList" aria-label="Menu">
-            <div id="menuText" class="govuk-heading-s govuk-!-font-size-19">Menu</div>
-        </button>
-        <div id="menuList" class="dropdown-content">
-            <button id="ciapiSkinCloseButton" role="button" tabindex="0" > End chat </button>
-            <button id="printButton" role="button" tabindex="0" > Print or save chat </button>
-            ` + sizeButton + `
-            ` + soundButton + `
-            <button id='accessibility-statement-link' role="button" >Accessibility statement (opens in a new tab)</button>
+        <div class="dropdown">
+            <button id="menuButton" class="dropbtn" draggable="false" role="button" type="button" aria-expanded="false" aria-controls="menuList" aria-label="Menu">
+                <div id="menuText" class="govuk-heading-s govuk-!-font-size-19">Menu</div>
+            </button>
+            <div id="menuList" class="dropdown-content">
+                <button id="ciapiSkinCloseButton" role="button" tabindex="0" > End chat </button>
+                <button id="printButton" role="button" tabindex="0" > Print or save chat </button>
+                ` + sizeButton + `
+                ` + soundButton + `
+                <button id='accessibility-statement-link' role="button" >Accessibility statement (opens in a new tab)</button>
+            </div>
         </div>
-    </div>
         <div id="ciapiSkinTitleBar">
             <h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC</h2>
         </div>
         <div id="hideCloseContainer" class="govuk-!-display-none-print">
 
-        
-
-
             <button id="ciapiSkinHideButton" role="button" tabindex="0"><i class="arrow down" draggable="false" role="button" type="button" aria-label="Minimise chat window"></i></button>
          </div>
     </div>
+
     <div id="ciapiChatComponents">
-    <div id="systemMessageBanner">` + bannerMessage + `</div>
-        <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript print-overflow-visible" role="region" tabindex="0" aria-label="chat transcript">
-            <div id="skipToBottom"><a id="skipToBottomLink" href="#" class="govuk-skip-link">Skip to bottom of conversation</a></div>
-        </div>
-        <div id="ciapiSkinFooter" class="govuk-!-display-none-print">
-            <label class="govuk-label" for="custMsg">Enter a message</label>
-            <div id="ciapiInput">
-            <textarea
-                id="custMsg"
-                class="govuk-textarea"
-                role="textbox"
-                aria-label="Enter a message "
-                placeholder=""
-                rows="5"
-                cols="50"
-                name="comments"></textarea></div>
-            <div id="ciapiSend">
-                <button id="ciapiSkinSendButton" disabled aria-disabled="true" class="govuk-button" data-module="govuk-button">Send message</button>
-                <div id="sentMessageNotification" aria-live="polite" class="govuk-visually-hidden"></div>
+        <div id="systemMessageBanner">` + bannerMessage + `</div>
+            <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript print-overflow-visible" role="region" tabindex="0" aria-label="chat transcript">
+                <div id="skipToBottom"><a id="skipToBottomLink" href="#" class="govuk-skip-link">Skip to bottom of conversation</a></div>
             </div>
+            <div id="ciapiSkinFooter" class="govuk-!-display-none-print">
+                <label class="govuk-label" for="custMsg">Enter a message</label>
+                <div id="ciapiInput">
+                <textarea
+                    id="custMsg"
+                    class="govuk-textarea"
+                    role="textbox"
+                    aria-label="Enter a message "
+                    placeholder=""
+                    rows="5"
+                    cols="50"
+                    name="comments"></textarea></div>
+                <div id="ciapiSend">
+                    <button id="ciapiSkinSendButton" disabled aria-disabled="true" class="govuk-button" data-module="govuk-button">Send message</button>
+                    <div id="sentMessageNotification" aria-live="polite" class="govuk-visually-hidden"></div>
+                </div>
+            </div>
+            <!-- at the moment, the below URL is hardcoded. in the future this should be a properly encoded URL and have the correct chat passed in as a parameter -->
+            <!-- <div id="accessibility-statement"><a id='accessibility-statement-link' class="govuk-link govuk-!-display-none-print" href="https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend?referrerUrl=` + url + `-skin-hmrc" target="_blank">Accessibility statement (opens in a new tab)</a></div> -->
         </div>
-        <!-- at the moment, the below URL is hardcoded. in the future this should be a properly encoded URL and have the correct chat passed in as a parameter -->
-        <!-- <div id="accessibility-statement"><a id='accessibility-statement-link' class="govuk-link govuk-!-display-none-print" href="https://www.tax.service.gov.uk/accessibility-statement/digital-engagement-platform-frontend?referrerUrl=` + url + `-skin-hmrc" target="_blank">Accessibility statement (opens in a new tab)</a></div> -->
     </div>
 </div>
+
 <div id="ciapiSkinMinimised">
     <button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button">
         <h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2>
