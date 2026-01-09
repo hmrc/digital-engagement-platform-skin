@@ -211,6 +211,9 @@ export default class CommonChatController {
                     "reConnectCb": () => logger.info("%%%%%% reconnected %%%%%%"),
                     "failedCb": () => logger.info("%%%%%% failed %%%%%%"),
                     "openerScripts": null,
+                    "skinConfig": {
+                        "initialTimeOut": 3600
+                    },
                     "defaultAgentAlias": "HMRC"
                 });
 
