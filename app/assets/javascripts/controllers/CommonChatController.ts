@@ -174,7 +174,6 @@ export default class CommonChatController {
     }
 
     _launchChat(obj: { type: string; state?: StateType }, hideContainerOnStart: boolean): void {
-        console.log("LAUNCHING CHAT")
         sessionStorage.setItem("ignoreChatClosedEvent", "false")
         if (this.container) {
             logger.debug("container not null - returning")
@@ -201,8 +200,6 @@ export default class CommonChatController {
                 }
 
             } else {
-                console.log("SHOWING CHAT")
-
                 this._showChat(hideContainerOnStart);
                 this._displayOpenerScripts();
 
@@ -218,9 +215,6 @@ export default class CommonChatController {
                     "reConnectCb": () => logger.info("%%%%%% reconnected %%%%%%"),
                     "failedCb": () => logger.info("%%%%%% failed %%%%%%"),
                     "openerScripts": null,
-                    "skinConfig": {
-                        "initialTimeOut": 3600
-                    },
                     "defaultAgentAlias": "HMRC"
                 });
 
@@ -623,7 +617,6 @@ export default class CommonChatController {
     }
 
     onConfirmEndChat(): void {
-        console.log("SETTING ignoreChatClosedEvent to true")
         sessionStorage.setItem("ignoreChatClosedEvent", "true")
         this.closeNuanceChat();
         this.closeMenu()
