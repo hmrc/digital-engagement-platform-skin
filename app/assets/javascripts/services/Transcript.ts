@@ -62,9 +62,6 @@ export default class Transcript {
         if (msgTimestamp === undefined) msgTimestamp = '';
         console.log("XXX>:", msgObject)
 
-        if (msgObject.msg.includes('number 1 in the queue')){
-            this._appendMessage('SA deadline is 31 January', "", this.classes.System, this._getMsgTimestampPrefix(msgTimestamp, this.systemMsgPrefix, "h3"), false, true, msgObject.state, msgObject.joinTransfer);
-        }
         this._appendMessage(msgObject.msg, "", this.classes.System, this._getMsgTimestampPrefix(msgTimestamp, this.systemMsgPrefix, "h3"), false, true, msgObject.state, msgObject.joinTransfer);
     }
 
