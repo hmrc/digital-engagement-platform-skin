@@ -51,6 +51,8 @@ export default class Transcript {
     }
 
     addSystemMsg(msgObject: { msg?: string; joinTransfer?: string; state?: string }, msgTimestamp?: string): void {
+        console.log("XXX>:", msgObject)
+
         if (msgObject.msg === undefined) msgObject.msg = "";
         if (msgObject.msg.includes('hmrcda')) {
             msgObject.msg = 'Your chat has ended.'
@@ -58,7 +60,11 @@ export default class Transcript {
         if (msgObject.state === undefined) msgObject.state = "";
         if (msgObject.joinTransfer === undefined) msgObject.joinTransfer = "";
         if (msgTimestamp === undefined) msgTimestamp = '';
+        console.log("XXX>:", msgObject)
 
+        if (msgObject.msg.includes('number 1 in the queue')){
+            this._appendMessage('SA deadline is 31 January', "", this.classes.System, this._getMsgTimestampPrefix(msgTimestamp, this.systemMsgPrefix, "h3"), false, true, msgObject.state, msgObject.joinTransfer);
+        }
         this._appendMessage(msgObject.msg, "", this.classes.System, this._getMsgTimestampPrefix(msgTimestamp, this.systemMsgPrefix, "h3"), false, true, msgObject.state, msgObject.joinTransfer);
     }
 

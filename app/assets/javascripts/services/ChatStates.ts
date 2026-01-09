@@ -334,7 +334,10 @@ export class EngagedState {
                 this._removeAgentJoinsConference();
                 break;
             case MessageType.Chat_System: case MessageType.Chat_TransferResponse:
-                if (msg["client.display.text"] == '') {
+            if (document.URL.includes("/ask-hmrc/chat/self-assessment")) {
+                transcript.addSystemMsg({ msg: "hello" }, msg.messageTimestamp!)
+                    break;
+            }   else if (msg["client.display.text"] == '') {
                     break;
                 } else {
                     transcript.addSystemMsg({ msg: msg["client.display.text"] }, msg.messageTimestamp!)
