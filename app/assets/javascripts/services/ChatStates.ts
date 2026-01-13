@@ -349,9 +349,9 @@ export class EngagedState {
                 }
             case MessageType.Chat_TransferResponse:
                 if (this.isSelfAssessmentDAEscalation()) {
-                    transcript.addSystemMsg({ msg: "On Saturday 31 January, webchat will only be available for filing and paying queries." }, msg.messageTimestamp!)
-                        break;
-                } else if (msg["client.display.text"] == '') {
+                    transcript.addSystemMsg({ msg: "On Saturday 31 January, webchat will only be available for filing and paying queries." }, msg.messageTimestamp);
+                }
+                if (msg["client.display.text"] == '') {
                     break;
                 } else {
                     transcript.addSystemMsg({ msg: msg["client.display.text"] }, msg.messageTimestamp!)
