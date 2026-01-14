@@ -308,6 +308,10 @@ export default class ChatContainer {
             this.processTabKeypressEvent(e)
         });
 
+        this._registerKeypressEventListener("#ciapiSkinHiddenDiv", (e: KeyboardEvent): void => {
+            this.processTabKeypressEvent(e)
+        });
+
         this._registerEventListener("#ciapiSkinSendButton", (_: Event): void => {
             this.eventHandler.onSend();
             const sendButton = this.container.querySelector<HTMLButtonElement>('#ciapiSkinSendButton');

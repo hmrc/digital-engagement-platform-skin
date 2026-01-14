@@ -22,7 +22,7 @@ export function ContainerHtml(isEscalated: boolean): string {
 </div>
 ` + container + `
     <div id="titleBar" class="govuk-!-display-none-print">
-
+    <div id="ciapiSkinHiddenDiv" class="visuallyhidden" tabindex="0"></div>
     <div class="dropdown">
         <button id="menuButton" class="dropbtn" draggable="false" role="button" type="button" aria-expanded="false" aria-controls="menuList" aria-label="Menu">
             <div id="menuText" class="govuk-heading-s govuk-!-font-size-19">Menu</div>
