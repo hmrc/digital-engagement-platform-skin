@@ -51,7 +51,6 @@ export default class Transcript {
     }
 
     addSystemMsg(msgObject: { msg?: string; joinTransfer?: string; state?: string }, msgTimestamp?: string): void {
-
         if (msgObject.msg === undefined) msgObject.msg = "";
         if (msgObject.msg.includes('hmrcda')) {
             msgObject.msg = 'Your chat has ended.'
