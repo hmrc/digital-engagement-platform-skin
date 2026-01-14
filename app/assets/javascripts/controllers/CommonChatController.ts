@@ -169,10 +169,6 @@ export default class CommonChatController {
         return this.isIVRWebchatOnly() || document.URL.includes("/ask-hmrc")
     }
 
-    isSelfAssessmentC2CWebchat(): boolean {
-        return (document.URL.includes("/ask-hmrc/webchat/help-for-users-with-additional-needs") || document.URL.includes("/ask-hmrc/webchat/paye-and-self-assessment-bereavement"))
-    }
-
     _launchChat(obj: { type: string; state?: StateType }, hideContainerOnStart: boolean): void {
         sessionStorage.setItem("ignoreChatClosedEvent", "false")
         if (this.container) {
@@ -315,9 +311,6 @@ export default class CommonChatController {
     }
 
     _moveToChatEngagedState(previousMessages: any = []): void {
-        if (this.isSelfAssessmentC2CWebchat()){
-            this.container.getTranscript().addSystemMsg({ msg: "On Saturday 31 January, webchat will only be available for filing and paying queries." }, Date.now());
-        }
         this._moveToState(new ChatStates.EngagedState(
             this.sdk,
             this.container,
