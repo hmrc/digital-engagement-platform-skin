@@ -298,7 +298,36 @@ export default class ChatContainer {
         }
     }
 
+    _registerCloseMenuListener(menuListId: string, menuButtonId: string, handler: (e: FocusEvent) => void): void {
+        let menuContainer = this.container.querySelector<HTMLElement>(menuListId);
+        let menuBtnEl = this.container.querySelector<HTMLElement>(menuButtonId);
+        if (menuContainer){
+            menuContainer.addEventListener("focusout", handler);
+        }
+        if (menuBtnEl){
+            menuBtnEl.addEventListener("focusout", handler);
+        }
+    }
+
+    closeMenuOnFocusOut(e: FocusEvent): void {
+        let menuContainer = document.getElementById("menuList");
+        let menuBtnEl = document.getElementById("menuButton");
+        if (menuContainer && menuBtnEl){
+            let relatedTarget = e.relatedTarget as HTMLElement
+            let isTargetMenuBtnEl = (menuBtnEl === relatedTarget);
+            let isTargetChildEl = menuContainer.contains(relatedTarget);
+            if (!isTargetMenuBtnEl && !isTargetChildEl) {
+                document.getElementById("menuButton")?.setAttribute("aria-expanded", "false");
+                menuContainer.classList.remove("show");
+            }
+        }
+    }
+
     _registerEventListeners(): void {
+
+        this._registerCloseMenuListener("#menuList", "#menuButton", (e: FocusEvent): void => {
+            this.closeMenuOnFocusOut(e)
+        })
 
         this._registerKeypressEventListener("#custMsg", (e: KeyboardEvent): void => {
             this.processKeypressEvent(e)
