@@ -225,6 +225,13 @@ export class EngagedState {
         }
     }
 
+    isSelfAssessmentDAEscalation(): boolean {
+        return (document.URL.includes("/ask-hmrc/chat/self-assessment") 
+        || document.URL.includes("/ask-hmrc/chat/online-services-helpdesk")
+        || document.URL.includes("/ask-hmrc/chat/agent-dedicated-line-ind"))
+
+    }
+
     _chatCommunicationMessage(msg: MessageInterface, transcript: Transcript): void {
         const quickReplyData: QuickReplyData | null = this._extractQuickReplyData(msg);
         const closeChatEventData: {} | null = this._extractCloseChatEventData(msg);
@@ -271,8 +278,8 @@ export class EngagedState {
     }
 
     _chatRoomMemberLost(msg: MessageInterface, transcript: Transcript): void {
-        if (msg["tc.mode"] === "transfer" && (msg["display.text"] === "Agent 'HMRC' loses connection" || msg["display.text"] === "Agent 'hmrcda' loses connection")) {
-            logger.info("Message Suppressed")
+        if (msg["tc.mode"] === "transfer" && (msg["display.text"] === "Agent 'HMRC' loses connection" || msg["display.text"] === "Agent 'hmrcda' loses connection" || msg["display.text"] === "Adviser hmrcda lost connection.")) {
+            logger.debug("Message Suppressed")
         } else {
             transcript.addSystemMsg({ msg: msg["display.text"] }, msg.messageTimestamp);
         }
@@ -333,7 +340,17 @@ export class EngagedState {
             case MessageType.Owner_TransferResponse:
                 this._removeAgentJoinsConference();
                 break;
-            case MessageType.Chat_System: case MessageType.Chat_TransferResponse:
+            case MessageType.Chat_System:
+                if (msg["client.display.text"] == '') {
+                    break;
+                } else {
+                    transcript.addSystemMsg({ msg: msg["client.display.text"] }, msg.messageTimestamp!)
+                    break;
+                }
+            case MessageType.Chat_TransferResponse:
+                if (this.isSelfAssessmentDAEscalation()) {
+                    transcript.addSystemMsg({ msg: "On Saturday 31 January, webchat will only be available for filing and paying queries." }, msg.messageTimestamp);
+                }
                 if (msg["client.display.text"] == '') {
                     break;
                 } else {
