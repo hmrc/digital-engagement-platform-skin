@@ -178,6 +178,10 @@ $footer-top-border-height: 3px;
             display: none;
         }
 
+#newChatSession {
+    cursor: pointer;
+}
+
 // Print styles
 .print-only {
     display: none;

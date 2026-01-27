@@ -1,4 +1,5 @@
 import CommonChatController from "../../controllers/CommonChatController";
+import * as logger from '../../utils/logger';
 
 const html: string = `
 <div id="endPage">
@@ -11,8 +12,9 @@ const html: string = `
         <p>You can:</p>
         <ul>
         
-        <li id='printOption'><a class="govuk-link" href='#' id='printPostChat'>print or save chat</a></li>
+            <li id='printOption'><a class="govuk-link" href='#' id='printPostChat'>print or save chat</a></li>
             <li><a class="govuk-link" id='returnToGovUk' href="http://www.gov.uk">return to GOV.UK</a></li>
+            <li id="newChatSession" class="govuk-link">launch a new chat session</li> 
             <li>close this window</li>
         </ul>
     </div>
@@ -37,13 +39,14 @@ export default class PostPCSPage {
     commonchatcontroller: CommonChatController
 
 
-    constructor(showThanks: boolean) {
+    constructor(showThanks: boolean, commonchatcontroller: CommonChatController) {
         this.showThanks = showThanks;
         this.container = document.createElement("div");
         this.container.id = "ciapiSkin";
         this.eventHandler = nullEventHandler;
         this.content = this.container.querySelector("#endPage");
-        this.commonchatcontroller = new CommonChatController()
+        this.commonchatcontroller = commonchatcontroller;
+
     }
 
     attachTo(container: HTMLElement): void {
@@ -113,6 +116,22 @@ export default class PostPCSPage {
                     skinChatTranscript.style.display = 'none'
                 }
             };
+        }
+
+        const newChatSessionElement = this.wrapper.querySelector<HTMLElement>('#newChatSession');
+
+        if (newChatSessionElement) {
+            newChatSessionElement.addEventListener("click", (_: MouseEvent): void => {
+                if (this.container) {
+
+                    logger.debug(">>>>>>>> Closing current chat window <<<<<<<<<", this.commonchatcontroller.container);
+
+                    this.commonchatcontroller.container.destroy();
+                    this.commonchatcontroller.container = null;
+
+                    window.Inq.reinit();
+                }
+            });
         }
     }
 

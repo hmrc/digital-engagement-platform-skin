@@ -203,6 +203,8 @@ export default class CommonChatController {
                 this._showChat(hideContainerOnStart);
                 this._displayOpenerScripts();
 
+                logger.debug("=== Calling chatDisplayed ===")
+
                 this.sdk.chatDisplayed({
                     "customerName": "You",
                     "previousMessagesCb": (resp: any) => {
@@ -468,7 +470,7 @@ export default class CommonChatController {
 
     showEndChatPage(showThanks: boolean): void {
         this.container._removeSkinHeadingElements();
-        this.container.showPage(new PostPCSPage(showThanks));
+        this.container.showPage(new PostPCSPage(showThanks, this));
         document.getElementById("heading_chat_ended")?.focus();
         this.closeNuanceChat();
     }

@@ -53,6 +53,7 @@ export const chatListener = {
         }
 
         window.chatId = evt.chatID;
+        logger.debug("Chat ID here:", window.chatId);
     },
     onAgentAssigned: function (evt: { agentID: any, agentAlias: string }) {
         logger.debug("### Agent Assigned");
