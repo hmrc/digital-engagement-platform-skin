@@ -820,8 +820,6 @@ export default class CommonChatController {
             soundElement.innerHTML = "Turn notification sound off";
         }
         sessionStorage.setItem("isActive", `${!isActive}`);
-        this.closeMenu()
-        document.getElementById("custMsg")?.focus();
     }
 
     onSizeToggle(): void {
@@ -840,13 +838,10 @@ export default class CommonChatController {
             sizeButton.innerHTML = "Increase chat size";
         }
         sessionStorage.setItem("isStandard", `${!isStandard} `);
-        this.closeMenu()
-        document.getElementById("custMsg")?.focus();
     }
 
     onScreenReaderMessageSentNotification(): void {
         const message: string = messages.messageSent
-        document.getElementById("custMsg")?.focus();
         let sentMessageNotification: HTMLElement | null = document.getElementById('sentMessageNotification')
         if (sentMessageNotification) {
             sentMessageNotification.textContent = message
