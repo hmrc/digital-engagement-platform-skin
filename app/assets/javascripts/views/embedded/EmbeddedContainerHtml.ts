@@ -22,12 +22,12 @@ export function ContainerHtml(isEscalated: boolean): string {
                 ` + soundButton + `
         </div>
     </div>
-    <div id="ciapiChatComponents">
+    <div role="main" id="ciapiChatComponents">
     <div id="systemMessageBanner">` + bannerMessage + `</div>
         <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript print-overflow-visible" role="region" tabindex="0" aria-label="chat transcript">
             <div id="skipToBottom"><a id="skipToBottomLink" href="#" class="govuk-skip-link">Skip to bottom of conversation</a></div>
         </div>
-        <div id="ciapiSkinFooter" class="govuk-!-display-none-print">
+        <div role="form" id="ciapiSkinFooter" class="govuk-!-display-none-print">
             <div>
                 <label class="govuk-label" for="custMsg">Enter a message</label>
                 <div id="ciapiInput">
