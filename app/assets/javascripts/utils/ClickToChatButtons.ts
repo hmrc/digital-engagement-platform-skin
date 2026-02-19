@@ -49,16 +49,16 @@ export default class ClickToChatButtons {
             innerHTML = `<div id="ciapiSkinMinimised"><button id="ciapiSkinRestoreButton" type="button" draggable="false" role="button" tabindex="0"><h2 class="govuk-heading-s govuk-!-font-size-19">Ask HMRC a Question</h2></button></div>`
         } else {
             if (c2cObj.displayState === 'busy') {
-                innerHTML = `<h2 class="govuk-heading-m">${messages.busyHeading}</h2><div class="${c2cObj.displayState}">${displayStateText}</div><button disabled aria-disabled="true" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`
+                innerHTML = `<h2 class="govuk-heading-m" tabindex="0">${messages.busyHeading}</h2><div class="${c2cObj.displayState}" tabindex="0">${displayStateText}</div><button disabled aria-disabled="true" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button" tabindex="0">${messages.c2cButton}</button>`
                 timerUtils.updateAndTogglePageTitle(messages.busyHeading)
             } else if (c2cObj.displayState === 'ready') {
-                innerHTML = `<h2 class="govuk-heading-m">${messages.readyHeading}</h2><div class="${c2cObj.displayState}">${displayStateText}</div><button id="startChatButton" aria-disabled="false" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`
+                innerHTML = `<h2 class="govuk-heading-m" tabindex="0">${messages.readyHeading}</h2><div class="${c2cObj.displayState}" tabindex="0">${displayStateText}</div><button id="startChatButton" aria-disabled="false" class="${button.buttonClass} ${c2cObj.displayState} govuk-button" data-module="govuk-button" tabindex="0">${messages.c2cButton}</button>`
                 timerUtils.updateAndTogglePageTitle(messages.readyHeading)
             } else if (c2cObj.displayState === 'outofhours') {
-                innerHTML = `<h2 class="govuk-heading-m ${c2cObj.displayState}">${displayStateText}</h2>`
+                innerHTML = `<h2 class="govuk-heading-m ${c2cObj.displayState}" tabindex="0">${displayStateText}</h2>`
                 timerUtils.updateAndTogglePageTitle(displayStateText)
             } else {
-                innerHTML = `<div class="${c2cObj.displayState}">${displayStateText}</div>`
+                innerHTML = `<div class="${c2cObj.displayState}" tabindex="0">${displayStateText}</div>`
                 timerUtils.stopTogglingPageTitle()
             }
         }
