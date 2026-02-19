@@ -46,7 +46,7 @@ describe("ClickToChatButtons", () => {
 
         buttons.addButton(c2cObj(DisplayState.ChatActive), button);
 
-        expect(button.replaceChild).toHaveBeenCalledWith('<div class="chatactive">ChatActiveText</div>', false);
+        expect(button.replaceChild).toHaveBeenCalledWith('<div class="chatactive" tabindex="0">ChatActiveText</div>', false);
         expect(stopTogglingPageTitleSpy).toHaveBeenCalledTimes(1);
     });
 
@@ -56,7 +56,7 @@ describe("ClickToChatButtons", () => {
 
         buttons.addButton(c2cObj(DisplayState.OutOfHours), button);
 
-        expect(button.replaceChild).toHaveBeenCalledWith('<h2 class="govuk-heading-m outofhours">OutOfHoursText</h2>', false);
+        expect(button.replaceChild).toHaveBeenCalledWith('<h2 class="govuk-heading-m outofhours" tabindex="0">OutOfHoursText</h2>', false);
         expect(updateAndTogglePageTitleSpy).toHaveBeenCalledTimes(1);
         expect(updateAndTogglePageTitleSpy).toHaveBeenCalledWith("OutOfHoursText");
     });
@@ -67,7 +67,7 @@ describe("ClickToChatButtons", () => {
 
         buttons.addButton(c2cObj(DisplayState.Ready), button);
 
-        expect(button.replaceChild).toHaveBeenCalledWith(`<h2 class="govuk-heading-m">${messages.readyHeading}</h2><div class="ready">ReadyText</div><button id="startChatButton" aria-disabled="false" class="button-class ready govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`, false);
+        expect(button.replaceChild).toHaveBeenCalledWith(`<h2 class="govuk-heading-m" tabindex="0">${messages.readyHeading}</h2><div class="ready" tabindex="0">ReadyText</div><button id="startChatButton" aria-disabled="false" class="button-class ready govuk-button" data-module="govuk-button" tabindex="0">${messages.c2cButton}</button>`, false);
         expect(updateAndTogglePageTitleSpy).toHaveBeenCalledTimes(1);
         expect(updateAndTogglePageTitleSpy).toHaveBeenCalledWith(messages.readyHeading);
     });
@@ -78,7 +78,7 @@ describe("ClickToChatButtons", () => {
 
         buttons.addButton(c2cObj(DisplayState.Busy), button);
 
-        expect(button.replaceChild).toHaveBeenCalledWith(`<h2 class="govuk-heading-m">${messages.busyHeading}</h2><div class="busy">BusyText</div><button disabled aria-disabled="true" class="button-class busy govuk-button" data-module="govuk-button">${messages.c2cButton}</button>`, false);
+        expect(button.replaceChild).toHaveBeenCalledWith(`<h2 class="govuk-heading-m" tabindex="0">${messages.busyHeading}</h2><div class="busy" tabindex="0">BusyText</div><button disabled aria-disabled="true" class="button-class busy govuk-button" data-module="govuk-button" tabindex="0">${messages.c2cButton}</button>`, false);
         expect(updateAndTogglePageTitleSpy).toHaveBeenCalledTimes(1);
         expect(updateAndTogglePageTitleSpy).toHaveBeenCalledWith(messages.busyHeading);
     });
@@ -90,8 +90,8 @@ describe("ClickToChatButtons", () => {
 
         buttons.updateC2CButtonsToInProgress();
 
-        expect(button.replaceChild).toHaveBeenNthCalledWith(1, '<h2 class="govuk-heading-m outofhours">OutOfHoursText</h2>', false);
-        expect(button.replaceChild).toHaveBeenNthCalledWith(2, '<div class="chatactive">ChatActiveText</div>', false);
+        expect(button.replaceChild).toHaveBeenNthCalledWith(1, '<h2 class="govuk-heading-m outofhours" tabindex="0">OutOfHoursText</h2>', false);
+        expect(button.replaceChild).toHaveBeenNthCalledWith(2, '<div class="chatactive" tabindex="0">ChatActiveText</div>', false);
     });
 
     it("returns message for unknown state", () => {
