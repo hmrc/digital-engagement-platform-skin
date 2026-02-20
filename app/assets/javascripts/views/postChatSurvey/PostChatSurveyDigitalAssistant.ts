@@ -113,7 +113,7 @@ export const html: string = `
           <div id="whyGiveScore-hint" class="govuk-hint">
             Please do not enter personal information such as your National Insurance number, Unique Tax Reference or address or telephone number in this box. Please note we are unable to reply to comments individually but we do use your feedback to help improve our services.
           </div>
-        <textarea class="govuk-textarea" id="q3-" name="q3-" rows="5"></textarea>
+        <textarea class="govuk-textarea" id="q3-" name="q3-" rows="5" aria-describedby="whyGiveScore-info whyGiveScore-hint"></textarea>
 
       </div>
 

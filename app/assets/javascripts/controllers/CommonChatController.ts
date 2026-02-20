@@ -600,7 +600,7 @@ export default class CommonChatController {
     }
 
     onConfirmEndChat(): void {
-                
+
         logger.info(">>>>>>::onConfirmEndChat called ")
         sessionStorage.setItem("ignoreChatClosedEvent", "true")
 
