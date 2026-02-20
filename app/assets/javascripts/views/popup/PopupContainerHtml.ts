@@ -21,7 +21,7 @@ export function ContainerHtml(isEscalated: boolean): string {
 <p id="print-date" class="govuk-body print-only"></p>
 </div>
 ` + container + `
-    <div id="titleBar" class="govuk-!-display-none-print">
+    <div role="banner" id="titleBar" class="govuk-!-display-none-print">
 
     <div class="dropdown">
         <button id="menuButton" class="dropbtn" draggable="false" role="button" type="button" aria-expanded="false" aria-controls="menuList" aria-label="Menu">
@@ -46,12 +46,12 @@ export function ContainerHtml(isEscalated: boolean): string {
             <button id="ciapiSkinHideButton" role="button" tabindex="0"><i class="arrow down" draggable="false" role="button" type="button" aria-label="Minimise chat window"></i></button>
          </div>
     </div>
-    <div id="ciapiChatComponents">
+    <div role="main" id="ciapiChatComponents">
     <div id="systemMessageBanner">` + bannerMessage + `</div>
         <div id="ciapiSkinChatTranscript" class="ciapiSkinChatTranscript print-overflow-visible" role="region" tabindex="0" aria-label="chat transcript">
             <div id="skipToBottom"><a id="skipToBottomLink" href="#" class="govuk-skip-link">Skip to bottom of conversation</a></div>
         </div>
-        <div id="ciapiSkinFooter" class="govuk-!-display-none-print">
+        <div role="form" id="ciapiSkinFooter" class="govuk-!-display-none-print">
             <label class="govuk-label" for="custMsg">Enter a message</label>
             <div id="ciapiInput">
             <textarea
