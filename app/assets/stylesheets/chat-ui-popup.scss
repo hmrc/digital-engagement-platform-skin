@@ -377,6 +377,13 @@ $page-height: calc(100% - 5px);
             color: black;
             text-decoration: underline;
         }
+        .arrow {
+           margin-left: 15px;
+           border: black solid;
+           border-width: 0 3px 3px 0;
+           display: inline-block;
+           padding: 6px;
+        }
         #logo-white {
             float: left;
                 padding-left: 0.6em;
