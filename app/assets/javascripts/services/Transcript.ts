@@ -26,11 +26,11 @@ export default class Transcript {
     }
 
     addAgentMsg(msg: string, msgTimestamp: string, agent?: undefined): void {
-        this._appendMessage(msg, msgTimestamp, this.classes.Agent, this._getMsgTimestampPrefix(msgTimestamp, this.agentMsgPrefix, "h3"), false, false);
+        this._appendMessage(msg, msgTimestamp, this.classes.Agent, this._getMsgTimestampPrefix(msgTimestamp, this.agentMsgPrefix, "p"), false, false);
     }
 
     addCustomerMsg(msg: string, msgTimestamp: string, agent?: undefined): void {
-        this._appendMessage(msg, msgTimestamp, this.classes.Customer, this._getMsgTimestampPrefix(msgTimestamp, this.customerMsgPrefix, "h2"), true, false);
+        this._appendMessage(msg, msgTimestamp, this.classes.Customer, this._getMsgTimestampPrefix(msgTimestamp, this.customerMsgPrefix, "p"), true, false);
     }
 
     _addPaddingToCustomerMsg(id: string): void {
@@ -59,7 +59,7 @@ export default class Transcript {
         if (msgObject.joinTransfer === undefined) msgObject.joinTransfer = "";
         if (msgTimestamp === undefined) msgTimestamp = '';
 
-        this._appendMessage(msgObject.msg, "", this.classes.System, this._getMsgTimestampPrefix(msgTimestamp, this.systemMsgPrefix, "h3"), false, true, msgObject.state, msgObject.joinTransfer);
+        this._appendMessage(msgObject.msg, "", this.classes.System, this._getMsgTimestampPrefix(msgTimestamp, this.systemMsgPrefix, "p"), false, true, msgObject.state, msgObject.joinTransfer);
     }
 
     addOpenerScript(msg: string): void {
@@ -72,7 +72,7 @@ export default class Transcript {
 
         openerScriptTimestamp = sessionStorage.getItem("openerScriptTimestamp")!;
 
-        this._appendMessage(msg, openerScriptTimestamp, this.classes.Opener, this._getMsgTimestampPrefix(openerScriptTimestamp, this.automatedMsgPrefix, "h3"), false, false);
+        this._appendMessage(msg, openerScriptTimestamp, this.classes.Opener, this._getMsgTimestampPrefix(openerScriptTimestamp, this.automatedMsgPrefix, "p"), false, false);
     }
 
     addSkipToBottomLink(): void {
@@ -160,7 +160,7 @@ export default class Transcript {
         agentDiv.insertAdjacentHTML("beforeend", msgDiv);
         agentDiv.setAttribute('aria-live', 'polite');
 
-        var printMessageSuffix: HTMLHeadingElement = document.createElement("h2");
+        var printMessageSuffix: HTMLElement = document.createElement("p");
 
         if (popupChatContainer.length > 0) {
             printMessageSuffix.className = "print-only popup-print-float-left govuk-!-font-weight-bold govuk-body";
@@ -191,7 +191,7 @@ export default class Transcript {
 
         this.content?.appendChild(printOuterTimeStamp);
 
-        setTimeout(this.appendMessageInLiveRegion, 300, automatonData, id, this._getMsgTimestampPrefix(msgTimestamp, this.automatedMsgPrefix, "h3"), true, this, this.classes.Agent, false, false, isQuickReply);
+        setTimeout(this.appendMessageInLiveRegion, 300, automatonData, id, this._getMsgTimestampPrefix(msgTimestamp, this.automatedMsgPrefix, "p"), true, this, this.classes.Agent, false, false, isQuickReply);
 
         if (chatContainer) {
 
@@ -213,7 +213,7 @@ export default class Transcript {
 
         if (isCustomerMsg == true) {
             var msgDiv: string = `<div class=${msg_class?.Outer}><div class= "msg-opacity govuk-body ${msg_class?.Inner}" id=${id}></div></div>`;
-            var printMessageSuffix: HTMLHeadingElement = document.createElement("h2");
+            var printMessageSuffix: HTMLElement = document.createElement("p");
 
             if (popupChatContainer.length > 0) {
                 printMessageSuffix.className = "print-only popup-print-float-right govuk-!-font-weight-bold govuk-body";
@@ -245,7 +245,7 @@ export default class Transcript {
             } else {
                 var msgDiv: string = `<div class=${msg_class?.Outer}><div class= "msg-opacity govuk-body ${msg_class?.Inner}" tabindex=-1 id=${id} aria-live=polite></div></div>`;
 
-                var printMessageSuffix: HTMLHeadingElement = document.createElement("h3");
+                var printMessageSuffix: HTMLElement = document.createElement("p");
                 if (popupChatContainer.length > 0) {
                     printMessageSuffix.className = "print-only popup-print-float-left govuk-!-font-weight-bold govuk-body";
                 } else {
