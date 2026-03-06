@@ -160,7 +160,7 @@ export default class Transcript {
         agentDiv.insertAdjacentHTML("beforeend", msgDiv);
         agentDiv.setAttribute('aria-live', 'polite');
 
-        var printMessageSuffix: HTMLHeadingElement = document.createElement("p");
+        var printMessageSuffix: HTMLElement = document.createElement("p");
 
         if (popupChatContainer.length > 0) {
             printMessageSuffix.className = "print-only popup-print-float-left govuk-!-font-weight-bold govuk-body";
@@ -213,7 +213,7 @@ export default class Transcript {
 
         if (isCustomerMsg == true) {
             var msgDiv: string = `<div class=${msg_class?.Outer}><div class= "msg-opacity govuk-body ${msg_class?.Inner}" id=${id}></div></div>`;
-            var printMessageSuffix: HTMLHeadingElement = document.createElement("p");
+            var printMessageSuffix: HTMLElement = document.createElement("p");
 
             if (popupChatContainer.length > 0) {
                 printMessageSuffix.className = "print-only popup-print-float-right govuk-!-font-weight-bold govuk-body";
@@ -245,7 +245,7 @@ export default class Transcript {
             } else {
                 var msgDiv: string = `<div class=${msg_class?.Outer}><div class= "msg-opacity govuk-body ${msg_class?.Inner}" tabindex=-1 id=${id} aria-live=polite></div></div>`;
 
-                var printMessageSuffix: HTMLHeadingElement = document.createElement("p");
+                var printMessageSuffix: HTMLElement = document.createElement("p");
                 if (popupChatContainer.length > 0) {
                     printMessageSuffix.className = "print-only popup-print-float-left govuk-!-font-weight-bold govuk-body";
                 } else {
