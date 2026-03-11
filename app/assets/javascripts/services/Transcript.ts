@@ -169,9 +169,10 @@ export default class Transcript {
         }
 
         if (window.Agent_Name != null) {
-            printMessageSuffix.innerHTML = window.Agent_Name + " said: ";
+            let agentName = window.Agent_Name == "hmrcda" ? "HMRC Digital Assistant" : window.Agent_Name;
+            printMessageSuffix.innerHTML = agentName + " said: ";
         } else {
-            printMessageSuffix.innerHTML = "HMRC said: ";
+            printMessageSuffix.innerHTML = "HMRC Digital Assistant said: ";
         }
 
         var printOuterTimeStamp: HTMLDivElement = document.createElement("div");
@@ -187,7 +188,7 @@ export default class Transcript {
         printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
 
         printOuterTimeStamp.className = "timestamp-outer";
-        printOuterTimeStamp.innerHTML = this._getTimestampPrefix(msgTimestamp) + printMessageSuffix.outerHTML + agentDiv.outerHTML + printTimeStamp.outerHTML;
+        printOuterTimeStamp.innerHTML = this._getTimestampPrefix(msgTimestamp) + printMessageSuffix.outerHTML + printTimeStamp.outerHTML + agentDiv.outerHTML;
 
         this.content?.appendChild(printOuterTimeStamp);
 
@@ -253,9 +254,10 @@ export default class Transcript {
                 }
                 printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
                 if (window.Agent_Name != null) {
-                    printMessageSuffix.innerHTML = window.Agent_Name + " said: ";
+                    let agentName = window.Agent_Name == "hmrcda" ? "HMRC Digital Assistant" : window.Agent_Name;
+                    printMessageSuffix.innerHTML = agentName + " said: ";
                 } else {
-                    printMessageSuffix.innerHTML = "HMRC said: ";
+                    printMessageSuffix.innerHTML = "HMRC Digital Assistant said: ";
                 }
 
                 if (popupChatContainer.length > 0) {
@@ -274,10 +276,10 @@ export default class Transcript {
 
         if (!isSystemMsg) {
             printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
-            printOuterTimeStamp.innerHTML = this._getTimestampPrefix(msgTimestamp) + printMessageSuffix!.outerHTML + msgDiv + printTimeStamp.outerHTML;
+            printOuterTimeStamp.innerHTML = this._getTimestampPrefix(msgTimestamp) + printMessageSuffix!.outerHTML + printTimeStamp.outerHTML + msgDiv;
 
         } else {
-            printOuterTimeStamp.innerHTML = this._getTimestampPrefix(msgTimestamp) + msgDiv + printTimeStamp.outerHTML;
+            printOuterTimeStamp.innerHTML = this._getTimestampPrefix(msgTimestamp) + printTimeStamp.outerHTML + msgDiv;
         }
 
         let chatIdElement: HTMLElement | null | number = document.getElementById("chat-id")

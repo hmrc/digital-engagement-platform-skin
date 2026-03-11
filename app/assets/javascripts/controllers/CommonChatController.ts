@@ -422,12 +422,14 @@ export default class CommonChatController {
                         </div>
                     </div>
                 </header>
-                <p class='govuk-body'>Chat ID: ${chatID?.outerHTML}</p>
-                <p class='govuk-body'>${printDate?.outerHTML}</p>
+                <h2 class='govuk-body'>Chat ID: ${chatID?.outerHTML}</h2>
+                <h2 class='govuk-body'>${printDate?.outerHTML}</h2>
+                <p>
                 ${htmlString}
+                </p>
             </body>
         </html>`
-
+        console.log("printingIframeHTML: ", printingIframeHTML)
         printingIframe.srcdoc = printingIframeHTML
         printingIframe.onload = () => {
             const printWindow: Window | null = printingIframe.contentWindow
