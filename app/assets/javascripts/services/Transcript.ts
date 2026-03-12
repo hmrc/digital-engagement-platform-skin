@@ -217,17 +217,17 @@ export default class Transcript {
             var printMessageSuffix: HTMLElement = document.createElement("p");
 
             if (popupChatContainer.length > 0) {
-                printMessageSuffix.className = "print-only popup-print-float-right govuk-!-font-weight-bold govuk-body";
+                printMessageSuffix.className = "print-only popup-print-float-left govuk-!-font-weight-bold govuk-body";
             } else {
-                printMessageSuffix.className = "print-only print-float-right govuk-!-font-weight-bold govuk-body";
+                printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
             }
 
             printMessageSuffix.innerHTML = "You said: ";
 
             if (popupChatContainer.length > 0) {
-                printTimeStamp.className = "print-only govuk-body popup-print-float-right print-timestamp";
+                printTimeStamp.className = "print-only govuk-body popup-print-float-left print-timestamp";
             } else {
-                printTimeStamp.className = "print-only govuk-body print-float-right print-timestamp";
+                printTimeStamp.className = "print-only govuk-body print-float-left print-timestamp";
             }
 
             printTimeStamp.setAttribute('aria-hidden', 'true');

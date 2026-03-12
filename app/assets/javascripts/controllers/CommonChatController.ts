@@ -403,8 +403,18 @@ export default class CommonChatController {
 
         const chatID: HTMLElement | null = document.getElementById('chat-id')
         const htmlElements: NodeListOf<HTMLDivElement> = document.querySelectorAll('.timestamp-outer')
+        const htmlParagaphElements: HTMLParagraphElement[] = Array.from(htmlElements).map(el => 
+                {
+                    var parent = el.parentNode;
+                    var wrapper = document.createElement('p');
+                    parent!.replaceChild(wrapper, el);
+                    wrapper.appendChild(el);
+                    return wrapper
+                }
+
+        )
         const styleElements: NodeListOf<HTMLElement> = document.querySelectorAll('style, link[rel="stylesheet"]')
-        const htmlString: string = Array.from(htmlElements).map(el => el.outerHTML).join('')
+        const htmlString: string = Array.from(htmlParagaphElements).map(el => el.outerHTML).join('')
         const styleString: string = Array.from(styleElements).map(el => el.outerHTML).join('')
 
         const printingIframeHTML = `
