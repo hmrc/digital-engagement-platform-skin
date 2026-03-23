@@ -169,10 +169,10 @@ export default class Transcript {
         }
 
         if (window.Agent_Name != null) {
-            let agentName = window.Agent_Name == "hmrcda" ? "HMRC Digital Assistant" : window.Agent_Name;
+            let agentName = window.Agent_Name == "hmrcda" ? "HMRC" : window.Agent_Name;
             printMessageSuffix.innerHTML = agentName + " said: ";
         } else {
-            printMessageSuffix.innerHTML = "HMRC Digital Assistant said: ";
+            printMessageSuffix.innerHTML = "HMRC said: ";
         }
 
         var printOuterTimeStamp: HTMLDivElement = document.createElement("div");
@@ -254,10 +254,10 @@ export default class Transcript {
                 }
                 printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
                 if (window.Agent_Name != null) {
-                    let agentName = window.Agent_Name == "hmrcda" ? "HMRC Digital Assistant" : window.Agent_Name;
+                    let agentName = window.Agent_Name == "hmrcda" ? "HMRC" : window.Agent_Name;
                     printMessageSuffix.innerHTML = agentName + " said: ";
                 } else {
-                    printMessageSuffix.innerHTML = "HMRC Digital Assistant said: ";
+                    printMessageSuffix.innerHTML = "HMRC said: ";
                 }
 
                 if (popupChatContainer.length > 0) {
