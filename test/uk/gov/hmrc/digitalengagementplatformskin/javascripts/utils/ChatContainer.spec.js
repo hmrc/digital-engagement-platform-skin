@@ -267,6 +267,37 @@ describe("ChatContainer", () => {
         expect(sanitiseAndParseJsonData).toHaveBeenCalledTimes(1);
     });
 
+    it("Mix: process keypress", () => {
+        jest.useFakeTimers();
+        jest.spyOn(global, 'setTimeout');
+        jest.spyOn(global, 'clearTimeout');
+
+        let customerInputHtml = "<textarea id='custMsg'>'Hello there</textarea><button id='ciapiSkinSendButton'>Send message</button>'"
+
+        chatContainer = new ChatContainer(null, customerInputHtml, mockSDK);
+        chatContainer.eventHandler = nullEventHandler;
+
+        let resetStopTypingTimeoutSpy = jest.spyOn(chatContainer, '_resetStopTypingTimeout');
+        let startTypingSpy = jest.spyOn(chatContainer, 'startTyping');
+
+        const enterKey = 13;
+        const keypressEvent = {
+            which: enterKey,
+            preventDefault: jest.fn()
+        }
+
+        chatContainer.processKeypressEvent(keypressEvent);
+
+        expect(resetStopTypingTimeoutSpy).toHaveBeenCalledTimes(2);
+        expect(startTypingSpy).toHaveBeenCalledTimes(1);
+        expect(chatContainer.eventHandler.onStartTyping).toHaveBeenCalledTimes(1);
+        expect(chatContainer.eventHandler.onSend).toHaveBeenCalledTimes(1);
+        expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 3000, nullEventHandler);
+
+        chatContainer.processKeypressEvent(keypressEvent); // send second keypress to call clearTimeout for previous setTimeout call
+        expect(clearTimeout).toHaveBeenCalled();
+    });
+
 
     it("Returns the current customer input text", () => {
         let customerInputHtml = document.createElement("textarea");
@@ -469,7 +500,7 @@ describe("ChatContainer", () => {
         jest.advanceTimersByTime(1001);
 
         expect(setTimeout).toHaveBeenCalledTimes(1);
-        expect(focus).toHaveBeenCalledTimes(2); // TODO this is called twice when run individually, not sure why
+        expect(focus).toHaveBeenCalledTimes(1); // TODO this is called twice when run individually, not sure why
     });
 
     it("onConfirmEndChat calls the expected methods, and focuses the legend_give_feedback element", () => {

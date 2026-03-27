@@ -218,42 +218,37 @@ export default class ChatContainer {
     }
 
 
-    // processKeypressEvent(e: KeyboardEvent): void {
-    //     this._resetStopTypingTimeout();
+    processKeypressEvent(e: KeyboardEvent): void {
+        this._resetStopTypingTimeout();
 
-    //     if (!this.isCustomerTyping) {
-    //         this.startTyping(this.eventHandler);
-    //     }
+        if (!this.isCustomerTyping) {
+            this.startTyping(this.eventHandler);
+        }
 
-    //     const custMsg = this.container.querySelector<HTMLTextAreaElement>('#custMsg');
-    //     const sendButton = this.container.querySelector<HTMLButtonElement>('#ciapiSkinSendButton');
-    //     const alphaNumericSpecial: RegExp = /\S/
-    //     const enterKey: number = 13;
+        const custMsg = this.container.querySelector<HTMLTextAreaElement>('#custMsg');
+        const alphaNumericSpecial: RegExp = /\S/
+        const enterKey: number = 13;
 
-    //     if (alphaNumericSpecial.test(custMsg!.value) == true) {
-    //         sendButton!.disabled = false;
-    //         sendButton!.ariaDisabled = "false";
-    //         if (e.which == enterKey) {
-    //             this.eventHandler.onSend();
-    //             e.preventDefault();
-    //             this.inputBoxFocus = true;
-    //         }
-    //     } else {
-    //         sendButton!.disabled = true;
-    //         sendButton!.ariaDisabled = "true";
-    //         if (e.which == enterKey) {
-    //             e.preventDefault();
-    //             this.inputBoxFocus = true;
-    //         }
-    //     }
+        if (alphaNumericSpecial.test(custMsg!.value) == true) {
+            if (e.which == enterKey) {
+                this.eventHandler.onSend();
+                e.preventDefault();
+                this.inputBoxFocus = true;
+            }
+        } else {
+            if (e.which == enterKey) {
+                e.preventDefault();
+                this.inputBoxFocus = true;
+            }
+        }
 
-    //     this._resetStopTypingTimeout();
+        this._resetStopTypingTimeout();
 
-    //     if (!this.isCustomerTyping) {
-    //         this.startTyping(this.eventHandler);
-    //     }
+        if (!this.isCustomerTyping) {
+            this.startTyping(this.eventHandler);
+        }
 
-    // }
+    }
 
     disablePreviousWidgets(e: any): void {
         // Disable quick-reply widgets
@@ -329,9 +324,9 @@ export default class ChatContainer {
             this.closeMenuOnFocusOut(e)
         })
 
-        // this._registerKeypressEventListener("#custMsg", (e: KeyboardEvent): void => {
-        //     this.processKeypressEvent(e)
-        // });
+        this._registerKeypressEventListener("#custMsg", (e: KeyboardEvent): void => {
+            this.processKeypressEvent(e)
+        });
 
         this._registerKeypressEventListener("#ciapiSkinHideButton", (e: KeyboardEvent): void => {
             this.processTabKeypressEvent(e)
@@ -339,9 +334,6 @@ export default class ChatContainer {
 
         this._registerEventListener("#ciapiSkinSendButton", (_: Event): void => {
             this.eventHandler.onSend();
-            // const sendButton = this.container.querySelector<HTMLButtonElement>('#ciapiSkinSendButton');
-            // sendButton!.disabled = true;
-            // sendButton!.ariaDisabled = "true";
             this.inputBoxFocus = false;
         });
 

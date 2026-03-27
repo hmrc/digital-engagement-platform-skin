@@ -70,6 +70,21 @@ describe("ChatContainer Event Listeners", () => {
         expect(chatContainer.eventHandler.onRestoreChat).toHaveBeenCalledTimes(1);
     });
 
+    it("a keypress fires the expected handler function", () => {
+        const chatContainer = new ChatContainer(null, EmbeddedContainerHtml, null);
+
+        jest.spyOn(chatContainer, 'processKeypressEvent');
+
+        const fKey = 70;
+
+        chatContainer
+            .container
+            .querySelector('#custMsg')
+            .dispatchEvent(new KeyboardEvent('keypress', {'key': fKey}));
+
+        expect(chatContainer.processKeypressEvent).toHaveBeenCalledTimes(1);
+    });
+
     it("clicking the print button fires the expected handler function", () => {
         const chatContainer = new ChatContainer(null, EmbeddedContainerHtml, null);
 
