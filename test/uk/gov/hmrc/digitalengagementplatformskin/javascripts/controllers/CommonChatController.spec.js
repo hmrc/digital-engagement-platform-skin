@@ -1004,7 +1004,7 @@ describe("CommonChatController", () => {
         <textarea id="custMsg" class="govuk-textarea" role="textbox" aria-label="Enter a message " placeholder="" rows="5" cols="50" name="comments"></textarea>
       </div>
       <div id="ciapiSend">
-        <button id="ciapiSkinSendButton" aria-disabled="true" class="govuk-button" data-module="govuk-button" disabled="">Send message</button>
+        <button id="ciapiSkinSendButton" class="govuk-button" data-module="govuk-button" disabled="">Send message</button>
         <div id="sentMessageNotification" aria-live="polite" class="govuk-visually-hidden"></div>
       </div>
       </div>
@@ -1119,7 +1119,7 @@ describe("CommonChatController", () => {
         </textarea>
       </div>
       <div id="ciapiSend">
-        <button id="ciapiSkinSendButton" disabled aria-disabled="true" class="govuk-button" data-module="govuk-button">Send message</button>
+        <button id="ciapiSkinSendButton" class="govuk-button" data-module="govuk-button">Send message</button>
         <div id="sentMessageNotification" aria-live="polite" class="govuk-visually-hidden"></div>
       </div>
     </div>`

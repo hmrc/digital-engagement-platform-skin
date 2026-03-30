@@ -226,21 +226,16 @@ export default class ChatContainer {
         }
 
         const custMsg = this.container.querySelector<HTMLTextAreaElement>('#custMsg');
-        const sendButton = this.container.querySelector<HTMLButtonElement>('#ciapiSkinSendButton');
         const alphaNumericSpecial: RegExp = /\S/
         const enterKey: number = 13;
 
         if (alphaNumericSpecial.test(custMsg!.value) == true) {
-            sendButton!.disabled = false;
-            sendButton!.ariaDisabled = "false";
             if (e.which == enterKey) {
                 this.eventHandler.onSend();
                 e.preventDefault();
                 this.inputBoxFocus = true;
             }
         } else {
-            sendButton!.disabled = true;
-            sendButton!.ariaDisabled = "true";
             if (e.which == enterKey) {
                 e.preventDefault();
                 this.inputBoxFocus = true;
@@ -339,9 +334,6 @@ export default class ChatContainer {
 
         this._registerEventListener("#ciapiSkinSendButton", (_: Event): void => {
             this.eventHandler.onSend();
-            const sendButton = this.container.querySelector<HTMLButtonElement>('#ciapiSkinSendButton');
-            sendButton!.disabled = true;
-            sendButton!.ariaDisabled = "true";
             this.inputBoxFocus = false;
         });
 
