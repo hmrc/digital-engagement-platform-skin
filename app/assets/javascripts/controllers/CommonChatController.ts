@@ -252,16 +252,6 @@ export default class CommonChatController {
             }
             document.getElementById("custMsg")?.focus();
 
-            const downloadLink = document.getElementById("download-link")
-            if (downloadLink) {
-                downloadLink.setAttribute("href", URL.createObjectURL(
-                new Blob(["<html><head><style type='text/css'>h1 { color: blue; }</style></head><body><h1>Chat transcript</h1></body></html>"], {
-                    type: 'text/html'
-                })
-                ) )
-                downloadLink.style.display = "initial";
-            }
-
         } catch (e: unknown) {
             logger.error("!!!! launchChat got exception: ", e);
         }
@@ -433,8 +423,8 @@ export default class CommonChatController {
                         </div>
                     </div>
                 </header>
-                <h2 class='govuk-body'>Chat ID: ${chatID?.outerHTML}</h2>
-                <h2 class='govuk-body'>${printDate?.outerHTML}</h2>
+                <p class='govuk-body'>Chat ID: ${chatID?.outerHTML}</p>
+                <p class='govuk-body'>${printDate?.outerHTML}</p>
                 <p>
                 ${htmlString}
                 </p>
