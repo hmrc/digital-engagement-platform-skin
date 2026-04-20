@@ -424,20 +424,32 @@ export default class CommonChatController {
                     </div>
                 </header>
                 <p class='govuk-body'>Chat ID: ${chatID?.outerHTML}</p>
-                <p class='govuk-body'>${printDate?.outerHTML}</p>
-                <p>
+                <p class='govuk-body' style="display: block"> ${printDate?.innerHTML} </p>
+                <div >
                 ${htmlString}
-                </p>
+                </div>
             </body>
         </html>`
-        console.log("printingIframeHTML: ", printingIframeHTML)
+
         printingIframe.srcdoc = printingIframeHTML
         printingIframe.onload = () => {
             const printWindow: Window | null = printingIframe.contentWindow
             if (!printWindow) {
                 return
             }
-            requestAnimationFrame(() => printWindow.print())
+             requestAnimationFrame(() => printWindow.print())
+            /*const parser = new DOMParser();
+            const parsed = parser.parseFromString(printingIframeHTML, "text/html");
+            const spansToRemove = parsed.querySelectorAll('span.govuk-visually-hidden');
+            spansToRemove.forEach(span => span.remove());
+            const modifiedHtmlString = parsed.documentElement.outerHTML;
+            let blobdtMIME =
+                new Blob([modifiedHtmlString], { type: "text/html" })
+            let url = URL.createObjectURL(blobdtMIME)
+            let anele = document.createElement("a")
+            anele.setAttribute("download", "Chat-"+chatID.textContent);
+            anele.href = url;
+            anele.click();*/
         }
     }
 
