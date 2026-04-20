@@ -43,7 +43,7 @@ export const messages: messageTypes = {
     unavilable: `Sorry, our virtual assistant is unavailable. Try again later. ${contactLink} if you need to speak to someone.`,
     messageSent: 'The message has been sent',
     //Transcript.js
-    agentMsgPrefix: " Adviser said :",
+    agentMsgPrefix: " HMRC said :",
     customerMsgPrefix: " You said : ",
     systemMsgPrefix: " System message : ",
     automatedMsgPrefix: " Automated message : ",
