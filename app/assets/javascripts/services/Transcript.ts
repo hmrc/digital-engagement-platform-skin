@@ -169,7 +169,8 @@ export default class Transcript {
         }
 
         if (window.Agent_Name != null) {
-            printMessageSuffix.innerHTML = window.Agent_Name + " said: ";
+            let agentName = window.Agent_Name == "hmrcda" ? "HMRC" : window.Agent_Name;
+            printMessageSuffix.innerHTML = agentName + " said: ";
         } else {
             printMessageSuffix.innerHTML = "HMRC said: ";
         }
@@ -187,7 +188,7 @@ export default class Transcript {
         printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
 
         printOuterTimeStamp.className = "timestamp-outer";
-        printOuterTimeStamp.innerHTML = this._getTimestampPrefix(msgTimestamp) + printMessageSuffix.outerHTML + agentDiv.outerHTML + printTimeStamp.outerHTML;
+        printOuterTimeStamp.innerHTML = this._getTimestampPrefix(msgTimestamp) + printMessageSuffix.outerHTML + printTimeStamp.outerHTML + agentDiv.outerHTML;
 
         this.content?.appendChild(printOuterTimeStamp);
 
@@ -216,17 +217,17 @@ export default class Transcript {
             var printMessageSuffix: HTMLElement = document.createElement("p");
 
             if (popupChatContainer.length > 0) {
-                printMessageSuffix.className = "print-only popup-print-float-right govuk-!-font-weight-bold govuk-body";
+                printMessageSuffix.className = "print-only popup-print-float-left govuk-!-font-weight-bold govuk-body";
             } else {
-                printMessageSuffix.className = "print-only print-float-right govuk-!-font-weight-bold govuk-body";
+                printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
             }
 
             printMessageSuffix.innerHTML = "You said: ";
 
             if (popupChatContainer.length > 0) {
-                printTimeStamp.className = "print-only govuk-body popup-print-float-right print-timestamp";
+                printTimeStamp.className = "print-only govuk-body popup-print-float-left print-timestamp";
             } else {
-                printTimeStamp.className = "print-only govuk-body print-float-right print-timestamp";
+                printTimeStamp.className = "print-only govuk-body print-float-left print-timestamp";
             }
 
             printTimeStamp.setAttribute('aria-hidden', 'true');
@@ -253,7 +254,8 @@ export default class Transcript {
                 }
                 printMessageSuffix.className = "print-only print-float-left govuk-!-font-weight-bold govuk-body";
                 if (window.Agent_Name != null) {
-                    printMessageSuffix.innerHTML = window.Agent_Name + " said: ";
+                    let agentName = window.Agent_Name == "hmrcda" ? "HMRC" : window.Agent_Name;
+                    printMessageSuffix.innerHTML = agentName + " said: ";
                 } else {
                     printMessageSuffix.innerHTML = "HMRC said: ";
                 }
@@ -274,10 +276,10 @@ export default class Transcript {
 
         if (!isSystemMsg) {
             printTimeStamp.innerHTML = this.getPrintTimeStamp(msgTimestamp);
-            printOuterTimeStamp.innerHTML = this._getTimestampPrefix(msgTimestamp) + printMessageSuffix!.outerHTML + msgDiv + printTimeStamp.outerHTML;
+            printOuterTimeStamp.innerHTML = this._getTimestampPrefix(msgTimestamp) + printMessageSuffix!.outerHTML + printTimeStamp.outerHTML + msgDiv;
 
         } else {
-            printOuterTimeStamp.innerHTML = this._getTimestampPrefix(msgTimestamp) + msgDiv + printTimeStamp.outerHTML;
+            printOuterTimeStamp.innerHTML = this._getTimestampPrefix(msgTimestamp) + printTimeStamp.outerHTML + msgDiv;
         }
 
         let chatIdElement: HTMLElement | null | number = document.getElementById("chat-id")

@@ -251,6 +251,7 @@ export default class CommonChatController {
                 }
             }
             document.getElementById("custMsg")?.focus();
+
         } catch (e: unknown) {
             logger.error("!!!! launchChat got exception: ", e);
         }
@@ -424,7 +425,9 @@ export default class CommonChatController {
                 </header>
                 <p class='govuk-body'>Chat ID: ${chatID?.outerHTML}</p>
                 <p class='govuk-body'>${printDate?.outerHTML}</p>
+                <p >
                 ${htmlString}
+                </p>
             </body>
         </html>`
 
@@ -434,7 +437,7 @@ export default class CommonChatController {
             if (!printWindow) {
                 return
             }
-            requestAnimationFrame(() => printWindow.print())
+             requestAnimationFrame(() => printWindow.print())
         }
     }
 
