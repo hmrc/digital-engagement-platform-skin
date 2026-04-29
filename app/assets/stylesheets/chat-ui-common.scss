@@ -160,7 +160,7 @@ $footer-top-border-height: 3px;
         padding-top: 1rem;
     }
         #ciapiInput {
-            width: 69%;
+            width: 70%;
             float: left;
             textarea {
                 height: 4em;
@@ -169,9 +169,11 @@ $footer-top-border-height: 3px;
             }
         }
         #ciapiSend {
-            width: 84px;
+            width: min-content;
             float: left;
             padding-left: 0.25em;
+            padding-right: 0.25em;
+            padding-top: 0.25em;
         }
 
         #errorSummary, #errorQ1, #errorQ2, #errorQ3, #errorQ4, #errorQ5, #needed-error, #easy-error, #service-error, #score-error, #contact-error {
