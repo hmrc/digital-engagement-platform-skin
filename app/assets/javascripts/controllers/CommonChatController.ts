@@ -467,14 +467,14 @@ export default class CommonChatController {
         const divToRemove = parsed.querySelectorAll('div.govuk-visually-hidden');
         divToRemove.forEach(span => span.remove());
         parsed.querySelectorAll('div.timestamp-outer').forEach(div => {
-            const text = div.firstChild.textContent;
+            const text = div.firstChild?.textContent;
             const timeStamp = div.children[1].textContent;
-            div.firstChild.remove();
-            div.firstChild.remove();
+            div.firstChild?.remove();
+            div.firstChild?.remove();
             const paragraphElement = document.createElement("p");
             paragraphElement.textContent = timeStamp + ", " + text;
             paragraphElement.style.fontWeight='bold';
-            const divElement = div.querySelectorAll('div.ciapi-agent-message, div.ciapi-customer-message').forEach(
+            div.querySelectorAll('div.ciapi-agent-message, div.ciapi-customer-message').forEach(
                 modifiedDiv => {
                     modifiedDiv.insertBefore(paragraphElement, modifiedDiv.firstChild)
                 }
@@ -484,15 +484,15 @@ export default class CommonChatController {
         return modifiedHtmlString;
     }
 
-    private downLoadChatAsHTML(modifiedHtmlString: string, chatID: HTMLElement | null) {
+/*    private downLoadChatAsHTML(modifiedHtmlString: string, chatID: HTMLElement | null) {
         let blobdtMIME =
             new Blob([modifiedHtmlString], {type: "text/html"})
         let url = URL.createObjectURL(blobdtMIME)
         let anele = document.createElement("a")
-        anele.setAttribute("download", "Chat-" + chatID.textContent);
+        anele.setAttribute("download", "Chat-" + chatID?.textContent);
         anele.href = url;
         anele.click();
-    }
+    }*/
 
     _sendPostChatSurveyWebchat(sdk: any): PostChatSurveyWebchatService {
         return new PostChatSurveyWebchatService(sdk);
