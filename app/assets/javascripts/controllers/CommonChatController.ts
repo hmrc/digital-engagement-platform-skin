@@ -426,6 +426,9 @@ export default class CommonChatController {
                 margin: inherit;
                 padding-right: 1em;
                 }
+                #seperation{
+                height: 950px;
+                }
                 </style>
             </head>
             <body>
@@ -442,6 +445,7 @@ export default class CommonChatController {
                 <p class='govuk-body'>Chat ID: ${chatID?.outerHTML}</p>
                 <p class='govuk-body'>${printDate?.outerHTML}</p>
                 </div>
+                <div id="seperation"></div>
                 <div style=" display: flex; flex-direction: column;">
                 ${htmlString}
                 </div>
