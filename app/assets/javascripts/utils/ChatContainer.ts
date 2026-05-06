@@ -149,6 +149,20 @@ export default class ChatContainer {
         const nuanceMessageData = linkEl.dataset.nuanceMessageData;
         const nuanceMessageText = linkEl.dataset.nuanceMessageText;
         const nuanceDatapass = linkEl.dataset.nuanceDatapass;
+        const nuanceCustomEvent: string | undefined = linkEl.dataset.nuanceCustomEvent;
+        if (nuanceCustomEvent) {
+            const customEventData: Record<string, unknown> | null = sanitiseAndParseJsonData(nuanceCustomEvent);
+            if (customEventData) {
+                for (const event in customEventData) {
+                    try {
+                        console.log("navneet----+++",customEventData[event])
+                        this.SDK.fireCustomEvent(event, customEventData[event]);
+                    } catch (e) {
+                        console.error(`Error firing custom event ${event}:`, e);
+                    }
+                }
+            }
+        }
 
         // Prevent defaults
         if (linkHref == "#" || linkHref == "") e.preventDefault();
