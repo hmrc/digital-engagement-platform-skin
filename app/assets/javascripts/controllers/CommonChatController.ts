@@ -235,8 +235,8 @@ export default class CommonChatController {
 
                 let urlPermittedforAutoEngage: string | null = sessionStorage.getItem("isAutoEngage")
                 let initialADLmsg: string | null = sessionStorage.getItem("initADLMsg")
-                if(urlPermittedforAutoEngage=="true" && initialADLmsg=="##adlwh"){
-                    this.sdk.autoEngage('##adlwh', null, (resp: { httpStatus: number }) => {
+                if(urlPermittedforAutoEngage=="true" && initialADLmsg){
+                    this.sdk.autoEngage(initialADLmsg, null, (resp: { httpStatus: number }) => {
                         sendInitialMessage.call(this, resp);
                     })
                 }

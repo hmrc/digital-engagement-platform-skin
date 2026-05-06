@@ -155,7 +155,6 @@ export default class ChatContainer {
             if (customEventData) {
                 for (const event in customEventData) {
                     try {
-                        console.log("navneet----+++",customEventData[event])
                         this.SDK.fireCustomEvent(event, customEventData[event]);
                     } catch (e) {
                         console.error(`Error firing custom event ${event}:`, e);
