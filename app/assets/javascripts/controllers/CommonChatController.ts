@@ -412,6 +412,21 @@ export default class CommonChatController {
         <html>
             <head>
                 ${styleString}
+                <style>
+                .ciapi-customer-message {
+                margin: 0 0 2rem auto;
+                width: max-content;
+                text-align: right;
+                padding-right: 1em;
+                }
+                
+                .ciapi-agent-message {
+                float: left;
+                width: max-content;
+                margin: inherit;
+                padding-right: 1em;
+                }
+                </style>
             </head>
             <body>
                 <header class="govuk-header print-gov-header" data-module="govuk-header">
@@ -423,23 +438,61 @@ export default class CommonChatController {
                         </div>
                     </div>
                 </header>
+                <div>
                 <p class='govuk-body'>Chat ID: ${chatID?.outerHTML}</p>
                 <p class='govuk-body'>${printDate?.outerHTML}</p>
-                <p >
+                </div>
+                <div style=" display: flex; flex-direction: column;">
                 ${htmlString}
-                </p>
+                </div>
             </body>
         </html>`
-
-        printingIframe.srcdoc = printingIframeHTML
+        const modifiedHtmlString = this.modifyPrintingDOM(printingIframeHTML);
+        printingIframe.srcdoc = modifiedHtmlString
         printingIframe.onload = () => {
             const printWindow: Window | null = printingIframe.contentWindow
             if (!printWindow) {
                 return
             }
              requestAnimationFrame(() => printWindow.print())
+            //this.downLoadChatAsHTML(modifiedHtmlString, chatID);
         }
     }
+
+    private modifyPrintingDOM(printingIframeHTML: string) {
+        const parser = new DOMParser();
+        const parsed = parser.parseFromString(printingIframeHTML, "text/html");
+        const spansToRemove = parsed.querySelectorAll('span.govuk-visually-hidden');
+        spansToRemove.forEach(span => span.remove());
+        const divToRemove = parsed.querySelectorAll('div.govuk-visually-hidden');
+        divToRemove.forEach(span => span.remove());
+        parsed.querySelectorAll('div.timestamp-outer').forEach(div => {
+            const text = div.firstChild?.textContent;
+            const timeStamp = div.children[1].textContent;
+            div.firstChild?.remove();
+            div.firstChild?.remove();
+            const paragraphElement = document.createElement("p");
+            paragraphElement.textContent = timeStamp + ", " + text;
+            paragraphElement.style.fontWeight='bold';
+            div.querySelectorAll('div.ciapi-agent-message, div.ciapi-customer-message').forEach(
+                modifiedDiv => {
+                    modifiedDiv.insertBefore(paragraphElement, modifiedDiv.firstChild)
+                }
+            );
+        });
+        const modifiedHtmlString = parsed.documentElement.outerHTML;
+        return modifiedHtmlString;
+    }
+
+/*    private downLoadChatAsHTML(modifiedHtmlString: string, chatID: HTMLElement | null) {
+        let blobdtMIME =
+            new Blob([modifiedHtmlString], {type: "text/html"})
+        let url = URL.createObjectURL(blobdtMIME)
+        let anele = document.createElement("a")
+        anele.setAttribute("download", "Chat-" + chatID?.textContent);
+        anele.href = url;
+        anele.click();
+    }*/
 
     _sendPostChatSurveyWebchat(sdk: any): PostChatSurveyWebchatService {
         return new PostChatSurveyWebchatService(sdk);
