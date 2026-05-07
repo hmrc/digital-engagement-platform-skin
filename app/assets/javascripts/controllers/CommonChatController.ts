@@ -176,22 +176,6 @@ export default class CommonChatController {
             return;
         }
 
-        function sendInitialMessage(resp: { httpStatus: number }) {
-            this.type = obj.type
-            logger.debug("++++ ENGAGED ++++ ->", resp);
-            if (resp.httpStatus == 200) {
-                this._moveToChatEngagedState();
-                this.escalated = true
-            } else {
-                let msg: string = messages.unavilable
-                this.container.getTranscript().addSystemMsg({msg: msg}, Date.now());
-                let ciapiSkinFooter: HTMLElement | null = document.getElementById('ciapiSkinFooter')
-                if (ciapiSkinFooter) {
-                    ciapiSkinFooter.style.display = 'none'
-                }
-            }
-        }
-
         try {
             if (obj.state === 'disabled') {
                 logger.debug("state is disabled - chat is already active")
@@ -238,13 +222,35 @@ export default class CommonChatController {
                 let initialADLmsg: string | null = sessionStorage.getItem("initADLMsg")
                 if(urlPermittedforAutoEngage=="true" && initialADLmsg){
                     this.sdk.autoEngage(initialADLmsg, null, (resp: { httpStatus: number }) => {
-                        sendInitialMessage.call(this, resp);
+                        logger.debug("++++ ENGAGED ++++ ->", resp);
+                        if (resp.httpStatus == 200) {
+                            this._moveToChatEngagedState();
+                            this.escalated = true
+                        } else {
+                            let msg: string = messages.unavilable
+                            this.container.getTranscript().addSystemMsg({msg: msg}, Date.now());
+                            let ciapiSkinFooter: HTMLElement | null = document.getElementById('ciapiSkinFooter')
+                            if (ciapiSkinFooter) {
+                                ciapiSkinFooter.style.display = 'none'
+                            }
+                        }
                     })
                 }
 
                 else if (urlPermittedforAutoEngage == "true") {
                     this.sdk.autoEngage('chat started', null, (resp: { httpStatus: number }) => {
-                        sendInitialMessage.call(this, resp);
+                        logger.debug("++++ ENGAGED ++++ ->", resp);
+                        if (resp.httpStatus == 200) {
+                            this._moveToChatEngagedState();
+                            this.escalated = true
+                        } else {
+                            let msg: string = messages.unavilable
+                            this.container.getTranscript().addSystemMsg({msg: msg}, Date.now());
+                            let ciapiSkinFooter: HTMLElement | null = document.getElementById('ciapiSkinFooter')
+                            if (ciapiSkinFooter) {
+                                ciapiSkinFooter.style.display = 'none'
+                            }
+                        }
                     })
                 }
 
