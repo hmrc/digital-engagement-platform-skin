@@ -444,12 +444,15 @@ export default class CommonChatController {
                 margin: inherit;
                 padding-right: 1em;
                 }
-                #seperation{
-                height: 950px;
+                .parent-container {
+                  display: grid;
+                  place-items: center;
+                  height: 100vh;
                 }
                 </style>
             </head>
             <body>
+             <div class="parent-container">
                 <header class="govuk-header print-gov-header" data-module="govuk-header">
                     <div class="govuk-header__container govuk-width-container">
                         <div class="govuk-header__logo">
@@ -459,11 +462,10 @@ export default class CommonChatController {
                         </div>
                     </div>
                 </header>
-                <div>
+                
                 <p class='govuk-body'>Chat ID: ${chatID?.outerHTML}</p>
                 <p class='govuk-body'>${printDate?.outerHTML}</p>
                 </div>
-                <div id="seperation"></div>
                 <div style=" display: flex; flex-direction: column;">
                 ${htmlString}
                 </div>
