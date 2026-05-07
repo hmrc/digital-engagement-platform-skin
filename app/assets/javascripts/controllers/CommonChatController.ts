@@ -177,6 +177,7 @@ export default class CommonChatController {
         }
 
         function sendInitialMessage(resp: { httpStatus: number }) {
+            this.type = obj.type
             logger.debug("++++ ENGAGED ++++ ->", resp);
             if (resp.httpStatus == 200) {
                 this._moveToChatEngagedState();
