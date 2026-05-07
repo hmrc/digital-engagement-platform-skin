@@ -175,6 +175,7 @@ export default class CommonChatController {
             logger.debug("container not null - returning")
             return;
         }
+
         try {
             if (obj.state === 'disabled') {
                 logger.debug("state is disabled - chat is already active")
@@ -218,8 +219,25 @@ export default class CommonChatController {
                 });
 
                 let urlPermittedforAutoEngage: string | null = sessionStorage.getItem("isAutoEngage")
+                let initialADLmsg: string | null = sessionStorage.getItem("initADLMsg")
+                if(urlPermittedforAutoEngage=="true" && initialADLmsg){
+                    this.sdk.autoEngage(initialADLmsg, null, (resp: { httpStatus: number }) => {
+                        logger.debug("++++ ENGAGED ++++ ->", resp);
+                        if (resp.httpStatus == 200) {
+                            this._moveToChatEngagedState();
+                            this.escalated = true
+                        } else {
+                            let msg: string = messages.unavilable
+                            this.container.getTranscript().addSystemMsg({msg: msg}, Date.now());
+                            let ciapiSkinFooter: HTMLElement | null = document.getElementById('ciapiSkinFooter')
+                            if (ciapiSkinFooter) {
+                                ciapiSkinFooter.style.display = 'none'
+                            }
+                        }
+                    })
+                }
 
-                if (urlPermittedforAutoEngage == "true") {
+                else if (urlPermittedforAutoEngage == "true") {
                     this.sdk.autoEngage('chat started', null, (resp: { httpStatus: number }) => {
                         logger.debug("++++ ENGAGED ++++ ->", resp);
                         if (resp.httpStatus == 200) {
@@ -227,7 +245,7 @@ export default class CommonChatController {
                             this.escalated = true
                         } else {
                             let msg: string = messages.unavilable
-                            this.container.getTranscript().addSystemMsg({ msg: msg }, Date.now());
+                            this.container.getTranscript().addSystemMsg({msg: msg}, Date.now());
                             let ciapiSkinFooter: HTMLElement | null = document.getElementById('ciapiSkinFooter')
                             if (ciapiSkinFooter) {
                                 ciapiSkinFooter.style.display = 'none'
