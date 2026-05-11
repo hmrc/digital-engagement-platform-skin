@@ -467,7 +467,7 @@ export default class CommonChatController {
         this.container.showPage(new PostPCSPage(showThanks));
         document.getElementById("heading_chat_ended")?.focus();
         
-        document.getElementById("chat-header")!.style.display = "none"
+        document.getElementById("chat-header")?.style.setProperty("display", "none");
 
         this.closeNuanceChat();
     }
