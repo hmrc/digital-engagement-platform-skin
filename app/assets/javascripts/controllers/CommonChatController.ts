@@ -526,7 +526,13 @@ export default class CommonChatController {
 
     onSkipToTopLink(e: Event): void {
         e.preventDefault();
-        document.getElementById("skipToTopLink")?.focus();
+
+        const chatTranscript: HTMLElement | null = document.getElementById("ciapiSkinChatTranscript");
+
+        if (chatTranscript) {
+            chatTranscript.scrollTop = chatTranscript.scrollHeight;
+        }
+
     }
 
     closeNuanceChat(): void {
