@@ -93,7 +93,11 @@ export default class Transcript {
         document.getElementById("skipToTopLink")?.addEventListener("click",
             function (e: MouseEvent): void {
                 e.preventDefault();
-                document.getElementById("skipToBottomLink")?.focus();
+                const chatTranscript: HTMLElement | null = document.getElementById("ciapiSkinChatTranscript");
+
+                if (chatTranscript) {
+                    chatTranscript.scrollTop = 0;
+                }
             });
     }
 
