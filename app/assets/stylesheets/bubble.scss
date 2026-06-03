@@ -28,3 +28,17 @@ $bubble-border-width: 0.3157894737em;
 .ciapi-agent-message {
     background-color: #f3f2f1;
 }
+
+@media (-ms-high-contrast: active), (forced-colors: active) {
+  .ciapi-customer-message {
+    border: 1px solid CanvasText;
+    background-color: Canvas;
+    color: CanvasText;
+  }
+
+  .ciapi-agent-message {
+    border: 1px solid CanvasText;
+    background-color: Canvas;
+    color: CanvasText;
+  }
+}
