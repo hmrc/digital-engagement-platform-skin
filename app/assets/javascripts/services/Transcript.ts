@@ -292,7 +292,10 @@ export default class Transcript {
         }
 
         this.content?.appendChild(printOuterTimeStamp);
-
+        var lEl=document.getElementById(id);
+        if(lEl){
+            lEl.focus()
+        }
         setTimeout(this.appendMessageInLiveRegion, 300, msg, id, msg_type, false, this, msg_class, isSystemMsg, isCustomerMsg);
 
         if (chatContainer) {
