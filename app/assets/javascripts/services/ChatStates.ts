@@ -7,6 +7,7 @@ import ChatContainer from '../utils/ChatContainer';
 import Transcript from './Transcript';
 import { QuickReplyData } from '../types';
 import { timerUtils } from '../utils/TimerUtils';
+import PostPCSPage from '../views/postChatSurvey/PostPCSPage';
 
 interface MessageInterface {
     "aeapi.join_transfer"?: any
@@ -318,6 +319,9 @@ export class EngagedState {
                 break;
             case MessageType.Chat_Exit:
                 transcript.addSystemMsg({ msg: (msg["display.text"] || messages.adviserExitedChat) }, msg.messageTimestamp!);
+                setTimeout(() => {
+                        this.container.showPage(new PostPCSPage(false));
+                }, 2000);
                 break;
             case MessageType.Chat_CommunicationQueue:
                 transcript.addSystemMsg({ msg: (msg.messageText || messages.agentBusy) }, msg.messageTimestamp);
