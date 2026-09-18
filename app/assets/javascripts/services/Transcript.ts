@@ -217,7 +217,7 @@ export default class Transcript {
         const popupChatContainer: HTMLCollectionOf<Element> = document.getElementsByClassName("ci-api-popup");
 
         if (isCustomerMsg == true) {
-            var msgDiv: string = `<div class=${msg_class?.Outer}><div class= "msg-opacity govuk-body ${msg_class?.Inner}" id=${id}></div></div>`;
+            var msgDiv: string = `<div class=${msg_class?.Outer}><div class= "msg-opacity govuk-body ${msg_class?.Inner}" tabindex=-1 id=${id}></div></div>`;
             var printMessageSuffix: HTMLElement = document.createElement("p");
 
             if (popupChatContainer.length > 0) {
