@@ -8,6 +8,17 @@ import Transcript from './Transcript';
 import { QuickReplyData } from '../types';
 import { timerUtils } from '../utils/TimerUtils';
 import PostPCSPage from '../views/postChatSurvey/PostPCSPage';
+import {
+    ChatEvent,
+    ChatSdk,
+    ChatEventData,
+    EnvironmentName,
+    LivechatThread,
+    SecureSessions,
+    isContactStatusChangedEvent,
+    isMessageCreatedEvent,
+    isMessageSentEvent, EventListenerFunction,
+} from "@nice-devone/nice-cxone-chat-web-sdk";
 
 interface MessageInterface {
     "aeapi.join_transfer"?: any
@@ -77,13 +88,18 @@ export class ClosingState {
 // Customer is engaged in a chat.
 export class EngagedState {
     sdk: any;
+    thread: any;
     container: ChatContainer
     closeChat: () => void;
     escalated: boolean;
     isUserQueued: boolean
-    constructor(sdk: any, container: ChatContainer, previousMessages: [], closeChat: () => void) {
+    constructor(sdk: any,  container: ChatContainer, previousMessages: [], closeChat: () => void) {
         this.sdk = sdk;
         this.container = container;
+
+        const threadId=sessionStorage.getItem("runningThreadID");
+        console.log("thread id to start chat",threadId);
+        this.thread =this.sdk.getThread(threadId);
 
         this.closeChat = closeChat;
         this.escalated = false;
@@ -99,7 +115,10 @@ export class EngagedState {
 
     onSend(text: string): void {
         logger.info(">>> connected: send message");
-        this.sdk.sendMessage(text);
+        console.log("user message is ",text)
+         this.thread.sendTextMessage(text, {
+            messageId: crypto.randomUUID(),
+        });
     }
 
     onClickedClose(): void {
@@ -129,11 +148,21 @@ export class EngagedState {
         }
     }
 
+
     _getMessages(): void {
         if (sessionStorage.getItem("suppressNotificationSound") == "true") {
             sessionStorage.setItem("suppressNotificationSound", "false")
         }
-        this.sdk.getMessages((msg_in: { data: MessageInterface; }) => this._displayMessage(msg_in));
+        this.thread.onThreadEvent(ChatEvent.MESSAGE_CREATED, async (event: CustomEvent<ChatEventData>) => {
+            if (!isMessageCreatedEvent(event.detail)) {
+                return;
+            }
+            const message = event.detail.data.message;
+            console.log("response Message is ",message);
+            this._displayMessage(message);
+        });
+
+        /*this.sdk.getMessages((msg_in: { data: MessageInterface; }) => this._displayMessage(msg_in));*/
     }
 
     _playMessageRecievedSound(): void {
@@ -165,11 +194,11 @@ export class EngagedState {
         }
     }
 
-    _mixAgentCommunicationMessage(msg: MessageInterface, transcript: Transcript): void {
+    _mixAgentCommunicationMessage(msg: Object, transcript: Transcript): void {
         this._playSoundIfActive();
 
         this._removeAgentIsTyping();
-        transcript.addAgentMsg(msg.messageText!, msg.messageTimestamp!);
+        transcript.addAgentMsg(msg.messageContent.text!, msg.createdAt!);
     }
 
     _isMixAutomatonMessage(msg: MessageInterface): string | false | undefined {
@@ -226,8 +255,27 @@ export class EngagedState {
         }
     }
 
-    _chatCommunicationMessage(msg: MessageInterface, transcript: Transcript): void {
-        const quickReplyData: QuickReplyData | null = this._extractQuickReplyData(msg);
+    _getMessageText(message: Object): string {
+    const { payload, fallbackText } = message.messageContent;
+    if ("text" in payload) {
+        if (typeof payload.text === "string") return payload.text;
+        if (payload.text && typeof payload.text === "object") {
+            return payload.text.content;
+        }
+    }
+    return fallbackText || "[This message requires a rich-content renderer.]";
+}
+    _chatCommunicationMessage(msg: Object, transcript: Transcript): void {
+
+
+
+        if(msg.direction==="inbound") {
+            transcript.addCustomerMsg(this._getMessageText(msg)!, msg.createdAt!);
+        }else{
+            this._mixAgentCommunicationMessage(msg, transcript)
+        }
+
+      /*  const quickReplyData: QuickReplyData | null = this._extractQuickReplyData(msg);
         const closeChatEventData: {} | null = this._extractCloseChatEventData(msg);
         const youTubeVideo: {} | null = this._extractYouTubeVideoData(msg);
 
@@ -246,7 +294,7 @@ export class EngagedState {
             this._mixAgentCommunicationMessage(msg, transcript); // Agent
         } else if (msg.chatFinalText != "end this chat and give feedback") { // customer message
             transcript.addCustomerMsg(msg.messageText!, msg.messageTimestamp!);
-        }
+        }*/
     }
 
     _chatRoomMemberConnected(msg: MessageInterface, transcript: Transcript): void {
@@ -280,14 +328,14 @@ export class EngagedState {
         }
     }
 
-    _displayMessage(msg_in: { data: MessageInterface; }): void {
-        const msg: MessageInterface = msg_in.data;
-        logger.debug("---- Received message:", msg)
-
+    _displayMessage(msg_in: Object): void {
+        const msg: Object = msg_in;
+        //logger.debug("---- Received message:", msg)
         // the agent.alias property will only exist on an agent message, and not on a customer message
         let systemMessageBanner: HTMLElement | null = document.getElementById('systemMessageBanner')
-        if (msg && msg["agent.alias"]) {
-            window.Agent_Name = msg["agent.alias"];
+        console.log("in commonChatController _displayMessage", systemMessageBanner);
+        if (msg && msg.authorEndUserIdentity && msg.authorEndUserIdentity.firstName) {
+            window.Agent_Name = msg.authorEndUserIdentity.firstName;
             if (systemMessageBanner) {
                 if (msg["agent.alias"] !== "hmrcda") {
                     systemMessageBanner.textContent = messages.adviser
@@ -307,7 +355,8 @@ export class EngagedState {
         }
 
         const transcript: Transcript = this.container.getTranscript();
-        switch (msg.messageType) {
+        this._chatCommunicationMessage(msg, transcript);
+       /* switch (msg.messageType) {
             case MessageType.Chat_Communication:
                 this._chatCommunicationMessage(msg, transcript);
                 break;
@@ -351,6 +400,6 @@ export class EngagedState {
                 } else {
                     logger.debug("==== Unknown message:", msg);
                 }
-        }
+        }*/
     }
 }

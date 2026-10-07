@@ -64,8 +64,7 @@ export default class ChatContainer {
         this.isCustomerTyping = false;
         this.typingEventThresholdMillis = 3000;
 
-        this.SDK = SDK;
-
+        this.SDK = window.sdk;
         this.container.insertAdjacentHTML("beforeend", containerHtml);
         this.content = this.container.querySelector<HTMLElement>("#ciapiSkinChatTranscript");
         this.custInput = this.container.querySelector<HTMLTextAreaElement>("#custMsg");
@@ -200,14 +199,15 @@ export default class ChatContainer {
     }
 
     processTranscriptEvent(e: any): void {
-        this.processExternalAndResponsiveLinks(e);
+        //this.processExternalAndResponsiveLinks(e);
         if (e.target) {
             const nuanceMessageText: string = JSON.stringify(e.target?.dataset.nuanceMessageText);
+            console.log('processTranscriptEvent:   ' + e.target, nuanceMessageText)
             if (
                 e.target && e.target.tagName && e.target.tagName.toLowerCase() === "a" &&
                 !!e.target.dataset
             ) {
-                this.SDK.sendVALinkMessage(e, null, null, null);
+                //this.SDK.sendVALinkMessage(e, null, null, null);
                 if (nuanceMessageText) {
                     if (nuanceMessageText === '"end this chat and give feedback"') {
                         this.endChatFeedback = true;

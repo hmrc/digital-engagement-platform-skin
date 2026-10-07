@@ -22,7 +22,7 @@ export const chatListener = {
             event = evt
         }
         logger.debug("Chat any event:", evt);
-        if (evt.rule) {
+        /*if (evt.rule) {
             let systemMessageBanner: HTMLElement | null = document.getElementById('systemMessageBanner')
             if (systemMessageBanner && evt.rule["name"]) {
                 if((evt.rule["name"] == "HMRC-C-VA-CIAPI-GOVADLWH-O-P-Embedded-T0")){
@@ -43,12 +43,18 @@ export const chatListener = {
                     systemMessageBanner.textContent = messages.computer
                 }
             }
-        }
+        }*/
 
         if (evt.evtType === "CLOSED"){
             if (sessionStorage.getItem("ignoreChatClosedEvent") !== "true"){
                 logger.debug("### ignoreChatClosedEvent flag false, closing the chat window")
-                window.Inq.SDK.closeChat()
+                const threadId=sessionStorage.getItem("runningThreadID");
+                console.log("thread id to end chat",threadId);
+                const thread =window.sdk.getThread(threadId);
+                thread.endChat();
+                window.sdk.getWebsocketClient()?.disconnect();
+                sessionStorage.removeItem("runningThreadID");
+                //window.Inq.SDK.closeChat()
                 let container = document.getElementById("ciapiSkin")
                 if (container){
                     let parent = container.parentElement
@@ -72,16 +78,17 @@ export const chatListener = {
 };
 
 export function hookWindow(w: any, commonChatController: CommonChatController, reactiveChatController: ReactiveChatController, proactiveChatController: ProactiveChatController) {
-
     w.InqRegistry = {
         listeners: [chatListener]
     };
 
-    w.nuanceFrameworkLoaded = safeHandler(
+    /*w.nuanceFrameworkLoaded = safeHandler(
         function nuanceFrameworkLoaded(): void {
+            console.log("inside nuanceFrameworkLoaded", w.sdk)*/
             commonChatController.nuanceFrameworkLoaded(w);
-        }
-    );
+
+    /*    }
+    );*/
 
     w.nuanceReactive_HMRC_CIAPI_Fixed_1 = safeHandler(
         function nuanceReactive_HMRC_CIAPI_Fixed_1(c2cObj: ClickToChatObjectInterface): void {
@@ -117,4 +124,10 @@ export function hookWindow(w: any, commonChatController: CommonChatController, r
             commonChatController._launchChat({ type: 'reactive' }, true)
         }
     );
+
+
+    proactiveChatController.launchProactiveChat({ state: "show" });
+
 }
+
+
