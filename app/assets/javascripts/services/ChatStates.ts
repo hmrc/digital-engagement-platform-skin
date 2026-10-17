@@ -98,7 +98,6 @@ export class EngagedState {
         this.container = container;
 
         const threadId=sessionStorage.getItem("runningThreadID");
-        console.log("thread id to start chat",threadId);
         this.thread =this.sdk.getThread(threadId);
 
         this.closeChat = closeChat;
@@ -333,7 +332,6 @@ export class EngagedState {
         //logger.debug("---- Received message:", msg)
         // the agent.alias property will only exist on an agent message, and not on a customer message
         let systemMessageBanner: HTMLElement | null = document.getElementById('systemMessageBanner')
-        console.log("in commonChatController _displayMessage", systemMessageBanner);
         if (msg && msg.authorEndUserIdentity && msg.authorEndUserIdentity.firstName) {
             window.Agent_Name = msg.authorEndUserIdentity.firstName;
             if (systemMessageBanner) {

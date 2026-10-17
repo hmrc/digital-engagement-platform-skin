@@ -182,7 +182,6 @@ export default class CommonChatController {
        this._launchChatNav(obj, hideContainerOnStart);
     }
     _launchChatNav(obj: { type: string; state?: StateType }, hideContainerOnStart: boolean): void {
-        console.log("inside _launchChat in commonchatController");
         sessionStorage.setItem("ignoreChatClosedEvent", "false")
         if (this.container) {
             logger.debug("container not null - returning")
@@ -273,7 +272,6 @@ export default class CommonChatController {
                 let dav3Skin: HTMLElement | null = document.getElementById("ciapiSkin");
 
                 if (dav3Skin && this.isOnDepFrontendService()) {
-                    console.log("inside launchChat commonChatController"  , dav3Skin  )
                     this.updateDav3DeskproRefererUrls();
                 }
 
@@ -305,7 +303,6 @@ export default class CommonChatController {
         const embeddedDiv: HTMLElement | null = this._getEmbeddedDiv();
         const popupDiv: HTMLElement | null = this._getPopupDiv();
         const webchatOnly: boolean = this._isWebchatOnly();
-        console.log(" in _showChat in commonController");
         try {
             if (popupDiv) {
                 this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), /*window.Inq.SDK*/ "sdk");
@@ -579,8 +576,6 @@ export default class CommonChatController {
     }
 
     nuanceFrameworkLoaded(w: Window & typeof globalThis): void {
-        logger.info("### framework loaded");
-        console.log("### framework loaded");
         this.sdk = w.sdk;
         if (/*this.sdk.isChatInProgress()*/ false) {
             document.getElementById("error-message")?.setAttribute("class", "chat-in-progress");
