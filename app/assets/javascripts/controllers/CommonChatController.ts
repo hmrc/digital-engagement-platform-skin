@@ -168,20 +168,8 @@ export default class CommonChatController {
     isOnDepFrontendService(): boolean {
         return this.isIVRWebchatOnly() || document.URL.includes("/ask-hmrc")
     }
-    async  _startChatOnThread(){
-        const threadId=sessionStorage.getItem("runningThreadID");
-        console.log("thread id to start chat",threadId);
-        const thread =window.sdk.getThread(threadId);
-         thread.startChat();
-         window.thread=thread;
 
-    }
-
-   async _launchChat(obj: { type: string; state?: StateType }, hideContainerOnStart: boolean): void {
-        await this._startChatOnThread();
-       this._launchChatNav(obj, hideContainerOnStart);
-    }
-    _launchChatNav(obj: { type: string; state?: StateType }, hideContainerOnStart: boolean): void {
+    _launchChat(obj: { type: string; state?: StateType }, hideContainerOnStart: boolean): void {
         sessionStorage.setItem("ignoreChatClosedEvent", "false")
         if (this.container) {
             logger.debug("container not null - returning")
@@ -212,8 +200,7 @@ export default class CommonChatController {
                 this._showChat(hideContainerOnStart);
                 this._displayOpenerScripts();
 
-
-/*                this.sdk.chatDisplayed({
+                this.sdk.chatDisplayed({
                     "customerName": "You",
                     "previousMessagesCb": (resp: any) => {
                         if (this.container.element().style.visibility === "hidden"){
@@ -229,12 +216,12 @@ export default class CommonChatController {
                         "initialTimeOut": 3600
                     },
                     "defaultAgentAlias": "HMRC"
-                });*/
+                });
 
                 let urlPermittedforAutoEngage: string | null = sessionStorage.getItem("isAutoEngage")
                 let initialADLmsg: string | null = sessionStorage.getItem("initADLMsg")
                 if(urlPermittedforAutoEngage=="true" && initialADLmsg){
-                   /* this.sdk.autoEngage(initialADLmsg, null, (resp: { httpStatus: number }) => {
+                    this.sdk.autoEngage(initialADLmsg, null, (resp: { httpStatus: number }) => {
                         logger.debug("++++ ENGAGED ++++ ->", resp);
                         if (resp.httpStatus == 200) {
                             this._moveToChatEngagedState();
@@ -247,11 +234,11 @@ export default class CommonChatController {
                                 ciapiSkinFooter.style.display = 'none'
                             }
                         }
-                    })*/
+                    })
                 }
 
                 else if (urlPermittedforAutoEngage == "true") {
-                   /* this.sdk.autoEngage('chat started', null, (resp: { httpStatus: number }) => {
+                    this.sdk.autoEngage('chat started', null, (resp: { httpStatus: number }) => {
                         logger.debug("++++ ENGAGED ++++ ->", resp);
                         if (resp.httpStatus == 200) {
                             this._moveToChatEngagedState();
@@ -264,7 +251,7 @@ export default class CommonChatController {
                                 ciapiSkinFooter.style.display = 'none'
                             }
                         }
-                    })*/
+                    })
                 }
 
                 this._removeAnimation();
@@ -303,18 +290,19 @@ export default class CommonChatController {
         const embeddedDiv: HTMLElement | null = this._getEmbeddedDiv();
         const popupDiv: HTMLElement | null = this._getPopupDiv();
         const webchatOnly: boolean = this._isWebchatOnly();
+
         try {
             if (popupDiv) {
-                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), /*window.Inq.SDK*/ "sdk");
+                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 popupDiv.appendChild(this.container.element());
                 if (hideContainerOnStart){
                     this.container.element().style.visibility = "hidden"
                 }
             } else if (embeddedDiv) {
-                this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml(webchatOnly), /*window.Inq.SDK*/ "sdk");
+                this.container = new ChatContainer(MessageClasses, EmbeddedContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 embeddedDiv.appendChild(this.container.element());
             } else {
-                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), /*window.Inq.SDK*/ "sdk");
+                this.container = new ChatContainer(MessageClasses, PopupContainerHtml.ContainerHtml(webchatOnly), window.Inq.SDK);
                 document.getElementsByTagName("body")[0].appendChild(this.container.element());
                 if (hideContainerOnStart){
                     this.container.element().style.visibility = "hidden"
@@ -322,28 +310,28 @@ export default class CommonChatController {
             }
 
             this.container.setEventHandler(this);
-            this._moveToChatEngagedState()
-            //this._moveToChatShownState();
+
+            this._moveToChatShownState();
         } catch (e: unknown) {
             logger.error("!!!! _showChat got exception: ", e);
         }
     }
 
     _displayOpenerScripts(): void {
-/*        this.sdk = window.Inq.SDK;
+        this.sdk = window.Inq.SDK;
         this.sdk.getOpenerScripts((openerScripts: string[]) => {
             if (openerScripts == null)
                 return;
             for (var openerScript of openerScripts) {
                 this.container.getTranscript().addOpenerScript(openerScript);
             }
-        });*/
+        });
 
     }
 
     _moveToChatEngagedState(previousMessages: any = []): void {
         this._moveToState(new ChatStates.EngagedState(
-            window.sdk,
+            this.sdk,
             this.container,
             previousMessages,
             () => this.container.confirmEndChat()));
@@ -376,15 +364,13 @@ export default class CommonChatController {
         this.minimised = false;
     }
 
-
     _engageChat(text: string): void {
-/*        this.sdk.engageChat(text, (resp: { httpStatus: number }) => {
+        this.sdk.engageChat(text, (resp: { httpStatus: number }) => {
             logger.debug("++++ ENGAGED ++++ ->", resp);
             if (resp.httpStatus == 200) {
                 this._moveToChatEngagedState();
             }
-        });*/
-        this._moveToChatEngagedState();
+        });
     }
 
     closeChat(): void {
@@ -401,9 +387,9 @@ export default class CommonChatController {
             this.container.destroy();
             this.container = null;
             this._moveToChatNullState();
-            /*if (this.sdk && this.type != 'proactive') {
+            if (this.sdk && this.type != 'proactive') {
                 window.Inq.reinitChat();
-            }*/
+            }
         } else {
             this.ended = 'true'
             this.showEndChatPage(false);
@@ -550,13 +536,9 @@ export default class CommonChatController {
     }
 
     closeNuanceChat(): void {
-        const threadId=sessionStorage.getItem("runningThreadID");
-        console.log("thread id to end chat",threadId);
-        const thread =window.sdk.getThread(threadId);
-        thread.endChat();
-        if (window.sdk) {
-            if (thread) {
-                thread.endChat();
+        if (this.sdk) {
+            if (this.sdk.isChatInProgress()) {
+                this.sdk.closeChat();
             }
         }
     }
@@ -576,8 +558,9 @@ export default class CommonChatController {
     }
 
     nuanceFrameworkLoaded(w: Window & typeof globalThis): void {
-        this.sdk = w.sdk;
-        if (/*this.sdk.isChatInProgress()*/ false) {
+        logger.info("### framework loaded");
+        this.sdk = w.Inq.SDK;
+        if (this.sdk.isChatInProgress()) {
             document.getElementById("error-message")?.setAttribute("class", "chat-in-progress");
             logger.info("************************************")
             logger.info("******* chat is in progress ********")
@@ -700,11 +683,11 @@ export default class CommonChatController {
     }
 
     onStartTyping(): void {
-       // this.sdk.sendActivityMessage("startTyping");
+        this.sdk.sendActivityMessage("startTyping");
     }
 
     onStopTyping(): void {
-        //this.sdk.sendActivityMessage("stopTyping");
+        this.sdk.sendActivityMessage("stopTyping");
     }
 
     hasBeenSurveyed(): boolean {
@@ -731,11 +714,11 @@ export default class CommonChatController {
             this.showEndChatPage(false);
         } else {
             if (this.state instanceof ChatStates.EngagedState && this.state.escalated || (sessionStorage.getItem("isAutoEngage")) == 'true') {
-               // this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automatonWebchat, timestamp);
+                this._sendPostChatSurveyWebchat(this.sdk).beginPostChatSurvey(webchatSurvey, automatonWebchat, timestamp);
                 this.container.showPage(new PostChatSurveyWebchat((page) => this.onPostChatSurveyWebchatSubmitted(page)));
                 this._moveToClosingState();
             } else {
-                //this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automatonDA, timestamp);
+                this._sendPostChatSurveyDigitalAssistant(this.sdk).beginPostChatSurvey(digitalAssistantSurvey, automatonDA, timestamp);
                 this.container.showPage(new PostChatSurveyDigitalAssistant((page) => this.onPostChatSurveyDigitalAssistantSubmitted(page)));
                 this._moveToClosingState();
             }

@@ -64,7 +64,8 @@ export default class ChatContainer {
         this.isCustomerTyping = false;
         this.typingEventThresholdMillis = 3000;
 
-        this.SDK = window.sdk;
+        this.SDK = SDK;
+
         this.container.insertAdjacentHTML("beforeend", containerHtml);
         this.content = this.container.querySelector<HTMLElement>("#ciapiSkinChatTranscript");
         this.custInput = this.container.querySelector<HTMLTextAreaElement>("#custMsg");
@@ -140,23 +141,21 @@ export default class ChatContainer {
     }
 
     processExternalAndResponsiveLinks(e: any): null | void {
-        console.log("processExternalAndResponsiveLinks", e);
         const linkEl: any = e.target
         const linkHref: string | null | undefined = linkEl?.getAttribute("href");
 
         if (!linkHref) return null; // stop clicks on the container from triggering the following code
-        console.log("processExternalAndResponsiveLinks", e);
+
         const nuanceMessageData = linkEl.dataset.nuanceMessageData;
         const nuanceMessageText = linkEl.dataset.nuanceMessageText;
         const nuanceDatapass = linkEl.dataset.nuanceDatapass;
         const nuanceCustomEvent: string | undefined = linkEl.dataset.nuanceCustomEvent;
         if (nuanceCustomEvent) {
-            console.log("processExternalAndResponsiveLinks", e);
             const customEventData: Record<string, unknown> | null = sanitiseAndParseJsonData(nuanceCustomEvent);
             if (customEventData) {
                 for (const event in customEventData) {
                     try {
-                        //this.SDK.fireCustomEvent(event, customEventData[event]);
+                        this.SDK.fireCustomEvent(event, customEventData[event]);
                     } catch (e) {
                         console.error(`Error firing custom event ${event}:`, e);
                     }
@@ -169,15 +168,12 @@ export default class ChatContainer {
 
         // Handle Responsive Links
         if (!!nuanceMessageData) {
-            console.log("processExternalAndResponsiveLinks", e);
             const messageText = nuanceMessageText ? nuanceMessageText : linkEl.text;
             const messageData: {} | null = sanitiseAndParseJsonData(nuanceMessageData);
             if (messageData) {
-                console.log("processExternalAndResponsiveLinks", e);
                 this.SDK.sendRichContentMessage(messageText, messageData);
             }
         } else if (!!nuanceMessageText) {
-            console.log("processExternalAndResponsiveLinks", e);
             this.SDK.sendMessage(nuanceMessageText);
         }
 
@@ -204,15 +200,14 @@ export default class ChatContainer {
     }
 
     processTranscriptEvent(e: any): void {
-        //this.processExternalAndResponsiveLinks(e);
+        this.processExternalAndResponsiveLinks(e);
         if (e.target) {
             const nuanceMessageText: string = JSON.stringify(e.target?.dataset.nuanceMessageText);
-            console.log('processTranscriptEvent:   ' + e.target, nuanceMessageText)
             if (
                 e.target && e.target.tagName && e.target.tagName.toLowerCase() === "a" &&
                 !!e.target.dataset
             ) {
-                //this.SDK.sendVALinkMessage(e, null, null, null);
+                this.SDK.sendVALinkMessage(e, null, null, null);
                 if (nuanceMessageText) {
                     if (nuanceMessageText === '"end this chat and give feedback"') {
                         this.endChatFeedback = true;
