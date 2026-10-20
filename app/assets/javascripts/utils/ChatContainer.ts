@@ -140,21 +140,23 @@ export default class ChatContainer {
     }
 
     processExternalAndResponsiveLinks(e: any): null | void {
+        console.log("processExternalAndResponsiveLinks", e);
         const linkEl: any = e.target
         const linkHref: string | null | undefined = linkEl?.getAttribute("href");
 
         if (!linkHref) return null; // stop clicks on the container from triggering the following code
-
+        console.log("processExternalAndResponsiveLinks", e);
         const nuanceMessageData = linkEl.dataset.nuanceMessageData;
         const nuanceMessageText = linkEl.dataset.nuanceMessageText;
         const nuanceDatapass = linkEl.dataset.nuanceDatapass;
         const nuanceCustomEvent: string | undefined = linkEl.dataset.nuanceCustomEvent;
         if (nuanceCustomEvent) {
+            console.log("processExternalAndResponsiveLinks", e);
             const customEventData: Record<string, unknown> | null = sanitiseAndParseJsonData(nuanceCustomEvent);
             if (customEventData) {
                 for (const event in customEventData) {
                     try {
-                        this.SDK.fireCustomEvent(event, customEventData[event]);
+                        //this.SDK.fireCustomEvent(event, customEventData[event]);
                     } catch (e) {
                         console.error(`Error firing custom event ${event}:`, e);
                     }
@@ -167,12 +169,15 @@ export default class ChatContainer {
 
         // Handle Responsive Links
         if (!!nuanceMessageData) {
+            console.log("processExternalAndResponsiveLinks", e);
             const messageText = nuanceMessageText ? nuanceMessageText : linkEl.text;
             const messageData: {} | null = sanitiseAndParseJsonData(nuanceMessageData);
             if (messageData) {
+                console.log("processExternalAndResponsiveLinks", e);
                 this.SDK.sendRichContentMessage(messageText, messageData);
             }
         } else if (!!nuanceMessageText) {
+            console.log("processExternalAndResponsiveLinks", e);
             this.SDK.sendMessage(nuanceMessageText);
         }
 

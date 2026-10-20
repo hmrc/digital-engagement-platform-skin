@@ -34,7 +34,7 @@ export default class ReactiveChatController {
         );
     }
 
-    _onC2CButtonClicked(c2cIdx: any): void {
+/*    _onC2CButtonClicked(c2cIdx: any): void {
         const reactiveObj: { type: string, state?: StateType } = {
             type: 'reactive',
         }
@@ -43,6 +43,19 @@ export default class ReactiveChatController {
             reactiveObj.state = params.state
             this.commonChatController._launchChat(reactiveObj, false);
         });
+        this.c2cButtons.updateC2CButtonsToInProgress()
+    }*/
+    _onC2CButtonClicked(c2cIdx: any): void {
+        const reactiveObj: { type: string, state?: StateType } = {
+            type: 'reactive',
+            state:'show'
+        } /*
+        this.sdk = window.Inq.SDK;
+        this.sdk.onC2CClicked(c2cIdx, (params: { state: StateType }) => {
+            reactiveObj.state = params.state
+            this.commonChatController._launchChat(reactiveObj, false);
+        });*/
+        this.commonChatController._launchChat(reactiveObj, false);
         this.c2cButtons.updateC2CButtonsToInProgress()
     }
 }

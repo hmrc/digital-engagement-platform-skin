@@ -70,7 +70,7 @@ chatUi.hookWindow(
 
 
 
-async function startChat() {
+/*async function startChat() {
     // 1. Initialize.
     console.log('Initialize');
     // Initialize Chat SDK with required options
@@ -110,9 +110,9 @@ async function startChat() {
             console.error('Chat SDK error:', error);
         },
         appName: 'Nice Chat SDK Demo',
-    };
+    };*/
 
-const sdk =new ChatSdk({
+/*const sdk =new ChatSdk({
     brandId: Number(1027),
     channelId: 'chat_2eb777e8-4c6f-4728-af23-26329f3ab463',
     customerId: 'navCustId',
@@ -133,7 +133,7 @@ const sdk =new ChatSdk({
     onError: (err) => {
         console.log('SDK error', String(err?.message || err));
     }
-});
+});*/
 
     /*const sdk = new ChatSdk({
         customEnvironment:
@@ -155,7 +155,7 @@ const sdk =new ChatSdk({
     });*/
 
     // 2. (Optional) Check availability before showing any UI.
-    const { status } = await sdk.getChannelAvailability();
+ /*   const { status } = await sdk.getChannelAvailability();
     if (status === 'offline') {
         console.log('No agents available right now.');
     }
@@ -177,7 +177,7 @@ const sdk =new ChatSdk({
     // 5. Send the first message.
     console.log("hello inside sdk initialization",thread );
     await thread.sendTextMessage('Hi there!');
-}
+}*/
 
-//startChat();
+
 

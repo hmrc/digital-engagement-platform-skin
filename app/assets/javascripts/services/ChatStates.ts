@@ -157,7 +157,6 @@ export class EngagedState {
                 return;
             }
             const message = event.detail.data.message;
-            console.log("response Message is ",message);
             this._displayMessage(message);
         });
 
@@ -269,8 +268,10 @@ export class EngagedState {
 
 
         if(msg.direction==="inbound") {
+            console.log(" Message sent is ",msg);
             transcript.addCustomerMsg(this._getMessageText(msg)!, msg.createdAt!);
         }else{
+            console.log("response received is ",msg);
             this._mixAgentCommunicationMessage(msg, transcript)
         }
 
