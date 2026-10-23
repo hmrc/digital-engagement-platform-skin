@@ -6,6 +6,7 @@
     "start": "npm install && webpack --config webpack.config.js --mode=development --watch --optimization-minimize"
   },
   "devDependencies": {
+    "@nice-devone/nice-cxone-chat-web-sdk": "3.4.1",
     "@babel/core": "^7.20.7",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-typescript": "^7.24.7",
