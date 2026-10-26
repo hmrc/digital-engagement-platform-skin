@@ -11,7 +11,8 @@ import ChatSdk, {EnvironmentName, SecureSessions} from "@nice-devone/nice-cxone-
      console.log("window.appName:  ",window.applicationName)
      const niceChannelId=window.niceChannelId;
      const applicationName=window.applicationName;
-     const custId= crypto.randomUUID();
+     /*const custId= crypto.randomUUID();*/
+     const custId= "navnavnavnav";
      const custName= applicationName+custId;
     const sdk = new ChatSdk({
         brandId: Number(1027),
@@ -44,24 +45,42 @@ import ChatSdk, {EnvironmentName, SecureSessions} from "@nice-devone/nice-cxone-
     });
 
     await sdk.connect();
-    const threadList=await sdk.getThreadList();
-     console.log('threadList size', threadList.length);
-     console.log('threadList', threadList);
-     if(threadList && threadList.length<111) {
-         const threadId = crypto.randomUUID();
-         sessionStorage.setItem("runningThreadID", threadId);
-         const thread = sdk.getThread(threadId);
-         console.log("sdk  ", sdk);
-         console.log("threadId  ", threadId);
-         console.log("thread  ", thread);
 
+     console.log('sdk object', sdk);
+     var threadId=sessionStorage.getItem("runningThreadID")
+     console.log("threadId available in session",threadId)
+     if(!threadId || threadId==="null") {
+        const  threadIdN = crypto.randomUUID();
+         sessionStorage.setItem("runningThreadID", threadIdN);
+         sessionStorage.setItem("isFreshChat", true);
+         const thread = sdk.getThread(threadIdN);
+         console.log("sdk  ", sdk);
+         console.log("thread  ", thread);
          window.sdk = sdk;
          window.thread = thread;
+
      }else{
-         console.log("Shutting down the sdk window.sdk.getWebsocketClient() ", window.sdk.getWebsocketClient());
+         console.log("recovering thread")
+         const thread = sdk.getThread(String(threadId));
+         console.log("thread  ", thread);
+         sessionStorage.setItem("isFreshChat", false);
+         const rec = await thread.recover();
+         console.log("recovering thread", rec);
+         window.sdk = sdk;
+         window.thread = thread;
+         window.recoveredMessages=Array.from(rec.messages ?? []).reverse();
+         /*console.log("Shutting down the sdk window.sdk.getWebsocketClient() ", window.sdk.getWebsocketClient());
          window.thread.endChat();
-         window.sdk.getWebsocketClient()?.disconnect();
+         window.sdk.getWebsocketClient()?.disconnect();*/
      }
 }
+window.addEventListener("pageshow", () => {
+    const navigation = performance.getEntriesByType(
+        "navigation"
+    )[0] as PerformanceNavigationTiming | undefined;
 
+    if (navigation?.type === "reload") {
+        console.log("Page was refreshed");
+    }
+});
 export default initializeSDK;

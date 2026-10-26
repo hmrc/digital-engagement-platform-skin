@@ -54,6 +54,9 @@ export const chatListener = {
                 thread.endChat();
                 window.sdk.getWebsocketClient()?.disconnect();
                 sessionStorage.removeItem("runningThreadID");
+                sessionStorage.removeItem("isFreshChat");
+                window.sdk=null
+                window.thread=null
                 //window.Inq.SDK.closeChat()
                 let container = document.getElementById("ciapiSkin")
                 if (container){
