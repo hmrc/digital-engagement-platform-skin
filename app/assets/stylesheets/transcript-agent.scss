@@ -8,6 +8,38 @@
 .ciapi-agent-message {
   @include bubble;
   page-break-inside: avoid;
+
+  // Markdown from NICE/Cognigy messages
+  code {
+    font-family: monospace;
+    font-size: 0.9em;
+    background-color: #ffffff;
+    padding: 0 0.2em;
+  }
+
+  pre {
+    background-color: #ffffff;
+    border: 1px solid #b1b4b6;
+    padding: 0.5em;
+    overflow-x: auto;
+    white-space: pre-wrap;
+
+    code {
+      padding: 0;
+    }
+  }
+
+  .govuk-table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  // Items of a Cognigy list or gallery
+  .nice-list-item {
+    border-top: 1px solid #b1b4b6;
+    padding-top: 10px;
+    margin-top: 10px;
+  }
 }
 
 .msg-opacity{

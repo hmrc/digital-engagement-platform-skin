@@ -4,6 +4,8 @@ import * as MessageState from '../NuanceMessageState';
 import { host } from '../utils/HostUtils';
 import { messages } from '../utils/Messages';
 import ChatContainer from '../utils/NiceChatContainer';
+import { formatNiceCustomerText, formatNiceMessageText, toTranscriptTimestamp } from '../utils/NiceMessageFormatter';
+import { renderNiceRichContent } from '../utils/NiceRichContent';
 import Transcript from './Transcript';
 import { QuickReplyData } from '../types';
 import { timerUtils } from '../utils/TimerUtils';
@@ -196,7 +198,13 @@ export class EngagedState {
         this._playSoundIfActive();
 
         this._removeAgentIsTyping();
-        transcript.addAgentMsg(msg.messageContent.text!, msg.createdAt!);
+        const richContent: HTMLDivElement | null = renderNiceRichContent((msg as any).messageContent, (postback: string, text: string) =>
+            this.thread.sendPostbackMessage(postback, text, { messageId: crypto.randomUUID() }));
+        if (richContent) {
+            transcript.addAutomatonMsg(richContent, toTranscriptTimestamp((msg as any).createdAt), true);
+            return;
+        }
+        transcript.addAgentMsg(formatNiceMessageText(this._getMessageText(msg)), toTranscriptTimestamp(msg.createdAt));
     }
 
     _isMixAutomatonMessage(msg: MessageInterface): string | false | undefined {
@@ -261,6 +269,9 @@ export class EngagedState {
             return payload.text.content;
         }
     }
+    if (!fallbackText) {
+        console.warn("NICE message content not rendered:", JSON.stringify(message.messageContent));
+    }
     return fallbackText || "[This message requires a rich-content renderer.]";
 }
     _chatCommunicationMessage(msg: Object, transcript: Transcript): void {
@@ -269,7 +280,7 @@ export class EngagedState {
 
         if(msg.direction==="inbound") {
             console.log(" Message sent is ",msg);
-            transcript.addCustomerMsg(this._getMessageText(msg)!, msg.createdAt!);
+            transcript.addCustomerMsg(formatNiceCustomerText(this._getMessageText(msg)), toTranscriptTimestamp(msg.createdAt));
         }else{
             console.log("response received is ",msg);
             this._mixAgentCommunicationMessage(msg, transcript)
