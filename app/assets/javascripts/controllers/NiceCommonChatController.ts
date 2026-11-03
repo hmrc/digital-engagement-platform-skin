@@ -177,9 +177,15 @@ export default class CommonChatController {
 
     }
 
-   async _launchChat(obj: { type: string; state?: StateType }, hideContainerOnStart: boolean): void {
-        await this._startChatOnThread();
-       this._launchChatNav(obj, hideContainerOnStart);
+    _launchChat(obj: { type: string; state?: StateType }, hideContainerOnStart: boolean) {
+       const isFresh=sessionStorage.getItem("isFreshChat")
+       console.log("isFresh in launchChat", isFresh)
+       if(isFresh==="true") {
+            this._startChatOnThread().then(() =>this._launchChatNav(obj, hideContainerOnStart));
+       }else {
+
+           this._launchChatNav(obj, hideContainerOnStart);
+       }
     }
     _launchChatNav(obj: { type: string; state?: StateType }, hideContainerOnStart: boolean): void {
         sessionStorage.setItem("ignoreChatClosedEvent", "false")
@@ -211,6 +217,10 @@ export default class CommonChatController {
             } else {
                 this._showChat(hideContainerOnStart);
                 this._displayOpenerScripts();
+                const isFresh=sessionStorage.getItem("isFreshChat")
+                if(isFresh==="false") {
+                        this._moveToChatEngagedState(window.recoveredMessages);
+                }
 
 
 /*                this.sdk.chatDisplayed({
@@ -559,6 +569,11 @@ export default class CommonChatController {
                 thread.endChat();
             }
         }
+        window.sdk.getWebsocketClient()?.disconnect();
+        sessionStorage.removeItem("runningThreadID");
+        sessionStorage.removeItem("isFreshChat");
+        window.sdk=null
+        window.thread=null
     }
 
     showEndChatPage(showThanks: boolean): void {
